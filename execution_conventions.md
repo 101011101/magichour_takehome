@@ -88,10 +88,9 @@ which is how Ray's reference colabs work too.
 - [ ] Swap notebook inputs from placeholder images (OOTDiffusion / IDM-VTON demo
   samples) to `test_set/` + `pairs.csv` — needs the repo on GitHub (or Drive upload)
   so the Colab runtime can fetch the images.
-- [x] fal endpoint IDs confirmed (Aug 2026):
-  - Qwen 2511 baseline: `fal-ai/qwen-image-edit-2511`
-  - FLUX.2 klein 4B edit: `fal-ai/flux-2/klein/4b/distilled/edit` (multi-reference; ~$0.014/image)
-  - Ideogram Character V3 edit: `fal-ai/ideogram/character/edit` (⚠️ schema wants character ref + mask — needs its own arg branch)
-  - Krea 2: dropped — API takes only one content image (see NOTES.md)
-- [ ] Per-endpoint argument schemas (cell 5 currently sends one generic `prompt` + `image_urls` shape)
+- [x] fal endpoint IDs + full argument schemas confirmed for all 7 arms
+  (2026-08-08, live /api pages) — registry lives in the notebook §5; arm table
+  with prices/gotchas in `prd/V1_PILOT.md`. Notables: FLUX VTO **v2 not on fal**
+  (using `fal-ai/flux-pro/v1/vto`); Ideogram cut (see NOTES.md); Qwen-Image-3
+  needs `enable_prompt_expansion=False`; Seedream has no seed param.
 - [ ] Pick LLM judge (vision-capable) and wire scoring prompt to rubric
