@@ -1,0 +1,31 @@
+person_id,garment_id,difficulty,rationale
+p001,g015,easy,baseline: slip dress on neutral standing slim woman
+p002,g022,easy,baseline: tailored trousers on neutral standing average man full body
+p003,g011,hard,size test: bodycon dress on plus-size body
+p004,g010,easy,baseline: oversized plain tee on neutral waist-up man
+p005,g023,medium,plaid skirt (fine pattern) on plus-size neutral full body
+p006,g006,medium,graphic hoodie on slim man cluttered background
+p007,g019,medium,puffer volume on broad-build waist-up
+p008,g024,medium,pleated midi skirt on slim woman cluttered street
+p009,g002,hard,fine-striped fitted tee x arms-crossed occlusion
+p010,g001,hard,graphic-logo tee x arms-crossed occlusion
+p011,g028,hard,fine-striped shirt x arms-crossed plus-size (also replaces chef costume)
+p012,g007,hard,fine polka-dot blouse x arms-crossed cluttered
+p013,g004,medium,fitted knit x arms-crossed senior woman
+p014,g008,hard,plaid flannel pattern x arms-crossed occlusion
+p015,g026,hard,HARDEST: heavy-text band tee x hand-over-torso dark-skin plus-size
+p016,g014,medium,flowy midi drape x full side profile
+p017,g029,hard,houndstooth pattern x three-quarter rotation x plus-size
+p018,g027,hard,text tee x side profile (text wrap/foreshortening)
+p019,g017,medium,leather jacket on senior side-profile waist-up
+p020,g016,medium,denim jacket wrap-around x side profile
+p021,g012,medium,floral A-line dress x sitting drape
+p022,g021,medium,jeans fold/drape x sitting full body
+p023,g018,medium,open-front blazer layering x sitting plus-size
+p024,g009,medium,cable-knit texture x sitting senior
+p025,g013,hard,printed maxi dress x walking motion
+p026,g020,medium,long wool coat x walking full body
+p027,g025,medium,athletic shorts x walking knees-up plus-size
+p028,g030,hard,sequin texture top x arms-raised plus-size
+p029,g005,hard,logo compression top x phone-holding torso occlusion
+p030,g003,easy,ribbed tank on arms-raised waist-up
