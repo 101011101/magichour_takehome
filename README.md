@@ -24,6 +24,11 @@ re-spend.
 
 ## Report
 
+**Full report: [FINAL_REPORT.pdf](artifacts/FINAL_REPORT.pdf)** (renders on
+GitHub — boards, narrative, and the complete three-way side-by-side gallery) ·
+interactive version: [final_report_v2.html](artifacts/final_report_v2.html)
+(sortable tables, lightbox; open locally after cloning).
+
 **Verdict: the baseline (qwen_2511) was beaten by every judging system on
 unseen data.** On the 18-pair held-out benchmark it finished last on the
 deterministic composite and below both shipped models on the VLM board (human
