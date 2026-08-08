@@ -8,6 +8,26 @@ docs work.
 
 - **All fal arms, one notebook, $10 ceiling.** Triage (arms × 4 pairs × 1 gen) →
   grid (survivors × 12 pairs × 1 gen) → reserve (best-of-2 on top 2).
+- **Elimination rule (2026-08-08):** the top 50% of arms (4 of 7) by the
+  deterministic composite score advance from triage to the grid; the baseline
+  always advances for comparison. Selection is automatic in the notebook (§6b),
+  so a top-to-bottom re-run reproduces the same elimination. Deterministic
+  metrics are the authoritative ranking; the VLM judge is confirmation only —
+  §10 flags rank disagreements (|delta| ≥ 2) for human review.
+- **Composite scoring decisions (2026-08-08):** `garment_sim` carries double
+  weight (garment transfer is the core product objective). Normalization uses
+  **fixed absolute anchors**, not min–max across arms: min–max over-rewarded
+  compositing arms that paste original pixels back (identity/background max
+  out by construction — overfitting the score to "exact paste" behavior) and
+  crushed legitimate full re-renderers. Anchors: identity_cos over
+  [0.35, 1.0] (ArcFace same-person threshold), bg_psnr over [12, 32] dB,
+  pose_err over [0.25, 0] of torso scale, garment_sim over [0, 0.35].
+- **The Key (2026-08-08 decision):** ship the **seedream family** —
+  `seedream5_lite` single-model, **cascade (seedream → qwen_image3 refine) as
+  the default implementation** per human review + frontier-VLM judgment
+  (both see garment structure and artifacts that pixel metrics cannot).
+  fashn_v16 remains the pixel-preservation champion and is documented as the
+  pick when strict original-photo preservation is the requirement.
 - **Judging is HUMAN in V1.** Ray scores outputs by eye in a dedicated, clearly
   marked notebook section (§8) that writes `judgments.csv`. The VLM-judge code
   ships in V1 (§9) but is **written-not-run** — judge model gets picked later

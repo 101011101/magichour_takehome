@@ -78,3 +78,44 @@ One artifact, three stacked layers — value unevenly distributed:
   the person's face, hair, pose, hands, and background completely unchanged."
   Explicitly referencing "image 1"/"image 2" matters when multiple refs are passed —
   BFL's own fashion prompting guide does exactly this.
+
+## Final deliverable (frozen 2026-08-08)
+
+**Approach in one paragraph:** seven hosted arms ran through a staged, budget-gated
+pipeline — triage (7 arms x 4 pairs) → automatic top-50% elimination → grid
+(5 arms x 12 pairs + best-of-2 seed stability) → held-out benchmark (18 pairs never
+touched by any selection decision) — judged by three systems: a deterministic
+evaluator harness (garment histogram, ArcFace identity cosine, MediaPipe pose diff,
+background PSNR; weighted composite, garment x2, fixed absolute anchors), a blind
+VLM judge (gpt-5.5, six-criterion rubric with schema-validated retries), and human
+review as the supervising tiebreaker on flagged disagreements.
+
+**What ships:**
+1. **The Key — cascade implementation (default): seedream5_lite edit →
+   qwen_image3 realism refine.** Chosen by human review corroborated by the frontier
+   VLM — and subsequently validated on unseen data: on the 18 held-out pairs the
+   cascade ranked #1 on the blind gpt-5.5 board (best garment, clean, and realism)
+   and edged its stage-1 parent on the deterministic composite (0.522 vs 0.507),
+   i.e. the refine pass measurably helps. The dedicated-pipeline arms
+   (flux_vto_v1 0.642, fashn_v16 0.632 — within noise of each other) still top
+   the deterministic holdout board via pixel-preservation metrics — decision
+   and dissent both recorded.
+2. **Single-model option: seedream5_lite** — top VLM board on the held-out set
+   (4.19 overall), best garment fidelity on every judge that can see it.
+3. **Baseline comparison module** — `compare_vs_baseline()` in notebook §12b runs
+   cascade + seedream + Magic Hour baseline (qwen_2511) on the same inputs,
+   side by side. The baseline lost to the shipped models on every judging system
+   on unseen data.
+4. **MVP eval harness** — model-agnostic registry + three-layer judging +
+   per-stage boards + judge-agreement flags + complementarity ("checkbox") axes
+   that surfaced the cascade pairing. Reusable for future bake-offs.
+5. **Evidence pack** — `runs/final_report.html` (approach, boards, three-way
+   side-by-side gallery), `runs/report.html` (every output with scores),
+   cv_metrics.csv / vlm_judgments.csv, executed notebook snapshot.
+
+**Notable caveats on record:** seedream accepts no seed (outputs stochastic);
+garment_sim is a color-histogram proxy (structure-blind — VLM covers structure;
+CLIP-embedding upgrade is the Phase-2 fix); fashn_v16 is the pixel-preservation
+champion (deterministic winner) and remains the recommendation when strict
+original-photo preservation is the requirement; the fashn→klein cascade suggested
+by raw axes-derivation was never tested and deliberately does not ship.
