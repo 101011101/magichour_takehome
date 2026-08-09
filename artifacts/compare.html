@@ -1,38 +1,93 @@
 <!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Output Comparison — Virtual Try-On</title><style>
-:root{--ink:#16211c;--mut:#5a6560;--acc:#2a78d6;--ours:#1d6b34;--bg:#fafaf8;--card:#fff;--line:#e3e5e1}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);
-font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-.wrap{max-width:1480px;margin:0 auto;padding:36px 28px}
-h1{font-size:34px;margin:0 0 6px}h2{font-size:21px;margin:34px 0 10px}
-.kick{color:var(--acc);font-size:12.5px;letter-spacing:2px;text-transform:uppercase;font-weight:700}
-p{max-width:960px;color:#2b352f}.mut{color:var(--mut);font-size:13px}
-table{border-collapse:collapse;margin:10px 0 6px;font-variant-numeric:tabular-nums}
-th,td{border:1px solid var(--line);padding:5px 10px;font-size:13.5px;text-align:right;background:var(--card)}
-td.n,th:first-child{text-align:left}tr.win td{background:#eef7ef;font-weight:600}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
-#app{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
-.bar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
-.bar b{font-size:19px}.chip{background:#eef3fa;color:var(--acc);border-radius:6px;padding:2px 10px;font-size:12.5px;font-weight:700}
-.keys{margin-left:auto;color:var(--mut);font-size:12.5px}
-kbd{background:#eee;border:1px solid #ccc;border-bottom-width:2px;border-radius:4px;padding:0 5px;font-size:11.5px}
-.stage{display:grid;grid-template-columns:170px 1fr 1fr;gap:16px}
-.inputs img{width:100%;border-radius:8px;display:block;margin-bottom:10px;cursor:zoom-in}
-.slot{text-align:center}.slot .ttl{font-size:14.5px;font-weight:700;margin-bottom:6px}
-.slot.ours .ttl{color:var(--ours)}
-.slot img{width:100%;max-height:74vh;object-fit:contain;border-radius:8px;background:#f1f1ee;cursor:zoom-in}
-.slot .sc{font-size:12.5px;color:var(--mut);margin-top:5px}
-.tabs{display:flex;gap:6px;justify-content:center;margin-bottom:8px;flex-wrap:wrap}
-.tabs button{border:1px solid var(--line);background:#f6f6f3;border-radius:6px;padding:3px 10px;font-size:12.5px;cursor:pointer}
-.tabs button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
-.pairs{display:flex;gap:8px;margin-top:14px;overflow-x:auto;padding-bottom:4px}
-.pairs button{border:1px solid var(--line);background:#f6f6f3;border-radius:6px;padding:4px 9px;font-size:12px;cursor:pointer;white-space:nowrap}
-.pairs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-footer{margin:26px 0 8px;color:var(--mut);font-size:12.5px}
+:root{--bg:#14141d;--card:#1b1b26;--card2:#20202c;--line:#2b2b3a;--ink:#f3f3f7;
+--body:#aab0be;--mut:#868da0;--acc:#928af5;--acc2:#b7b1fa;--tint:rgba(146,138,245,.10)}
+*{box-sizing:border-box}html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--body);
+font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.wrap{max-width:1480px;margin:0 auto;padding:44px 32px 36px}
+h1{font-size:31px;margin:2px 0 26px;color:var(--ink);font-weight:700;letter-spacing:-.4px}
+h2{font-size:20px;margin:46px 0 12px;color:var(--ink);font-weight:700;letter-spacing:-.2px}
+h3{font-size:16px;margin:34px 0 10px;color:var(--ink);font-weight:600}
+.kick{color:var(--mut);font-size:14px}
+p{max-width:880px}.mut{color:var(--mut);font-size:13px}b{color:var(--ink)}
+.exec{max-width:1000px;margin:0}
+.exec b.t{font-size:16px}
+.exec ul{margin:8px 0 0;padding-left:20px}.exec li{margin:7px 0;max-width:880px}
+.details ul{max-width:920px}.details li{margin:5px 0}
+.tw{overflow-x:auto}.details>.tw{max-width:920px}
+table{border-collapse:collapse;margin:10px 0 6px;width:100%;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--line);padding:7px 10px;font-size:13px;text-align:right}
+th{color:var(--mut);font-weight:600;text-transform:uppercase;
+font-size:11px;letter-spacing:.5px}
+td{color:var(--body)}td.n,th:first-child{text-align:left}
+td.n{color:var(--ink);font-weight:600;white-space:nowrap}
+tr.win td{background:var(--tint)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}
+.grid2>div{min-width:0}
+@media(max-width:1360px){.grid2{grid-template-columns:1fr}
+.grid2 .tw,.grid2 p{max-width:920px}}
+#app{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px 22px}
+.bar{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:12px}
+.bar b{font-size:19px;color:var(--ink)}
+.chip{color:var(--mut);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
+kbd{background:var(--card2);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;
+padding:0 6px;font-size:11.5px;color:var(--body)}
+.tabsrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 16px;
+padding:0 0 14px;border-bottom:1px solid var(--line)}
+.tabsrow .lbl{color:var(--mut);font-size:13px;margin-right:6px}
+.tabsrow button,.pairs button{border:1px solid var(--line);background:var(--card2);color:var(--body);
+border-radius:6px;padding:5px 13px;font-size:13px;cursor:pointer}
+.tabsrow button.on,.pairs button.on{background:var(--acc);color:#14141d;border-color:var(--acc);font-weight:700}
+.stage{display:grid;grid-template-columns:200px 1fr 1fr 1fr;gap:16px;align-items:start}
+.slot,.gcol{text-align:center}
+.ttl{font-size:13.5px;font-weight:600;margin-bottom:8px;color:var(--body)}
+.slot.ours .ttl{color:var(--acc2)}
+.gcol img,.slot img{width:100%;max-height:72vh;object-fit:contain;border-radius:8px;
+background:var(--card2);cursor:zoom-in;display:block}
+.sc{font-size:12.5px;color:var(--mut);margin-top:7px;font-variant-numeric:tabular-nums}
+.pairs{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.pairs button{font-size:12.5px;padding:5px 12px;white-space:nowrap}
+footer{margin:44px 0 8px;padding-top:14px;border-top:1px solid var(--line);color:var(--mut);font-size:12.5px}
+a{color:var(--acc2)}
 </style><div class="wrap">
 <div class="kick">Virtual try-on take-home — final comparison</div>
 <h1>Output Comparison</h1>
-<h2>What was done</h2>
+<div class="exec"><b class="t">Executive summary</b>
+<ul>
+<li>Seven hosted try-on models evaluated under a three-judge harness — deterministic CV
+metrics, a blind GPT-5.5 rubric judge, and human review — across triage, a 12-pair grid,
+and an 18-pair held-out benchmark.</li>
+<li><b>Proposed: a composite — Seedream performs the garment transfer, Qwen-Image-3
+applies a realism refine pass.</b> Seedream leads garment fidelity on every judge that
+sees structure; the refine stage targets its residual rendering artifacts (hands, skin,
+fabric texture).</li>
+<li>Held-out validation: the composite ranked #1 on the blind VLM board (4.22) and
+finished above its stage-1 parent on the deterministic composite (0.522 vs 0.507).</li>
+<li>The production website output (official API, unmodified) beats raw Qwen 2511 —
+the wrapper adds value — and ranks below both proposed implementations on the blind VLM.</li>
+</ul></div>
+<h2>Interactive comparison — 12 pairs, raw full-resolution outputs</h2>
+<p class="mut">The composite stays pinned on the left; arrow keys <kbd>&larr;</kbd><kbd>&rarr;</kbd>
+flip the right panel between the other models in place, so differences line up.
+<kbd>&uarr;</kbd><kbd>&darr;</kbd> change pair &middot; <kbd>1</kbd>&ndash;<kbd>4</kbd> jump to a model
+&middot; click any image to open the raw file.</p>
+<div id="app">
+<div class="bar"><b id="pairname"></b><span class="chip" id="pairid"></span></div>
+<div class="tabsrow"><span class="lbl">Compare against</span><span id="tabs" style="display:contents"></span></div>
+<div class="stage">
+<div class="gcol"><div class="ttl">Garment</div>
+<a id="gl" target="_blank"><img id="gi" alt="garment"></a></div>
+<div class="slot"><div class="ttl">Original person</div>
+<a id="pl" target="_blank"><img id="pi" alt="person"></a></div>
+<div class="slot ours"><div class="ttl">Composite (proposed)</div>
+<a id="cl" target="_blank"><img id="ci" alt="composite"></a><div class="sc" id="cs"></div></div>
+<div class="slot"><div class="ttl" id="rt">&nbsp;</div>
+<a id="rl" target="_blank"><img id="ri" alt="comparison"></a><div class="sc" id="rs"></div></div>
+</div><div class="pairs" id="pairs"></div></div>
+<div class="details">
+<h2>Method, justification, and full results</h2>
+<h3>What was done</h3>
 <ul>
 <li>Seven hosted models evaluated: Qwen-Image-Edit-2511 (the current baseline),
 Seedream 5.0 Lite, FLUX Pro VTO v1, FASHN v1.6, FLUX.2 Klein 4B Edit,
@@ -46,7 +101,7 @@ Qwen-Image-3 applies a realism refine pass.</b></li>
 <li>Validated on unseen data: #1 on the blind VLM held-out board (4.22) and above its
 stage-1 parent on the deterministic composite (0.522 vs 0.507).</li>
 </ul>
-<h2>Why the composite</h2>
+<h3>Why the composite</h3>
 <ul>
 <li>The rubric judge scores six criteria per output; grouping them into an editing axis
 (garment, identity, scene) and a realism axis (clean, hands, realism) profiles each
@@ -65,13 +120,13 @@ Measured on the grid: identity rises 4.33&rarr;4.42, garment holds at 4.00.</li>
 <li>The deterministic harness dissents (a second re-render costs pixel fidelity);
 decision and dissent are both on record.</li>
 </ul>
-<h2 style="font-size:17px">Component profiles — blind VLM at triage (the composite's origin)</h2>
-<table><tr><th>arm</th><th>garment</th><th>identity</th><th>scene</th><th>clean</th><th>hands</th><th>realism</th><th>overall</th></tr><tr class="win"><td class='n'>Seedream (proposed)</td><td>4.00</td><td>4.25</td><td>4.75</td><td>4.00</td><td>4.00</td><td>4.00</td><td>4.17</td></tr><tr><td class='n'>Qwen-Image-3 (refiner)</td><td>4.00</td><td>4.00</td><td>4.75</td><td>3.75</td><td>3.75</td><td>4.00</td><td>4.04</td></tr></table>
+<h3>Component profiles — blind VLM at triage (the composite's origin)</h3>
+<div class='tw'><table><tr><th>arm</th><th>garment</th><th>identity</th><th>scene</th><th>clean</th><th>hands</th><th>realism</th><th>overall</th></tr><tr class="win"><td class='n'>Seedream (proposed)</td><td>4.00</td><td>4.50</td><td>5.00</td><td>4.00</td><td>4.00</td><td>4.00</td><td>4.25</td></tr><tr><td class='n'>Qwen-Image-3 (refiner)</td><td>3.75</td><td>4.00</td><td>4.50</td><td>3.75</td><td>3.50</td><td>4.00</td><td>3.92</td></tr></table></div>
 <p class="mut">Qwen-Image-3 was eliminated at triage as a standalone editor (weak garment
 transfer; the deterministic harness also caught person replacements) — but its
 realism and cleanliness profile directly complements Seedream's artifact weaknesses, so it
 returns as the composite's second stage. Not run standalone beyond triage.</p>
-<h2>Against the production baseline</h2>
+<h3>Against the production baseline</h3>
 <ul>
 <li>Magic Hour website outputs generated via the official API — unmodified downloads,
 native 384&times;576.</li>
@@ -84,44 +139,31 @@ replacement) and garment accuracy 3.25.</li>
 </ul>
 
 <div class="grid2"><div>
-<h2>Grid — deterministic composite (12 pairs, all five)</h2>
-<table><tr><th>arm</th><th>garment_sim</th><th>identity_cos</th><th>pose_err</th><th>bg_psnr</th><th>score</th></tr><tr class="win"><td class='n'>FASHN v1.6</td><td>0.127</td><td>0.980</td><td>0.034</td><td>28.49</td><td>0.666</td></tr><tr><td class='n'>Seedream (proposed)</td><td>0.200</td><td>0.686</td><td>0.067</td><td>20.69</td><td>0.569</td></tr><tr><td class='n'>Magic Hour website (API)</td><td>0.145</td><td>0.647</td><td>0.034</td><td>25.90</td><td>0.557</td></tr><tr><td class='n'>Composite (proposed)</td><td>0.142</td><td>0.660</td><td>0.073</td><td>20.59</td><td>0.507</td></tr><tr><td class='n'>Raw Qwen 2511</td><td>0.130</td><td>0.814</td><td>0.188</td><td>15.01</td><td>0.404</td></tr></table>
+<h3>Grid — deterministic composite (12 pairs, all five)</h3>
+<div class='tw'><table><tr><th>arm</th><th>garment_sim</th><th>identity_cos</th><th>pose_err</th><th>bg_psnr</th><th>score</th></tr><tr class="win"><td class='n'>FASHN v1.6</td><td>0.127</td><td>0.980</td><td>0.034</td><td>28.49</td><td>0.666</td></tr><tr><td class='n'>Seedream (proposed)</td><td>0.200</td><td>0.686</td><td>0.067</td><td>20.69</td><td>0.569</td></tr><tr><td class='n'>Magic Hour website (API)</td><td>0.145</td><td>0.647</td><td>0.034</td><td>25.90</td><td>0.557</td></tr><tr><td class='n'>Composite (proposed)</td><td>0.142</td><td>0.660</td><td>0.073</td><td>20.59</td><td>0.507</td></tr><tr><td class='n'>Raw Qwen 2511</td><td>0.130</td><td>0.814</td><td>0.188</td><td>15.01</td><td>0.404</td></tr></table></div>
 <p class="mut">Anchored per-output normalization, garment-fidelity weighted &times;2, averaged per arm.
 Pixel-preservation lens: pasting original pixels back scores structurally higher than re-rendering.</p>
 </div><div>
-<h2>Grid — blind VLM judge (gpt-5.5)</h2>
-<table><tr><th>arm</th><th>garment</th><th>identity</th><th>scene</th><th>clean</th><th>hands</th><th>realism</th><th>overall</th></tr><tr class="win"><td class='n'>Composite (proposed)</td><td>4.00</td><td>4.42</td><td>4.50</td><td>4.00</td><td>3.92</td><td>4.00</td><td>4.14</td></tr><tr><td class='n'>Seedream (proposed)</td><td>4.00</td><td>4.33</td><td>4.46</td><td>3.96</td><td>3.71</td><td>4.04</td><td>4.08</td></tr><tr><td class='n'>Magic Hour website (API)</td><td>3.25</td><td>4.17</td><td>4.67</td><td>3.83</td><td>3.75</td><td>3.83</td><td>3.92</td></tr><tr><td class='n'>FASHN v1.6</td><td>3.50</td><td>4.54</td><td>4.75</td><td>3.46</td><td>3.42</td><td>3.67</td><td>3.89</td></tr><tr><td class='n'>Raw Qwen 2511</td><td>3.42</td><td>4.08</td><td>4.33</td><td>3.67</td><td>3.75</td><td>3.75</td><td>3.83</td></tr></table>
+<h3>Grid — blind VLM judge (gpt-5.5)</h3>
+<div class='tw'><table><tr><th>arm</th><th>garment</th><th>identity</th><th>scene</th><th>clean</th><th>hands</th><th>realism</th><th>overall</th></tr><tr class="win"><td class='n'>Composite (proposed)</td><td>4.00</td><td>4.25</td><td>4.42</td><td>4.00</td><td>3.83</td><td>4.08</td><td>4.10</td></tr><tr><td class='n'>Seedream (proposed)</td><td>4.00</td><td>4.33</td><td>4.38</td><td>3.96</td><td>3.88</td><td>4.04</td><td>4.10</td></tr><tr><td class='n'>Magic Hour website (API)</td><td>3.08</td><td>4.25</td><td>4.58</td><td>3.58</td><td>3.83</td><td>3.75</td><td>3.85</td></tr><tr><td class='n'>Raw Qwen 2511</td><td>3.42</td><td>3.83</td><td>4.33</td><td>3.67</td><td>3.92</td><td>3.83</td><td>3.83</td></tr><tr><td class='n'>FASHN v1.6</td><td>3.38</td><td>4.38</td><td>4.71</td><td>3.50</td><td>3.38</td><td>3.58</td><td>3.82</td></tr></table></div>
 <p class="mut">Six-criterion rubric, 1&ndash;5, model names hidden from the judge.</p>
 </div></div>
 <div class="grid2"><div>
-<h2>Held-out (18 unseen pairs) — deterministic</h2>
-<table><tr><th>arm</th><th>garment_sim</th><th>identity_cos</th><th>pose_err</th><th>bg_psnr</th><th>score</th></tr><tr class="win"><td class='n'>FASHN v1.6</td><td>0.097</td><td>0.974</td><td>0.046</td><td>29.19</td><td>0.632</td></tr><tr><td class='n'>Composite (proposed)</td><td>0.129</td><td>0.730</td><td>0.104</td><td>20.36</td><td>0.522</td></tr><tr><td class='n'>Seedream (proposed)</td><td>0.106</td><td>0.754</td><td>0.101</td><td>20.98</td><td>0.507</td></tr><tr><td class='n'>Raw Qwen 2511</td><td>0.077</td><td>0.855</td><td>0.241</td><td>16.16</td><td>0.385</td></tr></table>
+<h3>Held-out (18 unseen pairs) — deterministic</h3>
+<div class='tw'><table><tr><th>arm</th><th>garment_sim</th><th>identity_cos</th><th>pose_err</th><th>bg_psnr</th><th>score</th></tr><tr class="win"><td class='n'>FASHN v1.6</td><td>0.097</td><td>0.974</td><td>0.046</td><td>29.19</td><td>0.632</td></tr><tr><td class='n'>Composite (proposed)</td><td>0.129</td><td>0.730</td><td>0.104</td><td>20.36</td><td>0.522</td></tr><tr><td class='n'>Seedream (proposed)</td><td>0.106</td><td>0.754</td><td>0.101</td><td>20.98</td><td>0.507</td></tr><tr><td class='n'>Raw Qwen 2511</td><td>0.077</td><td>0.855</td><td>0.241</td><td>16.16</td><td>0.385</td></tr></table></div>
 </div><div>
-<h2>Held-out — blind VLM judge</h2>
-<table><tr><th>arm</th><th>garment</th><th>identity</th><th>scene</th><th>clean</th><th>hands</th><th>realism</th><th>overall</th></tr><tr class="win"><td class='n'>Composite (proposed)</td><td>4.00</td><td>4.56</td><td>4.67</td><td>4.06</td><td>3.94</td><td>4.11</td><td>4.22</td></tr><tr><td class='n'>Seedream (proposed)</td><td>4.00</td><td>4.44</td><td>4.50</td><td>3.94</td><td>3.83</td><td>4.06</td><td>4.13</td></tr><tr><td class='n'>Raw Qwen 2511</td><td>3.39</td><td>3.94</td><td>4.33</td><td>3.72</td><td>3.78</td><td>3.72</td><td>3.81</td></tr><tr><td class='n'>FASHN v1.6</td><td>2.72</td><td>4.44</td><td>4.50</td><td>3.33</td><td>3.17</td><td>3.44</td><td>3.60</td></tr></table>
+<h3>Held-out — blind VLM judge</h3>
+<div class='tw'><table><tr><th>arm</th><th>garment</th><th>identity</th><th>scene</th><th>clean</th><th>hands</th><th>realism</th><th>overall</th></tr><tr class="win"><td class='n'>Composite (proposed)</td><td>3.94</td><td>4.50</td><td>4.67</td><td>4.06</td><td>3.94</td><td>4.06</td><td>4.19</td></tr><tr><td class='n'>Seedream (proposed)</td><td>3.89</td><td>4.44</td><td>4.67</td><td>4.00</td><td>3.78</td><td>4.00</td><td>4.13</td></tr><tr><td class='n'>Raw Qwen 2511</td><td>3.39</td><td>4.00</td><td>4.28</td><td>3.61</td><td>3.50</td><td>3.72</td><td>3.75</td></tr><tr><td class='n'>FASHN v1.6</td><td>2.89</td><td>4.44</td><td>4.61</td><td>3.39</td><td>3.17</td><td>3.61</td><td>3.69</td></tr></table></div>
 <p class="mut">The composite ranks #1 and beats its stage-1 parent deterministically on data no
 selection decision ever touched. The website API was not run on the held-out set (credit budget).</p>
 </div></div>
-<h2>Interactive comparison — 12 pairs, raw full-resolution outputs</h2>
-<p class="mut">The composite stays pinned on the left; arrow keys <kbd>&larr;</kbd><kbd>&rarr;</kbd>
-flip the right panel between the other models in place, so differences line up.
-<kbd>&uarr;</kbd><kbd>&darr;</kbd> change pair &middot; <kbd>1</kbd>&ndash;<kbd>4</kbd> jump to a model
-&middot; click any image to open the raw file.</p>
-<div id="app">
-<div class="bar"><b id="pairname"></b><span class="chip" id="pairid"></span>
-<span class="keys"><kbd>&larr;</kbd><kbd>&rarr;</kbd> model &middot; <kbd>&uarr;</kbd><kbd>&darr;</kbd> pair &middot; click = raw file</span></div>
-<div class="stage">
-<div class="inputs"><a id="pl" target="_blank"><img id="pi" alt="person"></a>
-<a id="gl" target="_blank"><img id="gi" alt="garment"></a></div>
-<div class="slot ours"><div class="ttl">Composite (proposed)</div>
-<a id="cl" target="_blank"><img id="ci" alt="composite"></a><div class="sc" id="cs"></div></div>
-<div class="slot"><div class="tabs" id="tabs"></div>
-<a id="rl" target="_blank"><img id="ri" alt="comparison"></a><div class="sc" id="rs"></div></div>
-</div><div class="pairs" id="pairs"></div></div>
-<footer>Magic Hour outputs: unmodified API downloads. All images native aspect ratio; click-through serves the raw files.
+</div>
+<footer>The deterministic harness is a work in progress: table values are produced under human
+supervision &mdash; human review validates rankings and adjudicates flagged judge disagreements.<br>
+Magic Hour outputs: unmodified API downloads. All images native aspect ratio; click-through serves the raw files.
 Full boards for every stage and arm: see the complete report and repository README.</footer>
 </div><script>
-const DATA=[{"pair": "p001xg015", "garment": "Slip dress", "person": "../test_set/people/p001.jpg", "garment_img": "../test_set/garments/g015.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p001xg015_s146/result.png", "det": 0.429, "vlm": 3.83}, "magic_hour_api": {"src": "grid_magic_hour_api_p001xg015_s0/result.png", "det": 0.395, "vlm": 4.17}, "fashn_v16": {"src": "grid_fashn_v16_p001xg015_s146/result.png", "det": 0.575, "vlm": 4.33}, "seedream5_lite": {"src": "grid_seedream5_lite_p001xg015_s146/result.png", "det": 0.416, "vlm": 4.17}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p001xg015_s146/result.png", "det": 0.301, "vlm": 4.17}}}, {"pair": "p002xg022", "garment": "Tailored trousers", "person": "../test_set/people/p002.jpg", "garment_img": "../test_set/garments/g022.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p002xg022_s147/result.png", "det": 0.306, "vlm": 4.33}, "magic_hour_api": {"src": "grid_magic_hour_api_p002xg022_s0/result.png", "det": 0.48, "vlm": 4.33}, "fashn_v16": {"src": "grid_fashn_v16_p002xg022_s147/result.png", "det": 0.579, "vlm": 4.0}, "seedream5_lite": {"src": "grid_seedream5_lite_p002xg022_s147/result.png", "det": 0.518, "vlm": 4.5}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p002xg022_s147/result.png", "det": 0.457, "vlm": 4.17}}}, {"pair": "p005xg023", "garment": "Plaid mini skirt", "person": "../test_set/people/p005.jpg", "garment_img": "../test_set/garments/g023.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p005xg023_s148/result.png", "det": 0.373, "vlm": 4.17}, "magic_hour_api": {"src": "grid_magic_hour_api_p005xg023_s0/result.png", "det": 0.817, "vlm": 3.83}, "fashn_v16": {"src": "grid_fashn_v16_p005xg023_s148/result.png", "det": 0.973, "vlm": 4.0}, "seedream5_lite": {"src": "grid_seedream5_lite_p005xg023_s148/result.png", "det": 0.863, "vlm": 4.17}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p005xg023_s148/result.png", "det": 0.81, "vlm": 4.33}}}, {"pair": "p006xg006", "garment": "Graphic hoodie", "person": "../test_set/people/p006.jpg", "garment_img": "../test_set/garments/g006.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p006xg006_s149/result.png", "det": 0.397, "vlm": 4.0}, "magic_hour_api": {"src": "grid_magic_hour_api_p006xg006_s0/result.png", "det": 0.482, "vlm": 3.67}, "fashn_v16": {"src": "grid_fashn_v16_p006xg006_s149/result.png", "det": 0.707, "vlm": 4.5}, "seedream5_lite": {"src": "grid_seedream5_lite_p006xg006_s149/result.png", "det": 0.447, "vlm": 4.17}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p006xg006_s149/result.png", "det": 0.433, "vlm": 4.17}}}, {"pair": "p007xg019", "garment": "Puffer jacket", "person": "../test_set/people/p007.jpg", "garment_img": "../test_set/garments/g019.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p007xg019_s150/result.png", "det": 0.398, "vlm": 4.17}, "magic_hour_api": {"src": "grid_magic_hour_api_p007xg019_s0/result.png", "det": 0.53, "vlm": 3.17}, "fashn_v16": {"src": "grid_fashn_v16_p007xg019_s150/result.png", "det": 0.501, "vlm": 4.17}, "seedream5_lite": {"src": "grid_seedream5_lite_p007xg019_s150/result.png", "det": 0.391, "vlm": 4.0}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p007xg019_s150/result.png", "det": 0.419, "vlm": 4.17}}}, {"pair": "p008xg024", "garment": "Pleated midi skirt", "person": "../test_set/people/p008.jpg", "garment_img": "../test_set/garments/g024.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p008xg024_s151/result.png", "det": 0.033, "vlm": 2.33}, "magic_hour_api": {"src": "grid_magic_hour_api_p008xg024_s0/result.png", "det": 0.464, "vlm": 3.83}, "fashn_v16": {"src": "grid_fashn_v16_p008xg024_s151/result.png", "det": 0.683, "vlm": 3.5}, "seedream5_lite": {"src": "grid_seedream5_lite_p008xg024_s151/result.png", "det": 0.568, "vlm": 3.5}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p008xg024_s151/result.png", "det": 0.253, "vlm": 3.83}}}, {"pair": "p013xg004", "garment": "Fitted knit", "person": "../test_set/people/p013.jpg", "garment_img": "../test_set/garments/g004.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p013xg004_s152/result.png", "det": 0.255, "vlm": 3.33}, "magic_hour_api": {"src": "grid_magic_hour_api_p013xg004_s0/result.png", "det": 0.502, "vlm": 3.17}, "fashn_v16": {"src": "grid_fashn_v16_p013xg004_s152/result.png", "det": 0.529, "vlm": 3.5}, "seedream5_lite": {"src": "grid_seedream5_lite_p013xg004_s152/result.png", "det": 0.725, "vlm": 4.33}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p013xg004_s152/result.png", "det": 0.678, "vlm": 4.17}}}, {"pair": "p003xg011", "garment": "Bodycon midi dress", "person": "../test_set/people/p003.jpg", "garment_img": "../test_set/garments/g011.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p003xg011_s153/result.png", "det": 0.694, "vlm": 3.17}, "magic_hour_api": {"src": "grid_magic_hour_api_p003xg011_s0/result.png", "det": 0.57, "vlm": 4.17}, "fashn_v16": {"src": "grid_fashn_v16_p003xg011_s153/result.png", "det": 0.627, "vlm": 3.33}, "seedream5_lite": {"src": "grid_seedream5_lite_p003xg011_s153/result.png", "det": 0.425, "vlm": 3.83}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p003xg011_s153/result.png", "det": 0.486, "vlm": 4.0}}}, {"pair": "p009xg002", "garment": "Striped tee", "person": "../test_set/people/p009.jpg", "garment_img": "../test_set/garments/g002.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p009xg002_s154/result.png", "det": 0.341, "vlm": 4.17}, "magic_hour_api": {"src": "grid_magic_hour_api_p009xg002_s0/result.png", "det": 0.69, "vlm": 4.17}, "fashn_v16": {"src": "grid_fashn_v16_p009xg002_s154/result.png", "det": 0.573, "vlm": 4.0}, "seedream5_lite": {"src": "grid_seedream5_lite_p009xg002_s154/result.png", "det": 0.341, "vlm": 4.0}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p009xg002_s154/result.png", "det": 0.282, "vlm": 4.0}}}, {"pair": "p010xg001", "garment": "Logo tee", "person": "../test_set/people/p010.jpg", "garment_img": "../test_set/garments/g001.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p010xg001_s155/result.png", "det": 0.734, "vlm": 4.17}, "magic_hour_api": {"src": "grid_magic_hour_api_p010xg001_s0/result.png", "det": 0.774, "vlm": 4.17}, "fashn_v16": {"src": "grid_fashn_v16_p010xg001_s155/result.png", "det": 0.577, "vlm": 4.33}, "seedream5_lite": {"src": "grid_seedream5_lite_p010xg001_s155/result.png", "det": 0.786, "vlm": 4.17}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p010xg001_s155/result.png", "det": 0.705, "vlm": 4.0}}}, {"pair": "p011xg028", "garment": "Striped shirt", "person": "../test_set/people/p011.jpg", "garment_img": "../test_set/garments/g028.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p011xg028_s156/result.png", "det": 0.599, "vlm": 4.33}, "magic_hour_api": {"src": "grid_magic_hour_api_p011xg028_s0/result.png", "det": 0.598, "vlm": 4.33}, "fashn_v16": {"src": "grid_fashn_v16_p011xg028_s156/result.png", "det": 0.816, "vlm": 3.67}, "seedream5_lite": {"src": "grid_seedream5_lite_p011xg028_s156/result.png", "det": 0.73, "vlm": 4.33}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p011xg028_s156/result.png", "det": 0.75, "vlm": 4.33}}}, {"pair": "p012xg007", "garment": "Polka-dot blouse", "person": "../test_set/people/p012.jpg", "garment_img": "../test_set/garments/g007.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p012xg007_s157/result.png", "det": 0.292, "vlm": 4.0}, "magic_hour_api": {"src": "grid_magic_hour_api_p012xg007_s0/result.png", "det": 0.386, "vlm": 4.0}, "fashn_v16": {"src": "grid_fashn_v16_p012xg007_s157/result.png", "det": 0.456, "vlm": 3.67}, "seedream5_lite": {"src": "grid_seedream5_lite_p012xg007_s157/result.png", "det": 0.655, "vlm": 4.33}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p012xg007_s157/result.png", "det": 0.514, "vlm": 4.33}}}];const RIGHT=["magic_hour_api","qwen_2511","fashn_v16","seedream5_lite"];
+const DATA=[{"pair": "p001xg015", "garment": "Slip dress", "person": "../test_set/people/p001.jpg", "garment_img": "../test_set/garments/g015.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p001xg015_s146/result.png", "det": 0.429, "vlm": 3.83}, "magic_hour_api": {"src": "grid_magic_hour_api_p001xg015_s0/result.png", "det": 0.395, "vlm": 4.33}, "fashn_v16": {"src": "grid_fashn_v16_p001xg015_s146/result.png", "det": 0.575, "vlm": 4.33}, "seedream5_lite": {"src": "grid_seedream5_lite_p001xg015_s146/result.png", "det": 0.416, "vlm": 4.0}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p001xg015_s146/result.png", "det": 0.301, "vlm": 3.83}}}, {"pair": "p002xg022", "garment": "Tailored trousers", "person": "../test_set/people/p002.jpg", "garment_img": "../test_set/garments/g022.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p002xg022_s147/result.png", "det": 0.306, "vlm": 4.17}, "magic_hour_api": {"src": "grid_magic_hour_api_p002xg022_s0/result.png", "det": 0.48, "vlm": 4.17}, "fashn_v16": {"src": "grid_fashn_v16_p002xg022_s147/result.png", "det": 0.579, "vlm": 4.17}, "seedream5_lite": {"src": "grid_seedream5_lite_p002xg022_s147/result.png", "det": 0.518, "vlm": 4.33}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p002xg022_s147/result.png", "det": 0.457, "vlm": 4.5}}}, {"pair": "p005xg023", "garment": "Plaid mini skirt", "person": "../test_set/people/p005.jpg", "garment_img": "../test_set/garments/g023.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p005xg023_s148/result.png", "det": 0.373, "vlm": 4.0}, "magic_hour_api": {"src": "grid_magic_hour_api_p005xg023_s0/result.png", "det": 0.817, "vlm": 4.17}, "fashn_v16": {"src": "grid_fashn_v16_p005xg023_s148/result.png", "det": 0.973, "vlm": 4.17}, "seedream5_lite": {"src": "grid_seedream5_lite_p005xg023_s148/result.png", "det": 0.863, "vlm": 3.83}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p005xg023_s148/result.png", "det": 0.81, "vlm": 4.17}}}, {"pair": "p006xg006", "garment": "Graphic hoodie", "person": "../test_set/people/p006.jpg", "garment_img": "../test_set/garments/g006.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p006xg006_s149/result.png", "det": 0.397, "vlm": 4.17}, "magic_hour_api": {"src": "grid_magic_hour_api_p006xg006_s0/result.png", "det": 0.482, "vlm": 3.67}, "fashn_v16": {"src": "grid_fashn_v16_p006xg006_s149/result.png", "det": 0.707, "vlm": 4.17}, "seedream5_lite": {"src": "grid_seedream5_lite_p006xg006_s149/result.png", "det": 0.447, "vlm": 4.17}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p006xg006_s149/result.png", "det": 0.433, "vlm": 4.17}}}, {"pair": "p007xg019", "garment": "Puffer jacket", "person": "../test_set/people/p007.jpg", "garment_img": "../test_set/garments/g019.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p007xg019_s150/result.png", "det": 0.398, "vlm": 3.83}, "magic_hour_api": {"src": "grid_magic_hour_api_p007xg019_s0/result.png", "det": 0.53, "vlm": 3.17}, "fashn_v16": {"src": "grid_fashn_v16_p007xg019_s150/result.png", "det": 0.501, "vlm": 3.67}, "seedream5_lite": {"src": "grid_seedream5_lite_p007xg019_s150/result.png", "det": 0.391, "vlm": 4.0}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p007xg019_s150/result.png", "det": 0.419, "vlm": 4.5}}}, {"pair": "p008xg024", "garment": "Pleated midi skirt", "person": "../test_set/people/p008.jpg", "garment_img": "../test_set/garments/g024.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p008xg024_s151/result.png", "det": 0.033, "vlm": 2.33}, "magic_hour_api": {"src": "grid_magic_hour_api_p008xg024_s0/result.png", "det": 0.464, "vlm": 4.0}, "fashn_v16": {"src": "grid_fashn_v16_p008xg024_s151/result.png", "det": 0.683, "vlm": 3.17}, "seedream5_lite": {"src": "grid_seedream5_lite_p008xg024_s151/result.png", "det": 0.568, "vlm": 3.83}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p008xg024_s151/result.png", "det": 0.253, "vlm": 3.67}}}, {"pair": "p013xg004", "garment": "Fitted knit", "person": "../test_set/people/p013.jpg", "garment_img": "../test_set/garments/g004.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p013xg004_s152/result.png", "det": 0.255, "vlm": 3.67}, "magic_hour_api": {"src": "grid_magic_hour_api_p013xg004_s0/result.png", "det": 0.502, "vlm": 3.33}, "fashn_v16": {"src": "grid_fashn_v16_p013xg004_s152/result.png", "det": 0.529, "vlm": 3.33}, "seedream5_lite": {"src": "grid_seedream5_lite_p013xg004_s152/result.png", "det": 0.725, "vlm": 4.33}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p013xg004_s152/result.png", "det": 0.678, "vlm": 4.17}}}, {"pair": "p003xg011", "garment": "Bodycon midi dress", "person": "../test_set/people/p003.jpg", "garment_img": "../test_set/garments/g011.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p003xg011_s153/result.png", "det": 0.694, "vlm": 3.67}, "magic_hour_api": {"src": "grid_magic_hour_api_p003xg011_s0/result.png", "det": 0.57, "vlm": 3.5}, "fashn_v16": {"src": "grid_fashn_v16_p003xg011_s153/result.png", "det": 0.627, "vlm": 3.33}, "seedream5_lite": {"src": "grid_seedream5_lite_p003xg011_s153/result.png", "det": 0.425, "vlm": 4.0}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p003xg011_s153/result.png", "det": 0.486, "vlm": 3.67}}}, {"pair": "p009xg002", "garment": "Striped tee", "person": "../test_set/people/p009.jpg", "garment_img": "../test_set/garments/g002.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p009xg002_s154/result.png", "det": 0.341, "vlm": 4.0}, "magic_hour_api": {"src": "grid_magic_hour_api_p009xg002_s0/result.png", "det": 0.69, "vlm": 4.17}, "fashn_v16": {"src": "grid_fashn_v16_p009xg002_s154/result.png", "det": 0.573, "vlm": 3.67}, "seedream5_lite": {"src": "grid_seedream5_lite_p009xg002_s154/result.png", "det": 0.341, "vlm": 4.0}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p009xg002_s154/result.png", "det": 0.282, "vlm": 3.83}}}, {"pair": "p010xg001", "garment": "Logo tee", "person": "../test_set/people/p010.jpg", "garment_img": "../test_set/garments/g001.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p010xg001_s155/result.png", "det": 0.734, "vlm": 4.17}, "magic_hour_api": {"src": "grid_magic_hour_api_p010xg001_s0/result.png", "det": 0.774, "vlm": 4.0}, "fashn_v16": {"src": "grid_fashn_v16_p010xg001_s155/result.png", "det": 0.577, "vlm": 4.33}, "seedream5_lite": {"src": "grid_seedream5_lite_p010xg001_s155/result.png", "det": 0.786, "vlm": 4.17}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p010xg001_s155/result.png", "det": 0.705, "vlm": 4.17}}}, {"pair": "p011xg028", "garment": "Striped shirt", "person": "../test_set/people/p011.jpg", "garment_img": "../test_set/garments/g028.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p011xg028_s156/result.png", "det": 0.599, "vlm": 4.0}, "magic_hour_api": {"src": "grid_magic_hour_api_p011xg028_s0/result.png", "det": 0.598, "vlm": 4.33}, "fashn_v16": {"src": "grid_fashn_v16_p011xg028_s156/result.png", "det": 0.816, "vlm": 3.5}, "seedream5_lite": {"src": "grid_seedream5_lite_p011xg028_s156/result.png", "det": 0.73, "vlm": 4.33}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p011xg028_s156/result.png", "det": 0.75, "vlm": 4.33}}}, {"pair": "p012xg007", "garment": "Polka-dot blouse", "person": "../test_set/people/p012.jpg", "garment_img": "../test_set/garments/g007.jpg", "arms": {"qwen_2511": {"src": "grid_qwen_2511_p012xg007_s157/result.png", "det": 0.292, "vlm": 4.17}, "magic_hour_api": {"src": "grid_magic_hour_api_p012xg007_s0/result.png", "det": 0.386, "vlm": 3.33}, "fashn_v16": {"src": "grid_fashn_v16_p012xg007_s157/result.png", "det": 0.456, "vlm": 3.5}, "seedream5_lite": {"src": "grid_seedream5_lite_p012xg007_s157/result.png", "det": 0.655, "vlm": 4.33}, "seedream_qwen_refine": {"src": "grid_seedream_qwen_refine_p012xg007_s157/result.png", "det": 0.514, "vlm": 4.17}}}];const RIGHT=["magic_hour_api","qwen_2511","fashn_v16","seedream5_lite"];
 const LBL={"qwen_2511": "Raw Qwen 2511", "magic_hour_api": "Magic Hour website (API)", "fashn_v16": "FASHN v1.6", "seedream5_lite": "Seedream (proposed)", "seedream_qwen_refine": "Composite (proposed)", "qwen_image3_edit": "Qwen-Image-3 (refiner)"};let P=0,R=0;
 const tabs=document.getElementById("tabs"),pairs=document.getElementById("pairs");
 RIGHT.forEach((a,i)=>{const b=document.createElement("button");b.textContent=(i+1)+". "+LBL[a];
@@ -136,7 +178,8 @@ document.getElementById("pairid").textContent=d.pair;
 [["pi","pl",d.person],["gi","gl",d.garment_img],["ci","cl",co.src],["ri","rl",ro.src]]
 .forEach(([im,ln,src])=>{document.getElementById(im).src=src;document.getElementById(ln).href=src});
 document.getElementById("cs").textContent=sc(co);
-document.getElementById("rs").textContent=LBL[ra]+" — "+sc(ro);
+document.getElementById("rt").textContent=LBL[ra];
+document.getElementById("rs").textContent=sc(ro);
 [...tabs.children].forEach((b,i)=>b.classList.toggle("on",i===R));
 [...pairs.children].forEach((b,i)=>b.classList.toggle("on",i===P));
 const nxt=DATA[(P+1)%DATA.length];Object.values(nxt.arms).forEach(a=>{(new Image()).src=a.src});}
