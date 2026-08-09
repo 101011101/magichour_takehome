@@ -36,9 +36,9 @@ review concurred).
 
 **Headline finding:** on the 18 held-out pairs the shipped **cascade —
 `seedream5_lite` edit → `qwen_image3` realism refine** (notebook §12b) —
-**ranked #1 on the blind gpt-5.5 VLM board** (4.17 overall), taking
+**ranked #1 on the blind gpt-5.5 VLM board** (4.22 overall), taking
 best-in-class on clean (4.06) and realism (4.11) and tied-best on garment
-(3.89, shared with its stage-1 parent). It also edged its parent
+(4.00, shared with its stage-1 parent). It also edged its parent
 `seedream5_lite` on the deterministic composite (0.522 vs 0.507) — the shipped
 composite validated against its parent on data no selection decision ever
 touched. `seedream5_lite` alone (§12a) remains the single-model option. The
@@ -79,16 +79,17 @@ VLM judge, gpt-5.5 blind (n = 18 per arm):
 
 | Arm | Overall | Garment | Identity | Scene | Clean | Hands | Realism |
 |---|---|---|---|---|---|---|---|
-| seedream_qwen_refine (cascade) | **4.17** | **3.89** | 4.50 | 4.61 | **4.06** | 3.83 | **4.11** |
-| flux_vto_v1 | 4.14 | 3.11 | 4.83 | 4.94 | 4.00 | 3.94 | 4.00 |
-| seedream5_lite | 4.08 | **3.89** | 4.33 | 4.56 | 3.89 | 3.78 | 4.06 |
-| qwen_2511 (baseline) | 3.83 | 3.50 | 3.83 | 4.44 | 3.67 | 3.89 | 3.67 |
-| fashn_v16 | 3.69 | 2.89 | 4.50 | 4.61 | 3.50 | 3.06 | 3.56 |
+| seedream_qwen_refine (cascade) | **4.22** | **4.00** | 4.56 | 4.67 | **4.06** | 3.94 | **4.11** |
+| seedream5_lite | 4.13 | **4.00** | 4.44 | 4.50 | 3.94 | 3.83 | 4.06 |
+| flux_vto_v1 | 4.12 | 3.17 | 4.72 | 4.83 | 3.94 | 4.00 | 4.06 |
+| qwen_2511 (baseline) | 3.81 | 3.39 | 3.94 | 4.33 | 3.72 | 3.78 | 3.72 |
+| fashn_v16 | 3.60 | 2.72 | 4.44 | 4.50 | 3.33 | 3.17 | 3.44 |
 
-### Grid stage — 12 pairs, survivors + baseline
+### Grid stage — 12 pairs, survivors + baselines
 
 Deterministic composite (n = 24 for arms with best-of-2 seeds; 12 for
-klein_4b_edit, qwen_2511, and the cascade):
+klein_4b_edit, qwen_2511, the cascade, and magic_hour_api). Composites are
+computed per output (anchored normalization, garment ×2) and averaged per arm:
 
 | Arm | Composite | garment_sim | identity_cos | pose_err | bg_psnr (dB) |
 |---|---|---|---|---|---|
@@ -96,6 +97,7 @@ klein_4b_edit, qwen_2511, and the cascade):
 | fashn_v16 | 0.666 | 0.127 | 0.980 | 0.034 | 28.5 |
 | klein_4b_edit | 0.631 | 0.105 | 0.908 | 0.029 | 25.5 |
 | seedream5_lite | 0.569 | 0.200 | 0.686 | 0.067 | 20.7 |
+| magic_hour_api (website) | 0.557 | 0.145 | 0.647 | 0.034 | 25.9 |
 | seedream_qwen_refine (cascade) | 0.507 | 0.142 | 0.660 | 0.073 | 20.6 |
 | qwen_2511 (baseline) | 0.404 | 0.130 | 0.814 | 0.188 | 15.0 |
 
@@ -103,12 +105,30 @@ VLM judge, gpt-5.5 blind (same n as above):
 
 | Arm | Overall | Garment | Identity | Scene | Clean | Hands | Realism | Editing axis | Realism axis |
 |---|---|---|---|---|---|---|---|---|---|
-| seedream5_lite | **4.14** | **4.00** | 4.38 | 4.50 | 4.00 | 3.96 | 4.00 | 4.29 | 3.99 |
-| flux_vto_v1 | 4.10 | 3.21 | 4.75 | 4.96 | 3.92 | 3.83 | 3.96 | 4.31 | 3.90 |
-| seedream_qwen_refine (cascade) | 4.10 | **4.00** | 4.17 | 4.67 | 3.92 | 3.83 | 4.00 | 4.28 | 3.92 |
-| klein_4b_edit | 4.07 | 3.50 | 4.67 | 4.83 | 3.75 | 3.67 | 4.00 | 4.33 | 3.81 |
-| qwen_2511 (baseline) | 3.93 | 3.42 | 4.00 | 4.42 | 3.83 | 4.00 | 3.92 | 3.94 | 3.92 |
-| fashn_v16 | 3.82 | 3.58 | 4.29 | 4.71 | 3.42 | 3.33 | 3.58 | 4.19 | 3.44 |
+| flux_vto_v1 | **4.18** | 3.25 | 4.79 | 4.96 | 4.00 | 4.04 | 4.04 | 4.33 | 4.03 |
+| seedream_qwen_refine (cascade) | 4.14 | **4.00** | 4.42 | 4.50 | 4.00 | 3.92 | 4.00 | 4.31 | 3.97 |
+| klein_4b_edit | 4.13 | 3.50 | 4.50 | 4.83 | 4.00 | 3.83 | 4.08 | 4.28 | 3.97 |
+| seedream5_lite | 4.08 | **4.00** | 4.33 | 4.46 | 3.96 | 3.71 | 4.04 | 4.26 | 3.90 |
+| magic_hour_api (website) | 3.92 | 3.25 | 4.17 | 4.67 | 3.83 | 3.75 | 3.83 | 4.03 | 3.81 |
+| fashn_v16 | 3.89 | 3.50 | 4.54 | 4.75 | 3.46 | 3.42 | 3.67 | 4.26 | 3.51 |
+| qwen_2511 (baseline) | 3.83 | 3.42 | 4.08 | 4.33 | 3.67 | 3.75 | 3.75 | 3.94 | 3.72 |
+
+### Website baseline (Magic Hour production API)
+
+The actual production output was added as a grid arm: `magic_hour_api`,
+generated via the Magic Hour AI Clothes Changer API (`v1/ai_clothes_changer`)
+on the same 12 grid pairs. It scored **0.557 deterministic / 3.92 VLM** —
+meaningfully above raw qwen_2511 (0.404 / 3.83), confirming the website
+wrapper adds real value over the raw model. Against our implementations: both
+shipped models beat it on the VLM board (cascade 4.14, seedream5_lite 4.08 vs
+3.92); on the deterministic composite seedream5_lite (0.569) is above it while
+the cascade (0.507) sits below — the same pixel-preservation tension as
+elsewhere (the website output keeps the background nearly intact,
+bg_psnr 25.9 dB). Weak spots per the judges: the **lowest identity cosine of
+any grid arm** (0.647 mean — a person-replacement occurred on one pair,
+cosine 0.18) and garment accuracy of 3.25 on the VLM. Provenance: outputs
+downloaded straight from the Magic Hour API, unmodified, native 384x576 —
+see [`gallery/`](gallery/) and [`gallery/README.md`](gallery/README.md).
 
 ### Evidence
 
@@ -227,5 +247,6 @@ structure, and a CLIP-embedding upgrade is the Phase-2 fix.
 | `execution_conventions.md` | Where truth lives: Colab/MCP workflow, doc conventions, model-access table, open items. |
 | `references/` | The two house-style reference notebooks (Krea2 identity edit, MagicHourOptimize) + `REFERENCES.md` synthesizing which patterns were adopted. |
 | `research/` | Pre-build research: model scout shortlist (endpoint verification) and image-accuracy research. |
+| `gallery/` | 12-pair 4-way comparison set, one row of six images per grid pair: person, garment, raw qwen_2511, Magic Hour website API output (raw PNG, 384x576), seedream, cascade — the visual side of the website-baseline comparison; see its README for the filename key. |
 | `artifacts/` | Committed evidence pack: `cv_metrics.csv`, `vlm_judgments.csv`, three stage grid PNGs, `final_report_v2.html` — the numbers behind the Report section, reviewable without re-running anything. |
 | `runs/` (gitignored) | Evidence outputs, regenerable. `cv_metrics.csv` = deterministic metrics per output; `vlm_judgments.csv` = VLM rubric scores + notes per output; `<stage>_<arm>_<pair>_s<seed>/` run packages (`result.png` + `run_config.json`) = the idempotency cache; `report.html` = every output with scores; `final_report.html` / `final_report_v2.html` = the final evidence pack; `executed_*.ipynb` = executed notebook snapshots per stage; `grid_*.png` = comparison grids. |
