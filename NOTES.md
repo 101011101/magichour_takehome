@@ -119,3 +119,11 @@ CLIP-embedding upgrade is the Phase-2 fix); fashn_v16 is the pixel-preservation
 champion (deterministic winner) and remains the recommendation when strict
 original-photo preservation is the requirement; the fashn→klein cascade suggested
 by raw axes-derivation was never tested and deliberately does not ship.
+
+**Identity-restore experiments (2026-08-09, not shipped):** two composite variants
+were attempted after the pilot — v2 (seedream output + full original photo through
+qwen_image3 two-image edit) and v3 (same, with an auto-cropped face-only reference).
+Human review found the restore inconsistent (v2 could pull original clothing back;
+v3 fixed that structurally but face fidelity did not clearly beat the shipped blind
+refine). The shipped composite remains v1. Run packages retained locally under
+runs/grid_composite_v2_* / _v3_*.
