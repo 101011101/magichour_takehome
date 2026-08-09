@@ -5,3 +5,4 @@ build/
 runs/
 .venv/
 judging_sheet.csv
+image-files/
