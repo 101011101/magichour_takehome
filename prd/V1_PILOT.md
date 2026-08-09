@@ -14,6 +14,9 @@ docs work.
   so a top-to-bottom re-run reproduces the same elimination. Deterministic
   metrics are the authoritative ranking; the VLM judge is confirmation only —
   §10 flags rank disagreements (|delta| ≥ 2) for human review.
+- **Deterministic harness status (2026-08-09):** work in progress — pilot-stage
+  metrics. All reported table values are produced under human supervision:
+  human review validates rankings and adjudicates flagged judge disagreements.
 - **Composite scoring decisions (2026-08-08):** `garment_sim` carries double
   weight (garment transfer is the core product objective). Normalization uses
   **fixed absolute anchors**, not min–max across arms: min–max over-rewarded

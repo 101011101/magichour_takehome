@@ -63,6 +63,10 @@ Scoring definitions used in every table below:
   clean, hands, realism. Editing axis = mean(garment, identity, scene);
   realism axis = mean(clean, hands, realism).
 
+> **Status note:** the deterministic harness is a work in progress. Table values
+> are produced under human supervision — human review validates rankings and
+> adjudicates flagged judge disagreements before any number is reported.
+
 ### Held-out benchmark — 18 unseen pairs (the reported numbers)
 
 Deterministic composite (n = 18 per arm):

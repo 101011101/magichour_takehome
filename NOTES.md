@@ -113,7 +113,9 @@ review as the supervising tiebreaker on flagged disagreements.
    side-by-side gallery), `runs/report.html` (every output with scores),
    cv_metrics.csv / vlm_judgments.csv, executed notebook snapshot.
 
-**Notable caveats on record:** seedream accepts no seed (outputs stochastic);
+**Notable caveats on record:** the deterministic harness is a work in progress —
+reported table values carry human supervision (rankings validated, flagged
+disagreements adjudicated by human review); seedream accepts no seed (outputs stochastic);
 garment_sim is a color-histogram proxy (structure-blind — VLM covers structure;
 CLIP-embedding upgrade is the Phase-2 fix); fashn_v16 is the pixel-preservation
 champion (deterministic winner) and remains the recommendation when strict
