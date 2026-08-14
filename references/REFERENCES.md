@@ -2,7 +2,7 @@
 
 Synthesis of the two reference notebooks in this directory
 (`Copy_of_krea2_identity_edit.ipynb`, `MagicHourOptimize.ipynb`).
-Companion to [TASK.md](../TASK.md) and [NOTES.md](../NOTES.md).
+Companion to [TASK.md](../TASK.md) and [NOTES.md](../v1/NOTES.md).
 
 ## The big surprise
 

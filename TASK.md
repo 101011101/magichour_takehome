@@ -1,7 +1,12 @@
 # Prompt — Virtual Try-On Colab
 
-**Context:** This is a take-home assessment for an internship (Magic Hour).
-**Ray** (me) is the candidate completing it; **Runbo** is the person who gave the prompt.
+**Context (updated 2026-08-13):** This started as a take-home assessment for a Magic Hour
+internship. The internship is now secured, and this is **no longer a take-home** — the
+project is being built into something **deployable into company code**.
+**Ray** (me) is building it; **Runbo** originally gave the prompt.
+
+**Constraint: open weights only.** The production version must use open-weights models
+(self-hostable) — no proprietary hosted APIs (fal, Ideogram, Krea, etc.) in the deployed path.
 
 > **See also:** [references/REFERENCES.md](references/REFERENCES.md) — synthesis of the two
 > reference notebooks (Krea 2 identity edit, MagicHourOptimize/Ideogram 4) and what
@@ -32,6 +37,10 @@ A Google Colab notebook that:
    of test pairs — side-by-side comparison included.
 
 ## Constraints & open questions
+
+> Note: the sections below reflect the original take-home framing. For the production
+> version, the open-weights-only constraint above supersedes any API-based options
+> (Ideogram, Krea) — those were evaluation-only.
 
 - **Models to evaluate:** Krea 2, Ideogram (3.0?), Flux 2 Klein — vs. baseline Qwen 2511.
   Need to confirm exact model IDs/versions and whether they're API-based
