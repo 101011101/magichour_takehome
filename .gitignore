@@ -1,7 +1,7 @@
 .DS_Store
 __pycache__/
 .env
-build/
+v1/build/
 runs/
 .venv/
 judging_sheet.csv
