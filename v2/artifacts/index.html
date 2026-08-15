@@ -1,0 +1,121 @@
+<!doctype html><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>V2 Artifacts — Virtual Try-On</title><style>
+:root{--bg:#14141d;--card:#1b1b26;--card2:#20202c;--line:#2b2b3a;--ink:#f3f3f7;
+--body:#aab0be;--mut:#868da0;--acc:#928af5;--acc2:#b7b1fa;--ok:rgba(90,200,140,.14);
+--okb:rgba(90,200,140,.65)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--body);
+font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:44px 28px 60px}
+h1{font-size:30px;margin:2px 0 6px;color:var(--ink);font-weight:700;letter-spacing:-.4px}
+h2{font-size:17px;margin:36px 0 6px;color:var(--ink);font-weight:700}
+.kick{color:var(--mut);font-size:13.5px}
+p{max-width:860px}.mut{color:var(--mut);font-size:12.5px}b{color:var(--ink)}
+a{color:var(--acc2)}
+.cards{display:grid;grid-template-columns:1fr;gap:14px;margin:18px 0 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;
+padding:18px 20px;text-decoration:none;display:block;transition:border-color .15s}
+.card:hover{border-color:var(--acc)}
+.ct{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.cs{font-size:12.5px;color:var(--mut);font-family:ui-monospace,Menlo,monospace;margin-bottom:8px}
+.cd{font-size:13.5px;color:var(--body);max-width:820px}
+.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.tag{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+padding:2px 8px;border-radius:99px;background:var(--card2);border:1px solid var(--line);
+color:var(--body)}
+.tag.lead{background:var(--ok);border-color:var(--okb);color:#7fe3ac}
+code{background:var(--card2);border:1px solid var(--line);border-radius:4px;
+padding:1px 5px;font-size:12px;color:var(--acc2)}
+footer{margin:44px 0 8px;padding-top:14px;border-top:1px solid var(--line);
+color:var(--mut);font-size:12.5px}
+</style><div class="wrap">
+<div class="kick">Virtual Try-On — V2 (open weights only)</div>
+<h1>Evaluation Artifacts</h1>
+<p>Comparison pages generated from the run packages in <code>v2/runs/</code>.
+Each page has a large-image viewer: <b>&larr;/&rarr;</b> step through a set,
+<b>&uarr;/&darr;</b> change set, <b>B</b> flips back to the input, <b>Z</b> zooms 1:1.</p>
+
+<h2>Pages</h2>
+<div class="cards">
+
+<a class="card" href="open_weights_status.html">
+  <div class="ct">Open-weights coverage</div>
+  <div class="cs">open_weights_status.html · what ran on fal vs what needs downloaded weights</div>
+  <div class="cd">Every arm's access path, the HiDream-O1-Image run that eliminated
+  it, and the effort ranking for the self-host-only tests (Z-Image Base +
+  tile-ControlNet, JoyAI-Edit-Plus, OOTDiffusion, OrthoTryOn). States the parity
+  gap plainly: <b>no number on the scoreboard has been reproduced on downloaded
+  weights yet</b>.</div>
+  <div class="tags"><span class="tag">status</span><span class="tag">parity</span>
+  <span class="tag">self-host plan</span><span class="tag">latest</span></div>
+</a>
+
+<a class="card" href="ts2_compare.html">
+  <div class="ct">Editing models on Testset2</div>
+  <div class="cs">ts2_compare.html · 13 pairs × 4 arms · high-resolution set</div>
+  <div class="cd">FASHN v1.5, FLUX.2 klein 4B, HiDream-O1-Image and the Qwen 2511
+  baseline on the high-res set: <b>garment only</b> (flat-lay reference),
+  <b>garment + human</b> (editorial on-model reference) and <b>garment + human</b>
+  (clothes swap between two people). Flags identity substitution per output.</div>
+  <div class="tags"><span class="tag">editing bucket</span>
+  <span class="tag">Testset2</span><span class="tag">duo pairs</span></div>
+</a>
+
+<a class="card" href="aux_compare.html">
+  <div class="ct">Auxiliary realism models</div>
+  <div class="cs">aux_compare.html · 6 configs × 4 images</div>
+  <div class="cd">Single-image realism models scored against <b>their own input</b>
+  — realism gain gated on fidelity preservation. SeedVR2 (noise 0/0.1), Z-Image
+  Turbo at three strengths, and the SeedVR2→Z-Image stack.</div>
+  <div class="tags"><span class="tag lead">leader: seedvr2_x2_noise0</span>
+  <span class="tag">auxiliary bucket</span></div>
+</a>
+
+<a class="card" href="klein_compare.html">
+  <div class="ct">klein 4B — distilled vs base</div>
+  <div class="cs">klein_compare.html · 13 pairs × 2 variants</div>
+  <div class="cd">Which klein are we on? Both Apache checkpoints ran the full
+  Testset2 matrix and <b>tie exactly on VLM fidelity (4.410)</b> — but the mean
+  hides the shape: base is mildly worse on five pairs and <b>+2.00 on the one
+  where distilled collapsed</b>. Ordered worst-for-base first.</div>
+  <div class="tags"><span class="tag">editing bucket</span>
+  <span class="tag">variant decision</span><span class="tag">latest</span></div>
+</a>
+
+<a class="card" href="aux_batches.html">
+  <div class="ct">Auxiliary models — two batches</div>
+  <div class="cs">aux_batches.html · 4 configs × 5 subjects × 2 batches</div>
+  <div class="cd">How far the realism models get, with a <b>control</b>: batch A
+  runs them on <b>real photos</b> (a pass should be a no-op — anything it changes is
+  damage), batch B on <b>klein try-on outputs</b> (the deployed case). Same five
+  subjects in both.</div>
+  <div class="tags"><span class="tag lead">confirms: seedvr2_x2_noise0</span>
+  <span class="tag">auxiliary bucket</span><span class="tag">control batch</span>
+  <span class="tag">latest</span></div>
+</a>
+
+<a class="card" href="compare.html">
+  <div class="ct">V1-set triage &amp; klein composite</div>
+  <div class="cs">compare.html · 12 pairs · superseded composite</div>
+  <div class="cd">First V2 wave on the original <code>test_set/</code>: the four
+  triage arms plus the klein-based <code>composite_v2ow</code> (paste-back →
+  refine → identity gate). Kept for the record — that composite is superseded.</div>
+  <div class="tags"><span class="tag">editing bucket</span>
+  <span class="tag">test_set/ (V1)</span><span class="tag">superseded</span></div>
+</a>
+
+</div>
+
+<h2>Where things live</h2>
+<p class="mut">Pages here · images and CSVs in <code>v2/runs/</code> (Testset2 under
+<code>v2/runs/ts2/</code>) · generators in <code>v2/build/</code>
+(<code>ts2_harness.py</code>, <code>aux_harness.py</code>, <code>make_compare.py</code>)
+· criteria in <code>prd/v2/SCORING_CRITERIA.md</code> · test conditions in
+<code>prd/v2/results_summary/CONDITIONS.md</code> · rolling results in
+<code>prd/v2/results_summary/V2.0_RESULTS.md</code> · test-set definitions in
+<code>execution_conventions.md</code>.</p>
+
+<footer>All arms are open-weights checkpoints; fal endpoints are used for iteration
+only, per the testing exception in execution_conventions.md. Numbers are
+directional until reproduced on downloaded weights (parity rule).</footer>
+</div>

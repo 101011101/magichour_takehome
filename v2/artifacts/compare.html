@@ -1,0 +1,131 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Output Comparison — V2 Open Weights</title><style>
+:root{--bg:#14141d;--card:#1b1b26;--card2:#20202c;--line:#2b2b3a;--ink:#f3f3f7;
+--body:#aab0be;--mut:#868da0;--acc:#928af5;--acc2:#b7b1fa;--tint:rgba(146,138,245,.10)}
+*{box-sizing:border-box}html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--body);
+font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.wrap{max-width:1480px;margin:0 auto;padding:44px 32px 36px}
+h1{font-size:31px;margin:2px 0 26px;color:var(--ink);font-weight:700;letter-spacing:-.4px}
+h2{font-size:20px;margin:46px 0 12px;color:var(--ink);font-weight:700;letter-spacing:-.2px}
+.kick{color:var(--mut);font-size:14px}
+p{max-width:880px}.mut{color:var(--mut);font-size:13px}b{color:var(--ink)}
+.exec{max-width:1000px}.exec b.t{font-size:16px}
+.exec ul{margin:8px 0 0;padding-left:20px}.exec li{margin:7px 0;max-width:880px}
+.tw{overflow-x:auto;max-width:920px}
+table{border-collapse:collapse;margin:10px 0 6px;width:100%;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--line);padding:7px 10px;font-size:13px;text-align:right}
+th{color:var(--mut);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.5px}
+td{color:var(--body)}td.n,th:first-child{text-align:left}
+td.n{color:var(--ink);font-weight:600;white-space:nowrap}
+tr.win td{background:var(--tint)}
+#app{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px 22px}
+.bar{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:12px}
+.bar b{font-size:19px;color:var(--ink)}
+.chip{color:var(--mut);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
+kbd{background:var(--card2);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;
+padding:0 6px;font-size:11.5px;color:var(--body)}
+.tabsrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 16px;
+padding:0 0 14px;border-bottom:1px solid var(--line)}
+.tabsrow .lbl{color:var(--mut);font-size:13px;margin-right:6px}
+.tabsrow button,.pairs button{border:1px solid var(--line);background:var(--card2);color:var(--body);
+border-radius:6px;padding:5px 13px;font-size:13px;cursor:pointer}
+.tabsrow button.on,.pairs button.on{background:var(--acc);color:#14141d;border-color:var(--acc);font-weight:700}
+.tabsrow button:disabled{opacity:.35;cursor:default}
+.stage{display:grid;grid-template-columns:200px 1fr 1fr;gap:16px;align-items:start}
+.slot,.gcol{text-align:center}
+.ttl{font-size:13.5px;font-weight:600;margin-bottom:8px;color:var(--body)}
+.gcol.ours .ttl{color:var(--acc2)}
+.gcol img,.slot img{width:100%;max-height:72vh;object-fit:contain;border-radius:8px;
+background:var(--card2);cursor:zoom-in;display:block}
+.slot img{max-height:34vh;margin-bottom:12px}
+.sc{font-size:12.5px;color:var(--mut);margin-top:7px;font-variant-numeric:tabular-nums}
+.missing{display:flex;align-items:center;justify-content:center;height:50vh;background:var(--card2);
+border-radius:8px;color:var(--mut);font-size:13px;padding:20px;text-align:center}
+.pairs{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.pairs button{font-size:12.5px;padding:5px 12px;white-space:nowrap}
+footer{margin:44px 0 8px;padding-top:14px;border-top:1px solid var(--line);color:var(--mut);font-size:12.5px}
+a{color:var(--acc2)}
+</style><div class="wrap">
+<div class="kick">Virtual try-on V2 — open-weights arms, wave 1 (triage + composite)</div>
+<h1>Output Comparison</h1>
+<div class="exec"><b class="t">Where this stands</b>
+<ul>
+<li>Four open-weights arms triaged (4 pairs each): <b>klein 4B</b> and <b>FASHN v1.5</b>
+advance; FireRed v1.1 eliminated; the Qwen 2511 baseline advances by rule.</li>
+<li>The proposed <b>composite</b> (klein 4B &rarr; face paste-back &rarr; Z-Image refine
+&rarr; AuraFace identity gate) has run on all 12 grid pairs: 10/12 passed the 0.55
+identity gate; paste-back applied on 7, correctly refused on 4 head-covering garments.</li>
+<li>Deterministic metrics are V2-upgraded: FashionSigLIP garment similarity + AuraFace
+identity, fixed anchors recalibrated on V1 outputs. VLM judging and the grid/holdout
+stages for the surviving single arms have not run yet &mdash; right-column comparisons
+exist only on the four triage pairs.</li>
+<li>Spend: $1.33 of the $10 ceiling (28/28 generations succeeded).</li>
+</ul></div>
+<h2>Triage board (deterministic, garment &times;2)</h2>
+<div class="tw"><table><tr><th>arm</th><th>garment_sim</th><th>identity_cos</th>
+<th>pose_err</th><th>bg_psnr</th><th>score</th></tr>
+<tr class="win"><td class="n">FASHN v1.5</td><td>0.713</td><td>0.991</td><td>0.024</td><td>30.5</td><td><b>0.769</b></td></tr>
+<tr><td class="n">FireRed v1.1</td><td>0.671</td><td>0.769</td><td>0.044</td><td>22.3</td><td><b>0.600</b></td></tr>
+<tr><td class="n">FLUX.2 klein 4B</td><td>0.687</td><td>0.799</td><td>0.026</td><td>19.7</td><td><b>0.584</b></td></tr>
+<tr><td class="n">Qwen 2511 (baseline)</td><td>0.679</td><td>0.746</td><td>0.127</td><td>17.0</td><td><b>0.518</b></td></tr>
+<tr><td class="n">Composite (proposed) &middot; grid</td>
+<td>0.746</td><td>0.697</td><td>0.031</td>
+<td>25.3</td><td><b>0.707</b></td></tr></table></div>
+<p class="mut">Composite row is measured on the 12 grid pairs (different, harder set than
+the 4 triage pairs) &mdash; directional until the survivors run the same grid.</p>
+<div id="app">
+<div class="bar"><b id="pairname"></b><span class="chip" id="pairid"></span>
+<span class="chip">keys: <kbd>&larr;</kbd><kbd>&rarr;</kbd> arm &middot;
+<kbd>&uarr;</kbd><kbd>&darr;</kbd> pair &middot; <kbd>1</kbd>&ndash;<kbd>4</kbd> jump &middot;
+click any image to open full size</span></div>
+<div class="tabsrow"><span class="lbl">Compare against:</span><span id="tabs"></span></div>
+<div class="stage">
+<div class="slot"><div class="ttl">person</div><a id="pl" target="_blank"><img id="pi"></a>
+<div class="ttl">garment</div><a id="gl" target="_blank"><img id="gi"></a></div>
+<div class="gcol ours"><div class="ttl">Composite (proposed)</div>
+<a id="cl" target="_blank"><img id="ci"></a><div class="sc" id="cs"></div></div>
+<div class="gcol"><div class="ttl" id="rt"></div><div id="rwrap"></div><div class="sc" id="rs"></div></div>
+</div>
+<div class="pairs" id="pairs"></div>
+</div>
+<footer>Generated by v2/build/make_compare.py from cv_metrics.csv and run packages in
+v2/runs/. Deterministic score = fixed-anchor weighted composite (garment &times;2);
+gate = AuraFace cosine of the shipped candidate. Images live in v2/runs/; open this file from v2/artifacts/.</footer>
+</div><script>
+const DATA=[{"pair": "p001xg015", "garment": "Slip dress", "person": "../../test_set/people/p001.jpg", "garment_img": "../../test_set/garments/g015.jpg", "composite": {"src": "../runs/grid_composite_v2ow_p001xg015_s146/result.png", "det": 0.762, "gate": 0.931, "paste": true, "cands": 1}, "arms": {"qwen_2511": {"src": "../runs/triage_qwen_2511_p001xg015_s46/result.png", "det": 0.312}, "klein_4b_edit": {"src": "../runs/triage_klein_4b_edit_p001xg015_s46/result.png", "det": 0.701}, "fashn_v15": {"src": "../runs/triage_fashn_v15_p001xg015_s46/result.png", "det": 0.732}, "firered_edit": {"src": "../runs/triage_firered_edit_p001xg015_s46/result.png", "det": 0.443}}}, {"pair": "p002xg022", "garment": "Tailored trousers", "person": "../../test_set/people/p002.jpg", "garment_img": "../../test_set/garments/g022.jpg", "composite": {"src": "../runs/grid_composite_v2ow_p002xg022_s147/result.png", "det": 0.623, "gate": 0.728, "paste": true, "cands": 1}, "arms": {}}, {"pair": "p003xg011", "garment": "Bodycon midi dress", "person": "../../test_set/people/p003.jpg", "garment_img": "../../test_set/garments/g011.jpg", "composite": {"src": "../runs/grid_composite_v2ow_p003xg011_s153/result.png", "det": 0.74, "gate": 0.618, "paste": true, "cands": 1}, "arms": {"qwen_2511": {"src": "../runs/triage_qwen_2511_p003xg011_s49/result.png", "det": 0.712}, "klein_4b_edit": {"src": "../runs/triage_klein_4b_edit_p003xg011_s49/result.png", "det": 0.86}, "fashn_v15": {"src": "../runs/triage_fashn_v15_p003xg011_s49/result.png", "det": 0.844}, "firered_edit": {"src": "../runs/triage_firered_edit_p003xg011_s49/result.png", "det": 0.531}}}, {"pair": "p005xg023", "garment": "Plaid mini skirt", "person": "../../test_set/people/p005.jpg", "garment_img": "../../test_set/garments/g023.jpg", "composite": {"src": "../runs/grid_composite_v2ow_p005xg023_s148/result.png", "det": 0.593, "gate": 0.709, "paste": true, "cands": 1}, "arms": {"qwen_2511": {"src": "../runs/triage_qwen_2511_p005xg023_s47/result.png", "det": 0.435}, "klein_4b_edit": {"src": "../runs/triage_klein_4b_edit_p005xg023_s47/result.png", "det": 0.0}, "fashn_v15": {"src": "../runs/triage_fashn_v15_p005xg023_s47/result.png", "det": 0.683}, "firered_edit": {"src": "../runs/triage_firered_edit_p005xg023_s47/result.png", "det": 0.695}}}, {"pair": "p006xg006", "garment": "Graphic hoodie", "person": "../../test_set/people/p006.jpg", "garment_img": "../../test_set/garments/g006.jpg", "composite": {"src": "../runs/grid_composite_v2ow_p006xg006_s149/result.png", "det": 0.636, "gate": 0.454, "paste": false, "cands": 3}, "arms": {"qwen_2511": {"src": "../runs/triage_qwen_2511_p006xg006_s48/result.png", "det": 0.614}, "klein_4b_edit": {"src": "../runs/triage_klein_4b_edit_p006xg006_s48/result.png", "det": 0.774}, "fashn_v15": {"src": "../runs/triage_fashn_v15_p006xg006_s48/result.png", "det": 0.816}, "firered_edit": {"src": "../runs/triage_firered_edit_p006xg006_s48/result.png", "det": 0.732}}}, {"pair": "p007xg019", "garment": "Puffer jacket", "person": "../../test_set/people/p007.jpg", "garment_img": "../../test_set/garments/g019.jpg", "composite": {"src": "../runs/grid_composite_v2ow_p007xg019_s150/result.png", "det": 0.795, "gate": 0.831, "paste": false, "cands": 1}, "arms": {}}, {"pair": "p008xg024", "garment": "Pleated midi skirt", "person": "../../test_set/people/p008.jpg", "garment_img": "../../test_set/garments/g024.jpg", "composite": {"src": "../runs/grid_composite_v2ow_p008xg024_s151/result.png", "det": 0.645, "gate": 0.763, "paste": true, "cands": 1}, "arms": {}}, {"pair": "p009xg002", "garment": "Striped tee", "person": "../../test_set/people/p009.jpg", "garment_img": "../../test_set/garments/g002.jpg", "composite": {"src": "../runs/grid_composite_v2ow_p009xg002_s154/result.png", "det": 0.738, "gate": 0.713, "paste": false, "cands": 1}, "arms": {}}, {"pair": "p010xg001", "garment": "Logo tee", "person": "../../test_set/people/p010.jpg", "garment_img": "../../test_set/garments/g001.jpg", "composite": {"src": "../runs/grid_composite_v2ow_p010xg001_s155/result.png", "det": 0.661, "gate": 0.447, "paste": false, "cands": 3}, "arms": {}}, {"pair": "p011xg028", "garment": "Striped shirt", "person": "../../test_set/people/p011.jpg", "garment_img": "../../test_set/garments/g028.jpg", "composite": {"src": "../runs/grid_composite_v2ow_p011xg028_s156/result.png", "det": 0.893, "gate": 0.813, "paste": true, "cands": 1}, "arms": {}}, {"pair": "p012xg007", "garment": "Polka-dot blouse", "person": "../../test_set/people/p012.jpg", "garment_img": "../../test_set/garments/g007.jpg", "composite": {"src": "../runs/grid_composite_v2ow_p012xg007_s157/result.png", "det": 0.801, "gate": 0.636, "paste": true, "cands": 1}, "arms": {}}, {"pair": "p013xg004", "garment": "Fitted knit", "person": "../../test_set/people/p013.jpg", "garment_img": "../../test_set/garments/g004.jpg", "composite": {"src": "../runs/grid_composite_v2ow_p013xg004_s152/result.png", "det": 0.599, "gate": 0.721, "paste": false, "cands": 1}, "arms": {}}];
+const RIGHT=["qwen_2511", "klein_4b_edit", "fashn_v15", "firered_edit"];
+const LBL={"qwen_2511": "Qwen 2511 (baseline)", "klein_4b_edit": "FLUX.2 klein 4B", "fashn_v15": "FASHN v1.5", "firered_edit": "FireRed v1.1", "composite_v2ow": "Composite (proposed)"};let P=0,R=0;
+const tabs=document.getElementById("tabs"),pairs=document.getElementById("pairs");
+RIGHT.forEach((a,i)=>{const b=document.createElement("button");b.textContent=(i+1)+". "+LBL[a];
+b.onclick=()=>{R=i;render()};tabs.appendChild(b)});
+DATA.forEach((d,i)=>{const b=document.createElement("button");b.textContent=d.garment;
+b.onclick=()=>{P=i;render()};pairs.appendChild(b)});
+function compsc(c){let s=["deterministic "+(c.det==null?"n/a":c.det.toFixed(3))];
+s.push("gate "+(c.gate==null?"no face":c.gate.toFixed(3)));
+s.push(c.paste?"face pasted":"paste skipped");
+if(c.cands>1)s.push(c.cands+" candidates");return s.join(" · ")}
+function render(){const d=DATA[P],ra=RIGHT[R],ro=d.arms[ra];
+document.getElementById("pairname").textContent=d.garment;
+document.getElementById("pairid").textContent=d.pair;
+[["pi","pl",d.person],["gi","gl",d.garment_img],["ci","cl",d.composite.src]]
+.forEach(([im,ln,src])=>{document.getElementById(im).src=src;document.getElementById(ln).href=src});
+document.getElementById("cs").textContent=compsc(d.composite);
+document.getElementById("rt").textContent=LBL[ra];
+const w=document.getElementById("rwrap");
+if(ro){w.innerHTML='<a href="'+ro.src+'" target="_blank"><img src="'+ro.src+'"></a>';
+document.getElementById("rs").textContent="deterministic "+(ro.det==null?"n/a":ro.det.toFixed(3))+" (triage)";}
+else{w.innerHTML='<div class="missing">not generated yet — this arm has only run on the '+
+'4 triage pairs; the grid stage for survivors is the next paid step</div>';
+document.getElementById("rs").textContent="";}
+[...tabs.children].forEach((b,i)=>{b.classList.toggle("on",i===R);
+b.disabled=!DATA[P].arms[RIGHT[i]]});
+[...pairs.children].forEach((b,i)=>b.classList.toggle("on",i===P));}
+document.addEventListener("keydown",e=>{
+if(e.key==="ArrowRight"){R=(R+1)%RIGHT.length;render();e.preventDefault()}
+else if(e.key==="ArrowLeft"){R=(R+RIGHT.length-1)%RIGHT.length;render();e.preventDefault()}
+else if(e.key==="ArrowDown"){P=(P+1)%DATA.length;render();e.preventDefault()}
+else if(e.key==="ArrowUp"){P=(P+DATA.length-1)%DATA.length;render();e.preventDefault()}
+else if("1234".includes(e.key)){R=parseInt(e.key)-1;render()}});
+render();
+</script>

@@ -1,0 +1,153 @@
+<!doctype html><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>klein distilled vs base</title><style>
+:root{--bg:#14141d;--card:#1b1b26;--card2:#20202c;--line:#2b2b3a;--ink:#f3f3f7;
+--body:#aab0be;--mut:#868da0;--acc:#928af5;--acc2:#b7b1fa;--ok:rgba(90,200,140,.14);
+--bad:rgba(230,110,110,.12);--okb:rgba(90,200,140,.65);--badb:rgba(230,110,110,.6)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--body);
+font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.wrap{max-width:1600px;margin:0 auto;padding:30px 28px 60px}
+h1{font-size:29px;margin:2px 0 6px;color:var(--ink);font-weight:700;letter-spacing:-.4px}
+h2{font-size:19px;margin:34px 0 8px;color:var(--ink);font-weight:700}
+.kick{color:var(--mut);font-size:13.5px}p{max-width:1000px}b{color:var(--ink)}
+.mut{color:var(--mut);font-size:12.5px}
+table{border-collapse:collapse;margin:10px 0;width:100%;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--line);padding:6px 9px;font-size:12.5px;text-align:right}
+th{color:var(--mut);font-weight:600;text-transform:uppercase;font-size:10.5px;letter-spacing:.5px}
+td.n,th:first-child{text-align:left}td.n{color:var(--ink);font-weight:600;white-space:nowrap}
+tr.win td{background:var(--ok)}tr.fail td{background:var(--bad)}
+.tw{overflow-x:auto}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0 4px}
+@media(max-width:1100px){.meta{grid-template-columns:1fr}}
+.mcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.mh{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+color:var(--acc);margin-bottom:6px}
+.mt{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.mc{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--mut);margin-bottom:8px}
+.mp{font-size:12.5px;color:var(--mut);margin:8px 0 0}
+.warn{background:rgba(230,180,90,.10);border:1px solid rgba(230,180,90,.45);
+border-radius:10px;padding:12px 16px;margin:16px 0;font-size:13px;color:#e8c98a;max-width:1000px}
+#v{margin:14px 0 0;background:var(--card);border:1px solid var(--line);border-radius:12px;
+padding:14px 18px 18px;position:sticky;top:0;z-index:5}
+.vbar{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;margin-bottom:10px}
+.vlabel{font-size:20px;font-weight:700;color:var(--ink);letter-spacing:-.2px}
+.vlabel.before{color:var(--acc2)}
+.pill{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+padding:2px 8px;border-radius:99px}
+.pill.pass{background:var(--ok);color:#7fe3ac;border:1px solid var(--okb)}
+.vsub{color:var(--mut);font-size:13px;font-variant-numeric:tabular-nums}
+.vpos{margin-left:auto;color:var(--mut);font-size:12.5px;font-family:ui-monospace,Menlo,monospace}
+#stage{background:#0d0d14;border-radius:10px;display:flex;align-items:center;
+justify-content:center;overflow:auto;height:74vh;min-height:420px}
+#stage img{display:block;max-width:100%;max-height:74vh;object-fit:contain;cursor:zoom-in}
+#stage.zoom{align-items:flex-start;justify-content:flex-start}
+#stage.zoom img{max-width:none;max-height:none;cursor:zoom-out}
+.keys{margin-top:10px;color:var(--mut);font-size:12.5px}
+kbd{background:var(--card2);border:1px solid var(--line);border-bottom-width:2px;
+border-radius:4px;padding:1px 6px;font-size:11.5px;color:var(--body)}
+.strip{display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding-bottom:4px}
+.strip figure{margin:0;flex:0 0 auto;width:104px;text-align:center;cursor:pointer;opacity:.5}
+.strip figure.on{opacity:1}
+.strip img{width:100%;height:104px;object-fit:cover;border-radius:6px;
+border:2px solid transparent;background:var(--card2);display:block}
+.strip figure.on img{border-color:var(--acc)}
+.strip figure.winner img{border-color:var(--okb)}
+.strip figcaption{font-size:10px;color:var(--mut);margin-top:4px;line-height:1.3;
+overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pairs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.pairs button{border:1px solid var(--line);background:var(--card2);color:var(--body);
+border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer;
+font-family:ui-monospace,Menlo,monospace}
+.pairs button.on{background:var(--acc);color:#14141d;border-color:var(--acc);font-weight:700}
+footer{margin:40px 0 8px;padding-top:14px;border-top:1px solid var(--line);
+color:var(--mut);font-size:12.5px}
+</style><div class="wrap">
+<div class="kick">Virtual try-on V2 — which klein?</div>
+<h1>klein 4B: distilled vs base</h1>
+<div class="meta">
+<div class="mcard"><div class="mh">Variant A — currently shipped in every V2 number</div>
+<div class="mt">klein 4B distilled</div>
+<div class="mc">fal-ai/flux-2/klein/4b/distilled/edit</div>
+<p class="mp">Apache 2.0, ~4 steps, sub-second. <b>No negative prompt and no
+guidance exposed</b>, and distillation brings low seed diversity plus the known
+flake (one solid-black frame in 16 triage runs). Every "klein" figure in
+V2.0/V2.1 is this variant.</p></div>
+<div class="mcard"><div class="mh">Variant B — the undistilled sibling</div>
+<div class="mt">klein 4B base</div>
+<div class="mc">fal-ai/flux-2/klein/4b/base/edit</div>
+<p class="mp">Same Apache 2.0 family, true CFG and <b>negative prompts</b>.
+Ran the full 13-pair matrix with a negative prompt of
+<i>"different person, changed face, changed background, extra limbs, deformed
+hands"</i>.</p></div>
+</div>
+<div class="warn"><b>Read the comparison this way.</b> Base ran <i>with</i> a
+negative prompt; distilled cannot accept one. This is therefore a
+variant-plus-prompt comparison, not a clean variant-only one — some of base's
+identity and scene advantage may come from the negative prompt rather than the
+checkpoint. An isolation run (base without the negative prompt) is required
+before attributing the difference.</div>
+<div id="v">
+<div class="vbar"><span class="vlabel" id="vl"></span><span id="vp"></span>
+<span class="vsub" id="vs"></span><span class="vpos" id="vpos"></span></div>
+<div id="stage"><img id="vi"></div>
+<div class="keys"><kbd>&larr;</kbd><kbd>&rarr;</kbd> person, garment, distilled, base &middot;
+<kbd>&uarr;</kbd><kbd>&darr;</kbd> next pair (ordered worst-for-base first) &middot;
+<kbd>B</kbd> hold to flip back to the person &middot; <kbd>Z</kbd> or click to zoom 1:1 &middot;
+<kbd>O</kbd> open full size</div>
+<div class="strip" id="strip"></div>
+<div class="pairs" id="pairs"></div>
+</div>
+<h2>Overall — 13 pairs each</h2>
+<div class="tw"><table><tr><th>variant</th><th>VLM fidelity</th><th>VLM realism</th><th>garment</th><th>identity</th><th>scene</th><th>clean</th><th>hands</th><th>realism</th><th>garment sim</th><th>id cos</th><th>bg psnr</th><th>det score</th></tr>
+<tr><td class='n'>klein 4B distilled</td><td>4.410</td><td>4.026</td><td>4.077</td><td>4.462</td><td>4.692</td><td>3.923</td><td>4.154</td><td>4.000</td><td>0.802</td><td>0.903</td><td>22.907</td><td>0.811</td></tr><tr><td class='n'>klein 4B base</td><td>4.410</td><td>4.077</td><td>3.538</td><td>4.692</td><td>5.000</td><td>4.000</td><td>4.231</td><td>4.000</td><td>0.772</td><td>0.922</td><td>25.089</td><td>0.796</td></tr></table></div>
+<p class="mut">They tie exactly on VLM fidelity (4.410). Distilled wins garment
+transfer and the deterministic composite; base wins identity, scene and realism.</p>
+<h2>By pair kind</h2>
+<div class="tw"><table><tr><th>kind</th><th>variant</th><th>VLM fidelity</th>
+<th>VLM realism</th><th>garment</th><th>identity</th><th>scene</th></tr>
+<tr class='win'><td class='n'>garment only</td><td class='n'>klein 4B distilled</td><td>4.67</td><td>4.22</td><td>4.17</td><td>4.83</td><td>5.00</td></tr><tr><td class='n'>garment only</td><td class='n'>klein 4B base</td><td>4.50</td><td>4.17</td><td>3.67</td><td>4.83</td><td>5.00</td></tr><tr class='win'><td class='n'>garment + human (lookbook)</td><td class='n'>klein 4B distilled</td><td>4.42</td><td>3.92</td><td>4.00</td><td>4.25</td><td>5.00</td></tr><tr class='win'><td class='n'>garment + human (lookbook)</td><td class='n'>klein 4B base</td><td>4.42</td><td>3.75</td><td>3.75</td><td>4.50</td><td>5.00</td></tr><tr><td class='n'>garment + human (swap)</td><td class='n'>klein 4B distilled</td><td>3.89</td><td>3.78</td><td>4.00</td><td>4.00</td><td>3.67</td></tr><tr class='win'><td class='n'>garment + human (swap)</td><td class='n'>klein 4B base</td><td>4.22</td><td>4.33</td><td>3.00</td><td>4.67</td><td>5.00</td></tr></table></div>
+<h2>Per pair — where the tie comes from</h2>
+<div class="tw"><table><tr><th>pair</th><th>kind</th><th>distilled</th><th>base</th>
+<th>delta (base &minus; distilled)</th></tr><tr class='fail'><td class='n'>ts2_04</td><td class='n'>garment only</td><td>5.00</td><td>4.33</td><td><b>-0.67</b></td></tr><tr class='fail'><td class='n'>ts2_11</td><td class='n'>garment + human (swap)</td><td>4.67</td><td>4.00</td><td><b>-0.67</b></td></tr><tr class='fail'><td class='n'>ts2_06</td><td class='n'>garment only</td><td>4.67</td><td>4.33</td><td><b>-0.33</b></td></tr><tr class='fail'><td class='n'>ts2_07</td><td class='n'>garment + human (lookbook)</td><td>4.33</td><td>4.00</td><td><b>-0.33</b></td></tr><tr class='fail'><td class='n'>ts2_13</td><td class='n'>garment + human (swap)</td><td>4.33</td><td>4.00</td><td><b>-0.33</b></td></tr><tr class=''><td class='n'>ts2_01</td><td class='n'>garment only</td><td>4.33</td><td>4.33</td><td><b>+0.00</b></td></tr><tr class=''><td class='n'>ts2_02</td><td class='n'>garment only</td><td>4.67</td><td>4.67</td><td><b>+0.00</b></td></tr><tr class=''><td class='n'>ts2_03</td><td class='n'>garment only</td><td>4.67</td><td>4.67</td><td><b>+0.00</b></td></tr><tr class=''><td class='n'>ts2_05</td><td class='n'>garment only</td><td>4.67</td><td>4.67</td><td><b>+0.00</b></td></tr><tr class=''><td class='n'>ts2_08</td><td class='n'>garment + human (lookbook)</td><td>4.33</td><td>4.33</td><td><b>+0.00</b></td></tr><tr class=''><td class='n'>ts2_10</td><td class='n'>garment + human (lookbook)</td><td>4.67</td><td>4.67</td><td><b>+0.00</b></td></tr><tr class='win'><td class='n'>ts2_09</td><td class='n'>garment + human (lookbook)</td><td>4.33</td><td>4.67</td><td><b>+0.33</b></td></tr><tr class='win'><td class='n'>ts2_12</td><td class='n'>garment + human (swap)</td><td>2.67</td><td>4.67</td><td><b>+2.00</b></td></tr></table></div>
+<p class="mut">The mean hides the shape: base is slightly worse on five pairs,
+identical on six, and <b>+2.00 on ts2_12</b> — the pair where distilled collapsed
+(fidelity 2.67; it is also v2.3's worst known-bad fixture, VLM clean 2 / scene 1 /
+realism 2). One catastrophic distilled output is doing all the work in an
+otherwise mild loss. That is the distillation flake showing up in the aggregate,
+and it is the single strongest argument for base.</p>
+<footer>Generated by v2/build/make_klein_page.py from v2/runs/ts2/. Both variants
+are Apache 2.0 and self-hostable; all numbers are fal numbers pending parity.</footer>
+</div>
+<script>
+const SETS=[{"pair": "ts2_04 \u00b7 garment only \u00b7 distilled +0.67", "items": [{"label": "PERSON (image 1)", "src": "../runs/ts2/inputs/dualuse_man_black_suit_studio_nonceleb.jpg", "sub": "garment only", "tag": null}, {"label": "GARMENT REF (image 2)", "src": "../runs/ts2/inputs/clothesonly_ts1g001_graphic_logo_tee.jpg", "sub": "target: the graphic logo t-shirt", "tag": null}, {"label": "klein 4B distilled", "src": "../runs/ts2/outputs/klein_4b_edit__ts2_04.png", "sub": "fidelity 5.00 \u00b7 realism 4.67 \u00b7 garment 5 \u00b7 identity 5 \u00b7 scene 5 \u00b7 det 0.876 \u00b7 id 0.938", "tag": true}, {"label": "klein 4B base", "src": "../runs/ts2/outputs/klein_4b_base_edit__ts2_04.png", "sub": "fidelity 4.33 \u00b7 realism 4.00 \u00b7 garment 4 \u00b7 identity 4 \u00b7 scene 5 \u00b7 det 0.845 \u00b7 id 0.951", "tag": false}]}, {"pair": "ts2_11 \u00b7 garment + human (swap) \u00b7 distilled +0.67", "items": [{"label": "PERSON (image 1)", "src": "../runs/ts2/inputs/dualuse_emma_watson_black_blazer_armscrossed.jpg", "sub": "garment + human (swap)", "tag": null}, {"label": "GARMENT REF (image 2)", "src": "../runs/ts2/inputs/dualuse_man_black_suit_studio_nonceleb.jpg", "sub": "target: the black suit", "tag": null}, {"label": "klein 4B distilled", "src": "../runs/ts2/outputs/klein_4b_edit__ts2_11.png", "sub": "fidelity 4.67 \u00b7 realism 5.00 \u00b7 garment 4 \u00b7 identity 5 \u00b7 scene 5 \u00b7 det 0.804 \u00b7 id 0.948", "tag": true}, {"label": "klein 4B base", "src": "../runs/ts2/outputs/klein_4b_base_edit__ts2_11.png", "sub": "fidelity 4.00 \u00b7 realism 5.00 \u00b7 garment 2 \u00b7 identity 5 \u00b7 scene 5 \u00b7 det 0.638 \u00b7 id 0.959", "tag": false}]}, {"pair": "ts2_06 \u00b7 garment only \u00b7 distilled +0.33", "items": [{"label": "PERSON (image 1)", "src": "../runs/ts2/inputs/dualuse_scarlett_johansson_black_dress_backview_night.jpg", "sub": "garment only", "tag": null}, {"label": "GARMENT REF (image 2)", "src": "../runs/ts2/inputs/clothesonly_ts1g010_plain_tee_ghost.jpg", "sub": "target: the plain t-shirt", "tag": null}, {"label": "klein 4B distilled", "src": "../runs/ts2/outputs/klein_4b_edit__ts2_06.png", "sub": "fidelity 4.67 \u00b7 realism 4.33 \u00b7 garment 4 \u00b7 identity 5 \u00b7 scene 5 \u00b7 det 0.847 \u00b7 id 0.815", "tag": true}, {"label": "klein 4B base", "src": "../runs/ts2/outputs/klein_4b_base_edit__ts2_06.png", "sub": "fidelity 4.33 \u00b7 realism 4.00 \u00b7 garment 3 \u00b7 identity 5 \u00b7 scene 5 \u00b7 det 0.813 \u00b7 id 0.942", "tag": false}]}, {"pair": "ts2_07 \u00b7 garment + human (lookbook) \u00b7 distilled +0.33", "items": [{"label": "PERSON (image 1)", "src": "../runs/ts2/inputs/dualuse_gal_gadot_blue_dress_redcarpet.jpg", "sub": "garment + human (lookbook)", "tag": null}, {"label": "GARMENT REF (image 2)", "src": "../runs/ts2/inputs/dualuse_lp_beige_long_coat_menswear.jpg", "sub": "target: the long beige coat", "tag": null}, {"label": "klein 4B distilled", "src": "../runs/ts2/outputs/klein_4b_edit__ts2_07.png", "sub": "fidelity 4.33 \u00b7 realism 3.67 \u00b7 garment 4 \u00b7 identity 4 \u00b7 scene 5 \u00b7 det 0.831 \u00b7 id 0.907", "tag": true}, {"label": "klein 4B base", "src": "../runs/ts2/outputs/klein_4b_base_edit__ts2_07.png", "sub": "fidelity 4.00 \u00b7 realism 3.33 \u00b7 garment 3 \u00b7 identity 4 \u00b7 scene 5 \u00b7 det 0.697 \u00b7 id 0.923", "tag": false}]}, {"pair": "ts2_13 \u00b7 garment + human (swap) \u00b7 distilled +0.33", "items": [{"label": "PERSON (image 1)", "src": "../runs/ts2/inputs/dualuse_woman_top_denim_skirt_nonceleb.jpg", "sub": "garment + human (swap)", "tag": null}, {"label": "GARMENT REF (image 2)", "src": "../runs/ts2/inputs/dualuse_gal_gadot_blue_dress_redcarpet.jpg", "sub": "target: the blue floor-length gown", "tag": null}, {"label": "klein 4B distilled", "src": "../runs/ts2/outputs/klein_4b_edit__ts2_13.png", "sub": "fidelity 4.33 \u00b7 realism 4.00 \u00b7 garment 4 \u00b7 identity 4 \u00b7 scene 5 \u00b7 det 0.883 \u00b7 id 0.933", "tag": true}, {"label": "klein 4B base", "src": "../runs/ts2/outputs/klein_4b_base_edit__ts2_13.png", "sub": "fidelity 4.00 \u00b7 realism 4.00 \u00b7 garment 3 \u00b7 identity 4 \u00b7 scene 5 \u00b7 det 0.713 \u00b7 id 0.916", "tag": false}]}, {"pair": "ts2_01 \u00b7 garment only \u00b7 tie", "items": [{"label": "PERSON (image 1)", "src": "../runs/ts2/inputs/dualuse_emma_watson_black_blazer_armscrossed.jpg", "sub": "garment only", "tag": null}, {"label": "GARMENT REF (image 2)", "src": "../runs/ts2/inputs/clothesonly_ts1g026_metallica_text_tee_flat.jpg", "sub": "target: the black text-print t-shirt", "tag": null}, {"label": "klein 4B distilled", "src": "../runs/ts2/outputs/klein_4b_edit__ts2_01.png", "sub": "fidelity 4.33 \u00b7 realism 4.00 \u00b7 garment 4 \u00b7 identity 4 \u00b7 scene 5 \u00b7 det 0.854 \u00b7 id 0.942", "tag": false}, {"label": "klein 4B base", "src": "../runs/ts2/outputs/klein_4b_base_edit__ts2_01.png", "sub": "fidelity 4.33 \u00b7 realism 4.00 \u00b7 garment 3 \u00b7 identity 5 \u00b7 scene 5 \u00b7 det 0.805 \u00b7 id 0.951", "tag": false}]}, {"pair": "ts2_02 \u00b7 garment only \u00b7 tie", "items": [{"label": "PERSON (image 1)", "src": "../runs/ts2/inputs/dualuse_hugh_jackman_grey_suit_outdoor.jpg", "sub": "garment only", "tag": null}, {"label": "GARMENT REF (image 2)", "src": "../runs/ts2/inputs/clothesonly_ts1g008_plaid_flannel.jpg", "sub": "target: the plaid flannel shirt", "tag": null}, {"label": "klein 4B distilled", "src": "../runs/ts2/outputs/klein_4b_edit__ts2_02.png", "sub": "fidelity 4.67 \u00b7 realism 4.00 \u00b7 garment 4 \u00b7 identity 5 \u00b7 scene 5 \u00b7 det 0.807 \u00b7 id 0.915", "tag": false}, {"label": "klein 4B base", "src": "../runs/ts2/outputs/klein_4b_base_edit__ts2_02.png", "sub": "fidelity 4.67 \u00b7 realism 4.33 \u00b7 garment 4 \u00b7 identity 5 \u00b7 scene 5 \u00b7 det 0.808 \u00b7 id 0.857", "tag": false}]}, {"pair": "ts2_03 \u00b7 garment only \u00b7 tie", "items": [{"label": "PERSON (image 1)", "src": "../runs/ts2/inputs/dualuse_woman_top_denim_skirt_nonceleb.jpg", "sub": "garment only", "tag": null}, {"label": "GARMENT REF (image 2)", "src": "../runs/ts2/inputs/clothesonly_ts1g023_plaid_mini_skirt_flat.jpg", "sub": "target: the plaid mini skirt", "tag": null}, {"label": "klein 4B distilled", "src": "../runs/ts2/outputs/klein_4b_edit__ts2_03.png", "sub": "fidelity 4.67 \u00b7 realism 4.33 \u00b7 garment 4 \u00b7 identity 5 \u00b7 scene 5 \u00b7 det 0.822 \u00b7 id 0.953", "tag": false}, {"label": "klein 4B base", "src": "../runs/ts2/outputs/klein_4b_base_edit__ts2_03.png", "sub": "fidelity 4.67 \u00b7 realism 4.33 \u00b7 garment 4 \u00b7 identity 5 \u00b7 scene 5 \u00b7 det 0.908 \u00b7 id 0.961", "tag": false}]}, {"pair": "ts2_05 \u00b7 garment only \u00b7 tie", "items": [{"label": "PERSON (image 1)", "src": "../runs/ts2/inputs/dualuse_zendaya_white_blazer_skirt.jpg", "sub": "garment only", "tag": null}, {"label": "GARMENT REF (image 2)", "src": "../runs/ts2/inputs/clothesonly_ts1g028_fine_stripe_shirt_ghost.jpg", "sub": "target: the fine-striped shirt", "tag": null}, {"label": "klein 4B distilled", "src": "../runs/ts2/outputs/klein_4b_edit__ts2_05.png", "sub": "fidelity 4.67 \u00b7 realism 4.00 \u00b7 garment 4 \u00b7 identity 5 \u00b7 scene 5 \u00b7 det 0.834 \u00b7 id 0.934", "tag": false}, {"label": "klein 4B base", "src": "../runs/ts2/outputs/klein_4b_base_edit__ts2_05.png", "sub": "fidelity 4.67 \u00b7 realism 4.33 \u00b7 garment 4 \u00b7 identity 5 \u00b7 scene 5 \u00b7 det 0.771 \u00b7 id 0.914", "tag": false}]}, {"pair": "ts2_08 \u00b7 garment + human (lookbook) \u00b7 tie", "items": [{"label": "PERSON (image 1)", "src": "../runs/ts2/inputs/dualuse_queen_latifah_gown_stage.jpg", "sub": "garment + human (lookbook)", "tag": null}, {"label": "GARMENT REF (image 2)", "src": "../runs/ts2/inputs/dualuse_navy_peacoat_onmodel.jpg", "sub": "target: the navy peacoat", "tag": null}, {"label": "klein 4B distilled", "src": "../runs/ts2/outputs/klein_4b_edit__ts2_08.png", "sub": "fidelity 4.33 \u00b7 realism 4.00 \u00b7 garment 4 \u00b7 identity 4 \u00b7 scene 5 \u00b7 det 0.659 \u00b7 id 0.908", "tag": false}, {"label": "klein 4B base", "src": "../runs/ts2/outputs/klein_4b_base_edit__ts2_08.png", "sub": "fidelity 4.33 \u00b7 realism 3.67 \u00b7 garment 4 \u00b7 identity 4 \u00b7 scene 5 \u00b7 det 0.773 \u00b7 id 0.938", "tag": false}]}, {"pair": "ts2_10 \u00b7 garment + human (lookbook) \u00b7 tie", "items": [{"label": "PERSON (image 1)", "src": "../runs/ts2/inputs/dualuse_zendaya_white_blazer_skirt.jpg", "sub": "garment + human (lookbook)", "tag": null}, {"label": "GARMENT REF (image 2)", "src": "../runs/ts2/inputs/dualuse_lp_floral_kimono_set.jpg", "sub": "target: the floral kimono outfit", "tag": null}, {"label": "klein 4B distilled", "src": "../runs/ts2/outputs/klein_4b_edit__ts2_10.png", "sub": "fidelity 4.67 \u00b7 realism 4.00 \u00b7 garment 4 \u00b7 identity 5 \u00b7 scene 5 \u00b7 det 0.725 \u00b7 id 0.872", "tag": false}, {"label": "klein 4B base", "src": "../runs/ts2/outputs/klein_4b_base_edit__ts2_10.png", "sub": "fidelity 4.67 \u00b7 realism 4.00 \u00b7 garment 4 \u00b7 identity 5 \u00b7 scene 5 \u00b7 det 0.774 \u00b7 id 0.869", "tag": false}]}, {"pair": "ts2_09 \u00b7 garment + human (lookbook) \u00b7 base +0.33", "items": [{"label": "PERSON (image 1)", "src": "../runs/ts2/inputs/dualuse_hugh_jackman_grey_suit_outdoor.jpg", "sub": "garment + human (lookbook)", "tag": null}, {"label": "GARMENT REF (image 2)", "src": "../runs/ts2/inputs/dualuse_lp_plaid_overcoat_brown_suit.jpg", "sub": "target: the brown plaid overcoat", "tag": null}, {"label": "klein 4B distilled", "src": "../runs/ts2/outputs/klein_4b_edit__ts2_09.png", "sub": "fidelity 4.33 \u00b7 realism 4.00 \u00b7 garment 4 \u00b7 identity 4 \u00b7 scene 5 \u00b7 det 0.865 \u00b7 id 0.887", "tag": false}, {"label": "klein 4B base", "src": "../runs/ts2/outputs/klein_4b_base_edit__ts2_09.png", "sub": "fidelity 4.67 \u00b7 realism 4.00 \u00b7 garment 4 \u00b7 identity 5 \u00b7 scene 5 \u00b7 det 0.864 \u00b7 id 0.866", "tag": true}]}, {"pair": "ts2_12 \u00b7 garment + human (swap) \u00b7 base +2.00", "items": [{"label": "PERSON (image 1)", "src": "../runs/ts2/inputs/dualuse_man_black_suit_studio_nonceleb.jpg", "sub": "garment + human (swap)", "tag": null}, {"label": "GARMENT REF (image 2)", "src": "../runs/ts2/inputs/dualuse_hugh_jackman_grey_suit_outdoor.jpg", "sub": "target: the grey suit", "tag": null}, {"label": "klein 4B distilled", "src": "../runs/ts2/outputs/klein_4b_edit__ts2_12.png", "sub": "fidelity 2.67 \u00b7 realism 2.33 \u00b7 garment 4 \u00b7 identity 3 \u00b7 scene 1 \u00b7 det 0.736 \u00b7 id 0.786", "tag": false}, {"label": "klein 4B base", "src": "../runs/ts2/outputs/klein_4b_base_edit__ts2_12.png", "sub": "fidelity 4.67 \u00b7 realism 4.00 \u00b7 garment 4 \u00b7 identity 5 \u00b7 scene 5 \u00b7 det 0.941 \u00b7 id 0.938", "tag": true}]}];
+let S=0,I=0,ZOOM=false,PEEK=false;
+const el=id=>document.getElementById(id);
+const strip=el("strip"),pairs=el("pairs");
+SETS.forEach((s,i)=>{const b=document.createElement("button");b.textContent=s.pair;
+b.onclick=()=>{S=i;I=0;build();render()};pairs.appendChild(b)});
+function build(){strip.innerHTML="";SETS[S].items.forEach((it,i)=>{
+const f=document.createElement("figure");f.className=(it.tag===true?"winner":"");
+f.innerHTML='<img src="'+it.src+'"><figcaption>'+it.label+'</figcaption>';
+f.onclick=()=>{I=i;render()};strip.appendChild(f)})}
+function render(){const set=SETS[S];const it=set.items[PEEK?0:I];
+el("vi").src=it.src;
+el("vl").textContent=it.label;el("vl").className="vlabel"+((I<2||PEEK)?" before":"");
+el("vs").textContent=it.sub;
+el("vp").innerHTML=it.tag===true?'<span class="pill pass">wins this pair</span>':"";
+el("vpos").textContent=set.pair+"   "+(I+1)+"/"+set.items.length+
+"   set "+(S+1)+"/"+SETS.length+(PEEK?"   [PERSON]":"");
+[...strip.children].forEach((c,i)=>c.classList.toggle("on",i===I));
+[...pairs.children].forEach((c,i)=>c.classList.toggle("on",i===S));
+const nx=SETS[(S+1)%SETS.length];nx.items.forEach(x=>{(new Image()).src=x.src});}
+el("stage").onclick=()=>{ZOOM=!ZOOM;el("stage").classList.toggle("zoom",ZOOM)};
+document.addEventListener("keydown",e=>{const n=SETS[S].items.length;
+if(e.key==="ArrowRight"){I=(I+1)%n;render();e.preventDefault()}
+else if(e.key==="ArrowLeft"){I=(I+n-1)%n;render();e.preventDefault()}
+else if(e.key==="ArrowDown"){S=(S+1)%SETS.length;I=0;build();render();e.preventDefault()}
+else if(e.key==="ArrowUp"){S=(S+SETS.length-1)%SETS.length;I=0;build();render();e.preventDefault()}
+else if(e.key==="b"||e.key==="B"){if(!PEEK){PEEK=true;render()}}
+else if(e.key==="z"||e.key==="Z"){ZOOM=!ZOOM;el("stage").classList.toggle("zoom",ZOOM)}
+else if(e.key==="o"||e.key==="O"){window.open(SETS[S].items[I].src,"_blank")}});
+document.addEventListener("keyup",e=>{if((e.key==="b"||e.key==="B")&&PEEK){PEEK=false;render()}});
+build();render();
+</script>

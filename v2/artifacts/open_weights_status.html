@@ -1,0 +1,247 @@
+<!doctype html><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Open-Weights Coverage — V2</title><style>
+:root{--bg:#14141d;--card:#1b1b26;--card2:#20202c;--line:#2b2b3a;--ink:#f3f3f7;
+--body:#aab0be;--mut:#868da0;--acc:#928af5;--acc2:#b7b1fa;
+--ok:rgba(90,200,140,.14);--okb:rgba(90,200,140,.65);--okt:#7fe3ac;
+--bad:rgba(230,110,110,.12);--badb:rgba(230,110,110,.6);--badt:#ff9d9d;
+--warn:rgba(230,180,90,.13);--warnb:rgba(230,180,90,.55);--warnt:#f0c987}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--body);
+font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.wrap{max-width:1160px;margin:0 auto;padding:44px 28px 60px}
+h1{font-size:30px;margin:2px 0 6px;color:var(--ink);font-weight:700;letter-spacing:-.4px}
+h2{font-size:19px;margin:40px 0 8px;color:var(--ink);font-weight:700}
+h3{font-size:14px;margin:26px 0 6px;color:var(--ink);font-weight:700}
+.kick{color:var(--mut);font-size:13.5px}
+p{max-width:900px}.mut{color:var(--mut);font-size:12.5px}b{color:var(--ink)}
+a{color:var(--acc2)}
+code{background:var(--card2);border:1px solid var(--line);border-radius:4px;
+padding:1px 5px;font-size:12px;color:var(--acc2)}
+.lede{background:var(--card);border:1px solid var(--line);border-radius:12px;
+padding:18px 20px;margin:20px 0 0}
+.lede p{margin:0 0 10px}.lede p:last-child{margin:0}
+table{border-collapse:collapse;margin:10px 0;width:100%;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--line);padding:7px 10px;font-size:12.5px;
+text-align:left;vertical-align:top}
+th{color:var(--mut);font-weight:600;text-transform:uppercase;font-size:10.5px;
+letter-spacing:.5px;white-space:nowrap}
+td.n{color:var(--ink);font-weight:600;white-space:nowrap}
+td.num,th.num{text-align:right;white-space:nowrap}
+tr.lead td{background:rgba(146,138,245,.06)}
+.tw{overflow-x:auto}
+.pill{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.06em;
+text-transform:uppercase;padding:2px 7px;border-radius:99px;white-space:nowrap;
+background:var(--card2);border:1px solid var(--line);color:var(--body)}
+.pill.ok{background:var(--ok);border-color:var(--okb);color:var(--okt)}
+.pill.bad{background:var(--bad);border-color:var(--badb);color:var(--badt)}
+.pill.warn{background:var(--warn);border-color:var(--warnb);color:var(--warnt)}
+.pill.acc{background:rgba(146,138,245,.14);border-color:var(--acc);color:var(--acc2)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0 0}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.mcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.mh{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+color:var(--acc);margin-bottom:6px}
+.mt{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.mp{font-size:12.5px;color:var(--mut);margin:6px 0 0;max-width:none}
+ol,ul{max-width:900px}li{margin:6px 0}
+footer{margin:44px 0 8px;padding-top:14px;border-top:1px solid var(--line);
+color:var(--mut);font-size:12.5px}
+</style><div class="wrap">
+<div class="kick">Virtual Try-On — V2 (open weights only)</div>
+<h1>Open-Weights Coverage</h1>
+<p class="mut">What has been tested through a hosted endpoint, what still requires
+downloaded weights, and what it costs to close the gap. Generated 2026-08-14.</p>
+
+<div class="lede">
+<p><b>Short answer: everything measured so far ran on fal. Nothing has yet been run
+on downloaded weights.</b> fal is used here as a serving substrate for
+open-weights checkpoints, never as a model source — but that means every number
+in the V2 scoreboard is still <b>directional, not final</b>, because the parity
+rule requires reproducing it on self-hosted weights.</p>
+<p>Of the four models previously listed as self-host only, one
+(<b>HiDream-O1-Image</b>) turned out to have gained a fal endpoint and was tested
+immediately — and eliminated. The other three, plus the highest-priority
+auxiliary test, genuinely have no hosted path and are still unrun.</p>
+</div>
+
+<h2>Coverage by model</h2>
+<div class="tw"><table>
+<tr><th>Model</th><th>Licence</th><th>Access path</th><th>Status</th><th>What it still needs</th></tr>
+
+<tr class="lead"><td class="n">FLUX.2 klein 4B</td><td>Apache 2.0</td>
+<td><code>fal-ai/flux-2/klein/4b/distilled/edit</code></td>
+<td><span class="pill acc">chosen base</span></td>
+<td>Parity re-run on downloaded weights (~13GB, T4-feasible at fp8)</td></tr>
+
+<tr><td class="n">FLUX.2 klein 4B <b>base</b> (undistilled)</td><td>Apache 2.0</td>
+<td><code>fal-ai/flux-2/klein/4b/base/edit</code><br><span class="mut">tested 2026-08-15, $0.009/MP</span></td>
+<td><span class="pill ok">tested</span></td>
+<td>Ties distilled on fidelity, wins identity + background, loses garment.
+Same ~13GB weights — the checkpoint BFL recommends for LoRA training</td></tr>
+
+<tr><td class="n">FASHN VTON v1.5</td><td>Apache 2.0</td>
+<td><code>fal-ai/fashn/tryon/v1.5</code></td>
+<td><span class="pill ok">tested</span> fallback</td>
+<td>Parity run if promoted (~2GB, T4; vendor repo, no diffusers pipeline)</td></tr>
+
+<tr><td class="n">Qwen-Image-Edit-2511</td><td>Apache 2.0</td>
+<td><code>fal-ai/qwen-image-edit-2511</code></td>
+<td><span class="pill">baseline</span></td>
+<td>Parity only if it stays in the report (~40GB, A100 + copy to VM disk)</td></tr>
+
+<tr><td class="n">FireRed-Image-Edit v1.1</td><td>Apache 2.0</td>
+<td>fal</td><td><span class="pill bad">eliminated</span></td>
+<td>Nothing — failed garment transfer</td></tr>
+
+<tr><td class="n">HiDream-O1-Image</td><td>MIT</td>
+<td><code>fal-ai/hidream-o1-image/edit</code><br><span class="mut">added 2026-08-14, $0.01/MP</span></td>
+<td><span class="pill bad">eliminated</span></td>
+<td>Nothing as an editing arm — see results below</td></tr>
+
+<tr><td class="n">SeedVR2 (aux)</td><td>Apache 2.0</td>
+<td><code>fal-ai/seedvr/upscale/image</code></td>
+<td><span class="pill ok">aux leader</span></td>
+<td>Parity re-run (3B fp16 ~18GB, FP8 12–24GB)</td></tr>
+
+<tr><td class="n">Z-Image Turbo (aux)</td><td>Apache 2.0</td>
+<td>fal img2img</td><td><span class="pill ok">tested</span></td>
+<td>Nothing — drifts identity at every strength tested</td></tr>
+
+<tr><td class="n">Z-Image <b>Base</b> + PAI tile-CN + UltraReal LoRA</td><td>Apache 2.0</td>
+<td><span class="pill warn">self-host only</span><br><span class="mut">fal serves Base as text-to-image</span></td>
+<td><span class="pill">queued</span></td>
+<td><b>Full run.</b> Highest-priority queued test — the tile-ControlNet variant is
+the direct answer to Z-Image Turbo's identity drift</td></tr>
+
+<tr><td class="n">JoyAI-Image-Edit-<b>Plus</b></td><td>Apache 2.0</td>
+<td><span class="pill warn">self-host only</span><br><span class="mut">fal has <code>joyai-image-edit</code> — the single-image Edit, one <code>image_url</code>, cannot take person + garment</span></td>
+<td><span class="pill">queued</span></td>
+<td><b>Full run.</b> ~24B pipeline, A100-40GB with offload; <code>JoyImageEditPlusPipeline</code>, 1–5 refs</td></tr>
+
+<tr><td class="n">OOTDiffusion</td><td>MIT <span class="mut">(data provenance flag)</span></td>
+<td><span class="pill warn">self-host only</span></td>
+<td><span class="pill">queued</span></td>
+<td>2024 SD1.5 repo + SCHP + OpenPose preprocessing, pinned old deps —
+<b>recommend dropping</b></td></tr>
+
+<tr><td class="n">OrthoTryOn</td><td>Apache 2.0</td>
+<td><span class="pill warn">self-host only</span></td>
+<td><span class="pill">queued</span></td>
+<td>LongCat base 24GB+ and an MMPose/mmcv skeleton stage —
+<b>recommend deferring</b></td></tr>
+
+<tr><td class="n">IDM-VTON</td><td>CC BY-NC-SA</td>
+<td>Replicate</td><td><span class="pill bad">licence-blocked</span></td>
+<td>Out of the deploy path; eval baseline value only</td></tr>
+</table></div>
+
+<h2>What the one new run showed — HiDream-O1-Image</h2>
+<p>Added as arm <code>hidream_o1_edit</code> and run on all 13 Testset2 pairs
+(~$0.55 fal), then scored deterministically and judged blind by gpt-5.5 alongside
+the three existing arms. Images: <a href="ts2_compare.html">ts2_compare.html</a>.</p>
+
+<div class="tw"><table>
+<tr><th>arm</th><th class="num">VLM fidelity</th><th class="num">VLM realism</th>
+<th class="num">garment</th><th class="num">identity</th><th class="num">scene</th>
+<th class="num">id cos</th><th class="num">bg psnr</th><th class="num">det score</th>
+<th class="num">wrong person</th></tr>
+<tr class="lead"><td class="n">klein_4b_edit</td><td class="num">4.41</td><td class="num">4.03</td>
+<td class="num">4.08</td><td class="num">4.46</td><td class="num">4.69</td>
+<td class="num">0.903</td><td class="num">22.9</td><td class="num">0.811</td><td class="num">0.00</td></tr>
+<tr class="lead"><td class="n">klein_4b_base_edit</td><td class="num">4.41</td><td class="num">4.08</td>
+<td class="num">3.54</td><td class="num">4.69</td><td class="num">5.00</td>
+<td class="num">0.922</td><td class="num">25.1</td><td class="num">0.796</td><td class="num">0.00</td></tr>
+<tr><td class="n">qwen_2511 <span class="mut">(baseline)</span></td><td class="num">4.28</td><td class="num">3.95</td>
+<td class="num">3.77</td><td class="num">4.31</td><td class="num">4.77</td>
+<td class="num">0.784</td><td class="num">20.6</td><td class="num">0.726</td><td class="num">0.00</td></tr>
+<tr><td class="n">fashn_v15</td><td class="num">4.25</td><td class="num">3.83</td>
+<td class="num">3.33</td><td class="num">4.42</td><td class="num">5.00</td>
+<td class="num">0.971</td><td class="num">27.5</td><td class="num">0.835</td><td class="num">0.00</td></tr>
+<tr><td class="n">hidream_o1_edit</td><td class="num">3.62</td><td class="num">4.08</td>
+<td class="num">3.08</td><td class="num">4.15</td><td class="num">3.62</td>
+<td class="num">0.626</td><td class="num">14.1</td><td class="num">0.565</td>
+<td class="num"><span class="pill bad">0.15</span></td></tr>
+</table></div>
+
+<p><b>Eliminated on three distinct failures</b>, not on a thin average:</p>
+<ol>
+<li><b>It re-renders the frame instead of editing it.</b> Scene 3.62 and background
+PSNR 14.1 dB against FASHN's 5.00 / 27.5 dB — visible reframing, and pose
+displacement up to 0.52 where the other arms sit near 0.05.</li>
+<li><b>It no-ops on outerwear.</b> VLM garment 1/5 on three of the four
+<code>duo_lookbook</code> coats — the input outfit is left untouched while the
+person and scene are faithfully preserved.</li>
+<li><b>It is the only arm that substituted the reference's person</b> (ts2_08,
+ts2_11 — AuraFace cosine 0.05 and 0.10 against the input). That is the
+model2model collapse the benchmark literature predicts and the other three arms
+avoided through explicit target-garment prompting.</li>
+</ol>
+<p>Its one win is VLM realism — 4.08, the top of the board. That is an argument for
+screening it in the <b>auxiliary</b> bucket, where the job is "make this image more
+real without changing it", not in the editing bucket.</p>
+
+<h2>How the self-host runs would work</h2>
+
+<div class="grid">
+<div class="mcard">
+<div class="mh">The cheap part</div>
+<div class="mt">Harness integration</div>
+<p class="mp">The eval pipeline is arm-agnostic. A self-hosted arm only has to write
+<code>v2/runs/ts2/outputs/{arm}__{id}.png</code> plus its sidecar JSON; then
+<code>ts2_harness.py --score --judge --html</code> runs locally and the new arm
+appears in every table and on the comparison page exactly as
+<code>hidream_o1_edit</code> did today. No harness changes, no re-judging of
+existing arms (judging is incremental and cached).</p>
+</div>
+<div class="mcard">
+<div class="mh">The expensive part</div>
+<div class="mt">Environment and GPU time</div>
+<p class="mp">A Colab A100 session with <code>HF_HOME</code> pointed at the Drive
+cache, so each checkpoint downloads once and every later session skips it. Big
+checkpoints (~40GB class) are copied Drive&nbsp;→&nbsp;VM disk before loading;
+sub-20GB models load fine straight from the cache. This session has to be built
+for the parity rule regardless — the queued self-host arms ride along on it
+rather than being separate work.</p>
+</div>
+</div>
+
+<h3>Effort ranking</h3>
+<div class="tw"><table>
+<tr><th>Run</th><th>Hardware</th><th>Effort</th><th>Recommendation</th></tr>
+<tr><td class="n">Z-Image Base + tile-CN + UltraReal LoRA</td><td>6B — T4/A100</td>
+<td><span class="pill warn">medium</span> <b>not</b> a diffusers pipeline — the Fun
+tile-ControlNet ships for <code>aigc-apps/VideoX-Fun</code> and needs that repo's
+model layout (cells written, §13 of the notebook)</td>
+<td><b>Do first.</b> No hosted path exists, and it targets the measured identity
+drift in the aux bucket</td></tr>
+<tr><td class="n">klein 4B parity re-run</td><td>~13GB — T4 fp8 / A100</td>
+<td><span class="pill ok">low</span></td>
+<td><b>Mandatory.</b> klein is the chosen base; its numbers are not final until
+they come off downloaded weights</td></tr>
+<tr><td class="n">JoyAI-Image-Edit-Plus</td><td>~24B — A100-40GB, offload</td>
+<td><span class="pill warn">medium</span> ~50GB one-time cache fill</td>
+<td>Worth one 13-pair run — freshest multi-reference editor, e-commerce lineage,
+unproven on try-on</td></tr>
+<tr><td class="n">OOTDiffusion</td><td>~8–10GB — T4</td>
+<td><span class="pill bad">high</span> unmaintained since 2024; SCHP + OpenPose;
+pinned old deps</td>
+<td><b>Drop.</b> Dated, known identity drift, VITON-HD provenance flag</td></tr>
+<tr><td class="n">OrthoTryOn</td><td>24GB+</td>
+<td><span class="pill bad">high</span> mmcv/MMPose build + LongCat base</td>
+<td><b>Defer</b> unless try-off becomes a product requirement</td></tr>
+</table></div>
+
+<h2>The parity gap, stated plainly</h2>
+<p>Every number on the V2 scoreboard — klein's win included — comes from a
+fal-hosted endpoint. fal adds its own preprocessing and defaults, so these are
+directional results that rank arms against each other; they are not the numbers
+the deployed path will produce. <b>The self-hosted run is not an optional
+extension arm. It is the step that converts the current results into claims we
+can ship.</b></p>
+
+<footer>Sources: <code>v2/runs/ts2/ts2_cv_metrics.csv</code>,
+<code>v2/runs/ts2/ts2_vlm.csv</code>, generated by <code>v2/build/ts2_harness.py</code>.
+Decisions in <code>prd/v2/results_summary/</code>; deferred arms in
+<code>prd/v2/EXTENSION_ARMS.md</code>; model licences and VRAM classes in
+<code>research/open-weights-model-catalog.md</code>.</footer>
+</div>
