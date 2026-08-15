@@ -53,6 +53,49 @@ lineup ≈ **$2–6 per 30-pair run**, comfortably inside the $10 budget.
 
 ---
 
+## HD people set — V2 (Aug 14 2026): 10 slots, user-downloaded
+
+Motivation: the 30-image set was normalized to 1024px max side, which caps face
+detail — bad for measuring V2's known identity-degradation regression, and
+catalog-style shots don't represent real user uploads. This set is 10 people,
+**kept at original resolution (no downscale)**, realistic phone/candid style.
+
+Drop raw downloads into `test_set/people_hd/incoming/` with any filename; Claude
+then verifies, renames to `hd01–hd10.jpg`, and writes `manifest_hd.csv` +
+`pairs_hd.csv` (reusing 10 garments from the existing 30).
+
+### Slot spec
+
+| ID | Gender | Skin | Build | Pose | Setting | Framing |
+|---|---|---|---|---|---|---|
+| hd01 | woman | dark | slim | neutral standing | plain indoor wall | full body |
+| hd02 | man | light | average | arms crossed | outdoor street | full body |
+| hd03 | woman | medium | plus-size | hand over chest/torso | cluttered home interior | full body |
+| hd04 | man | dark | broad/plus | neutral standing | plain | waist-up |
+| hd05 | woman | light | average | 3/4 turn | outdoor | full body |
+| hd06 | man | medium | slim | sitting | cluttered cafe/steps | full body |
+| hd07 | woman | dark | average | walking | street | full body |
+| hd08 | man | light | slim | holding phone/coffee across torso | cluttered | waist-up |
+| hd09 | woman | medium | slim | arms raised / stretching | plain | thigh-up |
+| hd10 | any, aged 50+ | any | average | neutral or arms crossed | indoor | full body |
+
+### Quality bar per image (check before downloading)
+
+- Shortest side **≥ 2000px** (Unsplash/Pexels: click "Download original", not the default)
+- Real photograph — visible skin texture, natural lighting; no AI-generated, no
+  heavy retouch/beauty-filter, no catalog look
+- Face sharp and reasonably large in frame (identity metrics need it)
+- Exactly one person; torso/garment area visible (occluded only in the slots
+  designed for it: hd02, hd03, hd08)
+- No watermarks. JPEG/PNG (convert HEIC). Imperfect framing/lighting is fine —
+  realism is the point.
+
+Note on storage: originals may be 5–15MB each. If the folder exceeds ~60MB it
+should live in Drive (`Side projects and shi…/`) rather than git; decide at
+commit time.
+
+---
+
 ## Reference: original 120-scale plan (inactive)
 
 ## Directory & naming
