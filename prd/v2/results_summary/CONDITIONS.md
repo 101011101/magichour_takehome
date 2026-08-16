@@ -146,7 +146,7 @@ instrument, not part of the deployed path.
 
 | What | Where |
 |---|---|
-| Comparison pages | `v2/artifacts/` (`index.html` is the hub) |
+| Comparison pages | `v2/artifacts/` (`v2/artifacts/index.html` is the hub) |
 | Images, CSVs, run packages | `v2/runs/` (Testset2 under `v2/runs/ts2/`) |
 | Harnesses | `v2/build/ts2_harness.py` · `aux_harness.py` · `make_compare.py` · `notebook_cells.py` |
 | Criteria & schemas | `prd/v2/SCORING_CRITERIA.md` |

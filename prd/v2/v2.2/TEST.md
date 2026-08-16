@@ -144,7 +144,7 @@ re-run on downloaded klein weights.
 | `v2/build/restore_protected.py` | new | `restore_protected`, `RestoreConfig`, register/decompose/diff/composite |
 | `v2/build/metrics_warp.py` | new | `warp_fidelity` + checkerboard overlay writer |
 | `v2/build/ts2_harness.py` | edit | `CONFIGS` table; hooks into `generate`/`score_all`/`judge_all`; new output naming and sidecar fields |
-| `v2/build/make_v22_page.py` | new | builds `v2/artifacts/v22_accuracy.html` from the run CSVs |
+| `v2/build/make_v22_page.py` | new | builds `v2/artifacts/v223_accuracy.html` *(not yet generated — v2.2.3 has not run)* from the run CSVs |
 
 New harness flags:
 

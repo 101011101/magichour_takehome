@@ -12,7 +12,7 @@ h2{font-size:17px;margin:36px 0 6px;color:var(--ink);font-weight:700}
 .kick{color:var(--mut);font-size:13.5px}
 p{max-width:860px}.mut{color:var(--mut);font-size:12.5px}b{color:var(--ink)}
 a{color:var(--acc2)}
-.cards{display:grid;grid-template-columns:1fr;gap:14px;margin:18px 0 0}
+.cards{display:grid;grid-template-columns:1fr;gap:14px;margin:14px 0 0}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;
 padding:18px 20px;text-decoration:none;display:block;transition:border-color .15s}
 .card:hover{border-color:var(--acc)}
@@ -26,6 +26,9 @@ color:var(--body)}
 .tag.lead{background:var(--ok);border-color:var(--okb);color:#7fe3ac}
 code{background:var(--card2);border:1px solid var(--line);border-radius:4px;
 padding:1px 5px;font-size:12px;color:var(--acc2)}
+table{border-collapse:collapse;margin:12px 0;font-size:13px;width:100%;max-width:860px}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{color:var(--ink);background:var(--card2);font-weight:700}
 footer{margin:44px 0 8px;padding-top:14px;border-top:1px solid var(--line);
 color:var(--mut);font-size:12.5px}
 </style><div class="wrap">
@@ -35,24 +38,18 @@ color:var(--mut);font-size:12.5px}
 Each page has a large-image viewer: <b>&larr;/&rarr;</b> step through a set,
 <b>&uarr;/&darr;</b> change set, <b>B</b> flips back to the input, <b>Z</b> zooms 1:1.</p>
 
-<h2>Pages</h2>
+<p class="mut"><b>Naming.</b> <code>&lt;workstream&gt;_&lt;subject&gt;.html</code> — the
+prefix is the owning folder under <code>prd/v2/</code> with the dots removed, so
+<code>v221_review.html</code> belongs to <code>prd/v2/v2.2/</code>, sub-workstream 2.2.1.
+Every page below is written by one script in <code>v2/build/</code>; nothing here is
+hand-edited.</p>
+
+<h2>v2.0 — choosing the editing base</h2>
 <div class="cards">
 
-<a class="card" href="open_weights_status.html">
-  <div class="ct">Open-weights coverage</div>
-  <div class="cs">open_weights_status.html · what ran on fal vs what needs downloaded weights</div>
-  <div class="cd">Every arm's access path, the HiDream-O1-Image run that eliminated
-  it, and the effort ranking for the self-host-only tests (Z-Image Base +
-  tile-ControlNet, JoyAI-Edit-Plus, OOTDiffusion, OrthoTryOn). States the parity
-  gap plainly: <b>no number on the scoreboard has been reproduced on downloaded
-  weights yet</b>.</div>
-  <div class="tags"><span class="tag">status</span><span class="tag">parity</span>
-  <span class="tag">self-host plan</span><span class="tag">latest</span></div>
-</a>
-
-<a class="card" href="ts2_compare.html">
+<a class="card" href="v20_arms_ts2.html">
   <div class="ct">Editing models on Testset2</div>
-  <div class="cs">ts2_compare.html · 13 pairs × 4 arms · high-resolution set</div>
+  <div class="cs">v20_arms_ts2.html · 13 pairs × 4 arms · build: ts2_harness.py</div>
   <div class="cd">FASHN v1.5, FLUX.2 klein 4B, HiDream-O1-Image and the Qwen 2511
   baseline on the high-res set: <b>garment only</b> (flat-lay reference),
   <b>garment + human</b> (editorial on-model reference) and <b>garment + human</b>
@@ -61,42 +58,32 @@ Each page has a large-image viewer: <b>&larr;/&rarr;</b> step through a set,
   <span class="tag">Testset2</span><span class="tag">duo pairs</span></div>
 </a>
 
-<a class="card" href="aux_compare.html">
-  <div class="ct">Auxiliary realism models</div>
-  <div class="cs">aux_compare.html · 6 configs × 4 images</div>
-  <div class="cd">Single-image realism models scored against <b>their own input</b>
-  — realism gain gated on fidelity preservation. SeedVR2 (noise 0/0.1), Z-Image
-  Turbo at three strengths, and the SeedVR2→Z-Image stack.</div>
-  <div class="tags"><span class="tag lead">leader: seedvr2_x2_noise0</span>
-  <span class="tag">auxiliary bucket</span></div>
-</a>
-
-<a class="card" href="klein_compare.html">
+<a class="card" href="v20_klein_variant.html">
   <div class="ct">klein 4B — distilled vs base</div>
-  <div class="cs">klein_compare.html · 13 pairs × 2 variants</div>
+  <div class="cs">v20_klein_variant.html · 13 pairs × 2 variants · build: make_klein_page.py</div>
   <div class="cd">Which klein are we on? Both Apache checkpoints ran the full
   Testset2 matrix and <b>tie exactly on VLM fidelity (4.410)</b> — but the mean
   hides the shape: base is mildly worse on five pairs and <b>+2.00 on the one
   where distilled collapsed</b>. Ordered worst-for-base first.</div>
   <div class="tags"><span class="tag">editing bucket</span>
-  <span class="tag">variant decision</span><span class="tag">latest</span></div>
+  <span class="tag">variant decision</span></div>
 </a>
 
-<a class="card" href="aux_batches.html">
-  <div class="ct">Auxiliary models — two batches</div>
-  <div class="cs">aux_batches.html · 4 configs × 5 subjects × 2 batches</div>
-  <div class="cd">How far the realism models get, with a <b>control</b>: batch A
-  runs them on <b>real photos</b> (a pass should be a no-op — anything it changes is
-  damage), batch B on <b>klein try-on outputs</b> (the deployed case). Same five
-  subjects in both.</div>
-  <div class="tags"><span class="tag lead">confirms: seedvr2_x2_noise0</span>
-  <span class="tag">auxiliary bucket</span><span class="tag">control batch</span>
-  <span class="tag">latest</span></div>
+<a class="card" href="v20_coverage.html">
+  <div class="ct">Open-weights coverage</div>
+  <div class="cs">v20_coverage.html · what ran on fal vs what needs downloaded weights</div>
+  <div class="cd">Every arm's access path, the HiDream-O1-Image run that eliminated
+  it, and the effort ranking for the self-host-only tests (Z-Image Base +
+  tile-ControlNet, JoyAI-Edit-Plus, OOTDiffusion, OrthoTryOn). States the parity
+  gap plainly: <b>no number on the scoreboard has been reproduced on downloaded
+  weights yet</b>.</div>
+  <div class="tags"><span class="tag">status</span><span class="tag">parity</span>
+  <span class="tag">self-host plan</span></div>
 </a>
 
-<a class="card" href="compare.html">
+<a class="card" href="v20_triage_v1set.html">
   <div class="ct">V1-set triage &amp; klein composite</div>
-  <div class="cs">compare.html · 12 pairs · superseded composite</div>
+  <div class="cs">v20_triage_v1set.html · 12 pairs · superseded · build: make_compare.py</div>
   <div class="cd">First V2 wave on the original <code>test_set/</code>: the four
   triage arms plus the klein-based <code>composite_v2ow</code> (paste-back →
   refine → identity gate). Kept for the record — that composite is superseded.</div>
@@ -106,13 +93,102 @@ Each page has a large-image viewer: <b>&larr;/&rarr;</b> step through a set,
 
 </div>
 
+<h2>v2.1 — image quality and fidelity preservation</h2>
+<div class="cards">
+
+<a class="card" href="v21_aux_screen.html">
+  <div class="ct">Auxiliary realism models — screen</div>
+  <div class="cs">v21_aux_screen.html · 6 configs × 4 images · build: aux_harness.py</div>
+  <div class="cd">Single-image realism models scored against <b>their own input</b>
+  — realism gain gated on fidelity preservation. SeedVR2 (noise 0/0.1), Z-Image
+  Turbo at three strengths, and the SeedVR2→Z-Image stack.</div>
+  <div class="tags"><span class="tag lead">leader: seedvr2_x2_noise0</span>
+  <span class="tag">auxiliary bucket</span><span class="tag">screen 1</span></div>
+</a>
+
+<a class="card" href="v21_aux_batches.html">
+  <div class="ct">Auxiliary models — two batches with control</div>
+  <div class="cs">v21_aux_batches.html · 4 configs × 5 subjects × 2 batches · build: aux_batch.py</div>
+  <div class="cd">How far the realism models get, with a <b>control</b>: batch A
+  runs them on <b>real photos</b> (a pass should be a no-op — anything it changes is
+  damage), batch B on <b>klein try-on outputs</b> (the deployed case). Same five
+  subjects in both.</div>
+  <div class="tags"><span class="tag lead">confirms: seedvr2_x2_noise0</span>
+  <span class="tag">auxiliary bucket</span><span class="tag">control batch</span>
+  <span class="tag">screen 2</span></div>
+</a>
+
+</div>
+
+<h2>v2.2.1 — attention: cropping the garment reference</h2>
+<div class="cards">
+
+<a class="card" href="v221_review.html">
+  <div class="ct">Cropping review — the annotated pass</div>
+  <div class="cs">v221_review.html · 33 sets × (2 inputs + 5 arms) · build: make_v221_review.py</div>
+  <div class="cd"><b>The primary judgement for v2.2.1.</b> Full-size sets for
+  structured human review, with per-set annotation exported as CSV
+  (<code>solved_C3_2</code>, <code>solved_C4</code>, base failure class). The other
+  v2.2.1 pages are eyeball passes whose notes went into
+  <code>prd/v2/v2.2/RESULTS.md</code>; this one produces the data.</div>
+  <div class="tags"><span class="tag lead">human review · CSV</span>
+  <span class="tag">phase 2</span><span class="tag">latest</span></div>
+</a>
+
+<a class="card" href="v221_klein_trial.html">
+  <div class="ct">Does cropping change what klein produces?</div>
+  <div class="cs">v221_klein_trial.html · 13 pairs × 5 arms · build: make_v221_page.py</div>
+  <div class="cd">One variable per set — the garment reference. BASE against C2
+  (background white, wearer kept), C3.1 (face and hair removed), C3.2 (hair kept)
+  and C4 (clothes only). Split by pair kind: duo pairs, where the reference is a
+  whole person, against product pairs that were already clean flat-lays.</div>
+  <div class="tags"><span class="tag">phase 2</span>
+  <span class="tag">eyeball pass</span><span class="tag">Testset2</span></div>
+</a>
+
+<a class="card" href="v221_duo_transfer.html">
+  <div class="ct">Person-to-person transfer</div>
+  <div class="cs">v221_duo_transfer.html · build: make_combo_page.py</div>
+  <div class="cd">Taking one person's outfit and putting it on another. The metric
+  that matters is <b>identity attribution</b>: the result should look like the base
+  person wearing the source person's outfit. A face closer to the source means
+  klein imported the wrong identity — failure mode <b>F1</b>, the one cropping is
+  meant to make structurally impossible.</div>
+  <div class="tags"><span class="tag">phase 2</span>
+  <span class="tag">eyeball pass</span><span class="tag">F1 · identity</span></div>
+</a>
+
+<a class="card" href="v221_crop_screen.html">
+  <div class="ct">Garment cropping screen</div>
+  <div class="cs">v221_crop_screen.html · 48 references × 4 variants · build: garment_crop.py</div>
+  <div class="cd"><b>Phase 1 — the cropper itself, no generation.</b> Exploratory,
+  local, free, CPU-only: how BiRefNet and the Selfie Multiclass map compose, the
+  four variants (C1 bbox, C2 background removed, C3 garment minus identity, C4
+  clothes only) and the per-reference outcome that selected C2–C4 for the klein
+  trials.</div>
+  <div class="tags"><span class="tag">phase 1</span>
+  <span class="tag">cropper design</span><span class="tag">no model calls</span></div>
+</a>
+
+</div>
+
+<h2>Not yet generated</h2>
+<table>
+<tr><th>Page</th><th>Workstream</th><th>Blocked on</th></tr>
+<tr><td><code>v223_accuracy.html</code></td><td>v2.2.3 — failure catch</td>
+<td>the gate harness in <code>v2/build/make_v22_page.py</code></td></tr>
+<tr><td><code>v23_artifact_repair.html</code></td><td>v2.3 — AI artifacts</td>
+<td>the labelled artifact fixture (<code>v2/runs/artifacts/annotations.csv</code>)</td></tr>
+</table>
+
 <h2>Where things live</h2>
 <p class="mut">Pages here · images and CSVs in <code>v2/runs/</code> (Testset2 under
-<code>v2/runs/ts2/</code>) · generators in <code>v2/build/</code>
-(<code>ts2_harness.py</code>, <code>aux_harness.py</code>, <code>make_compare.py</code>)
+<code>v2/runs/ts2/</code>, cropping under <code>v2/runs/crop_screen/</code> and
+<code>v2/runs/v221/</code>) · generators in <code>v2/build/</code>
 · criteria in <code>prd/v2/SCORING_CRITERIA.md</code> · test conditions in
 <code>prd/v2/results_summary/CONDITIONS.md</code> · rolling results in
-<code>prd/v2/results_summary/V2.0_RESULTS.md</code> · test-set definitions in
+<code>prd/v2/results_summary/</code> · daily record in
+<code>prd/v2/RESEARCH_LOG.md</code> · test-set definitions in
 <code>execution_conventions.md</code>.</p>
 
 <footer>All arms are open-weights checkpoints; fal endpoints are used for iteration

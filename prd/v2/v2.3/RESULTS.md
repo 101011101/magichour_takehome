@@ -14,7 +14,7 @@ Program-level results: [`prd/v2/results_summary/`](../results_summary/).
 | Editing base | FLUX.2 klein 4B |
 | Judge | gpt-5.5, blind, schema-validated |
 | Weights source | fal (directional) / downloaded (parity) — — |
-| Comparison page | `v2/artifacts/artifact_repair.html` — *not yet generated* |
+| Comparison page | `v2/artifacts/v23_artifact_repair.html` *(not yet generated — v2.3 has not run)* — *not yet generated* |
 
 ## 1. Fixture composition
 

@@ -4,8 +4,8 @@
 data; the gloss question remains open (EXPERIMENT.md, open question 1).
 
 Artifacts (interactive, arrow-key viewers):
-- [`v2/artifacts/aux_compare.html`](../../../v2/artifacts/aux_compare.html) — screen 1, config sweep
-- [`v2/artifacts/aux_batches.html`](../../../v2/artifacts/aux_batches.html) — screen 2, two batches with control
+- [`v2/artifacts/v21_aux_screen.html`](../../../v2/artifacts/v21_aux_screen.html) — screen 1, config sweep
+- [`v2/artifacts/v21_aux_batches.html`](../../../v2/artifacts/v21_aux_batches.html) — screen 2, two batches with control
 - Data: `v2/runs/aux/`, `v2/runs/aux_batches/` (metrics.csv, vlm.csv, run packages)
 
 ## Chosen configuration

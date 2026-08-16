@@ -128,7 +128,7 @@ realism gain among configs that passed the gate.
 
 ## 7. First aux screen — findings (2026-08-14, 6 configs x 4 FASHN v1.5 outputs)
 
-Results in `v2/runs/aux_compare.html` (+ aux_metrics.csv, aux_vlm.csv).
+Results in `v2/artifacts/v21_aux_screen.html` (+ aux_metrics.csv, aux_vlm.csv).
 
 1. **SeedVR2 sweeps the fidelity axis.** noise_scale 0 scored VLM fidelity
    **5.00/5** (garment and identity both perfect) with realism 4.31 — best of
