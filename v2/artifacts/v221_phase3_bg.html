@@ -1,0 +1,197 @@
+<title>Phase 3 &mdash; BG, ground selection</title>
+<style>
+:root{--bg:#0d0d10;--fg:#e8e8ea;--dim:#8a8a94;--line:#26262c;--acc:#7c5cff;
+ --ok:#3fb950;--warn:#d29922}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:14px/1.55 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:26px 30px 16px;border-bottom:1px solid var(--line)}
+nav{display:flex;gap:6px;padding:10px 30px;border-bottom:1px solid var(--line);
+ background:#101014;position:sticky;top:0;z-index:6;flex-wrap:wrap;align-items:center}
+nav a{color:var(--dim);text-decoration:none;padding:6px 13px;border-radius:7px;
+ border:1px solid transparent;font-size:12.5px;white-space:nowrap}
+nav a:hover{color:var(--fg);border-color:var(--line)}
+nav a.here{color:var(--fg);border-color:var(--acc);background:#17141f;font-weight:600}
+nav .sep{color:#3a3a44;padding:0 2px}
+h1{margin:0 0 6px;font-size:20px;letter-spacing:-.01em}
+.q{color:var(--acc);font-weight:600;margin:6px 0}
+.sub{color:var(--dim);max-width:80ch}
+.legend{padding:16px 30px 6px;color:var(--dim);font-size:12.5px}
+.legend b{color:var(--fg)}
+.legend li{margin:3px 0}
+.ref{margin:0 30px 26px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.rh{padding:10px 14px;background:#141419;border-bottom:1px solid var(--line);
+ display:flex;gap:13px;align-items:baseline;flex-wrap:wrap}
+.rh b{font-size:13.5px}
+.rh .m{color:var(--dim);font-size:12px}
+.pill{font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--line)}
+.pill.fire{border-color:var(--warn);color:var(--warn)}
+.pill.keep{border-color:var(--ok);color:var(--ok)}
+.strip{display:flex;overflow-x:auto}
+.cell{flex:0 0 226px;border-right:1px solid var(--line);padding:10px}
+.cell:last-child{border-right:0}
+.cell.truth{background:#101418}
+.cell img{width:100%;background:#fff;border-radius:4px;display:block;cursor:zoom-in}
+.tag{font-weight:600;margin:7px 0 3px;font-size:12.5px}
+.tag.t{color:var(--ok)}
+.note{color:var(--dim);font-size:11.5px;line-height:1.45}
+.sec{padding:8px 30px 4px;color:var(--fg);font-weight:600;font-size:14px}
+table{border-collapse:collapse;margin:6px 30px 22px;font-size:12.5px}
+td,th{border:1px solid var(--line);padding:5px 10px;text-align:left}
+th{background:#141419}
+#lb{position:fixed;inset:0;background:#000000f2;display:none;z-index:50;
+ align-items:center;justify-content:center;flex-direction:column;gap:12px}
+#lb img{max-width:94vw;max-height:84vh;background:#fff;border-radius:6px}
+#lbc{color:var(--fg);font-size:13px}
+</style>
+<header><h1>Phase 3 &mdash; BG, ground selection</h1><div class='q'>Did the detector decide correctly?</div><div class='sub'>The deliverable of this component is the <b>decision rule</b>, not a ground colour. Click an image to zoom, &larr; &rarr; to step across the row.</div></header>
+<nav><a href='v221_attention_mod.html'>&#9733; Attention Modulation</a><span class='sep'>/</span><a href='v221_phase3_acc.html'>0 &middot; AC-C destroy</a><span class='sep'>/</span><a href='v221_phase3_acab.html'>1 &middot; AC-A / AC-B</a><span class='sep'>/</span><a href='v221_phase3_crops.html'>2 &middot; Crops + PRE</a><span class='sep'>/</span><a href='v221_phase3_fashn.html'>3 &middot; FASHN</a><span class='sep'>/</span><a href='v221_phase3_ac.html'>4 &middot; AC arms</a><span class='sep'>/</span><a href='v221_phase3_bg.html' class='here'>5 &middot; BG</a><span class='sep'>/</span><a href='v221_phase3_m.html'>6 &middot; M</a></nav>
+<div class='legend'><ul><li><b>BG1</b> #FFFFFF &mdash; control, what ships today</li><li><b>BG2</b> flat #F1F1F1 &mdash; the shop-imagery <i>model-shot</i> spec; #FFFFFF is the <i>packshot</i> spec, and these crops are model shots</li><li><b>BG3</b> adaptive &mdash; a neutral ramp value chosen per reference to clear &ge;15 &Delta;L* at the garment edge. Brown garment keeps white; white garment gets grey</li><li><b>BG4</b> BG3 + radial falloff + contact shadow &mdash; real packshot white is <i>photographed</i>, and flat synthetic #FFFFFF deletes exactly the separability cue the falloff provides</li><li><b>BG5</b> <b>#FFFFFF + contact shadow, nothing else</b> &mdash; isolates the shadow from the colour change. BG4 moves the ground <i>and</i> adds falloff <i>and</i> adds a shadow, so if BG4 wins we cannot say which part did the work. Here the ground stays white: packshot convention untouched, no way to tint the garment, and the cue is created <b>locally at the silhouette</b> &mdash; which works at any garment colour, white-on-white included</li><li style='margin-top:8px'>The question here is <b>whether the detector called it right</b>, not which image looks nicest. Each row prints the measured edge L*, the margin against white, and the resulting call.</li><li>The measure is an <b>area share</b>, not a median. A first version used the median luminance in a band inside the boundary and <b>failed its own test case</b>: p014, the one reference with a documented white-garment failure, is a white t-shirt over dark trousers &mdash; median L*=57 but 22% of the garment near-white, so a central statistic averaged the collision away. The table below ranks every reference by pale share so the 15% bar can be moved on evidence.</li></ul></div>
+<div class='ref'><div class='rh'><b>clothesonly_ts1g001_graphic_logo_tee</b><span class='m'>99.6% of garment near-white &middot; median L* 95.8</span><span class='pill fire'>switches ground</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/clothesonly_ts1g001_graphic_logo_tee__BG1.jpg' alt='clothesonly_ts1g001_graphic_logo_tee &mdash; BG1' loading='lazy'><div class='tag'>BG1</div><div class='note'>#FFFFFF -- control, ships today</div></div>
+<div class='cell '><img src='../runs/phase3/clothesonly_ts1g001_graphic_logo_tee__BG2.jpg' alt='clothesonly_ts1g001_graphic_logo_tee &mdash; BG2' loading='lazy'><div class='tag'>BG2</div><div class='note'>#F1F1F1 -- shop-imagery model-shot spec</div></div>
+<div class='cell '><img src='../runs/phase3/clothesonly_ts1g001_graphic_logo_tee__BG3.jpg' alt='clothesonly_ts1g001_graphic_logo_tee &mdash; BG3' loading='lazy'><div class='tag'>BG3</div><div class='note'>adaptive -&gt; #C8C8C8; 100% collided with white; ramp floor</div></div>
+<div class='cell '><img src='../runs/phase3/clothesonly_ts1g001_graphic_logo_tee__BG4.jpg' alt='clothesonly_ts1g001_graphic_logo_tee &mdash; BG4' loading='lazy'><div class='tag'>BG4</div><div class='note'>#C8C8C8 + falloff + contact shadow</div></div>
+<div class='cell '><img src='../runs/phase3/clothesonly_ts1g001_graphic_logo_tee__BG5.jpg' alt='clothesonly_ts1g001_graphic_logo_tee &mdash; BG5' loading='lazy'><div class='tag'>BG5</div><div class='note'>#FFFFFF + contact shadow ONLY — isolates the shadow from the colour change</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_zendaya_white_blazer_skirt</b><span class='m'>63.8% of garment near-white &middot; median L* 95.5</span><span class='pill fire'>switches ground</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__BG1.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; BG1' loading='lazy'><div class='tag'>BG1</div><div class='note'>#FFFFFF -- control, ships today</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__BG2.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; BG2' loading='lazy'><div class='tag'>BG2</div><div class='note'>#F1F1F1 -- shop-imagery model-shot spec</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__BG3.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; BG3' loading='lazy'><div class='tag'>BG3</div><div class='note'>adaptive -&gt; #C8C8C8; 64% collided with white; ramp floor</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__BG4.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; BG4' loading='lazy'><div class='tag'>BG4</div><div class='note'>#C8C8C8 + falloff + contact shadow</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__BG5.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; BG5' loading='lazy'><div class='tag'>BG5</div><div class='note'>#FFFFFF + contact shadow ONLY — isolates the shadow from the colour change</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p004</b><span class='m'>57.6% of garment near-white &middot; median L* 89.9</span><span class='pill fire'>switches ground</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p004__BG1.jpg' alt='p004 &mdash; BG1' loading='lazy'><div class='tag'>BG1</div><div class='note'>#FFFFFF -- control, ships today</div></div>
+<div class='cell '><img src='../runs/phase3/p004__BG2.jpg' alt='p004 &mdash; BG2' loading='lazy'><div class='tag'>BG2</div><div class='note'>#F1F1F1 -- shop-imagery model-shot spec</div></div>
+<div class='cell '><img src='../runs/phase3/p004__BG3.jpg' alt='p004 &mdash; BG3' loading='lazy'><div class='tag'>BG3</div><div class='note'>adaptive -&gt; #C8C8C8; 58% collided with white; ramp floor</div></div>
+<div class='cell '><img src='../runs/phase3/p004__BG4.jpg' alt='p004 &mdash; BG4' loading='lazy'><div class='tag'>BG4</div><div class='note'>#C8C8C8 + falloff + contact shadow</div></div>
+<div class='cell '><img src='../runs/phase3/p004__BG5.jpg' alt='p004 &mdash; BG5' loading='lazy'><div class='tag'>BG5</div><div class='note'>#FFFFFF + contact shadow ONLY — isolates the shadow from the colour change</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p013</b><span class='m'>31.9% of garment near-white &middot; median L* 91.3</span><span class='pill fire'>switches ground</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p013__BG1.jpg' alt='p013 &mdash; BG1' loading='lazy'><div class='tag'>BG1</div><div class='note'>#FFFFFF -- control, ships today</div></div>
+<div class='cell '><img src='../runs/phase3/p013__BG2.jpg' alt='p013 &mdash; BG2' loading='lazy'><div class='tag'>BG2</div><div class='note'>#F1F1F1 -- shop-imagery model-shot spec</div></div>
+<div class='cell '><img src='../runs/phase3/p013__BG3.jpg' alt='p013 &mdash; BG3' loading='lazy'><div class='tag'>BG3</div><div class='note'>adaptive -&gt; #C8C8C8; 32% collided with white; ramp floor</div></div>
+<div class='cell '><img src='../runs/phase3/p013__BG4.jpg' alt='p013 &mdash; BG4' loading='lazy'><div class='tag'>BG4</div><div class='note'>#C8C8C8 + falloff + contact shadow</div></div>
+<div class='cell '><img src='../runs/phase3/p013__BG5.jpg' alt='p013 &mdash; BG5' loading='lazy'><div class='tag'>BG5</div><div class='note'>#FFFFFF + contact shadow ONLY — isolates the shadow from the colour change</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_lp_floral_kimono_set</b><span class='m'>30.0% of garment near-white &middot; median L* 92.0</span><span class='pill fire'>switches ground</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_lp_floral_kimono_set__BG1.jpg' alt='dualuse_lp_floral_kimono_set &mdash; BG1' loading='lazy'><div class='tag'>BG1</div><div class='note'>#FFFFFF -- control, ships today</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_lp_floral_kimono_set__BG2.jpg' alt='dualuse_lp_floral_kimono_set &mdash; BG2' loading='lazy'><div class='tag'>BG2</div><div class='note'>#F1F1F1 -- shop-imagery model-shot spec</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_lp_floral_kimono_set__BG3.jpg' alt='dualuse_lp_floral_kimono_set &mdash; BG3' loading='lazy'><div class='tag'>BG3</div><div class='note'>adaptive -&gt; #C8C8C8; 30% collided with white; ramp floor</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_lp_floral_kimono_set__BG4.jpg' alt='dualuse_lp_floral_kimono_set &mdash; BG4' loading='lazy'><div class='tag'>BG4</div><div class='note'>#C8C8C8 + falloff + contact shadow</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_lp_floral_kimono_set__BG5.jpg' alt='dualuse_lp_floral_kimono_set &mdash; BG5' loading='lazy'><div class='tag'>BG5</div><div class='note'>#FFFFFF + contact shadow ONLY — isolates the shadow from the colour change</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p018</b><span class='m'>29.6% of garment near-white &middot; median L* 93.0</span><span class='pill fire'>switches ground</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p018__BG1.jpg' alt='p018 &mdash; BG1' loading='lazy'><div class='tag'>BG1</div><div class='note'>#FFFFFF -- control, ships today</div></div>
+<div class='cell '><img src='../runs/phase3/p018__BG2.jpg' alt='p018 &mdash; BG2' loading='lazy'><div class='tag'>BG2</div><div class='note'>#F1F1F1 -- shop-imagery model-shot spec</div></div>
+<div class='cell '><img src='../runs/phase3/p018__BG3.jpg' alt='p018 &mdash; BG3' loading='lazy'><div class='tag'>BG3</div><div class='note'>adaptive -&gt; #C8C8C8; 30% collided with white; ramp floor</div></div>
+<div class='cell '><img src='../runs/phase3/p018__BG4.jpg' alt='p018 &mdash; BG4' loading='lazy'><div class='tag'>BG4</div><div class='note'>#C8C8C8 + falloff + contact shadow</div></div>
+<div class='cell '><img src='../runs/phase3/p018__BG5.jpg' alt='p018 &mdash; BG5' loading='lazy'><div class='tag'>BG5</div><div class='note'>#FFFFFF + contact shadow ONLY — isolates the shadow from the colour change</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p030</b><span class='m'>25.4% of garment near-white &middot; median L* 88.1</span><span class='pill fire'>switches ground</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p030__BG1.jpg' alt='p030 &mdash; BG1' loading='lazy'><div class='tag'>BG1</div><div class='note'>#FFFFFF -- control, ships today</div></div>
+<div class='cell '><img src='../runs/phase3/p030__BG2.jpg' alt='p030 &mdash; BG2' loading='lazy'><div class='tag'>BG2</div><div class='note'>#F1F1F1 -- shop-imagery model-shot spec</div></div>
+<div class='cell '><img src='../runs/phase3/p030__BG3.jpg' alt='p030 &mdash; BG3' loading='lazy'><div class='tag'>BG3</div><div class='note'>adaptive -&gt; #C8C8C8; 25% collided with white; ramp floor</div></div>
+<div class='cell '><img src='../runs/phase3/p030__BG4.jpg' alt='p030 &mdash; BG4' loading='lazy'><div class='tag'>BG4</div><div class='note'>#C8C8C8 + falloff + contact shadow</div></div>
+<div class='cell '><img src='../runs/phase3/p030__BG5.jpg' alt='p030 &mdash; BG5' loading='lazy'><div class='tag'>BG5</div><div class='note'>#FFFFFF + contact shadow ONLY — isolates the shadow from the colour change</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p007</b><span class='m'>25.3% of garment near-white &middot; median L* 88.1</span><span class='pill fire'>switches ground</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p007__BG1.jpg' alt='p007 &mdash; BG1' loading='lazy'><div class='tag'>BG1</div><div class='note'>#FFFFFF -- control, ships today</div></div>
+<div class='cell '><img src='../runs/phase3/p007__BG2.jpg' alt='p007 &mdash; BG2' loading='lazy'><div class='tag'>BG2</div><div class='note'>#F1F1F1 -- shop-imagery model-shot spec</div></div>
+<div class='cell '><img src='../runs/phase3/p007__BG3.jpg' alt='p007 &mdash; BG3' loading='lazy'><div class='tag'>BG3</div><div class='note'>adaptive -&gt; #C8C8C8; 25% collided with white; ramp floor</div></div>
+<div class='cell '><img src='../runs/phase3/p007__BG4.jpg' alt='p007 &mdash; BG4' loading='lazy'><div class='tag'>BG4</div><div class='note'>#C8C8C8 + falloff + contact shadow</div></div>
+<div class='cell '><img src='../runs/phase3/p007__BG5.jpg' alt='p007 &mdash; BG5' loading='lazy'><div class='tag'>BG5</div><div class='note'>#FFFFFF + contact shadow ONLY — isolates the shadow from the colour change</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p014</b><span class='m'>22.0% of garment near-white &middot; median L* 88.5</span><span class='pill fire'>switches ground</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p014__BG1.jpg' alt='p014 &mdash; BG1' loading='lazy'><div class='tag'>BG1</div><div class='note'>#FFFFFF -- control, ships today</div></div>
+<div class='cell '><img src='../runs/phase3/p014__BG2.jpg' alt='p014 &mdash; BG2' loading='lazy'><div class='tag'>BG2</div><div class='note'>#F1F1F1 -- shop-imagery model-shot spec</div></div>
+<div class='cell '><img src='../runs/phase3/p014__BG3.jpg' alt='p014 &mdash; BG3' loading='lazy'><div class='tag'>BG3</div><div class='note'>adaptive -&gt; #C8C8C8; 22% collided with white; ramp floor</div></div>
+<div class='cell '><img src='../runs/phase3/p014__BG4.jpg' alt='p014 &mdash; BG4' loading='lazy'><div class='tag'>BG4</div><div class='note'>#C8C8C8 + falloff + contact shadow</div></div>
+<div class='cell '><img src='../runs/phase3/p014__BG5.jpg' alt='p014 &mdash; BG5' loading='lazy'><div class='tag'>BG5</div><div class='note'>#FFFFFF + contact shadow ONLY — isolates the shadow from the colour change</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p023</b><span class='m'>15.7% of garment near-white &middot; median L* 89.2</span><span class='pill fire'>switches ground</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p023__BG1.jpg' alt='p023 &mdash; BG1' loading='lazy'><div class='tag'>BG1</div><div class='note'>#FFFFFF -- control, ships today</div></div>
+<div class='cell '><img src='../runs/phase3/p023__BG2.jpg' alt='p023 &mdash; BG2' loading='lazy'><div class='tag'>BG2</div><div class='note'>#F1F1F1 -- shop-imagery model-shot spec</div></div>
+<div class='cell '><img src='../runs/phase3/p023__BG3.jpg' alt='p023 &mdash; BG3' loading='lazy'><div class='tag'>BG3</div><div class='note'>adaptive -&gt; #C8C8C8; 16% collided with white; ramp floor</div></div>
+<div class='cell '><img src='../runs/phase3/p023__BG4.jpg' alt='p023 &mdash; BG4' loading='lazy'><div class='tag'>BG4</div><div class='note'>#C8C8C8 + falloff + contact shadow</div></div>
+<div class='cell '><img src='../runs/phase3/p023__BG5.jpg' alt='p023 &mdash; BG5' loading='lazy'><div class='tag'>BG5</div><div class='note'>#FFFFFF + contact shadow ONLY — isolates the shadow from the colour change</div></div>
+</div></div>
+<div class='sec'>All 48 references ranked by margin against white (largest share = hardest to separate from white)</div><table><tr><th>#</th><th>reference</th><th>% near-white</th><th>call at 15%</th></tr>
+<tr><td>1</td><td>clothesonly_ts1g001_graphic_logo_tee</td><td>99.6</td><td>switch</td></tr>
+<tr><td>2</td><td>dualuse_zendaya_white_blazer_skirt</td><td>63.8</td><td>switch</td></tr>
+<tr><td>3</td><td>p004</td><td>57.6</td><td>switch</td></tr>
+<tr><td>4</td><td>p013</td><td>31.9</td><td>switch</td></tr>
+<tr><td>5</td><td>dualuse_lp_floral_kimono_set</td><td>30.0</td><td>switch</td></tr>
+<tr><td>6</td><td>p018</td><td>29.6</td><td>switch</td></tr>
+<tr><td>7</td><td>p030</td><td>25.4</td><td>switch</td></tr>
+<tr><td>8</td><td>p007</td><td>25.3</td><td>switch</td></tr>
+<tr><td>9</td><td>p014</td><td>22.0</td><td>switch</td></tr>
+<tr><td>10</td><td>p023</td><td>15.7</td><td>switch</td></tr>
+<tr><td>11</td><td>p019</td><td>14.9</td><td>white</td></tr>
+<tr><td>12</td><td>p025</td><td>13.4</td><td>white</td></tr>
+<tr><td>13</td><td>clothesonly_ts1g028_fine_stripe_shirt_ghost</td><td>10.2</td><td>white</td></tr>
+<tr><td>14</td><td>p017</td><td>8.8</td><td>white</td></tr>
+<tr><td>15</td><td>p029</td><td>5.3</td><td>white</td></tr>
+<tr><td>16</td><td>p008</td><td>3.9</td><td>white</td></tr>
+<tr><td>17</td><td>p003</td><td>3.6</td><td>white</td></tr>
+<tr><td>18</td><td>clothesonly_ts1g026_metallica_text_tee_flat</td><td>3.3</td><td>white</td></tr>
+<tr><td>19</td><td>p027</td><td>3.2</td><td>white</td></tr>
+<tr><td>20</td><td>p005</td><td>2.9</td><td>white</td></tr>
+<tr><td>21</td><td>dualuse_scarlett_johansson_black_dress_backview_night</td><td>2.9</td><td>white</td></tr>
+<tr><td>22</td><td>dualuse_emma_watson_black_blazer_armscrossed</td><td>2.3</td><td>white</td></tr>
+<tr><td>23</td><td>p016</td><td>1.9</td><td>white</td></tr>
+<tr><td>24</td><td>p011</td><td>1.8</td><td>white</td></tr>
+<tr><td>25</td><td>dualuse_queen_latifah_gown_stage</td><td>1.7</td><td>white</td></tr>
+<tr><td>26</td><td>p022</td><td>1.3</td><td>white</td></tr>
+<tr><td>27</td><td>dualuse_man_black_suit_studio_nonceleb</td><td>1.2</td><td>white</td></tr>
+<tr><td>28</td><td>dualuse_lp_plaid_overcoat_brown_suit</td><td>0.8</td><td>white</td></tr>
+<tr><td>29</td><td>p026</td><td>0.7</td><td>white</td></tr>
+<tr><td>30</td><td>p024</td><td>0.7</td><td>white</td></tr>
+<tr><td>31</td><td>p002</td><td>0.5</td><td>white</td></tr>
+<tr><td>32</td><td>dualuse_navy_peacoat_onmodel</td><td>0.4</td><td>white</td></tr>
+<tr><td>33</td><td>p006</td><td>0.3</td><td>white</td></tr>
+<tr><td>34</td><td>clothesonly_ts1g023_plaid_mini_skirt_flat</td><td>0.3</td><td>white</td></tr>
+<tr><td>35</td><td>p015</td><td>0.1</td><td>white</td></tr>
+<tr><td>36</td><td>p028</td><td>0.0</td><td>white</td></tr>
+<tr><td>37</td><td>p021</td><td>0.0</td><td>white</td></tr>
+<tr><td>38</td><td>p020</td><td>0.0</td><td>white</td></tr>
+<tr><td>39</td><td>p012</td><td>0.0</td><td>white</td></tr>
+<tr><td>40</td><td>p010</td><td>0.0</td><td>white</td></tr>
+<tr><td>41</td><td>p009</td><td>0.0</td><td>white</td></tr>
+<tr><td>42</td><td>p001</td><td>0.0</td><td>white</td></tr>
+<tr><td>43</td><td>dualuse_woman_top_denim_skirt_nonceleb</td><td>0.0</td><td>white</td></tr>
+<tr><td>44</td><td>dualuse_lp_beige_long_coat_menswear</td><td>0.0</td><td>white</td></tr>
+<tr><td>45</td><td>dualuse_hugh_jackman_grey_suit_outdoor</td><td>0.0</td><td>white</td></tr>
+<tr><td>46</td><td>dualuse_gal_gadot_blue_dress_redcarpet</td><td>0.0</td><td>white</td></tr>
+<tr><td>47</td><td>clothesonly_ts1g010_plain_tee_ghost</td><td>0.0</td><td>white</td></tr>
+<tr><td>48</td><td>clothesonly_ts1g008_plaid_flannel</td><td>0.0</td><td>white</td></tr>
+</table>
+<div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>
+<script>
+var shots = [], at = -1;
+var lb = document.getElementById('lb');
+var lbi = document.getElementById('lbi');
+var lbc = document.getElementById('lbc');
+function paint(){
+  if (at < 0 || at >= shots.length) return;
+  lbi.src = shots[at].getAttribute('src');
+  lbc.textContent = shots[at].getAttribute('alt');
+}
+document.body.addEventListener('click', function(e){
+  var im = e.target.closest('.cell img');
+  if (!im) return;
+  var row = im.closest('.strip');
+  shots = Array.prototype.slice.call(row.querySelectorAll('img'));
+  at = shots.indexOf(im);
+  lb.style.display = 'flex';
+  paint();
+});
+lb.addEventListener('click', function(){ lb.style.display = 'none'; });
+document.addEventListener('keydown', function(e){
+  if (lb.style.display !== 'flex') return;
+  if (e.key === 'Escape'){ lb.style.display = 'none'; return; }
+  if (e.key === 'ArrowRight' && at < shots.length - 1){ at++; paint(); e.preventDefault(); }
+  if (e.key === 'ArrowLeft'  && at > 0){ at--; paint(); e.preventDefault(); }
+});
+</script>

@@ -1,0 +1,132 @@
+<title>Phase 3 &mdash; M, mannequin</title>
+<style>
+:root{--bg:#0d0d10;--fg:#e8e8ea;--dim:#8a8a94;--line:#26262c;--acc:#7c5cff;
+ --ok:#3fb950;--warn:#d29922}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:14px/1.55 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:26px 30px 16px;border-bottom:1px solid var(--line)}
+nav{display:flex;gap:6px;padding:10px 30px;border-bottom:1px solid var(--line);
+ background:#101014;position:sticky;top:0;z-index:6;flex-wrap:wrap;align-items:center}
+nav a{color:var(--dim);text-decoration:none;padding:6px 13px;border-radius:7px;
+ border:1px solid transparent;font-size:12.5px;white-space:nowrap}
+nav a:hover{color:var(--fg);border-color:var(--line)}
+nav a.here{color:var(--fg);border-color:var(--acc);background:#17141f;font-weight:600}
+nav .sep{color:#3a3a44;padding:0 2px}
+h1{margin:0 0 6px;font-size:20px;letter-spacing:-.01em}
+.q{color:var(--acc);font-weight:600;margin:6px 0}
+.sub{color:var(--dim);max-width:80ch}
+.legend{padding:16px 30px 6px;color:var(--dim);font-size:12.5px}
+.legend b{color:var(--fg)}
+.legend li{margin:3px 0}
+.ref{margin:0 30px 26px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.rh{padding:10px 14px;background:#141419;border-bottom:1px solid var(--line);
+ display:flex;gap:13px;align-items:baseline;flex-wrap:wrap}
+.rh b{font-size:13.5px}
+.rh .m{color:var(--dim);font-size:12px}
+.pill{font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--line)}
+.pill.fire{border-color:var(--warn);color:var(--warn)}
+.pill.keep{border-color:var(--ok);color:var(--ok)}
+.strip{display:flex;overflow-x:auto}
+.cell{flex:0 0 226px;border-right:1px solid var(--line);padding:10px}
+.cell:last-child{border-right:0}
+.cell.truth{background:#101418}
+.cell img{width:100%;background:#fff;border-radius:4px;display:block;cursor:zoom-in}
+.tag{font-weight:600;margin:7px 0 3px;font-size:12.5px}
+.tag.t{color:var(--ok)}
+.note{color:var(--dim);font-size:11.5px;line-height:1.45}
+.sec{padding:8px 30px 4px;color:var(--fg);font-weight:600;font-size:14px}
+table{border-collapse:collapse;margin:6px 30px 22px;font-size:12.5px}
+td,th{border:1px solid var(--line);padding:5px 10px;text-align:left}
+th{background:#141419}
+#lb{position:fixed;inset:0;background:#000000f2;display:none;z-index:50;
+ align-items:center;justify-content:center;flex-direction:column;gap:12px}
+#lb img{max-width:94vw;max-height:84vh;background:#fff;border-radius:6px}
+#lbc{color:var(--fg);font-size:13px}
+</style>
+<header><h1>Phase 3 &mdash; M, mannequin</h1><div class='q'>Does the mannequin read as a neutral form &mdash; not as clothing, and not as something worth attending to?</div><div class='sub'>Click an image to zoom, &larr; &rarr; to step across the row. Nothing here has been sent to klein.</div></header>
+<nav><a href='v221_attention_mod.html'>&#9733; Attention Modulation</a><span class='sep'>/</span><a href='v221_phase3_acc.html'>0 &middot; AC-C destroy</a><span class='sep'>/</span><a href='v221_phase3_acab.html'>1 &middot; AC-A / AC-B</a><span class='sep'>/</span><a href='v221_phase3_crops.html'>2 &middot; Crops + PRE</a><span class='sep'>/</span><a href='v221_phase3_fashn.html'>3 &middot; FASHN</a><span class='sep'>/</span><a href='v221_phase3_ac.html'>4 &middot; AC arms</a><span class='sep'>/</span><a href='v221_phase3_bg.html'>5 &middot; BG</a><span class='sep'>/</span><a href='v221_phase3_m.html' class='here'>6 &middot; M</a></nav>
+<div class='legend'><ul><li><b>M0</b> &mdash; C3.1 as it ships today, the wearer's body untouched. Control</li><li><b>M1</b> &mdash; flat mid-grey fill. No shading, so an arm stops reading as a cylinder &mdash; bounds what the colour alone buys</li><li><b>M2</b> &mdash; shaded grey: LAB, a/b zeroed, L compressed to [116,196]. Keeps 3D form, destroys hue. Expected winner</li><li style='margin-top:8px'>Two failure risks pull opposite ways &mdash; being read as <b>clothing</b> wants contrast, <b>attracting attention</b> wants none. They resolve because they are contrasts against different things: the mannequin should sit close to the <b>ground</b> and stay separable from the <b>garment</b>.</li></ul></div>
+<div class='ref'><div class='rh'><b>p021</b><span class='m'>visible body = 8.6% of the crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p021__M0.jpg' alt='p021 &mdash; M0 &mdash; control' loading='lazy'><div class='tag'>M0 &mdash; control</div><div class='note'>wearer&#x27;s body as-is</div></div>
+<div class='cell '><img src='../runs/phase3/p021__M1.jpg' alt='p021 &mdash; M1 &mdash; flat grey' loading='lazy'><div class='tag'>M1 &mdash; flat grey</div><div class='note'>no shading</div></div>
+<div class='cell '><img src='../runs/phase3/p021__M2.jpg' alt='p021 &mdash; M2 &mdash; shaded grey' loading='lazy'><div class='tag'>M2 &mdash; shaded grey</div><div class='note'>achromatic, form kept</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_woman_top_denim_skirt_nonceleb</b><span class='m'>visible body = 45.6% of the crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__M0.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; M0 &mdash; control' loading='lazy'><div class='tag'>M0 &mdash; control</div><div class='note'>wearer&#x27;s body as-is</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__M1.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; M1 &mdash; flat grey' loading='lazy'><div class='tag'>M1 &mdash; flat grey</div><div class='note'>no shading</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__M2.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; M2 &mdash; shaded grey' loading='lazy'><div class='tag'>M2 &mdash; shaded grey</div><div class='note'>achromatic, form kept</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p023</b><span class='m'>visible body = 40.6% of the crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p023__M0.jpg' alt='p023 &mdash; M0 &mdash; control' loading='lazy'><div class='tag'>M0 &mdash; control</div><div class='note'>wearer&#x27;s body as-is</div></div>
+<div class='cell '><img src='../runs/phase3/p023__M1.jpg' alt='p023 &mdash; M1 &mdash; flat grey' loading='lazy'><div class='tag'>M1 &mdash; flat grey</div><div class='note'>no shading</div></div>
+<div class='cell '><img src='../runs/phase3/p023__M2.jpg' alt='p023 &mdash; M2 &mdash; shaded grey' loading='lazy'><div class='tag'>M2 &mdash; shaded grey</div><div class='note'>achromatic, form kept</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_zendaya_white_blazer_skirt</b><span class='m'>visible body = 8.5% of the crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__M0.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; M0 &mdash; control' loading='lazy'><div class='tag'>M0 &mdash; control</div><div class='note'>wearer&#x27;s body as-is</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__M1.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; M1 &mdash; flat grey' loading='lazy'><div class='tag'>M1 &mdash; flat grey</div><div class='note'>no shading</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__M2.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; M2 &mdash; shaded grey' loading='lazy'><div class='tag'>M2 &mdash; shaded grey</div><div class='note'>achromatic, form kept</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p012</b><span class='m'>visible body = 6.2% of the crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p012__M0.jpg' alt='p012 &mdash; M0 &mdash; control' loading='lazy'><div class='tag'>M0 &mdash; control</div><div class='note'>wearer&#x27;s body as-is</div></div>
+<div class='cell '><img src='../runs/phase3/p012__M1.jpg' alt='p012 &mdash; M1 &mdash; flat grey' loading='lazy'><div class='tag'>M1 &mdash; flat grey</div><div class='note'>no shading</div></div>
+<div class='cell '><img src='../runs/phase3/p012__M2.jpg' alt='p012 &mdash; M2 &mdash; shaded grey' loading='lazy'><div class='tag'>M2 &mdash; shaded grey</div><div class='note'>achromatic, form kept</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p019</b><span class='m'>visible body = 0.0% of the crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p019__M0.jpg' alt='p019 &mdash; M0 &mdash; control' loading='lazy'><div class='tag'>M0 &mdash; control</div><div class='note'>wearer&#x27;s body as-is</div></div>
+<div class='cell '><img src='../runs/phase3/p019__M1.jpg' alt='p019 &mdash; M1 &mdash; flat grey' loading='lazy'><div class='tag'>M1 &mdash; flat grey</div><div class='note'>no shading</div></div>
+<div class='cell '><img src='../runs/phase3/p019__M2.jpg' alt='p019 &mdash; M2 &mdash; shaded grey' loading='lazy'><div class='tag'>M2 &mdash; shaded grey</div><div class='note'>achromatic, form kept</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p028</b><span class='m'>visible body = 6.5% of the crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p028__M0.jpg' alt='p028 &mdash; M0 &mdash; control' loading='lazy'><div class='tag'>M0 &mdash; control</div><div class='note'>wearer&#x27;s body as-is</div></div>
+<div class='cell '><img src='../runs/phase3/p028__M1.jpg' alt='p028 &mdash; M1 &mdash; flat grey' loading='lazy'><div class='tag'>M1 &mdash; flat grey</div><div class='note'>no shading</div></div>
+<div class='cell '><img src='../runs/phase3/p028__M2.jpg' alt='p028 &mdash; M2 &mdash; shaded grey' loading='lazy'><div class='tag'>M2 &mdash; shaded grey</div><div class='note'>achromatic, form kept</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p030</b><span class='m'>visible body = 7.1% of the crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p030__M0.jpg' alt='p030 &mdash; M0 &mdash; control' loading='lazy'><div class='tag'>M0 &mdash; control</div><div class='note'>wearer&#x27;s body as-is</div></div>
+<div class='cell '><img src='../runs/phase3/p030__M1.jpg' alt='p030 &mdash; M1 &mdash; flat grey' loading='lazy'><div class='tag'>M1 &mdash; flat grey</div><div class='note'>no shading</div></div>
+<div class='cell '><img src='../runs/phase3/p030__M2.jpg' alt='p030 &mdash; M2 &mdash; shaded grey' loading='lazy'><div class='tag'>M2 &mdash; shaded grey</div><div class='note'>achromatic, form kept</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_scarlett_johansson_black_dress_backview_night</b><span class='m'>visible body = 31.2% of the crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__M0.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; M0 &mdash; control' loading='lazy'><div class='tag'>M0 &mdash; control</div><div class='note'>wearer&#x27;s body as-is</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__M1.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; M1 &mdash; flat grey' loading='lazy'><div class='tag'>M1 &mdash; flat grey</div><div class='note'>no shading</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__M2.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; M2 &mdash; shaded grey' loading='lazy'><div class='tag'>M2 &mdash; shaded grey</div><div class='note'>achromatic, form kept</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p016</b><span class='m'>visible body = 45.5% of the crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p016__M0.jpg' alt='p016 &mdash; M0 &mdash; control' loading='lazy'><div class='tag'>M0 &mdash; control</div><div class='note'>wearer&#x27;s body as-is</div></div>
+<div class='cell '><img src='../runs/phase3/p016__M1.jpg' alt='p016 &mdash; M1 &mdash; flat grey' loading='lazy'><div class='tag'>M1 &mdash; flat grey</div><div class='note'>no shading</div></div>
+<div class='cell '><img src='../runs/phase3/p016__M2.jpg' alt='p016 &mdash; M2 &mdash; shaded grey' loading='lazy'><div class='tag'>M2 &mdash; shaded grey</div><div class='note'>achromatic, form kept</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p009</b><span class='m'>visible body = 19.6% of the crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p009__M0.jpg' alt='p009 &mdash; M0 &mdash; control' loading='lazy'><div class='tag'>M0 &mdash; control</div><div class='note'>wearer&#x27;s body as-is</div></div>
+<div class='cell '><img src='../runs/phase3/p009__M1.jpg' alt='p009 &mdash; M1 &mdash; flat grey' loading='lazy'><div class='tag'>M1 &mdash; flat grey</div><div class='note'>no shading</div></div>
+<div class='cell '><img src='../runs/phase3/p009__M2.jpg' alt='p009 &mdash; M2 &mdash; shaded grey' loading='lazy'><div class='tag'>M2 &mdash; shaded grey</div><div class='note'>achromatic, form kept</div></div>
+</div></div>
+<div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>
+<script>
+var shots = [], at = -1;
+var lb = document.getElementById('lb');
+var lbi = document.getElementById('lbi');
+var lbc = document.getElementById('lbc');
+function paint(){
+  if (at < 0 || at >= shots.length) return;
+  lbi.src = shots[at].getAttribute('src');
+  lbc.textContent = shots[at].getAttribute('alt');
+}
+document.body.addEventListener('click', function(e){
+  var im = e.target.closest('.cell img');
+  if (!im) return;
+  var row = im.closest('.strip');
+  shots = Array.prototype.slice.call(row.querySelectorAll('img'));
+  at = shots.indexOf(im);
+  lb.style.display = 'flex';
+  paint();
+});
+lb.addEventListener('click', function(){ lb.style.display = 'none'; });
+document.addEventListener('keydown', function(e){
+  if (lb.style.display !== 'flex') return;
+  if (e.key === 'Escape'){ lb.style.display = 'none'; return; }
+  if (e.key === 'ArrowRight' && at < shots.length - 1){ at++; paint(); e.preventDefault(); }
+  if (e.key === 'ArrowLeft'  && at > 0){ at--; paint(); e.preventDefault(); }
+});
+</script>

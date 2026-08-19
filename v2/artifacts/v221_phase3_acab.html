@@ -1,0 +1,229 @@
+<title>Phase 3 &mdash; AC-A extraction vs AC-B bald+crop</title>
+<style>
+:root{--bg:#0d0d10;--fg:#e8e8ea;--dim:#8a8a94;--line:#26262c;--acc:#7c5cff;
+ --ok:#3fb950;--warn:#d29922}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:14px/1.55 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:26px 30px 16px;border-bottom:1px solid var(--line)}
+nav{display:flex;gap:6px;padding:10px 30px;border-bottom:1px solid var(--line);
+ background:#101014;position:sticky;top:0;z-index:6;flex-wrap:wrap;align-items:center}
+nav a{color:var(--dim);text-decoration:none;padding:6px 13px;border-radius:7px;
+ border:1px solid transparent;font-size:12.5px;white-space:nowrap}
+nav a:hover{color:var(--fg);border-color:var(--line)}
+nav a.here{color:var(--fg);border-color:var(--acc);background:#17141f;font-weight:600}
+nav .sep{color:#3a3a44;padding:0 2px}
+h1{margin:0 0 6px;font-size:20px;letter-spacing:-.01em}
+.q{color:var(--acc);font-weight:600;margin:6px 0}
+.sub{color:var(--dim);max-width:80ch}
+.legend{padding:16px 30px 6px;color:var(--dim);font-size:12.5px}
+.legend b{color:var(--fg)}
+.legend li{margin:3px 0}
+.ref{margin:0 30px 26px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.rh{padding:10px 14px;background:#141419;border-bottom:1px solid var(--line);
+ display:flex;gap:13px;align-items:baseline;flex-wrap:wrap}
+.rh b{font-size:13.5px}
+.rh .m{color:var(--dim);font-size:12px}
+.pill{font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--line)}
+.pill.fire{border-color:var(--warn);color:var(--warn)}
+.pill.keep{border-color:var(--ok);color:var(--ok)}
+.strip{display:flex;overflow-x:auto}
+.cell{flex:0 0 226px;border-right:1px solid var(--line);padding:10px}
+.cell:last-child{border-right:0}
+.cell.truth{background:#101418}
+.cell img{width:100%;background:#fff;border-radius:4px;display:block;cursor:zoom-in}
+.tag{font-weight:600;margin:7px 0 3px;font-size:12.5px}
+.tag.t{color:var(--ok)}
+.note{color:var(--dim);font-size:11.5px;line-height:1.45}
+.sec{padding:8px 30px 4px;color:var(--fg);font-weight:600;font-size:14px}
+table{border-collapse:collapse;margin:6px 30px 22px;font-size:12.5px}
+td,th{border:1px solid var(--line);padding:5px 10px;text-align:left}
+th{background:#141419}
+#lb{position:fixed;inset:0;background:#000000f2;display:none;z-index:50;
+ align-items:center;justify-content:center;flex-direction:column;gap:12px}
+#lb img{max-width:94vw;max-height:84vh;background:#fff;border-radius:6px}
+#lbc{color:var(--fg);font-size:13px}
+</style>
+<header><h1>Phase 3 &mdash; AC-A extraction vs AC-B bald+crop</h1><div class='q'>Do either of these produce a garment reference good enough to send to klein?</div><div class='sub'>Both descend from the AC section: AC-A from AC8 (generative crop), AC-B from PRE (repair before cropping). Nothing here has been sent to klein &mdash; this page is the gate.</div></header>
+<nav><a href='v221_attention_mod.html'>&#9733; Attention Modulation</a><span class='sep'>/</span><a href='v221_phase3_acc.html'>0 &middot; AC-C destroy</a><span class='sep'>/</span><a href='v221_phase3_acab.html' class='here'>1 &middot; AC-A / AC-B</a><span class='sep'>/</span><a href='v221_phase3_crops.html'>2 &middot; Crops + PRE</a><span class='sep'>/</span><a href='v221_phase3_fashn.html'>3 &middot; FASHN</a><span class='sep'>/</span><a href='v221_phase3_ac.html'>4 &middot; AC arms</a><span class='sep'>/</span><a href='v221_phase3_bg.html'>5 &middot; BG</a><span class='sep'>/</span><a href='v221_phase3_m.html'>6 &middot; M</a></nav>
+<div class='sec'>AC-A &mdash; garment extraction: &ldquo;return only the clothing&rdquo;</div>
+<div class='legend'><ul><li>The <b>whole garment is regenerated</b>. That is the risk and the appeal: the output can be cleaner than anything subtractive, and nothing constrains it to the true garment</li><li><b>Judge fidelity, not tidiness.</b> Compare each output against CONTROL at zoom, on pattern and colour. A beautiful crop of the wrong garment is the failure mode, and &sect;2b showed both our instruments reward a plausible garment over the correct one</li><li><b>The amber note under each cell is a drift check</b> (<code>v2/build/extraction_drift.py</code>): median lightness, chroma and hue shift of the garment pixels against CONTROL, plus an edge-density ratio as a pattern proxy, with both images rescaled to the same garment height first. It is <b>triage, not a verdict</b> &mdash; it catches gross recolouring and smoothed-away texture, and cannot see a changed collar or a moved seam. Nothing flagged is automatically bad; nothing unflagged is automatically right</li><li>Models: Qwen-Image-Edit-<b>2511</b> (Apache), Qwen-Image-Edit-<b>Plus</b>, klein 4B distilled, klein 4B base. Qwen 2511 gets three prompt variants, so <b>model and prompt are separable</b> rather than confounded</li><li><b>2511 vs Plus.</b> 2511 is the newest <i>numbered</i> release and is explicitly the successor to 2509 &mdash; reduced identity drift, better character consistency, stronger geometric reasoning. &ldquo;Plus&rdquo; could not be settled by naming: it was the community nickname for 2509, yet one source dates it to 2026. The fal schemas differ materially (50 steps / guidance 4 versus 28 / 4.5), so they are different models and the question is answered by running both. Plus defaults to a square output, which would squash a portrait reference, so aspect is passed explicitly</li><li><b>p1</b> &ldquo;Return only the clothing from this photo, isolated on a plain white background. Remove t&hellip;&rdquo;</li><li><b>p2</b> &ldquo;Extract the garment as a flat product photograph on pure white. Keep every detail of the&hellip;&rdquo;</li><li><b>p3</b> &ldquo;Show this outfit as a ghost mannequin product shot on white: the clothing keeps its shap&hellip;&rdquo; (ghost-mannequin framing)</li></ul></div>
+<div class='ref'><div class='rh'><b>p021</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/p021__CTRL.jpg' alt='p021 &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p021__QX_qwen_p1.jpg' alt='p021 &mdash; Qwen 2511 p1' loading='lazy'><div class='tag'>Qwen 2511 p1</div><div class='note' style='color:#d29922'>DRIFT: chroma +33</div></div>
+<div class='cell '><img src='../runs/acab/p021__QX_qwen_p2.jpg' alt='p021 &mdash; Qwen 2511 p2' loading='lazy'><div class='tag'>Qwen 2511 p2</div><div class='note' style='color:#d29922'>DRIFT: chroma +43</div></div>
+<div class='cell '><img src='../runs/acab/p021__QX_qwen_p3.jpg' alt='p021 &mdash; Qwen 2511 p3 (ghost)' loading='lazy'><div class='tag'>Qwen 2511 p3 (ghost)</div><div class='note' style='color:#d29922'>DRIFT: pattern x0.47</div></div>
+<div class='cell '><img src='../runs/acab/p021__QX_kleind.jpg' alt='p021 &mdash; klein distilled' loading='lazy'><div class='tag'>klein distilled</div><div class='note' style='color:#d29922'>DRIFT: lightness +50, chroma +37, pattern x1.98</div></div>
+<div class='cell '><img src='../runs/acab/p021__QX_kleinb.jpg' alt='p021 &mdash; klein base' loading='lazy'><div class='tag'>klein base</div><div class='note' style='color:#d29922'>DRIFT: lightness +24, chroma +42, pattern x2.70</div></div>
+<div class='cell '><img src='../runs/acab/p021__QX_plus_p1.jpg' alt='p021 &mdash; Qwen PLUS p1' loading='lazy'><div class='tag'>Qwen PLUS p1</div><div class='note' style='color:#d29922'>DRIFT: lightness +33, chroma +73, hue 27deg, pattern x0.16</div></div>
+<div class='cell '><img src='../runs/acab/p021__QX_plus_p3.jpg' alt='p021 &mdash; Qwen PLUS p3 (ghost)' loading='lazy'><div class='tag'>Qwen PLUS p3 (ghost)</div><div class='note' style='color:#d29922'>DRIFT: lightness +114, chroma -12, hue 58deg, pattern x0.23</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_woman_top_denim_skirt_nonceleb</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/dualuse_woman_top_denim_skirt_nonceleb__CTRL.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/dualuse_woman_top_denim_skirt_nonceleb__QX_qwen_p1.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; Qwen 2511 p1' loading='lazy'><div class='tag'>Qwen 2511 p1</div><div class='note' style='color:#d29922'>DRIFT: hue 63deg</div></div>
+<div class='cell '><img src='../runs/acab/dualuse_woman_top_denim_skirt_nonceleb__QX_qwen_p2.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; Qwen 2511 p2' loading='lazy'><div class='tag'>Qwen 2511 p2</div><div class='note' style='color:#d29922'>DRIFT: hue 68deg</div></div>
+<div class='cell '><img src='../runs/acab/dualuse_woman_top_denim_skirt_nonceleb__QX_qwen_p3.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; Qwen 2511 p3 (ghost)' loading='lazy'><div class='tag'>Qwen 2511 p3 (ghost)</div><div class='note' style='color:#d29922'>DRIFT: lightness +131, chroma -10, hue 32deg</div></div>
+<div class='cell '><img src='../runs/acab/dualuse_woman_top_denim_skirt_nonceleb__QX_kleind.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; klein distilled' loading='lazy'><div class='tag'>klein distilled</div><div class='note' style='color:#d29922'>DRIFT: lightness +53, hue 45deg</div></div>
+<div class='cell '><img src='../runs/acab/dualuse_woman_top_denim_skirt_nonceleb__QX_kleinb.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; klein base' loading='lazy'><div class='tag'>klein base</div><div class='note' style='color:#d29922'>DRIFT: lightness +58, chroma +14, hue 54deg, pattern x2.37</div></div>
+<div class='cell '><img src='../runs/acab/dualuse_woman_top_denim_skirt_nonceleb__QX_plus_p1.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; Qwen PLUS p1' loading='lazy'><div class='tag'>Qwen PLUS p1</div><div class='note' style='color:#d29922'>DRIFT: lightness -31, hue 70deg, pattern x0.44</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p023</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/p023__CTRL.jpg' alt='p023 &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p023__QX_qwen_p1.jpg' alt='p023 &mdash; Qwen 2511 p1' loading='lazy'><div class='tag'>Qwen 2511 p1</div><div class='note' style='color:#d29922'>DRIFT: pattern x0.40</div></div>
+<div class='cell '><img src='../runs/acab/p023__QX_qwen_p2.jpg' alt='p023 &mdash; Qwen 2511 p2' loading='lazy'><div class='tag'>Qwen 2511 p2</div><div class='note' style='color:#d29922'>DRIFT: pattern x0.50</div></div>
+<div class='cell '><img src='../runs/acab/p023__QX_qwen_p3.jpg' alt='p023 &mdash; Qwen 2511 p3 (ghost)' loading='lazy'><div class='tag'>Qwen 2511 p3 (ghost)</div><div class='note' style='color:#d29922'>DRIFT: lightness +13</div></div>
+<div class='cell '><img src='../runs/acab/p023__QX_kleind.jpg' alt='p023 &mdash; klein distilled' loading='lazy'><div class='tag'>klein distilled</div><div class='note' style='color:#d29922'>DRIFT: lightness +29, pattern x0.38</div></div>
+<div class='cell '><img src='../runs/acab/p023__QX_kleinb.jpg' alt='p023 &mdash; klein base' loading='lazy'><div class='tag'>klein base</div><div class='note' style='color:#d29922'>DRIFT: lightness +20</div></div>
+<div class='cell '><img src='../runs/acab/p023__QX_plus_p1.jpg' alt='p023 &mdash; Qwen PLUS p1' loading='lazy'><div class='tag'>Qwen PLUS p1</div><div class='note'>no gross drift</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_zendaya_white_blazer_skirt</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/dualuse_zendaya_white_blazer_skirt__CTRL.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/dualuse_zendaya_white_blazer_skirt__QX_qwen_p1.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; Qwen 2511 p1' loading='lazy'><div class='tag'>Qwen 2511 p1</div><div class='note' style='color:#d29922'>DRIFT: lightness +19, hue 54deg, pattern x0.33</div></div>
+<div class='cell '><img src='../runs/acab/dualuse_zendaya_white_blazer_skirt__QX_qwen_p2.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; Qwen 2511 p2' loading='lazy'><div class='tag'>Qwen 2511 p2</div><div class='note' style='color:#d29922'>DRIFT: lightness +14, hue 56deg, pattern x0.31</div></div>
+<div class='cell '><img src='../runs/acab/dualuse_zendaya_white_blazer_skirt__QX_qwen_p3.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; Qwen 2511 p3 (ghost)' loading='lazy'><div class='tag'>Qwen 2511 p3 (ghost)</div><div class='note' style='color:#d29922'>DRIFT: lightness +13, pattern x0.30</div></div>
+<div class='cell '><img src='../runs/acab/dualuse_zendaya_white_blazer_skirt__QX_kleind.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; klein distilled' loading='lazy'><div class='tag'>klein distilled</div><div class='note' style='color:#d29922'>DRIFT: lightness +24, hue 30deg, pattern x0.24</div></div>
+<div class='cell '><img src='../runs/acab/dualuse_zendaya_white_blazer_skirt__QX_kleinb.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; klein base' loading='lazy'><div class='tag'>klein base</div><div class='note' style='color:#d29922'>DRIFT: hue 41deg</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p012</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/p012__CTRL.jpg' alt='p012 &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p012__QX_qwen_p1.jpg' alt='p012 &mdash; Qwen 2511 p1' loading='lazy'><div class='tag'>Qwen 2511 p1</div><div class='note' style='color:#d29922'>DRIFT: pattern x0.45</div></div>
+<div class='cell '><img src='../runs/acab/p012__QX_qwen_p2.jpg' alt='p012 &mdash; Qwen 2511 p2' loading='lazy'><div class='tag'>Qwen 2511 p2</div><div class='note' style='color:#d29922'>DRIFT: pattern x0.41</div></div>
+<div class='cell '><img src='../runs/acab/p012__QX_qwen_p3.jpg' alt='p012 &mdash; Qwen 2511 p3 (ghost)' loading='lazy'><div class='tag'>Qwen 2511 p3 (ghost)</div><div class='note' style='color:#d29922'>DRIFT: lightness +48</div></div>
+<div class='cell '><img src='../runs/acab/p012__QX_kleind.jpg' alt='p012 &mdash; klein distilled' loading='lazy'><div class='tag'>klein distilled</div><div class='note' style='color:#d29922'>DRIFT: lightness +46, hue 28deg, pattern x0.47</div></div>
+<div class='cell '><img src='../runs/acab/p012__QX_kleinb.jpg' alt='p012 &mdash; klein base' loading='lazy'><div class='tag'>klein base</div><div class='note' style='color:#d29922'>DRIFT: lightness +54, chroma +13, pattern x0.45</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p019</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/p019__CTRL.jpg' alt='p019 &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p019__QX_qwen_p1.jpg' alt='p019 &mdash; Qwen 2511 p1' loading='lazy'><div class='tag'>Qwen 2511 p1</div><div class='note'>no gross drift</div></div>
+<div class='cell '><img src='../runs/acab/p019__QX_qwen_p2.jpg' alt='p019 &mdash; Qwen 2511 p2' loading='lazy'><div class='tag'>Qwen 2511 p2</div><div class='note'>no gross drift</div></div>
+<div class='cell '><img src='../runs/acab/p019__QX_qwen_p3.jpg' alt='p019 &mdash; Qwen 2511 p3 (ghost)' loading='lazy'><div class='tag'>Qwen 2511 p3 (ghost)</div><div class='note' style='color:#d29922'>DRIFT: lightness +60, chroma -19, hue 50deg, pattern x0.30</div></div>
+<div class='cell '><img src='../runs/acab/p019__QX_kleind.jpg' alt='p019 &mdash; klein distilled' loading='lazy'><div class='tag'>klein distilled</div><div class='note' style='color:#d29922'>DRIFT: lightness +22</div></div>
+<div class='cell '><img src='../runs/acab/p019__QX_kleinb.jpg' alt='p019 &mdash; klein base' loading='lazy'><div class='tag'>klein base</div><div class='note'>no gross drift</div></div>
+<div class='cell '><img src='../runs/acab/p019__QX_plus_p3.jpg' alt='p019 &mdash; Qwen PLUS p3 (ghost)' loading='lazy'><div class='tag'>Qwen PLUS p3 (ghost)</div><div class='note' style='color:#d29922'>DRIFT: lightness +63, chroma -15, hue 111deg, pattern x0.00</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p028</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/p028__CTRL.jpg' alt='p028 &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p028__QX_qwen_p1.jpg' alt='p028 &mdash; Qwen 2511 p1' loading='lazy'><div class='tag'>Qwen 2511 p1</div><div class='note'>no gross drift</div></div>
+<div class='cell '><img src='../runs/acab/p028__QX_qwen_p2.jpg' alt='p028 &mdash; Qwen 2511 p2' loading='lazy'><div class='tag'>Qwen 2511 p2</div><div class='note'>no gross drift</div></div>
+<div class='cell '><img src='../runs/acab/p028__QX_qwen_p3.jpg' alt='p028 &mdash; Qwen 2511 p3 (ghost)' loading='lazy'><div class='tag'>Qwen 2511 p3 (ghost)</div><div class='note' style='color:#d29922'>DRIFT: lightness +125, chroma -14, hue 26deg, pattern x0.14</div></div>
+<div class='cell '><img src='../runs/acab/p028__QX_kleind.jpg' alt='p028 &mdash; klein distilled' loading='lazy'><div class='tag'>klein distilled</div><div class='note'>no gross drift</div></div>
+<div class='cell '><img src='../runs/acab/p028__QX_kleinb.jpg' alt='p028 &mdash; klein base' loading='lazy'><div class='tag'>klein base</div><div class='note'>no gross drift</div></div>
+<div class='cell '><img src='../runs/acab/p028__QX_plus_p3.jpg' alt='p028 &mdash; Qwen PLUS p3 (ghost)' loading='lazy'><div class='tag'>Qwen PLUS p3 (ghost)</div><div class='note' style='color:#d29922'>DRIFT: lightness +120, chroma -12, hue 34deg, pattern x0.37</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p030</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/p030__CTRL.jpg' alt='p030 &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p030__QX_qwen_p1.jpg' alt='p030 &mdash; Qwen 2511 p1' loading='lazy'><div class='tag'>Qwen 2511 p1</div><div class='note' style='color:#d29922'>DRIFT: lightness +17, pattern x0.23</div></div>
+<div class='cell '><img src='../runs/acab/p030__QX_qwen_p2.jpg' alt='p030 &mdash; Qwen 2511 p2' loading='lazy'><div class='tag'>Qwen 2511 p2</div><div class='note' style='color:#d29922'>DRIFT: lightness +26, pattern x0.23</div></div>
+<div class='cell '><img src='../runs/acab/p030__QX_qwen_p3.jpg' alt='p030 &mdash; Qwen 2511 p3 (ghost)' loading='lazy'><div class='tag'>Qwen 2511 p3 (ghost)</div><div class='note' style='color:#d29922'>DRIFT: lightness +26, pattern x0.15</div></div>
+<div class='cell '><img src='../runs/acab/p030__QX_kleind.jpg' alt='p030 &mdash; klein distilled' loading='lazy'><div class='tag'>klein distilled</div><div class='note' style='color:#d29922'>DRIFT: lightness +35, pattern x0.25</div></div>
+<div class='cell '><img src='../runs/acab/p030__QX_kleinb.jpg' alt='p030 &mdash; klein base' loading='lazy'><div class='tag'>klein base</div><div class='note' style='color:#d29922'>DRIFT: lightness +19, hue 30deg, pattern x0.31</div></div>
+<div class='cell '><img src='../runs/acab/p030__QX_plus_p1.jpg' alt='p030 &mdash; Qwen PLUS p1' loading='lazy'><div class='tag'>Qwen PLUS p1</div><div class='note' style='color:#d29922'>DRIFT: lightness +26, pattern x0.32</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_scarlett_johansson_black_dress_backview_night</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/dualuse_scarlett_johansson_black_dress_backview_night__CTRL.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/dualuse_scarlett_johansson_black_dress_backview_night__QX_qwen_p1.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; Qwen 2511 p1' loading='lazy'><div class='tag'>Qwen 2511 p1</div><div class='note' style='color:#d29922'>DRIFT: hue 53deg, pattern x0.44</div></div>
+<div class='cell '><img src='../runs/acab/dualuse_scarlett_johansson_black_dress_backview_night__QX_qwen_p2.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; Qwen 2511 p2' loading='lazy'><div class='tag'>Qwen 2511 p2</div><div class='note' style='color:#d29922'>DRIFT: lightness -15, hue 55deg</div></div>
+<div class='cell '><img src='../runs/acab/dualuse_scarlett_johansson_black_dress_backview_night__QX_qwen_p3.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; Qwen 2511 p3 (ghost)' loading='lazy'><div class='tag'>Qwen 2511 p3 (ghost)</div><div class='note' style='color:#d29922'>DRIFT: lightness +73, hue 28deg</div></div>
+<div class='cell '><img src='../runs/acab/dualuse_scarlett_johansson_black_dress_backview_night__QX_kleind.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; klein distilled' loading='lazy'><div class='tag'>klein distilled</div><div class='note' style='color:#d29922'>DRIFT: pattern x0.34</div></div>
+<div class='cell '><img src='../runs/acab/dualuse_scarlett_johansson_black_dress_backview_night__QX_kleinb.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; klein base' loading='lazy'><div class='tag'>klein base</div><div class='note' style='color:#d29922'>DRIFT: pattern x0.33</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p016</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/p016__CTRL.jpg' alt='p016 &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p016__QX_qwen_p1.jpg' alt='p016 &mdash; Qwen 2511 p1' loading='lazy'><div class='tag'>Qwen 2511 p1</div><div class='note' style='color:#d29922'>DRIFT: lightness +15, chroma +10, pattern x0.38</div></div>
+<div class='cell '><img src='../runs/acab/p016__QX_qwen_p2.jpg' alt='p016 &mdash; Qwen 2511 p2' loading='lazy'><div class='tag'>Qwen 2511 p2</div><div class='note' style='color:#d29922'>DRIFT: lightness +16, chroma +12</div></div>
+<div class='cell '><img src='../runs/acab/p016__QX_qwen_p3.jpg' alt='p016 &mdash; Qwen 2511 p3 (ghost)' loading='lazy'><div class='tag'>Qwen 2511 p3 (ghost)</div><div class='note' style='color:#d29922'>DRIFT: lightness +17, chroma -10</div></div>
+<div class='cell '><img src='../runs/acab/p016__QX_kleind.jpg' alt='p016 &mdash; klein distilled' loading='lazy'><div class='tag'>klein distilled</div><div class='note' style='color:#d29922'>DRIFT: hue 80deg</div></div>
+<div class='cell '><img src='../runs/acab/p016__QX_kleinb.jpg' alt='p016 &mdash; klein base' loading='lazy'><div class='tag'>klein base</div><div class='note' style='color:#d29922'>DRIFT: lightness +26</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p009</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/p009__CTRL.jpg' alt='p009 &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p009__QX_qwen_p1.jpg' alt='p009 &mdash; Qwen 2511 p1' loading='lazy'><div class='tag'>Qwen 2511 p1</div><div class='note' style='color:#d29922'>DRIFT: lightness -13, hue 88deg</div></div>
+<div class='cell '><img src='../runs/acab/p009__QX_qwen_p2.jpg' alt='p009 &mdash; Qwen 2511 p2' loading='lazy'><div class='tag'>Qwen 2511 p2</div><div class='note' style='color:#d29922'>DRIFT: lightness -13, hue 80deg</div></div>
+<div class='cell '><img src='../runs/acab/p009__QX_qwen_p3.jpg' alt='p009 &mdash; Qwen 2511 p3 (ghost)' loading='lazy'><div class='tag'>Qwen 2511 p3 (ghost)</div><div class='note' style='color:#d29922'>DRIFT: lightness -21, hue 82deg</div></div>
+<div class='cell '><img src='../runs/acab/p009__QX_kleind.jpg' alt='p009 &mdash; klein distilled' loading='lazy'><div class='tag'>klein distilled</div><div class='note' style='color:#d29922'>DRIFT: hue 56deg</div></div>
+<div class='cell '><img src='../runs/acab/p009__QX_kleinb.jpg' alt='p009 &mdash; klein base' loading='lazy'><div class='tag'>klein base</div><div class='note' style='color:#d29922'>DRIFT: hue 39deg</div></div>
+</div></div>
+<div class='sec'>AC-B &mdash; bald, then crop (cranium fix on)</div><div class='legend'><ul><li><b>Only the hair is regenerated</b>; the garment pixels are real, straight from the photograph. Low hallucination risk by construction &mdash; the crop can only remove, never invent</li><li><b>The head now comes from a human parser</b> (SegFormer-B2 on ATR, 18 human-part classes). It replaces a geometric heuristic patched seven times that was still trading references against each other &mdash; grow the ellipse and it catches the scalp but eats collars, shrink it and the reverse. An ellipse cannot know where a head ends and a collar begins. ATR's Face class covers the <b>head region</b> rather than facial skin, which is exactly what the bald case needs. Head removal is up <b>+5.0 points on average</b>; p016 went 3.5% &rarr; 11.9%, p023 10.6% &rarr; 23.4%. Head, garment and skin now all come from <b>one</b> model, so they are disjoint by construction</li><li><b>The parser alone was not enough either.</b> ATR&rsquo;s <code>face</code> class <b>bleeds down the body</b> on bald frames &mdash; the model was trained on people with hair, so a bald head above a bare neck and chest reads as one continuous face region. Measured: the head class reached 134% of the ear-to-shoulder span on p021, 292% on zendaya and <b>499% &mdash; the bottom of the frame &mdash; on p023</b>. So each model now does only what it is good at: the <b>parser supplies the shape</b> (the scalp boundary, which no heuristic could get) and <b>pose supplies the extent</b> (where a head stops), then only the component containing the nose is kept. Head extent is now ~70% of ear-to-shoulder on every reference and 7&ndash;17% of the subject &mdash; the correct anatomical proportion</li><li style='opacity:.75'>Superseded, kept as fallbacks: pose ellipse, then the face-anchored band. Neither fired on any reference here. The old mask was HAIR + FACE, so on a bald frame the head signal vanished with the hair signal and <b>half the skull survived the cut</b> (head removal fell from 17.6% of the subject to 8.6%). Anatomy and appearance are now separate: a skull ellipse from ear landmarks fires <b>always</b>, and the HAIR class only adds what lies outside it. One rule covers bald, short hair and long hair</li><li>Three constraints, each measured rather than tuned &mdash; the ellipse is sized from <b>ear separation</b> (skull width at ear level), <b>clipped at the neck</b> (between the ear and shoulder landmarks), and the <b>clothes class is protected</b>, so a high collar or hood inside the ellipse survives. Result: <b>0 of 11 references lose garment area</b>, down from 2, and p030 went from &minus;3.4 points to &minus;0.1. MediaPipe Pose lite, Apache-2.0, 5.8MB</li><li><b>What to check by eye:</b> the numbers show no garment lost and more head removed, but they cannot prove the <b>whole skull is gone</b>. Look at the top of each crop &mdash; that is the one thing this fix was for, and the only thing that settles it</li></ul></div>
+<div class='ref'><div class='rh'><b>p021</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/p021__CTRL.jpg' alt='p021 &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p021__BC_klein.jpg' alt='p021 &mdash; bald(klein) &rarr; crop' loading='lazy'><div class='tag'>bald(klein) &rarr; crop</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p021__BC_qwen.jpg' alt='p021 &mdash; bald(Qwen) &rarr; crop' loading='lazy'><div class='tag'>bald(Qwen) &rarr; crop</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_woman_top_denim_skirt_nonceleb</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/dualuse_woman_top_denim_skirt_nonceleb__CTRL.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/dualuse_woman_top_denim_skirt_nonceleb__BC_klein.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; bald(klein) &rarr; crop' loading='lazy'><div class='tag'>bald(klein) &rarr; crop</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/dualuse_woman_top_denim_skirt_nonceleb__BC_qwen.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; bald(Qwen) &rarr; crop' loading='lazy'><div class='tag'>bald(Qwen) &rarr; crop</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p023</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/p023__CTRL.jpg' alt='p023 &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p023__BC_klein.jpg' alt='p023 &mdash; bald(klein) &rarr; crop' loading='lazy'><div class='tag'>bald(klein) &rarr; crop</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p023__BC_qwen.jpg' alt='p023 &mdash; bald(Qwen) &rarr; crop' loading='lazy'><div class='tag'>bald(Qwen) &rarr; crop</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_zendaya_white_blazer_skirt</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/dualuse_zendaya_white_blazer_skirt__CTRL.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/dualuse_zendaya_white_blazer_skirt__BC_klein.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; bald(klein) &rarr; crop' loading='lazy'><div class='tag'>bald(klein) &rarr; crop</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/dualuse_zendaya_white_blazer_skirt__BC_qwen.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; bald(Qwen) &rarr; crop' loading='lazy'><div class='tag'>bald(Qwen) &rarr; crop</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p012</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/p012__CTRL.jpg' alt='p012 &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p012__BC_klein.jpg' alt='p012 &mdash; bald(klein) &rarr; crop' loading='lazy'><div class='tag'>bald(klein) &rarr; crop</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p012__BC_qwen.jpg' alt='p012 &mdash; bald(Qwen) &rarr; crop' loading='lazy'><div class='tag'>bald(Qwen) &rarr; crop</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p019</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/p019__CTRL.jpg' alt='p019 &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p019__BC_klein.jpg' alt='p019 &mdash; bald(klein) &rarr; crop' loading='lazy'><div class='tag'>bald(klein) &rarr; crop</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p019__BC_qwen.jpg' alt='p019 &mdash; bald(Qwen) &rarr; crop' loading='lazy'><div class='tag'>bald(Qwen) &rarr; crop</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p028</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/p028__CTRL.jpg' alt='p028 &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p028__BC_klein.jpg' alt='p028 &mdash; bald(klein) &rarr; crop' loading='lazy'><div class='tag'>bald(klein) &rarr; crop</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p028__BC_qwen.jpg' alt='p028 &mdash; bald(Qwen) &rarr; crop' loading='lazy'><div class='tag'>bald(Qwen) &rarr; crop</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p030</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/p030__CTRL.jpg' alt='p030 &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p030__BC_klein.jpg' alt='p030 &mdash; bald(klein) &rarr; crop' loading='lazy'><div class='tag'>bald(klein) &rarr; crop</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p030__BC_qwen.jpg' alt='p030 &mdash; bald(Qwen) &rarr; crop' loading='lazy'><div class='tag'>bald(Qwen) &rarr; crop</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_scarlett_johansson_black_dress_backview_night</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/dualuse_scarlett_johansson_black_dress_backview_night__CTRL.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/dualuse_scarlett_johansson_black_dress_backview_night__BC_klein.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; bald(klein) &rarr; crop' loading='lazy'><div class='tag'>bald(klein) &rarr; crop</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/dualuse_scarlett_johansson_black_dress_backview_night__BC_qwen.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; bald(Qwen) &rarr; crop' loading='lazy'><div class='tag'>bald(Qwen) &rarr; crop</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p016</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/p016__CTRL.jpg' alt='p016 &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p016__BC_klein.jpg' alt='p016 &mdash; bald(klein) &rarr; crop' loading='lazy'><div class='tag'>bald(klein) &rarr; crop</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p016__BC_qwen.jpg' alt='p016 &mdash; bald(Qwen) &rarr; crop' loading='lazy'><div class='tag'>bald(Qwen) &rarr; crop</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p009</b></div><div class='strip'>
+<div class='cell truth'><img src='../runs/acab/p009__CTRL.jpg' alt='p009 &mdash; CONTROL &mdash; C3.1 today' loading='lazy'><div class='tag t'>CONTROL &mdash; C3.1 today</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p009__BC_klein.jpg' alt='p009 &mdash; bald(klein) &rarr; crop' loading='lazy'><div class='tag'>bald(klein) &rarr; crop</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/acab/p009__BC_qwen.jpg' alt='p009 &mdash; bald(Qwen) &rarr; crop' loading='lazy'><div class='tag'>bald(Qwen) &rarr; crop</div><div class='note'></div></div>
+</div></div>
+<div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>
+<script>
+var shots = [], at = -1;
+var lb = document.getElementById('lb');
+var lbi = document.getElementById('lbi');
+var lbc = document.getElementById('lbc');
+function paint(){
+  if (at < 0 || at >= shots.length) return;
+  lbi.src = shots[at].getAttribute('src');
+  lbc.textContent = shots[at].getAttribute('alt');
+}
+document.body.addEventListener('click', function(e){
+  var im = e.target.closest('.cell img');
+  if (!im) return;
+  var row = im.closest('.strip');
+  shots = Array.prototype.slice.call(row.querySelectorAll('img'));
+  at = shots.indexOf(im);
+  lb.style.display = 'flex';
+  paint();
+});
+lb.addEventListener('click', function(){ lb.style.display = 'none'; });
+document.addEventListener('keydown', function(e){
+  if (lb.style.display !== 'flex') return;
+  if (e.key === 'Escape'){ lb.style.display = 'none'; return; }
+  if (e.key === 'ArrowRight' && at < shots.length - 1){ at++; paint(); e.preventDefault(); }
+  if (e.key === 'ArrowLeft'  && at > 0){ at--; paint(); e.preventDefault(); }
+});
+</script>

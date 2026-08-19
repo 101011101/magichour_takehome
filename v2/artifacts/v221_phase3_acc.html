@@ -1,0 +1,268 @@
+<title>Phase 3 &mdash; AC-C, destroy the head</title>
+<style>
+:root{--bg:#0d0d10;--fg:#e8e8ea;--dim:#8a8a94;--line:#26262c;--acc:#7c5cff;
+ --ok:#3fb950;--warn:#d29922}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:14px/1.55 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:26px 30px 16px;border-bottom:1px solid var(--line)}
+nav{display:flex;gap:6px;padding:10px 30px;border-bottom:1px solid var(--line);
+ background:#101014;position:sticky;top:0;z-index:6;flex-wrap:wrap;align-items:center}
+nav a{color:var(--dim);text-decoration:none;padding:6px 13px;border-radius:7px;
+ border:1px solid transparent;font-size:12.5px;white-space:nowrap}
+nav a:hover{color:var(--fg);border-color:var(--line)}
+nav a.here{color:var(--fg);border-color:var(--acc);background:#17141f;font-weight:600}
+nav .sep{color:#3a3a44;padding:0 2px}
+h1{margin:0 0 6px;font-size:20px;letter-spacing:-.01em}
+.q{color:var(--acc);font-weight:600;margin:6px 0}
+.sub{color:var(--dim);max-width:80ch}
+.legend{padding:16px 30px 6px;color:var(--dim);font-size:12.5px}
+.legend b{color:var(--fg)}
+.legend li{margin:3px 0}
+.ref{margin:0 30px 26px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.rh{padding:10px 14px;background:#141419;border-bottom:1px solid var(--line);
+ display:flex;gap:13px;align-items:baseline;flex-wrap:wrap}
+.rh b{font-size:13.5px}
+.rh .m{color:var(--dim);font-size:12px}
+.pill{font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--line)}
+.pill.fire{border-color:var(--warn);color:var(--warn)}
+.pill.keep{border-color:var(--ok);color:var(--ok)}
+.strip{display:flex;overflow-x:auto}
+.cell{flex:0 0 226px;border-right:1px solid var(--line);padding:10px}
+.cell:last-child{border-right:0}
+.cell.truth{background:#101418}
+.cell img{width:100%;background:#fff;border-radius:4px;display:block;cursor:zoom-in}
+.tag{font-weight:600;margin:7px 0 3px;font-size:12.5px}
+.tag.t{color:var(--ok)}
+.note{color:var(--dim);font-size:11.5px;line-height:1.45}
+.sec{padding:8px 30px 4px;color:var(--fg);font-weight:600;font-size:14px}
+table{border-collapse:collapse;margin:6px 30px 22px;font-size:12.5px}
+td,th{border:1px solid var(--line);padding:5px 10px;text-align:left}
+th{background:#141419}
+#lb{position:fixed;inset:0;background:#000000f2;display:none;z-index:50;
+ align-items:center;justify-content:center;flex-direction:column;gap:12px}
+#lb img{max-width:94vw;max-height:84vh;background:#fff;border-radius:6px}
+#lbc{color:var(--fg);font-size:13px}
+</style>
+<header><h1>Phase 3 &mdash; AC-C, destroy the head</h1><div class='q'>Is destroying the identity enough, without removing the head at all?</div><div class='sub'>All local, all free. Two bases: the original photo with hair kept, and the bald frame. Click to zoom, &larr; &rarr; to step across.</div></header>
+<nav><a href='v221_attention_mod.html'>&#9733; Attention Modulation</a><span class='sep'>/</span><a href='v221_phase3_acc.html' class='here'>0 &middot; AC-C destroy</a><span class='sep'>/</span><a href='v221_phase3_acab.html'>1 &middot; AC-A / AC-B</a><span class='sep'>/</span><a href='v221_phase3_crops.html'>2 &middot; Crops + PRE</a><span class='sep'>/</span><a href='v221_phase3_fashn.html'>3 &middot; FASHN</a><span class='sep'>/</span><a href='v221_phase3_ac.html'>4 &middot; AC arms</a><span class='sep'>/</span><a href='v221_phase3_bg.html'>5 &middot; BG</a><span class='sep'>/</span><a href='v221_phase3_m.html'>6 &middot; M</a></nav>
+<div class='legend' style='padding-top:20px'><b style='color:#7c5cff'>What happens to whatever you approve here:</b> it joins the klein batch already agreed &mdash; <b>control</b> (C3.1 as it ships), <b>QX_qwen_p1</b> (Qwen 2511 extraction), <b>BC_klein</b> (klein-bald &rarr; crop) and <b>bald uncropped</b>. Nothing goes to klein until you say which.</div>
+<div class='legend'><ul><li><b>The idea.</b> Eight iterations went into head <i>removal</i> and each traded precision in one place for damage in another, because removal needs an exact boundary and an error leaves a white notch that gets read as garment. But removal was never the goal &mdash; the goal is that the model stops attending to a competing identity, and <b>destruction achieves that without an exact boundary</b>. Over-covering costs a little extra blurred skin: no identity, no garment, and the reference stays a photograph rather than an image with a hole in it</li></ul></div>
+<div class='sec'>AC-C/O &mdash; original photo, hair kept, face destroyed</div>
+<div class='legend'><ul><li><b>The cheaper branch, and probably the stronger one.</b> No generative call, fully deterministic, no licence question, no hallucination risk, milliseconds to run. If it works the entire bald pipeline is unnecessary</li><li>It has a measured precedent: <b>C3.2 was &ldquo;keep the hair, remove the face&rdquo; and scored 45%</b>, and its recorded failure was <i>&ldquo;interpreted the white space as cloth&rdquo;</i> &mdash; the hole left by cutting the face out. This is C3.2 with the face destroyed <b>in place</b>: same information removed, no hole created</li><li><b>What to judge:</b> is the identity actually gone? A blurred face that still reads as a specific person has not done its job</li><li><b>Three blur tiers.</b> Radius scales with the region, not the image, so a small face in a wide frame is destroyed as thoroughly as a large one. Beyond a point <b>repeated passes matter more than radius</b> &mdash; n passes at sigma equals one at sigma&radic;n and flattens the region far faster, where simply widening one kernel just grows the halo. light = 1 pass &middot; <b>HEAVY = 3 passes, 2&times; radius</b> &middot; <b>EXTREME = 5 passes, 3.4&times; radius</b>, each with a wider feather</li></ul></div>
+<div class='ref'><div class='rh'><b>p021</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/p021__D0O.jpg' alt='p021 &mdash; D0 &mdash; C3.1 control' loading='lazy'><div class='tag'>D0 &mdash; C3.1 control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p021__D1O.jpg' alt='p021 &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p021__D1hO.jpg' alt='p021 &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p021__D1xO.jpg' alt='p021 &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p021__D2O.jpg' alt='p021 &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p021__D3O.jpg' alt='p021 &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_woman_top_denim_skirt_nonceleb</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/dualuse_woman_top_denim_skirt_nonceleb__D0O.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; D0 &mdash; C3.1 control' loading='lazy'><div class='tag'>D0 &mdash; C3.1 control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_woman_top_denim_skirt_nonceleb__D1O.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_woman_top_denim_skirt_nonceleb__D1hO.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_woman_top_denim_skirt_nonceleb__D1xO.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_woman_top_denim_skirt_nonceleb__D2O.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_woman_top_denim_skirt_nonceleb__D3O.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p023</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/p023__D0O.jpg' alt='p023 &mdash; D0 &mdash; C3.1 control' loading='lazy'><div class='tag'>D0 &mdash; C3.1 control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p023__D1O.jpg' alt='p023 &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p023__D1hO.jpg' alt='p023 &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p023__D1xO.jpg' alt='p023 &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p023__D2O.jpg' alt='p023 &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p023__D3O.jpg' alt='p023 &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_zendaya_white_blazer_skirt</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/dualuse_zendaya_white_blazer_skirt__D0O.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; D0 &mdash; C3.1 control' loading='lazy'><div class='tag'>D0 &mdash; C3.1 control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_zendaya_white_blazer_skirt__D1O.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_zendaya_white_blazer_skirt__D1hO.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_zendaya_white_blazer_skirt__D1xO.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_zendaya_white_blazer_skirt__D2O.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_zendaya_white_blazer_skirt__D3O.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p012</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/p012__D0O.jpg' alt='p012 &mdash; D0 &mdash; C3.1 control' loading='lazy'><div class='tag'>D0 &mdash; C3.1 control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p012__D1O.jpg' alt='p012 &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p012__D1hO.jpg' alt='p012 &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p012__D1xO.jpg' alt='p012 &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p012__D2O.jpg' alt='p012 &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p012__D3O.jpg' alt='p012 &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p019</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/p019__D0O.jpg' alt='p019 &mdash; D0 &mdash; C3.1 control' loading='lazy'><div class='tag'>D0 &mdash; C3.1 control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p019__D1O.jpg' alt='p019 &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p019__D1hO.jpg' alt='p019 &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p019__D1xO.jpg' alt='p019 &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p019__D2O.jpg' alt='p019 &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p019__D3O.jpg' alt='p019 &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p028</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/p028__D0O.jpg' alt='p028 &mdash; D0 &mdash; C3.1 control' loading='lazy'><div class='tag'>D0 &mdash; C3.1 control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p028__D1O.jpg' alt='p028 &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p028__D1hO.jpg' alt='p028 &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p028__D1xO.jpg' alt='p028 &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p028__D2O.jpg' alt='p028 &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p028__D3O.jpg' alt='p028 &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p030</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/p030__D0O.jpg' alt='p030 &mdash; D0 &mdash; C3.1 control' loading='lazy'><div class='tag'>D0 &mdash; C3.1 control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p030__D1O.jpg' alt='p030 &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p030__D1hO.jpg' alt='p030 &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p030__D1xO.jpg' alt='p030 &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p030__D2O.jpg' alt='p030 &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p030__D3O.jpg' alt='p030 &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_scarlett_johansson_black_dress_backview_night</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/dualuse_scarlett_johansson_black_dress_backview_night__D0O.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; D0 &mdash; C3.1 control' loading='lazy'><div class='tag'>D0 &mdash; C3.1 control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_scarlett_johansson_black_dress_backview_night__D1O.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_scarlett_johansson_black_dress_backview_night__D1hO.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_scarlett_johansson_black_dress_backview_night__D1xO.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_scarlett_johansson_black_dress_backview_night__D2O.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_scarlett_johansson_black_dress_backview_night__D3O.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p016</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/p016__D0O.jpg' alt='p016 &mdash; D0 &mdash; C3.1 control' loading='lazy'><div class='tag'>D0 &mdash; C3.1 control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p016__D1O.jpg' alt='p016 &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p016__D1hO.jpg' alt='p016 &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p016__D1xO.jpg' alt='p016 &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p016__D2O.jpg' alt='p016 &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p016__D3O.jpg' alt='p016 &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p009</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/p009__D0O.jpg' alt='p009 &mdash; D0 &mdash; C3.1 control' loading='lazy'><div class='tag'>D0 &mdash; C3.1 control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p009__D1O.jpg' alt='p009 &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p009__D1hO.jpg' alt='p009 &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p009__D1xO.jpg' alt='p009 &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p009__D2O.jpg' alt='p009 &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p009__D3O.jpg' alt='p009 &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+</div></div>
+<div class='sec'>AC-C/B &mdash; bald frame, head region destroyed</div><div class='legend'><ul><li>Same operations on the AC-B bald crops. Costs a generative call the /O branch does not</li><li><b>D4 is the crop fix</b>, run alongside rather than instead, so removal and destruction are compared directly. It uses morphological <b>opening</b> to sever the neck at its own constriction rather than at a guessed line &mdash; but that only works when a kernel exists <i>between</i> neck width and head width. <b>It applies on 2 of 11 references and falls back on 9</b>, marked in amber. Predicted in advance that it would not generalise; the prediction was right about the rate and wrong about which &mdash; p023 was called the worst case and is one of the two it works on</li><li><b>Also visible here:</b> the subject matte includes <b>furniture</b> &mdash; a stool and a chair &mdash; on several references, and has done in every crop made so far. Found by rendering the masks and looking, not by any measurement</li></ul></div>
+<div class='ref'><div class='rh'><b>p021</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/p021__D0B.jpg' alt='p021 &mdash; D0 &mdash; AC-B control' loading='lazy'><div class='tag'>D0 &mdash; AC-B control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p021__D1B.jpg' alt='p021 &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p021__D1hB.jpg' alt='p021 &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p021__D1xB.jpg' alt='p021 &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p021__D2B.jpg' alt='p021 &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p021__D3B.jpg' alt='p021 &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p021__D4B.jpg' alt='p021 &mdash; D4 &mdash; crop fix' loading='lazy'><div class='tag'>D4 &mdash; crop fix</div><div class='note' style='color:#d29922'>FALLBACK — no kernel separates head from body</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_woman_top_denim_skirt_nonceleb</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/dualuse_woman_top_denim_skirt_nonceleb__D0B.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; D0 &mdash; AC-B control' loading='lazy'><div class='tag'>D0 &mdash; AC-B control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_woman_top_denim_skirt_nonceleb__D1B.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_woman_top_denim_skirt_nonceleb__D1hB.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_woman_top_denim_skirt_nonceleb__D1xB.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_woman_top_denim_skirt_nonceleb__D2B.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_woman_top_denim_skirt_nonceleb__D3B.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_woman_top_denim_skirt_nonceleb__D4B.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; D4 &mdash; crop fix' loading='lazy'><div class='tag'>D4 &mdash; crop fix</div><div class='note' style='color:#d29922'>FALLBACK — no kernel separates head from body</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p023</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/p023__D0B.jpg' alt='p023 &mdash; D0 &mdash; AC-B control' loading='lazy'><div class='tag'>D0 &mdash; AC-B control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p023__D1B.jpg' alt='p023 &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p023__D1hB.jpg' alt='p023 &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p023__D1xB.jpg' alt='p023 &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p023__D2B.jpg' alt='p023 &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p023__D3B.jpg' alt='p023 &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p023__D4B.jpg' alt='p023 &mdash; D4 &mdash; crop fix' loading='lazy'><div class='tag'>D4 &mdash; crop fix</div><div class='note'>opened r=3, kept 60% of the blob</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_zendaya_white_blazer_skirt</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/dualuse_zendaya_white_blazer_skirt__D0B.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; D0 &mdash; AC-B control' loading='lazy'><div class='tag'>D0 &mdash; AC-B control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_zendaya_white_blazer_skirt__D1B.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_zendaya_white_blazer_skirt__D1hB.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_zendaya_white_blazer_skirt__D1xB.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_zendaya_white_blazer_skirt__D2B.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_zendaya_white_blazer_skirt__D3B.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_zendaya_white_blazer_skirt__D4B.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; D4 &mdash; crop fix' loading='lazy'><div class='tag'>D4 &mdash; crop fix</div><div class='note' style='color:#d29922'>FALLBACK — no kernel separates head from body</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p012</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/p012__D0B.jpg' alt='p012 &mdash; D0 &mdash; AC-B control' loading='lazy'><div class='tag'>D0 &mdash; AC-B control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p012__D1B.jpg' alt='p012 &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p012__D1hB.jpg' alt='p012 &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p012__D1xB.jpg' alt='p012 &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p012__D2B.jpg' alt='p012 &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p012__D3B.jpg' alt='p012 &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p012__D4B.jpg' alt='p012 &mdash; D4 &mdash; crop fix' loading='lazy'><div class='tag'>D4 &mdash; crop fix</div><div class='note' style='color:#d29922'>FALLBACK — no kernel separates head from body</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p019</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/p019__D0B.jpg' alt='p019 &mdash; D0 &mdash; AC-B control' loading='lazy'><div class='tag'>D0 &mdash; AC-B control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p019__D1B.jpg' alt='p019 &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p019__D1hB.jpg' alt='p019 &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p019__D1xB.jpg' alt='p019 &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p019__D2B.jpg' alt='p019 &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p019__D3B.jpg' alt='p019 &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p019__D4B.jpg' alt='p019 &mdash; D4 &mdash; crop fix' loading='lazy'><div class='tag'>D4 &mdash; crop fix</div><div class='note' style='color:#d29922'>FALLBACK — no kernel separates head from body</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p028</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/p028__D0B.jpg' alt='p028 &mdash; D0 &mdash; AC-B control' loading='lazy'><div class='tag'>D0 &mdash; AC-B control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p028__D1B.jpg' alt='p028 &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p028__D1hB.jpg' alt='p028 &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p028__D1xB.jpg' alt='p028 &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p028__D2B.jpg' alt='p028 &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p028__D3B.jpg' alt='p028 &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p028__D4B.jpg' alt='p028 &mdash; D4 &mdash; crop fix' loading='lazy'><div class='tag'>D4 &mdash; crop fix</div><div class='note' style='color:#d29922'>FALLBACK — no kernel separates head from body</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p030</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/p030__D0B.jpg' alt='p030 &mdash; D0 &mdash; AC-B control' loading='lazy'><div class='tag'>D0 &mdash; AC-B control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p030__D1B.jpg' alt='p030 &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p030__D1hB.jpg' alt='p030 &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p030__D1xB.jpg' alt='p030 &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p030__D2B.jpg' alt='p030 &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p030__D3B.jpg' alt='p030 &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p030__D4B.jpg' alt='p030 &mdash; D4 &mdash; crop fix' loading='lazy'><div class='tag'>D4 &mdash; crop fix</div><div class='note' style='color:#d29922'>FALLBACK — no kernel separates head from body</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_scarlett_johansson_black_dress_backview_night</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/dualuse_scarlett_johansson_black_dress_backview_night__D0B.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; D0 &mdash; AC-B control' loading='lazy'><div class='tag'>D0 &mdash; AC-B control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_scarlett_johansson_black_dress_backview_night__D1B.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_scarlett_johansson_black_dress_backview_night__D1hB.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_scarlett_johansson_black_dress_backview_night__D1xB.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_scarlett_johansson_black_dress_backview_night__D2B.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_scarlett_johansson_black_dress_backview_night__D3B.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/dualuse_scarlett_johansson_black_dress_backview_night__D4B.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; D4 &mdash; crop fix' loading='lazy'><div class='tag'>D4 &mdash; crop fix</div><div class='note' style='color:#d29922'>FALLBACK — no kernel separates head from body</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p016</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/p016__D0B.jpg' alt='p016 &mdash; D0 &mdash; AC-B control' loading='lazy'><div class='tag'>D0 &mdash; AC-B control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p016__D1B.jpg' alt='p016 &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p016__D1hB.jpg' alt='p016 &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p016__D1xB.jpg' alt='p016 &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p016__D2B.jpg' alt='p016 &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p016__D3B.jpg' alt='p016 &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p016__D4B.jpg' alt='p016 &mdash; D4 &mdash; crop fix' loading='lazy'><div class='tag'>D4 &mdash; crop fix</div><div class='note'>opened r=37, kept 71% of the blob</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p009</b></div><div class='strip'>
+<div class='cell'><img src='../runs/acc/p009__D0B.jpg' alt='p009 &mdash; D0 &mdash; AC-B control' loading='lazy'><div class='tag'>D0 &mdash; AC-B control</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p009__D1B.jpg' alt='p009 &mdash; D1 &mdash; blur (light)' loading='lazy'><div class='tag'>D1 &mdash; blur (light)</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p009__D1hB.jpg' alt='p009 &mdash; D1h &mdash; blur HEAVY' loading='lazy'><div class='tag'>D1h &mdash; blur HEAVY</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p009__D1xB.jpg' alt='p009 &mdash; D1x &mdash; blur EXTREME' loading='lazy'><div class='tag'>D1x &mdash; blur EXTREME</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p009__D2B.jpg' alt='p009 &mdash; D2 &mdash; twirl' loading='lazy'><div class='tag'>D2 &mdash; twirl</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p009__D3B.jpg' alt='p009 &mdash; D3 &mdash; pixelate' loading='lazy'><div class='tag'>D3 &mdash; pixelate</div><div class='note'></div></div>
+<div class='cell'><img src='../runs/acc/p009__D4B.jpg' alt='p009 &mdash; D4 &mdash; crop fix' loading='lazy'><div class='tag'>D4 &mdash; crop fix</div><div class='note' style='color:#d29922'>FALLBACK — no kernel separates head from body</div></div>
+</div></div>
+<div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>
+<script>
+var shots = [], at = -1;
+var lb = document.getElementById('lb');
+var lbi = document.getElementById('lbi');
+var lbc = document.getElementById('lbc');
+function paint(){
+  if (at < 0 || at >= shots.length) return;
+  lbi.src = shots[at].getAttribute('src');
+  lbc.textContent = shots[at].getAttribute('alt');
+}
+document.body.addEventListener('click', function(e){
+  var im = e.target.closest('.cell img');
+  if (!im) return;
+  var row = im.closest('.strip');
+  shots = Array.prototype.slice.call(row.querySelectorAll('img'));
+  at = shots.indexOf(im);
+  lb.style.display = 'flex';
+  paint();
+});
+lb.addEventListener('click', function(){ lb.style.display = 'none'; });
+document.addEventListener('keydown', function(e){
+  if (lb.style.display !== 'flex') return;
+  if (e.key === 'Escape'){ lb.style.display = 'none'; return; }
+  if (e.key === 'ArrowRight' && at < shots.length - 1){ at++; paint(); e.preventDefault(); }
+  if (e.key === 'ArrowLeft'  && at > 0){ at--; paint(); e.preventDefault(); }
+});
+</script>

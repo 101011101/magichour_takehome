@@ -1,0 +1,286 @@
+<title>Phase 3 &mdash; AC, auto-complete</title>
+<style>
+:root{--bg:#0d0d10;--fg:#e8e8ea;--dim:#8a8a94;--line:#26262c;--acc:#7c5cff;
+ --ok:#3fb950;--warn:#d29922}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:14px/1.55 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:26px 30px 16px;border-bottom:1px solid var(--line)}
+nav{display:flex;gap:6px;padding:10px 30px;border-bottom:1px solid var(--line);
+ background:#101014;position:sticky;top:0;z-index:6;flex-wrap:wrap;align-items:center}
+nav a{color:var(--dim);text-decoration:none;padding:6px 13px;border-radius:7px;
+ border:1px solid transparent;font-size:12.5px;white-space:nowrap}
+nav a:hover{color:var(--fg);border-color:var(--line)}
+nav a.here{color:var(--fg);border-color:var(--acc);background:#17141f;font-weight:600}
+nav .sep{color:#3a3a44;padding:0 2px}
+h1{margin:0 0 6px;font-size:20px;letter-spacing:-.01em}
+.q{color:var(--acc);font-weight:600;margin:6px 0}
+.sub{color:var(--dim);max-width:80ch}
+.legend{padding:16px 30px 6px;color:var(--dim);font-size:12.5px}
+.legend b{color:var(--fg)}
+.legend li{margin:3px 0}
+.ref{margin:0 30px 26px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.rh{padding:10px 14px;background:#141419;border-bottom:1px solid var(--line);
+ display:flex;gap:13px;align-items:baseline;flex-wrap:wrap}
+.rh b{font-size:13.5px}
+.rh .m{color:var(--dim);font-size:12px}
+.pill{font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--line)}
+.pill.fire{border-color:var(--warn);color:var(--warn)}
+.pill.keep{border-color:var(--ok);color:var(--ok)}
+.strip{display:flex;overflow-x:auto}
+.cell{flex:0 0 226px;border-right:1px solid var(--line);padding:10px}
+.cell:last-child{border-right:0}
+.cell.truth{background:#101418}
+.cell img{width:100%;background:#fff;border-radius:4px;display:block;cursor:zoom-in}
+.tag{font-weight:600;margin:7px 0 3px;font-size:12.5px}
+.tag.t{color:var(--ok)}
+.note{color:var(--dim);font-size:11.5px;line-height:1.45}
+.sec{padding:8px 30px 4px;color:var(--fg);font-weight:600;font-size:14px}
+table{border-collapse:collapse;margin:6px 30px 22px;font-size:12.5px}
+td,th{border:1px solid var(--line);padding:5px 10px;text-align:left}
+th{background:#141419}
+#lb{position:fixed;inset:0;background:#000000f2;display:none;z-index:50;
+ align-items:center;justify-content:center;flex-direction:column;gap:12px}
+#lb img{max-width:94vw;max-height:84vh;background:#fff;border-radius:6px}
+#lbc{color:var(--fg);font-size:13px}
+</style>
+<header><h1>Phase 3 &mdash; AC, auto-complete</h1><div class='q'>Is the garment whole again &mdash; and on the synthetic bed, is it right as well as plausible?</div><div class='sub'>Click an image to zoom, &larr; &rarr; to step across the row. Nothing here has been sent to klein.</div></header>
+<nav><a href='v221_attention_mod.html'>&#9733; Attention Modulation</a><span class='sep'>/</span><a href='v221_phase3_acc.html'>0 &middot; AC-C destroy</a><span class='sep'>/</span><a href='v221_phase3_acab.html'>1 &middot; AC-A / AC-B</a><span class='sep'>/</span><a href='v221_phase3_crops.html'>2 &middot; Crops + PRE</a><span class='sep'>/</span><a href='v221_phase3_fashn.html'>3 &middot; FASHN</a><span class='sep'>/</span><a href='v221_phase3_ac.html' class='here'>4 &middot; AC arms</a><span class='sep'>/</span><a href='v221_phase3_bg.html'>5 &middot; BG</a><span class='sep'>/</span><a href='v221_phase3_m.html'>6 &middot; M</a></nav>
+<div class='legend'><ul><li><b>AC0</b> unrepaired &mdash; control</li><li><b>AC1</b> <b>algebra</b> &mdash; un-composite B = (I &minus; &alpha;F)/(1 &minus; &alpha;). Reconstruction, not hallucination; blows up as &alpha;&rarr;1, so it shrinks the damage to the opaque core rather than removing it</li><li><b>AC2</b> Telea PDE &middot; <b>AC3</b> xphoto FSR &middot; <b>AC4</b> xphoto SHIFTMAP patch search &mdash; all three zero-weight, so <b>no licence exposure at all</b></li><li><b>feather</b> &mdash; orthogonal preprocessing, not an arm: erode the head mask and keep thin strands. The measured damage is an <b>open boundary notch</b>, not an enclosed hole, so not creating it beats repairing it</li><li><b>AC5</b> MI-GAN &middot; <b>AC6</b> LaMa &mdash; learned fillers, CPU TorchScript. Apache/MIT code but <b>Places2-trained weights</b>, whose data terms say non-commercial: these exist to find out whether a learned filler is needed at all</li><li><b>AC7.1</b> klein &middot; <b>AC7.2</b> Qwen-Image-Edit &middot; <b>AC7.3</b> Z-Image Turbo &mdash; generative <b>repair</b> of the existing crop. 7.2 and 7.3 are <b>mask-native</b> (true inpainting); 7.1 has no mask input so it is generate-then-composite</li><li><b>AC8.1</b> klein &middot; <b>AC8.2</b> Qwen-Image-Edit &mdash; generative <b>crop</b>: the raw photo goes in and the garment comes out, with <b>no cropper involved at all</b>. This is the control on whether the deterministic stack earns its complexity &mdash; and the one family that can <b>hallucinate</b> the garment, which a subtractive crop cannot</li><li><b>AC9</b> SeedVR2 restore over the Telea fill. No prompt parameter exists on that endpoint, so it is image-only by necessity</li><li style='margin-top:8px'>For AC8, judge <b>fidelity to the real garment</b>, not just how clean the cutout is. Section 2b showed both instruments reward a plausible garment over the correct one, so a beautiful crop of the wrong clothes is the failure to watch for.</li></ul></div>
+<div class='ref'><div class='rh'><b>p021</b><span class='m'>head cut took 19.69% of the garment</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p021__AC0.jpg' alt='p021 &mdash; AC0 &mdash; control' loading='lazy'><div class='tag'>AC0 &mdash; control</div><div class='note'>unrepaired control</div></div>
+<div class='cell '><img src='../runs/phase3/p021__ACfeather.jpg' alt='p021 &mdash; feather (preproc)' loading='lazy'><div class='tag'>feather (preproc)</div><div class='note'>head mask eroded + feathered</div></div>
+<div class='cell '><img src='../runs/phase3/p021__AC1.jpg' alt='p021 &mdash; AC1 &mdash; algebra' loading='lazy'><div class='tag'>AC1 &mdash; algebra</div><div class='note'>un-composited a&lt;0.90; opaque core 1.42% left open</div></div>
+<div class='cell '><img src='../runs/phase3/p021__AC2.jpg' alt='p021 &mdash; AC2 &mdash; Telea' loading='lazy'><div class='tag'>AC2 &mdash; Telea</div><div class='note'>Telea PDE</div></div>
+<div class='cell '><img src='../runs/phase3/p021__AC3.jpg' alt='p021 &mdash; AC3 &mdash; FSR' loading='lazy'><div class='tag'>AC3 &mdash; FSR</div><div class='note'>xphoto FSR</div></div>
+<div class='cell '><img src='../runs/phase3/p021__AC4.jpg' alt='p021 &mdash; AC4 &mdash; SHIFTMAP' loading='lazy'><div class='tag'>AC4 &mdash; SHIFTMAP</div><div class='note'>xphoto SHIFTMAP patch search</div></div>
+<div class='cell '><img src='../runs/phase3/p021__AC5.jpg' alt='p021 &mdash; AC5 &mdash; MI-GAN' loading='lazy'><div class='tag'>AC5 &mdash; MI-GAN</div><div class='note'>migan weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/p021__AC6.jpg' alt='p021 &mdash; AC6 &mdash; LaMa' loading='lazy'><div class='tag'>AC6 &mdash; LaMa</div><div class='note'>lama weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/p021__AC7.1.jpg' alt='p021 &mdash; AC7.1 &mdash; klein' loading='lazy'><div class='tag'>AC7.1 &mdash; klein</div><div class='note'>generate-then-composite</div></div>
+<div class='cell '><img src='../runs/phase3/p021__AC7.2.jpg' alt='p021 &mdash; AC7.2 &mdash; Qwen inpaint' loading='lazy'><div class='tag'>AC7.2 &mdash; Qwen inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/p021__AC7.3.jpg' alt='p021 &mdash; AC7.3 &mdash; Z-Image inpaint' loading='lazy'><div class='tag'>AC7.3 &mdash; Z-Image inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/p021__AC9.jpg' alt='p021 &mdash; AC9 &mdash; SeedVR2' loading='lazy'><div class='tag'>AC9 &mdash; SeedVR2</div><div class='note'>SeedVR2 restore over the Telea fill</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_woman_top_denim_skirt_nonceleb</b><span class='m'>head cut took 17.16% of the garment</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__AC0.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; AC0 &mdash; control' loading='lazy'><div class='tag'>AC0 &mdash; control</div><div class='note'>unrepaired control</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__ACfeather.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; feather (preproc)' loading='lazy'><div class='tag'>feather (preproc)</div><div class='note'>head mask eroded + feathered</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__AC1.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; AC1 &mdash; algebra' loading='lazy'><div class='tag'>AC1 &mdash; algebra</div><div class='note'>un-composited a&lt;0.90; opaque core 0.70% left open</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__AC2.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; AC2 &mdash; Telea' loading='lazy'><div class='tag'>AC2 &mdash; Telea</div><div class='note'>Telea PDE</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__AC3.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; AC3 &mdash; FSR' loading='lazy'><div class='tag'>AC3 &mdash; FSR</div><div class='note'>xphoto FSR</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__AC4.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; AC4 &mdash; SHIFTMAP' loading='lazy'><div class='tag'>AC4 &mdash; SHIFTMAP</div><div class='note'>xphoto SHIFTMAP patch search</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__AC5.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; AC5 &mdash; MI-GAN' loading='lazy'><div class='tag'>AC5 &mdash; MI-GAN</div><div class='note'>migan weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__AC6.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; AC6 &mdash; LaMa' loading='lazy'><div class='tag'>AC6 &mdash; LaMa</div><div class='note'>lama weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__AC7.1.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; AC7.1 &mdash; klein' loading='lazy'><div class='tag'>AC7.1 &mdash; klein</div><div class='note'>generate-then-composite</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__AC7.2.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; AC7.2 &mdash; Qwen inpaint' loading='lazy'><div class='tag'>AC7.2 &mdash; Qwen inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__AC7.3.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; AC7.3 &mdash; Z-Image inpaint' loading='lazy'><div class='tag'>AC7.3 &mdash; Z-Image inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__AC9.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; AC9 &mdash; SeedVR2' loading='lazy'><div class='tag'>AC9 &mdash; SeedVR2</div><div class='note'>SeedVR2 restore over the Telea fill</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p023</b><span class='m'>head cut took 16.74% of the garment</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p023__AC0.jpg' alt='p023 &mdash; AC0 &mdash; control' loading='lazy'><div class='tag'>AC0 &mdash; control</div><div class='note'>unrepaired control</div></div>
+<div class='cell '><img src='../runs/phase3/p023__ACfeather.jpg' alt='p023 &mdash; feather (preproc)' loading='lazy'><div class='tag'>feather (preproc)</div><div class='note'>head mask eroded + feathered</div></div>
+<div class='cell '><img src='../runs/phase3/p023__AC1.jpg' alt='p023 &mdash; AC1 &mdash; algebra' loading='lazy'><div class='tag'>AC1 &mdash; algebra</div><div class='note'>un-composited a&lt;0.90; opaque core 4.95% left open</div></div>
+<div class='cell '><img src='../runs/phase3/p023__AC2.jpg' alt='p023 &mdash; AC2 &mdash; Telea' loading='lazy'><div class='tag'>AC2 &mdash; Telea</div><div class='note'>Telea PDE</div></div>
+<div class='cell '><img src='../runs/phase3/p023__AC3.jpg' alt='p023 &mdash; AC3 &mdash; FSR' loading='lazy'><div class='tag'>AC3 &mdash; FSR</div><div class='note'>xphoto FSR</div></div>
+<div class='cell '><img src='../runs/phase3/p023__AC4.jpg' alt='p023 &mdash; AC4 &mdash; SHIFTMAP' loading='lazy'><div class='tag'>AC4 &mdash; SHIFTMAP</div><div class='note'>xphoto SHIFTMAP patch search</div></div>
+<div class='cell '><img src='../runs/phase3/p023__AC5.jpg' alt='p023 &mdash; AC5 &mdash; MI-GAN' loading='lazy'><div class='tag'>AC5 &mdash; MI-GAN</div><div class='note'>migan weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/p023__AC6.jpg' alt='p023 &mdash; AC6 &mdash; LaMa' loading='lazy'><div class='tag'>AC6 &mdash; LaMa</div><div class='note'>lama weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/p023__AC7.1.jpg' alt='p023 &mdash; AC7.1 &mdash; klein' loading='lazy'><div class='tag'>AC7.1 &mdash; klein</div><div class='note'>generate-then-composite</div></div>
+<div class='cell '><img src='../runs/phase3/p023__AC7.2.jpg' alt='p023 &mdash; AC7.2 &mdash; Qwen inpaint' loading='lazy'><div class='tag'>AC7.2 &mdash; Qwen inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/p023__AC7.3.jpg' alt='p023 &mdash; AC7.3 &mdash; Z-Image inpaint' loading='lazy'><div class='tag'>AC7.3 &mdash; Z-Image inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/p023__AC9.jpg' alt='p023 &mdash; AC9 &mdash; SeedVR2' loading='lazy'><div class='tag'>AC9 &mdash; SeedVR2</div><div class='note'>SeedVR2 restore over the Telea fill</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_zendaya_white_blazer_skirt</b><span class='m'>head cut took 14.39% of the garment</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__AC0.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; AC0 &mdash; control' loading='lazy'><div class='tag'>AC0 &mdash; control</div><div class='note'>unrepaired control</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__ACfeather.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; feather (preproc)' loading='lazy'><div class='tag'>feather (preproc)</div><div class='note'>head mask eroded + feathered</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__AC1.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; AC1 &mdash; algebra' loading='lazy'><div class='tag'>AC1 &mdash; algebra</div><div class='note'>un-composited a&lt;0.90; opaque core 1.37% left open</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__AC2.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; AC2 &mdash; Telea' loading='lazy'><div class='tag'>AC2 &mdash; Telea</div><div class='note'>Telea PDE</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__AC3.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; AC3 &mdash; FSR' loading='lazy'><div class='tag'>AC3 &mdash; FSR</div><div class='note'>xphoto FSR</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__AC4.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; AC4 &mdash; SHIFTMAP' loading='lazy'><div class='tag'>AC4 &mdash; SHIFTMAP</div><div class='note'>xphoto SHIFTMAP patch search</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__AC5.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; AC5 &mdash; MI-GAN' loading='lazy'><div class='tag'>AC5 &mdash; MI-GAN</div><div class='note'>migan weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__AC6.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; AC6 &mdash; LaMa' loading='lazy'><div class='tag'>AC6 &mdash; LaMa</div><div class='note'>lama weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__AC7.1.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; AC7.1 &mdash; klein' loading='lazy'><div class='tag'>AC7.1 &mdash; klein</div><div class='note'>generate-then-composite</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__AC7.2.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; AC7.2 &mdash; Qwen inpaint' loading='lazy'><div class='tag'>AC7.2 &mdash; Qwen inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__AC7.3.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; AC7.3 &mdash; Z-Image inpaint' loading='lazy'><div class='tag'>AC7.3 &mdash; Z-Image inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__AC9.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; AC9 &mdash; SeedVR2' loading='lazy'><div class='tag'>AC9 &mdash; SeedVR2</div><div class='note'>SeedVR2 restore over the Telea fill</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p012</b><span class='m'>head cut took 13.87% of the garment</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p012__AC0.jpg' alt='p012 &mdash; AC0 &mdash; control' loading='lazy'><div class='tag'>AC0 &mdash; control</div><div class='note'>unrepaired control</div></div>
+<div class='cell '><img src='../runs/phase3/p012__ACfeather.jpg' alt='p012 &mdash; feather (preproc)' loading='lazy'><div class='tag'>feather (preproc)</div><div class='note'>head mask eroded + feathered</div></div>
+<div class='cell '><img src='../runs/phase3/p012__AC1.jpg' alt='p012 &mdash; AC1 &mdash; algebra' loading='lazy'><div class='tag'>AC1 &mdash; algebra</div><div class='note'>un-composited a&lt;0.90; opaque core 1.51% left open</div></div>
+<div class='cell '><img src='../runs/phase3/p012__AC2.jpg' alt='p012 &mdash; AC2 &mdash; Telea' loading='lazy'><div class='tag'>AC2 &mdash; Telea</div><div class='note'>Telea PDE</div></div>
+<div class='cell '><img src='../runs/phase3/p012__AC3.jpg' alt='p012 &mdash; AC3 &mdash; FSR' loading='lazy'><div class='tag'>AC3 &mdash; FSR</div><div class='note'>xphoto FSR</div></div>
+<div class='cell '><img src='../runs/phase3/p012__AC4.jpg' alt='p012 &mdash; AC4 &mdash; SHIFTMAP' loading='lazy'><div class='tag'>AC4 &mdash; SHIFTMAP</div><div class='note'>xphoto SHIFTMAP patch search</div></div>
+<div class='cell '><img src='../runs/phase3/p012__AC5.jpg' alt='p012 &mdash; AC5 &mdash; MI-GAN' loading='lazy'><div class='tag'>AC5 &mdash; MI-GAN</div><div class='note'>migan weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/p012__AC6.jpg' alt='p012 &mdash; AC6 &mdash; LaMa' loading='lazy'><div class='tag'>AC6 &mdash; LaMa</div><div class='note'>lama weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/p012__AC7.1.jpg' alt='p012 &mdash; AC7.1 &mdash; klein' loading='lazy'><div class='tag'>AC7.1 &mdash; klein</div><div class='note'>generate-then-composite</div></div>
+<div class='cell '><img src='../runs/phase3/p012__AC7.2.jpg' alt='p012 &mdash; AC7.2 &mdash; Qwen inpaint' loading='lazy'><div class='tag'>AC7.2 &mdash; Qwen inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/p012__AC7.3.jpg' alt='p012 &mdash; AC7.3 &mdash; Z-Image inpaint' loading='lazy'><div class='tag'>AC7.3 &mdash; Z-Image inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/p012__AC9.jpg' alt='p012 &mdash; AC9 &mdash; SeedVR2' loading='lazy'><div class='tag'>AC9 &mdash; SeedVR2</div><div class='note'>SeedVR2 restore over the Telea fill</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p019</b><span class='m'>head cut took 13.39% of the garment</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p019__AC0.jpg' alt='p019 &mdash; AC0 &mdash; control' loading='lazy'><div class='tag'>AC0 &mdash; control</div><div class='note'>unrepaired control</div></div>
+<div class='cell '><img src='../runs/phase3/p019__ACfeather.jpg' alt='p019 &mdash; feather (preproc)' loading='lazy'><div class='tag'>feather (preproc)</div><div class='note'>head mask eroded + feathered</div></div>
+<div class='cell '><img src='../runs/phase3/p019__AC1.jpg' alt='p019 &mdash; AC1 &mdash; algebra' loading='lazy'><div class='tag'>AC1 &mdash; algebra</div><div class='note'>un-composited a&lt;0.90; opaque core 1.85% left open</div></div>
+<div class='cell '><img src='../runs/phase3/p019__AC2.jpg' alt='p019 &mdash; AC2 &mdash; Telea' loading='lazy'><div class='tag'>AC2 &mdash; Telea</div><div class='note'>Telea PDE</div></div>
+<div class='cell '><img src='../runs/phase3/p019__AC3.jpg' alt='p019 &mdash; AC3 &mdash; FSR' loading='lazy'><div class='tag'>AC3 &mdash; FSR</div><div class='note'>xphoto FSR</div></div>
+<div class='cell '><img src='../runs/phase3/p019__AC4.jpg' alt='p019 &mdash; AC4 &mdash; SHIFTMAP' loading='lazy'><div class='tag'>AC4 &mdash; SHIFTMAP</div><div class='note'>xphoto SHIFTMAP patch search</div></div>
+<div class='cell '><img src='../runs/phase3/p019__AC5.jpg' alt='p019 &mdash; AC5 &mdash; MI-GAN' loading='lazy'><div class='tag'>AC5 &mdash; MI-GAN</div><div class='note'>migan weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/p019__AC6.jpg' alt='p019 &mdash; AC6 &mdash; LaMa' loading='lazy'><div class='tag'>AC6 &mdash; LaMa</div><div class='note'>lama weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/p019__AC7.1.jpg' alt='p019 &mdash; AC7.1 &mdash; klein' loading='lazy'><div class='tag'>AC7.1 &mdash; klein</div><div class='note'>generate-then-composite</div></div>
+<div class='cell '><img src='../runs/phase3/p019__AC7.2.jpg' alt='p019 &mdash; AC7.2 &mdash; Qwen inpaint' loading='lazy'><div class='tag'>AC7.2 &mdash; Qwen inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/p019__AC7.3.jpg' alt='p019 &mdash; AC7.3 &mdash; Z-Image inpaint' loading='lazy'><div class='tag'>AC7.3 &mdash; Z-Image inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/p019__AC9.jpg' alt='p019 &mdash; AC9 &mdash; SeedVR2' loading='lazy'><div class='tag'>AC9 &mdash; SeedVR2</div><div class='note'>SeedVR2 restore over the Telea fill</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p028</b><span class='m'>head cut took 12.02% of the garment</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p028__AC0.jpg' alt='p028 &mdash; AC0 &mdash; control' loading='lazy'><div class='tag'>AC0 &mdash; control</div><div class='note'>unrepaired control</div></div>
+<div class='cell '><img src='../runs/phase3/p028__ACfeather.jpg' alt='p028 &mdash; feather (preproc)' loading='lazy'><div class='tag'>feather (preproc)</div><div class='note'>head mask eroded + feathered</div></div>
+<div class='cell '><img src='../runs/phase3/p028__AC1.jpg' alt='p028 &mdash; AC1 &mdash; algebra' loading='lazy'><div class='tag'>AC1 &mdash; algebra</div><div class='note'>un-composited a&lt;0.90; opaque core 1.71% left open</div></div>
+<div class='cell '><img src='../runs/phase3/p028__AC2.jpg' alt='p028 &mdash; AC2 &mdash; Telea' loading='lazy'><div class='tag'>AC2 &mdash; Telea</div><div class='note'>Telea PDE</div></div>
+<div class='cell '><img src='../runs/phase3/p028__AC3.jpg' alt='p028 &mdash; AC3 &mdash; FSR' loading='lazy'><div class='tag'>AC3 &mdash; FSR</div><div class='note'>xphoto FSR</div></div>
+<div class='cell '><img src='../runs/phase3/p028__AC4.jpg' alt='p028 &mdash; AC4 &mdash; SHIFTMAP' loading='lazy'><div class='tag'>AC4 &mdash; SHIFTMAP</div><div class='note'>xphoto SHIFTMAP patch search</div></div>
+<div class='cell '><img src='../runs/phase3/p028__AC5.jpg' alt='p028 &mdash; AC5 &mdash; MI-GAN' loading='lazy'><div class='tag'>AC5 &mdash; MI-GAN</div><div class='note'>migan weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/p028__AC6.jpg' alt='p028 &mdash; AC6 &mdash; LaMa' loading='lazy'><div class='tag'>AC6 &mdash; LaMa</div><div class='note'>lama weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/p028__AC7.1.jpg' alt='p028 &mdash; AC7.1 &mdash; klein' loading='lazy'><div class='tag'>AC7.1 &mdash; klein</div><div class='note'>generate-then-composite</div></div>
+<div class='cell '><img src='../runs/phase3/p028__AC7.2.jpg' alt='p028 &mdash; AC7.2 &mdash; Qwen inpaint' loading='lazy'><div class='tag'>AC7.2 &mdash; Qwen inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/p028__AC7.3.jpg' alt='p028 &mdash; AC7.3 &mdash; Z-Image inpaint' loading='lazy'><div class='tag'>AC7.3 &mdash; Z-Image inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/p028__AC9.jpg' alt='p028 &mdash; AC9 &mdash; SeedVR2' loading='lazy'><div class='tag'>AC9 &mdash; SeedVR2</div><div class='note'>SeedVR2 restore over the Telea fill</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p030</b><span class='m'>head cut took 11.38% of the garment</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p030__AC0.jpg' alt='p030 &mdash; AC0 &mdash; control' loading='lazy'><div class='tag'>AC0 &mdash; control</div><div class='note'>unrepaired control</div></div>
+<div class='cell '><img src='../runs/phase3/p030__ACfeather.jpg' alt='p030 &mdash; feather (preproc)' loading='lazy'><div class='tag'>feather (preproc)</div><div class='note'>head mask eroded + feathered</div></div>
+<div class='cell '><img src='../runs/phase3/p030__AC1.jpg' alt='p030 &mdash; AC1 &mdash; algebra' loading='lazy'><div class='tag'>AC1 &mdash; algebra</div><div class='note'>un-composited a&lt;0.90; opaque core 0.59% left open</div></div>
+<div class='cell '><img src='../runs/phase3/p030__AC2.jpg' alt='p030 &mdash; AC2 &mdash; Telea' loading='lazy'><div class='tag'>AC2 &mdash; Telea</div><div class='note'>Telea PDE</div></div>
+<div class='cell '><img src='../runs/phase3/p030__AC3.jpg' alt='p030 &mdash; AC3 &mdash; FSR' loading='lazy'><div class='tag'>AC3 &mdash; FSR</div><div class='note'>xphoto FSR</div></div>
+<div class='cell '><img src='../runs/phase3/p030__AC4.jpg' alt='p030 &mdash; AC4 &mdash; SHIFTMAP' loading='lazy'><div class='tag'>AC4 &mdash; SHIFTMAP</div><div class='note'>xphoto SHIFTMAP patch search</div></div>
+<div class='cell '><img src='../runs/phase3/p030__AC5.jpg' alt='p030 &mdash; AC5 &mdash; MI-GAN' loading='lazy'><div class='tag'>AC5 &mdash; MI-GAN</div><div class='note'>migan weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/p030__AC6.jpg' alt='p030 &mdash; AC6 &mdash; LaMa' loading='lazy'><div class='tag'>AC6 &mdash; LaMa</div><div class='note'>lama weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/p030__AC7.1.jpg' alt='p030 &mdash; AC7.1 &mdash; klein' loading='lazy'><div class='tag'>AC7.1 &mdash; klein</div><div class='note'>generate-then-composite</div></div>
+<div class='cell '><img src='../runs/phase3/p030__AC7.2.jpg' alt='p030 &mdash; AC7.2 &mdash; Qwen inpaint' loading='lazy'><div class='tag'>AC7.2 &mdash; Qwen inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/p030__AC7.3.jpg' alt='p030 &mdash; AC7.3 &mdash; Z-Image inpaint' loading='lazy'><div class='tag'>AC7.3 &mdash; Z-Image inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/p030__AC9.jpg' alt='p030 &mdash; AC9 &mdash; SeedVR2' loading='lazy'><div class='tag'>AC9 &mdash; SeedVR2</div><div class='note'>SeedVR2 restore over the Telea fill</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_scarlett_johansson_black_dress_backview_night</b><span class='m'>head cut took 9.86% of the garment</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__AC0.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; AC0 &mdash; control' loading='lazy'><div class='tag'>AC0 &mdash; control</div><div class='note'>unrepaired control</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__ACfeather.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; feather (preproc)' loading='lazy'><div class='tag'>feather (preproc)</div><div class='note'>head mask eroded + feathered</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__AC1.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; AC1 &mdash; algebra' loading='lazy'><div class='tag'>AC1 &mdash; algebra</div><div class='note'>un-composited a&lt;0.90; opaque core 0.93% left open</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__AC2.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; AC2 &mdash; Telea' loading='lazy'><div class='tag'>AC2 &mdash; Telea</div><div class='note'>Telea PDE</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__AC3.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; AC3 &mdash; FSR' loading='lazy'><div class='tag'>AC3 &mdash; FSR</div><div class='note'>xphoto FSR</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__AC4.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; AC4 &mdash; SHIFTMAP' loading='lazy'><div class='tag'>AC4 &mdash; SHIFTMAP</div><div class='note'>xphoto SHIFTMAP patch search</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__AC5.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; AC5 &mdash; MI-GAN' loading='lazy'><div class='tag'>AC5 &mdash; MI-GAN</div><div class='note'>migan weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__AC6.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; AC6 &mdash; LaMa' loading='lazy'><div class='tag'>AC6 &mdash; LaMa</div><div class='note'>lama weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__AC7.1.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; AC7.1 &mdash; klein' loading='lazy'><div class='tag'>AC7.1 &mdash; klein</div><div class='note'>generate-then-composite</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__AC7.2.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; AC7.2 &mdash; Qwen inpaint' loading='lazy'><div class='tag'>AC7.2 &mdash; Qwen inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__AC7.3.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; AC7.3 &mdash; Z-Image inpaint' loading='lazy'><div class='tag'>AC7.3 &mdash; Z-Image inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__AC9.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; AC9 &mdash; SeedVR2' loading='lazy'><div class='tag'>AC9 &mdash; SeedVR2</div><div class='note'>SeedVR2 restore over the Telea fill</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p016</b><span class='m'>head cut took 10.47% of the garment</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p016__AC0.jpg' alt='p016 &mdash; AC0 &mdash; control' loading='lazy'><div class='tag'>AC0 &mdash; control</div><div class='note'>unrepaired control</div></div>
+<div class='cell '><img src='../runs/phase3/p016__ACfeather.jpg' alt='p016 &mdash; feather (preproc)' loading='lazy'><div class='tag'>feather (preproc)</div><div class='note'>head mask eroded + feathered</div></div>
+<div class='cell '><img src='../runs/phase3/p016__AC1.jpg' alt='p016 &mdash; AC1 &mdash; algebra' loading='lazy'><div class='tag'>AC1 &mdash; algebra</div><div class='note'>un-composited a&lt;0.90; opaque core 0.00% left open</div></div>
+<div class='cell '><img src='../runs/phase3/p016__AC2.jpg' alt='p016 &mdash; AC2 &mdash; Telea' loading='lazy'><div class='tag'>AC2 &mdash; Telea</div><div class='note'>Telea PDE</div></div>
+<div class='cell '><img src='../runs/phase3/p016__AC3.jpg' alt='p016 &mdash; AC3 &mdash; FSR' loading='lazy'><div class='tag'>AC3 &mdash; FSR</div><div class='note'>xphoto FSR</div></div>
+<div class='cell '><img src='../runs/phase3/p016__AC4.jpg' alt='p016 &mdash; AC4 &mdash; SHIFTMAP' loading='lazy'><div class='tag'>AC4 &mdash; SHIFTMAP</div><div class='note'>xphoto SHIFTMAP patch search</div></div>
+<div class='cell '><img src='../runs/phase3/p016__AC5.jpg' alt='p016 &mdash; AC5 &mdash; MI-GAN' loading='lazy'><div class='tag'>AC5 &mdash; MI-GAN</div><div class='note'>migan weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/p016__AC6.jpg' alt='p016 &mdash; AC6 &mdash; LaMa' loading='lazy'><div class='tag'>AC6 &mdash; LaMa</div><div class='note'>lama weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/p016__AC7.1.jpg' alt='p016 &mdash; AC7.1 &mdash; klein' loading='lazy'><div class='tag'>AC7.1 &mdash; klein</div><div class='note'>generate-then-composite</div></div>
+<div class='cell '><img src='../runs/phase3/p016__AC7.3.jpg' alt='p016 &mdash; AC7.3 &mdash; Z-Image inpaint' loading='lazy'><div class='tag'>AC7.3 &mdash; Z-Image inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/p016__AC9.jpg' alt='p016 &mdash; AC9 &mdash; SeedVR2' loading='lazy'><div class='tag'>AC9 &mdash; SeedVR2</div><div class='note'>SeedVR2 restore over the Telea fill</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p009</b><span class='m'>head cut took 7.26% of the garment</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p009__AC0.jpg' alt='p009 &mdash; AC0 &mdash; control' loading='lazy'><div class='tag'>AC0 &mdash; control</div><div class='note'>unrepaired control</div></div>
+<div class='cell '><img src='../runs/phase3/p009__ACfeather.jpg' alt='p009 &mdash; feather (preproc)' loading='lazy'><div class='tag'>feather (preproc)</div><div class='note'>head mask eroded + feathered</div></div>
+<div class='cell '><img src='../runs/phase3/p009__AC1.jpg' alt='p009 &mdash; AC1 &mdash; algebra' loading='lazy'><div class='tag'>AC1 &mdash; algebra</div><div class='note'>un-composited a&lt;0.90; opaque core 0.42% left open</div></div>
+<div class='cell '><img src='../runs/phase3/p009__AC2.jpg' alt='p009 &mdash; AC2 &mdash; Telea' loading='lazy'><div class='tag'>AC2 &mdash; Telea</div><div class='note'>Telea PDE</div></div>
+<div class='cell '><img src='../runs/phase3/p009__AC3.jpg' alt='p009 &mdash; AC3 &mdash; FSR' loading='lazy'><div class='tag'>AC3 &mdash; FSR</div><div class='note'>xphoto FSR</div></div>
+<div class='cell '><img src='../runs/phase3/p009__AC4.jpg' alt='p009 &mdash; AC4 &mdash; SHIFTMAP' loading='lazy'><div class='tag'>AC4 &mdash; SHIFTMAP</div><div class='note'>xphoto SHIFTMAP patch search</div></div>
+<div class='cell '><img src='../runs/phase3/p009__AC5.jpg' alt='p009 &mdash; AC5 &mdash; MI-GAN' loading='lazy'><div class='tag'>AC5 &mdash; MI-GAN</div><div class='note'>migan weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/p009__AC6.jpg' alt='p009 &mdash; AC6 &mdash; LaMa' loading='lazy'><div class='tag'>AC6 &mdash; LaMa</div><div class='note'>lama weights not present</div></div>
+<div class='cell '><img src='../runs/phase3/p009__AC7.1.jpg' alt='p009 &mdash; AC7.1 &mdash; klein' loading='lazy'><div class='tag'>AC7.1 &mdash; klein</div><div class='note'>generate-then-composite</div></div>
+<div class='cell '><img src='../runs/phase3/p009__AC7.2.jpg' alt='p009 &mdash; AC7.2 &mdash; Qwen inpaint' loading='lazy'><div class='tag'>AC7.2 &mdash; Qwen inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/p009__AC7.3.jpg' alt='p009 &mdash; AC7.3 &mdash; Z-Image inpaint' loading='lazy'><div class='tag'>AC7.3 &mdash; Z-Image inpaint</div><div class='note'>mask-native inpaint</div></div>
+<div class='cell '><img src='../runs/phase3/p009__AC9.jpg' alt='p009 &mdash; AC9 &mdash; SeedVR2' loading='lazy'><div class='tag'>AC9 &mdash; SeedVR2</div><div class='note'>SeedVR2 restore over the Telea fill</div></div>
+</div></div>
+<div class='sec'>AC8 &mdash; generative crop, no cropper involved</div><div class='legend'>Raw photo in, garment out, one call. If this matches the deterministic stack then BiRefNet, MediaPipe, subtractive composition, M, BG and AC itself all stop being necessary. <b>Judge fidelity, not tidiness</b>: this is the only family that can invent garment content, where a subtractive crop can only ever remove pixels.</div>
+<div class='ref'><div class='rh'><b>p021</b><span class='m'>deterministic C3.1 vs one-call generative crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p021__AC0.jpg' alt='p021 &mdash; C3.1 &mdash; deterministic' loading='lazy'><div class='tag'>C3.1 &mdash; deterministic</div><div class='note'>current pipeline</div></div>
+<div class='cell '><img src='../runs/phase3/p021__AC8.1.jpg' alt='p021 &mdash; AC8.1 &mdash; klein' loading='lazy'><div class='tag'>AC8.1 &mdash; klein</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+<div class='cell '><img src='../runs/phase3/p021__AC8.2.jpg' alt='p021 &mdash; AC8.2 &mdash; Qwen' loading='lazy'><div class='tag'>AC8.2 &mdash; Qwen</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_woman_top_denim_skirt_nonceleb</b><span class='m'>deterministic C3.1 vs one-call generative crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__AC0.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; C3.1 &mdash; deterministic' loading='lazy'><div class='tag'>C3.1 &mdash; deterministic</div><div class='note'>current pipeline</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__AC8.1.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; AC8.1 &mdash; klein' loading='lazy'><div class='tag'>AC8.1 &mdash; klein</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__AC8.2.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; AC8.2 &mdash; Qwen' loading='lazy'><div class='tag'>AC8.2 &mdash; Qwen</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p023</b><span class='m'>deterministic C3.1 vs one-call generative crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p023__AC0.jpg' alt='p023 &mdash; C3.1 &mdash; deterministic' loading='lazy'><div class='tag'>C3.1 &mdash; deterministic</div><div class='note'>current pipeline</div></div>
+<div class='cell '><img src='../runs/phase3/p023__AC8.1.jpg' alt='p023 &mdash; AC8.1 &mdash; klein' loading='lazy'><div class='tag'>AC8.1 &mdash; klein</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+<div class='cell '><img src='../runs/phase3/p023__AC8.2.jpg' alt='p023 &mdash; AC8.2 &mdash; Qwen' loading='lazy'><div class='tag'>AC8.2 &mdash; Qwen</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_zendaya_white_blazer_skirt</b><span class='m'>deterministic C3.1 vs one-call generative crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__AC0.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; C3.1 &mdash; deterministic' loading='lazy'><div class='tag'>C3.1 &mdash; deterministic</div><div class='note'>current pipeline</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__AC8.1.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; AC8.1 &mdash; klein' loading='lazy'><div class='tag'>AC8.1 &mdash; klein</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__AC8.2.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; AC8.2 &mdash; Qwen' loading='lazy'><div class='tag'>AC8.2 &mdash; Qwen</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p012</b><span class='m'>deterministic C3.1 vs one-call generative crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p012__AC0.jpg' alt='p012 &mdash; C3.1 &mdash; deterministic' loading='lazy'><div class='tag'>C3.1 &mdash; deterministic</div><div class='note'>current pipeline</div></div>
+<div class='cell '><img src='../runs/phase3/p012__AC8.1.jpg' alt='p012 &mdash; AC8.1 &mdash; klein' loading='lazy'><div class='tag'>AC8.1 &mdash; klein</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+<div class='cell '><img src='../runs/phase3/p012__AC8.2.jpg' alt='p012 &mdash; AC8.2 &mdash; Qwen' loading='lazy'><div class='tag'>AC8.2 &mdash; Qwen</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p019</b><span class='m'>deterministic C3.1 vs one-call generative crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p019__AC0.jpg' alt='p019 &mdash; C3.1 &mdash; deterministic' loading='lazy'><div class='tag'>C3.1 &mdash; deterministic</div><div class='note'>current pipeline</div></div>
+<div class='cell '><img src='../runs/phase3/p019__AC8.1.jpg' alt='p019 &mdash; AC8.1 &mdash; klein' loading='lazy'><div class='tag'>AC8.1 &mdash; klein</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+<div class='cell '><img src='../runs/phase3/p019__AC8.2.jpg' alt='p019 &mdash; AC8.2 &mdash; Qwen' loading='lazy'><div class='tag'>AC8.2 &mdash; Qwen</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p028</b><span class='m'>deterministic C3.1 vs one-call generative crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p028__AC0.jpg' alt='p028 &mdash; C3.1 &mdash; deterministic' loading='lazy'><div class='tag'>C3.1 &mdash; deterministic</div><div class='note'>current pipeline</div></div>
+<div class='cell '><img src='../runs/phase3/p028__AC8.1.jpg' alt='p028 &mdash; AC8.1 &mdash; klein' loading='lazy'><div class='tag'>AC8.1 &mdash; klein</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+<div class='cell '><img src='../runs/phase3/p028__AC8.2.jpg' alt='p028 &mdash; AC8.2 &mdash; Qwen' loading='lazy'><div class='tag'>AC8.2 &mdash; Qwen</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p030</b><span class='m'>deterministic C3.1 vs one-call generative crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p030__AC0.jpg' alt='p030 &mdash; C3.1 &mdash; deterministic' loading='lazy'><div class='tag'>C3.1 &mdash; deterministic</div><div class='note'>current pipeline</div></div>
+<div class='cell '><img src='../runs/phase3/p030__AC8.1.jpg' alt='p030 &mdash; AC8.1 &mdash; klein' loading='lazy'><div class='tag'>AC8.1 &mdash; klein</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+<div class='cell '><img src='../runs/phase3/p030__AC8.2.jpg' alt='p030 &mdash; AC8.2 &mdash; Qwen' loading='lazy'><div class='tag'>AC8.2 &mdash; Qwen</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_scarlett_johansson_black_dress_backview_night</b><span class='m'>deterministic C3.1 vs one-call generative crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__AC0.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; C3.1 &mdash; deterministic' loading='lazy'><div class='tag'>C3.1 &mdash; deterministic</div><div class='note'>current pipeline</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__AC8.1.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; AC8.1 &mdash; klein' loading='lazy'><div class='tag'>AC8.1 &mdash; klein</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__AC8.2.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; AC8.2 &mdash; Qwen' loading='lazy'><div class='tag'>AC8.2 &mdash; Qwen</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p016</b><span class='m'>deterministic C3.1 vs one-call generative crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p016__AC0.jpg' alt='p016 &mdash; C3.1 &mdash; deterministic' loading='lazy'><div class='tag'>C3.1 &mdash; deterministic</div><div class='note'>current pipeline</div></div>
+<div class='cell '><img src='../runs/phase3/p016__AC8.1.jpg' alt='p016 &mdash; AC8.1 &mdash; klein' loading='lazy'><div class='tag'>AC8.1 &mdash; klein</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+<div class='cell '><img src='../runs/phase3/p016__AC8.2.jpg' alt='p016 &mdash; AC8.2 &mdash; Qwen' loading='lazy'><div class='tag'>AC8.2 &mdash; Qwen</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p009</b><span class='m'>deterministic C3.1 vs one-call generative crop</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p009__AC0.jpg' alt='p009 &mdash; C3.1 &mdash; deterministic' loading='lazy'><div class='tag'>C3.1 &mdash; deterministic</div><div class='note'>current pipeline</div></div>
+<div class='cell '><img src='../runs/phase3/p009__AC8.1.jpg' alt='p009 &mdash; AC8.1 &mdash; klein' loading='lazy'><div class='tag'>AC8.1 &mdash; klein</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+<div class='cell '><img src='../runs/phase3/p009__AC8.2.jpg' alt='p009 &mdash; AC8.2 &mdash; Qwen' loading='lazy'><div class='tag'>AC8.2 &mdash; Qwen</div><div class='note'>raw photo in, garment out; no cropper involved</div></div>
+</div></div>
+<div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>
+<script>
+var shots = [], at = -1;
+var lb = document.getElementById('lb');
+var lbi = document.getElementById('lbi');
+var lbc = document.getElementById('lbc');
+function paint(){
+  if (at < 0 || at >= shots.length) return;
+  lbi.src = shots[at].getAttribute('src');
+  lbc.textContent = shots[at].getAttribute('alt');
+}
+document.body.addEventListener('click', function(e){
+  var im = e.target.closest('.cell img');
+  if (!im) return;
+  var row = im.closest('.strip');
+  shots = Array.prototype.slice.call(row.querySelectorAll('img'));
+  at = shots.indexOf(im);
+  lb.style.display = 'flex';
+  paint();
+});
+lb.addEventListener('click', function(){ lb.style.display = 'none'; });
+document.addEventListener('keydown', function(e){
+  if (lb.style.display !== 'flex') return;
+  if (e.key === 'Escape'){ lb.style.display = 'none'; return; }
+  if (e.key === 'ArrowRight' && at < shots.length - 1){ at++; paint(); e.preventDefault(); }
+  if (e.key === 'ArrowLeft'  && at > 0){ at--; paint(); e.preventDefault(); }
+});
+</script>

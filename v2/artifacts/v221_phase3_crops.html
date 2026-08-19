@@ -1,0 +1,267 @@
+<title>Phase 3 &mdash; over-crop and PRE</title>
+<style>
+:root{--bg:#0d0d10;--fg:#e8e8ea;--dim:#8a8a94;--line:#26262c;--acc:#7c5cff;
+ --ok:#3fb950;--warn:#d29922}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:14px/1.55 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:26px 30px 16px;border-bottom:1px solid var(--line)}
+nav{display:flex;gap:6px;padding:10px 30px;border-bottom:1px solid var(--line);
+ background:#101014;position:sticky;top:0;z-index:6;flex-wrap:wrap;align-items:center}
+nav a{color:var(--dim);text-decoration:none;padding:6px 13px;border-radius:7px;
+ border:1px solid transparent;font-size:12.5px;white-space:nowrap}
+nav a:hover{color:var(--fg);border-color:var(--line)}
+nav a.here{color:var(--fg);border-color:var(--acc);background:#17141f;font-weight:600}
+nav .sep{color:#3a3a44;padding:0 2px}
+h1{margin:0 0 6px;font-size:20px;letter-spacing:-.01em}
+.q{color:var(--acc);font-weight:600;margin:6px 0}
+.sub{color:var(--dim);max-width:80ch}
+.legend{padding:16px 30px 6px;color:var(--dim);font-size:12.5px}
+.legend b{color:var(--fg)}
+.legend li{margin:3px 0}
+.ref{margin:0 30px 26px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.rh{padding:10px 14px;background:#141419;border-bottom:1px solid var(--line);
+ display:flex;gap:13px;align-items:baseline;flex-wrap:wrap}
+.rh b{font-size:13.5px}
+.rh .m{color:var(--dim);font-size:12px}
+.pill{font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--line)}
+.pill.fire{border-color:var(--warn);color:var(--warn)}
+.pill.keep{border-color:var(--ok);color:var(--ok)}
+.strip{display:flex;overflow-x:auto}
+.cell{flex:0 0 226px;border-right:1px solid var(--line);padding:10px}
+.cell:last-child{border-right:0}
+.cell.truth{background:#101418}
+.cell img{width:100%;background:#fff;border-radius:4px;display:block;cursor:zoom-in}
+.tag{font-weight:600;margin:7px 0 3px;font-size:12.5px}
+.tag.t{color:var(--ok)}
+.note{color:var(--dim);font-size:11.5px;line-height:1.45}
+.sec{padding:8px 30px 4px;color:var(--fg);font-weight:600;font-size:14px}
+table{border-collapse:collapse;margin:6px 30px 22px;font-size:12.5px}
+td,th{border:1px solid var(--line);padding:5px 10px;text-align:left}
+th{background:#141419}
+#lb{position:fixed;inset:0;background:#000000f2;display:none;z-index:50;
+ align-items:center;justify-content:center;flex-direction:column;gap:12px}
+#lb img{max-width:94vw;max-height:84vh;background:#fff;border-radius:6px}
+#lbc{color:var(--fg);font-size:13px}
+</style>
+<header><h1>Phase 3 &mdash; over-crop and PRE</h1><div class='q'>Remove the hair rim by cutting wider, or by repairing the photo before cropping at all?</div><div class='sub'>Free except the two bald arms. The AC arms are not re-run until this passes, because both approaches change their input.</div></header>
+<nav><a href='v221_attention_mod.html'>&#9733; Attention Modulation</a><span class='sep'>/</span><a href='v221_phase3_acc.html'>0 &middot; AC-C destroy</a><span class='sep'>/</span><a href='v221_phase3_acab.html'>1 &middot; AC-A / AC-B</a><span class='sep'>/</span><a href='v221_phase3_crops.html' class='here'>2 &middot; Crops + PRE</a><span class='sep'>/</span><a href='v221_phase3_fashn.html'>3 &middot; FASHN</a><span class='sep'>/</span><a href='v221_phase3_ac.html'>4 &middot; AC arms</a><span class='sep'>/</span><a href='v221_phase3_bg.html'>5 &middot; BG</a><span class='sep'>/</span><a href='v221_phase3_m.html'>6 &middot; M</a></nav>
+<div class='sec'>1 &mdash; the defect, and cutting wider to escape it</div>
+<div class='legend'><ul><li><b>C3.1</b> &mdash; the cut as it ships today</li><li><b>fringe</b> &mdash; hair-contaminated pixels that <b>survive</b> the cut, highlighted. 0.08&ndash;4.69% of garment area and <b>darker than the garment in every reference</b>, so it reads as a dark rim tracing the cut line</li><li><b>OC5</b> &mdash; over-crop to an <b>area target</b> (5% of garment). The solved radius turned out <b>inversely related to the defect</b>: p016 has the largest fringe and solved to 5px, p023 has almost none and solved to 60px, because an area target is driven by head-mask perimeter rather than by contamination</li><li><b>OCF</b> &mdash; over-crop to the <b>measured fringe</b> instead. Scales with the defect, lands near-constant. Judge whether either eats something structural &mdash; a collar, a shoulder seam, a hem</li></ul></div>
+<div class='ref'><div class='rh'><b>p021</b><span class='m'>fringe 2.66% &middot; OC5 0px, removed 19.5% &rarr; 0%</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p021__AC0.jpg' alt='p021 &mdash; C3.1 &mdash; current' loading='lazy'><div class='tag'>C3.1 &mdash; current</div><div class='note'>ships today</div></div>
+<div class='cell '><img src='../runs/phase3/p021__FRINGE.jpg' alt='p021 &mdash; fringe highlighted' loading='lazy'><div class='tag'>fringe highlighted</div><div class='note'>hair surviving the cut</div></div>
+<div class='cell '><img src='../runs/phase3/p021__OC5.jpg' alt='p021 &mdash; OC5 &mdash; area-targeted' loading='lazy'><div class='tag'>OC5 &mdash; area-targeted</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p021__OCF.jpg' alt='p021 &mdash; OCF &mdash; fringe-targeted' loading='lazy'><div class='tag'>OCF &mdash; fringe-targeted</div><div class='note'>fringe-targeted: dilated 9px, removed 19.5% -&gt; 26.2%</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_woman_top_denim_skirt_nonceleb</b><span class='m'>fringe 1.92% &middot; OC5 0px, removed 17.0% &rarr; 0%</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__AC0.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; C3.1 &mdash; current' loading='lazy'><div class='tag'>C3.1 &mdash; current</div><div class='note'>ships today</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__FRINGE.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; fringe highlighted' loading='lazy'><div class='tag'>fringe highlighted</div><div class='note'>hair surviving the cut</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__OC5.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; OC5 &mdash; area-targeted' loading='lazy'><div class='tag'>OC5 &mdash; area-targeted</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__OCF.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; OCF &mdash; fringe-targeted' loading='lazy'><div class='tag'>OCF &mdash; fringe-targeted</div><div class='note'>fringe-targeted: dilated 9px, removed 17.0% -&gt; 20.3%</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p023</b><span class='m'>fringe 0.29% &middot; OC5 0px, removed 16.9% &rarr; 0%</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p023__AC0.jpg' alt='p023 &mdash; C3.1 &mdash; current' loading='lazy'><div class='tag'>C3.1 &mdash; current</div><div class='note'>ships today</div></div>
+<div class='cell '><img src='../runs/phase3/p023__FRINGE.jpg' alt='p023 &mdash; fringe highlighted' loading='lazy'><div class='tag'>fringe highlighted</div><div class='note'>hair surviving the cut</div></div>
+<div class='cell '><img src='../runs/phase3/p023__OC5.jpg' alt='p023 &mdash; OC5 &mdash; area-targeted' loading='lazy'><div class='tag'>OC5 &mdash; area-targeted</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p023__OCF.jpg' alt='p023 &mdash; OCF &mdash; fringe-targeted' loading='lazy'><div class='tag'>OCF &mdash; fringe-targeted</div><div class='note'>fringe-targeted: dilated 8px, removed 16.9% -&gt; 17.6%</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_zendaya_white_blazer_skirt</b><span class='m'>fringe 0.76% &middot; OC5 0px, removed 14.4% &rarr; 0%</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__AC0.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; C3.1 &mdash; current' loading='lazy'><div class='tag'>C3.1 &mdash; current</div><div class='note'>ships today</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__FRINGE.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; fringe highlighted' loading='lazy'><div class='tag'>fringe highlighted</div><div class='note'>hair surviving the cut</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__OC5.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; OC5 &mdash; area-targeted' loading='lazy'><div class='tag'>OC5 &mdash; area-targeted</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__OCF.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; OCF &mdash; fringe-targeted' loading='lazy'><div class='tag'>OCF &mdash; fringe-targeted</div><div class='note'>fringe-targeted: dilated 8px, removed 14.4% -&gt; 16.1%</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p012</b><span class='m'>fringe 0.08% &middot; OC5 0px, removed 14.0% &rarr; 0%</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p012__AC0.jpg' alt='p012 &mdash; C3.1 &mdash; current' loading='lazy'><div class='tag'>C3.1 &mdash; current</div><div class='note'>ships today</div></div>
+<div class='cell '><img src='../runs/phase3/p012__FRINGE.jpg' alt='p012 &mdash; fringe highlighted' loading='lazy'><div class='tag'>fringe highlighted</div><div class='note'>hair surviving the cut</div></div>
+<div class='cell '><img src='../runs/phase3/p012__OC5.jpg' alt='p012 &mdash; OC5 &mdash; area-targeted' loading='lazy'><div class='tag'>OC5 &mdash; area-targeted</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p012__OCF.jpg' alt='p012 &mdash; OCF &mdash; fringe-targeted' loading='lazy'><div class='tag'>OCF &mdash; fringe-targeted</div><div class='note'>fringe-targeted: dilated 7px, removed 14.0% -&gt; 14.6%</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p019</b><span class='m'>fringe 0.12% &middot; OC5 0px, removed 13.5% &rarr; 0%</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p019__AC0.jpg' alt='p019 &mdash; C3.1 &mdash; current' loading='lazy'><div class='tag'>C3.1 &mdash; current</div><div class='note'>ships today</div></div>
+<div class='cell '><img src='../runs/phase3/p019__FRINGE.jpg' alt='p019 &mdash; fringe highlighted' loading='lazy'><div class='tag'>fringe highlighted</div><div class='note'>hair surviving the cut</div></div>
+<div class='cell '><img src='../runs/phase3/p019__OC5.jpg' alt='p019 &mdash; OC5 &mdash; area-targeted' loading='lazy'><div class='tag'>OC5 &mdash; area-targeted</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p019__OCF.jpg' alt='p019 &mdash; OCF &mdash; fringe-targeted' loading='lazy'><div class='tag'>OCF &mdash; fringe-targeted</div><div class='note'>fringe-targeted: dilated 7px, removed 13.5% -&gt; 14.5%</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p028</b><span class='m'>fringe 1.52% &middot; OC5 0px, removed 11.9% &rarr; 0%</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p028__AC0.jpg' alt='p028 &mdash; C3.1 &mdash; current' loading='lazy'><div class='tag'>C3.1 &mdash; current</div><div class='note'>ships today</div></div>
+<div class='cell '><img src='../runs/phase3/p028__FRINGE.jpg' alt='p028 &mdash; fringe highlighted' loading='lazy'><div class='tag'>fringe highlighted</div><div class='note'>hair surviving the cut</div></div>
+<div class='cell '><img src='../runs/phase3/p028__OC5.jpg' alt='p028 &mdash; OC5 &mdash; area-targeted' loading='lazy'><div class='tag'>OC5 &mdash; area-targeted</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p028__OCF.jpg' alt='p028 &mdash; OCF &mdash; fringe-targeted' loading='lazy'><div class='tag'>OCF &mdash; fringe-targeted</div><div class='note'>fringe-targeted: dilated 8px, removed 11.9% -&gt; 16.0%</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p030</b><span class='m'>fringe 0.78% &middot; OC5 0px, removed 11.5% &rarr; 0%</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p030__AC0.jpg' alt='p030 &mdash; C3.1 &mdash; current' loading='lazy'><div class='tag'>C3.1 &mdash; current</div><div class='note'>ships today</div></div>
+<div class='cell '><img src='../runs/phase3/p030__FRINGE.jpg' alt='p030 &mdash; fringe highlighted' loading='lazy'><div class='tag'>fringe highlighted</div><div class='note'>hair surviving the cut</div></div>
+<div class='cell '><img src='../runs/phase3/p030__OC5.jpg' alt='p030 &mdash; OC5 &mdash; area-targeted' loading='lazy'><div class='tag'>OC5 &mdash; area-targeted</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p030__OCF.jpg' alt='p030 &mdash; OCF &mdash; fringe-targeted' loading='lazy'><div class='tag'>OCF &mdash; fringe-targeted</div><div class='note'>fringe-targeted: dilated 7px, removed 11.5% -&gt; 15.0%</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_scarlett_johansson_black_dress_backview_night</b><span class='m'>fringe 0.5% &middot; OC5 0px, removed 9.8% &rarr; 0%</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__AC0.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; C3.1 &mdash; current' loading='lazy'><div class='tag'>C3.1 &mdash; current</div><div class='note'>ships today</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__FRINGE.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; fringe highlighted' loading='lazy'><div class='tag'>fringe highlighted</div><div class='note'>hair surviving the cut</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__OC5.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; OC5 &mdash; area-targeted' loading='lazy'><div class='tag'>OC5 &mdash; area-targeted</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__OCF.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; OCF &mdash; fringe-targeted' loading='lazy'><div class='tag'>OCF &mdash; fringe-targeted</div><div class='note'>fringe-targeted: dilated 9px, removed 9.8% -&gt; 11.1%</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p016</b><span class='m'>fringe 4.69% &middot; OC5 0px, removed 9.6% &rarr; 0%</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p016__AC0.jpg' alt='p016 &mdash; C3.1 &mdash; current' loading='lazy'><div class='tag'>C3.1 &mdash; current</div><div class='note'>ships today</div></div>
+<div class='cell '><img src='../runs/phase3/p016__FRINGE.jpg' alt='p016 &mdash; fringe highlighted' loading='lazy'><div class='tag'>fringe highlighted</div><div class='note'>hair surviving the cut</div></div>
+<div class='cell '><img src='../runs/phase3/p016__OC5.jpg' alt='p016 &mdash; OC5 &mdash; area-targeted' loading='lazy'><div class='tag'>OC5 &mdash; area-targeted</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p016__OCF.jpg' alt='p016 &mdash; OCF &mdash; fringe-targeted' loading='lazy'><div class='tag'>OCF &mdash; fringe-targeted</div><div class='note'>fringe-targeted: dilated 9px, removed 9.6% -&gt; 18.1%</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p009</b><span class='m'>fringe 0.32% &middot; OC5 0px, removed 7.2% &rarr; 0%</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p009__AC0.jpg' alt='p009 &mdash; C3.1 &mdash; current' loading='lazy'><div class='tag'>C3.1 &mdash; current</div><div class='note'>ships today</div></div>
+<div class='cell '><img src='../runs/phase3/p009__FRINGE.jpg' alt='p009 &mdash; fringe highlighted' loading='lazy'><div class='tag'>fringe highlighted</div><div class='note'>hair surviving the cut</div></div>
+<div class='cell '><img src='../runs/phase3/p009__OC5.jpg' alt='p009 &mdash; OC5 &mdash; area-targeted' loading='lazy'><div class='tag'>OC5 &mdash; area-targeted</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p009__OCF.jpg' alt='p009 &mdash; OCF &mdash; fringe-targeted' loading='lazy'><div class='tag'>OCF &mdash; fringe-targeted</div><div class='note'>fringe-targeted: dilated 8px, removed 7.2% -&gt; 8.2%</div></div>
+</div></div>
+<div class='sec'>2 &mdash; PRE: repair the raw photo, then crop normally</div><div class='legend'><ul><li>A <b>different architecture</b>, not another arm. AC crops and then fills the damage; PRE repairs the raw frame so the damage is never created</li><li><b>PRE1</b> LaMa over the hair region, no prompt &middot; <b>PRE2</b> klein and <b>PRE3</b> Qwen, both prompted <i>&ldquo;make this person completely bald&rdquo;</i></li><li>All three then run the <b>unchanged cropper</b>, so the only variable is the raw image it receives. Each caption reports what the head cut took and how much fringe survived &mdash; compare against PRE0</li><li style='margin-top:8px'>The prediction, recorded before the run: PRE should beat AC because filling a <b>white hole in a crop</b> is out of distribution with no context, while <b>hair removal on a whole portrait</b> is a routine edit with the entire body as context. <b>PRE1 vs AC6 is the clean test</b> &mdash; same LaMa weights, different position in the pipeline</li></ul></div>
+<div class='ref'><div class='rh'><b>p021</b><span class='m'>cropped result after each repair</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p021__AC0.jpg' alt='p021 &mdash; PRE0 &mdash; control' loading='lazy'><div class='tag'>PRE0 &mdash; control</div><div class='note'>current pipeline: head cut takes 19.5%, fringe 2.66%</div></div>
+<div class='cell '><img src='../runs/phase3/p021__PRE1.jpg' alt='p021 &mdash; PRE1 &mdash; LaMa' loading='lazy'><div class='tag'>PRE1 &mdash; LaMa</div><div class='note'>LaMa on raw; head cut takes 0.4% (was 19.5%), fringe 0.14% (was 2.66%)</div></div>
+<div class='cell '><img src='../runs/phase3/p021__PRE2.jpg' alt='p021 &mdash; PRE2 &mdash; klein bald' loading='lazy'><div class='tag'>PRE2 &mdash; klein bald</div><div class='note'>klein bald; head cut takes 0.0% (was 19.5%), fringe 0.00% (was 2.66%)</div></div>
+<div class='cell '><img src='../runs/phase3/p021__PRE3.jpg' alt='p021 &mdash; PRE3 &mdash; Qwen bald' loading='lazy'><div class='tag'>PRE3 &mdash; Qwen bald</div><div class='note'>Qwen bald; head cut takes 0.0% (was 19.5%), fringe 0.00% (was 2.66%)</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_woman_top_denim_skirt_nonceleb</b><span class='m'>cropped result after each repair</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__AC0.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; PRE0 &mdash; control' loading='lazy'><div class='tag'>PRE0 &mdash; control</div><div class='note'>current pipeline: head cut takes 17.0%, fringe 1.92%</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__PRE1.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; PRE1 &mdash; LaMa' loading='lazy'><div class='tag'>PRE1 &mdash; LaMa</div><div class='note'>LaMa on raw; head cut takes 2.0% (was 17.0%), fringe 0.61% (was 1.92%)</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__PRE2.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; PRE2 &mdash; klein bald' loading='lazy'><div class='tag'>PRE2 &mdash; klein bald</div><div class='note'>klein bald; head cut takes 1.9% (was 17.0%), fringe 0.02% (was 1.92%)</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__PRE3.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; PRE3 &mdash; Qwen bald' loading='lazy'><div class='tag'>PRE3 &mdash; Qwen bald</div><div class='note'>Qwen bald; head cut takes 0.0% (was 17.0%), fringe 0.00% (was 1.92%)</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p023</b><span class='m'>cropped result after each repair</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p023__AC0.jpg' alt='p023 &mdash; PRE0 &mdash; control' loading='lazy'><div class='tag'>PRE0 &mdash; control</div><div class='note'>current pipeline: head cut takes 16.9%, fringe 0.29%</div></div>
+<div class='cell '><img src='../runs/phase3/p023__PRE1.jpg' alt='p023 &mdash; PRE1 &mdash; LaMa' loading='lazy'><div class='tag'>PRE1 &mdash; LaMa</div><div class='note'>LaMa on raw; head cut takes 5.9% (was 16.9%), fringe 2.96% (was 0.29%)</div></div>
+<div class='cell '><img src='../runs/phase3/p023__PRE2.jpg' alt='p023 &mdash; PRE2 &mdash; klein bald' loading='lazy'><div class='tag'>PRE2 &mdash; klein bald</div><div class='note'>klein bald; head cut takes 3.1% (was 16.9%), fringe 0.25% (was 0.29%)</div></div>
+<div class='cell '><img src='../runs/phase3/p023__PRE3.jpg' alt='p023 &mdash; PRE3 &mdash; Qwen bald' loading='lazy'><div class='tag'>PRE3 &mdash; Qwen bald</div><div class='note'>Qwen bald; head cut takes 2.2% (was 16.9%), fringe 0.58% (was 0.29%)</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_zendaya_white_blazer_skirt</b><span class='m'>cropped result after each repair</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__AC0.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; PRE0 &mdash; control' loading='lazy'><div class='tag'>PRE0 &mdash; control</div><div class='note'>current pipeline: head cut takes 14.4%, fringe 0.76%</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__PRE1.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; PRE1 &mdash; LaMa' loading='lazy'><div class='tag'>PRE1 &mdash; LaMa</div><div class='note'>LaMa on raw; head cut takes 5.7% (was 14.4%), fringe 0.72% (was 0.76%)</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__PRE2.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; PRE2 &mdash; klein bald' loading='lazy'><div class='tag'>PRE2 &mdash; klein bald</div><div class='note'>klein bald; head cut takes 0.6% (was 14.4%), fringe 0.00% (was 0.76%)</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__PRE3.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; PRE3 &mdash; Qwen bald' loading='lazy'><div class='tag'>PRE3 &mdash; Qwen bald</div><div class='note'>Qwen bald; head cut takes 0.0% (was 14.4%), fringe 0.01% (was 0.76%)</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p012</b><span class='m'>cropped result after each repair</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p012__AC0.jpg' alt='p012 &mdash; PRE0 &mdash; control' loading='lazy'><div class='tag'>PRE0 &mdash; control</div><div class='note'>current pipeline: head cut takes 14.0%, fringe 0.08%</div></div>
+<div class='cell '><img src='../runs/phase3/p012__PRE1.jpg' alt='p012 &mdash; PRE1 &mdash; LaMa' loading='lazy'><div class='tag'>PRE1 &mdash; LaMa</div><div class='note'>LaMa on raw; head cut takes 2.1% (was 14.0%), fringe 0.45% (was 0.08%)</div></div>
+<div class='cell '><img src='../runs/phase3/p012__PRE2.jpg' alt='p012 &mdash; PRE2 &mdash; klein bald' loading='lazy'><div class='tag'>PRE2 &mdash; klein bald</div><div class='note'>klein bald; head cut takes 0.0% (was 14.0%), fringe 0.00% (was 0.08%)</div></div>
+<div class='cell '><img src='../runs/phase3/p012__PRE3.jpg' alt='p012 &mdash; PRE3 &mdash; Qwen bald' loading='lazy'><div class='tag'>PRE3 &mdash; Qwen bald</div><div class='note'>Qwen bald; head cut takes 0.0% (was 14.0%), fringe 0.00% (was 0.08%)</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p019</b><span class='m'>cropped result after each repair</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p019__AC0.jpg' alt='p019 &mdash; PRE0 &mdash; control' loading='lazy'><div class='tag'>PRE0 &mdash; control</div><div class='note'>current pipeline: head cut takes 13.5%, fringe 0.12%</div></div>
+<div class='cell '><img src='../runs/phase3/p019__PRE1.jpg' alt='p019 &mdash; PRE1 &mdash; LaMa' loading='lazy'><div class='tag'>PRE1 &mdash; LaMa</div><div class='note'>LaMa on raw; head cut takes 3.0% (was 13.5%), fringe 0.61% (was 0.12%)</div></div>
+<div class='cell '><img src='../runs/phase3/p019__PRE2.jpg' alt='p019 &mdash; PRE2 &mdash; klein bald' loading='lazy'><div class='tag'>PRE2 &mdash; klein bald</div><div class='note'>klein bald; head cut takes 0.9% (was 13.5%), fringe 0.57% (was 0.12%)</div></div>
+<div class='cell '><img src='../runs/phase3/p019__PRE3.jpg' alt='p019 &mdash; PRE3 &mdash; Qwen bald' loading='lazy'><div class='tag'>PRE3 &mdash; Qwen bald</div><div class='note'>Qwen bald; head cut takes 2.5% (was 13.5%), fringe 1.21% (was 0.12%)</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p028</b><span class='m'>cropped result after each repair</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p028__AC0.jpg' alt='p028 &mdash; PRE0 &mdash; control' loading='lazy'><div class='tag'>PRE0 &mdash; control</div><div class='note'>current pipeline: head cut takes 11.9%, fringe 1.52%</div></div>
+<div class='cell '><img src='../runs/phase3/p028__PRE1.jpg' alt='p028 &mdash; PRE1 &mdash; LaMa' loading='lazy'><div class='tag'>PRE1 &mdash; LaMa</div><div class='note'>LaMa on raw; head cut takes 5.6% (was 11.9%), fringe 2.19% (was 1.52%)</div></div>
+<div class='cell '><img src='../runs/phase3/p028__PRE2.jpg' alt='p028 &mdash; PRE2 &mdash; klein bald' loading='lazy'><div class='tag'>PRE2 &mdash; klein bald</div><div class='note'>klein bald; head cut takes 0.2% (was 11.9%), fringe 0.00% (was 1.52%)</div></div>
+<div class='cell '><img src='../runs/phase3/p028__PRE3.jpg' alt='p028 &mdash; PRE3 &mdash; Qwen bald' loading='lazy'><div class='tag'>PRE3 &mdash; Qwen bald</div><div class='note'>Qwen bald; head cut takes 0.0% (was 11.9%), fringe 0.03% (was 1.52%)</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p030</b><span class='m'>cropped result after each repair</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p030__AC0.jpg' alt='p030 &mdash; PRE0 &mdash; control' loading='lazy'><div class='tag'>PRE0 &mdash; control</div><div class='note'>current pipeline: head cut takes 11.5%, fringe 0.78%</div></div>
+<div class='cell '><img src='../runs/phase3/p030__PRE1.jpg' alt='p030 &mdash; PRE1 &mdash; LaMa' loading='lazy'><div class='tag'>PRE1 &mdash; LaMa</div><div class='note'>LaMa on raw; head cut takes 1.4% (was 11.5%), fringe 0.63% (was 0.78%)</div></div>
+<div class='cell '><img src='../runs/phase3/p030__PRE2.jpg' alt='p030 &mdash; PRE2 &mdash; klein bald' loading='lazy'><div class='tag'>PRE2 &mdash; klein bald</div><div class='note'>klein bald; head cut takes 0.3% (was 11.5%), fringe 0.01% (was 0.78%)</div></div>
+<div class='cell '><img src='../runs/phase3/p030__PRE3.jpg' alt='p030 &mdash; PRE3 &mdash; Qwen bald' loading='lazy'><div class='tag'>PRE3 &mdash; Qwen bald</div><div class='note'>Qwen bald; head cut takes 0.2% (was 11.5%), fringe 0.02% (was 0.78%)</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_scarlett_johansson_black_dress_backview_night</b><span class='m'>cropped result after each repair</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__AC0.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; PRE0 &mdash; control' loading='lazy'><div class='tag'>PRE0 &mdash; control</div><div class='note'>current pipeline: head cut takes 9.8%, fringe 0.50%</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__PRE1.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; PRE1 &mdash; LaMa' loading='lazy'><div class='tag'>PRE1 &mdash; LaMa</div><div class='note'>LaMa on raw; head cut takes 2.2% (was 9.8%), fringe 0.90% (was 0.50%)</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__PRE2.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; PRE2 &mdash; klein bald' loading='lazy'><div class='tag'>PRE2 &mdash; klein bald</div><div class='note'>klein bald; head cut takes 0.0% (was 9.8%), fringe 0.01% (was 0.50%)</div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__PRE3.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; PRE3 &mdash; Qwen bald' loading='lazy'><div class='tag'>PRE3 &mdash; Qwen bald</div><div class='note'>Qwen bald; head cut takes 0.0% (was 9.8%), fringe 0.11% (was 0.50%)</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p016</b><span class='m'>cropped result after each repair</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p016__AC0.jpg' alt='p016 &mdash; PRE0 &mdash; control' loading='lazy'><div class='tag'>PRE0 &mdash; control</div><div class='note'>current pipeline: head cut takes 9.6%, fringe 4.69%</div></div>
+<div class='cell '><img src='../runs/phase3/p016__PRE1.jpg' alt='p016 &mdash; PRE1 &mdash; LaMa' loading='lazy'><div class='tag'>PRE1 &mdash; LaMa</div><div class='note'>LaMa on raw; head cut takes 3.6% (was 9.6%), fringe 3.14% (was 4.69%)</div></div>
+<div class='cell '><img src='../runs/phase3/p016__PRE2.jpg' alt='p016 &mdash; PRE2 &mdash; klein bald' loading='lazy'><div class='tag'>PRE2 &mdash; klein bald</div><div class='note'>klein bald; head cut takes 0.5% (was 9.6%), fringe 1.06% (was 4.69%)</div></div>
+<div class='cell '><img src='../runs/phase3/p016__PRE3.jpg' alt='p016 &mdash; PRE3 &mdash; Qwen bald' loading='lazy'><div class='tag'>PRE3 &mdash; Qwen bald</div><div class='note'>Qwen bald; head cut takes 0.0% (was 9.6%), fringe 0.97% (was 4.69%)</div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p009</b><span class='m'>cropped result after each repair</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p009__AC0.jpg' alt='p009 &mdash; PRE0 &mdash; control' loading='lazy'><div class='tag'>PRE0 &mdash; control</div><div class='note'>current pipeline: head cut takes 7.2%, fringe 0.32%</div></div>
+<div class='cell '><img src='../runs/phase3/p009__PRE1.jpg' alt='p009 &mdash; PRE1 &mdash; LaMa' loading='lazy'><div class='tag'>PRE1 &mdash; LaMa</div><div class='note'>LaMa on raw; head cut takes 2.2% (was 7.2%), fringe 0.48% (was 0.32%)</div></div>
+<div class='cell '><img src='../runs/phase3/p009__PRE2.jpg' alt='p009 &mdash; PRE2 &mdash; klein bald' loading='lazy'><div class='tag'>PRE2 &mdash; klein bald</div><div class='note'>klein bald; head cut takes 0.0% (was 7.2%), fringe 0.00% (was 0.32%)</div></div>
+<div class='cell '><img src='../runs/phase3/p009__PRE3.jpg' alt='p009 &mdash; PRE3 &mdash; Qwen bald' loading='lazy'><div class='tag'>PRE3 &mdash; Qwen bald</div><div class='note'>Qwen bald; head cut takes 0.0% (was 7.2%), fringe 0.02% (was 0.32%)</div></div>
+</div></div>
+<div class='sec'>3 &mdash; the repaired raw frames themselves</div><div class='legend'>What the cropper actually received. A bald edit that changed the clothing, the pose or the body is a failure even if the crop downstream looks clean.</div>
+<div class='ref'><div class='rh'><b>p021</b><span class='m'>raw frame after repair, before any cropping</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p021__PRE1raw.jpg' alt='p021 &mdash; PRE1 raw' loading='lazy'><div class='tag'>PRE1 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p021__PRE2raw.jpg' alt='p021 &mdash; PRE2 raw' loading='lazy'><div class='tag'>PRE2 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p021__PRE3raw.jpg' alt='p021 &mdash; PRE3 raw' loading='lazy'><div class='tag'>PRE3 raw</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_woman_top_denim_skirt_nonceleb</b><span class='m'>raw frame after repair, before any cropping</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__PRE1raw.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; PRE1 raw' loading='lazy'><div class='tag'>PRE1 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__PRE2raw.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; PRE2 raw' loading='lazy'><div class='tag'>PRE2 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__PRE3raw.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb &mdash; PRE3 raw' loading='lazy'><div class='tag'>PRE3 raw</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p023</b><span class='m'>raw frame after repair, before any cropping</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p023__PRE1raw.jpg' alt='p023 &mdash; PRE1 raw' loading='lazy'><div class='tag'>PRE1 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p023__PRE2raw.jpg' alt='p023 &mdash; PRE2 raw' loading='lazy'><div class='tag'>PRE2 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p023__PRE3raw.jpg' alt='p023 &mdash; PRE3 raw' loading='lazy'><div class='tag'>PRE3 raw</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_zendaya_white_blazer_skirt</b><span class='m'>raw frame after repair, before any cropping</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__PRE1raw.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; PRE1 raw' loading='lazy'><div class='tag'>PRE1 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__PRE2raw.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; PRE2 raw' loading='lazy'><div class='tag'>PRE2 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_zendaya_white_blazer_skirt__PRE3raw.jpg' alt='dualuse_zendaya_white_blazer_skirt &mdash; PRE3 raw' loading='lazy'><div class='tag'>PRE3 raw</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p012</b><span class='m'>raw frame after repair, before any cropping</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p012__PRE1raw.jpg' alt='p012 &mdash; PRE1 raw' loading='lazy'><div class='tag'>PRE1 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p012__PRE2raw.jpg' alt='p012 &mdash; PRE2 raw' loading='lazy'><div class='tag'>PRE2 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p012__PRE3raw.jpg' alt='p012 &mdash; PRE3 raw' loading='lazy'><div class='tag'>PRE3 raw</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p019</b><span class='m'>raw frame after repair, before any cropping</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p019__PRE1raw.jpg' alt='p019 &mdash; PRE1 raw' loading='lazy'><div class='tag'>PRE1 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p019__PRE2raw.jpg' alt='p019 &mdash; PRE2 raw' loading='lazy'><div class='tag'>PRE2 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p019__PRE3raw.jpg' alt='p019 &mdash; PRE3 raw' loading='lazy'><div class='tag'>PRE3 raw</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p028</b><span class='m'>raw frame after repair, before any cropping</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p028__PRE1raw.jpg' alt='p028 &mdash; PRE1 raw' loading='lazy'><div class='tag'>PRE1 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p028__PRE2raw.jpg' alt='p028 &mdash; PRE2 raw' loading='lazy'><div class='tag'>PRE2 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p028__PRE3raw.jpg' alt='p028 &mdash; PRE3 raw' loading='lazy'><div class='tag'>PRE3 raw</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p030</b><span class='m'>raw frame after repair, before any cropping</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p030__PRE1raw.jpg' alt='p030 &mdash; PRE1 raw' loading='lazy'><div class='tag'>PRE1 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p030__PRE2raw.jpg' alt='p030 &mdash; PRE2 raw' loading='lazy'><div class='tag'>PRE2 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p030__PRE3raw.jpg' alt='p030 &mdash; PRE3 raw' loading='lazy'><div class='tag'>PRE3 raw</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>dualuse_scarlett_johansson_black_dress_backview_night</b><span class='m'>raw frame after repair, before any cropping</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__PRE1raw.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; PRE1 raw' loading='lazy'><div class='tag'>PRE1 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__PRE2raw.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; PRE2 raw' loading='lazy'><div class='tag'>PRE2 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/dualuse_scarlett_johansson_black_dress_backview_night__PRE3raw.jpg' alt='dualuse_scarlett_johansson_black_dress_backview_night &mdash; PRE3 raw' loading='lazy'><div class='tag'>PRE3 raw</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p016</b><span class='m'>raw frame after repair, before any cropping</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p016__PRE1raw.jpg' alt='p016 &mdash; PRE1 raw' loading='lazy'><div class='tag'>PRE1 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p016__PRE2raw.jpg' alt='p016 &mdash; PRE2 raw' loading='lazy'><div class='tag'>PRE2 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p016__PRE3raw.jpg' alt='p016 &mdash; PRE3 raw' loading='lazy'><div class='tag'>PRE3 raw</div><div class='note'></div></div>
+</div></div>
+<div class='ref'><div class='rh'><b>p009</b><span class='m'>raw frame after repair, before any cropping</span></div><div class='strip'>
+<div class='cell '><img src='../runs/phase3/p009__PRE1raw.jpg' alt='p009 &mdash; PRE1 raw' loading='lazy'><div class='tag'>PRE1 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p009__PRE2raw.jpg' alt='p009 &mdash; PRE2 raw' loading='lazy'><div class='tag'>PRE2 raw</div><div class='note'></div></div>
+<div class='cell '><img src='../runs/phase3/p009__PRE3raw.jpg' alt='p009 &mdash; PRE3 raw' loading='lazy'><div class='tag'>PRE3 raw</div><div class='note'></div></div>
+</div></div>
+<div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>
+<script>
+var shots = [], at = -1;
+var lb = document.getElementById('lb');
+var lbi = document.getElementById('lbi');
+var lbc = document.getElementById('lbc');
+function paint(){
+  if (at < 0 || at >= shots.length) return;
+  lbi.src = shots[at].getAttribute('src');
+  lbc.textContent = shots[at].getAttribute('alt');
+}
+document.body.addEventListener('click', function(e){
+  var im = e.target.closest('.cell img');
+  if (!im) return;
+  var row = im.closest('.strip');
+  shots = Array.prototype.slice.call(row.querySelectorAll('img'));
+  at = shots.indexOf(im);
+  lb.style.display = 'flex';
+  paint();
+});
+lb.addEventListener('click', function(){ lb.style.display = 'none'; });
+document.addEventListener('keydown', function(e){
+  if (lb.style.display !== 'flex') return;
+  if (e.key === 'Escape'){ lb.style.display = 'none'; return; }
+  if (e.key === 'ArrowRight' && at < shots.length - 1){ at++; paint(); e.preventDefault(); }
+  if (e.key === 'ArrowLeft'  && at > 0){ at--; paint(); e.preventDefault(); }
+});
+</script>
