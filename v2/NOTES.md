@@ -66,3 +66,31 @@ stage. fal is a serving substrate here, never a model source.
   a real product surface (users pointing at an outfit photo, not a catalog PNG).
   Testset2 + Testset2clothes (celebrity/editorial, all on-model) is the natural
   test bed; needs per-pair target-garment designation either way.
+  
+
+
+  OBVSERVATION
+
+make a note in reuslts or epxirmenmts: reduction of attneiotn on unneeded thigns allwos ai
+  to have better focus on its obejctive such as less ai artefacts or msitakes, additioanyl
+  make note that pixaltion is pretty dam good as a wqya to maintian both context of what
+  things are and aosl a rteudtion of attention,
+
+   I want to tery out pixelation modualtion later as well .
+
+  additoinaly for qwens iamge, its pretty fircken good at times and trash at others, the
+  epxected ai noise reudction was not seen drasitcally in one of the poles isntead bhaivng
+  ocnsitent quality to the other crops suiggetign the models ahve simialr treamtnets of the
+  clothing, however the issuation at times comes from failrue of attneiton from qwen eithe
+  rmssing thigns or over doing thigns, so qsw=ens isoaltion should likely be used as aoption
+  in the hanress rather than a defintive step int eh pieple for best reuslts. In the cases in
+  whcih qwen should be used are whent eh clthihgn is obivosu or in high reoslution, there
+  owudlnt be majro downgrades less apparels the bette , use onyl when request for focus.
+  likely pair with vlm for prompting.
+
+  also make note that apparneltry simialr inptus leads to simialr outputs like nearly
+  identical between the ac varations.
+  it seems that with enough attneiotn given to the model it would bascialyl give the same
+  output because it decendes to bascialyl the same thign, the lack of focus is what causes it
+  to not go all the way to perfection. thus the reduction of attention from the isoaltion of
+  attention is the best way to maixmize results
