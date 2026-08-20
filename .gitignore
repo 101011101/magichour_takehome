@@ -1,8 +1,28 @@
 .DS_Store
 __pycache__/
 .env
-v1/build/
-runs/
 .venv/
-judging_sheet.csv
 image-files/
+judging_sheet.csv
+
+# V1 run outputs stay out of the repo
+/runs/
+v1/build/
+v1/runs/
+
+# --- V2 run outputs -----------------------------------------------------------
+# Generated images are NOT tracked: ~190MB, and regenerable from the code and the
+# manifests below. Model weights are not tracked either (~610MB, all re-download).
+# What IS tracked is the metadata needed to know what was run and to re-run it.
+v2/runs/*
+
+# manifests: which pairs, which arms, which reference produced which output, and
+# every gate score. Small, and the human labels at repo root are keyed to them.
+!v2/runs/amt/
+v2/runs/amt/*
+!v2/runs/amt/*.json
+
+# the path index every script reads to locate source images
+!v2/runs/crop_screen/
+v2/runs/crop_screen/*
+!v2/runs/crop_screen/crop_log.csv

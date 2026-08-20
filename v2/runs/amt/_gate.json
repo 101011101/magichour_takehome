@@ -1,0 +1,9122 @@
+{
+ "ts2_11|QX_qwen_p1": {
+  "score": 0.585,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.585,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.749
+  },
+  "detail": {
+   "std": 77.62,
+   "lap": 287.69,
+   "uniq": 255.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 20.73
+  }
+ },
+ "ts2_11|BC_klein": {
+  "score": 0.635,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.635,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.721
+  },
+  "detail": {
+   "std": 77.4,
+   "lap": 289.55,
+   "uniq": 256.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 20.38
+  }
+ },
+ "ts2_11|BALD_raw": {
+  "score": 0.545,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.545,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.823
+  },
+  "detail": {
+   "std": 78.1,
+   "lap": 267.6,
+   "uniq": 256.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 21.7
+  }
+ },
+ "ts2_11|D1hO": {
+  "score": 0.629,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.629,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.702
+  },
+  "detail": {
+   "std": 77.59,
+   "lap": 254.45,
+   "uniq": 256.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 20.13
+  }
+ },
+ "ts2_11|D2O": {
+  "score": 0.606,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.606,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.707
+  },
+  "detail": {
+   "std": 77.74,
+   "lap": 235.21,
+   "uniq": 256.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 20.2
+  }
+ },
+ "ts2_11|D3O": {
+  "score": 0.631,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.631,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.706
+  },
+  "detail": {
+   "std": 77.27,
+   "lap": 249.2,
+   "uniq": 256.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 20.18
+  }
+ },
+ "ts2_11|D1hB": {
+  "score": 0.644,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.644,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.712
+  },
+  "detail": {
+   "std": 77.18,
+   "lap": 286.09,
+   "uniq": 256.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 20.25
+  }
+ },
+ "ts2_11|D2B": {
+  "score": 0.607,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.607,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.715
+  },
+  "detail": {
+   "std": 77.52,
+   "lap": 270.46,
+   "uniq": 256.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 20.29
+  }
+ },
+ "ts2_11|D3B": {
+  "score": 0.625,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.625,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.719
+  },
+  "detail": {
+   "std": 77.07,
+   "lap": 280.48,
+   "uniq": 256.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 20.35
+  }
+ },
+ "ts2_12|control": {
+  "score": 0.539,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.539,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.81,
+   "lap": 195.02,
+   "uniq": 244.0,
+   "ssim_to_input": 0.9,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.2
+  }
+ },
+ "ts2_12|BC_klein": {
+  "score": 0.529,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.529,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 61.6,
+   "lap": 194.59,
+   "uniq": 244.0,
+   "ssim_to_input": 0.9,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.67
+  }
+ },
+ "ts2_12|BALD_raw": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 69.99,
+   "lap": 342.59,
+   "uniq": 252.0,
+   "ssim_to_input": 0.38,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 7.47
+  }
+ },
+ "ts2_12|D1hO": {
+  "score": 0.556,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.556,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.47,
+   "lap": 197.64,
+   "uniq": 244.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.99
+  }
+ },
+ "ts2_12|D2O": {
+  "score": 0.555,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.555,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.49,
+   "lap": 192.69,
+   "uniq": 245.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.63
+  }
+ },
+ "ts2_12|D3O": {
+  "score": 0.552,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.552,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.47,
+   "lap": 198.74,
+   "uniq": 244.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.23
+  }
+ },
+ "ts2_12|D1hB": {
+  "score": 0.559,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.559,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.26,
+   "lap": 191.09,
+   "uniq": 244.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.68
+  }
+ },
+ "ts2_12|D2B": {
+  "score": 0.55,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.55,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.49,
+   "lap": 191.14,
+   "uniq": 245.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.44
+  }
+ },
+ "p015+p007|control": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.368,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 70.4,
+   "lap": 40.72,
+   "uniq": 254.0,
+   "ssim_to_input": 0.55,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 8.23
+  }
+ },
+ "p015+p007|QX_qwen_p1": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.309,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 71.68,
+   "lap": 36.1,
+   "uniq": 253.0,
+   "ssim_to_input": 0.55,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 8.0
+  }
+ },
+ "p015+p007|BALD_raw": {
+  "score": 0.099,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.069
+  },
+  "detail": {
+   "std": 43.87,
+   "lap": 174.78,
+   "uniq": 251.0,
+   "ssim_to_input": 0.36,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 11.9
+  }
+ },
+ "p015+p007|D1hO": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.59,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 70.69,
+   "lap": 57.99,
+   "uniq": 253.0,
+   "ssim_to_input": 0.55,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 9.09
+  }
+ },
+ "p015+p007|D2O": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.63,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 69.19,
+   "lap": 61.16,
+   "uniq": 253.0,
+   "ssim_to_input": 0.57,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 9.37
+  }
+ },
+ "p015+p007|D3O": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.554,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 70.57,
+   "lap": 55.25,
+   "uniq": 254.0,
+   "ssim_to_input": 0.55,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 9.1
+  }
+ },
+ "p015+p007|D1hB": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.382,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 70.76,
+   "lap": 41.81,
+   "uniq": 254.0,
+   "ssim_to_input": 0.54,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 8.18
+  }
+ },
+ "p015+p007|D2B": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.399,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 69.5,
+   "lap": 43.14,
+   "uniq": 255.0,
+   "ssim_to_input": 0.56,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 9.13
+  }
+ },
+ "p015+p007|D3B": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.393,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 69.6,
+   "lap": 42.63,
+   "uniq": 255.0,
+   "ssim_to_input": 0.54,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 8.01
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb|control": {
+  "score": 0.948,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.948,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 43.48,
+   "lap": 231.18,
+   "uniq": 242.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.62
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb|QX_qwen_p1": {
+  "score": 0.695,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 0.947,
+   "noop": 0.695,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 55.63,
+   "lap": 85.87,
+   "uniq": 241.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 37.66
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb|BC_klein": {
+  "score": 0.914,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.914,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 45.31,
+   "lap": 213.19,
+   "uniq": 244.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.45
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb|BALD_raw": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 42.15,
+   "lap": 93.83,
+   "uniq": 203.0,
+   "ssim_to_input": 0.23,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 3.68
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb|D1hO": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 48.49,
+   "lap": 219.79,
+   "uniq": 251.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.87
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb|D2O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 47.72,
+   "lap": 236.36,
+   "uniq": 245.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.0
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb|D3O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 48.7,
+   "lap": 234.97,
+   "uniq": 246.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.13
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb|D2B": {
+  "score": 0.928,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.928,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 44.77,
+   "lap": 218.28,
+   "uniq": 245.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.33
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb|D3B": {
+  "score": 0.925,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.925,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 45.4,
+   "lap": 219.93,
+   "uniq": 247.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.43
+  }
+ },
+ "p011+p003|control": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.919
+  },
+  "detail": {
+   "std": 74.48,
+   "lap": 114.11,
+   "uniq": 243.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.95
+  }
+ },
+ "p011+p003|BC_klein": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.938
+  },
+  "detail": {
+   "std": 75.2,
+   "lap": 103.03,
+   "uniq": 242.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.19
+  }
+ },
+ "p011+p003|BALD_raw": {
+  "score": 0.196,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.884,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.137
+  },
+  "detail": {
+   "std": 67.82,
+   "lap": 80.99,
+   "uniq": 252.0,
+   "ssim_to_input": 0.55,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 12.78
+  }
+ },
+ "p011+p003|D1hO": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.831
+  },
+  "detail": {
+   "std": 75.0,
+   "lap": 109.25,
+   "uniq": 235.0,
+   "ssim_to_input": 0.71,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 21.8
+  }
+ },
+ "p011+p003|D2O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.821
+  },
+  "detail": {
+   "std": 77.61,
+   "lap": 118.38,
+   "uniq": 242.0,
+   "ssim_to_input": 0.7,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 21.67
+  }
+ },
+ "p011+p003|D3O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.879
+  },
+  "detail": {
+   "std": 75.48,
+   "lap": 105.55,
+   "uniq": 237.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.42
+  }
+ },
+ "p011+p003|D1hB": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.878
+  },
+  "detail": {
+   "std": 75.11,
+   "lap": 114.99,
+   "uniq": 240.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.41
+  }
+ },
+ "p011+p003|D2B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.857
+  },
+  "detail": {
+   "std": 75.33,
+   "lap": 107.89,
+   "uniq": 238.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.14
+  }
+ },
+ "p011+p003|D3B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.925
+  },
+  "detail": {
+   "std": 75.49,
+   "lap": 105.42,
+   "uniq": 240.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.02
+  }
+ },
+ "p015+p002|control": {
+  "score": 0.327,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.327,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.413
+  },
+  "detail": {
+   "std": 63.74,
+   "lap": 37.48,
+   "uniq": 252.0,
+   "ssim_to_input": 0.65,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.37
+  }
+ },
+ "p015+p002|BC_klein": {
+  "score": 0.344,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.344,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.399
+  },
+  "detail": {
+   "std": 63.95,
+   "lap": 38.8,
+   "uniq": 252.0,
+   "ssim_to_input": 0.65,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.18
+  }
+ },
+ "p015+p002|BALD_raw": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 60.71,
+   "lap": 131.1,
+   "uniq": 256.0,
+   "ssim_to_input": 0.2,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 7.41
+  }
+ },
+ "p015+p002|D1hO": {
+  "score": 0.583,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.605,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.408
+  },
+  "detail": {
+   "std": 62.92,
+   "lap": 59.21,
+   "uniq": 254.0,
+   "ssim_to_input": 0.71,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.3
+  }
+ },
+ "p015+p002|D2O": {
+  "score": 0.584,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.653,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.409
+  },
+  "detail": {
+   "std": 63.03,
+   "lap": 62.94,
+   "uniq": 255.0,
+   "ssim_to_input": 0.71,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.32
+  }
+ },
+ "p015+p002|D3O": {
+  "score": 0.504,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.504,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.413
+  },
+  "detail": {
+   "std": 62.85,
+   "lap": 51.34,
+   "uniq": 253.0,
+   "ssim_to_input": 0.69,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.36
+  }
+ },
+ "p015+p002|D1hB": {
+  "score": 0.392,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.392,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.412
+  },
+  "detail": {
+   "std": 63.34,
+   "lap": 42.59,
+   "uniq": 253.0,
+   "ssim_to_input": 0.65,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.36
+  }
+ },
+ "p015+p002|D2B": {
+  "score": 0.506,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.506,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.414
+  },
+  "detail": {
+   "std": 63.32,
+   "lap": 51.48,
+   "uniq": 254.0,
+   "ssim_to_input": 0.68,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.38
+  }
+ },
+ "p015+p002|D3B": {
+  "score": 0.299,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.299,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.409
+  },
+  "detail": {
+   "std": 63.85,
+   "lap": 35.29,
+   "uniq": 252.0,
+   "ssim_to_input": 0.65,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.31
+  }
+ },
+ "dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night|control": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 74.22,
+   "lap": 250.93,
+   "uniq": 247.0,
+   "ssim_to_input": 0.74,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.09
+  }
+ },
+ "dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night|QX_qwen_p1": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 79.27,
+   "lap": 197.25,
+   "uniq": 242.0,
+   "ssim_to_input": 0.77,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.67
+  }
+ },
+ "dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night|BC_klein": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 74.53,
+   "lap": 222.28,
+   "uniq": 248.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.92
+  }
+ },
+ "dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night|BALD_raw": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 57.28,
+   "lap": 113.81,
+   "uniq": 256.0,
+   "ssim_to_input": 0.31,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 4.66
+  }
+ },
+ "dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night|D1hO": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 74.58,
+   "lap": 242.27,
+   "uniq": 248.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.51
+  }
+ },
+ "dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night|D2O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 72.46,
+   "lap": 219.56,
+   "uniq": 244.0,
+   "ssim_to_input": 0.76,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.46
+  }
+ },
+ "dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night|D3O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 74.62,
+   "lap": 243.27,
+   "uniq": 251.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.39
+  }
+ },
+ "dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night|D1hB": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 75.93,
+   "lap": 217.34,
+   "uniq": 248.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.93
+  }
+ },
+ "dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night|D2B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 75.37,
+   "lap": 226.57,
+   "uniq": 247.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 33.17
+  }
+ },
+ "dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night|D3B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 75.24,
+   "lap": 213.89,
+   "uniq": 245.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.85
+  }
+ },
+ "dualuse_lp_floral_kimono_set+p008|control": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 64.88,
+   "lap": 531.01,
+   "uniq": 255.0,
+   "ssim_to_input": 0.71,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.38
+  }
+ },
+ "dualuse_lp_floral_kimono_set+p008|QX_qwen_p1": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 65.85,
+   "lap": 544.71,
+   "uniq": 255.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.65
+  }
+ },
+ "dualuse_lp_floral_kimono_set+p008|BC_klein": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 64.32,
+   "lap": 504.77,
+   "uniq": 255.0,
+   "ssim_to_input": 0.71,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.32
+  }
+ },
+ "dualuse_lp_floral_kimono_set+p008|BALD_raw": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 65.13,
+   "lap": 276.08,
+   "uniq": 250.0,
+   "ssim_to_input": 0.16,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 4.12
+  }
+ },
+ "dualuse_lp_floral_kimono_set+p008|D1hO": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 65.97,
+   "lap": 534.62,
+   "uniq": 255.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.43
+  }
+ },
+ "dualuse_lp_floral_kimono_set+p008|D2O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 66.33,
+   "lap": 561.15,
+   "uniq": 255.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.59
+  }
+ },
+ "dualuse_lp_floral_kimono_set+p008|D3O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 65.26,
+   "lap": 524.03,
+   "uniq": 256.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.25
+  }
+ },
+ "dualuse_lp_floral_kimono_set+p008|D1hB": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 65.43,
+   "lap": 578.93,
+   "uniq": 255.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.75
+  }
+ },
+ "dualuse_lp_floral_kimono_set+p008|D2B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 65.31,
+   "lap": 589.05,
+   "uniq": 255.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.65
+  }
+ },
+ "dualuse_lp_floral_kimono_set+p008|D3B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 64.75,
+   "lap": 526.88,
+   "uniq": 255.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.28
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night|control": {
+  "score": 0.679,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.679,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 66.33,
+   "lap": 222.24,
+   "uniq": 251.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.48
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night|BC_klein": {
+  "score": 0.626,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.626,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 66.39,
+   "lap": 215.46,
+   "uniq": 248.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.95
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night|BALD_raw": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 57.6,
+   "lap": 106.6,
+   "uniq": 256.0,
+   "ssim_to_input": 0.35,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 3.3
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night|D1hO": {
+  "score": 0.649,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.649,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 66.19,
+   "lap": 193.82,
+   "uniq": 253.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 33.12
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night|D2O": {
+  "score": 0.648,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.648,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 66.91,
+   "lap": 197.19,
+   "uniq": 252.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 33.06
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night|D3O": {
+  "score": 0.646,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.646,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 67.04,
+   "lap": 194.34,
+   "uniq": 253.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.95
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night|D1hB": {
+  "score": 0.64,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.64,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 66.5,
+   "lap": 221.27,
+   "uniq": 249.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.93
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night|D2B": {
+  "score": 0.634,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.634,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 67.25,
+   "lap": 215.3,
+   "uniq": 249.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.21
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night|D3B": {
+  "score": 0.651,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.651,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 66.72,
+   "lap": 232.54,
+   "uniq": 248.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.41
+  }
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor+p007|control": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 74.04,
+   "lap": 400.77,
+   "uniq": 255.0,
+   "ssim_to_input": 0.71,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.61
+  }
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor+p007|QX_qwen_p1": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 71.8,
+   "lap": 403.64,
+   "uniq": 254.0,
+   "ssim_to_input": 0.69,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.15
+  }
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor+p007|BC_klein": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 74.19,
+   "lap": 395.38,
+   "uniq": 256.0,
+   "ssim_to_input": 0.71,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.66
+  }
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor+p007|BALD_raw": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 73.23,
+   "lap": 383.64,
+   "uniq": 255.0,
+   "ssim_to_input": 0.71,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.18
+  }
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor+p007|D1hO": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 73.96,
+   "lap": 392.9,
+   "uniq": 256.0,
+   "ssim_to_input": 0.71,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.51
+  }
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor+p007|D2O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 73.99,
+   "lap": 401.53,
+   "uniq": 255.0,
+   "ssim_to_input": 0.7,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.35
+  }
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor+p007|D3O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 73.88,
+   "lap": 395.6,
+   "uniq": 255.0,
+   "ssim_to_input": 0.71,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.42
+  }
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor+p007|D1hB": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 74.06,
+   "lap": 403.85,
+   "uniq": 255.0,
+   "ssim_to_input": 0.71,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.59
+  }
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor+p007|D2B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 73.85,
+   "lap": 395.55,
+   "uniq": 255.0,
+   "ssim_to_input": 0.71,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.41
+  }
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor+p007|D3B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 73.97,
+   "lap": 402.86,
+   "uniq": 255.0,
+   "ssim_to_input": 0.71,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.68
+  }
+ },
+ "dualuse_navy_peacoat_onmodel+p012|control": {
+  "score": 0.732,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 0.881,
+   "noop": 0.732,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 51.71,
+   "lap": 80.72,
+   "uniq": 244.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 35.64
+  }
+ },
+ "dualuse_navy_peacoat_onmodel+p012|QX_qwen_p1": {
+  "score": 0.586,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 0.757,
+   "noop": 0.586,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 50.33,
+   "lap": 71.08,
+   "uniq": 244.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 34.74
+  }
+ },
+ "dualuse_navy_peacoat_onmodel+p012|BC_klein": {
+  "score": 0.728,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 0.822,
+   "noop": 0.728,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 52.78,
+   "lap": 76.14,
+   "uniq": 240.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 35.87
+  }
+ },
+ "dualuse_navy_peacoat_onmodel+p012|BALD_raw": {
+  "score": 0.291,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.204
+  },
+  "detail": {
+   "std": 53.74,
+   "lap": 115.63,
+   "uniq": 245.0,
+   "ssim_to_input": 0.57,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 13.65
+  }
+ },
+ "dualuse_navy_peacoat_onmodel+p012|D1hO": {
+  "score": 0.744,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.744,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 64.84,
+   "lap": 91.27,
+   "uniq": 246.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.41
+  }
+ },
+ "dualuse_navy_peacoat_onmodel+p012|D2O": {
+  "score": 0.715,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 0.965,
+   "noop": 0.715,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 65.01,
+   "lap": 87.28,
+   "uniq": 244.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.44
+  }
+ },
+ "dualuse_navy_peacoat_onmodel+p012|D3O": {
+  "score": 0.763,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.763,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 64.67,
+   "lap": 95.19,
+   "uniq": 249.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.04
+  }
+ },
+ "dualuse_navy_peacoat_onmodel+p012|D1hB": {
+  "score": 0.618,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 0.932,
+   "noop": 0.618,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 57.45,
+   "lap": 84.73,
+   "uniq": 244.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 35.85
+  }
+ },
+ "dualuse_navy_peacoat_onmodel+p012|D2B": {
+  "score": 0.483,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 0.93,
+   "noop": 0.483,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 62.1,
+   "lap": 84.55,
+   "uniq": 243.0,
+   "ssim_to_input": 0.9,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 36.0
+  }
+ },
+ "dualuse_navy_peacoat_onmodel+p012|D3B": {
+  "score": 0.737,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 0.895,
+   "noop": 0.737,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 52.76,
+   "lap": 81.78,
+   "uniq": 244.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 36.32
+  }
+ },
+ "p018+p016|control": {
+  "score": 0.854,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.854,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 58.15,
+   "lap": 78.63,
+   "uniq": 239.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.82
+  }
+ },
+ "p018+p016|QX_qwen_p1": {
+  "score": 0.54,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.54,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 61.58,
+   "lap": 54.1,
+   "uniq": 247.0,
+   "ssim_to_input": 0.79,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.52
+  }
+ },
+ "p018+p016|BC_klein": {
+  "score": 0.436,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.436,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 58.24,
+   "lap": 46.04,
+   "uniq": 240.0,
+   "ssim_to_input": 0.82,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.49
+  }
+ },
+ "p018+p016|BALD_raw": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 59.01,
+   "lap": 366.98,
+   "uniq": 237.0,
+   "ssim_to_input": 0.19,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 6.99
+  }
+ },
+ "p018+p016|D1hO": {
+  "score": 0.886,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.886,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.48,
+   "lap": 81.13,
+   "uniq": 237.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.29
+  }
+ },
+ "p018+p016|D2O": {
+  "score": 0.851,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.851,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.56,
+   "lap": 78.34,
+   "uniq": 236.0,
+   "ssim_to_input": 0.8,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.48
+  }
+ },
+ "p018+p016|D3O": {
+  "score": 0.846,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.846,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.89,
+   "lap": 77.97,
+   "uniq": 239.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.25
+  }
+ },
+ "p018+p016|D1hB": {
+  "score": 0.612,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.612,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.35,
+   "lap": 59.75,
+   "uniq": 240.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.54
+  }
+ },
+ "p018+p016|D2B": {
+  "score": 0.518,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.518,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 58.31,
+   "lap": 52.38,
+   "uniq": 240.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.64
+  }
+ },
+ "p018+p016|D3B": {
+  "score": 0.481,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.481,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 58.9,
+   "lap": 49.53,
+   "uniq": 240.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.46
+  }
+ },
+ "p020+dualuse_hugh_jackman_grey_suit_outdoor|control": {
+  "score": 0.5,
+  "weakest": "people",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.973,
+   "people": 0.45,
+   "identity": 1.0,
+   "background": 0.9
+  },
+  "detail": {
+   "std": 59.29,
+   "lap": 724.63,
+   "uniq": 207.0,
+   "ssim_to_input": 0.84,
+   "people": 0,
+   "identity": "n/a",
+   "bg_psnr": 22.7
+  }
+ },
+ "p020+dualuse_hugh_jackman_grey_suit_outdoor|BC_klein": {
+  "score": 0.5,
+  "weakest": "people",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.961,
+   "people": 0.45,
+   "identity": 1.0,
+   "background": 0.901
+  },
+  "detail": {
+   "std": 59.07,
+   "lap": 705.0,
+   "uniq": 204.0,
+   "ssim_to_input": 0.84,
+   "people": 0,
+   "identity": "n/a",
+   "bg_psnr": 22.72
+  }
+ },
+ "p020+dualuse_hugh_jackman_grey_suit_outdoor|BALD_raw": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 71.92,
+   "lap": 247.59,
+   "uniq": 251.0,
+   "ssim_to_input": 0.53,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 10.4
+  }
+ },
+ "p020+dualuse_hugh_jackman_grey_suit_outdoor|D1hO": {
+  "score": 0.5,
+  "weakest": "people",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 0.45,
+   "identity": 1.0,
+   "background": 0.902
+  },
+  "detail": {
+   "std": 58.73,
+   "lap": 750.99,
+   "uniq": 204.0,
+   "ssim_to_input": 0.83,
+   "people": 0,
+   "identity": "n/a",
+   "bg_psnr": 22.72
+  }
+ },
+ "p020+dualuse_hugh_jackman_grey_suit_outdoor|D2O": {
+  "score": 0.5,
+  "weakest": "people",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 0.45,
+   "identity": 1.0,
+   "background": 0.905
+  },
+  "detail": {
+   "std": 59.46,
+   "lap": 744.28,
+   "uniq": 204.0,
+   "ssim_to_input": 0.84,
+   "people": 0,
+   "identity": "n/a",
+   "bg_psnr": 22.77
+  }
+ },
+ "p020+dualuse_hugh_jackman_grey_suit_outdoor|D3O": {
+  "score": 0.5,
+  "weakest": "people",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 0.45,
+   "identity": 1.0,
+   "background": 0.906
+  },
+  "detail": {
+   "std": 58.95,
+   "lap": 740.15,
+   "uniq": 204.0,
+   "ssim_to_input": 0.84,
+   "people": 0,
+   "identity": "n/a",
+   "bg_psnr": 22.78
+  }
+ },
+ "p020+dualuse_hugh_jackman_grey_suit_outdoor|D1hB": {
+  "score": 0.5,
+  "weakest": "people",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 0.45,
+   "identity": 1.0,
+   "background": 0.898
+  },
+  "detail": {
+   "std": 59.25,
+   "lap": 721.91,
+   "uniq": 205.0,
+   "ssim_to_input": 0.84,
+   "people": 0,
+   "identity": "n/a",
+   "bg_psnr": 22.67
+  }
+ },
+ "p020+dualuse_hugh_jackman_grey_suit_outdoor|D2B": {
+  "score": 0.5,
+  "weakest": "people",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 0.45,
+   "identity": 1.0,
+   "background": 0.894
+  },
+  "detail": {
+   "std": 59.67,
+   "lap": 716.98,
+   "uniq": 204.0,
+   "ssim_to_input": 0.84,
+   "people": 0,
+   "identity": "n/a",
+   "bg_psnr": 22.62
+  }
+ },
+ "p020+dualuse_hugh_jackman_grey_suit_outdoor|D3B": {
+  "score": 0.5,
+  "weakest": "people",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.925,
+   "people": 0.45,
+   "identity": 1.0,
+   "background": 0.992
+  },
+  "detail": {
+   "std": 60.57,
+   "lap": 768.76,
+   "uniq": 207.0,
+   "ssim_to_input": 0.85,
+   "people": 0,
+   "identity": "n/a",
+   "bg_psnr": 23.89
+  }
+ },
+ "p017+p002|control": {
+  "score": 0.54,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.54,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.15,
+   "lap": 54.13,
+   "uniq": 197.0,
+   "ssim_to_input": 0.74,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.61
+  }
+ },
+ "p017+p002|BC_klein": {
+  "score": 0.602,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.602,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.04,
+   "lap": 58.98,
+   "uniq": 199.0,
+   "ssim_to_input": 0.74,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.33
+  }
+ },
+ "p017+p002|BALD_raw": {
+  "score": 0.111,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.657,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.078
+  },
+  "detail": {
+   "std": 59.52,
+   "lap": 63.27,
+   "uniq": 256.0,
+   "ssim_to_input": 0.44,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 12.02
+  }
+ },
+ "p017+p002|D1hO": {
+  "score": 0.574,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.574,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.21,
+   "lap": 56.79,
+   "uniq": 201.0,
+   "ssim_to_input": 0.74,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.29
+  }
+ },
+ "p017+p002|D2O": {
+  "score": 0.543,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.543,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.28,
+   "lap": 54.34,
+   "uniq": 198.0,
+   "ssim_to_input": 0.74,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.6
+  }
+ },
+ "p017+p002|D3O": {
+  "score": 0.676,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.676,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.17,
+   "lap": 64.71,
+   "uniq": 197.0,
+   "ssim_to_input": 0.74,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.28
+  }
+ },
+ "p017+p002|D1hB": {
+  "score": 0.602,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.602,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.79,
+   "lap": 58.98,
+   "uniq": 200.0,
+   "ssim_to_input": 0.74,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.33
+  }
+ },
+ "p017+p002|D2B": {
+  "score": 0.54,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.54,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.09,
+   "lap": 54.1,
+   "uniq": 201.0,
+   "ssim_to_input": 0.74,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.25
+  }
+ },
+ "p017+p002|D3B": {
+  "score": 0.642,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.642,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.17,
+   "lap": 62.1,
+   "uniq": 200.0,
+   "ssim_to_input": 0.74,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.75
+  }
+ },
+ "p019+p010|control": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 24.16,
+   "lap": 96.61,
+   "uniq": 214.0,
+   "ssim_to_input": 0.82,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.11
+  }
+ },
+ "p019+p010|QX_qwen_p1": {
+  "score": 0.997,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.997,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 24.48,
+   "lap": 96.52,
+   "uniq": 230.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.15
+  }
+ },
+ "p019+p010|BC_klein": {
+  "score": 0.975,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.975,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 21.84,
+   "lap": 88.04,
+   "uniq": 200.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.99
+  }
+ },
+ "p019+p010|BALD_raw": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 51.79,
+   "lap": 164.78,
+   "uniq": 250.0,
+   "ssim_to_input": 0.25,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 5.98
+  }
+ },
+ "p019+p010|D1hO": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 25.3,
+   "lap": 115.53,
+   "uniq": 225.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.66
+  }
+ },
+ "p019+p010|D2O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 32.02,
+   "lap": 168.78,
+   "uniq": 238.0,
+   "ssim_to_input": 0.8,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.33
+  }
+ },
+ "p019+p010|D3O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 24.78,
+   "lap": 106.69,
+   "uniq": 218.0,
+   "ssim_to_input": 0.82,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.07
+  }
+ },
+ "p019+p010|D1hB": {
+  "score": 0.942,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.942,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 21.07,
+   "lap": 87.8,
+   "uniq": 198.0,
+   "ssim_to_input": 0.82,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.74
+  }
+ },
+ "p019+p010|D2B": {
+  "score": 0.994,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.994,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 21.91,
+   "lap": 93.22,
+   "uniq": 204.0,
+   "ssim_to_input": 0.82,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.82
+  }
+ },
+ "p019+p010|D3B": {
+  "score": 0.914,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.914,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 21.41,
+   "lap": 83.25,
+   "uniq": 196.0,
+   "ssim_to_input": 0.82,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.63
+  }
+ },
+ "dualuse_queen_latifah_gown_stage+p006|control": {
+  "score": 0.981,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.687
+  },
+  "detail": {
+   "std": 80.72,
+   "lap": 282.62,
+   "uniq": 243.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 19.93
+  }
+ },
+ "dualuse_queen_latifah_gown_stage+p006|QX_qwen_p1": {
+  "score": 0.866,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.606
+  },
+  "detail": {
+   "std": 79.78,
+   "lap": 93.64,
+   "uniq": 237.0,
+   "ssim_to_input": 0.76,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 18.87
+  }
+ },
+ "dualuse_queen_latifah_gown_stage+p006|BC_klein": {
+  "score": 0.966,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.676
+  },
+  "detail": {
+   "std": 80.7,
+   "lap": 266.21,
+   "uniq": 237.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 19.79
+  }
+ },
+ "dualuse_queen_latifah_gown_stage+p006|BALD_raw": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 61.64,
+   "lap": 172.66,
+   "uniq": 241.0,
+   "ssim_to_input": 0.27,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 5.45
+  }
+ },
+ "dualuse_queen_latifah_gown_stage+p006|D1hO": {
+  "score": 0.996,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.697
+  },
+  "detail": {
+   "std": 81.29,
+   "lap": 271.6,
+   "uniq": 243.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 20.06
+  }
+ },
+ "dualuse_queen_latifah_gown_stage+p006|D2O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.71
+  },
+  "detail": {
+   "std": 80.63,
+   "lap": 237.08,
+   "uniq": 249.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 20.23
+  }
+ },
+ "dualuse_queen_latifah_gown_stage+p006|D3O": {
+  "score": 0.984,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.689
+  },
+  "detail": {
+   "std": 81.17,
+   "lap": 282.37,
+   "uniq": 244.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 19.96
+  }
+ },
+ "dualuse_queen_latifah_gown_stage+p006|D1hB": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.723
+  },
+  "detail": {
+   "std": 81.17,
+   "lap": 295.94,
+   "uniq": 249.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 20.39
+  }
+ },
+ "dualuse_queen_latifah_gown_stage+p006|D2B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.733
+  },
+  "detail": {
+   "std": 80.9,
+   "lap": 233.57,
+   "uniq": 246.0,
+   "ssim_to_input": 0.76,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 20.53
+  }
+ },
+ "dualuse_queen_latifah_gown_stage+p006|D3B": {
+  "score": 0.996,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.697
+  },
+  "detail": {
+   "std": 80.87,
+   "lap": 266.05,
+   "uniq": 242.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 20.05
+  }
+ },
+ "p009+p018|control": {
+  "score": 0.944,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.944,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.978
+  },
+  "detail": {
+   "std": 62.46,
+   "lap": 124.15,
+   "uniq": 252.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.72
+  }
+ },
+ "p009+p018|BC_klein": {
+  "score": 0.928,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.928,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.999
+  },
+  "detail": {
+   "std": 62.22,
+   "lap": 124.72,
+   "uniq": 253.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.98
+  }
+ },
+ "p009+p018|BALD_raw": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.708,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 67.41,
+   "lap": 67.26,
+   "uniq": 247.0,
+   "ssim_to_input": 0.63,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 9.45
+  }
+ },
+ "p009+p018|D1hO": {
+  "score": 0.923,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.923,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.976
+  },
+  "detail": {
+   "std": 62.58,
+   "lap": 113.68,
+   "uniq": 253.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.69
+  }
+ },
+ "p009+p018|D2O": {
+  "score": 0.923,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.923,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.984
+  },
+  "detail": {
+   "std": 62.74,
+   "lap": 113.09,
+   "uniq": 253.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.79
+  }
+ },
+ "p009+p018|D3O": {
+  "score": 0.937,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.937,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.983
+  },
+  "detail": {
+   "std": 62.32,
+   "lap": 119.29,
+   "uniq": 253.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.78
+  }
+ },
+ "p009+p018|D1hB": {
+  "score": 0.965,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.965,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.963
+  },
+  "detail": {
+   "std": 62.18,
+   "lap": 124.86,
+   "uniq": 253.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.52
+  }
+ },
+ "p009+p018|D2B": {
+  "score": 0.961,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.961,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.969
+  },
+  "detail": {
+   "std": 61.72,
+   "lap": 122.59,
+   "uniq": 252.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.59
+  }
+ },
+ "p009+p018|D3B": {
+  "score": 0.959,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.959,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.972
+  },
+  "detail": {
+   "std": 61.78,
+   "lap": 119.55,
+   "uniq": 252.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.63
+  }
+ },
+ "p007+p030|control": {
+  "score": 0.323,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.323,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.573
+  },
+  "detail": {
+   "std": 59.91,
+   "lap": 37.22,
+   "uniq": 246.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 18.45
+  }
+ },
+ "p007+p030|QX_qwen_p1": {
+  "score": 0.193,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.193,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.576
+  },
+  "detail": {
+   "std": 59.12,
+   "lap": 27.04,
+   "uniq": 248.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 18.49
+  }
+ },
+ "p007+p030|BC_klein": {
+  "score": 0.312,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.312,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.577
+  },
+  "detail": {
+   "std": 59.83,
+   "lap": 36.37,
+   "uniq": 246.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 18.5
+  }
+ },
+ "p007+p030|BALD_raw": {
+  "score": 0.215,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.215,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.582
+  },
+  "detail": {
+   "std": 54.33,
+   "lap": 28.78,
+   "uniq": 246.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 18.57
+  }
+ },
+ "p007+p030|D1hO": {
+  "score": 0.335,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.335,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.564
+  },
+  "detail": {
+   "std": 60.2,
+   "lap": 38.11,
+   "uniq": 246.0,
+   "ssim_to_input": 0.82,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 18.34
+  }
+ },
+ "p007+p030|D2O": {
+  "score": 0.338,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.338,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.57
+  },
+  "detail": {
+   "std": 59.85,
+   "lap": 38.38,
+   "uniq": 245.0,
+   "ssim_to_input": 0.82,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 18.41
+  }
+ },
+ "p007+p030|D3O": {
+  "score": 0.339,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.339,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.569
+  },
+  "detail": {
+   "std": 60.13,
+   "lap": 38.41,
+   "uniq": 245.0,
+   "ssim_to_input": 0.82,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 18.39
+  }
+ },
+ "p007+p030|D1hB": {
+  "score": 0.316,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.316,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.578
+  },
+  "detail": {
+   "std": 59.99,
+   "lap": 36.65,
+   "uniq": 246.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 18.51
+  }
+ },
+ "p007+p030|D2B": {
+  "score": 0.319,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.319,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.576
+  },
+  "detail": {
+   "std": 60.02,
+   "lap": 36.91,
+   "uniq": 246.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 18.49
+  }
+ },
+ "p007+p030|D3B": {
+  "score": 0.332,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.332,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.575
+  },
+  "detail": {
+   "std": 60.22,
+   "lap": 37.91,
+   "uniq": 244.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 18.48
+  }
+ },
+ "p026+p004|control": {
+  "score": 0.631,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.631,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 70.2,
+   "lap": 407.46,
+   "uniq": 250.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.39
+  }
+ },
+ "p026+p004|QX_qwen_p1": {
+  "score": 0.921,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.921,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 68.4,
+   "lap": 406.41,
+   "uniq": 251.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.17
+  }
+ },
+ "p026+p004|BC_klein": {
+  "score": 0.676,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.676,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 70.43,
+   "lap": 413.06,
+   "uniq": 250.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.34
+  }
+ },
+ "p026+p004|BALD_raw": {
+  "score": 0.776,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.776,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 69.32,
+   "lap": 364.48,
+   "uniq": 249.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.76
+  }
+ },
+ "p026+p004|D1hO": {
+  "score": 0.662,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.662,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 70.1,
+   "lap": 423.15,
+   "uniq": 250.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.22
+  }
+ },
+ "p026+p004|D2O": {
+  "score": 0.681,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.681,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 69.82,
+   "lap": 401.18,
+   "uniq": 250.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.06
+  }
+ },
+ "p026+p004|D3O": {
+  "score": 0.661,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.661,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 70.0,
+   "lap": 413.61,
+   "uniq": 251.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.21
+  }
+ },
+ "p026+p004|D1hB": {
+  "score": 0.639,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.639,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 70.36,
+   "lap": 418.31,
+   "uniq": 250.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.28
+  }
+ },
+ "p026+p004|D2B": {
+  "score": 0.679,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.679,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 70.05,
+   "lap": 405.8,
+   "uniq": 251.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.04
+  }
+ },
+ "p026+p004|D3B": {
+  "score": 0.641,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.641,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 70.24,
+   "lap": 414.34,
+   "uniq": 250.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.27
+  }
+ },
+ "p009+p014|control": {
+  "score": 0.649,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.649,
+   "noop": 0.821,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.966
+  },
+  "detail": {
+   "std": 63.03,
+   "lap": 62.6,
+   "uniq": 251.0,
+   "ssim_to_input": 0.86,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.56
+  }
+ },
+ "p009+p014|QX_qwen_p1": {
+  "score": 0.338,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.338,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 38.64,
+   "lap": 38.34,
+   "uniq": 252.0,
+   "ssim_to_input": 0.8,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.1
+  }
+ },
+ "p009+p014|BC_klein": {
+  "score": 0.667,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.667,
+   "noop": 0.85,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.973
+  },
+  "detail": {
+   "std": 62.51,
+   "lap": 64.03,
+   "uniq": 253.0,
+   "ssim_to_input": 0.86,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.65
+  }
+ },
+ "p009+p014|BALD_raw": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.202,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 69.69,
+   "lap": 27.78,
+   "uniq": 237.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 9.88
+  }
+ },
+ "p009+p014|D1hO": {
+  "score": 0.643,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.643,
+   "noop": 0.766,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.989
+  },
+  "detail": {
+   "std": 63.84,
+   "lap": 62.14,
+   "uniq": 254.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.86
+  }
+ },
+ "p009+p014|D2O": {
+  "score": 0.625,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.625,
+   "noop": 0.715,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.978
+  },
+  "detail": {
+   "std": 64.21,
+   "lap": 60.71,
+   "uniq": 253.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.72
+  }
+ },
+ "p009+p014|D3O": {
+  "score": 0.653,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.653,
+   "noop": 0.776,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.978
+  },
+  "detail": {
+   "std": 63.72,
+   "lap": 62.96,
+   "uniq": 252.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.71
+  }
+ },
+ "p009+p014|D1hB": {
+  "score": 0.641,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.641,
+   "noop": 0.795,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.97
+  },
+  "detail": {
+   "std": 63.66,
+   "lap": 61.97,
+   "uniq": 254.0,
+   "ssim_to_input": 0.86,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.6
+  }
+ },
+ "p009+p014|D2B": {
+  "score": 0.654,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.654,
+   "noop": 0.758,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.97
+  },
+  "detail": {
+   "std": 64.16,
+   "lap": 63.04,
+   "uniq": 253.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.61
+  }
+ },
+ "p009+p014|D3B": {
+  "score": 0.657,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.657,
+   "noop": 0.813,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.973
+  },
+  "detail": {
+   "std": 63.3,
+   "lap": 63.28,
+   "uniq": 253.0,
+   "ssim_to_input": 0.86,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.65
+  }
+ },
+ "ts2_11|control": {
+  "score": 0.638,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.638,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.716
+  },
+  "detail": {
+   "std": 76.93,
+   "lap": 249.99,
+   "uniq": 256.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 20.31
+  }
+ },
+ "p015+p007|BC_klein": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.277,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 69.38,
+   "lap": 33.61,
+   "uniq": 253.0,
+   "ssim_to_input": 0.55,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 8.73
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb|D1hB": {
+  "score": 0.921,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.921,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 45.21,
+   "lap": 217.39,
+   "uniq": 246.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.64
+  }
+ },
+ "p011+p003|QX_qwen_p1": {
+  "score": 0.828,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.828,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.969
+  },
+  "detail": {
+   "std": 75.88,
+   "lap": 76.62,
+   "uniq": 238.0,
+   "ssim_to_input": 0.74,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.59
+  }
+ },
+ "ts2_12|D3B": {
+  "score": 0.556,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.556,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.77,
+   "lap": 197.64,
+   "uniq": 243.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.91
+  }
+ },
+ "ts2_12|QX_qwen_p1": {
+  "score": 0.471,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.471,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.92,
+   "lap": 95.06,
+   "uniq": 243.0,
+   "ssim_to_input": 0.9,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 38.15
+  }
+ },
+ "p015+p002|QX_qwen_p1": {
+  "score": 0.244,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.244,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.413
+  },
+  "detail": {
+   "std": 62.94,
+   "lap": 31.03,
+   "uniq": 252.0,
+   "ssim_to_input": 0.65,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.37
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night|QX_qwen_p1": {
+  "score": 0.513,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.513,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 67.04,
+   "lap": 116.26,
+   "uniq": 244.0,
+   "ssim_to_input": 0.9,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 38.24
+  }
+ },
+ "p017+p002|QX_qwen_p1": {
+  "score": 0.56,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.56,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 56.82,
+   "lap": 55.69,
+   "uniq": 200.0,
+   "ssim_to_input": 0.76,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.59
+  }
+ },
+ "p020+dualuse_hugh_jackman_grey_suit_outdoor|QX_qwen_p1": {
+  "score": 0.5,
+  "weakest": "people",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 0.45,
+   "identity": 1.0,
+   "background": 0.9
+  },
+  "detail": {
+   "std": 57.11,
+   "lap": 740.41,
+   "uniq": 201.0,
+   "ssim_to_input": 0.84,
+   "people": 0,
+   "identity": "n/a",
+   "bg_psnr": 22.7
+  }
+ },
+ "p009+p018|QX_qwen_p1": {
+  "score": 0.737,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.737,
+   "noop": 0.785,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 63.99,
+   "lap": 69.5,
+   "uniq": 251.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.61
+  }
+ },
+ "HD_p021|QX_qwen_p1": {
+  "score": 0.411,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.288
+  },
+  "detail": {
+   "std": 44.94,
+   "lap": 151.86,
+   "uniq": 227.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 14.75
+  }
+ },
+ "HD_p021|D1hO": {
+  "score": 0.391,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.274
+  },
+  "detail": {
+   "std": 55.08,
+   "lap": 240.2,
+   "uniq": 248.0,
+   "ssim_to_input": 0.78,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 14.56
+  }
+ },
+ "HD_p021|BC_klein": {
+  "score": 0.273,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.191
+  },
+  "detail": {
+   "std": 38.67,
+   "lap": 153.97,
+   "uniq": 226.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 13.48
+  }
+ },
+ "HD_p021|BALD_raw": {
+  "score": 0.196,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.137
+  },
+  "detail": {
+   "std": 46.31,
+   "lap": 166.86,
+   "uniq": 227.0,
+   "ssim_to_input": 0.65,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 12.79
+  }
+ },
+ "HD_p021|D2O": {
+  "score": 0.417,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.292
+  },
+  "detail": {
+   "std": 54.36,
+   "lap": 218.91,
+   "uniq": 247.0,
+   "ssim_to_input": 0.79,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 14.8
+  }
+ },
+ "HD_p021|D3O": {
+  "score": 0.377,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.264
+  },
+  "detail": {
+   "std": 53.63,
+   "lap": 231.4,
+   "uniq": 247.0,
+   "ssim_to_input": 0.79,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 14.43
+  }
+ },
+ "HD_p021|control": {
+  "score": 0.18,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.126
+  },
+  "detail": {
+   "std": 41.2,
+   "lap": 161.53,
+   "uniq": 240.0,
+   "ssim_to_input": 0.8,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 12.64
+  }
+ },
+ "HD_p021|D1hB": {
+  "score": 0.283,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.198
+  },
+  "detail": {
+   "std": 39.27,
+   "lap": 162.92,
+   "uniq": 229.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 13.57
+  }
+ },
+ "HD_p021|D2B": {
+  "score": 0.331,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.232
+  },
+  "detail": {
+   "std": 41.21,
+   "lap": 168.71,
+   "uniq": 227.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 14.02
+  }
+ },
+ "HD_p021|D3B": {
+  "score": 0.28,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.196
+  },
+  "detail": {
+   "std": 39.1,
+   "lap": 161.18,
+   "uniq": 226.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 13.55
+  }
+ },
+ "HD_p023|control": {
+  "score": 0.166,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.166,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 61.73,
+   "lap": 1997.9,
+   "uniq": 255.0,
+   "ssim_to_input": 0.94,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.54
+  }
+ },
+ "HD_p023|QX_qwen_p1": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 44.13,
+   "lap": 458.84,
+   "uniq": 251.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.69
+  }
+ },
+ "HD_p023|BC_klein": {
+  "score": 0.148,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.148,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 62.06,
+   "lap": 2041.5,
+   "uniq": 255.0,
+   "ssim_to_input": 0.94,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.1
+  }
+ },
+ "HD_p023|BALD_raw": {
+  "score": 0.121,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.085
+  },
+  "detail": {
+   "std": 45.68,
+   "lap": 1708.24,
+   "uniq": 255.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 12.11
+  }
+ },
+ "HD_p023|D3O": {
+  "score": 0.388,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.388,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 61.49,
+   "lap": 1764.13,
+   "uniq": 256.0,
+   "ssim_to_input": 0.91,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.51
+  }
+ },
+ "HD_p023|D2B": {
+  "score": 0.176,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.176,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 62.28,
+   "lap": 2104.89,
+   "uniq": 256.0,
+   "ssim_to_input": 0.94,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.64
+  }
+ },
+ "HD_p023|D1hB": {
+  "score": 0.147,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.147,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 62.16,
+   "lap": 2102.95,
+   "uniq": 256.0,
+   "ssim_to_input": 0.94,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.86
+  }
+ },
+ "HD_p023|D2O": {
+  "score": 0.229,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.229,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 64.39,
+   "lap": 1841.69,
+   "uniq": 256.0,
+   "ssim_to_input": 0.93,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.91
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt|control": {
+  "score": 0.561,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.393
+  },
+  "detail": {
+   "std": 93.15,
+   "lap": 111.11,
+   "uniq": 253.0,
+   "ssim_to_input": 0.69,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.11
+  }
+ },
+ "HD_p023|D1hO": {
+  "score": 0.225,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.225,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 64.09,
+   "lap": 1815.06,
+   "uniq": 256.0,
+   "ssim_to_input": 0.93,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.77
+  }
+ },
+ "HD_p023|D3B": {
+  "score": 0.241,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.241,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 61.87,
+   "lap": 1980.01,
+   "uniq": 255.0,
+   "ssim_to_input": 0.93,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.39
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt|BC_klein": {
+  "score": 0.576,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.403
+  },
+  "detail": {
+   "std": 93.53,
+   "lap": 108.76,
+   "uniq": 253.0,
+   "ssim_to_input": 0.69,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.23
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt|QX_qwen_p1": {
+  "score": 0.495,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.495,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.428
+  },
+  "detail": {
+   "std": 90.6,
+   "lap": 50.59,
+   "uniq": 252.0,
+   "ssim_to_input": 0.68,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.57
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt|D1hO": {
+  "score": 0.553,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.387
+  },
+  "detail": {
+   "std": 93.65,
+   "lap": 150.67,
+   "uniq": 252.0,
+   "ssim_to_input": 0.66,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.03
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt|D2O": {
+  "score": 0.551,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.386
+  },
+  "detail": {
+   "std": 93.42,
+   "lap": 145.54,
+   "uniq": 252.0,
+   "ssim_to_input": 0.67,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.02
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt|BALD_raw": {
+  "score": 0.49,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.88,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.343
+  },
+  "detail": {
+   "std": 82.15,
+   "lap": 80.63,
+   "uniq": 252.0,
+   "ssim_to_input": 0.58,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 15.46
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt|D3O": {
+  "score": 0.564,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.395
+  },
+  "detail": {
+   "std": 93.36,
+   "lap": 144.2,
+   "uniq": 252.0,
+   "ssim_to_input": 0.67,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.14
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt|D2B": {
+  "score": 0.56,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.392
+  },
+  "detail": {
+   "std": 93.7,
+   "lap": 109.96,
+   "uniq": 253.0,
+   "ssim_to_input": 0.68,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.09
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt|D1hB": {
+  "score": 0.569,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.398
+  },
+  "detail": {
+   "std": 93.71,
+   "lap": 109.32,
+   "uniq": 254.0,
+   "ssim_to_input": 0.69,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.17
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt|D3B": {
+  "score": 0.577,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.404
+  },
+  "detail": {
+   "std": 93.66,
+   "lap": 111.92,
+   "uniq": 253.0,
+   "ssim_to_input": 0.68,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.26
+  }
+ },
+ "HD_p019|control": {
+  "score": 0.673,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.673,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 34.39,
+   "lap": 64.53,
+   "uniq": 238.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.32
+  }
+ },
+ "HD_p019|BC_klein": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 36.51,
+   "lap": 120.81,
+   "uniq": 238.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.6
+  }
+ },
+ "HD_p019|D1hO": {
+  "score": 0.782,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.782,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 35.22,
+   "lap": 72.99,
+   "uniq": 239.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.48
+  }
+ },
+ "HD_p019|BALD_raw": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 34.57,
+   "lap": 126.91,
+   "uniq": 241.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.57
+  }
+ },
+ "HD_p019|QX_qwen_p1": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 55.44,
+   "lap": 169.09,
+   "uniq": 242.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.9
+  }
+ },
+ "HD_p019|D2O": {
+  "score": 0.784,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.784,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 35.79,
+   "lap": 73.17,
+   "uniq": 235.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.54
+  }
+ },
+ "HD_p019|D3O": {
+  "score": 0.738,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.738,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 33.7,
+   "lap": 69.57,
+   "uniq": 235.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.37
+  }
+ },
+ "HD_p019|D1hB": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 33.03,
+   "lap": 110.65,
+   "uniq": 242.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.68
+  }
+ },
+ "HD_p019|D2B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 34.49,
+   "lap": 119.84,
+   "uniq": 244.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.87
+  }
+ },
+ "HD_p019|D3B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 33.7,
+   "lap": 119.53,
+   "uniq": 243.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.52
+  }
+ },
+ "HD_p028|control": {
+  "score": 0.384,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.384,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.74,
+   "lap": 41.95,
+   "uniq": 240.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.47
+  }
+ },
+ "HD_p028|QX_qwen_p1": {
+  "score": 0.462,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.462,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.09,
+   "lap": 48.05,
+   "uniq": 227.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.26
+  }
+ },
+ "HD_p028|BC_klein": {
+  "score": 0.287,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.287,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.69,
+   "lap": 34.42,
+   "uniq": 232.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.04
+  }
+ },
+ "HD_p028|BALD_raw": {
+  "score": 0.477,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.477,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.85,
+   "lap": 49.23,
+   "uniq": 230.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.61
+  }
+ },
+ "HD_p028|D1hO": {
+  "score": 0.267,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.267,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 57.06,
+   "lap": 32.83,
+   "uniq": 229.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.3
+  }
+ },
+ "HD_p028|D2O": {
+  "score": 0.284,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.284,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 57.37,
+   "lap": 34.16,
+   "uniq": 227.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.98
+  }
+ },
+ "HD_p028|D3O": {
+  "score": 0.279,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.279,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 57.26,
+   "lap": 33.79,
+   "uniq": 231.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.81
+  }
+ },
+ "HD_p028|D1hB": {
+  "score": 0.276,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.276,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.47,
+   "lap": 33.53,
+   "uniq": 230.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.24
+  }
+ },
+ "HD_p028|D2B": {
+  "score": 0.273,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.273,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.01,
+   "lap": 33.32,
+   "uniq": 229.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.25
+  }
+ },
+ "HD_p028|D3B": {
+  "score": 0.285,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.285,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.81,
+   "lap": 34.23,
+   "uniq": 230.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.83
+  }
+ },
+ "HD_p009|control": {
+  "score": 0.748,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.748,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 67.94,
+   "lap": 396.83,
+   "uniq": 253.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.01
+  }
+ },
+ "HD_p009|QX_qwen_p1": {
+  "score": 0.768,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.768,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 67.73,
+   "lap": 332.72,
+   "uniq": 253.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.26
+  }
+ },
+ "HD_p009|BALD_raw": {
+  "score": 0.856,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.856,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 67.24,
+   "lap": 336.85,
+   "uniq": 254.0,
+   "ssim_to_input": 0.86,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.19
+  }
+ },
+ "HD_p009|BC_klein": {
+  "score": 0.746,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.746,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 67.78,
+   "lap": 399.86,
+   "uniq": 253.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.91
+  }
+ },
+ "HD_p009|D2O": {
+  "score": 0.772,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.772,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 67.75,
+   "lap": 389.83,
+   "uniq": 254.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.93
+  }
+ },
+ "HD_p009|D1hO": {
+  "score": 0.769,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.769,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 67.35,
+   "lap": 393.15,
+   "uniq": 251.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.11
+  }
+ },
+ "HD_p009|D3O": {
+  "score": 0.766,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.766,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 67.49,
+   "lap": 390.55,
+   "uniq": 253.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.98
+  }
+ },
+ "HD_p009|D1hB": {
+  "score": 0.747,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.747,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 67.68,
+   "lap": 397.42,
+   "uniq": 252.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.97
+  }
+ },
+ "HD_p009|D2B": {
+  "score": 0.737,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.737,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 67.76,
+   "lap": 396.45,
+   "uniq": 253.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.03
+  }
+ },
+ "HD_p009|D3B": {
+  "score": 0.738,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.738,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 67.72,
+   "lap": 394.05,
+   "uniq": 254.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.03
+  }
+ },
+ "HD_p021+dualuse_hugh_jackman_grey_suit_outdoor|QX_qwen_p1": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 58.56,
+   "lap": 471.21,
+   "uniq": 254.0,
+   "ssim_to_input": 0.63,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.26
+  }
+ },
+ "HD_p021+dualuse_hugh_jackman_grey_suit_outdoor|BALD_raw": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 58.28,
+   "lap": 404.68,
+   "uniq": 254.0,
+   "ssim_to_input": 0.6,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.61
+  }
+ },
+ "HD_p021+dualuse_hugh_jackman_grey_suit_outdoor|BC_klein": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.49,
+   "lap": 484.07,
+   "uniq": 255.0,
+   "ssim_to_input": 0.62,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.37
+  }
+ },
+ "HD_p021+dualuse_hugh_jackman_grey_suit_outdoor|D1hO": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.88,
+   "lap": 529.04,
+   "uniq": 255.0,
+   "ssim_to_input": 0.61,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.14
+  }
+ },
+ "HD_p021+dualuse_hugh_jackman_grey_suit_outdoor|D2O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.97,
+   "lap": 516.31,
+   "uniq": 255.0,
+   "ssim_to_input": 0.61,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.09
+  }
+ },
+ "HD_p021+dualuse_hugh_jackman_grey_suit_outdoor|control": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 61.65,
+   "lap": 502.99,
+   "uniq": 255.0,
+   "ssim_to_input": 0.62,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.22
+  }
+ },
+ "HD_p021+dualuse_hugh_jackman_grey_suit_outdoor|D3B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.46,
+   "lap": 494.89,
+   "uniq": 254.0,
+   "ssim_to_input": 0.62,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.38
+  }
+ },
+ "HD_p021+p009|BC_klein": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 35.54,
+   "lap": 113.53,
+   "uniq": 230.0,
+   "ssim_to_input": 0.77,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.12
+  }
+ },
+ "HD_p021+p009|control": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 37.21,
+   "lap": 123.97,
+   "uniq": 252.0,
+   "ssim_to_input": 0.76,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.14
+  }
+ },
+ "HD_p021+p009|BALD_raw": {
+  "score": 0.367,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.257
+  },
+  "detail": {
+   "std": 46.8,
+   "lap": 110.17,
+   "uniq": 213.0,
+   "ssim_to_input": 0.67,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 14.33
+  }
+ },
+ "HD_p021+dualuse_hugh_jackman_grey_suit_outdoor|D3O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 61.33,
+   "lap": 539.63,
+   "uniq": 255.0,
+   "ssim_to_input": 0.61,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.28
+  }
+ },
+ "HD_p021+p009|D2O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 44.8,
+   "lap": 126.21,
+   "uniq": 238.0,
+   "ssim_to_input": 0.76,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.09
+  }
+ },
+ "HD_p021+p009|D1hB": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 35.52,
+   "lap": 121.33,
+   "uniq": 242.0,
+   "ssim_to_input": 0.76,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.51
+  }
+ },
+ "HD_p021+p009|D3O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 43.57,
+   "lap": 142.82,
+   "uniq": 235.0,
+   "ssim_to_input": 0.76,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.76
+  }
+ },
+ "HD_p021+p009|D1hO": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 43.39,
+   "lap": 142.47,
+   "uniq": 238.0,
+   "ssim_to_input": 0.76,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.85
+  }
+ },
+ "HD_p021+dualuse_hugh_jackman_grey_suit_outdoor|D2B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 58.9,
+   "lap": 498.24,
+   "uniq": 255.0,
+   "ssim_to_input": 0.62,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.35
+  }
+ },
+ "HD_p021+p009|D2B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 39.21,
+   "lap": 120.73,
+   "uniq": 242.0,
+   "ssim_to_input": 0.77,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.81
+  }
+ },
+ "HD_p021+p009|D3B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 35.61,
+   "lap": 123.14,
+   "uniq": 244.0,
+   "ssim_to_input": 0.76,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.36
+  }
+ },
+ "HD_p023+dualuse_queen_latifah_gown_stage|control": {
+  "score": 0.724,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.507
+  },
+  "detail": {
+   "std": 83.82,
+   "lap": 143.38,
+   "uniq": 251.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 17.59
+  }
+ },
+ "HD_p023+dualuse_queen_latifah_gown_stage|QX_qwen_p1": {
+  "score": 0.416,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.416,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.536
+  },
+  "detail": {
+   "std": 86.15,
+   "lap": 44.43,
+   "uniq": 245.0,
+   "ssim_to_input": 0.69,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 17.97
+  }
+ },
+ "HD_p023+dualuse_queen_latifah_gown_stage|BC_klein": {
+  "score": 0.689,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.482
+  },
+  "detail": {
+   "std": 83.98,
+   "lap": 136.4,
+   "uniq": 250.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 17.27
+  }
+ },
+ "HD_p023+dualuse_queen_latifah_gown_stage|D1hO": {
+  "score": 0.759,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.531
+  },
+  "detail": {
+   "std": 82.13,
+   "lap": 149.39,
+   "uniq": 251.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 17.91
+  }
+ },
+ "HD_p023+dualuse_queen_latifah_gown_stage|D3O": {
+  "score": 0.719,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.503
+  },
+  "detail": {
+   "std": 82.37,
+   "lap": 152.82,
+   "uniq": 251.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 17.54
+  }
+ },
+ "HD_p021+p009|QX_qwen_p1": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 38.04,
+   "lap": 120.75,
+   "uniq": 230.0,
+   "ssim_to_input": 0.78,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.55
+  }
+ },
+ "HD_p023+dualuse_queen_latifah_gown_stage|D2O": {
+  "score": 0.781,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.547
+  },
+  "detail": {
+   "std": 81.73,
+   "lap": 149.24,
+   "uniq": 252.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 18.1
+  }
+ },
+ "HD_p023+p019|control": {
+  "score": 0.558,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.558,
+   "noop": 0.88,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 18.61,
+   "lap": 55.51,
+   "uniq": 189.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.71
+  }
+ },
+ "HD_p023+dualuse_queen_latifah_gown_stage|D3B": {
+  "score": 0.689,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.482
+  },
+  "detail": {
+   "std": 83.81,
+   "lap": 129.98,
+   "uniq": 249.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 17.27
+  }
+ },
+ "HD_p023+dualuse_queen_latifah_gown_stage|D1hB": {
+  "score": 0.721,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.505
+  },
+  "detail": {
+   "std": 83.35,
+   "lap": 134.52,
+   "uniq": 252.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 17.57
+  }
+ },
+ "HD_p021+dualuse_hugh_jackman_grey_suit_outdoor|D1hB": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.34,
+   "lap": 501.58,
+   "uniq": 255.0,
+   "ssim_to_input": 0.62,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.33
+  }
+ },
+ "HD_p023+p019|QX_qwen_p1": {
+  "score": 0.598,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.598,
+   "noop": 0.906,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 16.57,
+   "lap": 58.62,
+   "uniq": 177.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.3
+  }
+ },
+ "HD_p023+dualuse_queen_latifah_gown_stage|BALD_raw": {
+  "score": 0.799,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.799,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.644
+  },
+  "detail": {
+   "std": 79.6,
+   "lap": 117.08,
+   "uniq": 248.0,
+   "ssim_to_input": 0.86,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 19.37
+  }
+ },
+ "HD_p023+p019|BC_klein": {
+  "score": 0.4,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.4,
+   "noop": 0.877,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 17.29,
+   "lap": 43.22,
+   "uniq": 185.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.17
+  }
+ },
+ "HD_p023+dualuse_queen_latifah_gown_stage|D2B": {
+  "score": 0.744,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.521
+  },
+  "detail": {
+   "std": 83.24,
+   "lap": 134.98,
+   "uniq": 251.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 17.77
+  }
+ },
+ "HD_p023+p019|D1hO": {
+  "score": 0.853,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.853,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 47.3,
+   "lap": 78.55,
+   "uniq": 243.0,
+   "ssim_to_input": 0.8,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.17
+  }
+ },
+ "HD_p023+p019|D3O": {
+  "score": 0.81,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.81,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 47.4,
+   "lap": 75.19,
+   "uniq": 241.0,
+   "ssim_to_input": 0.79,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.55
+  }
+ },
+ "HD_p023+p019|D2O": {
+  "score": 0.793,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.793,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 49.64,
+   "lap": 73.83,
+   "uniq": 242.0,
+   "ssim_to_input": 0.8,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.51
+  }
+ },
+ "HD_p023+p019|D1hB": {
+  "score": 0.458,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.458,
+   "noop": 0.85,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 18.29,
+   "lap": 47.74,
+   "uniq": 191.0,
+   "ssim_to_input": 0.86,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.67
+  }
+ },
+ "HD_p023+p019|D2B": {
+  "score": 0.419,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.419,
+   "noop": 0.897,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 17.82,
+   "lap": 44.66,
+   "uniq": 189.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.38
+  }
+ },
+ "HD_p023+p019|D3B": {
+  "score": 0.426,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.426,
+   "noop": 0.86,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 18.14,
+   "lap": 45.2,
+   "uniq": 188.0,
+   "ssim_to_input": 0.86,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.31
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+p017|control": {
+  "score": 0.906,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.906,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.898
+  },
+  "detail": {
+   "std": 33.6,
+   "lap": 82.7,
+   "uniq": 234.0,
+   "ssim_to_input": 0.78,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.67
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+p017|BC_klein": {
+  "score": 0.941,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.941,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.901
+  },
+  "detail": {
+   "std": 33.72,
+   "lap": 85.39,
+   "uniq": 232.0,
+   "ssim_to_input": 0.78,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.71
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+p017|QX_qwen_p1": {
+  "score": 0.275,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.275,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 34.61,
+   "lap": 33.42,
+   "uniq": 236.0,
+   "ssim_to_input": 0.79,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.43
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+p017|BALD_raw": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 74.36,
+   "lap": 97.67,
+   "uniq": 254.0,
+   "ssim_to_input": 0.26,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 8.52
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+p017|D2O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.881
+  },
+  "detail": {
+   "std": 40.25,
+   "lap": 131.68,
+   "uniq": 241.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.45
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+p017|D3O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.892
+  },
+  "detail": {
+   "std": 39.85,
+   "lap": 143.81,
+   "uniq": 240.0,
+   "ssim_to_input": 0.74,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.6
+  }
+ },
+ "HD_p023+p019|BALD_raw": {
+  "score": 0.285,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.285,
+   "noop": 0.747,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 17.3,
+   "lap": 34.2,
+   "uniq": 198.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.46
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+p017|D1hB": {
+  "score": 0.899,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.899,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.896
+  },
+  "detail": {
+   "std": 33.88,
+   "lap": 82.08,
+   "uniq": 233.0,
+   "ssim_to_input": 0.78,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.65
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+p017|D1hO": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.783
+  },
+  "detail": {
+   "std": 38.6,
+   "lap": 162.98,
+   "uniq": 241.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 21.18
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+p017|D2B": {
+  "score": 0.968,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.968,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.876
+  },
+  "detail": {
+   "std": 33.91,
+   "lap": 87.51,
+   "uniq": 234.0,
+   "ssim_to_input": 0.78,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.38
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+p017|D3B": {
+  "score": 0.92,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.92,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.873
+  },
+  "detail": {
+   "std": 33.75,
+   "lap": 83.74,
+   "uniq": 232.0,
+   "ssim_to_input": 0.78,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.34
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear|BALD_raw": {
+  "score": 0.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.0,
+   "noop": 1.0,
+   "people": 0.45,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 0.1,
+   "lap": 0.02,
+   "uniq": 4.0,
+   "ssim_to_input": 0.0,
+   "people": 0,
+   "identity": "n/a",
+   "bg_psnr": 1.68
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear|BC_klein": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 35.8,
+   "lap": 132.47,
+   "uniq": 252.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.96
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear|D3O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 41.51,
+   "lap": 175.29,
+   "uniq": 249.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.17
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear|D1hB": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 35.94,
+   "lap": 130.19,
+   "uniq": 253.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.81
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear|D2B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 35.63,
+   "lap": 129.16,
+   "uniq": 253.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.15
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear|D3B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 35.65,
+   "lap": 129.57,
+   "uniq": 252.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.48
+  }
+ },
+ "HD_p019+dualuse_hugh_jackman_grey_suit_outdoor|control": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 62.56,
+   "lap": 395.84,
+   "uniq": 255.0,
+   "ssim_to_input": 0.63,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.52
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear|D1hO": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 41.72,
+   "lap": 174.33,
+   "uniq": 250.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.94
+  }
+ },
+ "HD_p019+dualuse_hugh_jackman_grey_suit_outdoor|QX_qwen_p1": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 61.87,
+   "lap": 496.45,
+   "uniq": 255.0,
+   "ssim_to_input": 0.66,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.06
+  }
+ },
+ "HD_p019+dualuse_hugh_jackman_grey_suit_outdoor|BC_klein": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 63.61,
+   "lap": 435.48,
+   "uniq": 254.0,
+   "ssim_to_input": 0.64,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.73
+  }
+ },
+ "HD_p019+dualuse_hugh_jackman_grey_suit_outdoor|BALD_raw": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 61.36,
+   "lap": 427.47,
+   "uniq": 253.0,
+   "ssim_to_input": 0.65,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.23
+  }
+ },
+ "HD_p019+dualuse_hugh_jackman_grey_suit_outdoor|D1hO": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.67,
+   "lap": 380.86,
+   "uniq": 254.0,
+   "ssim_to_input": 0.62,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.26
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear|control": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 36.28,
+   "lap": 141.36,
+   "uniq": 253.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.6
+  }
+ },
+ "HD_p019+dualuse_hugh_jackman_grey_suit_outdoor|D2O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.43,
+   "lap": 380.47,
+   "uniq": 253.0,
+   "ssim_to_input": 0.62,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.14
+  }
+ },
+ "HD_p019+dualuse_hugh_jackman_grey_suit_outdoor|D3O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.98,
+   "lap": 385.86,
+   "uniq": 254.0,
+   "ssim_to_input": 0.62,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.21
+  }
+ },
+ "HD_p019+dualuse_hugh_jackman_grey_suit_outdoor|D1hB": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 63.41,
+   "lap": 429.47,
+   "uniq": 255.0,
+   "ssim_to_input": 0.64,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.58
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear|QX_qwen_p1": {
+  "score": 0.927,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.927,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 39.47,
+   "lap": 84.27,
+   "uniq": 253.0,
+   "ssim_to_input": 0.76,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.07
+  }
+ },
+ "HD_p019+dualuse_hugh_jackman_grey_suit_outdoor|D2B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 62.48,
+   "lap": 423.11,
+   "uniq": 254.0,
+   "ssim_to_input": 0.64,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.52
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear|D2O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 42.81,
+   "lap": 179.54,
+   "uniq": 250.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.49
+  }
+ },
+ "HD_p019+p009|BC_klein": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.93
+  },
+  "detail": {
+   "std": 36.08,
+   "lap": 94.58,
+   "uniq": 242.0,
+   "ssim_to_input": 0.79,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.09
+  }
+ },
+ "HD_p019+dualuse_hugh_jackman_grey_suit_outdoor|D3B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 63.33,
+   "lap": 434.41,
+   "uniq": 254.0,
+   "ssim_to_input": 0.64,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.66
+  }
+ },
+ "HD_p019+p009|QX_qwen_p1": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.913
+  },
+  "detail": {
+   "std": 36.01,
+   "lap": 92.03,
+   "uniq": 234.0,
+   "ssim_to_input": 0.79,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.86
+  }
+ },
+ "HD_p019+p009|control": {
+  "score": 0.68,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.68,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 35.73,
+   "lap": 65.0,
+   "uniq": 240.0,
+   "ssim_to_input": 0.79,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.55
+  }
+ },
+ "HD_p019+p009|BALD_raw": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.868
+  },
+  "detail": {
+   "std": 36.28,
+   "lap": 94.69,
+   "uniq": 244.0,
+   "ssim_to_input": 0.78,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.28
+  }
+ },
+ "HD_p019+p009|D2O": {
+  "score": 0.726,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.726,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 35.81,
+   "lap": 68.62,
+   "uniq": 239.0,
+   "ssim_to_input": 0.79,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.51
+  }
+ },
+ "HD_p019+p009|D3O": {
+  "score": 0.706,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.706,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 35.46,
+   "lap": 67.1,
+   "uniq": 243.0,
+   "ssim_to_input": 0.79,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.58
+  }
+ },
+ "HD_p019+p009|D1hB": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.92
+  },
+  "detail": {
+   "std": 36.15,
+   "lap": 92.28,
+   "uniq": 246.0,
+   "ssim_to_input": 0.78,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.96
+  }
+ },
+ "HD_p019+p009|D1hO": {
+  "score": 0.698,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.698,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 35.42,
+   "lap": 66.44,
+   "uniq": 239.0,
+   "ssim_to_input": 0.79,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.39
+  }
+ },
+ "HD_p019+p009|D2B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.916
+  },
+  "detail": {
+   "std": 35.97,
+   "lap": 92.25,
+   "uniq": 243.0,
+   "ssim_to_input": 0.78,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.9
+  }
+ },
+ "HD_p019+p009|D3B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.923
+  },
+  "detail": {
+   "std": 35.96,
+   "lap": 91.55,
+   "uniq": 241.0,
+   "ssim_to_input": 0.78,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.0
+  }
+ },
+ "HD_p028+dualuse_navy_peacoat_onmodel|BC_klein": {
+  "score": 0.415,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.415,
+   "noop": 0.609,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 40.33,
+   "lap": 44.37,
+   "uniq": 236.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 40.35
+  }
+ },
+ "HD_p028+dualuse_navy_peacoat_onmodel|control": {
+  "score": 0.414,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.414,
+   "noop": 0.644,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 36.06,
+   "lap": 44.29,
+   "uniq": 231.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 38.58
+  }
+ },
+ "HD_p028+dualuse_navy_peacoat_onmodel|D2O": {
+  "score": 0.655,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.655,
+   "noop": 0.806,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 41.05,
+   "lap": 63.06,
+   "uniq": 244.0,
+   "ssim_to_input": 0.86,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 35.26
+  }
+ },
+ "HD_p028+dualuse_navy_peacoat_onmodel|D3O": {
+  "score": 0.547,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.547,
+   "noop": 0.806,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 41.5,
+   "lap": 54.63,
+   "uniq": 242.0,
+   "ssim_to_input": 0.86,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 35.61
+  }
+ },
+ "HD_p028+dualuse_navy_peacoat_onmodel|D2B": {
+  "score": 0.475,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.475,
+   "noop": 0.672,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 36.11,
+   "lap": 49.03,
+   "uniq": 238.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 40.43
+  }
+ },
+ "HD_p028+dualuse_navy_peacoat_onmodel|D3B": {
+  "score": 0.446,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.446,
+   "noop": 0.631,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 39.14,
+   "lap": 46.81,
+   "uniq": 237.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 41.02
+  }
+ },
+ "HD_p028+p019|control": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 54.38,
+   "lap": 105.6,
+   "uniq": 249.0,
+   "ssim_to_input": 0.82,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.75
+  }
+ },
+ "HD_p028+p019|QX_qwen_p1": {
+  "score": 0.378,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.378,
+   "noop": 0.962,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 56.28,
+   "lap": 41.51,
+   "uniq": 250.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.53
+  }
+ },
+ "HD_p028+p019|BALD_raw": {
+  "score": 0.531,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.531,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 54.2,
+   "lap": 53.45,
+   "uniq": 237.0,
+   "ssim_to_input": 0.8,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.27
+  }
+ },
+ "HD_p028+p019|BC_klein": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 55.26,
+   "lap": 99.29,
+   "uniq": 249.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.65
+  }
+ },
+ "HD_p028+dualuse_navy_peacoat_onmodel|D1hO": {
+  "score": 0.571,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.571,
+   "noop": 0.806,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 41.42,
+   "lap": 56.51,
+   "uniq": 239.0,
+   "ssim_to_input": 0.86,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 35.32
+  }
+ },
+ "HD_p028+p019|D1hO": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 52.29,
+   "lap": 142.92,
+   "uniq": 249.0,
+   "ssim_to_input": 0.82,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.5
+  }
+ },
+ "HD_p028+p019|D2O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 53.73,
+   "lap": 133.81,
+   "uniq": 247.0,
+   "ssim_to_input": 0.82,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.25
+  }
+ },
+ "HD_p028+p019|D3O": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 53.18,
+   "lap": 134.92,
+   "uniq": 247.0,
+   "ssim_to_input": 0.82,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.62
+  }
+ },
+ "HD_p028+dualuse_navy_peacoat_onmodel|BALD_raw": {
+  "score": 0.53,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 0.581,
+   "noop": 0.53,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 44.77,
+   "lap": 57.3,
+   "uniq": 242.0,
+   "ssim_to_input": 0.9,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 36.67
+  }
+ },
+ "HD_p028+dualuse_navy_peacoat_onmodel|QX_qwen_p1": {
+  "score": 0.469,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.469,
+   "noop": 0.603,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 40.0,
+   "lap": 48.61,
+   "uniq": 234.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 38.46
+  }
+ },
+ "HD_p028+p019|D2B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 54.71,
+   "lap": 97.47,
+   "uniq": 252.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.96
+  }
+ },
+ "HD_p028+dualuse_navy_peacoat_onmodel|D1hB": {
+  "score": 0.509,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.509,
+   "noop": 0.652,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 37.32,
+   "lap": 51.73,
+   "uniq": 238.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 39.85
+  }
+ },
+ "HD_p028+p019|D3B": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 55.59,
+   "lap": 95.17,
+   "uniq": 248.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.58
+  }
+ },
+ "HD_p028+p019|D1hB": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 54.64,
+   "lap": 100.5,
+   "uniq": 249.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.7
+  }
+ },
+ "HD_p009+p018|control": {
+  "score": 0.545,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.545,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 72.13,
+   "lap": 54.55,
+   "uniq": 241.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.3
+  }
+ },
+ "HD_p009+p018|QX_qwen_p1": {
+  "score": 0.353,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.353,
+   "noop": 0.975,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 70.08,
+   "lap": 39.54,
+   "uniq": 227.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.48
+  }
+ },
+ "HD_p009+p018|BC_klein": {
+  "score": 0.452,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.452,
+   "noop": 0.989,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 72.28,
+   "lap": 47.26,
+   "uniq": 237.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.64
+  }
+ },
+ "HD_p009+p018|D1hO": {
+  "score": 0.518,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.518,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 71.34,
+   "lap": 52.4,
+   "uniq": 232.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.83
+  }
+ },
+ "HD_p009+p018|D3O": {
+  "score": 0.52,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.52,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 72.25,
+   "lap": 52.53,
+   "uniq": 234.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.87
+  }
+ },
+ "HD_p009+p018|BALD_raw": {
+  "score": 0.346,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.346,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 70.71,
+   "lap": 38.99,
+   "uniq": 232.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.92
+  }
+ },
+ "HD_p009+p018|D1hB": {
+  "score": 0.541,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.541,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 72.55,
+   "lap": 54.2,
+   "uniq": 236.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.13
+  }
+ },
+ "HD_p009+p018|D3B": {
+  "score": 0.499,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.499,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 72.81,
+   "lap": 50.91,
+   "uniq": 235.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.09
+  }
+ },
+ "HD_p009+p018|D2B": {
+  "score": 0.528,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.528,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 73.07,
+   "lap": 53.17,
+   "uniq": 232.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.2
+  }
+ },
+ "HD_p009+dualuse_man_black_suit_studio_nonceleb|BALD_raw": {
+  "score": 0.24,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.24,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 70.01,
+   "lap": 99.32,
+   "uniq": 246.0,
+   "ssim_to_input": 0.93,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 37.59
+  }
+ },
+ "HD_p009+dualuse_man_black_suit_studio_nonceleb|D1hO": {
+  "score": 0.446,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.446,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 65.63,
+   "lap": 169.75,
+   "uniq": 245.0,
+   "ssim_to_input": 0.91,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.75
+  }
+ },
+ "HD_p009+dualuse_man_black_suit_studio_nonceleb|D2O": {
+  "score": 0.433,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.433,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 65.76,
+   "lap": 168.92,
+   "uniq": 244.0,
+   "ssim_to_input": 0.91,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 33.63
+  }
+ },
+ "HD_p009+p018|D2O": {
+  "score": 0.53,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.53,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 71.11,
+   "lap": 53.34,
+   "uniq": 232.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.68
+  }
+ },
+ "HD_p009+dualuse_man_black_suit_studio_nonceleb|D3O": {
+  "score": 0.469,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.469,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 64.73,
+   "lap": 179.74,
+   "uniq": 243.0,
+   "ssim_to_input": 0.9,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.49
+  }
+ },
+ "HD_p009+dualuse_man_black_suit_studio_nonceleb|D2B": {
+  "score": 0.464,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.464,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 65.02,
+   "lap": 168.28,
+   "uniq": 246.0,
+   "ssim_to_input": 0.9,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.93
+  }
+ },
+ "HD_p009+dualuse_man_black_suit_studio_nonceleb|D3B": {
+  "score": 0.503,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.503,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 64.72,
+   "lap": 158.44,
+   "uniq": 245.0,
+   "ssim_to_input": 0.9,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.74
+  }
+ },
+ "HD_p009+dualuse_man_black_suit_studio_nonceleb|D1hB": {
+  "score": 0.498,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.498,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 64.29,
+   "lap": 163.88,
+   "uniq": 243.0,
+   "ssim_to_input": 0.9,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.84
+  }
+ },
+ "HD_p009+dualuse_man_black_suit_studio_nonceleb|control": {
+  "score": 0.52,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.52,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 63.85,
+   "lap": 153.57,
+   "uniq": 243.0,
+   "ssim_to_input": 0.9,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.77
+  }
+ },
+ "HD_p009+dualuse_man_black_suit_studio_nonceleb|BC_klein": {
+  "score": 0.493,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.493,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 64.18,
+   "lap": 169.14,
+   "uniq": 244.0,
+   "ssim_to_input": 0.9,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 33.01
+  }
+ },
+ "HD_p009+dualuse_man_black_suit_studio_nonceleb|QX_qwen_p1": {
+  "score": 0.258,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.258,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 71.78,
+   "lap": 104.54,
+   "uniq": 243.0,
+   "ssim_to_input": 0.93,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 38.87
+  }
+ },
+ "p011+p003|PCROP": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 72.54,
+   "lap": 100.32,
+   "uniq": 241.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.13
+  }
+ },
+ "ts2_11|PCROP": {
+  "score": 0.584,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.584,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.763
+  },
+  "detail": {
+   "std": 77.77,
+   "lap": 271.85,
+   "uniq": 255.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 20.91
+  }
+ },
+ "p015+p002|PCROP": {
+  "score": 0.377,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.377,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.404
+  },
+  "detail": {
+   "std": 63.7,
+   "lap": 41.37,
+   "uniq": 253.0,
+   "ssim_to_input": 0.64,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.25
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb|PCROP": {
+  "score": 0.909,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.909,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 43.7,
+   "lap": 259.83,
+   "uniq": 245.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.3
+  }
+ },
+ "ts2_12|PCROP": {
+  "score": 0.517,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.517,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 62.0,
+   "lap": 202.32,
+   "uniq": 244.0,
+   "ssim_to_input": 0.9,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.78
+  }
+ },
+ "p015+p007|PCROP": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.451,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 74.15,
+   "lap": 47.14,
+   "uniq": 255.0,
+   "ssim_to_input": 0.55,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 8.67
+  }
+ },
+ "p018+p016|PCROP": {
+  "score": 0.482,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.482,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 61.18,
+   "lap": 49.59,
+   "uniq": 239.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.34
+  }
+ },
+ "p020+dualuse_hugh_jackman_grey_suit_outdoor|PCROP": {
+  "score": 0.5,
+  "weakest": "people",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.915,
+   "people": 0.45,
+   "identity": 1.0,
+   "background": 0.952
+  },
+  "detail": {
+   "std": 58.03,
+   "lap": 693.4,
+   "uniq": 201.0,
+   "ssim_to_input": 0.85,
+   "people": 0,
+   "identity": "n/a",
+   "bg_psnr": 23.37
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night|PCROP": {
+  "score": 0.256,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.256,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 72.57,
+   "lap": 241.78,
+   "uniq": 247.0,
+   "ssim_to_input": 0.93,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.26
+  }
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor+p007|PCROP": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 73.12,
+   "lap": 472.52,
+   "uniq": 254.0,
+   "ssim_to_input": 0.73,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.26
+  }
+ },
+ "p019+p010|PCROP": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 26.69,
+   "lap": 103.89,
+   "uniq": 219.0,
+   "ssim_to_input": 0.82,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.87
+  }
+ },
+ "dualuse_navy_peacoat_onmodel+p012|PCROP": {
+  "score": 0.72,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 0.816,
+   "noop": 0.72,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 54.13,
+   "lap": 75.62,
+   "uniq": 244.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 35.62
+  }
+ },
+ "p017+p002|PCROP": {
+  "score": 0.549,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.549,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.73,
+   "lap": 54.8,
+   "uniq": 201.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.24
+  }
+ },
+ "dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night|PCROP": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 83.5,
+   "lap": 204.45,
+   "uniq": 246.0,
+   "ssim_to_input": 0.76,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.68
+  }
+ },
+ "p009+p018|PCROP": {
+  "score": 0.922,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.922,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.971
+  },
+  "detail": {
+   "std": 63.47,
+   "lap": 113.85,
+   "uniq": 253.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.63
+  }
+ },
+ "dualuse_lp_floral_kimono_set+p008|PCROP": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 67.75,
+   "lap": 522.76,
+   "uniq": 255.0,
+   "ssim_to_input": 0.71,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.52
+  }
+ },
+ "p009+p014|PCROP": {
+  "score": 0.636,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.636,
+   "noop": 0.978,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.962
+  },
+  "detail": {
+   "std": 60.63,
+   "lap": 61.58,
+   "uniq": 252.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.5
+  }
+ },
+ "p007+p030|PCROP": {
+  "score": 0.257,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.257,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.578
+  },
+  "detail": {
+   "std": 58.72,
+   "lap": 32.02,
+   "uniq": 246.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 18.52
+  }
+ },
+ "dualuse_queen_latifah_gown_stage+p006|PCROP": {
+  "score": 0.917,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.642
+  },
+  "detail": {
+   "std": 81.54,
+   "lap": 336.6,
+   "uniq": 239.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 19.34
+  }
+ },
+ "p026+p004|PCROP": {
+  "score": 0.922,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.922,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 68.21,
+   "lap": 385.09,
+   "uniq": 250.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.37
+  }
+ },
+ "HD_p021|PCROP": {
+  "score": 0.377,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.264
+  },
+  "detail": {
+   "std": 42.68,
+   "lap": 219.62,
+   "uniq": 234.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 14.44
+  }
+ },
+ "HD_p023|PCROP": {
+  "score": 0.16,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.16,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.0,
+   "lap": 1831.61,
+   "uniq": 255.0,
+   "ssim_to_input": 0.94,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.65
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt|PCROP": {
+  "score": 0.54,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.378
+  },
+  "detail": {
+   "std": 93.42,
+   "lap": 100.02,
+   "uniq": 254.0,
+   "ssim_to_input": 0.69,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 15.91
+  }
+ },
+ "HD_p028|PCROP": {
+  "score": 0.31,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.31,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 57.43,
+   "lap": 36.15,
+   "uniq": 230.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.98
+  }
+ },
+ "HD_p019|PCROP": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 34.73,
+   "lap": 105.15,
+   "uniq": 244.0,
+   "ssim_to_input": 0.74,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.84
+  }
+ },
+ "HD_p009|PCROP": {
+  "score": 0.6,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.6,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 68.97,
+   "lap": 385.41,
+   "uniq": 254.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.57
+  }
+ },
+ "HD_p021+p009|PCROP": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 38.14,
+   "lap": 170.24,
+   "uniq": 238.0,
+   "ssim_to_input": 0.77,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.36
+  }
+ },
+ "HD_p019+dualuse_hugh_jackman_grey_suit_outdoor|PCROP": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 62.97,
+   "lap": 429.72,
+   "uniq": 254.0,
+   "ssim_to_input": 0.64,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.74
+  }
+ },
+ "HD_p021+dualuse_hugh_jackman_grey_suit_outdoor|PCROP": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 61.39,
+   "lap": 532.04,
+   "uniq": 255.0,
+   "ssim_to_input": 0.62,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.35
+  }
+ },
+ "HD_p019+p009|PCROP": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.948
+  },
+  "detail": {
+   "std": 36.03,
+   "lap": 94.07,
+   "uniq": 244.0,
+   "ssim_to_input": 0.79,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.33
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear|PCROP": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 33.65,
+   "lap": 124.91,
+   "uniq": 252.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.71
+  }
+ },
+ "HD_p028+dualuse_navy_peacoat_onmodel|PCROP": {
+  "score": 0.316,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.316,
+   "noop": 0.686,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 32.46,
+   "lap": 36.65,
+   "uniq": 234.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 39.7
+  }
+ },
+ "HD_p023+p019|PCROP": {
+  "score": 0.675,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.675,
+   "noop": 0.829,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 17.58,
+   "lap": 64.67,
+   "uniq": 185.0,
+   "ssim_to_input": 0.86,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.94
+  }
+ },
+ "HD_p023+dualuse_queen_latifah_gown_stage|PCROP": {
+  "score": 0.507,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.507,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.508
+  },
+  "detail": {
+   "std": 83.58,
+   "lap": 51.57,
+   "uniq": 246.0,
+   "ssim_to_input": 0.68,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 17.6
+  }
+ },
+ "HD_p028+p019|PCROP": {
+  "score": 0.99,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.99,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 52.27,
+   "lap": 92.84,
+   "uniq": 251.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.57
+  }
+ },
+ "HD_p009+p018|PCROP": {
+  "score": 0.429,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.429,
+   "noop": 0.983,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 73.76,
+   "lap": 45.46,
+   "uniq": 236.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.28
+  }
+ },
+ "HD_p009+dualuse_man_black_suit_studio_nonceleb|PCROP": {
+  "score": 0.214,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.214,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 73.46,
+   "lap": 203.48,
+   "uniq": 246.0,
+   "ssim_to_input": 0.93,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 33.38
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+p017|PCROP": {
+  "score": 0.909,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.909,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.896
+  },
+  "detail": {
+   "std": 32.89,
+   "lap": 82.91,
+   "uniq": 232.0,
+   "ssim_to_input": 0.78,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.64
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb|PHEAD": {
+  "score": 0.941,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.941,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 46.39,
+   "lap": 205.33,
+   "uniq": 245.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.05
+  }
+ },
+ "p011+p003|PHEAD": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.913
+  },
+  "detail": {
+   "std": 74.99,
+   "lap": 97.06,
+   "uniq": 239.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.86
+  }
+ },
+ "dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night|PHEAD": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 75.52,
+   "lap": 258.42,
+   "uniq": 247.0,
+   "ssim_to_input": 0.74,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 31.8
+  }
+ },
+ "ts2_12|PHEAD": {
+  "score": 0.508,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.508,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 61.62,
+   "lap": 193.2,
+   "uniq": 246.0,
+   "ssim_to_input": 0.9,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 32.97
+  }
+ },
+ "p015+p002|PHEAD": {
+  "score": 0.345,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.345,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.411
+  },
+  "detail": {
+   "std": 63.85,
+   "lap": 38.94,
+   "uniq": 252.0,
+   "ssim_to_input": 0.64,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.34
+  }
+ },
+ "dualuse_lp_floral_kimono_set+p008|PHEAD": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 63.99,
+   "lap": 506.87,
+   "uniq": 255.0,
+   "ssim_to_input": 0.71,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.96
+  }
+ },
+ "p015+p007|PHEAD": {
+  "score": 0.0,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 0.418,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.0
+  },
+  "detail": {
+   "std": 70.76,
+   "lap": 44.62,
+   "uniq": 253.0,
+   "ssim_to_input": 0.54,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 8.7
+  }
+ },
+ "ts2_11|PHEAD": {
+  "score": 0.601,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.601,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.718
+  },
+  "detail": {
+   "std": 77.41,
+   "lap": 250.55,
+   "uniq": 256.0,
+   "ssim_to_input": 0.89,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 20.34
+  }
+ },
+ "p018+p016|PHEAD": {
+  "score": 0.673,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.673,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.58,
+   "lap": 64.48,
+   "uniq": 240.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.68
+  }
+ },
+ "p017+p002|PHEAD": {
+  "score": 0.534,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.534,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 59.41,
+   "lap": 53.67,
+   "uniq": 202.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 28.23
+  }
+ },
+ "p020+dualuse_hugh_jackman_grey_suit_outdoor|PHEAD": {
+  "score": 0.5,
+  "weakest": "people",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.942,
+   "people": 0.45,
+   "identity": 1.0,
+   "background": 0.931
+  },
+  "detail": {
+   "std": 58.8,
+   "lap": 715.9,
+   "uniq": 204.0,
+   "ssim_to_input": 0.85,
+   "people": 0,
+   "identity": "n/a",
+   "bg_psnr": 23.11
+  }
+ },
+ "dualuse_navy_peacoat_onmodel+p012|PHEAD": {
+  "score": 0.73,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 0.802,
+   "noop": 0.73,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 52.39,
+   "lap": 74.55,
+   "uniq": 242.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 35.67
+  }
+ },
+ "dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night|PHEAD": {
+  "score": 0.67,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.67,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 66.49,
+   "lap": 204.21,
+   "uniq": 248.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 33.23
+  }
+ },
+ "p019+p010|PHEAD": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 23.85,
+   "lap": 95.95,
+   "uniq": 214.0,
+   "ssim_to_input": 0.82,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.06
+  }
+ },
+ "dualuse_queen_latifah_gown_stage+p006|PHEAD": {
+  "score": 0.949,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.664
+  },
+  "detail": {
+   "std": 80.75,
+   "lap": 269.64,
+   "uniq": 238.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 19.64
+  }
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor+p007|PHEAD": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 73.22,
+   "lap": 622.09,
+   "uniq": 256.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.47
+  }
+ },
+ "p009+p018|PHEAD": {
+  "score": 0.903,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.903,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.99
+  },
+  "detail": {
+   "std": 63.04,
+   "lap": 118.79,
+   "uniq": 254.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.87
+  }
+ },
+ "HD_p023|PHEAD": {
+  "score": 0.423,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.423,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 60.44,
+   "lap": 1582.61,
+   "uniq": 255.0,
+   "ssim_to_input": 0.91,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 26.96
+  }
+ },
+ "p009+p014|PHEAD": {
+  "score": 0.6,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.6,
+   "noop": 0.899,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.972
+  },
+  "detail": {
+   "std": 62.05,
+   "lap": 58.77,
+   "uniq": 251.0,
+   "ssim_to_input": 0.85,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.64
+  }
+ },
+ "p007+p030|PHEAD": {
+  "score": 0.331,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.331,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.582
+  },
+  "detail": {
+   "std": 59.81,
+   "lap": 37.81,
+   "uniq": 246.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 18.56
+  }
+ },
+ "HD_p019|PHEAD": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 33.61,
+   "lap": 101.58,
+   "uniq": 241.0,
+   "ssim_to_input": 0.74,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 24.75
+  }
+ },
+ "HD_p021|PHEAD": {
+  "score": 0.509,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.356
+  },
+  "detail": {
+   "std": 54.04,
+   "lap": 196.79,
+   "uniq": 240.0,
+   "ssim_to_input": 0.81,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 15.63
+  }
+ },
+ "HD_p028|PHEAD": {
+  "score": 0.302,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.302,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 57.84,
+   "lap": 35.52,
+   "uniq": 229.0,
+   "ssim_to_input": 0.83,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 30.77
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt|PHEAD": {
+  "score": 0.629,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.44
+  },
+  "detail": {
+   "std": 92.92,
+   "lap": 124.45,
+   "uniq": 253.0,
+   "ssim_to_input": 0.69,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 16.72
+  }
+ },
+ "p026+p004|PHEAD": {
+  "score": 0.673,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.673,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 70.37,
+   "lap": 417.38,
+   "uniq": 250.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.22
+  }
+ },
+ "HD_p009|PHEAD": {
+  "score": 0.698,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.698,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 67.68,
+   "lap": 397.67,
+   "uniq": 253.0,
+   "ssim_to_input": 0.88,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.36
+  }
+ },
+ "HD_p021+p009|PHEAD": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.91
+  },
+  "detail": {
+   "std": 42.98,
+   "lap": 178.63,
+   "uniq": 236.0,
+   "ssim_to_input": 0.76,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.83
+  }
+ },
+ "HD_p021+dualuse_hugh_jackman_grey_suit_outdoor|PHEAD": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 62.02,
+   "lap": 601.53,
+   "uniq": 254.0,
+   "ssim_to_input": 0.63,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.44
+  }
+ },
+ "HD_p023+p019|PHEAD": {
+  "score": 0.409,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.409,
+   "noop": 0.841,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 17.89,
+   "lap": 43.91,
+   "uniq": 188.0,
+   "ssim_to_input": 0.86,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.14
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+p017|PHEAD": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.902
+  },
+  "detail": {
+   "std": 35.83,
+   "lap": 119.92,
+   "uniq": 232.0,
+   "ssim_to_input": 0.76,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 22.72
+  }
+ },
+ "HD_p023+dualuse_queen_latifah_gown_stage|PHEAD": {
+  "score": 0.667,
+  "weakest": "background",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.467
+  },
+  "detail": {
+   "std": 83.77,
+   "lap": 122.45,
+   "uniq": 244.0,
+   "ssim_to_input": 0.72,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 17.07
+  }
+ },
+ "HD_p019+p009|PHEAD": {
+  "score": 0.956,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.956,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 0.932
+  },
+  "detail": {
+   "std": 35.99,
+   "lap": 86.54,
+   "uniq": 245.0,
+   "ssim_to_input": 0.78,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 23.12
+  }
+ },
+ "HD_p019+dualuse_hugh_jackman_grey_suit_outdoor|PHEAD": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 63.39,
+   "lap": 424.91,
+   "uniq": 255.0,
+   "ssim_to_input": 0.64,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 25.7
+  }
+ },
+ "HD_p009+dualuse_man_black_suit_studio_nonceleb|PHEAD": {
+  "score": 0.536,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.536,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 64.32,
+   "lap": 146.49,
+   "uniq": 247.0,
+   "ssim_to_input": 0.9,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 33.53
+  }
+ },
+ "HD_p028+dualuse_navy_peacoat_onmodel|PHEAD": {
+  "score": 0.499,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.499,
+   "noop": 0.731,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 38.61,
+   "lap": 50.96,
+   "uniq": 233.0,
+   "ssim_to_input": 0.87,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 38.11
+  }
+ },
+ "HD_p028+p019|PHEAD": {
+  "score": 0.991,
+  "weakest": "noop",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 0.991,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 49.84,
+   "lap": 94.82,
+   "uniq": 249.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 27.61
+  }
+ },
+ "HD_p009+p018|PHEAD": {
+  "score": 0.463,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 0.463,
+   "noop": 0.983,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 72.74,
+   "lap": 48.11,
+   "uniq": 234.0,
+   "ssim_to_input": 0.84,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.12
+  }
+ },
+ "HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear|PHEAD": {
+  "score": 1.0,
+  "weakest": "degenerate",
+  "checks": {
+   "degenerate": 1.0,
+   "noop": 1.0,
+   "people": 1.0,
+   "identity": 1.0,
+   "background": 1.0
+  },
+  "detail": {
+   "std": 37.43,
+   "lap": 135.35,
+   "uniq": 254.0,
+   "ssim_to_input": 0.75,
+   "people": 1,
+   "identity": "n/a",
+   "bg_psnr": 29.57
+  }
+ }
+}
