@@ -154,3 +154,109 @@ how v2.2.1 is being judged:
 
 None of these invalidate a shipping decision. All three limit what can be
 claimed, and (1) and (2) get cheaper to fix the earlier they are fixed.
+
+## 2026-08-19 — attention modulation test, and the descent hypothesis
+
+**Done.** Ran the Attention Modulation Test: 200 generations, 20 pairs × 10 arms,
+klein 4B distilled, seed 46, person image and prompt held fixed so the only variable
+is the garment reference. Ten arms across four mechanisms — remove the person
+(`control`, `QX_qwen_p1`), remove only the head (`BC_klein`), remove nothing but
+destroy identity (blur / twirl / pixelate, on both an original and a balded base),
+and remove nothing at all (`BALD_raw`). Built the ranking UI with top-ties and
+cut-off bars. Ranked by eye. Cost ≈ $3.1 fal. Artifacts:
+`v2/artifacts/v221_attention_mod.html`, `v221_attention_mod_rankings (1).csv`,
+write-up in `prd/v2/v2.2/RESULTS.md`.
+
+**Observed.** Mean rank / top-tier / cut, over 20 sets: `control` 2.25 / 75% / 5%;
+`BC_klein` 2.45 / 80% / 0%; `QX_qwen_p1` 4.40 / 55% / 15%; the six destruction arms
+5.35–6.80; `BALD_raw` 8.70 / 15% / **85%**. `QX_qwen_p1` ranks were
+1,1,1,1,1,1,2,2,2,2,2,5,6,6,9,9,9,9,9,10 — stdev 3.56 against `BC_klein`'s 0.76.
+`D3B` (pixelate, bald) was cut 0% of the time. In 9 of 20 rows all six destruction
+arms landed in the same tier; a row averaged 5.7 of 10 arms in the top tier; the six
+arms' mean rank spread within a row was 5.8 of a possible 9. Cut rate /O → /B: blur
+30→10%, twirl 40→10%, pixelate 30→0%. Reviewer: Ray, by eye, 2026-08-19.
+
+**Concluded.** *Inference, and the load-bearing one for the program.*
+
+**A descent toward a solution klein can already produce is what the attention deficit
+chips away at.** With enough attention available the model converges to essentially
+the same result regardless of which arm produced the reference — 9 of 20 rows put all
+six destruction arms in one tier. The model is not short of capability; competing
+content in the reference is what stops it going all the way. The failure is a deficit,
+not an inability.
+
+**The consequence is the important part: if the deficit is what matters, the manner of
+removing it is free to vary.** Cropping, balding, blurring and pixelating are
+interchangeable to the extent that each removes the same distraction — which is why
+they cluster in the same tier. That interchangeability is a **degree of freedom for
+cost**, and it is where V3's optimisation work should live: pick the cheapest
+mechanism that removes enough attention, rather than the most thorough one.
+
+Supporting, narrower conclusions: **the crop earns its place** (`BALD_raw` cut 85% —
+removing the head is not sufficient); **pixelation is the best destruction mechanism**
+because it removes attention while preserving context, and its cell size is a
+continuous dial rather than a switch; **Qwen extraction is bimodal**, six wins and
+five bottom-two placements, so it belongs in the harness as a conditional option, not
+a fixed step.
+
+Recorded caveat: convergence holds at **tier** level, not rank level — the six arms
+average a 5.8-of-9 rank spread within a row. "Same quality band" is supported;
+"identical outputs" is not.
+
+**Next.** Finish the trials and deliver the v2 harness. Then plan v3 around cost
+optimisation, using the interchangeability above as the lever. Pixelation modulation
+(sweeping cell size as a continuous attention dial) is the first experiment that
+would sharpen the descent hypothesis into something tunable. BG and the mannequin
+remain paused behind this.
+
+**Status note sent to Runbo, 2026-08-19** — recorded verbatim because it is the
+first external statement of the descent hypothesis:
+
+> Quick 5-day update: v2 (open source) has been going well. The initial translation
+> met most requirements, and I have been working on a couple of edge cases where it
+> occasionally fails. Through experimentation, I've found the likely cause to be
+> attention overload. The way attention is given to certain items significantly
+> boosts the success rate. I expect to complete these trials and deliver a v2 harness
+> in the coming days. At the same time as delivering v2, I will also plan v3, which
+> will implement cost optimization leveraging the data from v2. The v2 trials have
+> shown that some type of descent is likely occurring toward a perfect solution that
+> Klein can output, and the attention deficit chips away at it. Thus, as long as the
+> attention deficit is removed, the manner in which it is done can be varied. This
+> aspect is also where I anticipate cost-saving measures to be created.
+>
+> Upon completion of v2 I will draft up a report and would love to set up a call to
+> discuss any details. Thank you for this opportunity.
+>
+> Sincerely, Ray Tan
+
+## 2026-08-19 (later) — v2.2 checkpoint
+
+**Done.** Closed out v2.2.1 with the Attention Modulation Test: 38 sets × 10 arms,
+plus a high-damage cohort added after the first test set was found to exclude the
+failure mode it was meant to measure, plus PHEAD (a free deterministic arm) and a
+routing-signal probe. Built four review pages with drag-ranking and ternary-verdict
+UIs. Total fal spend for the phase ≈ $9.
+
+**Observed.** Over 38 sets: BC_klein 74% perfect / 5% fail, PHEAD 63% / 21%,
+QX 58% / 8%, control 53% / 34%. Split by condition, `control` goes 75%→28% perfect
+and 10%→61% fail between low- and high-damage references; every bald-based arm moves
+by 3–4 points. Failure correlation is positive among all subtractive arms (+0.17 to
++0.58) and negative between QX and all of them (−0.07 to −0.21). BC_klein and QX have
+five failures between them and no overlap. A router built from torso lean,
+non-frontality and garment-share puts 6 of 8 BC_klein-weak garments in the top 8
+(36% baseline).
+
+**Concluded.** *Inference.* The attention deficit is addressed, and the mechanism
+split is the reason: subtraction and regeneration fail for structurally different
+causes, so pairing one of each covers what neither covers alone. **Two statistics
+used earlier were withdrawn** — mean rank and win-count both treat a tied-first band
+as an ordering. **The retry design in the original v2.2.3 spec is invalid**: failure
+is a property of the garment, not the roll, so a gate must escalate mechanism rather
+than reseed. v2.2.2 is deferred rather than complete — the arms probably made it
+unnecessary, but background was never measured on its own axis and the rankings were
+holistic, so the stronger claim is unsupported. BG and the mannequin are dropped;
+their trigger conditions were never met.
+
+**Next.** v2.2.3 — the failure gate, with routing as a second half. That closes v2.2.
+Then v2.3 (artifacts) and v2.4 (auxiliary cleanup). Routing feeds the V3 cost work
+but does not constitute it, and is not yet validated.

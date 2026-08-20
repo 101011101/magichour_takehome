@@ -8,17 +8,19 @@ only. Full constraints: [results_summary/CONDITIONS.md](results_summary/CONDITIO
 
 | Path | What it holds |
 |---|---|
-| [results_summary/](results_summary/) | **Program level.** `CONDITIONS.md` (what is tested, on what data, why) and the versioned rolling scoreboards `V2.0_RESULTS.md`, `V2.1_RESULTS.md` (decisions and cross-workstream state) |
+| [results_summary/](results_summary/) | **Program level.** `CONDITIONS.md` (what is tested, on what data, why) and the versioned rolling scoreboards `V2.0_RESULTS.md`, `V2.1_RESULTS.md`, `V2.2_RESULTS.md` (decisions and cross-workstream state). Its [README](results_summary/README.md) explains how the two levels of numbering relate |
 | [SCORING_CRITERIA.md](SCORING_CRITERIA.md) | The two model buckets, the fidelity/realism axes, deterministic and VLM schemas, gates |
 | [EXTENSION_ARMS.md](EXTENSION_ARMS.md) | Open-weights arms with no hosted endpoint — deferred, with promotion triggers |
+| [RESEARCH_LOG.md](RESEARCH_LOG.md) | **Dated, append-only record** of what was done, seen and concluded each day, with observation kept separate from inference |
 | [ideas/](ideas/) | Proposals not yet committed to a workstream |
+| [v2.0/](v2.0/) | **Workstream — choosing the editing base.** Status: closed, klein 4B distilled decided 2026-08-14. Documents reconstructed after the runs, and labelled as such |
 | [v2.1/](v2.1/) | **Workstream — image realism and gloss.** Status: conditional pass, parked |
-| [v2.2/](v2.2/) | **Workstream — accuracy, failures, attention.** Status: PRD |
+| [v2.2/](v2.2/) | **Workstream — accuracy, failures, attention.** Status: v2.2.1 complete (cropping validated); v2.2.2 and v2.2.3 not started |
 | [v2.3/](v2.3/) | **Workstream — artifacts.** Status: PRD |
 | [v2.4/](v2.4/) | **Workstream — auxiliary realism, revisited.** Status: deferred by decision; README only |
 
 Evidence lives outside `prd/`: interactive comparison pages in `v2/artifacts/`
-(start at `index.html`), images/CSVs/run packages in `v2/runs/`, harnesses in
+(start at `v2/artifacts/index.html`), images/CSVs/run packages in `v2/runs/`, harnesses in
 `v2/build/`.
 
 ## Workstream document schema
@@ -44,6 +46,9 @@ changes program direction is promoted into `results_summary/`.
   occasional generation failure, weaker attention with multiple identities.
 - **Auxiliary realism: `seedvr2_x2_noise0`** — confirmed on a control batch.
 - **Composite target: klein 4B → SeedVR2**, not yet validated end to end.
+- **Garment reference cropping adopted** (v2.2.1, C3.1 `no_face`): the
+  uncropped baseline failed 61% of reviewed sets; cropping solved ~94% of
+  those. See [results_summary/V2.2_RESULTS.md](results_summary/V2.2_RESULTS.md).
 
 The three workstreams map onto the three accepted downsides of the chosen base:
 v2.1 realism (parked, conditional), v2.2 accuracy/failures/attention, v2.3
