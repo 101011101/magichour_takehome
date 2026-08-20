@@ -1,0 +1,537 @@
+<title>Gate simulation</title>
+<style>
+:root{--bg:#0d0d10;--fg:#e8e8ea;--dim:#8a8a94;--line:#26262c;--acc:#7c5cff;
+ --good:#3fb950;--mid:#d29922;--bad:#f85149}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:14px/1.55 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:24px 30px 14px;border-bottom:1px solid var(--line)}
+h1{margin:0 0 6px;font-size:20px}
+.q{color:var(--acc);font-weight:600}
+.sub{color:var(--dim);max-width:84ch}
+.legend{padding:14px 30px 4px;color:var(--dim);font-size:12.5px}
+.legend b{color:var(--fg)} .legend li{margin:3px 0}
+#bar{position:sticky;top:0;z-index:20;background:#121216;border-bottom:1px solid var(--line);
+ padding:13px 30px;display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+#bar label{font-size:12.5px;color:var(--dim)}
+input[type=range]{width:280px;accent-color:var(--acc)}
+#thv{color:var(--acc);font-weight:700;font-size:15px;min-width:44px;display:inline-block}
+#stats{color:var(--dim);font-size:12.5px;margin-left:auto;text-align:right;line-height:1.7}
+#stats b{color:var(--fg)}
+.ord{display:flex;gap:4px}
+.ord button{background:#1b1b22;border:1px solid var(--line);color:var(--dim);
+ border-radius:7px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit}
+.ord button.on{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+.ref{margin:0 30px 20px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.rh{padding:9px 14px;background:#141419;border-bottom:1px solid var(--line);
+ display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:13px}
+.rh .m{color:var(--dim);font-size:12px}
+.pill{font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--line)}
+.pill.hd{border-color:var(--mid);color:var(--mid)}
+.pill.cost{border-color:var(--acc);color:var(--acc);margin-left:auto;font-weight:700}
+.chain{display:flex;align-items:stretch;overflow-x:auto;padding:8px 6px}
+.step{flex:0 0 210px;padding:9px;border:2px solid transparent;border-radius:9px;margin:2px}
+.step img{width:100%;background:#fff;border-radius:4px;display:block;cursor:zoom-in}
+.step.rej{border-color:var(--bad);opacity:.72}
+.step.acc{border-color:var(--good)}
+.step.skip{opacity:.28}
+.step .t{font-weight:700;font-size:12.5px;margin:6px 0 2px}
+.step .s{font-size:11.5px;color:var(--dim)}
+.step .s .w{color:var(--bad)}
+.arrow{align-self:center;color:var(--bad);font-size:22px;padding:0 2px;font-weight:700}
+.inp{flex:0 0 150px;padding:9px;background:#101418;border-radius:9px;margin:2px}
+.inp img{width:100%;background:#fff;border-radius:4px;display:block}
+.inp .t{font-size:11.5px;color:var(--good);font-weight:600;margin-top:5px}
+#save{position:fixed;right:20px;bottom:20px;z-index:40;background:var(--acc);color:#fff;
+ border:0;border-radius:9px;padding:11px 17px;font-size:13px;font-weight:600;cursor:pointer;
+ box-shadow:0 4px 18px #0008;font-family:inherit}
+#save small{display:block;font-weight:400;opacity:.85;font-size:11px}
+#lb{position:fixed;inset:0;background:#000000f2;display:none;z-index:50;
+ align-items:center;justify-content:center;flex-direction:column;gap:12px}
+#lb img{max-width:94vw;max-height:84vh;background:#fff;border-radius:6px}
+#lbc{color:var(--fg);font-size:13px}
+.mk{display:flex;gap:4px;margin-top:6px}
+.mk button{flex:1;background:#1b1b22;border:1px solid var(--line);color:var(--dim);
+ border-radius:6px;padding:3px 0;font-size:11px;font-weight:700;cursor:pointer;
+ font-family:inherit}
+.mk button:hover{color:var(--fg)}
+.mk button.on[data-m=pass]{background:var(--good);border-color:var(--good);color:#06210d}
+.mk button.on[data-m=fail]{background:var(--bad);border-color:var(--bad);color:#2a0505}
+.step.agree{box-shadow:inset 0 0 0 2px #3fb95055}
+.step.disagree{box-shadow:inset 0 0 0 2px #f8514999}
+.dis{color:var(--bad);font-weight:700;font-size:11px}
+</style>
+<header><h1>Failure gate &mdash; simulated cascade</h1><div class='q'>Every arm graded, nothing assumed. Move the threshold and the pipeline re-simulates.</div><div class='sub'>No generations were made for this page. Each arm already has an output and a human verdict; the gate scores them, and the cascade is replayed at whatever acceptance threshold you choose.</div></header>
+<div id='bar'><label>accept at &ge; <span id='thv'></span></label><input type='range' id='th' min='0' max='1' step='0.01' value='0.50'><span class='ord'><button data-o='A' class='on'>PHEAD &rarr; QX &rarr; BC</button><button data-o='B'>PHEAD &rarr; BC &rarr; QX</button></span><span id='stats'></span></div>
+<div class='legend'><ul><li><b>Green</b> = the gate accepted and the cascade stopped. <b>Red</b> = rejected, escalate. <b>Faded</b> = never reached</li><li>Each cell shows the composite score, the <b>weakest check</b> that produced it, all five sub-scores, and what the human called that frame &mdash; so gate and reviewer can be compared directly</li><li>The composite is the <b>weakest</b> check, not the average: one hard failure should sink a frame rather than being hidden by four good scores</li><li><b>The garment check is deliberately absent.</b> &sect;2b measured <code>garment_sim</code> at 0.78 and a VLM at 4/5 on an output that transferred no garment &mdash; both reward a plausible garment over the correct one, so neither can carry this. What the gate does catch: degenerate frames, no-ops, duplicated people, identity leaks, repainted backgrounds</li><li>The header shows <b>units per request</b> at the current threshold and <b>what the human called the frame the gate accepted</b> &mdash; that second number is the one that matters</li></ul></div>
+<div class='ref' id='row_ts2_11'><div class='rh'><b>ts2_11</b><span class='m'>garment dualuse_man_black_suit_studio_nonceleb</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_ts2_11'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_emma_watson_black_blazer_armscrossed.jpg' alt='ts2_11 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_man_black_suit_studio_nonceleb.jpg' alt='ts2_11 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_ts2_11_PHEAD'><img src='../runs/amt/gen/ts2_11__PHEAD.jpg' alt='ts2_11 — PHEAD  gate 0.60'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.60</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 0.72 · dege 1.00 · iden 1.00 · noop 0.60 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_ts2_11_QX_qwen_p1'><img src='../runs/amt/gen/ts2_11__QX_qwen_p1.jpg' alt='ts2_11 — QX  gate 0.58'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.58</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 0.75 · dege 1.00 · iden 1.00 · noop 0.58 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_ts2_11_BC_klein'><img src='../runs/amt/gen/ts2_11__BC_klein.jpg' alt='ts2_11 — BC_klein  gate 0.64'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.64</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 0.72 · dege 1.00 · iden 1.00 · noop 0.64 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_ts2_12'><div class='rh'><b>ts2_12</b><span class='m'>garment dualuse_hugh_jackman_grey_suit_outdoor</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_ts2_12'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_man_black_suit_studio_nonceleb.jpg' alt='ts2_12 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_hugh_jackman_grey_suit_outdoor.jpg' alt='ts2_12 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_ts2_12_PHEAD'><img src='../runs/amt/gen/ts2_12__PHEAD.jpg' alt='ts2_12 — PHEAD  gate 0.51'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.51</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.51 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_ts2_12_QX_qwen_p1'><img src='../runs/amt/gen/ts2_12__QX_qwen_p1.jpg' alt='ts2_12 — QX  gate 0.47'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.47</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.47 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_ts2_12_BC_klein'><img src='../runs/amt/gen/ts2_12__BC_klein.jpg' alt='ts2_12 — BC_klein  gate 0.53'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.53</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.53 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_p015+p007'><div class='rh'><b>p015+p007</b><span class='m'>garment p007</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_p015+p007'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p015.jpg' alt='p015+p007 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p007.jpg' alt='p015+p007 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_p015+p007_PHEAD'><img src='../runs/amt/gen/p015+p007__PHEAD.jpg' alt='p015+p007 — PHEAD  gate 0.00'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.00</span></div><div class='s'>weakest <span class='w'>background</span><br>back 0.00 · dege 0.42 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p015+p007_QX_qwen_p1'><img src='../runs/amt/gen/p015+p007__QX_qwen_p1.jpg' alt='p015+p007 — QX  gate 0.00'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.00</span></div><div class='s'>weakest <span class='w'>background</span><br>back 0.00 · dege 0.31 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p015+p007_BC_klein'><img src='../runs/amt/gen/p015+p007__BC_klein.jpg' alt='p015+p007 — BC_klein  gate 0.00'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.00</span></div><div class='s'>weakest <span class='w'>background</span><br>back 0.00 · dege 0.28 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+</div></div>
+<div class='ref' id='row_dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb'><div class='rh'><b>dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb</b><span class='m'>garment dualuse_woman_top_denim_skirt_nonceleb</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_man_black_suit_studio_nonceleb.jpg' alt='dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb person'><div class='t'>person</div></div>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_woman_top_denim_skirt_nonceleb.jpg' alt='dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb_PHEAD'><img src='../runs/amt/gen/dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb__PHEAD.jpg' alt='dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb — PHEAD  gate 0.94'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.94</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.94 · peop 1.00<br>human: fail</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb_QX_qwen_p1'><img src='../runs/amt/gen/dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb__QX_qwen_p1.jpg' alt='dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb — QX  gate 0.69'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.69</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 0.95 · iden 1.00 · noop 0.69 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb_BC_klein'><img src='../runs/amt/gen/dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb__BC_klein.jpg' alt='dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb — BC_klein  gate 0.91'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.91</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.91 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_p011+p003'><div class='rh'><b>p011+p003</b><span class='m'>garment p003</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_p011+p003'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p011.jpg' alt='p011+p003 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p003.jpg' alt='p011+p003 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_p011+p003_PHEAD'><img src='../runs/amt/gen/p011+p003__PHEAD.jpg' alt='p011+p003 — PHEAD  gate 1.00'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.91 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p011+p003_QX_qwen_p1'><img src='../runs/amt/gen/p011+p003__QX_qwen_p1.jpg' alt='p011+p003 — QX  gate 0.83'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.83</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.97 · dege 0.83 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p011+p003_BC_klein'><img src='../runs/amt/gen/p011+p003__BC_klein.jpg' alt='p011+p003 — BC_klein  gate 1.00'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.94 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_p015+p002'><div class='rh'><b>p015+p002</b><span class='m'>garment p002</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_p015+p002'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p015.jpg' alt='p015+p002 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p002.jpg' alt='p015+p002 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_p015+p002_PHEAD'><img src='../runs/amt/gen/p015+p002__PHEAD.jpg' alt='p015+p002 — PHEAD  gate 0.34'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.34</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.41 · dege 0.34 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p015+p002_QX_qwen_p1'><img src='../runs/amt/gen/p015+p002__QX_qwen_p1.jpg' alt='p015+p002 — QX  gate 0.24'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.24</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.41 · dege 0.24 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p015+p002_BC_klein'><img src='../runs/amt/gen/p015+p002__BC_klein.jpg' alt='p015+p002 — BC_klein  gate 0.34'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.34</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.40 · dege 0.34 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night'><div class='rh'><b>dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night</b><span class='m'>garment dualuse_scarlett_johansson_black_dress_backview_night</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_lp_beige_long_coat_menswear.jpg' alt='dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night person'><div class='t'>person</div></div>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_scarlett_johansson_black_dress_backview_night.jpg' alt='dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night_PHEAD'><img src='../runs/amt/gen/dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night__PHEAD.jpg' alt='dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night — PHEAD  gate 1.00'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night_QX_qwen_p1'><img src='../runs/amt/gen/dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night__QX_qwen_p1.jpg' alt='dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night — QX  gate 1.00'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night_BC_klein'><img src='../runs/amt/gen/dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night__BC_klein.jpg' alt='dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night — BC_klein  gate 1.00'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+</div></div>
+<div class='ref' id='row_dualuse_lp_floral_kimono_set+p008'><div class='rh'><b>dualuse_lp_floral_kimono_set+p008</b><span class='m'>garment p008</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_dualuse_lp_floral_kimono_set+p008'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_lp_floral_kimono_set.jpg' alt='dualuse_lp_floral_kimono_set+p008 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p008.jpg' alt='dualuse_lp_floral_kimono_set+p008 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_dualuse_lp_floral_kimono_set+p008_PHEAD'><img src='../runs/amt/gen/dualuse_lp_floral_kimono_set+p008__PHEAD.jpg' alt='dualuse_lp_floral_kimono_set+p008 — PHEAD  gate 1.00'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_dualuse_lp_floral_kimono_set+p008_QX_qwen_p1'><img src='../runs/amt/gen/dualuse_lp_floral_kimono_set+p008__QX_qwen_p1.jpg' alt='dualuse_lp_floral_kimono_set+p008 — QX  gate 1.00'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_dualuse_lp_floral_kimono_set+p008_BC_klein'><img src='../runs/amt/gen/dualuse_lp_floral_kimono_set+p008__BC_klein.jpg' alt='dualuse_lp_floral_kimono_set+p008 — BC_klein  gate 1.00'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night'><div class='rh'><b>dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night</b><span class='m'>garment dualuse_scarlett_johansson_black_dress_backview_night</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_man_black_suit_studio_nonceleb.jpg' alt='dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night person'><div class='t'>person</div></div>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_scarlett_johansson_black_dress_backview_night.jpg' alt='dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night_PHEAD'><img src='../runs/amt/gen/dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night__PHEAD.jpg' alt='dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night — PHEAD  gate 0.67'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.67</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.67 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night_QX_qwen_p1'><img src='../runs/amt/gen/dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night__QX_qwen_p1.jpg' alt='dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night — QX  gate 0.51'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.51</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.51 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night_BC_klein'><img src='../runs/amt/gen/dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night__BC_klein.jpg' alt='dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night — BC_klein  gate 0.63'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.63</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.63 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_dualuse_hugh_jackman_grey_suit_outdoor+p007'><div class='rh'><b>dualuse_hugh_jackman_grey_suit_outdoor+p007</b><span class='m'>garment p007</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_dualuse_hugh_jackman_grey_suit_outdoor+p007'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_hugh_jackman_grey_suit_outdoor.jpg' alt='dualuse_hugh_jackman_grey_suit_outdoor+p007 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p007.jpg' alt='dualuse_hugh_jackman_grey_suit_outdoor+p007 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_dualuse_hugh_jackman_grey_suit_outdoor+p007_PHEAD'><img src='../runs/amt/gen/dualuse_hugh_jackman_grey_suit_outdoor+p007__PHEAD.jpg' alt='dualuse_hugh_jackman_grey_suit_outdoor+p007 — PHEAD  gate 1.00'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_dualuse_hugh_jackman_grey_suit_outdoor+p007_QX_qwen_p1'><img src='../runs/amt/gen/dualuse_hugh_jackman_grey_suit_outdoor+p007__QX_qwen_p1.jpg' alt='dualuse_hugh_jackman_grey_suit_outdoor+p007 — QX  gate 1.00'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_dualuse_hugh_jackman_grey_suit_outdoor+p007_BC_klein'><img src='../runs/amt/gen/dualuse_hugh_jackman_grey_suit_outdoor+p007__BC_klein.jpg' alt='dualuse_hugh_jackman_grey_suit_outdoor+p007 — BC_klein  gate 1.00'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_dualuse_navy_peacoat_onmodel+p012'><div class='rh'><b>dualuse_navy_peacoat_onmodel+p012</b><span class='m'>garment p012</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_dualuse_navy_peacoat_onmodel+p012'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_navy_peacoat_onmodel.jpg' alt='dualuse_navy_peacoat_onmodel+p012 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p012.jpg' alt='dualuse_navy_peacoat_onmodel+p012 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_dualuse_navy_peacoat_onmodel+p012_PHEAD'><img src='../runs/amt/gen/dualuse_navy_peacoat_onmodel+p012__PHEAD.jpg' alt='dualuse_navy_peacoat_onmodel+p012 — PHEAD  gate 0.73'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.73</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 0.80 · iden 1.00 · noop 0.73 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_dualuse_navy_peacoat_onmodel+p012_QX_qwen_p1'><img src='../runs/amt/gen/dualuse_navy_peacoat_onmodel+p012__QX_qwen_p1.jpg' alt='dualuse_navy_peacoat_onmodel+p012 — QX  gate 0.59'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.59</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 0.76 · iden 1.00 · noop 0.59 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_dualuse_navy_peacoat_onmodel+p012_BC_klein'><img src='../runs/amt/gen/dualuse_navy_peacoat_onmodel+p012__BC_klein.jpg' alt='dualuse_navy_peacoat_onmodel+p012 — BC_klein  gate 0.73'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.73</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 0.82 · iden 1.00 · noop 0.73 · peop 1.00<br>human: ok</div></div>
+</div></div>
+<div class='ref' id='row_p018+p016'><div class='rh'><b>p018+p016</b><span class='m'>garment p016</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_p018+p016'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p018.jpg' alt='p018+p016 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p016.jpg' alt='p018+p016 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_p018+p016_PHEAD'><img src='../runs/amt/gen/p018+p016__PHEAD.jpg' alt='p018+p016 — PHEAD  gate 0.67'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.67</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.67 · iden 1.00 · noop 1.00 · peop 1.00<br>human: fail</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p018+p016_QX_qwen_p1'><img src='../runs/amt/gen/p018+p016__QX_qwen_p1.jpg' alt='p018+p016 — QX  gate 0.54'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.54</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.54 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p018+p016_BC_klein'><img src='../runs/amt/gen/p018+p016__BC_klein.jpg' alt='p018+p016 — BC_klein  gate 0.44'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.44</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.44 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+</div></div>
+<div class='ref' id='row_p020+dualuse_hugh_jackman_grey_suit_outdoor'><div class='rh'><b>p020+dualuse_hugh_jackman_grey_suit_outdoor</b><span class='m'>garment dualuse_hugh_jackman_grey_suit_outdoor</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_p020+dualuse_hugh_jackman_grey_suit_outdoor'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p020.jpg' alt='p020+dualuse_hugh_jackman_grey_suit_outdoor person'><div class='t'>person</div></div>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_hugh_jackman_grey_suit_outdoor.jpg' alt='p020+dualuse_hugh_jackman_grey_suit_outdoor garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_p020+dualuse_hugh_jackman_grey_suit_outdoor_PHEAD'><img src='../runs/amt/gen/p020+dualuse_hugh_jackman_grey_suit_outdoor__PHEAD.jpg' alt='p020+dualuse_hugh_jackman_grey_suit_outdoor — PHEAD  gate 0.50'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.50</span></div><div class='s'>weakest <span class='w'>people</span><br>back 0.93 · dege 1.00 · iden 1.00 · noop 0.94 · peop 0.45<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p020+dualuse_hugh_jackman_grey_suit_outdoor_QX_qwen_p1'><img src='../runs/amt/gen/p020+dualuse_hugh_jackman_grey_suit_outdoor__QX_qwen_p1.jpg' alt='p020+dualuse_hugh_jackman_grey_suit_outdoor — QX  gate 0.50'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.50</span></div><div class='s'>weakest <span class='w'>people</span><br>back 0.90 · dege 1.00 · iden 1.00 · noop 1.00 · peop 0.45<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p020+dualuse_hugh_jackman_grey_suit_outdoor_BC_klein'><img src='../runs/amt/gen/p020+dualuse_hugh_jackman_grey_suit_outdoor__BC_klein.jpg' alt='p020+dualuse_hugh_jackman_grey_suit_outdoor — BC_klein  gate 0.50'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.50</span></div><div class='s'>weakest <span class='w'>people</span><br>back 0.90 · dege 1.00 · iden 1.00 · noop 0.96 · peop 0.45<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_p017+p002'><div class='rh'><b>p017+p002</b><span class='m'>garment p002</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_p017+p002'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p017.jpg' alt='p017+p002 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p002.jpg' alt='p017+p002 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_p017+p002_PHEAD'><img src='../runs/amt/gen/p017+p002__PHEAD.jpg' alt='p017+p002 — PHEAD  gate 0.53'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.53</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.53 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p017+p002_QX_qwen_p1'><img src='../runs/amt/gen/p017+p002__QX_qwen_p1.jpg' alt='p017+p002 — QX  gate 0.56'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.56</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.56 · iden 1.00 · noop 1.00 · peop 1.00<br>human: fail</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p017+p002_BC_klein'><img src='../runs/amt/gen/p017+p002__BC_klein.jpg' alt='p017+p002 — BC_klein  gate 0.60'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.60</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.60 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_p019+p010'><div class='rh'><b>p019+p010</b><span class='m'>garment p010</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_p019+p010'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p019.jpg' alt='p019+p010 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p010.jpg' alt='p019+p010 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_p019+p010_PHEAD'><img src='../runs/amt/gen/p019+p010__PHEAD.jpg' alt='p019+p010 — PHEAD  gate 1.00'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p019+p010_QX_qwen_p1'><img src='../runs/amt/gen/p019+p010__QX_qwen_p1.jpg' alt='p019+p010 — QX  gate 1.00'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p019+p010_BC_klein'><img src='../runs/amt/gen/p019+p010__BC_klein.jpg' alt='p019+p010 — BC_klein  gate 0.97'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.97</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.97 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_dualuse_queen_latifah_gown_stage+p006'><div class='rh'><b>dualuse_queen_latifah_gown_stage+p006</b><span class='m'>garment p006</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_dualuse_queen_latifah_gown_stage+p006'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_queen_latifah_gown_stage.jpg' alt='dualuse_queen_latifah_gown_stage+p006 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p006.jpg' alt='dualuse_queen_latifah_gown_stage+p006 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_dualuse_queen_latifah_gown_stage+p006_PHEAD'><img src='../runs/amt/gen/dualuse_queen_latifah_gown_stage+p006__PHEAD.jpg' alt='dualuse_queen_latifah_gown_stage+p006 — PHEAD  gate 0.95'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.95</span></div><div class='s'>weakest <span class='w'>background</span><br>back 0.66 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_dualuse_queen_latifah_gown_stage+p006_QX_qwen_p1'><img src='../runs/amt/gen/dualuse_queen_latifah_gown_stage+p006__QX_qwen_p1.jpg' alt='dualuse_queen_latifah_gown_stage+p006 — QX  gate 0.87'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.87</span></div><div class='s'>weakest <span class='w'>background</span><br>back 0.61 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_dualuse_queen_latifah_gown_stage+p006_BC_klein'><img src='../runs/amt/gen/dualuse_queen_latifah_gown_stage+p006__BC_klein.jpg' alt='dualuse_queen_latifah_gown_stage+p006 — BC_klein  gate 0.97'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.97</span></div><div class='s'>weakest <span class='w'>background</span><br>back 0.68 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_p009+p018'><div class='rh'><b>p009+p018</b><span class='m'>garment p018</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_p009+p018'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p009.jpg' alt='p009+p018 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p018.jpg' alt='p009+p018 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_p009+p018_PHEAD'><img src='../runs/amt/gen/p009+p018__PHEAD.jpg' alt='p009+p018 — PHEAD  gate 0.90'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.90</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 0.99 · dege 1.00 · iden 1.00 · noop 0.90 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p009+p018_QX_qwen_p1'><img src='../runs/amt/gen/p009+p018__QX_qwen_p1.jpg' alt='p009+p018 — QX  gate 0.74'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.74</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.74 · iden 1.00 · noop 0.79 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p009+p018_BC_klein'><img src='../runs/amt/gen/p009+p018__BC_klein.jpg' alt='p009+p018 — BC_klein  gate 0.93'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.93</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.93 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_p007+p030'><div class='rh'><b>p007+p030</b><span class='m'>garment p030</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_p007+p030'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p007.jpg' alt='p007+p030 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p030.jpg' alt='p007+p030 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_p007+p030_PHEAD'><img src='../runs/amt/gen/p007+p030__PHEAD.jpg' alt='p007+p030 — PHEAD  gate 0.33'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.33</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.58 · dege 0.33 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p007+p030_QX_qwen_p1'><img src='../runs/amt/gen/p007+p030__QX_qwen_p1.jpg' alt='p007+p030 — QX  gate 0.19'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.19</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.58 · dege 0.19 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p007+p030_BC_klein'><img src='../runs/amt/gen/p007+p030__BC_klein.jpg' alt='p007+p030 — BC_klein  gate 0.31'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.31</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.58 · dege 0.31 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_p026+p004'><div class='rh'><b>p026+p004</b><span class='m'>garment p004</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_p026+p004'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p026.jpg' alt='p026+p004 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p004.jpg' alt='p026+p004 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_p026+p004_PHEAD'><img src='../runs/amt/gen/p026+p004__PHEAD.jpg' alt='p026+p004 — PHEAD  gate 0.67'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.67</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.67 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p026+p004_QX_qwen_p1'><img src='../runs/amt/gen/p026+p004__QX_qwen_p1.jpg' alt='p026+p004 — QX  gate 0.92'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.92</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.92 · peop 1.00<br>human: fail</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p026+p004_BC_klein'><img src='../runs/amt/gen/p026+p004__BC_klein.jpg' alt='p026+p004 — BC_klein  gate 0.68'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.68</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.68 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_p009+p014'><div class='rh'><b>p009+p014</b><span class='m'>garment p014</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_p009+p014'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p009.jpg' alt='p009+p014 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p014.jpg' alt='p009+p014 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_p009+p014_PHEAD'><img src='../runs/amt/gen/p009+p014__PHEAD.jpg' alt='p009+p014 — PHEAD  gate 0.60'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.60</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.97 · dege 0.60 · iden 1.00 · noop 0.90 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p009+p014_QX_qwen_p1'><img src='../runs/amt/gen/p009+p014__QX_qwen_p1.jpg' alt='p009+p014 — QX  gate 0.34'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.34</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.34 · iden 1.00 · noop 1.00 · peop 1.00<br>human: fail</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_p009+p014_BC_klein'><img src='../runs/amt/gen/p009+p014__BC_klein.jpg' alt='p009+p014 — BC_klein  gate 0.67'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.67</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.97 · dege 0.67 · iden 1.00 · noop 0.85 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_HD_p021'><div class='rh'><b>HD_p021</b><span class='m'>garment p021</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_p021'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_emma_watson_black_blazer_armscrossed.jpg' alt='HD_p021 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p021.jpg' alt='HD_p021 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_p021_PHEAD'><img src='../runs/amt/gen/HD_p021__PHEAD.jpg' alt='HD_p021 — PHEAD  gate 0.51'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.51</span></div><div class='s'>weakest <span class='w'>background</span><br>back 0.36 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: fail</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p021_QX_qwen_p1'><img src='../runs/amt/gen/HD_p021__QX_qwen_p1.jpg' alt='HD_p021 — QX  gate 0.41'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.41</span></div><div class='s'>weakest <span class='w'>background</span><br>back 0.29 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p021_BC_klein'><img src='../runs/amt/gen/HD_p021__BC_klein.jpg' alt='HD_p021 — BC_klein  gate 0.27'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.27</span></div><div class='s'>weakest <span class='w'>background</span><br>back 0.19 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_HD_p023'><div class='rh'><b>HD_p023</b><span class='m'>garment p023</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_p023'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_lp_floral_kimono_set.jpg' alt='HD_p023 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p023.jpg' alt='HD_p023 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_p023_PHEAD'><img src='../runs/amt/gen/HD_p023__PHEAD.jpg' alt='HD_p023 — PHEAD  gate 0.42'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.42</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.42 · peop 1.00<br>human: fail</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p023_QX_qwen_p1'><img src='../runs/amt/gen/HD_p023__QX_qwen_p1.jpg' alt='HD_p023 — QX  gate 1.00'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p023_BC_klein'><img src='../runs/amt/gen/HD_p023__BC_klein.jpg' alt='HD_p023 — BC_klein  gate 0.15'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.15</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.15 · peop 1.00<br>human: fail</div></div>
+</div></div>
+<div class='ref' id='row_HD_dualuse_zendaya_white_blazer_skirt'><div class='rh'><b>HD_dualuse_zendaya_white_blazer_skirt</b><span class='m'>garment dualuse_zendaya_white_blazer_skirt</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_dualuse_zendaya_white_blazer_skirt'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_queen_latifah_gown_stage.jpg' alt='HD_dualuse_zendaya_white_blazer_skirt person'><div class='t'>person</div></div>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_zendaya_white_blazer_skirt.jpg' alt='HD_dualuse_zendaya_white_blazer_skirt garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_dualuse_zendaya_white_blazer_skirt_PHEAD'><img src='../runs/amt/gen/HD_dualuse_zendaya_white_blazer_skirt__PHEAD.jpg' alt='HD_dualuse_zendaya_white_blazer_skirt — PHEAD  gate 0.63'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.63</span></div><div class='s'>weakest <span class='w'>background</span><br>back 0.44 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_dualuse_zendaya_white_blazer_skirt_QX_qwen_p1'><img src='../runs/amt/gen/HD_dualuse_zendaya_white_blazer_skirt__QX_qwen_p1.jpg' alt='HD_dualuse_zendaya_white_blazer_skirt — QX  gate 0.49'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.49</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.43 · dege 0.49 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_dualuse_zendaya_white_blazer_skirt_BC_klein'><img src='../runs/amt/gen/HD_dualuse_zendaya_white_blazer_skirt__BC_klein.jpg' alt='HD_dualuse_zendaya_white_blazer_skirt — BC_klein  gate 0.58'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.58</span></div><div class='s'>weakest <span class='w'>background</span><br>back 0.40 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_HD_p019'><div class='rh'><b>HD_p019</b><span class='m'>garment p019</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_p019'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p011.jpg' alt='HD_p019 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p019.jpg' alt='HD_p019 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_p019_PHEAD'><img src='../runs/amt/gen/HD_p019__PHEAD.jpg' alt='HD_p019 — PHEAD  gate 1.00'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p019_QX_qwen_p1'><img src='../runs/amt/gen/HD_p019__QX_qwen_p1.jpg' alt='HD_p019 — QX  gate 1.00'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p019_BC_klein'><img src='../runs/amt/gen/HD_p019__BC_klein.jpg' alt='HD_p019 — BC_klein  gate 1.00'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_HD_p028'><div class='rh'><b>HD_p028</b><span class='m'>garment p028</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_p028'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p018.jpg' alt='HD_p028 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p028.jpg' alt='HD_p028 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_p028_PHEAD'><img src='../runs/amt/gen/HD_p028__PHEAD.jpg' alt='HD_p028 — PHEAD  gate 0.30'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.30</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.30 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p028_QX_qwen_p1'><img src='../runs/amt/gen/HD_p028__QX_qwen_p1.jpg' alt='HD_p028 — QX  gate 0.46'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.46</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.46 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p028_BC_klein'><img src='../runs/amt/gen/HD_p028__BC_klein.jpg' alt='HD_p028 — BC_klein  gate 0.29'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.29</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.29 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_HD_p009'><div class='rh'><b>HD_p009</b><span class='m'>garment p009</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_p009'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p026.jpg' alt='HD_p009 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p009.jpg' alt='HD_p009 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_p009_PHEAD'><img src='../runs/amt/gen/HD_p009__PHEAD.jpg' alt='HD_p009 — PHEAD  gate 0.70'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.70</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.70 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p009_QX_qwen_p1'><img src='../runs/amt/gen/HD_p009__QX_qwen_p1.jpg' alt='HD_p009 — QX  gate 0.77'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.77</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.77 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p009_BC_klein'><img src='../runs/amt/gen/HD_p009__BC_klein.jpg' alt='HD_p009 — BC_klein  gate 0.75'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.75</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.75 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_HD_p021+dualuse_hugh_jackman_grey_suit_outdoor'><div class='rh'><b>HD_p021+dualuse_hugh_jackman_grey_suit_outdoor</b><span class='m'>garment p021</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_p021+dualuse_hugh_jackman_grey_suit_outdoor'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_hugh_jackman_grey_suit_outdoor.jpg' alt='HD_p021+dualuse_hugh_jackman_grey_suit_outdoor person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p021.jpg' alt='HD_p021+dualuse_hugh_jackman_grey_suit_outdoor garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_p021+dualuse_hugh_jackman_grey_suit_outdoor_PHEAD'><img src='../runs/amt/gen/HD_p021+dualuse_hugh_jackman_grey_suit_outdoor__PHEAD.jpg' alt='HD_p021+dualuse_hugh_jackman_grey_suit_outdoor — PHEAD  gate 1.00'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: fail</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p021+dualuse_hugh_jackman_grey_suit_outdoor_QX_qwen_p1'><img src='../runs/amt/gen/HD_p021+dualuse_hugh_jackman_grey_suit_outdoor__QX_qwen_p1.jpg' alt='HD_p021+dualuse_hugh_jackman_grey_suit_outdoor — QX  gate 1.00'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p021+dualuse_hugh_jackman_grey_suit_outdoor_BC_klein'><img src='../runs/amt/gen/HD_p021+dualuse_hugh_jackman_grey_suit_outdoor__BC_klein.jpg' alt='HD_p021+dualuse_hugh_jackman_grey_suit_outdoor — BC_klein  gate 1.00'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_HD_p021+p009'><div class='rh'><b>HD_p021+p009</b><span class='m'>garment p021</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_p021+p009'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p009.jpg' alt='HD_p021+p009 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p021.jpg' alt='HD_p021+p009 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_p021+p009_PHEAD'><img src='../runs/amt/gen/HD_p021+p009__PHEAD.jpg' alt='HD_p021+p009 — PHEAD  gate 1.00'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.91 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: fail</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p021+p009_QX_qwen_p1'><img src='../runs/amt/gen/HD_p021+p009__QX_qwen_p1.jpg' alt='HD_p021+p009 — QX  gate 1.00'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p021+p009_BC_klein'><img src='../runs/amt/gen/HD_p021+p009__BC_klein.jpg' alt='HD_p021+p009 — BC_klein  gate 1.00'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+</div></div>
+<div class='ref' id='row_HD_p023+dualuse_queen_latifah_gown_stage'><div class='rh'><b>HD_p023+dualuse_queen_latifah_gown_stage</b><span class='m'>garment p023</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_p023+dualuse_queen_latifah_gown_stage'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_queen_latifah_gown_stage.jpg' alt='HD_p023+dualuse_queen_latifah_gown_stage person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p023.jpg' alt='HD_p023+dualuse_queen_latifah_gown_stage garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_p023+dualuse_queen_latifah_gown_stage_PHEAD'><img src='../runs/amt/gen/HD_p023+dualuse_queen_latifah_gown_stage__PHEAD.jpg' alt='HD_p023+dualuse_queen_latifah_gown_stage — PHEAD  gate 0.67'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.67</span></div><div class='s'>weakest <span class='w'>background</span><br>back 0.47 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p023+dualuse_queen_latifah_gown_stage_QX_qwen_p1'><img src='../runs/amt/gen/HD_p023+dualuse_queen_latifah_gown_stage__QX_qwen_p1.jpg' alt='HD_p023+dualuse_queen_latifah_gown_stage — QX  gate 0.42'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.42</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.54 · dege 0.42 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p023+dualuse_queen_latifah_gown_stage_BC_klein'><img src='../runs/amt/gen/HD_p023+dualuse_queen_latifah_gown_stage__BC_klein.jpg' alt='HD_p023+dualuse_queen_latifah_gown_stage — BC_klein  gate 0.69'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.69</span></div><div class='s'>weakest <span class='w'>background</span><br>back 0.48 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+</div></div>
+<div class='ref' id='row_HD_p023+p019'><div class='rh'><b>HD_p023+p019</b><span class='m'>garment p023</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_p023+p019'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p019.jpg' alt='HD_p023+p019 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p023.jpg' alt='HD_p023+p019 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_p023+p019_PHEAD'><img src='../runs/amt/gen/HD_p023+p019__PHEAD.jpg' alt='HD_p023+p019 — PHEAD  gate 0.41'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.41</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.41 · iden 1.00 · noop 0.84 · peop 1.00<br>human: fail</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p023+p019_QX_qwen_p1'><img src='../runs/amt/gen/HD_p023+p019__QX_qwen_p1.jpg' alt='HD_p023+p019 — QX  gate 0.60'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.60</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.60 · iden 1.00 · noop 0.91 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p023+p019_BC_klein'><img src='../runs/amt/gen/HD_p023+p019__BC_klein.jpg' alt='HD_p023+p019 — BC_klein  gate 0.40'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.40</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.40 · iden 1.00 · noop 0.88 · peop 1.00<br>human: fail</div></div>
+</div></div>
+<div class='ref' id='row_HD_dualuse_zendaya_white_blazer_skirt+p017'><div class='rh'><b>HD_dualuse_zendaya_white_blazer_skirt+p017</b><span class='m'>garment dualuse_zendaya_white_blazer_skirt</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_dualuse_zendaya_white_blazer_skirt+p017'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p017.jpg' alt='HD_dualuse_zendaya_white_blazer_skirt+p017 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_zendaya_white_blazer_skirt.jpg' alt='HD_dualuse_zendaya_white_blazer_skirt+p017 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_dualuse_zendaya_white_blazer_skirt+p017_PHEAD'><img src='../runs/amt/gen/HD_dualuse_zendaya_white_blazer_skirt+p017__PHEAD.jpg' alt='HD_dualuse_zendaya_white_blazer_skirt+p017 — PHEAD  gate 1.00'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.90 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: fail</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_dualuse_zendaya_white_blazer_skirt+p017_QX_qwen_p1'><img src='../runs/amt/gen/HD_dualuse_zendaya_white_blazer_skirt+p017__QX_qwen_p1.jpg' alt='HD_dualuse_zendaya_white_blazer_skirt+p017 — QX  gate 0.28'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.28</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.28 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_dualuse_zendaya_white_blazer_skirt+p017_BC_klein'><img src='../runs/amt/gen/HD_dualuse_zendaya_white_blazer_skirt+p017__BC_klein.jpg' alt='HD_dualuse_zendaya_white_blazer_skirt+p017 — BC_klein  gate 0.94'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.94</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.90 · dege 0.94 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear'><div class='rh'><b>HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear</b><span class='m'>garment dualuse_zendaya_white_blazer_skirt</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_lp_beige_long_coat_menswear.jpg' alt='HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear person'><div class='t'>person</div></div>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_zendaya_white_blazer_skirt.jpg' alt='HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear_PHEAD'><img src='../runs/amt/gen/HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear__PHEAD.jpg' alt='HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear — PHEAD  gate 1.00'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear_QX_qwen_p1'><img src='../runs/amt/gen/HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear__QX_qwen_p1.jpg' alt='HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear — QX  gate 0.93'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.93</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.93 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear_BC_klein'><img src='../runs/amt/gen/HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear__BC_klein.jpg' alt='HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear — BC_klein  gate 1.00'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_HD_p019+dualuse_hugh_jackman_grey_suit_outdoor'><div class='rh'><b>HD_p019+dualuse_hugh_jackman_grey_suit_outdoor</b><span class='m'>garment p019</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_p019+dualuse_hugh_jackman_grey_suit_outdoor'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_hugh_jackman_grey_suit_outdoor.jpg' alt='HD_p019+dualuse_hugh_jackman_grey_suit_outdoor person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p019.jpg' alt='HD_p019+dualuse_hugh_jackman_grey_suit_outdoor garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_p019+dualuse_hugh_jackman_grey_suit_outdoor_PHEAD'><img src='../runs/amt/gen/HD_p019+dualuse_hugh_jackman_grey_suit_outdoor__PHEAD.jpg' alt='HD_p019+dualuse_hugh_jackman_grey_suit_outdoor — PHEAD  gate 1.00'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p019+dualuse_hugh_jackman_grey_suit_outdoor_QX_qwen_p1'><img src='../runs/amt/gen/HD_p019+dualuse_hugh_jackman_grey_suit_outdoor__QX_qwen_p1.jpg' alt='HD_p019+dualuse_hugh_jackman_grey_suit_outdoor — QX  gate 1.00'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p019+dualuse_hugh_jackman_grey_suit_outdoor_BC_klein'><img src='../runs/amt/gen/HD_p019+dualuse_hugh_jackman_grey_suit_outdoor__BC_klein.jpg' alt='HD_p019+dualuse_hugh_jackman_grey_suit_outdoor — BC_klein  gate 1.00'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+</div></div>
+<div class='ref' id='row_HD_p019+p009'><div class='rh'><b>HD_p019+p009</b><span class='m'>garment p019</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_p019+p009'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p009.jpg' alt='HD_p019+p009 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p019.jpg' alt='HD_p019+p009 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_p019+p009_PHEAD'><img src='../runs/amt/gen/HD_p019+p009__PHEAD.jpg' alt='HD_p019+p009 — PHEAD  gate 0.96'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.96</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.93 · dege 0.96 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p019+p009_QX_qwen_p1'><img src='../runs/amt/gen/HD_p019+p009__QX_qwen_p1.jpg' alt='HD_p019+p009 — QX  gate 1.00'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.91 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p019+p009_BC_klein'><img src='../runs/amt/gen/HD_p019+p009__BC_klein.jpg' alt='HD_p019+p009 — BC_klein  gate 1.00'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 0.93 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_HD_p028+dualuse_navy_peacoat_onmodel'><div class='rh'><b>HD_p028+dualuse_navy_peacoat_onmodel</b><span class='m'>garment p028</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_p028+dualuse_navy_peacoat_onmodel'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_navy_peacoat_onmodel.jpg' alt='HD_p028+dualuse_navy_peacoat_onmodel person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p028.jpg' alt='HD_p028+dualuse_navy_peacoat_onmodel garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_p028+dualuse_navy_peacoat_onmodel_PHEAD'><img src='../runs/amt/gen/HD_p028+dualuse_navy_peacoat_onmodel__PHEAD.jpg' alt='HD_p028+dualuse_navy_peacoat_onmodel — PHEAD  gate 0.50'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.50</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.50 · iden 1.00 · noop 0.73 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p028+dualuse_navy_peacoat_onmodel_QX_qwen_p1'><img src='../runs/amt/gen/HD_p028+dualuse_navy_peacoat_onmodel__QX_qwen_p1.jpg' alt='HD_p028+dualuse_navy_peacoat_onmodel — QX  gate 0.47'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.47</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.47 · iden 1.00 · noop 0.60 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p028+dualuse_navy_peacoat_onmodel_BC_klein'><img src='../runs/amt/gen/HD_p028+dualuse_navy_peacoat_onmodel__BC_klein.jpg' alt='HD_p028+dualuse_navy_peacoat_onmodel — BC_klein  gate 0.41'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.41</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.41 · iden 1.00 · noop 0.61 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_HD_p028+p019'><div class='rh'><b>HD_p028+p019</b><span class='m'>garment p028</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_p028+p019'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p019.jpg' alt='HD_p028+p019 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p028.jpg' alt='HD_p028+p019 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_p028+p019_PHEAD'><img src='../runs/amt/gen/HD_p028+p019__PHEAD.jpg' alt='HD_p028+p019 — PHEAD  gate 0.99'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.99</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.99 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p028+p019_QX_qwen_p1'><img src='../runs/amt/gen/HD_p028+p019__QX_qwen_p1.jpg' alt='HD_p028+p019 — QX  gate 0.38'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.38</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.38 · iden 1.00 · noop 0.96 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p028+p019_BC_klein'><img src='../runs/amt/gen/HD_p028+p019__BC_klein.jpg' alt='HD_p028+p019 — BC_klein  gate 1.00'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>1.00</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 1.00 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_HD_p009+p018'><div class='rh'><b>HD_p009+p018</b><span class='m'>garment p009</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_p009+p018'></span></div><div class='chain'>
+<div class='inp'><img src='../../test_set/people/p018.jpg' alt='HD_p009+p018 person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p009.jpg' alt='HD_p009+p018 garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_p009+p018_PHEAD'><img src='../runs/amt/gen/HD_p009+p018__PHEAD.jpg' alt='HD_p009+p018 — PHEAD  gate 0.46'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.46</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.46 · iden 1.00 · noop 0.98 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p009+p018_QX_qwen_p1'><img src='../runs/amt/gen/HD_p009+p018__QX_qwen_p1.jpg' alt='HD_p009+p018 — QX  gate 0.35'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.35</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.35 · iden 1.00 · noop 0.97 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p009+p018_BC_klein'><img src='../runs/amt/gen/HD_p009+p018__BC_klein.jpg' alt='HD_p009+p018 — BC_klein  gate 0.45'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.45</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.45 · iden 1.00 · noop 0.99 · peop 1.00<br>human: perfect</div></div>
+</div></div>
+<div class='ref' id='row_HD_p009+dualuse_man_black_suit_studio_nonceleb'><div class='rh'><b>HD_p009+dualuse_man_black_suit_studio_nonceleb</b><span class='m'>garment p009</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_p009+dualuse_man_black_suit_studio_nonceleb'></span></div><div class='chain'>
+<div class='inp'><img src='../runs/ts2/inputs/dualuse_man_black_suit_studio_nonceleb.jpg' alt='HD_p009+dualuse_man_black_suit_studio_nonceleb person'><div class='t'>person</div></div>
+<div class='inp'><img src='../../test_set/people/p009.jpg' alt='HD_p009+dualuse_man_black_suit_studio_nonceleb garment'><div class='t'>garment</div></div>
+<div class='step' id='cell_HD_p009+dualuse_man_black_suit_studio_nonceleb_PHEAD'><img src='../runs/amt/gen/HD_p009+dualuse_man_black_suit_studio_nonceleb__PHEAD.jpg' alt='HD_p009+dualuse_man_black_suit_studio_nonceleb — PHEAD  gate 0.54'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.54</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.54 · peop 1.00<br>human: perfect</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p009+dualuse_man_black_suit_studio_nonceleb_QX_qwen_p1'><img src='../runs/amt/gen/HD_p009+dualuse_man_black_suit_studio_nonceleb__QX_qwen_p1.jpg' alt='HD_p009+dualuse_man_black_suit_studio_nonceleb — QX  gate 0.26'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.26</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.26 · peop 1.00<br>human: ok</div></div>
+<div class='arrow'>&rarr;</div>
+<div class='step' id='cell_HD_p009+dualuse_man_black_suit_studio_nonceleb_BC_klein'><img src='../runs/amt/gen/HD_p009+dualuse_man_black_suit_studio_nonceleb__BC_klein.jpg' alt='HD_p009+dualuse_man_black_suit_studio_nonceleb — BC_klein  gate 0.49'><div class='t'>BC_klein &nbsp;<span style='color:#7c5cff'>0.49</span></div><div class='s'>weakest <span class='w'>noop</span><br>back 1.00 · dege 1.00 · iden 1.00 · noop 0.49 · peop 1.00<br>human: ok</div></div>
+</div></div>
+<button id='save'>Save simulation CSV<small>threshold + every decision</small></button>
+<div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>
+<script>window.SIM={"sets": [{"id": "ts2_11", "cond": "low", "gate": {"PHEAD": 0.601, "BC_klein": 0.635, "QX_qwen_p1": 0.585}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "perfect"}}, {"id": "ts2_12", "cond": "low", "gate": {"PHEAD": 0.508, "BC_klein": 0.529, "QX_qwen_p1": 0.471}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "perfect"}}, {"id": "p015+p007", "cond": "low", "gate": {"PHEAD": 0.0, "BC_klein": 0.0, "QX_qwen_p1": 0.0}, "human": {"PHEAD": "perfect", "BC_klein": "ok", "QX_qwen_p1": "perfect"}}, {"id": "dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb", "cond": "low", "gate": {"PHEAD": 0.941, "BC_klein": 0.914, "QX_qwen_p1": 0.695}, "human": {"PHEAD": "fail", "BC_klein": "perfect", "QX_qwen_p1": "ok"}}, {"id": "p011+p003", "cond": "low", "gate": {"PHEAD": 1.0, "BC_klein": 1.0, "QX_qwen_p1": 0.828}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "ok"}}, {"id": "p015+p002", "cond": "low", "gate": {"PHEAD": 0.345, "BC_klein": 0.344, "QX_qwen_p1": 0.244}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "perfect"}}, {"id": "dualuse_lp_beige_long_coat_menswear+dualuse_scarlett_johansson_black_dress_backview_night", "cond": "low", "gate": {"PHEAD": 1.0, "BC_klein": 1.0, "QX_qwen_p1": 1.0}, "human": {"PHEAD": "ok", "BC_klein": "ok", "QX_qwen_p1": "perfect"}}, {"id": "dualuse_lp_floral_kimono_set+p008", "cond": "low", "gate": {"PHEAD": 1.0, "BC_klein": 1.0, "QX_qwen_p1": 1.0}, "human": {"PHEAD": "ok", "BC_klein": "perfect", "QX_qwen_p1": "perfect"}}, {"id": "dualuse_man_black_suit_studio_nonceleb+dualuse_scarlett_johansson_black_dress_backview_night", "cond": "low", "gate": {"PHEAD": 0.67, "BC_klein": 0.626, "QX_qwen_p1": 0.513}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "ok"}}, {"id": "dualuse_hugh_jackman_grey_suit_outdoor+p007", "cond": "low", "gate": {"PHEAD": 1.0, "BC_klein": 1.0, "QX_qwen_p1": 1.0}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "ok"}}, {"id": "dualuse_navy_peacoat_onmodel+p012", "cond": "low", "gate": {"PHEAD": 0.73, "BC_klein": 0.728, "QX_qwen_p1": 0.586}, "human": {"PHEAD": "ok", "BC_klein": "ok", "QX_qwen_p1": "perfect"}}, {"id": "p018+p016", "cond": "low", "gate": {"PHEAD": 0.673, "BC_klein": 0.436, "QX_qwen_p1": 0.54}, "human": {"PHEAD": "fail", "BC_klein": "ok", "QX_qwen_p1": "perfect"}}, {"id": "p020+dualuse_hugh_jackman_grey_suit_outdoor", "cond": "low", "gate": {"PHEAD": 0.5, "BC_klein": 0.5, "QX_qwen_p1": 0.5}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "perfect"}}, {"id": "p017+p002", "cond": "low", "gate": {"PHEAD": 0.534, "BC_klein": 0.602, "QX_qwen_p1": 0.56}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "fail"}}, {"id": "p019+p010", "cond": "low", "gate": {"PHEAD": 1.0, "BC_klein": 0.975, "QX_qwen_p1": 0.997}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "ok"}}, {"id": "dualuse_queen_latifah_gown_stage+p006", "cond": "low", "gate": {"PHEAD": 0.949, "BC_klein": 0.966, "QX_qwen_p1": 0.866}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "perfect"}}, {"id": "p009+p018", "cond": "low", "gate": {"PHEAD": 0.903, "BC_klein": 0.928, "QX_qwen_p1": 0.737}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "ok"}}, {"id": "p007+p030", "cond": "low", "gate": {"PHEAD": 0.331, "BC_klein": 0.312, "QX_qwen_p1": 0.193}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "perfect"}}, {"id": "p026+p004", "cond": "low", "gate": {"PHEAD": 0.673, "BC_klein": 0.676, "QX_qwen_p1": 0.921}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "fail"}}, {"id": "p009+p014", "cond": "low", "gate": {"PHEAD": 0.6, "BC_klein": 0.667, "QX_qwen_p1": 0.338}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "fail"}}, {"id": "HD_p021", "cond": "high", "gate": {"PHEAD": 0.509, "BC_klein": 0.273, "QX_qwen_p1": 0.411}, "human": {"PHEAD": "fail", "BC_klein": "perfect", "QX_qwen_p1": "perfect"}}, {"id": "HD_p023", "cond": "high", "gate": {"PHEAD": 0.423, "BC_klein": 0.148, "QX_qwen_p1": 1.0}, "human": {"PHEAD": "fail", "BC_klein": "fail", "QX_qwen_p1": "ok"}}, {"id": "HD_dualuse_zendaya_white_blazer_skirt", "cond": "high", "gate": {"PHEAD": 0.629, "BC_klein": 0.576, "QX_qwen_p1": 0.495}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "perfect"}}, {"id": "HD_p019", "cond": "high", "gate": {"PHEAD": 1.0, "BC_klein": 1.0, "QX_qwen_p1": 1.0}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "perfect"}}, {"id": "HD_p028", "cond": "high", "gate": {"PHEAD": 0.302, "BC_klein": 0.287, "QX_qwen_p1": 0.462}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "perfect"}}, {"id": "HD_p009", "cond": "high", "gate": {"PHEAD": 0.698, "BC_klein": 0.746, "QX_qwen_p1": 0.768}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "ok"}}, {"id": "HD_p021+dualuse_hugh_jackman_grey_suit_outdoor", "cond": "high", "gate": {"PHEAD": 1.0, "BC_klein": 1.0, "QX_qwen_p1": 1.0}, "human": {"PHEAD": "fail", "BC_klein": "perfect", "QX_qwen_p1": "ok"}}, {"id": "HD_p021+p009", "cond": "high", "gate": {"PHEAD": 1.0, "BC_klein": 1.0, "QX_qwen_p1": 1.0}, "human": {"PHEAD": "fail", "BC_klein": "ok", "QX_qwen_p1": "ok"}}, {"id": "HD_p023+dualuse_queen_latifah_gown_stage", "cond": "high", "gate": {"PHEAD": 0.667, "BC_klein": 0.689, "QX_qwen_p1": 0.416}, "human": {"PHEAD": "ok", "BC_klein": "ok", "QX_qwen_p1": "perfect"}}, {"id": "HD_p023+p019", "cond": "high", "gate": {"PHEAD": 0.409, "BC_klein": 0.4, "QX_qwen_p1": 0.598}, "human": {"PHEAD": "fail", "BC_klein": "fail", "QX_qwen_p1": "perfect"}}, {"id": "HD_dualuse_zendaya_white_blazer_skirt+p017", "cond": "high", "gate": {"PHEAD": 1.0, "BC_klein": 0.941, "QX_qwen_p1": 0.275}, "human": {"PHEAD": "fail", "BC_klein": "perfect", "QX_qwen_p1": "ok"}}, {"id": "HD_dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear", "cond": "high", "gate": {"PHEAD": 1.0, "BC_klein": 1.0, "QX_qwen_p1": 0.927}, "human": {"PHEAD": "ok", "BC_klein": "perfect", "QX_qwen_p1": "perfect"}}, {"id": "HD_p019+dualuse_hugh_jackman_grey_suit_outdoor", "cond": "high", "gate": {"PHEAD": 1.0, "BC_klein": 1.0, "QX_qwen_p1": 1.0}, "human": {"PHEAD": "ok", "BC_klein": "ok", "QX_qwen_p1": "perfect"}}, {"id": "HD_p019+p009", "cond": "high", "gate": {"PHEAD": 0.956, "BC_klein": 1.0, "QX_qwen_p1": 1.0}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "ok"}}, {"id": "HD_p028+dualuse_navy_peacoat_onmodel", "cond": "high", "gate": {"PHEAD": 0.499, "BC_klein": 0.415, "QX_qwen_p1": 0.469}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "perfect"}}, {"id": "HD_p028+p019", "cond": "high", "gate": {"PHEAD": 0.991, "BC_klein": 1.0, "QX_qwen_p1": 0.378}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "perfect"}}, {"id": "HD_p009+p018", "cond": "high", "gate": {"PHEAD": 0.463, "BC_klein": 0.452, "QX_qwen_p1": 0.353}, "human": {"PHEAD": "perfect", "BC_klein": "perfect", "QX_qwen_p1": "perfect"}}, {"id": "HD_p009+dualuse_man_black_suit_studio_nonceleb", "cond": "high", "gate": {"PHEAD": 0.536, "BC_klein": 0.493, "QX_qwen_p1": 0.258}, "human": {"PHEAD": "perfect", "BC_klein": "ok", "QX_qwen_p1": "ok"}}], "orders": {"A": ["PHEAD", "QX_qwen_p1", "BC_klein"], "B": ["PHEAD", "BC_klein", "QX_qwen_p1"]}, "unit": {"PHEAD": 1, "BC_klein": 2, "QX_qwen_p1": 2}};</script>
+<script>
+var DATA = window.SIM, order = 'A';
+var MKEY = 'gate_marks_v1', marks = {};
+try { marks = JSON.parse(localStorage.getItem(MKEY) || '{}'); } catch (e) { marks = {}; }
+
+function paintMarks(){
+  Array.prototype.slice.call(document.querySelectorAll('.mk button')).forEach(function(b){
+    b.classList.toggle('on', marks[b.dataset.k] === b.dataset.m);
+  });
+}
+
+function sim(){
+  var th = parseFloat(document.getElementById('th').value);
+  document.getElementById('thv').textContent = th.toFixed(2);
+  var units = 0, settled = {}, unresolved = 0, human = {perfect:0, ok:0, fail:0};
+  DATA.sets.forEach(function(S){
+    var chain = DATA.orders[order], done = false, cost = 0;
+    chain.forEach(function(arm){
+      var el = document.getElementById('cell_' + S.id + '_' + arm);
+      if (!el) return;
+      var g = S.gate[arm];
+      el.classList.remove('rej','acc','skip');
+      if (done){ el.classList.add('skip'); return; }
+      cost += DATA.unit[arm];
+      if (g !== undefined && g >= th){
+        el.classList.add('acc'); done = true;
+        settled[arm] = (settled[arm] || 0) + 1;
+        if (S.human[arm]) human[S.human[arm]]++;
+      } else { el.classList.add('rej'); }
+    });
+    if (!done) unresolved++;
+    units += cost;
+    var c = document.getElementById('cost_' + S.id);
+    if (c) c.textContent = cost + ' unit' + (cost === 1 ? '' : 's');
+  });
+  // your marks vs the gate at this threshold
+  var ag = 0, dis = 0;
+  DATA.sets.forEach(function(S){
+    Object.keys(S.gate).forEach(function(arm){
+      var el = document.getElementById('cell_' + S.id + '_' + arm);
+      var m = marks[S.id + '|' + arm];
+      if (el){ el.classList.remove('agree','disagree'); }
+      if (!m || !el) return;
+      var same = (m === 'pass') === (S.gate[arm] >= th);
+      if (same){ ag++; el.classList.add('agree'); }
+      else { dis++; el.classList.add('disagree'); }
+    });
+  });
+  var n = DATA.sets.length, parts = [];
+  Object.keys(settled).forEach(function(k){ parts.push(k + ' ' + settled[k]); });
+  var agTxt = (ag + dis)
+    ? ('<br>your marks: <b>' + ag + '</b> agree, <b style="color:#f85149">' + dis +
+       '</b> disagree &nbsp;(<b>' + Math.round(ag / (ag + dis) * 100) + '%</b> of ' +
+       (ag + dis) + ' marked)')
+    : '<br><span style="opacity:.6">mark cells &ldquo;should pass / should fail&rdquo; to score the gate against yourself</span>';
+  document.getElementById('stats').innerHTML =
+    '<b>' + (units / n).toFixed(3) + '</b> units/request &nbsp;·&nbsp; settled by: ' +
+    parts.join(', ') + (unresolved ? ' &nbsp;·&nbsp; <b style="color:#f85149">' +
+    unresolved + ' unresolved</b>' : '') +
+    '<br>human verdict on the accepted frame: <b style="color:#3fb950">perfect ' +
+    human.perfect + '</b> · <b style="color:#d29922">ok ' + human.ok +
+    '</b> · <b style="color:#f85149">fail ' + human.fail + '</b>' + agTxt;
+}
+
+document.getElementById('th').addEventListener('input', sim);
+Array.prototype.slice.call(document.querySelectorAll('.ord button')).forEach(function(b){
+  b.addEventListener('click', function(){
+    order = b.dataset.o;
+    Array.prototype.slice.call(document.querySelectorAll('.ord button')).forEach(function(x){
+      x.classList.toggle('on', x === b);
+    });
+    sim();
+  });
+});
+document.body.addEventListener('click', function(e){
+  var mb = e.target.closest('.mk button');
+  if (mb){
+    e.stopPropagation();
+    if (marks[mb.dataset.k] === mb.dataset.m) delete marks[mb.dataset.k];
+    else marks[mb.dataset.k] = mb.dataset.m;
+    try { localStorage.setItem(MKEY, JSON.stringify(marks)); } catch (err) {}
+    paintMarks(); sim();
+    return;
+  }
+  var im = e.target.closest('.step img, .inp img');
+  if (!im) return;
+  var lb = document.getElementById('lb');
+  document.getElementById('lbi').src = im.getAttribute('src');
+  document.getElementById('lbc').textContent = im.getAttribute('alt');
+  lb.style.display = 'flex';
+});
+document.getElementById('lb').addEventListener('click', function(){ this.style.display='none'; });
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape') document.getElementById('lb').style.display = 'none';
+});
+document.getElementById('save').addEventListener('click', function(){
+  var th = parseFloat(document.getElementById('th').value);
+  var q = String.fromCharCode(34), nl = String.fromCharCode(10);
+  var out = ['set_id,condition,order,threshold,arm,gate_score,decision,your_mark,agrees,human_verdict,units_so_far'];
+  DATA.sets.forEach(function(S){
+    var chain = DATA.orders[order], done = false, cost = 0;
+    chain.forEach(function(arm){
+      var g = S.gate[arm];
+      if (g === undefined) return;
+      var dec;
+      if (done) dec = 'skipped';
+      else { cost += DATA.unit[arm]; dec = (g >= th) ? 'ACCEPT' : 'reject'; if (g >= th) done = true; }
+      var mk = marks[S.id + '|' + arm] || '';
+      var agr = mk ? (((mk === 'pass') === (g >= th)) ? 'yes' : 'no') : '';
+      out.push([S.id, S.cond, order, th.toFixed(2), arm, g, dec, mk, agr, S.human[arm] || '', cost]
+        .map(function(v){ return q + String(v).replace(/"/g,'""') + q; }).join(','));
+    });
+  });
+  var b = new Blob([out.join(nl)+nl], {type:'text/csv'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(b);
+  a.download = 'v221_gate_simulation.csv';
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 400);
+  var s = document.getElementById('save');
+  s.firstChild.nodeValue = 'Saved ✓  ';
+  setTimeout(function(){ s.firstChild.nodeValue = 'Save simulation CSV'; }, 1800);
+});
+sim();
+paintMarks();
+</script>

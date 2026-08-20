@@ -1076,6 +1076,113 @@ asks a different question per component: for M and AC, *does the crop look right
 for BG, *did the detector decide correctly*. BG's page therefore prints the call and
 the margin that produced it, not only the image.
 
+## 2d. v2.2.3 architecture — gate, cascade, router (2026-08-19)
+
+Phase 3 produced **three arms that solve the attention deficit by different mechanisms
+and rescue each other**. What remains is not another arm but **deciding which to call,
+and catching it when the call was wrong.**
+
+### The three components, and the order they get built
+
+| | when it runs | job | status |
+|---|---|---|---|
+| **Gate** | after generation | score a frame, accept or escalate | **building** |
+| **Cascade** | around the gate | try arms cheapest-first until one is accepted | design fixed |
+| **Router** | before generation | predict which arm to start with | **deferred — see the cost analysis** |
+
+**Gate first, router last, and the arithmetic says so.** A router must be **≥79%
+accurate to beat simply cascading** — it gains a unit when it correctly sends a hard
+case straight to a paid arm and *wastes* one when it wrongly sends an easy case there,
+which balance at `r = 1 − p_hard`. The candidate router sits at ~75%, below break-even.
+Full working in [RESULTS.md](RESULTS.md), "Cost analysis".
+
+### The gate
+
+`v2/build/failure_gate.py`. Deterministic, CPU-only, no model call beyond what the
+pipeline already loads. Five checks, each a **margin in [0,1]**:
+
+| check | method | reliability |
+|---|---|---|
+| **degenerate** | pixel std, Laplacian variance, unique-colour count | high |
+| **no-op** | SSIM against the *person input* — high similarity means the edit never happened | high |
+| **people** | pose-detection count; >1 is duplication | high |
+| **identity** | AuraFace cosine, output against the person input | high |
+| **background** | PSNR outside a central person band | medium |
+
+**The composite is the weakest check, not the average.** One hard failure must sink a
+frame; averaging would let a good background hide a swapped identity.
+
+**Why identity and duplication are reliable while garment is not:** those checks
+compare the output against a **known input**. The garment check has no such anchor —
+it must judge whether a garment is *the right one* in the abstract.
+
+#### The hole, stated rather than hidden
+
+**There is no garment check.** It is the failure that matters most and the one we
+cannot do. Section 2b measured `garment_sim` at **0.78** and a VLM at **4/5** on an
+output that transferred **no garment at all** — both reward a *plausible* garment over
+the *correct* one.
+
+**A VLM does not rescue this.** It was already tried, on this exact question, and
+already failed. It would also cost roughly what a generation costs, so it would spend
+the entire saving on the decision. Ruled out on capability *and* on arithmetic.
+
+Consequence: the gate is scoped **high-precision, low-recall** — catch what is
+catchable with near-zero false positives and accept that subtler garment errors pass.
+The asymmetry justifies it: a false reject burns a generation on **every** affected
+request, a false accept costs only the one it missed.
+
+### The cascade
+
+**Escalate mechanism, never reseed.** The original v2.2.3 spec assumed
+retry-with-fresh-seed. **That design is invalid**: failure is a property of the
+*garment* — a damaged reference failed on all three people it was paired with — so a
+retry on the same arm reproduces it.
+
+Measured order and cost, from the 38 labelled sets:
+
+| order | units/request |
+|---|---|
+| **PHEAD → QX → BC_klein** | **1.421** |
+| PHEAD → BC_klein → QX | 1.526 |
+
+**QX belongs second even though BC_klein is the stronger arm alone**, because QX
+rescues *precisely* PHEAD's failure mode and so converts more cases on the first
+escalation. Zero unresolved sets in 38 under either order.
+
+**Acceptance policy is a product decision, not a technical one:**
+
+| policy | units | final quality |
+|---|---|---|
+| **A** — escalate on `fail` only | **1.421** | perfect 27/38, ok 11/38, fail 0 |
+| **B** — escalate on `fail` and `ok` | 2.000 | perfect 36/38, ok 2/38, fail 0 |
+
+B buys nine more perfect results for +0.58 units — about **$870/month more at 1M
+self-hosted requests**. Both end with zero failures. Exposed as a threshold rather
+than hard-coded.
+
+### How it is validated — the simulated run
+
+**380 human-judged outputs already exist** (38 sets × 10 arms, each labelled perfect /
+ok / fail). That is a labelled validation set, which no earlier stage of this project
+had.
+
+`v2/artifacts/v221_gate_simulation.html` grades **every** arm, assumes nothing, and
+**replays the cascade at any threshold** the reviewer chooses — with no new
+generations. Each set renders as a chain: rejected attempts in red, the accepted one
+in green, arrows between, and every cell showing its composite score, its weakest
+check, all five sub-scores, and the human verdict for the same frame.
+
+**Two numbers come out, and the second is the one that decides it:**
+
+1. **Agreement** — gate verdict against human label, per output.
+2. **Simulated outcome** — what the cascade *would have delivered* per set.
+
+**The gate does not need to be right about every output, only right enough to keep
+escalating until something works.** A gate that misjudges which attempt failed but
+still reaches a passing arm has done its job. Judging it on per-output agreement alone
+would be holding it to the wrong standard.
+
 ## 3. What 2.2.3 is
 
 A deterministic, CPU-only gate that decides whether a generated frame is usable.
