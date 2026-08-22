@@ -12,24 +12,30 @@ LOG = os.path.join(OUT, "_realism.json")
 ENDPOINT = "fal-ai/seedvr/upscale/image"
 SEED = 46
 HAIR_T = 0.14
+ID_ESCALATE = 0.90
 BAD = {"FAIL", "BROKEN"}
 
 
 def shipped():
-    """The frame the safe-gate harness lands on, per set.
-    Gate: escalate if tryon != PERFECT or garment == FAIL. Escalation goes to QX."""
+    """The frame the shipped harness lands on, per set.
+
+    Escalate to QX if ANY of: noop < 0.5, identity < 0.90, garment == FAIL,
+    tryon != PERFECT. Identity joined the rule on 2026-08-22 -- it fires once, on
+    HD_p028+navy_peacoat, and is the difference between 1 shipped failure and 0."""
     T = list(csv.DictReader(open(f"{REPO}/v223_perfect_tier_picks.csv")))
     E = list(csv.DictReader(open(f"{REPO}/v223_vlm_eval.csv")))
     run = json.load(open(f"{REPO}/v2/runs/amt/_run.json"))
     tier = {(r["set_id"], r["arm"]): r["tier"] for r in T}
     hair = {r["set_id"]: float(r["hair_over_garment"]) for r in T}
     noop = {(r["set_id"], r["arm"]): float(r["chk_noop"]) for r in T}
+    ident = {(r["set_id"], r["arm"]): float(r["chk_identity"]) for r in T}
     V = {(r["set_id"], r["arm"], r["prompt"]): r["vlm_verdict"] for r in E}
 
     out = []
     for sid in sorted(hair):
         arm = "BC_klein" if hair[sid] >= HAIR_T else "PHEAD"
         fired = (noop[(sid, arm)] < 0.5
+                 or ident[(sid, arm)] < ID_ESCALATE
                  or V.get((sid, arm, "tryon")) != "PERFECT"
                  or V.get((sid, arm, "garment")) == "FAIL")
         landed = "QX_qwen_p1" if fired else arm
