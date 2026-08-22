@@ -133,7 +133,9 @@ BC_klein subtract and share a failure mode), 1.789 gen/request vs 2.053.
 ### THE HARNESS — settled and measured, 2026-08-22. v2.2 is closed.
 
 Design: [`ARCHITECTURE.md`](ARCHITECTURE.md). Evidence:
-[`v223_vlm_eval.html`](../../v2/artifacts/v223_vlm_eval.html),
+**[`v223_harness_picks.html`](../../v2/artifacts/v223_harness_picks.html) — what the
+harness picked on every set, with the full decision trace**;
+[`v223_vlm_eval.html`](../../v2/artifacts/v223_vlm_eval.html);
 `v2.2/images/harness_v223.png`.
 
 ```

@@ -1078,6 +1078,8 @@ Escalate if **any** of: `noop < 0.5`, **`identity < 0.90`**, `garment == FAIL`,
 | *oracle gate* | *1.526* | *32* | *6* | *0* |
 
 **Nothing ships broken**, at essentially the cost of the best single arm.
+Per-set decision trace:
+[`v223_harness_picks.html`](../../../v2/artifacts/v223_harness_picks.html).
 
 At the same cost as the best single arm, the harness ships **a quarter of the
 failures**. The cheaper gate is also defensible — it beats BC_klein on both axes — and

@@ -13,6 +13,12 @@ deciding *when* to apply it.
 
 Evidence: [`v223_realism_pass.html`](../../../v2/artifacts/v223_realism_pass.html) —
 38 before/after pairs with a drag wipe and zoom to 12×.
+
+> **One frame is stale.** These pairs were produced before `identity < 0.90` joined
+> the escalation rule, so `HD_p028+navy_peacoat` shows the PHEAD frame that used to
+> ship rather than the QX frame that ships now. The realism measurements are
+> unaffected — the pass was applied identically to whatever frame it was given — but
+> re-run `realism_pass.py` before the page is used as a final deliverable.
 Data: `v2/runs/realism/_metrics.json`. Cost: **$1.52**, 38 calls, no new generations.
 
 ---
