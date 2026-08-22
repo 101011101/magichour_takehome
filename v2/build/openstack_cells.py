@@ -52,6 +52,9 @@ REBUILD_REFS     = True    # rebuild garment references from RAW images (the
                            # production path) instead of using the stored ones
 N_SETS           = 8       # raise once a full pass works
 SEED             = 46
+USE_DRIVE_CACHE  = False   # False = download ~42 GB to local disk each session
+                           # (fast: HF is quick, Drive's FUSE read is not).
+                           # True only if you will run several sessions.
 BRANCH           = "v2.2.3-harness"
 
 !pip -q install -U "transformers>=4.57" accelerate diffusers safetensors bitsandbytes onnxruntime-gpu mediapipe insightface huggingface_hub scikit-image
@@ -60,10 +63,12 @@ BRANCH           = "v2.2.3-harness"
 
 import os, sys, json, time, gc, csv, subprocess
 import torch
-from google.colab import drive
-drive.mount("/content/drive", force_remount=False)
-os.environ["HF_HOME"] = "/content/drive/MyDrive/hf_cache"
-os.makedirs(os.environ["HF_HOME"], exist_ok=True)
+if USE_DRIVE_CACHE:
+    from google.colab import drive
+    drive.mount("/content/drive", force_remount=False)
+    os.environ["HF_HOME"] = "/content/drive/MyDrive/hf_cache"
+    os.makedirs(os.environ["HF_HOME"], exist_ok=True)
+print("weights cache:", os.environ.get("HF_HOME", "/content (session-local)"))
 
 if not os.path.exists("repo"):
     subprocess.run(["git", "clone", "--depth", "1", "-b", BRANCH,
