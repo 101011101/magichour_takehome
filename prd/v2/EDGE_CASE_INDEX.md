@@ -2,7 +2,7 @@
 
 Assembled 2026-08-22 to support the progression report: base klein → cropping iterations → qx (Qwen extraction) / upgraded crops → composite harness. Every entry names the pair ID, what went wrong (in the source's words where possible), and the exact evidence path. All paths relative to the repo root unless absolute.
 
-Report narrative in one line: the composite idea started as *repair the output after the fact* (`composite_v2ow`), moved to *repair the input before it is cut* (PRE beats AC), and landed as a cost-ordered cascade — 30 perfect / 7 ok / 1 fail at 2.105 gen/request vs flat BC_klein's 28/6/4 at 2.000.
+Report narrative in one line: the composite idea started as *repair the output after the fact* (`composite_v2ow`), moved to *repair the input before it is cut* (PRE beats AC), and landed as a cost-ordered cascade — **31 perfect / 7 ok / 0 fail at 2.158 gen/request** vs flat BC_klein's 28/6/4 at 2.000.
 
 ---
 
@@ -119,17 +119,19 @@ qx: 20 perfect / 17 ok / **1 fail** — lowest ceiling, highest floor → last i
 
 ## 4. Stage: composite harness (v2.2.3 — shipped) and what remains
 
-Shipped shape (`v2/build/realism_pass.py::shipped()`): hair router (`hair_over_garment ≥ 0.14` → BC_klein, else PHEAD) → VLM gate (noop check + tryon≠PERFECT + garment==FAIL) → escalate to QX → SeedVR2 ×2 noise 0. Result over 38 sets: **2.105 gen/request, 30 perfect / 7 ok / 1 fail** vs flat BC_klein 2.000 for 28/6/4. Per-set record: `v2/runs/realism/_realism.json`; final frames `v2/runs/realism/{set}__after.png`.
+Shipped shape (`v2/pipeline/harness.py`): hair router (`hair_over_garment ≥ 0.14` → BC_klein, else PHEAD) → input comparison (noop, **identity < 0.90**, degenerate) → VLM gate (tryon≠PERFECT, garment==FAIL) → escalate to QX → optional SeedVR2 ×2 noise 0. Result over 38 sets: **2.158 gen/request, 31 perfect / 7 ok / 0 fail** vs flat BC_klein 2.000 for 28/6/4. Per-set record: `v2/runs/realism/_realism.json`.
+
+**Corrected 2026-08-22:** the earlier shipped rule omitted the identity check and shipped 1 failure. See the table below.
 
 ### Remaining edge cases (the honest end of the report)
 
 | Case | Status | Evidence |
 |---|---|---|
-| **`HD_p028+dualuse_navy_peacoat_onmodel`** — the 1 shipped fail | Router chose PHEAD at hair 11.9% (just under the 14% cut); gate did not fire | `v2/runs/realism/_realism.json` (`tier: fail`), `..._after.png`; `v223_vlm_eval.html`; second near-miss `p018+p016` at 9.7% |
+| **`HD_p028+dualuse_navy_peacoat_onmodel`** — **now fixed**, was the 1 shipped fail | Router chose PHEAD at hair 11.9% (just under the 14% cut) and the VLM gate did not fire — **all five prompts passed it**, including `transfer`, which saw the person photo. The person was substituted entirely: input is a man with short auburn hair, output a woman with long dark hair. `chk_identity = 0.755` caught it; the rule did not consult identity. **Adding `identity < 0.90` closes it.** Second near-miss `p018+p016` at 9.7% hair | `v2/runs/realism/_realism.json`, `v223_vlm_eval.csv`, `v223_perfect_tier_picks.csv` |
 | 4 sets with **no perfect arm**: `dualuse_lp_beige_long_coat...+scarlett`, `dualuse_lp_floral_kimono_set+p008`, `HD_p019+p009` (all ok/ok/ok), `HD_p023+p019` (fail/fail/ok — only qx tolerable) | Ceiling of the current cascade | `v223_perfect_tier_picks.csv` |
 | `dualuse_man_black_suit...+...woman_top_denim_skirt` | The historically unsolvable set still lands non-perfect | `v2/runs/realism/_realism.json` |
-| **Deterministic gate is a coin flip** — AUC 0.506; background sub-check inverted (0.379); identity check "100% precise and useless" (1.00 on all 8 PHEAD failures) | No deterministic gate ships | `v2/artifacts/v223_gate_simulation.html`; `v2/runs/amt/_gate.json`; figure `prd/v2/v2.2/images/gate_vs_human.png`; known hole stated in `v2/build/failure_gate.py` header |
-| **VLM `artefact` prompt never fired** — CLEAN on all 114 incl. every fail: "our failures are not artefacts — they are competent photographs of the wrong thing." Only the `garment` prompt (sees the reference) works: 70.2%, 53% fail-catch | Gate is VLM `garment` + noop only | `v2/artifacts/v223_vlm_eval.html`; `v223_vlm_eval.csv` |
+| **Deterministic gate is a coin flip as a SCORER** — AUC 0.506; background sub-check inverted (0.379). ~~identity "100% precise and useless"~~ **withdrawn 2026-08-22**: that was measured at threshold 0.5; at 0.90 identity catches the one shipped failure | No deterministic *score* ships; `noop` and `identity` ship as escalation triggers | `v2/artifacts/v223_gate_simulation.html`; `v2/runs/amt/_gate.json`; figure `prd/v2/v2.2/images/gate_vs_human.png`; known hole stated in `v2/build/failure_gate.py` header |
+| **VLM `artefact` prompt never fired** — CLEAN on all 114 incl. every fail: "our failures are not artefacts — they are competent photographs of the wrong thing." Only the `garment` prompt (sees the reference) works: 70.2%, 53% fail-catch | Gate is VLM `garment` + `tryon` **plus** noop and identity | `v2/artifacts/v223_vlm_eval.html`; `v223_vlm_eval.csv` |
 | **Pairwise VLM dropped** — 34% self-consistency under image swap (reads position, not content); picked the already-failed arm 2 of 5 escalations | | `v223_vlm_pairwise.csv` |
 | Furniture in subject matte (p021/p023) | Known defect, unfixed | `prd/v2/ARCHITECTURE.md` §known defects |
 | Parity gap — every number is a fal number; nothing reproduced on downloaded weights | Standing program risk | `prd/v2/DECISIONS.md`; `v2/artifacts/v20_coverage.html`; `v2/artifacts/index.html` |

@@ -455,12 +455,19 @@ Then tested blind against the reviewer on 114 cells:
 Evidence: `images/gate_vs_human.png`, `v223_gate_simulation.html`,
 `v223_cheapest_usable.html`.
 
-**The one check that works, and why it does not help.** `identity` separates at +0.216
-and is **100% precise** at every threshold from 0.1 to 0.6 — it has never once flagged a
-frame the reviewer liked. But it fires on `BALD_raw` (12/38) and the `/O` disfiguration
-arms, and on **zero of PHEAD, BC_klein and QX**, reading exactly **1.00 on all eight
-PHEAD failures**. Those arms remove or regenerate the reference person, so identity
-substitution is the one failure they structurally cannot have.
+**The one check that works, and how far it goes.** `identity` separates at +0.216 and
+is **100% precise** at every threshold from 0.1 to 0.6 — it has never once flagged a
+frame the reviewer liked. It fires most on `BALD_raw` (12/38) and the `/O`
+disfiguration arms, which keep a head in the garment reference.
+
+> **Corrected 2026-08-22.** The original text here read *"fires on zero of PHEAD,
+> BC_klein and QX… the only check with signal is blind to every case the cascade needs
+> caught."* **That was measured at threshold 0.5, which is the wrong operating point,
+> and the conclusion was wrong.** At **0.90** identity fires exactly once across the
+> 114 cascade cells — on `HD_p028+navy_peacoat`, where the person was substituted
+> entirely, and which was **the only frame the shipped harness got wrong**. It is now
+> part of the escalation rule. Rare, precise, and not dead. The error was found by a
+> spot-check of one image, not by any of the statistics.
 
 *It had also never actually run until 2026-08-21* — AuraFace was silently disabled by a
 path mismatch (the HF snapshot puts its ONNX files at the snapshot root; insightface
@@ -477,11 +484,14 @@ later binary call at **95% / 44% / 0%** across perfect / ok / fail — perfectly
 - **The deterministic gate does not ship as a quality judge.** This is not a calibration
   problem. Pixel statistics cannot see semantic failure, and all 456 outputs are valid
   photographs — the failures are *wrong garment, wrong identity, repainted scene*.
-- **It survives as a crash guard only**, justified by production robustness rather than
-  measured value: on the 114 cells a hard floor catches 1–2 of 32 bad frames while
-  wrongly rejecting 2–4 good ones, because the set contains no crashes.
-- **Identity stays wired in as a free 100%-precision monitor** — an alert, never a spend
-  decision.
+- **Two of its five checks ship as detectors.** The composite score does not, but
+  `noop` and `identity` do, as escalation triggers. Over 114 cells the VLM caught 26
+  failures they missed and they caught **1** the VLM missed — and that one was the only
+  frame that shipped broken. A no-op and an identity swap are both *coherent
+  photographs of the wrong thing*, so a semantic judge has nothing to find; only a
+  numeric comparison against the input reveals them. They cost nothing.
+- **Recall is the wrong metric for a free check.** 7% against the VLM's 65% is not an
+  argument for dropping something that runs on CPU and makes no API call.
 - **The reseed design is dead.** Failure is a property of the **garment**, not the roll:
   a damaged reference failed on all three people it was paired with. Escalate mechanism,
   never seed.

@@ -5,9 +5,9 @@ Design: [ARCHITECTURE.md](ARCHITECTURE.md) · History: [DECISIONS.md](DECISIONS.
 
 Last updated 2026-08-22.
 
-**v2.2 is closed.** The harness is settled at 2.105 generations/request,
-30 perfect / 7 ok / 1 fail — same cost as the best single arm, a quarter of the
-failures.
+**v2.2 is closed.** The harness is settled at 2.158 generations/request,
+**31 perfect / 7 ok / 0 fail** — essentially the cost of the best single arm
+(2.000 for 28/6/4), and nothing ships broken.
 
 **v2.4 is partly closed.** The realism pass is validated end to end over harness
 output and is now **conditional** — skip if already sharp, revert if it damages

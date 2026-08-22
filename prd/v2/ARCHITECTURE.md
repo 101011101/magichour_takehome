@@ -51,9 +51,12 @@ the human parser. See §9.
                         ┌──────────────────────────────────────────┘
                         ▼
         ┌────────────────────────────────────────────┐
-        │  3. CRASH GUARD (no-op / degenerate)       │  free, CPU
-        │  4. VLM-A, two prompts on one model:       │  ~$0.0006
-        │       tryon   != PERFECT   ──┐             │
+        │  3. INPUT COMPARISON (free, CPU)           │
+        │       degenerate frame     ──┐             │
+        │       no-op vs person      ──┤             │
+        │       identity < 0.90      ──┤             │
+        │  4. VLM-A, two prompts     ──┤  ~$0.0006   │
+        │       tryon   != PERFECT   ──┤             │
         │       garment == FAIL      ──┴─► escalate  │
         └───────────────┬────────────────────────────┘
                         │
@@ -71,10 +74,10 @@ the human parser. See §9.
                       OUTPUT
 ```
 
-**Measured end to end: 2.105 generations per request. 30 perfect / 7 ok / 1 fail
+**Measured end to end: 2.158 generations per request. 31 perfect / 7 ok / 0 fail
 over 38 sets.** The comparison that matters is flat BC_klein — the strongest single
-arm — at 2.000 generations for 28 perfect / 6 ok / **4 fail**. Same cost, a quarter
-of the failures.
+arm — at 2.000 generations for 28 perfect / 6 ok / **4 fail**. Essentially the same
+cost, and **nothing ships broken**.
 
 A cheaper configuration exists and is a legitimate choice: `garment == FAIL` alone
 gives **1.737 generations, 31 / 5 / 2** — cheaper than BC_klein *and* better. The
@@ -86,8 +89,9 @@ because a shipped failure is the worst outcome the system can produce.
 |---|---|---|---|---|
 | flat BC_klein, no harness | 2.000 | 28 | 6 | 4 |
 | harness, cheap gate | 1.737 | 31 | 5 | 2 |
-| **harness, safe gate (shipped)** | **2.105** | **30** | 7 | **1** |
-| *oracle gate, upper bound* | *1.789* | *34* | *4* | *0* |
+| harness, cheap gate + identity | 1.789 | **32** | 5 | 1 |
+| **harness, safe gate (shipped)** | **2.158** | 31 | 7 | **0** |
+| *oracle gate, upper bound* | *1.526* | *32* | *6* | *0* |
 
 ---
 
@@ -283,15 +287,36 @@ A better mechanism exists if this is ever revisited: score each candidate
 *independently* and compare the scores, which has no position to be biased by. It
 reached 4/5 — better than pairwise, still worse than the trivial rule, on n = 5.
 
-### The crash guard earns its place on evidence, not just robustness
+### The input-comparison checks — not redundant with the VLM
 
-The no-op check catches `HD_p023`, where the model returned the person essentially
-unchanged. That output is a clean, plausible photograph, so **every output-only prompt
-correctly calls it clean.** Only a comparison against the person input reveals it.
+Three free checks run **before** the VLM, all comparing the output against the
+**person input**: degenerate frame, no-op, and identity.
 
-The deterministic checks and the VLM are therefore **complementary, not competing**:
-the VLM catches incoherence it can see, the no-op check catches the coherent-but-wrong
-case it cannot.
+**These are detectors, not a scorer.** The composite deterministic gate failed
+outright — AUC 0.506 against the reviewer, a coin flip — and does not ship as a
+quality judge. Two of its five checks survive because they cover a blind spot a
+semantic judge has *by construction*.
+
+Head to head over 114 cells:
+
+| instrument | fires | recall | caught **alone** |
+|---|---|---|---|
+| VLM (`garment` / `tryon`) | 59 | **65%** | 26 |
+| input comparison (no-op + identity) | 6 | 7% | **1** |
+
+The VLM is nine times the detector on recall. **But the one case the checks caught
+alone was the only frame that shipped broken** — `HD_p028+navy_peacoat`, where the
+person was replaced entirely (input: a man with short auburn hair; output: a woman
+with long dark hair). Identity read **0.755**. All five VLM prompts passed it,
+including `transfer`, which was shown the person photo and asked directly whether the
+right person was in the result.
+
+**The structural reason:** a no-op and an identity swap both produce a *competent,
+coherent photograph of the wrong thing*. There is nothing in the image for a semantic
+judge to find. Only a numeric comparison against the input reveals them.
+
+Recall is the wrong metric for deciding whether to drop a check that costs nothing.
+These run on CPU, are already loaded, and make no API call.
 
 ### The economics
 
@@ -362,18 +387,22 @@ default; the first three are the ones a caller is expected to touch.
 |---|---|---|
 | `high_resolution` | **False** | runs stage 5. ×2 output, ~$0.04, ~9 s |
 | `garment_region` | `None` | a user-named region ("just the jacket") routes straight to QX |
-| `quality` | `"safe"` | `"safe"` = 2.105 gen/req, 30/7/1 · `"cheap"` = 1.737, 31/5/2 |
+| `quality` | `"safe"` | `"safe"` = 2.158 gen/req, 31/7/0 · `"cheap"` = 1.789, 32/5/1 |
 | `hair_threshold` | `0.14` | above this the router starts at BC_klein instead of PHEAD |
+| `identity_escalate` | `0.90` | below this the output is a different person — escalate |
 | `identity_floor` | `0.90` | below this the realism pass falls back to Lanczos |
 | `vlm_model` | `Qwen3-VL-8B-Instruct` | the escalation judge |
 | `seed` | `46` | fixed so a re-run reproduces |
 
 **`quality` in full:**
 
+Both modes always run the free input-comparison checks first; `quality` selects
+only how much VLM evidence is required.
+
 | | escalates when | gen/req | perfect | ok | fail |
 |---|---|---|---|---|---|
-| `cheap` | `garment == FAIL` | 1.737 | 31 | 5 | 2 |
-| **`safe`** | `tryon != PERFECT` **or** `garment == FAIL` | **2.105** | 30 | 7 | **1** |
+| `cheap` | `garment == FAIL` | 1.789 | **32** | 5 | 1 |
+| **`safe`** | `tryon != PERFECT` **or** `garment == FAIL` | **2.158** | 31 | 7 | **0** |
 
 Both beat flat BC_klein (2.000 generations, 28/6/4). `safe` is the default because a
 shipped failure is the worst thing the system can produce; `cheap` is a legitimate
@@ -441,7 +470,7 @@ unchanged. No stage may ever emit a broken image.**
 | 5 | Router | routes 10 of 38 to BC_klein at 14% |
 | 6 | Crash guard | fires on a deliberately blacked frame; fires on a no-op |
 | 7 | VLM-A, two prompts | reproduces 70.2% on `garment` against a 62.3% baseline |
-| 8 | escalation wiring, always to QX | 2.105 gen/request, 30 / 7 / 1 |
+| 8 | escalation wiring, always to QX | 2.158 gen/request, 31 / 7 / 0 |
 | 9 | realism option | off by default; when on, no delivered frame below 0.90 identity; `noise_scale` is `0` |
 | 10 | **Self-hosted parity** | every number above, on downloaded weights |
 

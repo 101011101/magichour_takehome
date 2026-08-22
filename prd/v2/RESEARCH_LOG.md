@@ -465,3 +465,50 @@ conditional on a measured realism deficit?" Yes, and on the output as well as th
 **Next.** The end-to-end run over one assembled program, then the report. The
 self-hosted parity run remains owed and needs rented compute. v2.4's actual question —
 does anything *beat* SeedVR2, and can anything de-gloss — is untouched.
+
+---
+
+## 2026-08-22c — a one-image spot-check found the bug the statistics hid
+
+**Did.** Ray questioned a single cell in the progression grid — `HD_p028+navy_peacoat`,
+the harness's one shipped failure — on the grounds that the frame did not look like it
+could have come from the arm the record named. Checked the run record, then opened the
+person input and the shipped output side by side.
+
+**Found.** The person had been **substituted entirely**: the input is a man with short
+auburn hair in a navy peacoat, the shipped frame a woman with long dark hair. An
+earlier explanation in the same conversation had claimed "the person keeps their hair
+in every arm's output, so hair in the final frame is not evidence of a wrong pick."
+That explanation was wrong, and Ray's instinct was right.
+
+**`chk_identity` on the shipped frame reads 0.755.** The check saw it. The escalation
+rule did not consult identity.
+
+**The root error.** This log recorded on 2026-08-21 that identity "fires on zero of the
+three cascade arms." **That was measured at threshold 0.5.** At 0.90 it fires exactly
+once in 114 cells, and that once is the only frame the harness got wrong. A rare,
+precise detector was written off as dead because it was tested at the wrong operating
+point, and the conclusion propagated into four documents.
+
+**Concluded.** *Inference.* Adding `identity < 0.90` to the escalation rule takes the
+harness from **2.105 gen/request, 30 perfect / 7 ok / 1 fail** to **2.158, 31 / 7 / 0**
+— the last shipped failure removed for +0.05 generations per request. Now the default.
+
+**On whether the VLM makes the deterministic checks redundant** — asked directly, and
+the answer is no. All five VLM prompts passed the swapped-person frame, **including
+`transfer`, which was shown the person photo and asked whether the right person was in
+the result.** Head to head over 114 cells the VLM caught 26 failures the checks missed
+and the checks caught 1 the VLM missed — and that 1 was the only one that shipped. A
+no-op and an identity swap both produce a *competent, coherent photograph of the wrong
+thing*; there is nothing in the image for a semantic judge to find. **Recall is the
+wrong metric for deciding whether to drop a check that costs nothing.**
+
+**Methodological note, and the third instance of the same lesson.** Every stage of this
+pipeline has been debugged by looking, not by measuring — no-op outputs scoring
+perfectly on identity, the bald-frame garment-lost metric collapsing by construction,
+furniture in every crop. This is the fourth: an aggregate statistic (AUC 0.506) was
+correct about the composite and wrong about a component, and only a human opening one
+image caught it.
+
+**Next.** Unchanged: the end-to-end run, self-hosted parity, the `segformer_b2_clothes`
+licence, the report.

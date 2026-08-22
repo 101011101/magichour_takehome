@@ -19,9 +19,9 @@
 # | Qwen-2511 (the model on the website today) | 1.000 | — | — | — |
 # | flat klein + shipped crop | 1.000 | 23 | 5 | 10 |
 # | flat BC_klein — best single arm | 2.000 | 28 | 6 | 4 |
-# | **the harness** | **2.105** | **30** | 7 | **1** |
+# | **the harness** | **2.158** | **31** | 7 | **0** |
 #
-# Same cost as the best single arm, **a quarter of the failures**.
+# Essentially the cost of the best single arm, and **nothing ships broken**.
 #
 # Design and rationale: `prd/v2/ARCHITECTURE.md`. What was tried and discarded:
 # `prd/v2/DECISIONS.md`. What is left: `prd/v2/TODO.md`.
@@ -54,7 +54,9 @@ print("pipeline imported")
 #                         |
 #   3. GENERATE           FLUX.2 klein 4B distilled
 #                         |
-#   4. SCREEN             crash guard (no-op / degenerate), then the VLM:
+#   4. SCREEN             free checks against the PERSON INPUT, then the VLM:
+#                           degenerate / no-op   --> escalate
+#                           identity < 0.90      --> escalate   (wrong person)
 #                           garment == FAIL      --> escalate
 #                           tryon  != PERFECT    --> escalate   (safe mode only)
 #                         escalation always lands on QX (+2 gen)
@@ -76,6 +78,9 @@ print("pipeline imported")
 # 3. **Escalation always lands on QX.** A pairwise "which is better" call measured
 #    34% self-consistency under image swap and picked the already-failed arm 2 times
 #    in 5. Taking QX unconditionally scores 5/5.
+# 4. **The VLM does not replace the free input-comparison checks.** Over 114 cells the
+#    VLM caught 26 failures they missed and they caught 1 the VLM missed -- and that
+#    one was the only frame that shipped broken. Section 5b measures this.
 
 # %% [markdown]
 # ## 2. Configuration
@@ -90,8 +95,10 @@ for f in ("high_resolution", "garment_region", "quality", "hair_threshold",
     print(f"  {f:18} {getattr(cfg, f)!r}")
 
 print("\nquality modes:")
-print("  cheap  escalate on  garment == FAIL                     1.737 gen  31/5/2")
-print("  safe   escalate on  garment == FAIL or tryon != PERFECT 2.105 gen  30/7/1")
+print("  both modes always run the free input-comparison checks first;")
+print("  quality selects only how much VLM evidence is required.\n")
+print("  cheap  + garment == FAIL                     1.789 gen  32/5/1")
+print("  safe   + garment == FAIL or tryon != PERFECT 2.158 gen  31/7/0")
 print("\nA caller wanting a high-resolution result:")
 print(" ", HarnessConfig(high_resolution=True, quality="safe"))
 
@@ -105,7 +112,7 @@ from pipeline import harness, masks, checks, vlm, upscale, arms   # noqa: E402
 status = [
     ("config + validation",        "WIRED",   "pipeline/config.py"),
     ("router: hair over garment",  "WIRED",   "pipeline/harness.py:hair_over_garment"),
-    ("crash guard",                "WIRED",   "pipeline/checks.py -> build/failure_gate.py"),
+    ("input comparison",           "WIRED",   "pipeline/harness.py:input_comparison"),
     ("VLM screen (2 prompts)",      "WIRED",   "pipeline/vlm.py"),
     ("realism + Lanczos fallback", "WIRED",   "pipeline/upscale.py"),
     ("arm generation",             "NOT YET", "pipeline/arms.py -- see below"),
@@ -142,6 +149,7 @@ E = list(csv.DictReader(open(f"{REPO}/v223_vlm_eval.csv")))
 tier = {(r["set_id"], r["arm"]): r["tier"] for r in T}
 hair = {r["set_id"]: float(r["hair_over_garment"]) for r in T}
 noop = {(r["set_id"], r["arm"]): float(r["chk_noop"]) for r in T}
+ident = {(r["set_id"], r["arm"]): float(r["chk_identity"]) for r in T}
 V = {(r["set_id"], r["arm"], r["prompt"]): r["vlm_verdict"] for r in E}
 sets = sorted(hair)
 first = {k: ("BC_klein" if hair[k] >= 0.14 else "PHEAD") for k in sets}
@@ -171,10 +179,13 @@ print(f"  {'always BC_klein (best single arm)':34}{2.0:8.3f}"
       f"{sum(tier[(k,'BC_klein')]=='ok' for k in sets):5d}"
       f"{sum(tier[(k,'BC_klein')]=='fail' for k in sets):6d}{0:6d}")
 row("router only, no gate", lambda k, a: False)
-row("harness, cheap", lambda k, a: V.get((k, a, "garment")) == "FAIL")
-row("harness, SAFE (shipped)",
-    lambda k, a: noop[(k, a)] < 0.5 or V.get((k, a, "garment")) == "FAIL"
-    or V.get((k, a, "tryon")) != "PERFECT")
+row("harness, VLM-only safe gate", lambda k, a: noop[(k, a)] < 0.5
+    or V.get((k, a, "garment")) == "FAIL" or V.get((k, a, "tryon")) != "PERFECT")
+row("harness, cheap + identity",
+    lambda k, a: V.get((k, a, "garment")) == "FAIL" or ident[(k, a)] < 0.90)
+row("harness, SAFE + identity (SHIPPED)",
+    lambda k, a: noop[(k, a)] < 0.5 or ident[(k, a)] < 0.90
+    or V.get((k, a, "garment")) == "FAIL" or V.get((k, a, "tryon")) != "PERFECT")
 row("oracle gate (upper bound)", lambda k, a: tier[(k, a)] == "fail")
 
 # %% [markdown]
@@ -209,6 +220,38 @@ The artefact prompt returned CLEAN on all 114 outputs and never fired once,
 including on every frame marked fail. These failures are not artefacts: they are
 competent photographs of the wrong thing -- a plausible but different garment, or
 the input returned unchanged. That is also why pixel statistics could not see them.""")
+
+# %% [markdown]
+# ## 5b. Why the free checks stay, even though the VLM is the better instrument
+#
+# Found by a spot-check of one image, not by any statistic. `HD_p028+navy_peacoat`
+# shipped with the person **substituted entirely** — the input is a man with short
+# auburn hair, the output a woman with long dark hair.
+
+# %%
+SID = "HD_p028+dualuse_navy_peacoat_onmodel"
+print("all five VLM prompts on that frame (human tier: fail):")
+for r in E:
+    if r["set_id"] == SID and r["arm"] == "PHEAD":
+        print(f"    {r['prompt']:10} -> {r['vlm_verdict']}")
+print(f"    deterministic identity = {ident[(SID,'PHEAD')]}   <- the only signal that fired")
+print("\n  `transfer` SEES the person image and was asked directly. It said OK.\n")
+
+cells = list(tier)
+vf = lambda k: V.get((k[0], k[1], "garment")) == "FAIL" or V.get((k[0], k[1], "tryon")) != "PERFECT"
+df = lambda k: noop[k] < 0.5 or ident[k] < 0.90
+bad = [k for k in cells if tier[k] != "perfect"]
+print(f"  {'instrument':30}{'fires':>7}{'recall':>8}{'alone':>7}")
+for nm, f, other in (("VLM (garment/tryon)", vf, df), ("no-op + identity", df, vf)):
+    tp = sum(1 for k in cells if f(k) and tier[k] != "perfect")
+    print(f"  {nm:30}{sum(1 for k in cells if f(k)):7d}{tp/len(bad):8.0%}"
+          f"{sum(1 for k in bad if f(k) and not other(k)):7d}")
+print("""
+The VLM is nine times the detector on recall. The one case the free checks caught
+alone was the only frame that shipped broken. A no-op and an identity swap both
+produce a competent, coherent photograph of the wrong thing -- there is nothing in
+the image for a semantic judge to find. Recall is the wrong metric for deciding
+whether to drop a check that costs nothing.""")
 
 # %% [markdown]
 # ## 6. The realism option

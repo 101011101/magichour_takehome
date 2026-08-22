@@ -36,6 +36,16 @@ class HarnessConfig:
     """Below this AuraFace cosine the realism pass is discarded in favour of a
     deterministic Lanczos upscale. Removes all 7 of the frames the pass damaged."""
 
+    identity_escalate: float = 0.90
+    """Escalate when the output's face no longer matches the person input.
+
+    Fires on 1 of 114 measured cells -- and that one is the only frame that
+    shipped broken. All five VLM prompts passed it, including the one that was
+    shown the person photo and asked whether the right person was in the result.
+    An identity swap produces a competent, coherent photograph; there is nothing
+    in it for a semantic judge to find. Only a numeric comparison against the
+    input reveals it. Costs nothing: CPU, already loaded, no API call."""
+
     noop_floor: float = 0.50
     """Crash guard. Below this the output is near-identical to the person input,
     i.e. no transfer happened. Catches a failure class every output-only VLM prompt

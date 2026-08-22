@@ -8,7 +8,7 @@ Pipeline, in order:
     1  preprocess the garment reference   BiRefNet + SegFormer/ATR + MediaPipe Pose
     2  route                              hair-over-garment -> PHEAD or BC_klein
     3  generate                           klein 4B distilled
-    4  screen                             crash guard, then the VLM
+    4  screen                             input comparison, then the VLM
        escalate                           -> QX, take QX unconditionally
     5  realism (optional)                 SeedVR2 x2, Lanczos fallback
 
@@ -22,6 +22,10 @@ Design decisions that are load-bearing and easy to undo by accident:
   * Escalation always lands on QX. A pairwise "which is better" VLM call was built
     and measured at 34% self-consistency under image swap; it picked the already
     failed arm 2 times in 5. Taking QX unconditionally scores 5/5.
+  * The deterministic checks are NOT redundant with the VLM. Over 114 cells the
+    VLM caught 26 failures the checks missed, the checks caught 1 the VLM missed --
+    and that 1 was the only frame that shipped broken. Identity swaps and no-ops are
+    coherent photographs of the wrong thing; a semantic judge has nothing to find.
   * Every stage passes its input through unchanged if it cannot do its job. No
     stage may emit a broken image.
 
@@ -85,19 +89,33 @@ def route(garment_path, cfg):
 # --------------------------------------------------------------------------
 # stage 4: the screen
 # --------------------------------------------------------------------------
-def crash_guard(out_path, person_path, cfg):
-    """Deterministic. Catches degenerate frames and no-ops only.
+def input_comparison(out_path, person_path, cfg):
+    """Deterministic checks against the PERSON INPUT. Runs before the VLM.
 
-    Not a quality judge -- measured at AUC 0.506 against the reviewer, which is a
-    coin flip. It earns its place on one specific class: a no-op is a clean,
-    plausible photograph of the wrong thing, so every output-only VLM prompt
-    correctly calls it clean. Only a comparison against the person input reveals it.
+    The composite deterministic gate failed as a scorer -- AUC 0.506 against the
+    reviewer, a coin flip -- but two of its five checks survive as detectors:
+    precise, very low recall, and covering exactly the blind spot a semantic judge
+    has by construction.
+
+    Both catch the same shape of failure: an output that is a competent, coherent
+    photograph of the WRONG THING. A no-op is the person unchanged; an identity swap
+    is a different person entirely. Neither looks broken, so every output-only VLM
+    prompt correctly calls them clean -- and on the one measured identity swap, so
+    did the prompt that was shown the person photo and asked directly. Only a
+    numeric comparison against the input reveals them.
+
+    Recall is 7% against the VLM's 65%. That is not the point: over 114 cells these
+    checks caught exactly one thing the VLM did not, and it was the only frame that
+    shipped broken. They cost nothing -- CPU, already loaded, no API call.
     """
-    from . import checks
+    from . import checks, upscale
     if checks.degenerate(out_path):
         return True, "degenerate frame"
     if checks.noop(out_path, person_path) < cfg.noop_floor:
         return True, "no-op: output is the person input unchanged"
+    cos = upscale.identity_cos(person_path, out_path)
+    if cos is not None and cos < cfg.identity_escalate:
+        return True, f"identity {cos:.3f} < {cfg.identity_escalate}: wrong person"
     return False, ""
 
 
@@ -166,7 +184,7 @@ def run(person_path, garment_path, cfg=None):
     res.log(f"{arm} produced {os.path.basename(out)}")
 
     if arm != QX:
-        fired, reason = crash_guard(out, person_path, cfg)
+        fired, reason = input_comparison(out, person_path, cfg)
         if not fired:
             fired, reason = vlm_screen(out, garment_path, cfg)
         if fired:

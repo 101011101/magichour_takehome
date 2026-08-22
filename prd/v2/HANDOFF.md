@@ -140,7 +140,8 @@ hair over garment >= ~14%?        ──yes──►  BC_klein  (2 gen)
                     v
                  PHEAD  (1 gen)
                     |
-   crash guard (no-op / degenerate)         ──┐
+   no-op / degenerate vs person input       ──┐
+   identity < 0.90  (wrong person)          ──┤
    VLM-A  tryon != PERFECT                  ──┤
    VLM-A  garment == FAIL                   ──┴─► QX (+2 gen), take QX
                     |clean
@@ -150,10 +151,10 @@ hair over garment >= ~14%?        ──yes──►  BC_klein  (2 gen)
                               revert if identity < 0.90
 ```
 
-**2.105 generations/request. 30 perfect / 7 ok / 1 fail over 38 sets.** Flat
-BC_klein, the best single arm, is 2.000 for 28/6/4 — **same cost, a quarter of the
-failures.** A cheaper gate (`garment == FAIL` alone) gives 1.737 for 31/5/2 and beats
-BC_klein on both axes; safe was chosen deliberately.
+**2.158 generations/request. 31 perfect / 7 ok / 0 fail over 38 sets.** Flat
+BC_klein, the best single arm, is 2.000 for 28/6/4 — essentially the same cost, and
+**nothing ships broken**. A cheaper gate (`garment == FAIL` + identity) gives 1.789
+for 32/5/1; safe was chosen deliberately.
 
 **The three things the VLM evaluation established:**
 
@@ -165,10 +166,18 @@ BC_klein on both axes; safe was chosen deliberately.
    exactly on it. Counter-intuitively, adding the *person* image as well made it worse.
 3. **No pairwise selection call.** 34% self-consistency under image swap; picked the
    already-failed arm 2 of 5 times. Always take QX.
+4. **The VLM does not replace the free input-comparison checks.** Over 114 cells the
+   VLM caught 26 failures they missed and they caught **1** the VLM missed — and that
+   one was the only frame that shipped broken. Identity swaps and no-ops are coherent
+   photographs of the wrong thing, so a semantic judge has nothing to find.
 
-**Also corrected:** the crash guard is not merely a robustness measure. Its no-op check
-catches `HD_p023` — the person returned unchanged, a clean photograph every output-only
-prompt correctly calls clean. Deterministic checks and the VLM are complementary.
+**Corrected twice, same direction.** The deterministic checks were first justified on
+robustness alone (wrong: the no-op check catches `HD_p023`), then identity was written
+off as useless on the cascade arms — **measured at threshold 0.5, which was the wrong
+operating point.** At 0.90 it fires once in 114 cells, on the one frame that shipped
+broken. Both corrections say the same thing: the checks are precise low-recall
+detectors for the blind spot a semantic judge has by construction, and they cost
+nothing.
 
 **Caveat:** the model hedges (331 of 570 verdicts `OK`, only 49 `FAIL`), which caps
 recall at 51%. Binary forced-choice prompts and fp16 instead of 4-bit are both untried.

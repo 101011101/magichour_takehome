@@ -912,12 +912,17 @@ outputs looks, at first, like a success:
 Identity alone, at any threshold from 0.1 to 0.6, is **100% precise** — it has never
 once flagged a frame the reviewer liked — at 18–24% recall.
 
-**And it is useless here, for a structural reason.** It fires on `BALD_raw` (12/38)
-and the D\*O disfiguration arms (4, 7, 3 of 38) — every one of which leaves a head in
-the garment reference. It fires on **zero of PHEAD, BC_klein and QX**, and reads
-exactly **1.00 on all eight PHEAD failures**. Those three arms remove or regenerate
-the reference person, so identity substitution is the one failure they *cannot* have.
-The only check with signal is blind to every case the cascade needs caught.
+**It has very low recall on the cascade arms** — it fires on `BALD_raw` (12/38) and
+the D\*O disfiguration arms (4, 7, 3 of 38), every one of which leaves a head in the
+garment reference, and at a 0.5 threshold on **none** of PHEAD, BC_klein or QX.
+
+> **Corrected 2026-08-22.** This section originally concluded from that
+> that identity was *useless* on the cascade arms. **That was measured at threshold
+> 0.5 and the conclusion was wrong.** At **0.90** identity fires exactly once across
+> all 114 cells — on `HD_p028+navy_peacoat`, where the person was replaced entirely
+> and which was **the only frame that shipped broken**. It is a rare but precise
+> detector, not a dead check, and it is now part of the escalation rule. See
+> [The absolute re-mark](#the-absolute-re-mark-and-what-ships-2026-08-21) below.
 
 ### The direct test — 114 cells, judged blind
 
@@ -1060,14 +1065,19 @@ scored *below* `garment`. At 8B, three images appear to dilute attention.
 
 #### What ships
 
-Escalate if **`tryon != PERFECT` or `garment == FAIL`**, always to QX:
+Escalate if **any** of: `noop < 0.5`, **`identity < 0.90`**, `garment == FAIL`,
+`tryon != PERFECT`. Always to QX.
 
 | configuration | gen/req | perfect | ok | fail |
 |---|---|---|---|---|
 | flat BC_klein, no harness | 2.000 | 28 | 6 | 4 |
 | harness, `garment == FAIL` only | 1.737 | 31 | 5 | 2 |
-| **harness, safe gate (shipped)** | **2.105** | **30** | 7 | **1** |
-| *oracle gate* | *1.789* | *34* | *4* | *0* |
+| harness, VLM-only safe gate | 2.105 | 30 | 7 | 1 |
+| harness, cheap gate + identity | 1.789 | **32** | 5 | 1 |
+| **harness, safe gate + identity (shipped)** | **2.158** | 31 | 7 | **0** |
+| *oracle gate* | *1.526* | *32* | *6* | *0* |
+
+**Nothing ships broken**, at essentially the cost of the best single arm.
 
 At the same cost as the best single arm, the harness ships **a quarter of the
 failures**. The cheaper gate is also defensible — it beats BC_klein on both axes — and
@@ -1085,13 +1095,31 @@ Scoring each candidate *independently* and comparing — which has no position t
 biased by — reached 4/5. Structurally the better mechanism, still beaten by the trivial
 rule, on n = 5. Recorded for whoever revisits it.
 
-#### The crash guard has measured justification after all
+#### The deterministic checks are not redundant — corrected twice
 
-Recorded as a correction: this document previously justified the deterministic checks
-on production robustness alone. The **no-op check catches `HD_p023`**, where the model
-returned the person essentially unchanged — a clean, plausible photograph that *every*
-output-only prompt correctly calls clean. The two instruments are **complementary**:
-the VLM sees incoherence, the no-op check sees the coherent-but-wrong case.
+This document has understated them twice, and both corrections point the same way.
+
+**First correction.** They were justified on production robustness alone. But the
+**no-op check catches `HD_p023`**, where the model returned the person essentially
+unchanged — a clean, plausible photograph that *every* output-only prompt correctly
+calls clean.
+
+**Second correction (2026-08-22), found by spot-check.** Identity was written off as
+useless on the cascade arms. That was measured at threshold 0.5. At **0.90** it fires
+once in 114 cells — on `HD_p028+navy_peacoat`, the person swapped entirely (input: a
+man with short auburn hair; output: a woman with long dark hair), identity **0.755**
+— and that was **the one frame the harness shipped broken**. All five VLM prompts
+passed it, including `transfer`, which saw the person photo and was asked directly.
+
+| instrument | fires | recall | caught **alone** |
+|---|---|---|---|
+| VLM (`garment` / `tryon`) | 59 | 65% | 26 |
+| no-op + identity | 6 | 7% | **1 — the shipped failure** |
+
+**The structural point, now made twice:** a no-op and an identity swap both produce a
+*competent, coherent photograph of the wrong thing*. There is nothing in the image for
+a semantic judge to find; only a numeric comparison against the input reveals it.
+Recall is the wrong metric for deciding whether to drop a check that costs nothing.
 
 #### The hair router, checked against the outcome
 
