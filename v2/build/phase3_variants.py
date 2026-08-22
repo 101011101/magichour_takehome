@@ -171,7 +171,7 @@ def masks(bgr, stem, cranium=False):
         # only adds what lies OUTSIDE the skull (long hair over the shoulders)
         # proper tool first; the pose ellipse and the face-anchored band survive
         # only as fallbacks for when the parser is unavailable or finds nothing
-        pc = parser_classes(bgr, subject)
+        pc = parser_classes(bgr, subject, clothes=p[G.CLOTHES])
         if pc is not None:
             # the parser supersedes the 256x256 selfie map for ALL THREE roles, so
             # head/garment/skin come from one consistent labelling
@@ -377,36 +377,75 @@ ATR = {"head": (1, 2, 3, 11),                    # hat, hair, sunglasses, face
        "skin": (12, 13, 14, 15)}                 # legs, arms
 _HP = {}
 
+# Which parser backend. SCHP is the default because the SegFormer one is
+# NON-COMMERCIAL: mattmdjaga/segformer_b2_clothes sets `license: other` pointing at
+# the NVLabs SegFormer LICENSE, whose section 3.3 restricts the Work and any
+# derivative works to "research or evaluation purposes only". The weights derive
+# from NVIDIA's MiT-B2 backbone so the restriction propagates, and every
+# SegFormer-lineage parser on HF inherits it -- including fashn-ai/fashn-human-parser.
+# Third-party re-uploads tagging those weights mit/apache-2.0 are mislabels.
+#
+# SCHP (Self-Correction Human Parsing) is MIT (c) 2020 Peike Li, ResNet-101 backbone,
+# no NVIDIA lineage, and emits the SAME 18 ATR classes -- so ATR below, the pose
+# bound and the nose-connected-component rule are all unchanged.
+#
+# Set PARSER=segformer to compare against the incumbent; the numbers in
+# prd/v2/v2.2/RESULTS.md were measured on it.
+PARSER = os.environ.get("PARSER", "schp")
+
+# SCHP normalises BGR with ImageNet statistics in BGR order, which is what the
+# original repo does and looks reversed if you expect RGB.
+_SCHP_MEAN = np.array([0.406, 0.456, 0.485], np.float32)
+_SCHP_STD = np.array([0.225, 0.224, 0.229], np.float32)
+
 
 def _parser():
+    """The parsing backend, or None. Cached."""
     if "m" in _HP:
         return _HP["m"]
+    os.environ.setdefault("HF_HOME", os.path.join(REPO, "v2", "runs", ".models", "hf"))
     try:
-        os.environ.setdefault("HF_HOME", os.path.join(REPO, "v2", "runs", ".models", "hf"))
-        import torch
-        from transformers import SegformerImageProcessor, AutoModelForSemanticSegmentation
-        name = "mattmdjaga/segformer_b2_clothes"
-        _HP["proc"] = SegformerImageProcessor.from_pretrained(name)
-        m = AutoModelForSemanticSegmentation.from_pretrained(name)
-        m.eval()
-        _HP["m"] = m
-        _HP["torch"] = torch
+        if PARSER == "schp":
+            import onnxruntime as ort
+            from huggingface_hub import hf_hub_download
+            _HP["m"] = ort.InferenceSession(
+                hf_hub_download("basso4/humanparsing", "parsing_atr.onnx"),
+                providers=["CPUExecutionProvider"])
+            _HP["in"] = _HP["m"].get_inputs()[0].name
+        else:
+            import torch
+            from transformers import (SegformerImageProcessor,
+                                      AutoModelForSemanticSegmentation)
+            name = "mattmdjaga/segformer_b2_clothes"
+            _HP["proc"] = SegformerImageProcessor.from_pretrained(name)
+            m = AutoModelForSemanticSegmentation.from_pretrained(name)
+            m.eval()
+            _HP["m"] = m
+            _HP["torch"] = torch
     except Exception as e:
-        print(f"  human parser unavailable ({str(e)[:70]})")
+        print(f"  human parser ({PARSER}) unavailable ({str(e)[:70]})")
         _HP["m"] = None
     return _HP["m"]
 
 
 def parse_human(bgr):
-    """ATR class map at full resolution, or None."""
+    """ATR class map at full resolution, or None. Identical 18-class output from
+    either backend, so everything downstream is backend-agnostic."""
     m = _parser()
     if m is None:
         return None
+    h, w = bgr.shape[:2]
+    if PARSER == "schp":
+        x = cv2.resize(bgr, (512, 512), interpolation=cv2.INTER_LINEAR)
+        x = ((x.astype(np.float32) / 255.0 - _SCHP_MEAN) / _SCHP_STD)
+        o = m.run(None, {_HP["in"]: x.transpose(2, 0, 1)[None]})[0][0]   # 18x128x128
+        up = np.stack([cv2.resize(c, (w, h), interpolation=cv2.INTER_LINEAR) for c in o])
+        return up.argmax(0).astype(np.uint8)
     torch = _HP["torch"]
     rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
     with torch.no_grad():
         o = m(**_HP["proc"](images=rgb, return_tensors="pt")).logits
-    up = torch.nn.functional.interpolate(o, size=bgr.shape[:2], mode="bilinear",
+    up = torch.nn.functional.interpolate(o, size=(h, w), mode="bilinear",
                                          align_corners=False)
     return up.argmax(1)[0].numpy().astype(np.uint8)
 
@@ -430,7 +469,7 @@ def _neck_line(bgr):
     return ear_y + (sh_y - ear_y) * 0.72, nose
 
 
-def parser_classes(bgr, subject):
+def parser_classes(bgr, subject, clothes=None):
     """head / garment / skin, ALL from the parser. Returns None if unavailable.
 
     Taking all three from one model matters. A first version took head from the
@@ -458,6 +497,19 @@ def parser_classes(bgr, subject):
             # SHAPE (the scalp boundary, which no heuristic could get), and POSE
             # supplies the EXTENT (where a head stops). Then the component containing
             # the nose is kept, so any disconnected skin blob elsewhere is dropped.
+            # A raised COLLAR is a clothes region that a parser can read as head:
+            # measured on p019, SCHP labels 99.1% of the collar `face` where
+            # SegFormer labels 99.6% of it garment, and the collar sits ABOVE the
+            # neck line so the pose bound does not reach it. Retuning that bound
+            # trades p019 against p021 -- the same one-reference-for-another
+            # signature that ended the geometric era -- so instead each model does
+            # only what it is good at: the parser supplies the head SHAPE, pose the
+            # EXTENT, and MediaPipe's clothes class vetoes anything it is confident
+            # is garment. Set HEAD_CLOTHES_GUARD=0 to disable.
+            if (clothes is not None
+                    and os.environ.get("HEAD_CLOTHES_GUARD", "1") != "0"):
+                m = m & (clothes < 0.5)
+
             nl = _neck_line(bgr)
             if nl is not None:
                 cut, nose = nl

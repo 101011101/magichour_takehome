@@ -65,7 +65,35 @@ Parity means *equivalent quality and the same harness decision*, **not** pixel
 equality — different schedulers and precisions will never reproduce a diffusion
 output exactly, and chasing that would be a category error.
 
-### 3. Licence — verified, and **deferred by decision** (Ray, 2026-08-22)
+### 3. Licence — verified, blocker **resolved** (2026-08-22)
+
+**The parser was swapped.** `mattmdjaga/segformer_b2_clothes` (non-commercial) is
+replaced by **SCHP ATR** (`basso4/humanparsing/parsing_atr.onnx`, upstream MIT
+© 2020 Peike Li, ResNet-101, no NVIDIA lineage), which emits the **same 18 ATR
+classes** so nothing downstream changed.
+
+**Verified equivalent, so the 38-set numbers transfer.** Crop IoU against the
+SegFormer references over 10 hard cases: **mean 0.999, worst 0.998.**
+
+One regression was found and fixed. SCHP labelled 99.1% of p019's raised **collar**
+as head where SegFormer labelled 99.6% of it garment, costing 7.2% of the crop —
+and the collar sits *above* the pose neck line, so the existing bound did not reach
+it. Retuning that bound traded p019 against p021, the same
+one-reference-for-another signature that ended the geometric era. The fix instead
+follows the principle already in the code — *each model does only what it is good
+at*: the parser supplies the head **shape**, pose the **extent**, and **MediaPipe's
+clothes class vetoes** anything it is confident is garment. p019 went 0.927 → 0.999
+with no other reference moving. `HEAD_CLOTHES_GUARD=0` disables it;
+`PARSER=segformer` restores the incumbent for comparison.
+
+**Still owed:** regenerate the 22 garment references under the new parser and
+re-run the 38 sets, so the published numbers are measured on the shipped parser
+rather than inherited on an equivalence argument. At IoU 0.999 the outcome should
+not move — but *should not* is not *did not*.
+
+#### The original finding, retained
+
+
 
 **Everything clears except one, and that one is a hard blocker for production —
 but not for anything we are doing between now and the report.**

@@ -100,7 +100,7 @@ because a shipped failure is the worst outcome the system can produce.
 | # | component | checkpoint | licence | where | cost |
 |---|---|---|---|---|---|
 | 1 | subject matte | **BiRefNet_lite**, 1024², 224MB ONNX | MIT | CPU | free |
-| 1 | human parser | **`mattmdjaga/segformer_b2_clothes`** (SegFormer-B2 / ATR, 18 classes) | **UNVERIFIED** | CPU | free |
+| 1 | human parser | **SCHP ATR** (`basso4/humanparsing`, `parsing_atr.onnx`) | **MIT** (upstream SCHP) | CPU | free |
 | 1 | pose | **MediaPipe Pose Landmarker lite**, 5.8MB | Apache-2.0 | CPU | free |
 | 3 | editing base | **FLUX.2 klein 4B distilled** | commercial-OK (9B is not) | GPU | ~$0.015 / gen |
 | 3 | extractor | **Qwen-Image-Edit-2511** | Apache-2.0 | GPU | ~$0.015 / gen |
