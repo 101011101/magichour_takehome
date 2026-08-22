@@ -65,11 +65,56 @@ Parity means *equivalent quality and the same harness decision*, **not** pixel
 equality — different schedulers and precisions will never reproduce a diffusion
 output exactly, and chasing that would be a category error.
 
-### 3. Licence verification
+### 3. Licence — verified, and **deferred by decision** (Ray, 2026-08-22)
 
-- **`mattmdjaga/segformer_b2_clothes`** — head detection depends on it, currently
-  unverified and **not cleared for deploy**. This one can block shipping.
-- **Qwen3-VL-8B** — expected Apache-2.0, unconfirmed against the model card.
+**Everything clears except one, and that one is a hard blocker for production —
+but not for anything we are doing between now and the report.**
+
+| model | licence | deploy |
+|---|---|---|
+| **FLUX.2 klein 4B** (what we use) | **Apache-2.0** | yes |
+| *klein 9B* | flux-non-commercial | no — the split is real |
+| Qwen3-VL-8B · Qwen-Image-Edit-2511 · SeedVR2 · AuraFace · MediaPipe Pose | Apache-2.0 | yes |
+| BiRefNet_lite | MIT (upstream repo) | yes |
+| **`mattmdjaga/segformer_b2_clothes`** | **`other` → NVLabs SegFormer** | **NO** |
+
+**The blocker, verified directly against the licence text.** The card sets
+`license: other` and links to the NVLabs SegFormer LICENSE, §3.3 of which reads:
+*"The Work and any derivative works thereof only may be used or intended for use
+**non-commercially**… NVIDIA and its affiliates may use the Work and any derivative
+works commercially."* Non-commercial is defined as *"research or evaluation purposes
+only."* The weights derive from NVIDIA's MiT-B2 backbone, so it propagates.
+
+**We had the risk backwards.** The dataset (ATR) was the suspected problem; it is
+permissive-ish, requiring only citation and explicitly naming commercial research.
+The *model* licence is the binding constraint and it was on the card all along.
+
+**Why deferring is safe.** The licence permits *research or evaluation*, which is
+exactly what every run, the report, and any internal review are. **Nothing before
+production deploy is affected.**
+
+**The trigger:** swap before the pipeline runs on real user requests. Not before.
+
+**The replacement is same-shape and already identified.** SCHP (Self-Correction
+Human Parsing), ATR checkpoint — verified **MIT, © 2020 Peike Li**, ResNet-101
+backbone, no NVIDIA lineage, **same 18 ATR classes**. The `ATR` class grouping and
+the pose-bounded / nose-component head rule need no rework. ~66M params against
+27.4M. Roughly a day: load, then verify against p021, p028, p016, p009, p023.
+
+**Two traps to remember when it is picked up:**
+
+1. `fashn-ai/fashn-human-parser` is **also blocked** (`license_name:
+   nvidia-segformer`). Every SegFormer-lineage parser inherits this, and third-party
+   re-uploads tagging those weights `mit` or `apache-2.0` are **mislabels, not
+   relicensings**.
+2. `MnLgt/yolo-human-parse` has Apache weights but runs on **AGPL-3.0** ultralytics —
+   normally a non-starter in a hosted product.
+
+**One latent trap worth a CI assertion now**, unrelated to the above: insightface's
+*code* is MIT but its pretrained packs (`buffalo_l`, `antelopev2`) are
+non-commercial. The repo correctly points `FaceAnalysis` at AuraFace, but a bare
+`FaceAnalysis()` anywhere, or any path that lets insightface auto-download, silently
+pulls NC weights. Assert that no `models/buffalo_*` ever appears in the cache.
 
 ### 4. The V2 report
 

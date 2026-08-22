@@ -294,7 +294,9 @@ AuraFace. See `v2/runs/.models/PURGEABLE.md`.
 `fal_client`, `matplotlib`. Note the venv is Python 3.9 and several scripts are run as
 `.venv/bin/python`, not bare `python3`.
 
-**Costs so far:** ≈ $19.6 fal across the whole of V2, ≈ $9 of that in phase 3.
+**Costs so far:** ≈ $21.2 fal across the whole of V2 — ≈ $9 in v2.2.1 phase 3,
+$1.56 on the realism pass, and under $0.05 on VLM smoke tests. The VLM evaluation
+itself cost nothing (free Colab T4).
 
 ---
 
@@ -305,5 +307,11 @@ and V2's entire premise is open weights in the deploy path. Nothing has been ver
 on downloaded weights end to end. Of all outstanding work this is the one most likely
 to matter in review — see `prd/v2/V2.x_DIRECTIONS.md` direction 6.
 
-Also unverified: the licence and training-data terms of
-`mattmdjaga/segformer_b2_clothes`, which the current head detection depends on.
+**Licence: verified 2026-08-22, one blocker, deferred by decision.**
+`mattmdjaga/segformer_b2_clothes` is **non-commercial** — `license: other` pointing at
+the NVLabs SegFormer licence, §3.3, which the MiT-B2 backbone propagates. It permits
+*research or evaluation*, so it blocks **production deploy only** and nothing before
+it. Replacement identified and same-shape: **SCHP ATR checkpoint, MIT, same 18
+classes**. Everything else in the deploy path clears, provided klein stays on **4B**
+(the 9B is non-commercial) and insightface never downloads its own model packs. Full
+detail and the traps: [`TODO.md`](TODO.md) §3.
