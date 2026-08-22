@@ -27,9 +27,27 @@
 # Expect ~10 min for the weight download and ~15-25 min for 456 inferences.
 
 # %%
-# 1. Dependencies. bitsandbytes gives 4-bit loading; qwen-vl-utils handles the
-#    image preprocessing Qwen's processor expects.
-!pip -q install -U "transformers>=4.57" accelerate bitsandbytes qwen-vl-utils pillow
+# 1. Dependencies.
+#
+# Do NOT upgrade pillow. Colab ships a working copy, and pip upgrading over it
+# leaves a mixed install -- a new ImageText.py against an old _typing.py -- which
+# fails as "cannot import name '_Ink' from 'PIL._typing'" the moment transformers
+# touches PIL. qwen-vl-utils is not needed either: PIL Images are passed straight
+# to the processor below.
+!pip -q install -U "transformers>=4.57" accelerate bitsandbytes
+
+# If a previous run already broke PIL, repair it and stop so the runtime can be
+# restarted. Python caches the broken module, so reinstalling alone is not enough.
+import subprocess, sys as _s
+try:
+    import PIL, PIL.Image
+    if hasattr(PIL, "__version__"):
+        from PIL import ImageText  # noqa: F401  (only present on newer Pillow)
+except Exception:
+    subprocess.run([_s.executable, "-m", "pip", "install", "-q",
+                    "--force-reinstall", "--no-cache-dir", "pillow"], check=False)
+    raise SystemExit("PIL repaired. Now: Runtime > Restart session, "
+                     "then run this cell again.")
 
 import torch, sys
 print("torch", torch.__version__, "| cuda", torch.cuda.is_available())
