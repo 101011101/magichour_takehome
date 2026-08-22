@@ -109,10 +109,20 @@ print("loaded", MODEL)
 # | `usable` | output only | perfect / ok / fail |
 # | `tryon` | output only | task-aware, three-tier |
 # | `garment` | output **+ garment reference** | did the right garment transfer? |
+# | `transfer` | output **+ person + garment** | the full production input |
 #
-# `garment` is the interesting one: a wrong-garment error is not knowable from
-# the output alone, so if only that variant works it tells us VLM-A needs the
-# reference image as input.
+# The last two exist because two of the five real first-arm failures are
+# invisible to the first three, for structural reasons:
+#
+# - **wrong garment** — a plausible but different garment. Not knowable from the
+#   output alone; needs the reference. `garment` covers it.
+# - **no transfer** — the model returned the person essentially unchanged. This
+#   is a perfectly coherent photograph of the wrong thing, so every
+#   output-only prompt will correctly call it CLEAN. Only the person image
+#   reveals it. `transfer` covers it.
+#
+# If the cheap output-only prompts match the expensive three-image one, VLM-A
+# ships with one image. If not, the architecture needs all three as input.
 
 # %%
 SYS = "You are a strict quality inspector for a virtual try-on system. Answer only as instructed."
@@ -143,6 +153,17 @@ PROMPTS = {
    "FAIL - any of the three clearly broken.\n"
    "Answer with exactly one word: PERFECT, OK, or FAIL.")),
 
+ "transfer": dict(refs="both", labels=["PERFECT", "OK", "FAIL"], text=(
+   "Three images. FIRST: the original photo of a person. SECOND: a garment "
+   "reference. THIRD: an AI attempt to put that garment onto that person.\n"
+   "Judge the third image:\n"
+   "FAIL - the person's clothing did not actually change, or the garment is not "
+   "the one in the second image, or the person is not the one in the first image, "
+   "or the result is visibly broken.\n"
+   "OK - the right garment is on the right person, but with a visible flaw.\n"
+   "PERFECT - correct garment, correct person, clean result, scene intact.\n"
+   "Answer with exactly one word: PERFECT, OK, or FAIL.")),
+
  "garment": dict(refs=True, labels=["PERFECT", "OK", "FAIL"], text=(
    "The FIRST image is a garment reference. The SECOND image is a virtual "
    "try-on result that was supposed to put that garment onto a person.\n"
@@ -168,11 +189,16 @@ from PIL import Image
 RESULTS = "vlm_raw.json"
 done = json.load(open(RESULTS)) if os.path.exists(RESULTS) else {}
 
-def ask(spec, out_path, ref_path):
+def _im(p):
+    return {"type": "image", "image": Image.open(p).convert("RGB")}
+
+def ask(spec, out_path, ref_path, person_path=None):
     content = []
-    if spec["refs"] and isinstance(ref_path, str) and ref_path:
-        content.append({"type": "image", "image": Image.open(ref_path).convert("RGB")})
-    content.append({"type": "image", "image": Image.open(out_path).convert("RGB")})
+    if spec["refs"] == "both":                    # person, then garment, then result
+        content += [_im(person_path), _im(ref_path)]
+    elif spec["refs"]:
+        content.append(_im(ref_path))
+    content.append(_im(out_path))
     content.append({"type": "text", "text": spec["text"]})
     msgs = [{"role": "system", "content": [{"type": "text", "text": SYS}]},
             {"role": "user", "content": content}]
@@ -195,10 +221,13 @@ print(f"{len(todo)} inferences to run ({len(done)} already done)")
 
 for n, (pid, i) in enumerate(todo, 1):
     row, spec = M.iloc[i], PROMPTS[pid]
-    if spec["refs"] and not isinstance(row.garment_ref, str):
-        continue
+    need = [row.garment_ref] if spec["refs"] else []
+    if spec["refs"] == "both":
+        need.append(row.person_ref)
+    if any(not isinstance(x, str) or not x for x in need):
+        continue                                   # source image missing, skip
     try:
-        lab, raw = ask(spec, row.output, row.garment_ref)
+        lab, raw = ask(spec, row.output, row.garment_ref, row.person_ref)
     except Exception as e:
         lab, raw = "ERROR", f"{type(e).__name__}: {e}"[:120]
     done[f"{pid}|{row.output}"] = {"prompt": pid, "verdict": lab, "raw": raw}
@@ -268,7 +297,105 @@ for pid in PROMPTS:
     if len(s):
         print(f"\n[{pid}]"); print(pd.crosstab(s.human_tier, s.vlm_verdict))
 
+# %% [markdown]
+# ## 8. VLM-B — the selection call
+#
+# The second VLM in the harness. It fires only after an escalation, and answers a
+# different, easier question: **given two candidates, which is better?** Forced
+# choice with both images in hand, rather than an absolute judgement.
+#
+# Its only job is to not actively pick wrong. On the labelled data QX is at least
+# as good as the first arm on every escalated set, so a competent judge cannot
+# lose here — which makes this a test for *harm*, not for gain.
+#
+# **Both orderings are run for every pair.** VLM pairwise judging has a known
+# position bias; if the verdict flips when the images swap, the model is reading
+# order rather than content, and agreement between the two runs is the real
+# measure of confidence.
+
 # %%
-# 8. Download. Send v223_vlm_eval.csv back to the repo root.
+FIRST_ARM = lambda hair: "BC_klein" if float(hair) >= 0.14 else "PHEAD"
+RANK = {"perfect": 0, "ok": 1, "fail": 2}
+
+by_set = {}
+for i in range(len(M)):
+    r = M.iloc[i]
+    by_set.setdefault(r.set_id, {})[r.arm] = r
+
+pairs = []
+for sid, arms in by_set.items():
+    fa = FIRST_ARM(list(arms.values())[0].hair_over_garment)
+    if fa not in arms or "QX_qwen_p1" not in arms:
+        continue
+    a, b = arms[fa], arms["QX_qwen_p1"]
+    # ground truth from the tiers; None where the reviewer rated them equal
+    truth = ("A" if RANK[a.tier] < RANK[b.tier] else
+             "B" if RANK[b.tier] < RANK[a.tier] else None)
+    pairs.append(dict(set_id=sid, first_arm=fa, a=a.output, b=b.output,
+                      a_tier=a.tier, b_tier=b.tier, truth=truth,
+                      escalates=a.tier == "fail"))
+print(f"{len(pairs)} pairs | {sum(p['escalates'] for p in pairs)} would actually escalate "
+      f"| {sum(p['truth'] is not None for p in pairs)} have a strict winner")
+
+PAIR_PROMPT = (
+ "Two virtual try-on results for the same request, labelled IMAGE 1 and IMAGE 2.\n"
+ "Which is the better result? Consider whether the person is undistorted, whether "
+ "the garment sits on the body plausibly, and whether the scene is intact.\n"
+ "Answer with exactly one word: ONE or TWO.")
+
+def compare(p1, p2):
+    msgs = [{"role": "system", "content": [{"type": "text", "text": SYS}]},
+            {"role": "user", "content": [_im(p1), _im(p2),
+                                         {"type": "text", "text": PAIR_PROMPT}]}]
+    inputs = processor.apply_chat_template(
+        msgs, tokenize=True, add_generation_prompt=True,
+        return_dict=True, return_tensors="pt").to(model.device)
+    with torch.inference_mode():
+        gen = model.generate(**inputs, max_new_tokens=6, do_sample=False)
+    t = processor.decode(gen[0][inputs["input_ids"].shape[1]:],
+                         skip_special_tokens=True).strip().upper()
+    if re.search(r"\bONE\b|\b1\b", t):
+        return "first", t
+    if re.search(r"\bTWO\b|\b2\b", t):
+        return "second", t
+    return "UNPARSED", t
+
+PB = "vlm_pairwise.json"
+pb = json.load(open(PB)) if os.path.exists(PB) else {}
+t0 = time.time()
+for n, pr in enumerate(pairs, 1):
+    if pr["set_id"] in pb:
+        continue
+    try:
+        # order 1: first-arm shown as IMAGE 1.  order 2: swapped.
+        s1, r1 = compare(pr["a"], pr["b"])
+        s2, r2 = compare(pr["b"], pr["a"])
+        pick1 = {"first": "A", "second": "B"}.get(s1, "UNPARSED")
+        pick2 = {"first": "B", "second": "A"}.get(s2, "UNPARSED")
+    except Exception as e:
+        pick1 = pick2 = "ERROR"; r1 = r2 = f"{type(e).__name__}: {e}"[:100]
+    pb[pr["set_id"]] = dict(pr, pick_ab=pick1, pick_ba=pick2,
+                            consistent=pick1 == pick2, raw=[r1, r2])
+    if n % 10 == 0 or n == len(pairs):
+        json.dump(pb, open(PB, "w"))
+        print(f"  {n}/{len(pairs)}  {(time.time()-t0)/n:.1f}s/pair")
+json.dump(pb, open(PB, "w"))
+
+pdf = pd.DataFrame(pb.values())
+pdf.to_csv("v223_vlm_pairwise.csv", index=False)
+cons = pdf.consistent.mean()
+scored = pdf[pdf.truth.notna()]
+agree = (scored.pick_ab == scored.truth).mean() if len(scored) else float("nan")
+esc = scored[scored.escalates]
+print(f"\nposition-bias consistency (same answer both orders): {cons:.0%}")
+print(f"agrees with the reviewer on the {len(scored)} pairs with a strict winner: {agree:.0%}")
+if len(esc):
+    harm = int((esc.pick_ab == "A").sum())   # picking the arm that already failed
+    print(f"on the {len(esc)} that actually escalate: picks the FAILED arm {harm} time(s)"
+          f"  <- this is the number that matters; it should be 0")
+
+# %%
+# 9. Download. Send both CSVs back to the repo root.
 from google.colab import files
 files.download("v223_vlm_eval.csv")
+files.download("v223_vlm_pairwise.csv")

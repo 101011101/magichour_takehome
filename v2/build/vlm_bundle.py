@@ -26,28 +26,33 @@ def build():
                 continue
             z.write(src, f"outputs/{gen}")
 
-            # the garment reference travels too, so a prompt can be tested both
-            # blind (output only, which is what VLM-A sees in production) and
-            # garment-aware (which is the only way to catch a wrong-garment error)
-            ref = ""
-            p = meta.get(r["garment"])
-            if p and os.path.exists(p):
-                ref = "refs/" + os.path.basename(p)
-                if ref not in seen:
-                    z.write(p, ref)
-                    seen[ref] = 1
+            # Both source images travel. The garment reference is the only way to
+            # catch a wrong-garment error; the person photo is the only way to catch
+            # a no-op, which is a perfectly coherent photograph of the wrong thing
+            # and therefore invisible to any prompt that sees the output alone.
+            def stash(stem, folder):
+                sp = meta.get(stem)
+                if not sp or not os.path.exists(sp):
+                    return ""
+                rel = f"{folder}/" + os.path.basename(sp)
+                if rel not in seen:
+                    z.write(sp, rel)
+                    seen[rel] = 1
+                return rel
 
             manifest.append({"set_id": r["set_id"], "arm": r["arm"],
                              "tier": r["tier"], "condition": r["condition"],
-                             "output": f"outputs/{gen}", "garment_ref": ref,
+                             "output": f"outputs/{gen}",
+                             "garment_ref": stash(r["garment"], "refs"),
+                             "person_ref": stash(r["person"], "person"),
                              "hair_over_garment": r["hair_over_garment"],
                              "det_gate_score": r["gate_score"]})
 
-        buf = ["set_id,arm,tier,condition,output,garment_ref,hair_over_garment,det_gate_score"]
+        COLS = ("set_id", "arm", "tier", "condition", "output", "garment_ref",
+                "person_ref", "hair_over_garment", "det_gate_score")
+        buf = [",".join(COLS)]
         for m in manifest:
-            buf.append(",".join('"' + str(m[k]).replace('"', '""') + '"' for k in
-                                ("set_id", "arm", "tier", "condition", "output",
-                                 "garment_ref", "hair_over_garment", "det_gate_score")))
+            buf.append(",".join('"' + str(m[k]).replace('"', '""') + '"' for k in COLS))
         z.writestr("manifest.csv", "\n".join(buf))
     return OUT, len(manifest), len(seen), os.path.getsize(OUT)
 
