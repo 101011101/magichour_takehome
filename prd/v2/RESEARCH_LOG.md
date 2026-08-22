@@ -271,6 +271,10 @@ re-graded all 456 AMT outputs with identity live, then built
 `v2/artifacts/v223_cheapest_usable.html` and had the three cascade arms judged blind,
 usable or not, 114 cells.
 
+> **Superseded in part by the 2026-08-22c entry below.** The claim that identity is
+> "useless to us" was measured at threshold 0.5 and is wrong; at 0.90 it catches the
+> one frame that shipped broken. Everything else in this entry stands.
+
 **Found.** Identity is a genuinely good check — 100% precision at every threshold
 from 0.1 to 0.6, never once flagging a frame the reviewer liked — and it is useless
 to us. It fires on `BALD_raw` and the D\*O arms, all of which keep a head in the
@@ -398,8 +402,9 @@ output-only prompt correctly calls clean. The deterministic checks and the VLM a
 **complementary**, not competing.
 
 **Shipped configuration**, on Ray's call to take the safer of two: escalate if
-`tryon != PERFECT` **or** `garment == FAIL`, always to QX. **2.105 generations/request,
-30 perfect / 7 ok / 1 fail**, against flat BC_klein at 2.000 for 28/6/4 — same cost, a
+`tryon != PERFECT` **or** `garment == FAIL`, always to QX. *(Superseded 2026-08-22c —
+`identity < 0.90` was added, giving 2.158 gen/request and 31/7/0.)* **2.105
+generations/request, 30 perfect / 7 ok / 1 fail**, against flat BC_klein at 2.000 for 28/6/4 — same cost, a
 quarter of the failures. The cheaper gate (`garment == FAIL` alone, 1.737 gen, 31/5/2)
 beats BC_klein on both axes and remains defensible.
 

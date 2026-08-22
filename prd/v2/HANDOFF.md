@@ -111,18 +111,21 @@ against the reviewer on 114 cells (`v2/artifacts/v223_cheapest_usable.html`).
 | Best agreement at any threshold | 71.1% |
 | Agreement from accepting every frame unchecked | **71.9%** |
 
-**Identity ran and is excellent — at the wrong thing.** 100% precision at every
-threshold 0.1–0.6, and it fires on **zero of PHEAD, BC_klein and QX**, reading 1.00
-on all eight PHEAD failures. It only fires on `BALD_raw` and the D\*O arms, which keep
-a head in the reference. The cascade arms remove the reference person, so identity
-substitution is the one failure they cannot have.
+**Identity ran and is excellent, and its recall is very low.** 100% precision at every
+threshold. It fires most on `BALD_raw` and the D\*O arms, which keep a head in the
+reference.
+
+> ~~It fires on zero of PHEAD, BC_klein and QX.~~ **Withdrawn 2026-08-22** — that was
+> measured at threshold **0.5**. At **0.90** it fires once in 114 cells, on the frame
+> that shipped broken, and it is now part of the escalation rule.
 
 **The control that makes it conclusive:** Ray's earlier AMT tier predicts his later
 binary call at 95% / 44% / 0% across perfect / ok / fail. The target is stable; the
 instrument is the problem. Charts: `prd/v2/v2.2/images/gate_vs_human.png`.
 
-**Decisions taken.** The binary gate does not ship. Identity stays wired in as a free
-100%-precision monitor, never a spend decision. The router stays deferred on a second
+**Decisions taken.** The binary gate does not ship **as a scorer**. Identity and the
+no-op check ship as **escalation triggers** (corrected 2026-08-22 — they were first
+recorded as monitors only). The router stays deferred on a second
 ground — it is only worth building on a gate that catches its mistakes. **QX moves to
 slot 2**: of PHEAD's 13 unusable sets QX rescues 11, BC_klein 6 (both PHEAD and
 BC_klein subtract and share a failure mode), 1.789 gen/request vs 2.053.

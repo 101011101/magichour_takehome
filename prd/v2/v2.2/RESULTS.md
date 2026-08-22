@@ -1151,8 +1151,11 @@ inference was used for the smoke test only; the graded run is the checkpoint its
 **The deterministic gate does not ship as a quality judge.** It survives only as a
 crash guard for the deploy path — a black frame, a truncated response — justified by
 production robustness, not by measured value, since this test set contains no crashes.
-Identity stays wired in as a free 100%-precision monitor, an alert rather than a spend
-decision.
+~~Identity stays wired in as a free 100%-precision monitor, an alert rather than a
+spend decision.~~ **Corrected 2026-08-22:** identity and the no-op check ship as
+**escalation triggers**, not monitors. They are the only signals that catch a
+*coherent photograph of the wrong thing*, and adding identity removed the last shipped
+failure.
 
 **The router ships**, reversing its earlier deferral. That deferral rested on a
 four-feature z-summed candidate at ~75% fitted accuracy, and on the argument that a

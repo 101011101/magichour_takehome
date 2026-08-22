@@ -148,7 +148,7 @@ Shipped shape (`v2/pipeline/harness.py`): hair router (`hair_over_garment ≥ 0.
 5. **Basic crop vs upgraded on a hard garment** — `HD_p023`: control/PHEAD fail (gate 0.148 on BC_klein) → **QX rescue perfect**. `v2/runs/amt/gen/HD_p023__{control,PHEAD,BC_klein,QX_qwen_p1}.jpg`.
 6. **qx drift as the counter-example** — p030 pattern ×0.23 or p009 hue 88°: `v2/runs/acab/p030__QX_qwen_p1.jpg` vs `p030__CTRL.jpg` — why qx is the escalation, not the default.
 7. **The residual** — `HD_p028+dualuse_navy_peacoat_onmodel` shipped fail: `v2/runs/realism/HD_p028+dualuse_navy_peacoat_onmodel__after.png`; and `p018+p014` white-on-white, still only solved by C4.
-8. **Final composite** — figure `prd/v2/v2.2/images/harness_v223.png` + the 30/7/1 vs 28/6/4 table from `prd/v2/ARCHITECTURE.md` §2.
+8. **Final composite** — figure `prd/v2/v2.2/images/harness_v223.png` + the 31/7/0 vs 28/6/4 table from `prd/v2/ARCHITECTURE.md` §2.
 
 ---
 
