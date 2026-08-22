@@ -63,9 +63,9 @@ the human parser. See §9.
                         └────────────────┬───────────────────┘
                                          ▼
         ┌────────────────────────────────────────────┐
-        │  5. REALISM PASS — conditional             │  ~$0.04, ~76% of requests
-        │     skip if already sharp                  │
-        │     revert if it damages the face          │
+        │  5. REALISM PASS — OFF by default          │  ~$0.04 when on
+        │     runs only when high_resolution=True    │
+        │     falls back to Lanczos if it harms      │
         └────────────────┬───────────────────────────┘
                          ▼
                       OUTPUT
@@ -310,50 +310,74 @@ bought; a cheap opinion is.
 requests/month with headroom, at roughly $300–600/month — about $0.0003 per call, which
 is what the argument above assumes.
 
-## 7. Stage 5 — realism, conditional
+## 7. Stage 5 — realism, an option rather than a stage
+
+**This stage is OFF by default.** It exists to serve one request — *give me a
+high-resolution image* — and it is exposed as a configuration flag, not as an
+automatic quality decision.
 
 **SeedVR2, ×2 upscale, `noise_scale = 0`.** Note `0`, not fal's default `0.1`: the
 default is measurably worse on both fidelity (4.88 vs 5.00) and identity (0.892 vs
-0.943).
-
-SeedVR2 accepts **no text input**. It restores and upscales; it does not repair
-artefacts and it does not remove gloss.
-
-**The resolution increase is a clear, visible improvement** — 832×1248 → 1664×2496 —
-which is why the stage is in the pipeline. But run unconditionally it cost identity on
-7 of 38 frames, with a worst case of **0.772**, inside the range that got Z-Image Turbo
-eliminated in v2.1. So it is gated on both sides:
+0.943). SeedVR2 accepts **no text input** — it restores and upscales; it does not
+repair artefacts and it does not remove gloss.
 
 ```
-if hf_before(frame) >= 2.5:              # already sharp: nothing to restore
-    skip
+if not cfg.high_resolution:
+    ship the frame as-is                    # the default path, zero cost
 else:
     out = seedvr2(frame, factor=2, noise_scale=0)
-    if identity_cos(out, frame) < 0.90:  # it damaged the face
-        keep the original                # free, deterministic, CPU
-    else:
-        ship out
+    if identity_cos(out, frame) < 0.90:     # it damaged the face
+        out = lanczos_x2(frame)             # deterministic upscale instead
+    ship out
 ```
 
-| policy | calls | mean identity | worst | below 0.90 | sharpening kept |
+**Why the fallback is an upscale and not a revert.** The caller asked for resolution.
+Handing back the original frame fails the request; a deterministic Lanczos ×2 still
+delivers the resolution with zero generative risk. The identity floor decides *how* to
+upscale, never *whether* to.
+
+**Why the floor is needed at all.** Run unconditionally over the 38 shipped frames the
+pass cost identity on **7 of them, worst 0.772** — inside the range that eliminated
+Z-Image Turbo in v2.1, where this same configuration measured 0.943. The floor removes
+all seven.
+
+**The tell is free.** The frames that lose identity are the frames SeedVR2 *failed to
+sharpen*: where `hf_ratio < 1.0`, mean identity is 0.891 against 0.941 elsewhere, and
+`corr(hf_ratio, identity) = +0.512`. The failure announces itself, so a post-hoc check
+is sufficient and no predictive model is required.
+
+*Superseded:* an earlier design skipped the pass when the input was already sharp
+(`hf_before >= 2.5`), which cut calls 24%. That gate assumed the stage ran
+automatically. With the pass exposed as an explicit option the caller has already
+decided they want resolution, so an automatic skip would deny the request. The
+measurement stands and is kept in [v2.4/RESULTS.md](v2.4/RESULTS.md); the gate does not
+ship.
+
+## 7b. Configuration
+
+The whole harness is driven by one config object. Everything below has a measured
+default; the first three are the ones a caller is expected to touch.
+
+| option | default | effect |
+|---|---|---|
+| `high_resolution` | **False** | runs stage 5. ×2 output, ~$0.04, ~9 s |
+| `garment_region` | `None` | a user-named region ("just the jacket") routes straight to QX |
+| `quality` | `"safe"` | `"safe"` = 2.105 gen/req, 30/7/1 · `"cheap"` = 1.737, 31/5/2 |
+| `hair_threshold` | `0.14` | above this the router starts at BC_klein instead of PHEAD |
+| `identity_floor` | `0.90` | below this the realism pass falls back to Lanczos |
+| `vlm_model` | `Qwen3-VL-8B-Instruct` | the escalation judge |
+| `seed` | `46` | fixed so a re-run reproduces |
+
+**`quality` in full:**
+
+| | escalates when | gen/req | perfect | ok | fail |
 |---|---|---|---|---|---|
-| always run | 38/38 | 0.933 | 0.772 | **7** | 1.121 |
-| **skip-if-sharp + revert (shipped)** | **29/38** | **0.971** | **0.922** | **0** | **1.110** |
+| `cheap` | `garment == FAIL` | 1.737 | 31 | 5 | 2 |
+| **`safe`** | `tryon != PERFECT` **or** `garment == FAIL` | **2.105** | 30 | 7 | **1** |
 
-**24% fewer calls, no frame below 0.90 identity, and essentially all of the benefit.**
-
-**Why a post-hoc check works.** The frames that lose identity are the frames SeedVR2
-*failed to sharpen* — where `hf_ratio < 1.0`, mean identity is 0.891 against 0.941
-elsewhere, and `corr(hf_ratio, identity) = +0.512`. One signal covers both problems:
-when the pass works it is safe, and when it fails it announces itself.
-
-**Revert, never retry.** SeedVR2 takes a seed but accepts no prompt, and the failure is
-a property of the frame rather than the roll — the same reasoning that killed reseeding
-at the escalation stage. Falling back to the original frame is the correct response.
-
-Both checks are free: one high-frequency measure and one AuraFace cosine, both already
-in the pipeline. Full detail and the policy comparison:
-[v2.4/RESULTS.md](v2.4/RESULTS.md).
+Both beat flat BC_klein (2.000 generations, 28/6/4). `safe` is the default because a
+shipped failure is the worst thing the system can produce; `cheap` is a legitimate
+choice for a caller who would rather pay less and accept one more.
 
 ## 8. What not to build
 
@@ -418,7 +442,7 @@ unchanged. No stage may ever emit a broken image.**
 | 6 | Crash guard | fires on a deliberately blacked frame; fires on a no-op |
 | 7 | VLM-A, two prompts | reproduces 70.2% on `garment` against a 62.3% baseline |
 | 8 | escalation wiring, always to QX | 2.105 gen/request, 30 / 7 / 1 |
-| 9 | SeedVR2 pass, conditional | 29 of 38 frames run; no delivered frame below 0.90 identity; `noise_scale` is `0` |
+| 9 | realism option | off by default; when on, no delivered frame below 0.90 identity; `noise_scale` is `0` |
 | 10 | **Self-hosted parity** | every number above, on downloaded weights |
 
 **Judge by eye at every step.** Three separate times in this project an instrument said

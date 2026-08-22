@@ -1,0 +1,296 @@
+<!doctype html><meta charset="utf-8">
+<title>V2 progression grid — mock</title>
+<style>
+:root{--bg:#0d0d10;--fg:#e8e8ea;--dim:#8a8a94;--line:#26262c;--acc:#7c5cff;
+ --good:#3fb950;--mid:#d29922;--bad:#f85149}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:14px/1.55 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:26px 30px 16px;border-bottom:1px solid var(--line)}
+h1{margin:0 0 6px;font-size:20px}
+h2{margin:34px 30px 4px;font-size:16px}
+.sub{color:var(--dim);max-width:96ch}
+.sec-sub{color:var(--dim);margin:0 30px 14px;max-width:96ch;font-size:13px}
+.gridwrap{margin:0 30px 10px;border:1px solid var(--line);border-radius:10px;
+ overflow-x:auto}
+.grid{display:grid;gap:0;width:max-content}
+.hcell,.rcell,.cell{padding:8px 10px;border-bottom:1px solid var(--line);
+ border-right:1px solid var(--line)}
+.hcell{position:sticky;top:0;background:#141419;z-index:3;font-size:12px;
+ font-weight:600;min-height:64px}
+.hcell .hn{color:var(--dim);font-weight:400;font-size:11px;display:block;margin-top:2px}
+.rcell{position:sticky;left:0;background:#141419;z-index:2;width:190px;font-size:12px}
+.rcell b{font-size:12.5px;word-break:break-word}
+.rcell .rn{color:var(--dim);font-size:11px;display:block;margin-top:4px}
+.corner{position:sticky;left:0;top:0;z-index:4;background:#141419}
+.cell{background:var(--bg)}
+.cell img{width:150px;background:#fff;border-radius:4px;display:block;cursor:zoom-in}
+.cell .miss{width:150px;height:150px;display:flex;align-items:center;justify-content:center;
+ color:#3a3a44;font-size:20px;border:1px dashed var(--line);border-radius:4px}
+.badge{display:inline-block;font-size:10.5px;font-weight:600;border-radius:9px;
+ padding:0 7px;margin-top:5px}
+.badge.perfect{color:#06210d;background:var(--good)}
+.badge.ok{color:#241a00;background:var(--mid)}
+.badge.fail{color:#2a0505;background:var(--bad)}
+.badge.info{color:var(--dim);background:#1b1b22;border:1px solid var(--line)}
+footer{color:var(--dim);font-size:12px;padding:20px 30px 40px}
+#lb{position:fixed;inset:0;background:#000000f2;display:none;z-index:50;
+ align-items:center;justify-content:center;flex-direction:column;gap:12px}
+#lb img{max-width:94vw;max-height:84vh;background:#fff;border-radius:6px}
+#lb .cap{color:var(--dim);font-size:13px}
+</style>
+<header>
+<h1>V2 progression grid</h1>
+<div class="sub">Mock for the report. Three grids, one per era: rows are inputs,
+columns are iteration stages in the order they were tried. Read left to right to
+watch each design decision land; the row notes say what was broken. Click any
+image to zoom. Stage history: prd/v2/v2.2/EXPERIMENT.md; case index:
+prd/v2/EDGE_CASE_INDEX.md.</div>
+</header>
+
+<h2>1 &middot; The garment reference — crop iterations</h2>
+<div class="sec-sub">C1&rarr;C4 are the v2.2.1 ladder (crop_screen). The fringe
+column makes the C3.1 defect visible. OC5 is the recorded dead end. PRE2, PHEAD,
+BC_klein and QX are the repairs that replaced patching. The last three columns
+are the arms the shipped cascade actually chooses between.</div>
+<div class="gridwrap"><div class="grid" style="grid-template-columns:190px repeat(12,170px)">
+<div class="hcell corner"></div>
+<div class="hcell">original<span class="hn">the worn reference as shot</span></div>
+<div class="hcell">C1 bbox<span class="hn">control - background untouched</span></div>
+<div class="hcell">C2 no-bg<span class="hn">wearer kept - solved 45%</span></div>
+<div class="hcell">C3.2 keep hair<span class="hn">gender flips; white space read as cloth - 45%</span></div>
+<div class="hcell">C3.1 no face<span class="hn">shipped v2.2.1 - 75%, but the head cut eats garment</span></div>
+<div class="hcell">fringe exposed<span class="hn">hair pixels that survive the cut, highlighted</span></div>
+<div class="hcell">C4 clothes only<span class="hn">hands punch holes through the garment</span></div>
+<div class="hcell">OC5 over-crop<span class="hn">dead end - radius inverse to the defect</span></div>
+<div class="hcell">PRE2 repair first<span class="hn">bald the photo, then crop - damage never exists</span></div>
+<div class="hcell">PHEAD parser<span class="hn">SegFormer head removal, deterministic</span></div>
+<div class="hcell">BC_klein bald-crop<span class="hn">klein bald pass, then subtraction</span></div>
+<div class="hcell">QX qwen extract<span class="hn">regenerates the garment - drift risk</span></div>
+<div class="rcell"><b>p021</b><span class="rn">worst hair damage: 19.5% of garment lost; chair counted as subject</span></div>
+<div class="cell"><img loading="lazy" src="../../test_set/people/p021.jpg" data-cap="p021 - original"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p021__c1_bbox.jpg" data-cap="p021 - C1"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p021__c2_bbox_nobg.jpg" data-cap="p021 - C2"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p021__c32_no_face_keep_hair.jpg" data-cap="p021 - C3.2"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p021__c3_no_face.jpg" data-cap="p021 - C3.1"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p021__FRINGE.jpg" data-cap="p021 - fringe"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p021__c4_clothes_only.jpg" data-cap="p021 - C4"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p021__OC5.jpg" data-cap="p021 - OC5"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p021__PRE2.jpg" data-cap="p021 - PRE2"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/p021__PHEAD.jpg" data-cap="p021 - PHEAD"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/p021__BC_klein.jpg" data-cap="p021 - BC_klein"></div>
+<div class="cell"><img loading="lazy" src="../runs/acab/p021__QX_qwen_p1.jpg" data-cap="p021 - QX"></div>
+<div class="rcell"><b>p023</b><span class="rn">16.9% lost; stool in the matte; BC_klein&#x27;s only failures</span></div>
+<div class="cell"><img loading="lazy" src="../../test_set/people/p023.jpg" data-cap="p023 - original"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p023__c1_bbox.jpg" data-cap="p023 - C1"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p023__c2_bbox_nobg.jpg" data-cap="p023 - C2"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p023__c32_no_face_keep_hair.jpg" data-cap="p023 - C3.2"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p023__c3_no_face.jpg" data-cap="p023 - C3.1"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p023__FRINGE.jpg" data-cap="p023 - fringe"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p023__c4_clothes_only.jpg" data-cap="p023 - C4"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p023__OC5.jpg" data-cap="p023 - OC5"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p023__PRE2.jpg" data-cap="p023 - PRE2"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/p023__PHEAD.jpg" data-cap="p023 - PHEAD"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/p023__BC_klein.jpg" data-cap="p023 - BC_klein"></div>
+<div class="cell"><img loading="lazy" src="../runs/acab/p023__QX_qwen_p1.jpg" data-cap="p023 - QX"></div>
+<div class="rcell"><b>dualuse_woman_top_denim_skirt_nonceleb</b><span class="rn">17.0% lost; garment source of the one set no crop solved</span></div>
+<div class="cell"><img loading="lazy" src="../runs/ts2/inputs/dualuse_woman_top_denim_skirt_nonceleb.jpg" data-cap="dualuse_woman_top_denim_skirt_nonceleb - original"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/dualuse_woman_top_denim_skirt_nonceleb__c1_bbox.jpg" data-cap="dualuse_woman_top_denim_skirt_nonceleb - C1"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/dualuse_woman_top_denim_skirt_nonceleb__c2_bbox_nobg.jpg" data-cap="dualuse_woman_top_denim_skirt_nonceleb - C2"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/dualuse_woman_top_denim_skirt_nonceleb__c32_no_face_keep_hair.jpg" data-cap="dualuse_woman_top_denim_skirt_nonceleb - C3.2"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/dualuse_woman_top_denim_skirt_nonceleb__c3_no_face.jpg" data-cap="dualuse_woman_top_denim_skirt_nonceleb - C3.1"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__FRINGE.jpg" data-cap="dualuse_woman_top_denim_skirt_nonceleb - fringe"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/dualuse_woman_top_denim_skirt_nonceleb__c4_clothes_only.jpg" data-cap="dualuse_woman_top_denim_skirt_nonceleb - C4"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__OC5.jpg" data-cap="dualuse_woman_top_denim_skirt_nonceleb - OC5"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/dualuse_woman_top_denim_skirt_nonceleb__PRE2.jpg" data-cap="dualuse_woman_top_denim_skirt_nonceleb - PRE2"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/dualuse_woman_top_denim_skirt_nonceleb__PHEAD.jpg" data-cap="dualuse_woman_top_denim_skirt_nonceleb - PHEAD"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/dualuse_woman_top_denim_skirt_nonceleb__BC_klein.jpg" data-cap="dualuse_woman_top_denim_skirt_nonceleb - BC_klein"></div>
+<div class="cell"><img loading="lazy" src="../runs/acab/dualuse_woman_top_denim_skirt_nonceleb__QX_qwen_p1.jpg" data-cap="dualuse_woman_top_denim_skirt_nonceleb - QX"></div>
+<div class="rcell"><b>dualuse_zendaya_white_blazer_skirt</b><span class="rn">14.4% lost yet fine everywhere - damage % is non-monotonic</span></div>
+<div class="cell"><img loading="lazy" src="../runs/ts2/inputs/dualuse_zendaya_white_blazer_skirt.jpg" data-cap="dualuse_zendaya_white_blazer_skirt - original"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/dualuse_zendaya_white_blazer_skirt__c1_bbox.jpg" data-cap="dualuse_zendaya_white_blazer_skirt - C1"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/dualuse_zendaya_white_blazer_skirt__c2_bbox_nobg.jpg" data-cap="dualuse_zendaya_white_blazer_skirt - C2"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/dualuse_zendaya_white_blazer_skirt__c32_no_face_keep_hair.jpg" data-cap="dualuse_zendaya_white_blazer_skirt - C3.2"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/dualuse_zendaya_white_blazer_skirt__c3_no_face.jpg" data-cap="dualuse_zendaya_white_blazer_skirt - C3.1"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/dualuse_zendaya_white_blazer_skirt__FRINGE.jpg" data-cap="dualuse_zendaya_white_blazer_skirt - fringe"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/dualuse_zendaya_white_blazer_skirt__c4_clothes_only.jpg" data-cap="dualuse_zendaya_white_blazer_skirt - C4"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/dualuse_zendaya_white_blazer_skirt__OC5.jpg" data-cap="dualuse_zendaya_white_blazer_skirt - OC5"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/dualuse_zendaya_white_blazer_skirt__PRE2.jpg" data-cap="dualuse_zendaya_white_blazer_skirt - PRE2"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/dualuse_zendaya_white_blazer_skirt__PHEAD.jpg" data-cap="dualuse_zendaya_white_blazer_skirt - PHEAD"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/dualuse_zendaya_white_blazer_skirt__BC_klein.jpg" data-cap="dualuse_zendaya_white_blazer_skirt - BC_klein"></div>
+<div class="cell"><img loading="lazy" src="../runs/acab/dualuse_zendaya_white_blazer_skirt__QX_qwen_p1.jpg" data-cap="dualuse_zendaya_white_blazer_skirt - QX"></div>
+<div class="rcell"><b>p016</b><span class="rn">hard crop fail (mask 1.4%); worst fringe 4.69%; ears 9px apart</span></div>
+<div class="cell"><img loading="lazy" src="../../test_set/people/p016.jpg" data-cap="p016 - original"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p016__c1_bbox.jpg" data-cap="p016 - C1"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p016__c2_bbox_nobg.jpg" data-cap="p016 - C2"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p016__c32_no_face_keep_hair.jpg" data-cap="p016 - C3.2"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p016__c3_no_face.jpg" data-cap="p016 - C3.1"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p016__FRINGE.jpg" data-cap="p016 - fringe"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p016__c4_clothes_only.jpg" data-cap="p016 - C4"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p016__OC5.jpg" data-cap="p016 - OC5"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p016__PRE2.jpg" data-cap="p016 - PRE2"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/p016__PHEAD.jpg" data-cap="p016 - PHEAD"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/p016__BC_klein.jpg" data-cap="p016 - BC_klein"></div>
+<div class="cell"><img loading="lazy" src="../runs/acab/p016__QX_qwen_p1.jpg" data-cap="p016 - QX"></div>
+<div class="rcell"><b>p028</b><span class="rn">11.9% lost; casualty of the geometric head heuristics</span></div>
+<div class="cell"><img loading="lazy" src="../../test_set/people/p028.jpg" data-cap="p028 - original"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p028__c1_bbox.jpg" data-cap="p028 - C1"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p028__c2_bbox_nobg.jpg" data-cap="p028 - C2"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p028__c32_no_face_keep_hair.jpg" data-cap="p028 - C3.2"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p028__c3_no_face.jpg" data-cap="p028 - C3.1"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p028__FRINGE.jpg" data-cap="p028 - fringe"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p028__c4_clothes_only.jpg" data-cap="p028 - C4"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p028__OC5.jpg" data-cap="p028 - OC5"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p028__PRE2.jpg" data-cap="p028 - PRE2"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/p028__PHEAD.jpg" data-cap="p028 - PHEAD"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/p028__BC_klein.jpg" data-cap="p028 - BC_klein"></div>
+<div class="cell"><img loading="lazy" src="../runs/acab/p028__QX_qwen_p1.jpg" data-cap="p028 - QX"></div>
+<div class="rcell"><b>p009</b><span class="rn">only 7.2% lost but control fails on all three people</span></div>
+<div class="cell"><img loading="lazy" src="../../test_set/people/p009.jpg" data-cap="p009 - original"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p009__c1_bbox.jpg" data-cap="p009 - C1"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p009__c2_bbox_nobg.jpg" data-cap="p009 - C2"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p009__c32_no_face_keep_hair.jpg" data-cap="p009 - C3.2"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p009__c3_no_face.jpg" data-cap="p009 - C3.1"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p009__FRINGE.jpg" data-cap="p009 - fringe"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p009__c4_clothes_only.jpg" data-cap="p009 - C4"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p009__OC5.jpg" data-cap="p009 - OC5"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p009__PRE2.jpg" data-cap="p009 - PRE2"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/p009__PHEAD.jpg" data-cap="p009 - PHEAD"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/p009__BC_klein.jpg" data-cap="p009 - BC_klein"></div>
+<div class="cell"><img loading="lazy" src="../runs/acab/p009__QX_qwen_p1.jpg" data-cap="p009 - QX"></div>
+<div class="rcell"><b>p019</b><span class="rn">clothes guard protected 19.5% of the head as clothes</span></div>
+<div class="cell"><img loading="lazy" src="../../test_set/people/p019.jpg" data-cap="p019 - original"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p019__c1_bbox.jpg" data-cap="p019 - C1"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p019__c2_bbox_nobg.jpg" data-cap="p019 - C2"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p019__c32_no_face_keep_hair.jpg" data-cap="p019 - C3.2"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p019__c3_no_face.jpg" data-cap="p019 - C3.1"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p019__FRINGE.jpg" data-cap="p019 - fringe"></div>
+<div class="cell"><img loading="lazy" src="../runs/crop_screen/p019__c4_clothes_only.jpg" data-cap="p019 - C4"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p019__OC5.jpg" data-cap="p019 - OC5"></div>
+<div class="cell"><img loading="lazy" src="../runs/phase3/p019__PRE2.jpg" data-cap="p019 - PRE2"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/p019__PHEAD.jpg" data-cap="p019 - PHEAD"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/p019__BC_klein.jpg" data-cap="p019 - BC_klein"></div>
+<div class="cell"><img loading="lazy" src="../runs/acab/p019__QX_qwen_p1.jpg" data-cap="p019 - QX"></div>
+</div></div>
+
+<h2>2 &middot; Early generations — base klein, then the crop ladder (Testset2)</h2>
+<div class="sec-sub">What v2.0 shipped and what conditioning the reference did to
+it. These three sets are the traceability pairs from EXPERIMENT.md &sect;2b: the
+baseline failed 4 of 7 duo pairs and the instruments missed most of it.</div>
+<div class="gridwrap"><div class="grid" style="grid-template-columns:190px repeat(8,170px)">
+<div class="hcell corner"></div>
+<div class="hcell">person<span class="hn">input</span></div>
+<div class="hcell">garment ref<span class="hn">input, uncropped</span></div>
+<div class="hcell">base klein<span class="hn">v2.0 - uncropped reference</span></div>
+<div class="hcell">C1 bbox<span class="hn">background untouched</span></div>
+<div class="hcell">C2 no-bg<span class="hn">wearer kept</span></div>
+<div class="hcell">C3.1 no face<span class="hn">the arm that shipped</span></div>
+<div class="hcell">C3.2 keep hair<span class="hn">identity leaks back</span></div>
+<div class="hcell">C4 clothes only<span class="hn">aggressive, conditional</span></div>
+<div class="rcell"><b>ts2_09</b><span class="rn">AI artefacts + reference-outfit bleed; det metric 0.865 missed it</span></div>
+<div class="cell"><img loading="lazy" src="../runs/ts2/inputs/dualuse_hugh_jackman_grey_suit_outdoor.jpg" data-cap="ts2_09 - person"></div>
+<div class="cell"><img loading="lazy" src="../runs/ts2/inputs/dualuse_lp_plaid_overcoat_brown_suit.jpg" data-cap="ts2_09 - garment"></div>
+<div class="cell"><img loading="lazy" src="../runs/ts2/outputs/klein_4b_edit__ts2_09.png" data-cap="ts2_09 - base klein"></div>
+<div class="cell"><img loading="lazy" src="../runs/v221/c1_bbox__ts2_09.png" data-cap="ts2_09 - C1"></div>
+<div class="cell"><img loading="lazy" src="../runs/v221/c2_bbox_nobg__ts2_09.png" data-cap="ts2_09 - C2"></div>
+<div class="cell"><img loading="lazy" src="../runs/v221/c31_no_face__ts2_09.png" data-cap="ts2_09 - C3.1"></div>
+<div class="cell"><img loading="lazy" src="../runs/v221/c32_keep_hair__ts2_09.png" data-cap="ts2_09 - C3.2"></div>
+<div class="cell"><img loading="lazy" src="../runs/v221/c4_clothes_only__ts2_09.png" data-cap="ts2_09 - C4"></div>
+<div class="rcell"><b>ts2_11</b><span class="rn">no transfer at all - VLM scored the no-op 4/5</span></div>
+<div class="cell"><img loading="lazy" src="../runs/ts2/inputs/dualuse_emma_watson_black_blazer_armscrossed.jpg" data-cap="ts2_11 - person"></div>
+<div class="cell"><img loading="lazy" src="../runs/ts2/inputs/dualuse_man_black_suit_studio_nonceleb.jpg" data-cap="ts2_11 - garment"></div>
+<div class="cell"><img loading="lazy" src="../runs/ts2/outputs/klein_4b_edit__ts2_11.png" data-cap="ts2_11 - base klein"></div>
+<div class="cell"><img loading="lazy" src="../runs/v221/c1_bbox__ts2_11.png" data-cap="ts2_11 - C1"></div>
+<div class="cell"><img loading="lazy" src="../runs/v221/c2_bbox_nobg__ts2_11.png" data-cap="ts2_11 - C2"></div>
+<div class="cell"><img loading="lazy" src="../runs/v221/c31_no_face__ts2_11.png" data-cap="ts2_11 - C3.1"></div>
+<div class="cell"><img loading="lazy" src="../runs/v221/c32_keep_hair__ts2_11.png" data-cap="ts2_11 - C3.2"></div>
+<div class="cell"><img loading="lazy" src="../runs/v221/c4_clothes_only__ts2_11.png" data-cap="ts2_11 - C4"></div>
+<div class="rcell"><b>ts2_12</b><span class="rn">worst klein output on record: wrong person + clothes + bg + duplication</span></div>
+<div class="cell"><img loading="lazy" src="../runs/ts2/inputs/dualuse_man_black_suit_studio_nonceleb.jpg" data-cap="ts2_12 - person"></div>
+<div class="cell"><img loading="lazy" src="../runs/ts2/inputs/dualuse_hugh_jackman_grey_suit_outdoor.jpg" data-cap="ts2_12 - garment"></div>
+<div class="cell"><img loading="lazy" src="../runs/ts2/outputs/klein_4b_edit__ts2_12.png" data-cap="ts2_12 - base klein"></div>
+<div class="cell"><img loading="lazy" src="../runs/v221/c1_bbox__ts2_12.png" data-cap="ts2_12 - C1"></div>
+<div class="cell"><img loading="lazy" src="../runs/v221/c2_bbox_nobg__ts2_12.png" data-cap="ts2_12 - C2"></div>
+<div class="cell"><img loading="lazy" src="../runs/v221/c31_no_face__ts2_12.png" data-cap="ts2_12 - C3.1"></div>
+<div class="cell"><img loading="lazy" src="../runs/v221/c32_keep_hair__ts2_12.png" data-cap="ts2_12 - C3.2"></div>
+<div class="cell"><img loading="lazy" src="../runs/v221/c4_clothes_only__ts2_12.png" data-cap="ts2_12 - C4"></div>
+</div></div>
+
+<h2>3 &middot; Hard sets — attention arms to the shipped composite</h2>
+<div class="sec-sub">The v2.2.2/v2.2.3 era on the sets that resisted. base klein
+is shown where the uncropped run exists (combo study); HD_ sets were born after
+cropping so they have none. Badges are the human tier where recorded
+(v223_perfect_tier_picks.csv). The last column is the harness pick after the
+SeedVR2 realism pass.</div>
+<div class="gridwrap"><div class="grid" style="grid-template-columns:190px repeat(7,170px)">
+<div class="hcell corner"></div>
+<div class="hcell">base klein<span class="hn">uncropped, where it was run</span></div>
+<div class="hcell">BALD_raw<span class="hn">head removed, no crop - 85% cut</span></div>
+<div class="hcell">control C3.1<span class="hn">the v2.2.1 ship - collapses on damaged refs</span></div>
+<div class="hcell">PHEAD<span class="hn">cascade position 1</span></div>
+<div class="hcell">BC_klein<span class="hn">cascade position 2</span></div>
+<div class="hcell">QX qwen<span class="hn">cascade position 3 - the escalation</span></div>
+<div class="hcell">shipped + SeedVR2<span class="hn">harness pick, realism pass</span></div>
+<div class="rcell"><b>dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb</b><span class="rn">the set no crop arm ever solved - jagged hair edge read as garment</span></div>
+<div class="cell"><img loading="lazy" src="../runs/combo/dualuse_man_black_suit_studio_nonceleb__wears__dualuse_woman_top_denim_skirt_nonceleb__base.png" data-cap="dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb - base klein"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb__BALD_raw.jpg" data-cap="dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb - BALD_raw"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb__control.jpg" data-cap="dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb - control"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb__PHEAD.jpg" data-cap="dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb - PHEAD"><span class="badge fail">fail</span></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb__BC_klein.jpg" data-cap="dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb - BC_klein"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb__QX_qwen_p1.jpg" data-cap="dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb - QX_qwen_p1"><span class="badge ok">ok</span></div>
+<div class="cell"><img loading="lazy" src="../runs/realism/dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb__after.png" data-cap="dualuse_man_black_suit_studio_nonceleb+dualuse_woman_top_denim_skirt_nonceleb - shipped"><span class="badge ok">lands ok</span></div>
+<div class="rcell"><b>p015+p007</b><span class="rn">worst identity import: base margin -0.933 (source face rendered)</span></div>
+<div class="cell"><img loading="lazy" src="../runs/combo/p015__wears__p007__base.png" data-cap="p015+p007 - base klein"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/p015+p007__BALD_raw.jpg" data-cap="p015+p007 - BALD_raw"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/p015+p007__control.jpg" data-cap="p015+p007 - control"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/p015+p007__PHEAD.jpg" data-cap="p015+p007 - PHEAD"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/p015+p007__BC_klein.jpg" data-cap="p015+p007 - BC_klein"><span class="badge fail">fail</span></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/p015+p007__QX_qwen_p1.jpg" data-cap="p015+p007 - QX_qwen_p1"></div>
+<div class="cell"><img loading="lazy" src="../runs/realism/p015+p007__after.png" data-cap="p015+p007 - shipped"></div>
+<div class="rcell"><b>p018+p016</b><span class="rn">skin-tone leak + hair 9.7%, just under the 14% router cut</span></div>
+<div class="cell"><img loading="lazy" src="../runs/combo/p018__wears__p016__base.png" data-cap="p018+p016 - base klein"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/p018+p016__BALD_raw.jpg" data-cap="p018+p016 - BALD_raw"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/p018+p016__control.jpg" data-cap="p018+p016 - control"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/p018+p016__PHEAD.jpg" data-cap="p018+p016 - PHEAD"><span class="badge fail">fail</span></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/p018+p016__BC_klein.jpg" data-cap="p018+p016 - BC_klein"><span class="badge ok">ok</span></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/p018+p016__QX_qwen_p1.jpg" data-cap="p018+p016 - QX_qwen_p1"><span class="badge perfect">perfect</span></div>
+<div class="cell"><img loading="lazy" src="../runs/realism/p018+p016__after.png" data-cap="p018+p016 - shipped"></div>
+<div class="rcell"><b>HD_p021</b><span class="rn">worst damage garment (19.5%) - excluded from the first AMT set entirely</span></div>
+<div class="cell"><div class="miss">&mdash;</div></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/HD_p021__BALD_raw.jpg" data-cap="HD_p021 - BALD_raw"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/HD_p021__control.jpg" data-cap="HD_p021 - control"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/HD_p021__PHEAD.jpg" data-cap="HD_p021 - PHEAD"><span class="badge fail">fail</span></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/HD_p021__BC_klein.jpg" data-cap="HD_p021 - BC_klein"><span class="badge perfect">rescue</span></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/HD_p021__QX_qwen_p1.jpg" data-cap="HD_p021 - QX_qwen_p1"><span class="badge ok">ok</span></div>
+<div class="cell"><img loading="lazy" src="../runs/realism/HD_p021__after.png" data-cap="HD_p021 - shipped"></div>
+<div class="rcell"><b>HD_p023</b><span class="rn">both subtraction arms fail; only regeneration recovers it</span></div>
+<div class="cell"><div class="miss">&mdash;</div></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/HD_p023__BALD_raw.jpg" data-cap="HD_p023 - BALD_raw"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/HD_p023__control.jpg" data-cap="HD_p023 - control"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/HD_p023__PHEAD.jpg" data-cap="HD_p023 - PHEAD"><span class="badge fail">fail</span></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/HD_p023__BC_klein.jpg" data-cap="HD_p023 - BC_klein"><span class="badge fail">fail</span></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/HD_p023__QX_qwen_p1.jpg" data-cap="HD_p023 - QX_qwen_p1"><span class="badge perfect">rescue</span></div>
+<div class="cell"><img loading="lazy" src="../runs/realism/HD_p023__after.png" data-cap="HD_p023 - shipped"></div>
+<div class="rcell"><b>HD_p028+dualuse_navy_peacoat_onmodel</b><span class="rn">the one shipped fail - router chose PHEAD at hair 11.9%, gate silent</span></div>
+<div class="cell"><div class="miss">&mdash;</div></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/HD_p028+dualuse_navy_peacoat_onmodel__BALD_raw.jpg" data-cap="HD_p028+dualuse_navy_peacoat_onmodel - BALD_raw"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/HD_p028+dualuse_navy_peacoat_onmodel__control.jpg" data-cap="HD_p028+dualuse_navy_peacoat_onmodel - control"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/HD_p028+dualuse_navy_peacoat_onmodel__PHEAD.jpg" data-cap="HD_p028+dualuse_navy_peacoat_onmodel - PHEAD"><span class="badge fail">fail</span></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/HD_p028+dualuse_navy_peacoat_onmodel__BC_klein.jpg" data-cap="HD_p028+dualuse_navy_peacoat_onmodel - BC_klein"></div>
+<div class="cell"><img loading="lazy" src="../runs/amt/gen/HD_p028+dualuse_navy_peacoat_onmodel__QX_qwen_p1.jpg" data-cap="HD_p028+dualuse_navy_peacoat_onmodel - QX_qwen_p1"><span class="badge perfect">perfect</span></div>
+<div class="cell"><img loading="lazy" src="../runs/realism/HD_p028+dualuse_navy_peacoat_onmodel__after.png" data-cap="HD_p028+dualuse_navy_peacoat_onmodel - shipped"><span class="badge fail">ships fail</span></div>
+</div></div>
+
+<footer>Generated by v2/build/progression_page.py &middot; images referenced in
+place from v2/runs/ &mdash; nothing copied.</footer>
+<div id="lb"><img><div class="cap"></div></div>
+<script>
+const lb=document.getElementById('lb'),lbi=lb.querySelector('img'),
+      lbc=lb.querySelector('.cap');
+document.querySelectorAll('.cell img').forEach(im=>{
+  im.addEventListener('click',()=>{lbi.src=im.src;lbc.textContent=im.dataset.cap||'';
+    lb.style.display='flex';});
+});
+lb.addEventListener('click',()=>lb.style.display='none');
+document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.style.display='none';});
+</script>

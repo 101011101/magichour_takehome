@@ -70,7 +70,18 @@ frames gain the least *and* are dead cost.
 | **C** always run + revert | 38 | 31 | 7 | 0 | 0.962 | 0.904 | **0** | 1.124 | $1.52 |
 | **D** run if soft **+** revert | **29** | 25 | 4 | 9 | **0.971** | **0.922** | **0** | 1.110 | **$1.16** |
 
-**Policy D ships.** It makes 24% fewer calls than always-on, eliminates every frame
+**Policy D was the recommendation, and is now superseded in part.** The realism pass
+ships as an **explicit `high_resolution` option, off by default** — it exists to serve
+a request for resolution, not to make an automatic quality decision. With the caller
+having asked for resolution, the `hf_before >= 2.5` skip would deny the request, so
+that half of policy D does not ship. **The identity floor does ship**, with one change:
+the fallback is a deterministic **Lanczos ×2** rather than the original frame, because
+handing back the original fails the request that was made. See
+[ARCHITECTURE.md §7](../ARCHITECTURE.md).
+
+The measurement below stands, and is what justifies the floor.
+
+**Policy D as measured.** It makes 24% fewer calls than always-on, eliminates every frame
 below 0.90 identity, and keeps 1.110 of the 1.121 mean sharpening gain. The benefit is
 essentially intact; the damage is gone.
 
