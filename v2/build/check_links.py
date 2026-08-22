@@ -31,6 +31,7 @@ BUILD = os.path.join(REPO, "v2", "build")
 
 # a link is "pending" if the doc says so on the same line — forward references to
 # pages whose workstream has not run are intentional, not rot
+NL = chr(10)
 PENDING = re.compile(r"not yet generated|has not run|not started", re.I)
 LINK = re.compile(r"\]\(([^)]+?\.html)\)|`([^`]*?\.html)`")
 
@@ -51,10 +52,21 @@ def doc_refs():
 
 
 def resolve(doc, link):
+    """Relative links resolve against the doc. A bare basename -- which is how the
+    docs habitually cite a page, and also what a markdown link's backticked *label*
+    looks like -- resolves against the repo root, then falls back to v2/artifacts/,
+    which is where every page in fact lives. Without the fallback every backticked
+    filename reported broken, so the checker gave no signal on the pages most often
+    cited that way."""
     base = os.path.dirname(doc)
-    p = (os.path.join(base, link) if link.startswith(".")
-         else os.path.join(REPO, link))
-    return os.path.normpath(p)
+    if link.startswith("."):
+        return os.path.normpath(os.path.join(base, link))
+    p = os.path.normpath(os.path.join(REPO, link))
+    if not os.path.exists(p) and os.path.basename(link) == link:
+        alt = os.path.normpath(os.path.join(ART, link))
+        if os.path.exists(alt):
+            return alt
+    return p
 
 
 def generator_outputs():
@@ -84,6 +96,15 @@ def main():
             pending.append((doc, n, link))
         else:
             broken.append((doc, n, link))
+
+    idx = os.path.join(ART, "index.html")
+    if os.path.exists(idx):
+        hrefs = re.findall(r'href=["\']([^"\']+?\.html)["\']', open(idx).read())
+        dead = [h for h in hrefs
+                if not os.path.exists(os.path.join(ART, os.path.basename(h)))]
+        print(f"{NL}index.html: {len(hrefs)} links, {len(dead)} dead")
+        for h in dead:
+            print(f"  DEAD     index.html -> {h}")
 
     present = {os.path.basename(p) for p in glob.glob(os.path.join(ART, "*.html"))}
     gens = generator_outputs()

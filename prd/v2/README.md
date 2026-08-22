@@ -47,8 +47,13 @@ changes program direction is promoted into `results_summary/`.
 - **Auxiliary realism: `seedvr2_x2_noise0`** — confirmed on a control batch.
 - **Composite target: klein 4B → SeedVR2**, not yet validated end to end.
 - **Garment reference cropping adopted** (v2.2.1, C3.1 `no_face`): the
-  uncropped baseline failed 61% of reviewed sets; cropping solved ~94% of
-  those. See [results_summary/V2.2_RESULTS.md](results_summary/V2.2_RESULTS.md).
+  uncropped baseline failed 61% of reviewed sets; C3.1 solved **75%** of those.
+  *(An earlier "~94%" figure is withdrawn — it counted unjudged annotation cells
+  as solved.)* See [results_summary/V2.2_RESULTS.md](results_summary/V2.2_RESULTS.md).
+- **v2.2.3 harness settled**: router → PHEAD|BC_klein → QX on failure, **1.526
+  generations/request, 32 perfect / 6 ok / 0 fail** over 38 sets. Assembly spec in
+  [ARCHITECTURE.md](ARCHITECTURE.md), rationale in [DECISIONS.md](DECISIONS.md),
+  remaining work in [TODO.md](TODO.md).
 
 The three workstreams map onto the three accepted downsides of the chosen base:
 v2.1 realism (parked, conditional), v2.2 accuracy/failures/attention, v2.3

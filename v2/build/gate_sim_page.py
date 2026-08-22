@@ -58,6 +58,20 @@ input[type=range]{width:280px;accent-color:var(--acc)}
 .step .s{font-size:11.5px;color:var(--dim)}
 .step .s .w{color:var(--bad)}
 .arrow{align-self:center;color:var(--bad);font-size:22px;padding:0 2px;font-weight:700}
+.verdict{margin:18px 30px;border:1px solid var(--line);border-radius:10px;background:#121216}
+.verdict h2{margin:0;padding:12px 16px;font-size:14px;border-bottom:1px solid var(--line)}
+.verdict .body{padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.verdict table{border-collapse:collapse;font-size:12.5px;width:100%}
+.verdict th,.verdict td{padding:4px 9px;text-align:right;border-bottom:1px solid #1d1d23}
+.verdict th:first-child,.verdict td:first-child{text-align:left}
+.verdict th{color:var(--dim);font-weight:600}
+.verdict .cap{color:var(--dim);font-size:12px;margin:0 0 7px}
+.verdict .hit{color:var(--good);font-weight:700}
+.verdict .miss{color:var(--bad);font-weight:700}
+.verdict p.k{margin:10px 16px 14px;font-size:13px;color:var(--fg);
+ border-left:3px solid var(--acc);padding-left:11px;max-width:110ch}
+@media(max-width:1000px){.verdict .body{grid-template-columns:1fr}}
+
 .inp{flex:0 0 150px;padding:9px;background:#101418;border-radius:9px;margin:2px}
 .inp img{width:100%;background:#fff;border-radius:4px;display:block}
 .inp .t{font-size:11.5px;color:var(--good);font-weight:600;margin-top:5px}
@@ -197,7 +211,7 @@ document.getElementById('save').addEventListener('click', function(){
   var b = new Blob([out.join(nl)+nl], {type:'text/csv'});
   var a = document.createElement('a');
   a.href = URL.createObjectURL(b);
-  a.download = 'v221_gate_simulation.csv';
+  a.download = 'v223_gate_simulation.csv';
   document.body.appendChild(a); a.click();
   setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 400);
   var s = document.getElementById('save');
@@ -207,6 +221,62 @@ document.getElementById('save').addEventListener('click', function(){
 sim();
 paintMarks();
 """
+
+
+
+def _verdict(gate, human):
+    """The separation table and the per-arm identity firing rate, computed from the
+    same files the page renders, so the panel can never drift from the cells below."""
+    import statistics as st
+    P = [(v, human[tuple(k.split("|"))]) for k, v in gate.items()
+         if tuple(k.split("|")) in human]
+    t1 = ("<p class='cap'>Mean sub-score by human verdict, over the "
+          + str(len(P)) + " outputs that carry both. A check only works if the "
+          "<b>perfect</b> column sits clearly above <b>fail</b>.</p>"
+          "<table><tr><th>check</th><th>perfect</th><th>ok</th><th>fail</th>"
+          "<th>separation</th></tr>")
+    for c in ("degenerate", "noop", "people", "identity", "background"):
+        m = {l: st.mean([v["checks"][c] for v, h in P if h == l])
+             for l in ("perfect", "ok", "fail")}
+        sep = m["perfect"] - m["fail"]
+        cls = "hit" if sep > 0.10 else "miss"
+        t1 += (f"<tr><td>{c}</td><td>{m['perfect']:.3f}</td><td>{m['ok']:.3f}</td>"
+               f"<td>{m['fail']:.3f}</td><td class='{cls}'>{sep:+.3f}</td></tr>")
+    t1 += "</table>"
+
+    fire, tot = {}, {}
+    for k, v in gate.items():
+        a = k.split("|")[1]
+        tot[a] = tot.get(a, 0) + 1
+        if v["checks"].get("identity", 1) < 0.5:
+            fire[a] = fire.get(a, 0) + 1
+    t2 = ("<p class='cap'>Identity is the only check with real separation and it is "
+          "<b>100% precise</b> &mdash; below 0.5 it has never once flagged a frame the "
+          "reviewer liked. But look at <i>where</i> it fires:</p>"
+          "<table><tr><th>arm</th><th>identity fires</th><th>of</th></tr>")
+    for a in sorted(tot, key=lambda x: -fire.get(x, 0)):
+        n, cas = fire.get(a, 0), a in ("PHEAD", "QX_qwen_p1", "BC_klein")
+        nm = f"<b>{a} &nbsp;&larr; cascade arm</b>" if cas else a
+        t2 += (f"<tr><td>{nm}</td><td class='{'miss' if cas else 'hit'}'>{n}</td>"
+               f"<td>{tot[a]}</td></tr>")
+    t2 += "</table>"
+    return ("<div class='verdict'><h2>Does the gate work? &mdash; the evidence, "
+            "recomputed on every build</h2><div class='body'><div>" + t1
+            + "</div><div>" + t2 + "</div></div>"
+            "<p class='k'><b>It does not, for this cascade.</b> Identity fires on "
+            "exactly <b>0</b> of the three cascade arms, and reads <b>1.00 on all 8 "
+            "PHEAD failures</b>. Those arms never swap the person &mdash; that is the "
+            "one failure mode they structurally cannot have &mdash; so the only check "
+            "with signal is blind to every case the cascade needs caught. It fires "
+            "only on <code>BALD_raw</code> and the D*O disfiguration arms, which keep "
+            "a head in the reference. The remaining failures are semantic (wrong "
+            "garment, repainted scene) and pixel statistics cannot see them.</p>"
+            "<p class='k'><b>So: no router.</b> A router must be &ge;79% accurate to "
+            "beat cascading, the candidate sits at ~75% fitted on its own data, and a "
+            "router is only worth building on top of a gate that can catch its "
+            "mistakes. There is no such gate. <b>Ship the best single arm &mdash; "
+            "BC_klein, 95% usable, flat 2 units</b> &mdash; and keep identity as a "
+            "free 100%-precision monitor, not a spend decision.</p></div>")
 
 
 def build():
@@ -276,6 +346,7 @@ def build():
         "<div class='sub'>No generations were made for this page. Each arm already has "
         "an output and a human verdict; the gate scores them, and the cascade is "
         "replayed at whatever acceptance threshold you choose.</div></header>",
+        _verdict(gate, human),
         "<div id='bar'>"
         "<label>accept at &ge; <span id='thv'></span></label>"
         "<input type='range' id='th' min='0' max='1' step='0.01' value='0.50'>"
@@ -303,7 +374,7 @@ def build():
         "<div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>",
         "<script>window.SIM=" + json.dumps(data) + ";</script>",
         "<script>" + JS + "</script>"])
-    o = os.path.join(ART, "v221_gate_simulation.html")
+    o = os.path.join(ART, "v223_gate_simulation.html")
     open(o, "w", encoding="utf-8").write(doc)
     return o, len(sets)
 

@@ -95,8 +95,19 @@ def _face():
         from huggingface_hub import snapshot_download
         from insightface.app import FaceAnalysis
         d = os.path.join(REPO, "v2", "runs", ".models", "auraface")
-        if not os.path.exists(d):
+        onnx = [f for f in os.listdir(d) if f.endswith(".onnx")] if os.path.isdir(d) else []
+        if not onnx:
             snapshot_download("fal/AuraFace-v1", local_dir=d)
+            onnx = [f for f in os.listdir(d) if f.endswith(".onnx")]
+        # insightface expects <root>/models/<name>/*.onnx, but the HF snapshot puts
+        # them at the snapshot root. Without this it tries to fetch a non-existent
+        # auraface.zip from insightface's own releases and silently disables itself.
+        want = os.path.join(d, "models", "auraface")
+        os.makedirs(want, exist_ok=True)
+        for f in onnx:
+            dst = os.path.join(want, f)
+            if not os.path.exists(dst):
+                os.link(os.path.join(d, f), dst)
         app = FaceAnalysis(name="auraface", providers=["CPUExecutionProvider"], root=d)
         app.prepare(ctx_id=-1, det_size=(320, 320))
         _S["f"] = app

@@ -1,7 +1,9 @@
 # v2.2 — Accuracy, failure reduction, and reference attention
 
-**Status:** designed, not yet run. No generation or judging has been paid for
-against this workstream.
+**Status:** v2.2.1 complete (three phases), v2.2.2 closed as obsolete, v2.2.3
+harness settled with one component (the VLM artefact check) unbuilt. Roughly $19.6
+fal spent across V2, ~$9 of it in v2.2.1 phase 3. Assembly spec:
+[../ARCHITECTURE.md](../ARCHITECTURE.md).
 
 **Owner:** Ray. **Base model:** FLUX.2 klein 4B (fixed by
 [V2.1_RESULTS.md](../results_summary/V2.1_RESULTS.md); v2.2 does not re-open the

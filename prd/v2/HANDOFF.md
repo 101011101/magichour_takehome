@@ -53,6 +53,17 @@ other.
 
 ## 2. What to read, in order
 
+**Start here — the three reference documents, written 2026-08-21:**
+
+| document | what it is |
+|---|---|
+| **[ARCHITECTURE.md](ARCHITECTURE.md)** | **standalone assembly spec** — what to build and how, no history. Component table with licences, the three arms decomposed, the two VLM checks, build order, and a *what not to build* section |
+| **[DECISIONS.md](DECISIONS.md)** | every sub-version as question → architecture → result → verdict → how to redo it. All scrapped arms with the measurement that killed them, and the withdrawn-claims ledger |
+| **[TODO.md](TODO.md)** | what is left, ordered, with the blocking/iteration split |
+
+**Then, for the working detail:**
+
+
 1. **`prd/v2/v2.2/RESULTS.md`** — the substance. Attention Modulation Test, the three
    arms and their failure modes, the union model, the cost analysis, the router probe.
 2. **`prd/v2/v2.2/EXPERIMENT.md` §2c and §2d** — why each experiment was designed the
@@ -88,44 +99,88 @@ escalation even though BC_klein is the stronger arm alone.
 cascading, and the candidate sits at ~75% — which is itself optimistic, being fitted
 and evaluated on the same 22 garments.
 
-### THE CURRENT BLOCKER — the gate does not work yet
+### RESOLVED — the deterministic gate does not work, and will not (2026-08-21)
 
-Built at `v2/build/failure_gate.py`, graded over 456 outputs. **Result: near-random.**
+Built at `v2/build/failure_gate.py`, graded over 456 outputs, then tested blind
+against the reviewer on 114 cells (`v2/artifacts/v223_cheapest_usable.html`).
 
-| human label | gate score (mean) |
+| | |
 |---|---|
-| perfect | 0.677 |
-| ok | **0.757** ← higher than perfect |
-| fail | 0.584 |
+| **AUC, gate score vs Ray's usable call** | **0.506** — a coin flip |
+| Mean gate score, usable (n=82) vs unusable (n=32) | 0.684 vs 0.674 |
+| Best agreement at any threshold | 71.1% |
+| Agreement from accepting every frame unchecked | **71.9%** |
 
-Per-check separation (perfect − fail): degenerate **−0.040**, noop −0.001, people
-−0.021, identity **0.000 (never ran)**, background **+0.148**.
+**Identity ran and is excellent — at the wrong thing.** 100% precision at every
+threshold 0.1–0.6, and it fires on **zero of PHEAD, BC_klein and QX**, reading 1.00
+on all eight PHEAD failures. It only fires on `BALD_raw` and the D\*O arms, which keep
+a head in the reference. The cascade arms remove the reference person, so identity
+substitution is the one failure they cannot have.
 
-**Diagnosis: the gate targets failure modes our failures aren't.** Degenerate frames,
-no-ops and duplicated people barely occur — all 456 outputs are valid photographs of
-one person. The failures are *semantic*: wrong garment, wrong identity, repainted
-scene. Pixel statistics cannot see those. Not a calibration problem.
+**The control that makes it conclusive:** Ray's earlier AMT tier predicts his later
+binary call at 95% / 44% / 0% across perfect / ok / fail. The target is stable; the
+instrument is the problem. Charts: `prd/v2/v2.2/images/gate_vs_human.png`.
 
-**What is still worth trying, in order:**
+**Decisions taken.** The binary gate does not ship. Identity stays wired in as a free
+100%-precision monitor, never a spend decision. The router stays deferred on a second
+ground — it is only worth building on a gate that catches its mistakes. **QX moves to
+slot 2**: of PHEAD's 13 unusable sets QX rescues 11, BC_klein 6 (both PHEAD and
+BC_klein subtract and share a failure mode), 1.789 gen/request vs 2.053.
 
-1. **Re-run with the identity check.** It never ran — AuraFace failed to download
-   during the session. **It has since completed: `v2/runs/.models/auraface`, 271MB.**
-   Identity is the check most likely to work (compares against a *known* input, and
-   "wrong person" was 33% of baseline failures). **This is the next thing to do.**
-   Re-run the grader, then re-check the separation table.
-2. **Background alone as a narrow pre-filter.** At threshold 0.3 it rejects 40 outputs
-   at **70% precision against a 28% base rate** — real signal, but catches only 28 of
-   119 failures. High precision, very low recall.
-3. **If identity also fails to separate:** the honest conclusion is that a
-   deterministic gate cannot do this job, the cascade should not ship, and the
-   recommendation collapses to **use the best single arm** (BC_klein, flat 2 units).
-   That is a legitimate v2.2.3 finding and better than shipping a gate that escalates
-   on noise.
+### THE HARNESS — settled 2026-08-21, one piece unbuilt
 
-**A VLM gate is ruled out** on two independent grounds: §2b of EXPERIMENT.md measured
-`garment_sim` at 0.78 and a VLM at 4/5 on an output that transferred *no garment*, so
-it fails at the check that matters; and it costs about what a generation costs, so it
-would spend the entire saving on the decision.
+Full design and rationale: [`v2.2/EXPERIMENT.md` §2d](v2.2/EXPERIMENT.md). Charts:
+`prd/v2/v2.2/images/harness_v223.png`.
+
+```
+user specified a garment region?  ──yes──►  QX
+hair over garment >= ~14%?        ──yes──►  BC_klein  (2 gen)
+                    |no
+                    v
+                 PHEAD  (1 gen)
+                    |
+        crash guard + VLM artefact check ──fires──►  QX  (+2 gen)
+                    |clean                             |
+                    v                          VLM picks the better of the two
+                  ship
+```
+
+**1.526 generations/request, 32 perfect / 6 ok / 0 fail over 38 sets** — against flat
+BC_klein at 2.000 gen for 28 / 6 / 4. **The headline is the zero.**
+
+Labels of record: [`v223_perfect_tier_picks.csv`](../../v223_perfect_tier_picks.csv),
+an absolute perfect/ok/fail pass over 114 cells. It supersedes the AMT tier, whose
+`perfect` meant *tied for first among ten arms* — relative, and so unable to drive an
+absolute stop decision. They agree on 81% of cells.
+
+| arm | perfect | ok | fail | role |
+|---|---|---|---|---|
+| PHEAD | 23 | 5 | 10 | free default |
+| BC_klein | **28** | 6 | 4 | highest ceiling |
+| QX | 20 | 17 | **1** | safety net — last line |
+
+**THE ONE UNBUILT PIECE: the VLM artefact check.** Everything above assumes it fires
+correctly. Cost is settled — a self-hosted 7–8B open VLM runs ~$0.0003 against ~$0.015
+per generation, so it can be **wrong 100 times per save and still break even**.
+Capability is not. **Next action: validate it against the 114 absolute tiers.** 456
+outputs are on disk; this costs GPU time and no fal spend. Candidates, licence-first:
+Qwen2.5-VL-7B (Apache-2.0), Pixtral-12B (Apache-2.0), InternVL3-8B, Kimi-VL-A3B (MIT).
+Avoid Llama 3.2 Vision (excludes EU-domiciled entities) and Gemma 3 (use restrictions).
+Verify every licence against the model card before shipping.
+
+**Ask it the narrow question.** Failure-only trigger → 32/6/0 at 1.526 gen. Full
+perfect-vs-ok tier judge → 34/4/0 at 1.789. The cheap version removes every failure
+and asks only "is this broken", which is what §2b showed a VLM can actually answer.
+
+**Do not** attempt a deterministic artefact check. Every output check scores AUC
+0.38–0.57 against the absolute marks, and published AI-artefact detectors answer "was
+this generated?" — 100% of these were, so they fire on everything and discriminate
+nothing. The one exception worth building is anatomical plausibility (MediaPipe Hands,
+pose impossibility) as a free pre-filter.
+
+**Also unproven:** the 14% hair threshold is fitted on these 38 sets (AUC 0.862 is the
+honest number; recompute over all 48 references), and the user-specification branch has
+no evidence at all.
 
 ---
 
@@ -159,13 +214,23 @@ ls v2/runs/amt/gen | wc -l                # 456 generated outputs
 
 ### Review pages (open in a browser)
 
+Paths are relative to the repo root so `check_links.py` can verify them — bare
+backticked filenames were reported broken because the checker resolves non-relative
+links against the repo root, not `v2/artifacts/`.
+
 | page | what it is |
 |---|---|
-| `v221_attention_mod.html` | the main test — 38 sets × 10 arms, ⓘ cards, drag-ranking |
-| `v221_crop_tuning.html` | arms ordered by result, pick a best replacement |
-| `v221_crop_tuning_phead.html` | PHEAD vs the arms it has to beat |
-| `v221_gate_simulation.html` | **the live task** — threshold slider, cascade replay, per-cell marking |
-| `v221_phase3_acc.html`, `_acab`, `_crops`, `_fashn`, `_ac`, `_bg`, `_m` | phase-3 screens |
+| [`v223_perfect_tier.html`](../../v2/artifacts/v223_perfect_tier.html) | **the live task** — three-tier marking, stop on perfect |
+| [`v223_cheapest_usable.html`](../../v2/artifacts/v223_cheapest_usable.html) | superseded binary usable/not sheet; the gate-vs-reviewer evidence |
+| [`v223_gate_simulation.html`](../../v2/artifacts/v223_gate_simulation.html) | gate threshold slider and cascade replay |
+| [`v221_attention_mod.html`](../../v2/artifacts/v221_attention_mod.html) | the main v2.2.1 test — 38 sets × 10 arms, ⓘ cards, drag-ranking |
+| [`v221_crop_tuning.html`](../../v2/artifacts/v221_crop_tuning.html) | arms ordered by result, pick a best replacement |
+| [`v221_crop_tuning_phead.html`](../../v2/artifacts/v221_crop_tuning_phead.html) | PHEAD vs the arms it has to beat |
+| [`v221_phase3_acc.html`](../../v2/artifacts/v221_phase3_acc.html), [`_crops`](../../v2/artifacts/v221_phase3_crops.html), [`_ac`](../../v2/artifacts/v221_phase3_ac.html), [`_bg`](../../v2/artifacts/v221_phase3_bg.html), [`_m`](../../v2/artifacts/v221_phase3_m.html) | phase-3 screens |
+
+**Naming convention** (de facto, not previously written down): the filename prefix is
+the workstream that *produced* the page — `v20_`, `v21_`, `v221_`, `v223_`. Three
+harness pages were renamed from `v221_` to `v223_` on 2026-08-21.
 
 ### Human-labelled data (the ground truth everything is scored against)
 

@@ -260,3 +260,103 @@ their trigger conditions were never met.
 **Next.** v2.2.3 — the failure gate, with routing as a second half. That closes v2.2.
 Then v2.3 (artifacts) and v2.4 (auxiliary cleanup). Routing feeds the V3 cost work
 but does not constitute it, and is not yet validated.
+
+---
+
+## 2026-08-21 — the deterministic gate is a coin flip; the harness becomes tiered
+
+**Did.** Fixed AuraFace (HF snapshot layout against insightface's expected
+`<root>/models/<name>/` — it had been silently disabled and downloading nothing),
+re-graded all 456 AMT outputs with identity live, then built
+`v2/artifacts/v223_cheapest_usable.html` and had the three cascade arms judged blind,
+usable or not, 114 cells.
+
+**Found.** Identity is a genuinely good check — 100% precision at every threshold
+from 0.1 to 0.6, never once flagging a frame the reviewer liked — and it is useless
+to us. It fires on `BALD_raw` and the D\*O arms, all of which keep a head in the
+garment reference, and on **zero of PHEAD, BC_klein and QX**, reading 1.00 on all
+eight PHEAD failures. Those arms remove the reference person, so identity
+substitution is the one failure they structurally cannot have.
+
+The blind test settled it: **AUC 0.506** against the reviewer, mean gate score 0.684
+on usable cells against 0.674 on unusable, and best-threshold agreement (71.1%)
+*below* the accept-everything baseline (71.9%). Every sub-check flat.
+
+**The control is what makes it conclusive.** The same reviewer had labelled the same
+outputs months earlier under a different question, and the two passes line up 95% /
+44% / 0% across perfect / ok / fail. The target is stable and a semantic label
+predicts it almost perfectly. The noise is in the instrument.
+
+**Concluded.** *Inference.* Pixel statistics cannot see semantic failure, and no
+amount of calibration changes that — this is not a threshold problem. The binary gate
+does not ship; identity stays as a free monitor, never a spend decision. The router
+is deferred on a second independent ground: it is only worth building on top of a gate
+that can catch its mistakes, and there is none.
+
+**The replacement, as a hypothesis.** A **three-tier** control signal — *perfect*
+ships and stops, *ok* or *fail* escalates, and where every arm fails a VLM picks the
+least-bad of the three already generated. Three tiers rather than two because *ok* is
+where the reviewer's own binary call splits 44/56; it is the only band where the
+decision is interesting. The VLM is affordable precisely because it fires on ~5% of
+requests, is asked a forced-choice question rather than the absolute "is this good"
+it demonstrably fails, and is wrong only on requests that were already failing.
+**The whole design rests on a tier judge that does not exist** — the simulation
+substitutes a human label. Falsifying test: build it, measure it against the
+reviewer's tiers, and if it cannot reproduce them, the harness collapses back to a
+flat BC_klein.
+
+**Also corrected.** QX goes second, not third. Of PHEAD's 13 unusable sets QX rescues
+11 and BC_klein 6 — both PHEAD and BC_klein subtract and share a failure mode, while
+QX regenerates. 1.789 generations per request against 2.053, same coverage. This is
+the per-cell confirmation of the 1.421-vs-1.526 result already in the cost analysis,
+and it means the stronger arm alone is the weaker second step.
+
+**Next.** Build and validate the tier judge, or accept flat BC_klein and close v2.2.
+The self-hosted parity run remains owed regardless.
+
+---
+
+## 2026-08-21b — the absolute re-mark; routing works, the gate does not
+
+**Did.** Rebuilt the pick sheet as an absolute three-tier pass (`v223_perfect_tier.html`)
+after Ray objected that usable and perfect are different questions and that the
+objective is to maximise perfection. Re-marked all 114 cells. Renamed three harness
+pages from `v221_` to `v223_` — they were v2.2.3 work carrying a v2.2.1 prefix — and
+fixed two `check_links.py` bugs found in the process (bare backticked filenames always
+resolved against the repo root and so always reported broken; `index.html`'s own hrefs
+were never scanned at all).
+
+**Found.** QX's tier profile is the finding: **20 perfect / 17 ok / 1 fail**. Lowest
+ceiling, by far the lowest floor. The binary sheet had scored it 71% "usable" and
+hidden that most of those were merely `ok`. Ray's read of it as a safety net rather
+than a quality arm was correct and the binary data had obscured it.
+
+Settled harness: hair router picks PHEAD or BC_klein, one escalation to QX on failure,
+VLM picks between the two candidates. **1.526 gen/request, 32 perfect / 6 ok / 0 fail.**
+Flat BC_klein is 2.000 gen for 28 / 6 / 4. The headline is the zero, not the perfect
+rate.
+
+**Three of my own recommendations were wrong and are corrected.** (1) I had said route
+high-hair references to QX; on absolute marks BC_klein takes 5 of those to perfect
+against QX's 4 — Ray's original call. The binary marks had inverted it because QX's
+`ok`s counted as wins. (2) A third arm on escalation buys nothing: the un-chosen
+subtractive arm is `fail` on 3 of the 5 escalated sets because it shares PHEAD's
+failure mode. (3) The §2b ruling against a VLM priced a *closed frontier* API. A
+self-hosted 7-8B open VLM is ~$0.0003 against ~$0.015 per generation, so at 2
+generations per wasted escalation **it can be wrong 100 times per save and break even**.
+
+**Concluded.** *Inference.* Routing is the half that works and the gate the half that
+does not — the reverse of the "gate first, routing second" assumption v2.2.3 was built
+on. A router predicting from the *input* has a physically-motivated free feature (hair
+over garment, AUC 0.862); every check reading the *output* sits at 0.38-0.57. And no
+deterministic artefact check is available even in principle: published AI-artefact
+detectors answer "was this generated", which is true of 100% of these frames.
+
+**Also.** The AMT tier is retired as the label of record. `perfect` there meant tied
+for first among ten arms — relative, and unable to drive an absolute stop decision. It
+agrees with the absolute pass on 81% of cells, so earlier conclusions built on it were
+directionally right and quantitatively loose.
+
+**Next.** Validate the VLM artefact check against the 114 absolute tiers — GPU time,
+no fal spend. Then recompute the hair threshold over all 48 references. That closes
+v2.2. The self-hosted parity run remains owed regardless.

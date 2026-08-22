@@ -119,7 +119,7 @@ next is tested under:
 |---|---|---|---|---|
 | **M** | **Mannequin** — replace the wearer's visible skin with a neutral form | M1–M2 | mechanism 3 (body attributes leak) and mechanism 1 (C4's holes) | Ray eyeballs the crops |
 | **BG** | **Ground selection** — white or a neutral alternative, chosen per reference by a detector | BG1–BG4 | mechanism 2 (pale garment on white ground) | Ray verifies the *detector's judgement*, not the outputs |
-| **AC** | **Auto-complete** — put back garment area the head cut destroyed | AC0–AC8 | mechanism 1 (the gap read as white cloth) | Ray verifies it works; **no klein test until then** |
+| **AC** | **Auto-complete** — put back garment area the head cut destroyed | AC0–AC9 | mechanism 1 (the gap read as white cloth) | Ray verifies it works; **no klein test until then** |
 
 Order of execution is **M → BG → AC**: M changes how much work BG has to do, and
 AC's learned arms are the only ones carrying a cost, so they run last.
@@ -231,7 +231,7 @@ is also pale enough to collide with a light grey. So "adaptive across a ramp" is
 really "white, or one alternative ground". Recorded rather than acted on — if the
 review confirms it, BG3 loses a parameter.
 
-### AC — auto-complete (AC0–AC8)
+### AC — auto-complete (AC0–AC9)
 
 **What is being tested.** Whether garment area destroyed by the head cut can be put
 back well enough that the model stops reading the gap as white cloth — and, since
@@ -1167,7 +1167,7 @@ than hard-coded.
 ok / fail). That is a labelled validation set, which no earlier stage of this project
 had.
 
-`v2/artifacts/v221_gate_simulation.html` grades **every** arm, assumes nothing, and
+`v2/artifacts/v223_gate_simulation.html` grades **every** arm, assumes nothing, and
 **replays the cascade at any threshold** the reviewer chooses — with no new
 generations. Each set renders as a chain: rejected attempts in red, the accepted one
 in green, arrows between, and every cell showing its composite score, its weakest
@@ -1183,11 +1183,110 @@ escalating until something works.** A gate that misjudges which attempt failed b
 still reaches a passing arm has done its job. Judging it on per-output agreement alone
 would be holding it to the wrong standard.
 
+### The v2.2.3 harness — settled design (2026-08-21)
+
+Charts: [images/harness_v223.png](images/harness_v223.png). All numbers below come
+from `v223_perfect_tier_picks.csv`, an absolute perfect / ok / fail pass over 114
+cells. **It supersedes the AMT tier as the label of record**, because AMT `perfect`
+meant *tied for first among ten arms* — a relative ranking, which cannot drive an
+absolute stop decision. The two labels agree on 81% of cells; 9 AMT-`perfect` cells
+are only `ok` on the absolute pass and 7 AMT-`ok` cells are `perfect`.
+
+```
+user specified a garment region?  ──yes──►  QX
+hair over garment ≥ ~14%?         ──yes──►  BC_klein  (2 gen)
+                    │no
+                    ▼
+                 PHEAD  (1 gen)
+                    │
+        crash guard + VLM artefact check ──fires──►  QX  (+2 gen)
+                    │clean                             │
+                    ▼                          VLM picks the better of the two
+                  ship
+```
+
+**1.526 generations/request. 32 perfect, 6 ok, 0 fail across 38 sets.**
+
+#### Why each branch is what it is
+
+**The arms are not interchangeable, and their tier profiles say what each is for:**
+
+| arm | perfect | ok | fail | role |
+|---|---|---|---|---|
+| PHEAD | 23 (61%) | 5 | 10 | free default |
+| BC_klein | **28 (74%)** | 6 | 4 | highest ceiling |
+| QX | 20 (53%) | 17 | **1** | **safety net** — lowest ceiling, lowest floor |
+
+QX is last precisely *because* it is the weakest at producing a perfect frame and the
+strongest at not producing a failure. Escalating to BC_klein instead gives **29
+perfect / 6 ok / 3 fail** against QX's 32 / 6 / 0 — QX is the only arm that converts
+failures into non-failures.
+
+**The router is one deterministic feature, already in the pipeline.** Hair over
+garment = C3.2 − C3.1, the region hair removal takes out of the crop, from the
+BiRefNet matte and the parser's hair class. It predicts *PHEAD not perfect* at
+**AUC 0.862**. Routing high-hair references to BC_klein rather than QX is correct on
+the absolute marks (5 perfect vs 4 on the high-hair PHEAD failures); an earlier
+recommendation to route them to QX was drawn from the binary sheet and was wrong —
+QX's pile of `ok`s had counted as wins. Quality is flat across a 12–16% threshold, so
+this is not a knife-edge fit.
+
+**Two candidates on escalation, never three.** Generating the *other* subtractive arm
+alongside QX costs +0.21 gen/request and buys nothing: on all 5 escalated sets QX
+matches or beats it (the other arm is `fail` on 3 of 5). PHEAD and BC_klein share a
+failure mode, so the un-chosen one is paying to re-run what just broke.
+
+**The escalation trigger is a VLM, and the argument is cost tolerance rather than
+accuracy.** A check on a self-hosted 7–8B open VLM costs ~$0.0003 against ~$0.015 for
+a generation — about **0.02 generation-equivalents**, ~1% of pipeline cost. A wasted
+escalation costs 2 generations ($0.030). **The VLM can be wrong 100 times for every
+save and still break even.** This reverses [§2b](#2b)'s ruling, which priced a
+*closed frontier* API; an open 8B is 20–50× cheaper and is open weights, which the
+deploy path requires anyway.
+
+**Ask it the narrow question.** A failure-only trigger reaches 32 / 6 / 0 at 1.526
+gen; a full perfect-vs-ok tier judge reaches 34 / 4 / 0 at 1.789. The cheap version
+removes **every** failure — the headline result — and asks only "is this broken",
+which is the question §2b showed a VLM can answer. The harder "is this the best
+available" call buys 2 perfects for +0.26 gen and can be added later.
+
+**A deterministic artefact check is not available, for a structural reason.** Every
+output check scores AUC 0.38–0.57 against the absolute marks (background is
+*inverted* at 0.379). More fundamentally, published AI-artefact detectors answer
+*"was this generated?"* — and 100% of these were, so such a detector fires on every
+frame and discriminates nothing. The question needed is *"is this generated image
+wrong"*, a different axis with no deterministic instrument. The one genuine exception
+worth building is **anatomical plausibility** (MediaPipe Hands finger counting, pose
+landmark impossibility) — narrow, free, and able to run ahead of the VLM as a
+pre-filter.
+
+#### What is unproven
+
+1. **The VLM artefact check is unmeasured.** Everything above assumes it fires
+   correctly. Validating it costs GPU time and no fal spend: 456 outputs and 114
+   absolute tiers are already on disk.
+2. **The hair threshold is fitted** on these 38 sets. AUC 0.862 is the honest number;
+   the 14% cut-point needs the other 48 references. The 12–16% plateau is reassuring
+   but not a substitute.
+3. **The user-specification branch has no evidence** — nothing in the test set carries
+   one. QX's single-failure profile makes it a safe default there; that is reasoning,
+   not measurement.
+4. **The residual is 4 sets with no perfect arm**, and on 3 of them all three arms are
+   `ok` — the selection VLM has nothing meaningful to choose between. Only
+   `HD_p023+p019` is a genuine hard case. The tiebreak matters on ~1 set in 38, so it
+   is insurance rather than a value driver.
+5. **n = 38, one reviewer, one seed**, and every number is a fal number.
+
 ## 3. What 2.2.3 is
 
 A deterministic, CPU-only gate that decides whether a generated frame is usable.
 It produces a verdict and reason codes per output; when enabled, a rejected
 output triggers a re-call of the model on a fresh deterministic seed.
+
+**Superseded twice, kept visible.** The reseed clause is dead — failure is a property
+of the garment, so a re-roll reproduces it; the gate must escalate mechanism. And as
+of 2026-08-21 the deterministic gate itself is dead: measured AUC 0.506 against the
+reviewer. See the tiered harness above.
 
 F3 has two shapes and each needs its own check:
 

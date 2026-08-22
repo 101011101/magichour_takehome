@@ -889,5 +889,158 @@ Not started. Proceeds after the v2.2.1 klein trials.
 
 ## v2.2.3 — failure gate
 
-Not started. Built but not called during the v2.2.1/v2.2.2 runs, so failure rates
-stay measurable rather than being silently replaced by retries.
+Built at `v2/build/failure_gate.py`, called on all 456 AMT outputs, and **graded
+against the reviewer twice**. It does not work. This section records the negative
+result and the design that replaces it.
+
+### The deterministic gate is a coin flip (2026-08-21)
+
+The identity check finally ran — AuraFace had been silently disabled by a path
+mismatch (the HF snapshot puts its ONNX files at the snapshot root; insightface
+expects `<root>/models/<name>/`, so it tried to fetch a non-existent `auraface.zip`
+and fell back to no model). With it enabled the separation table over all 456
+outputs looks, at first, like a success:
+
+| check | perfect | ok | fail | separation |
+|---|---|---|---|---|
+| degenerate | 0.823 | 0.884 | 0.863 | −0.040 |
+| noop | 0.892 | 0.914 | 0.893 | −0.001 |
+| people | 0.974 | 1.000 | 0.995 | −0.021 |
+| **identity** | **0.999** | 1.000 | **0.782** | **+0.216** |
+| background | 0.884 | 0.835 | 0.736 | +0.148 |
+
+Identity alone, at any threshold from 0.1 to 0.6, is **100% precise** — it has never
+once flagged a frame the reviewer liked — at 18–24% recall.
+
+**And it is useless here, for a structural reason.** It fires on `BALD_raw` (12/38)
+and the D\*O disfiguration arms (4, 7, 3 of 38) — every one of which leaves a head in
+the garment reference. It fires on **zero of PHEAD, BC_klein and QX**, and reads
+exactly **1.00 on all eight PHEAD failures**. Those three arms remove or regenerate
+the reference person, so identity substitution is the one failure they *cannot* have.
+The only check with signal is blind to every case the cascade needs caught.
+
+### The direct test — 114 cells, judged blind
+
+`v2/artifacts/v223_cheapest_usable.html` presents each set's three cascade arms in
+cost order and asks one question per cell: usable or not. Gate scores were **hidden
+by default**, because a visible score anchors the reviewer into agreeing with it and
+would manufacture the very agreement the sheet exists to measure. All 114 cells were
+marked. Results in
+[images/gate_vs_human.png](images/gate_vs_human.png).
+
+| | |
+|---|---|
+| Gate score, cells Ray called **usable** (n=82) | 0.684 |
+| Gate score, cells Ray called **unusable** (n=32) | 0.674 |
+| **Gap** | **0.010** |
+| **AUC of gate score against Ray's verdict** | **0.506** |
+| Best agreement at any threshold (0.20) | 71.1% |
+| Agreement from accepting every frame unchecked | **71.9%** |
+
+**AUC 0.506 is a coin flip, and no threshold beats doing nothing at all.** Every
+sub-check flatlines on these three arms: degenerate −0.009, noop +0.026, people
++0.004, identity +0.008, background −0.027.
+
+**The control that makes this conclusive.** The same reviewer labelled the same
+outputs twice, in different sessions, under different questions — the AMT tier first,
+the binary usable call second. The two passes agree almost perfectly and in the right
+order:
+
+| earlier AMT tier | later call: usable |
+|---|---|
+| perfect (n=74) | **95%** |
+| ok (n=27) | **44%** |
+| fail (n=13) | **0%** |
+
+So the judgement being asked for is stable and reproducible, and a *semantic* label
+predicts it almost perfectly. The gate predicts it not at all. **The noise is in the
+instrument, not in the target.**
+
+### The ordering correction — QX belongs in slot 2
+
+Of PHEAD's 13 unusable sets, **QX rescues 11, BC_klein only 6.** BC_klein is the
+stronger arm standing alone (79% usable against QX's 71%) and is still the worse
+second step, because it fails on what PHEAD fails on — both subtract, so neither can
+recover what the crop never saw. This reproduces, on per-cell marks this time, the
+cost result already in [Cost analysis](#cost-analysis--cascade-versus-routing-2026-08-19):
+
+| order | generations per request |
+|---|---|
+| PHEAD → BC_klein → QX | 2.053 |
+| **PHEAD → QX → BC_klein** | **1.789** |
+
+Same coverage either way (37 of 38 sets), 13% cheaper. **Ship QX second.**
+
+### The absolute re-mark, and what ships (2026-08-21)
+
+The binary sheet conflated *ship it* with *acceptable*, so all 38 sets were re-marked
+**perfect / ok / fail** in absolute terms: `v223_perfect_tier.html` →
+[`v223_perfect_tier_picks.csv`](../../v223_perfect_tier_picks.csv). Charts:
+[images/harness_v223.png](images/harness_v223.png).
+
+**This replaces the AMT tier as the label of record.** AMT `perfect` meant *tied for
+first among ten arms*; an arm can top a weak field without being shippable. The two
+agree on 81% of cells, with 9 AMT-`perfect` cells only `ok` on the absolute pass.
+
+| arm | perfect | ok | fail |
+|---|---|---|---|
+| PHEAD | 23 (61%) | 5 | 10 |
+| BC_klein | **28 (74%)** | 6 | 4 |
+| QX | 20 (53%) | 17 | **1** |
+
+**QX's shape is the finding.** Lowest ceiling, by far the lowest floor. The binary
+sheet scored it at 71% "usable" and hid that most of those were merely `ok`. It is a
+safety net, not a quality arm, and that is why it belongs last: escalating to BC_klein
+instead of QX gives **29 perfect / 6 ok / 3 fail** against QX's 32 / 6 / 0.
+
+**The settled harness** — full design and rationale in
+[EXPERIMENT.md §2d](EXPERIMENT.md):
+
+| design | gen/req | perfect | ok | fail |
+|---|---|---|---|---|
+| flat BC_klein, no harness | 2.000 | 28 | 6 | 4 |
+| first arm only (router, no escalation) | 1.263 | 28 | 5 | 5 |
+| **router → arm → QX on failure** | **1.526** | **32** | 6 | **0** |
+| …escalating on *not perfect* rather than failure | 1.789 | 34 | 4 | 0 |
+| full 3-step cascade PHEAD → BC → QX | 2.053 | 34 | 4 | 0 |
+
+**The headline is the zero, not the perfect rate.** Nothing ships as a failure,
+against 4 for flat BC_klein, at 76% of its cost.
+
+**Three corrections this pass forced.**
+
+1. **Route high-hair references to BC_klein, not QX.** The previous recommendation was
+   drawn from the binary marks, where QX's `ok`s counted as wins. On absolute marks
+   BC_klein takes 5 of the high-hair PHEAD failures to perfect against QX's 4.
+2. **Two candidates on escalation, never three.** Generating the other subtractive arm
+   costs +0.21 gen/request for zero quality gain — it is `fail` on 3 of the 5
+   escalated sets, because it shares PHEAD's failure mode.
+3. **A VLM is affordable after all.** [§2b](EXPERIMENT.md) priced a *closed frontier*
+   API. A self-hosted 7–8B open VLM costs ~$0.0003 against ~$0.015 per generation —
+   0.02 generation-equivalents. Since a wasted escalation costs 2 generations, **it
+   can be wrong 100 times per save and still break even.** Cost is no longer the
+   objection; capability is, and it is unmeasured.
+
+**The routing feature is free and deterministic.** Hair over garment = C3.2 − C3.1,
+from the BiRefNet matte and the parser hair class, already computed in the crop
+screen. It predicts *PHEAD not perfect* at **AUC 0.862**, against 0.38–0.57 for every
+output check. Quality is flat across a 12–16% threshold.
+
+### Status
+
+**The deterministic gate does not ship as a quality judge.** It survives only as a
+crash guard for the deploy path — a black frame, a truncated response — justified by
+production robustness, not by measured value, since this test set contains no crashes.
+Identity stays wired in as a free 100%-precision monitor, an alert rather than a spend
+decision.
+
+**The router ships**, reversing its earlier deferral. That deferral rested on a
+four-feature z-summed candidate at ~75% fitted accuracy, and on the argument that a
+router needs a gate to catch its mistakes. Both premises changed: the feature is now a
+single physically-motivated measurement at AUC 0.862, and the escalation step catches
+route errors directly. **Routing turned out to be the half that works and the gate the
+half that does not** — the opposite of the "gate first, routing second" assumption
+v2.2.3 was built on.
+
+**What closes v2.2:** validate the VLM artefact check against the 114 absolute tiers.
+It needs GPU time and no fal spend.

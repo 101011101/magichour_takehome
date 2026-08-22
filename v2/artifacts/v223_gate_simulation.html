@@ -39,6 +39,20 @@ input[type=range]{width:280px;accent-color:var(--acc)}
 .step .s{font-size:11.5px;color:var(--dim)}
 .step .s .w{color:var(--bad)}
 .arrow{align-self:center;color:var(--bad);font-size:22px;padding:0 2px;font-weight:700}
+.verdict{margin:18px 30px;border:1px solid var(--line);border-radius:10px;background:#121216}
+.verdict h2{margin:0;padding:12px 16px;font-size:14px;border-bottom:1px solid var(--line)}
+.verdict .body{padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.verdict table{border-collapse:collapse;font-size:12.5px;width:100%}
+.verdict th,.verdict td{padding:4px 9px;text-align:right;border-bottom:1px solid #1d1d23}
+.verdict th:first-child,.verdict td:first-child{text-align:left}
+.verdict th{color:var(--dim);font-weight:600}
+.verdict .cap{color:var(--dim);font-size:12px;margin:0 0 7px}
+.verdict .hit{color:var(--good);font-weight:700}
+.verdict .miss{color:var(--bad);font-weight:700}
+.verdict p.k{margin:10px 16px 14px;font-size:13px;color:var(--fg);
+ border-left:3px solid var(--acc);padding-left:11px;max-width:110ch}
+@media(max-width:1000px){.verdict .body{grid-template-columns:1fr}}
+
 .inp{flex:0 0 150px;padding:9px;background:#101418;border-radius:9px;margin:2px}
 .inp img{width:100%;background:#fff;border-radius:4px;display:block}
 .inp .t{font-size:11.5px;color:var(--good);font-weight:600;margin-top:5px}
@@ -62,6 +76,7 @@ input[type=range]{width:280px;accent-color:var(--acc)}
 .dis{color:var(--bad);font-weight:700;font-size:11px}
 </style>
 <header><h1>Failure gate &mdash; simulated cascade</h1><div class='q'>Every arm graded, nothing assumed. Move the threshold and the pipeline re-simulates.</div><div class='sub'>No generations were made for this page. Each arm already has an output and a human verdict; the gate scores them, and the cascade is replayed at whatever acceptance threshold you choose.</div></header>
+<div class='verdict'><h2>Does the gate work? &mdash; the evidence, recomputed on every build</h2><div class='body'><div><p class='cap'>Mean sub-score by human verdict, over the 418 outputs that carry both. A check only works if the <b>perfect</b> column sits clearly above <b>fail</b>.</p><table><tr><th>check</th><th>perfect</th><th>ok</th><th>fail</th><th>separation</th></tr><tr><td>degenerate</td><td>0.823</td><td>0.884</td><td>0.863</td><td class='miss'>-0.040</td></tr><tr><td>noop</td><td>0.892</td><td>0.914</td><td>0.893</td><td class='miss'>-0.001</td></tr><tr><td>people</td><td>0.974</td><td>1.000</td><td>0.995</td><td class='miss'>-0.021</td></tr><tr><td>identity</td><td>0.999</td><td>1.000</td><td>0.782</td><td class='hit'>+0.216</td></tr><tr><td>background</td><td>0.884</td><td>0.835</td><td>0.736</td><td class='hit'>+0.148</td></tr></table></div><div><p class='cap'>Identity is the only check with real separation and it is <b>100% precise</b> &mdash; below 0.5 it has never once flagged a frame the reviewer liked. But look at <i>where</i> it fires:</p><table><tr><th>arm</th><th>identity fires</th><th>of</th></tr><tr><td>BALD_raw</td><td class='hit'>12</td><td>38</td></tr><tr><td>D2O</td><td class='hit'>7</td><td>38</td></tr><tr><td>D1hO</td><td class='hit'>4</td><td>38</td></tr><tr><td>D3O</td><td class='hit'>3</td><td>38</td></tr><tr><td><b>QX_qwen_p1 &nbsp;&larr; cascade arm</b></td><td class='miss'>0</td><td>38</td></tr><tr><td><b>BC_klein &nbsp;&larr; cascade arm</b></td><td class='miss'>0</td><td>38</td></tr><tr><td>D1hB</td><td class='hit'>0</td><td>38</td></tr><tr><td>D2B</td><td class='hit'>0</td><td>38</td></tr><tr><td>D3B</td><td class='hit'>0</td><td>38</td></tr><tr><td>control</td><td class='hit'>0</td><td>38</td></tr><tr><td>PCROP</td><td class='hit'>0</td><td>38</td></tr><tr><td><b>PHEAD &nbsp;&larr; cascade arm</b></td><td class='miss'>0</td><td>38</td></tr></table></div></div><p class='k'><b>It does not, for this cascade.</b> Identity fires on exactly <b>0</b> of the three cascade arms, and reads <b>1.00 on all 8 PHEAD failures</b>. Those arms never swap the person &mdash; that is the one failure mode they structurally cannot have &mdash; so the only check with signal is blind to every case the cascade needs caught. It fires only on <code>BALD_raw</code> and the D*O disfiguration arms, which keep a head in the reference. The remaining failures are semantic (wrong garment, repainted scene) and pixel statistics cannot see them.</p><p class='k'><b>So: no router.</b> A router must be &ge;79% accurate to beat cascading, the candidate sits at ~75% fitted on its own data, and a router is only worth building on top of a gate that can catch its mistakes. There is no such gate. <b>Ship the best single arm &mdash; BC_klein, 95% usable, flat 2 units</b> &mdash; and keep identity as a free 100%-precision monitor, not a spend decision.</p></div>
 <div id='bar'><label>accept at &ge; <span id='thv'></span></label><input type='range' id='th' min='0' max='1' step='0.01' value='0.50'><span class='ord'><button data-o='A' class='on'>PHEAD &rarr; QX &rarr; BC</button><button data-o='B'>PHEAD &rarr; BC &rarr; QX</button></span><span id='stats'></span></div>
 <div class='legend'><ul><li><b>Green</b> = the gate accepted and the cascade stopped. <b>Red</b> = rejected, escalate. <b>Faded</b> = never reached</li><li>Each cell shows the composite score, the <b>weakest check</b> that produced it, all five sub-scores, and what the human called that frame &mdash; so gate and reviewer can be compared directly</li><li>The composite is the <b>weakest</b> check, not the average: one hard failure should sink a frame rather than being hidden by four good scores</li><li><b>The garment check is deliberately absent.</b> &sect;2b measured <code>garment_sim</code> at 0.78 and a VLM at 4/5 on an output that transferred no garment &mdash; both reward a plausible garment over the correct one, so neither can carry this. What the gate does catch: degenerate frames, no-ops, duplicated people, identity leaks, repainted backgrounds</li><li>The header shows <b>units per request</b> at the current threshold and <b>what the human called the frame the gate accepted</b> &mdash; that second number is the one that matters</li></ul></div>
 <div class='ref' id='row_ts2_11'><div class='rh'><b>ts2_11</b><span class='m'>garment dualuse_man_black_suit_studio_nonceleb</span><span class='pill'>low-damage</span><span class='pill cost' id='cost_ts2_11'></span></div><div class='chain'>
@@ -373,7 +388,7 @@ input[type=range]{width:280px;accent-color:var(--acc)}
 <div class='ref' id='row_HD_p028+dualuse_navy_peacoat_onmodel'><div class='rh'><b>HD_p028+dualuse_navy_peacoat_onmodel</b><span class='m'>garment p028</span><span class='pill hd'>HIGH-DAMAGE</span><span class='pill cost' id='cost_HD_p028+dualuse_navy_peacoat_onmodel'></span></div><div class='chain'>
 <div class='inp'><img src='../runs/ts2/inputs/dualuse_navy_peacoat_onmodel.jpg' alt='HD_p028+dualuse_navy_peacoat_onmodel person'><div class='t'>person</div></div>
 <div class='inp'><img src='../../test_set/people/p028.jpg' alt='HD_p028+dualuse_navy_peacoat_onmodel garment'><div class='t'>garment</div></div>
-<div class='step' id='cell_HD_p028+dualuse_navy_peacoat_onmodel_PHEAD'><img src='../runs/amt/gen/HD_p028+dualuse_navy_peacoat_onmodel__PHEAD.jpg' alt='HD_p028+dualuse_navy_peacoat_onmodel — PHEAD  gate 0.50'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.50</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.50 · iden 1.00 · noop 0.73 · peop 1.00<br>human: perfect</div></div>
+<div class='step' id='cell_HD_p028+dualuse_navy_peacoat_onmodel_PHEAD'><img src='../runs/amt/gen/HD_p028+dualuse_navy_peacoat_onmodel__PHEAD.jpg' alt='HD_p028+dualuse_navy_peacoat_onmodel — PHEAD  gate 0.50'><div class='t'>PHEAD &nbsp;<span style='color:#7c5cff'>0.50</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.50 · iden 0.76 · noop 0.73 · peop 1.00<br>human: perfect</div></div>
 <div class='arrow'>&rarr;</div>
 <div class='step' id='cell_HD_p028+dualuse_navy_peacoat_onmodel_QX_qwen_p1'><img src='../runs/amt/gen/HD_p028+dualuse_navy_peacoat_onmodel__QX_qwen_p1.jpg' alt='HD_p028+dualuse_navy_peacoat_onmodel — QX  gate 0.47'><div class='t'>QX &nbsp;<span style='color:#7c5cff'>0.47</span></div><div class='s'>weakest <span class='w'>degenerate</span><br>back 1.00 · dege 0.47 · iden 1.00 · noop 0.60 · peop 1.00<br>human: perfect</div></div>
 <div class='arrow'>&rarr;</div>
@@ -525,7 +540,7 @@ document.getElementById('save').addEventListener('click', function(){
   var b = new Blob([out.join(nl)+nl], {type:'text/csv'});
   var a = document.createElement('a');
   a.href = URL.createObjectURL(b);
-  a.download = 'v221_gate_simulation.csv';
+  a.download = 'v223_gate_simulation.csv';
   document.body.appendChild(a); a.click();
   setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 400);
   var s = document.getElementById('save');
