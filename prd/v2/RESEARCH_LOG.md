@@ -416,3 +416,52 @@ open VLMs.
 SeedVR2 realism pass included so that the long-owed "composite never validated end to
 end" gap closes in the same pass. Then the report. The self-hosted parity run remains
 owed and now needs rented compute — the local machine has no GPU.
+
+---
+
+## 2026-08-22b — the realism pass is real, and it needs a gate on both sides
+
+**Did.** Replayed the harness over stored arm outputs, took the frame it ships for each
+of the 38 sets, and ran only that frame through `SeedVR2 ×2, noise_scale = 0` — the
+v2.1 winner. 38 calls, $1.52, no new generations. Built a drag-wipe review page with
+zoom to 12×, because at a mean absolute pixel change of 2.28/255 side-by-side
+thumbnails show nothing.
+
+**Found.** Ray's verdict by eye: the resolution increase is a **noticeable
+improvement**. The instruments say the same change is small — under 1% of pixels, 12%
+more high-frequency energy — and that it **cost identity on 7 of 38 frames, worst
+0.772**. That is inside the range that got Z-Image Turbo eliminated in v2.1, where the
+same SeedVR2 configuration had measured 0.943.
+
+**The trigger fell out of the data.** The frames that lose identity are the frames
+SeedVR2 **failed to sharpen**: where `hf_ratio < 1.0`, mean identity is 0.891 against
+0.941 elsewhere, and `corr(hf_ratio, identity) = +0.512`. One signal covers both
+problems — when the pass works it is safe, and when it fails it announces itself. That
+is what makes a post-hoc check viable rather than requiring a good pre-hoc predictor,
+which is just as well, because the pre-hoc signal is weak (`hf_before` correlates with
+gain at only −0.148).
+
+**Concluded.** *Inference.* Ship the pass **conditional on both ends**: skip when
+`hf_before >= 2.5` (already sharp, so dead cost), and **revert to the original when
+`identity_cos < 0.90`** (it damaged the face). 29 calls instead of 38, **no delivered
+frame below 0.90 identity**, and 1.110 of the 1.121 mean sharpening gain retained. Both
+checks are free and already in the pipeline.
+
+**Revert, never retry** — SeedVR2 takes a seed but accepts no prompt, and the failure is
+a property of the frame rather than the roll. Same reasoning that killed reseeding at
+the escalation stage; it generalises.
+
+**Caveat carried forward, and it matters.** AuraFace is comparing an 832×1248 frame
+against a 2× upscale of itself, so part of the measured identity drop is resampling
+rather than damage, and the absolute number should not be set against v2.1's 0.943.
+The policy does not depend on the absolute value — the trigger uses relative ordering —
+but a matched-scale re-measure is owed. The 2.5 and 0.90 cut-points are fitted on 38
+frames; the mechanism is the transferable part.
+
+**This closes two long-open items:** "klein → SeedVR2 never validated end to end", open
+since v2.1, and v2.4's pre-registered question 3, "should the auxiliary stage be
+conditional on a measured realism deficit?" Yes, and on the output as well as the input.
+
+**Next.** The end-to-end run over one assembled program, then the report. The
+self-hosted parity run remains owed and needs rented compute. v2.4's actual question —
+does anything *beat* SeedVR2, and can anything de-gloss — is untouched.

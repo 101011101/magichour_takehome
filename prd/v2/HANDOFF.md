@@ -145,7 +145,9 @@ hair over garment >= ~14%?        ──yes──►  BC_klein  (2 gen)
    VLM-A  garment == FAIL                   ──┴─► QX (+2 gen), take QX
                     |clean
                     v
-                  ship  ──►  SeedVR2 noise_scale=0
+                  ship  ──►  realism pass, conditional:
+                              skip if already sharp (hf >= 2.5)
+                              revert if identity < 0.90
 ```
 
 **2.105 generations/request. 30 perfect / 7 ok / 1 fail over 38 sets.** Flat
@@ -170,6 +172,21 @@ prompt correctly calls clean. Deterministic checks and the VLM are complementary
 
 **Caveat:** the model hedges (331 of 570 verdicts `OK`, only 49 `FAIL`), which caps
 recall at 51%. Binary forced-choice prompts and fp16 instead of 4-bit are both untried.
+
+### THE REALISM PASS — validated and made conditional, 2026-08-22
+
+[`v2.4/RESULTS.md`](v2.4/RESULTS.md) ·
+[`v223_realism_pass.html`](../../v2/artifacts/v223_realism_pass.html) (drag to wipe,
+zoom to 12×). SeedVR2 ×2 at `noise_scale = 0` over the 38 frames the harness ships.
+The resolution gain is clearly visible; run unconditionally it cost identity on **7 of
+38 frames, worst 0.772** — inside the range that eliminated Z-Image Turbo in v2.1.
+
+Gated on both sides: **skip if `hf_before >= 2.5`** (already sharp), **revert if
+`identity_cos < 0.90`** (it damaged the face). 29 calls instead of 38, **no frame
+below 0.90**, 1.110 of the 1.121 sharpening gain kept.
+
+The trigger works because the frames that lose identity are the frames SeedVR2 *failed
+to sharpen* — `corr(hf_ratio, identity) = +0.512`. The failure announces itself.
 
 ### NEXT — the end-to-end run
 

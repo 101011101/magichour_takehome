@@ -62,9 +62,11 @@ the human parser. See §9.
                        clean                                 │
                         └────────────────┬───────────────────┘
                                          ▼
-        ┌────────────────────────────────────────┐
-        │  5. REALISM PASS — SeedVR2 noise_scale=0│   ~$0.005
-        └────────────────┬───────────────────────┘
+        ┌────────────────────────────────────────────┐
+        │  5. REALISM PASS — conditional             │  ~$0.04, ~76% of requests
+        │     skip if already sharp                  │
+        │     revert if it damages the face          │
+        └────────────────┬───────────────────────────┘
                          ▼
                       OUTPUT
 ```
@@ -308,16 +310,50 @@ bought; a cheap opinion is.
 requests/month with headroom, at roughly $300–600/month — about $0.0003 per call, which
 is what the argument above assumes.
 
-## 7. Stage 5 — realism
+## 7. Stage 5 — realism, conditional
 
 **SeedVR2, ×2 upscale, `noise_scale = 0`.** Note `0`, not fal's default `0.1`: the
 default is measurably worse on both fidelity (4.88 vs 5.00) and identity (0.892 vs
 0.943).
 
-SeedVR2 accepts **no text input**. It restores; it does not repair artefacts and it
-does not remove gloss.
+SeedVR2 accepts **no text input**. It restores and upscales; it does not repair
+artefacts and it does not remove gloss.
 
----
+**The resolution increase is a clear, visible improvement** — 832×1248 → 1664×2496 —
+which is why the stage is in the pipeline. But run unconditionally it cost identity on
+7 of 38 frames, with a worst case of **0.772**, inside the range that got Z-Image Turbo
+eliminated in v2.1. So it is gated on both sides:
+
+```
+if hf_before(frame) >= 2.5:              # already sharp: nothing to restore
+    skip
+else:
+    out = seedvr2(frame, factor=2, noise_scale=0)
+    if identity_cos(out, frame) < 0.90:  # it damaged the face
+        keep the original                # free, deterministic, CPU
+    else:
+        ship out
+```
+
+| policy | calls | mean identity | worst | below 0.90 | sharpening kept |
+|---|---|---|---|---|---|
+| always run | 38/38 | 0.933 | 0.772 | **7** | 1.121 |
+| **skip-if-sharp + revert (shipped)** | **29/38** | **0.971** | **0.922** | **0** | **1.110** |
+
+**24% fewer calls, no frame below 0.90 identity, and essentially all of the benefit.**
+
+**Why a post-hoc check works.** The frames that lose identity are the frames SeedVR2
+*failed to sharpen* — where `hf_ratio < 1.0`, mean identity is 0.891 against 0.941
+elsewhere, and `corr(hf_ratio, identity) = +0.512`. One signal covers both problems:
+when the pass works it is safe, and when it fails it announces itself.
+
+**Revert, never retry.** SeedVR2 takes a seed but accepts no prompt, and the failure is
+a property of the frame rather than the roll — the same reasoning that killed reseeding
+at the escalation stage. Falling back to the original frame is the correct response.
+
+Both checks are free: one high-frequency measure and one AuraFace cosine, both already
+in the pipeline. Full detail and the policy comparison:
+[v2.4/RESULTS.md](v2.4/RESULTS.md).
 
 ## 8. What not to build
 
@@ -356,8 +392,12 @@ State these wherever the numbers above are quoted.
    carries one. QX's single-failure profile makes it a safe default; that is reasoning.
 4. **The human parser's licence is unverified**, and head detection depends on it. It
    is fine for measurement and **not cleared for the deploy path**.
-5. **n = 38, one reviewer, one seed, unblinded.**
-6. **Every number in this document is a fal number.** Nothing has been verified on
+5. **The realism thresholds (2.5 and 0.90) are fitted** on 38 frames. The mechanism —
+   `hf_ratio < 1` predicts identity damage — is the transferable part; the cut-points
+   are not. The identity figure is also confounded by comparing a frame against a 2×
+   upscale of itself, so some of the measured drop is resampling.
+6. **n = 38, one reviewer, one seed, unblinded.**
+7. **Every number in this document is a fal number.** Nothing has been verified on
    downloaded weights end to end. This is the largest outstanding gap.
 
 ---
@@ -378,7 +418,7 @@ unchanged. No stage may ever emit a broken image.**
 | 6 | Crash guard | fires on a deliberately blacked frame; fires on a no-op |
 | 7 | VLM-A, two prompts | reproduces 70.2% on `garment` against a 62.3% baseline |
 | 8 | escalation wiring, always to QX | 2.105 gen/request, 30 / 7 / 1 |
-| 9 | SeedVR2 pass | identity cosine does not drop; `noise_scale` is `0` |
+| 9 | SeedVR2 pass, conditional | 29 of 38 frames run; no delivered frame below 0.90 identity; `noise_scale` is `0` |
 | 10 | **Self-hosted parity** | every number above, on downloaded weights |
 
 **Judge by eye at every step.** Three separate times in this project an instrument said

@@ -5,9 +5,15 @@ Design: [ARCHITECTURE.md](ARCHITECTURE.md) · History: [DECISIONS.md](DECISIONS.
 
 Last updated 2026-08-22.
 
-**v2.2.3 is complete.** The VLM gate is measured and the harness is settled at
-2.105 generations/request, 30 perfect / 7 ok / 1 fail — same cost as the best
-single arm, a quarter of the failures. **v2.2 is closed.**
+**v2.2 is closed.** The harness is settled at 2.105 generations/request,
+30 perfect / 7 ok / 1 fail — same cost as the best single arm, a quarter of the
+failures.
+
+**v2.4 is partly closed.** The realism pass is validated end to end over harness
+output and is now **conditional** — skip if already sharp, revert if it damages
+the face. 24% fewer calls, no frame below 0.90 identity, essentially all of the
+sharpening benefit. See [v2.4/RESULTS.md](v2.4/RESULTS.md). What remains of v2.4
+is the *replacement* question, not the validation one.
 
 ---
 
@@ -16,11 +22,11 @@ single arm, a quarter of the failures. **v2.2 is closed.**
 ### 1. The end-to-end run — the deliverable number
 
 Run the **assembled** pipeline, not a replay of stored arm outputs, over the 38
-sets: router → arm → crash guard → VLM-A → escalate → **SeedVR2 realism pass**.
+sets: router → arm → crash guard → VLM-A → escalate → conditional realism pass.
 
-Include the realism stage. It was chosen in v2.1 and has **never been validated
-end to end with klein** — that gap is already owed, and running it here closes it
-in the same pass instead of buying a second run.
+The realism stage no longer needs *validating* here — v2.4 did that — but it does
+need running **as part of one assembled program** rather than as a replay plus a
+separate script, because that program is the deliverable.
 
 Comparison arms, same sets, same seed:
 
@@ -74,13 +80,16 @@ it: the VLM cannot *detect* artefacts in our outputs (the `artefact` prompt neve
 fired), and the harness already removes 3 of 4 shipped failures. Re-scope to
 whatever survives the end-to-end run rather than running the original plan.
 
-### 8. v2.4 (auxiliary realism) — a single test
+### 8. v2.4 — what is left of it: the replacement question only
 
-Does anything beat SeedVR2 `noise_scale=0` on both batches. Highest-priority
-candidate is **Z-Image Base + PAI Fun tile-ControlNet + UltraReal LoRA**
-(self-host only) — the only remaining route to de-glossing, which SeedVR2 does not
-do. Note step 1 already validates SeedVR2 in place, so this is a *replacement*
-question, not a validation one.
+Validation and the conditional trigger are **done** ([RESULTS](v2.4/RESULTS.md)).
+What remains is whether anything *beats* SeedVR2. Highest-priority candidate:
+**Z-Image Base + PAI Fun tile-ControlNet + UltraReal LoRA** (self-host only) — the
+only remaining route to **de-glossing**, which SeedVR2 does not do and never did.
+
+Also worth revisiting cheaply: the realism thresholds (2.5, 0.90) are fitted on 38
+frames, and the identity figure is confounded by comparing against a 2× upscale of
+the same frame. Re-measure at matched scale.
 
 ### 9. Anatomical plausibility pre-filter
 
