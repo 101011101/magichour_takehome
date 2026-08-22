@@ -21,12 +21,17 @@ is the *replacement* question, not the validation one.
 
 ### 1. The end-to-end run — the deliverable number
 
-Run the **assembled** pipeline, not a replay of stored arm outputs, over the 38
-sets: router → arm → crash guard → VLM-A → escalate → conditional realism pass.
+Run the **assembled** pipeline over the 38 sets: router → arm → input comparison →
+VLM-A → escalate → optional realism.
 
-The realism stage no longer needs *validating* here — v2.4 did that — but it does
-need running **as part of one assembled program** rather than as a replay plus a
-separate script, because that program is the deliverable.
+**`arms.generate` is now wired** (2026-08-22). It reads each arm's stored garment
+reference rather than rebuilding it — those references produced every measured
+number, and a rebuilt PHEAD crop comes out 1347×475 against the stored 1194×467, so
+rebuilding would silently change the experiment. All 22 test garments have all three
+references, zero missing.
+
+What remains genuinely open is **building a reference for an unseen garment**, which
+production needs and the report does not.
 
 Comparison arms, same sets, same seed:
 
@@ -46,7 +51,19 @@ Estimated **~$2–3 fal**.
 
 Every number in every V2 document is a **fal** number and V2's premise is open
 weights in the deploy path. **Needs a rented GPU or Colab** — the local machine is
-an i3 with 8 GB and no GPU. The VLM notebook is the template.
+an i3 with 8 GB and no GPU.
+
+**Notebook ready:** `v2/v2_parity.ipynb` + `v2/runs/parity_bundle.zip` (40 MB, 8
+pairs spanning the interesting cases). Sections are independent so whatever fits the
+GPU can be run. Repository IDs are probed at runtime rather than hardcoded.
+
+Order of value: **the editor (klein)** carries 100% of requests and is the largest
+single risk; **the VLM** is the quickest win because its numbers currently come
+through OpenRouter, a third-party proxy, so it is the weakest link evidentially.
+
+Parity means *equivalent quality and the same harness decision*, **not** pixel
+equality — different schedulers and precisions will never reproduce a diffusion
+output exactly, and chasing that would be a category error.
 
 ### 3. Licence verification
 
