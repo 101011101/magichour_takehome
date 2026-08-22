@@ -53,9 +53,17 @@ Every number in every V2 document is a **fal** number and V2's premise is open
 weights in the deploy path. **Needs a rented GPU or Colab** — the local machine is
 an i3 with 8 GB and no GPU.
 
-**Notebook ready:** `v2/v2_parity.ipynb` + `v2/runs/parity_bundle.zip` (40 MB, 8
-pairs spanning the interesting cases). Sections are independent so whatever fits the
-GPU can be run. Repository IDs are probed at runtime rather than hardcoded.
+**Notebook ready:** **`v2/v2_openstack.ipynb`** + `v2/runs/openstack_bundle.zip`
+(18 MB) — the whole harness on open weights, no fal anywhere. Rebuilds garment
+references from **raw** images, so it doubles as the unseen-garment path.
+`RUN_QWEN_EXTRACT=False` skips the 57.7 GB extractor, which is only needed to build
+a QX reference for a garment we have never seen; the 38 test sets already have
+theirs. That halves the download to 56 GB.
+
+**L4 (24 GB) is the sweet spot** — klein fits with CPU offload at ~40% of an A100's
+cost. Weights cache to Drive so a disconnect does not repeat the download.
+
+(`v2/v2_parity.ipynb` was the narrower first pass and is superseded by it.)
 
 Order of value: **the editor (klein)** carries 100% of requests and is the largest
 single risk; **the VLM** is the quickest win because its numbers currently come
