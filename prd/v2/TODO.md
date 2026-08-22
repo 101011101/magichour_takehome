@@ -3,101 +3,106 @@
 Ordered. Everything above the line closes V2; everything below is iteration.
 Design: [ARCHITECTURE.md](ARCHITECTURE.md) · History: [DECISIONS.md](DECISIONS.md)
 
-Last updated 2026-08-21.
+Last updated 2026-08-22.
+
+**v2.2.3 is complete.** The VLM gate is measured and the harness is settled at
+2.105 generations/request, 30 perfect / 7 ok / 1 fail — same cost as the best
+single arm, a quarter of the failures. **v2.2 is closed.**
 
 ---
 
 ## Blocking V2 completion
 
-### 1. Validate the VLM artefact check — the one unbuilt component
+### 1. The end-to-end run — the deliverable number
 
-Everything in the harness assumes VLM-A fires correctly. **Cost is settled** (~$0.0003
-a call, 0.02 generation-equivalents); **capability is not measured.**
+Run the **assembled** pipeline, not a replay of stored arm outputs, over the 38
+sets: router → arm → crash guard → VLM-A → escalate → **SeedVR2 realism pass**.
 
-- Measure a self-hosted open VLM against the 114 absolute tiers in
-  `v223_perfect_tier_picks.csv`. 456 outputs are already on disk — **GPU time, no fal
-  spend.**
-- Ask the narrow question: *"does this contain rendering artefacts, anatomical
-  impossibilities, or obvious generation errors?"* — **not** *"is this good"*, which
-  §2b showed a VLM fails (4/5 on an output that transferred no garment).
-- **Success bar:** clearly beats AUC 0.57, the best deterministic check.
-- **Fallback if it fails:** ship the crash guard alone. 32/6/0 degrades to 28/5/5 —
-  still no worse than flat PHEAD, and the router alone still earns its place.
-- First candidate **Qwen2.5-VL-7B** (Apache-2.0). Then Pixtral-12B, InternVL3-8B,
-  Kimi-VL-A3B. **Not** Llama 3.2 Vision (excludes EU-domiciled entities) or Gemma 3.
+Include the realism stage. It was chosen in v2.1 and has **never been validated
+end to end with klein** — that gap is already owed, and running it here closes it
+in the same pass instead of buying a second run.
 
-### 2. End-to-end harness trials
+Comparison arms, same sets, same seed:
 
-Run the assembled harness on the test set and compare against **V1 cascade · flat klein
-(the v2.0 baseline) · flat BC_klein · the harness**. Same test set, same seed.
-Roughly 4 arms × 38 sets ≈ $2 fal. This produces the number that goes in the report.
+| arm | why |
+|---|---|
+| `qwen_2511` | the model on the Magic Hour website today — the baseline that matters |
+| flat `klein` (C3.1) | the v2.0 base with the shipped crop, no harness |
+| flat `BC_klein` | the strongest single arm |
+| **the harness** | the deliverable |
 
-### 3. Self-hosted parity run
+**Not** the V1 cascade: seedream is closed-weights, and its numbers came from a
+different test set, so the comparison would be invalid twice over.
 
-Every number in every V2 document is a **fal** number, and V2's premise is open weights
-in the deploy path. **Owed regardless of everything else, and the gap most likely to
-matter in review.** Cheap hedge available: one pair end to end before the full run.
+Estimated **~$2–3 fal**.
 
-### 4. Licence verification
+### 2. Self-hosted parity run
 
-- **`mattmdjaga/segformer_b2_clothes`** — head detection depends on it; currently
-  **unverified and not cleared for deploy.** This one can block shipping.
-- Whichever VLM is chosen, against its model card.
+Every number in every V2 document is a **fal** number and V2's premise is open
+weights in the deploy path. **Needs a rented GPU or Colab** — the local machine is
+an i3 with 8 GB and no GPU. The VLM notebook is the template.
 
-### 5. The V2 report
+### 3. Licence verification
 
-The deliverable. Draws on ARCHITECTURE.md, DECISIONS.md and the trial numbers from 2.
+- **`mattmdjaga/segformer_b2_clothes`** — head detection depends on it, currently
+  unverified and **not cleared for deploy**. This one can block shipping.
+- **Qwen3-VL-8B** — expected Apache-2.0, unconfirmed against the model card.
+
+### 4. The V2 report
+
+Draws on ARCHITECTURE.md, DECISIONS.md and the numbers from step 1.
 
 ---
 
 ## Iteration — not blocking
 
+### 5. Binary forced-choice prompts, and fp16
+
+The single highest-value follow-up on the gate. The model hedges — **331 of 570
+verdicts were `OK`**, only 49 `FAIL` — which is exactly what caps recall at 51%.
+Removing the middle option and running fp16 instead of 4-bit are both untried and
+both plausibly worth several points. ~5 minutes of runtime in the same notebook.
+
 ### 6. Recompute the hair threshold over all 48 references
 
-14% is fitted on 38 sets. AUC 0.862 is the honest number. Held out, not fitted. The
-12–16% plateau is reassuring but is not a substitute.
+14% is fitted on 38 sets. AUC 0.862 is the honest number; the cut-point is not.
 
-### 7. v2.3 (artefacts) — *may be skippable, decide after step 2*
+### 7. v2.3 (artefacts) — scope has shrunk, decide after step 1
 
-If VLM-A plus QX escalation removes AI artefacts, v2.3's founding question is already
-partly answered and its scope shrinks to whatever survives the harness trials.
+Its founding question was whether artefacts can be repaired. Two results bear on
+it: the VLM cannot *detect* artefacts in our outputs (the `artefact` prompt never
+fired), and the harness already removes 3 of 4 shipped failures. Re-scope to
+whatever survives the end-to-end run rather than running the original plan.
 
 ### 8. v2.4 (auxiliary realism) — a single test
 
-Per current scope: does anything beat SeedVR2 `noise_scale=0` on both batches. Highest-
-priority candidate is **Z-Image Base + PAI Fun tile-ControlNet + UltraReal LoRA**
-(self-host only) — the only remaining route to de-glossing, which SeedVR2 does not do.
+Does anything beat SeedVR2 `noise_scale=0` on both batches. Highest-priority
+candidate is **Z-Image Base + PAI Fun tile-ControlNet + UltraReal LoRA**
+(self-host only) — the only remaining route to de-glossing, which SeedVR2 does not
+do. Note step 1 already validates SeedVR2 in place, so this is a *replacement*
+question, not a validation one.
 
 ### 9. Anatomical plausibility pre-filter
 
-MediaPipe Hands finger counting, impossible pose landmarks. Free, deterministic, runs
-ahead of VLM-A. Narrow, but it is the **only** deterministic artefact signal that exists
-— every other output check measured 0.38–0.57 AUC.
+MediaPipe Hands finger counting, impossible pose landmarks. Free, deterministic,
+runs ahead of VLM-A. Narrow, but the only deterministic artefact signal available.
 
 ### 10. The user-specification branch has no evidence
 
-Nothing in the test set carries a user-named garment region. Either add cases, or mark
-the branch reasoned-not-measured in the report.
+Nothing in the test set carries a user-named garment region. Either add cases or
+mark it reasoned-not-measured in the report.
 
-### 11. A VLM router — testable, low ceiling
+### 11. Independent-score tie-break — revisit only if QX stops dominating
 
-Could generalise past hair to non-standard pose and unusual garments. Must beat AUC
-0.862 for a ceiling of **0.033 gen/request** (a perfect router saves 0.053; a VLM router
-costs 0.020). Record it; do not build it yet.
+Scoring each candidate separately and comparing beat the pairwise call (4/5 vs
+3/5) and is structurally sounder — no position to be biased by. Still lost to
+"always take QX" (5/5) on n = 5.
 
 ---
 
 ## Housekeeping
 
-- [ ] **Nothing is committed** since the harness work began.
-- [ ] `v2/artifacts/index.html` is stale — lists 8 pages, 25 exist; omits every page
-      built since Aug 18.
-- [ ] `v221_crop_tuning_pcrop.html` is a dead orphan with no generator;
-      `pcrop_page.py` writes the `_phead` page but still carries a stale
-      `<title>Crop Tuning — PCROP</title>`.
-- [ ] `v221_phase3_acab.html` and `v221_phase3_fashn.html` are unreferenced by any doc.
-- [ ] Resolve the contradiction over whether the klein base/distilled comparison had a
-      resolution confound (`V2.1_RESULTS.md:122` says no, `:20` and
-      `V2.1.1_RESULTS.md:67` say yes).
-- [ ] AC ladder is numbered AC0–AC8 in `EXPERIMENT.md:234` and AC0–AC9 in the table
-      below it and in `PLAN.md:64`.
+- [ ] `v2/artifacts/index.html` is stale — lists 8 pages, 26 exist.
+- [ ] `v221_crop_tuning_pcrop.html` is a dead orphan; `pcrop_page.py` writes the
+      `_phead` page but still carries a stale `<title>...PCROP</title>`.
+- [ ] Branch `v2.2.3-harness` is unmerged and unpushed.

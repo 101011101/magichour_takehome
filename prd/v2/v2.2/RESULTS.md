@@ -1026,6 +1026,98 @@ from the BiRefNet matte and the parser hair class, already computed in the crop
 screen. It predicts *PHEAD not perfect* at **AUC 0.862**, against 0.38–0.57 for every
 output check. Quality is flat across a 12–16% threshold.
 
+### The VLM gate — measured (2026-08-22)
+
+**Qwen3-VL-8B-Instruct**, 4-bit on a free Colab T4, five prompt formulations over the
+same 114 human-tiered outputs the deterministic gate failed on. 570 inferences, no fal
+spend. Review page: [`v223_vlm_eval.html`](../../../v2/artifacts/v223_vlm_eval.html);
+data: [`v223_vlm_eval.csv`](../../../v223_vlm_eval.csv),
+[`v223_vlm_pairwise.csv`](../../../v223_vlm_pairwise.csv).
+
+| prompt | sees | fires | accuracy | catches `fail` |
+|---|---|---|---|---|
+| `artefact` | output | **0** | 62.3% | **0%** |
+| `usable` | output | 4 | 62.3% | 13% |
+| `tryon` | output | 2 | 62.3% | 7% |
+| **`garment`** | **reference + output** | 35 | **70.2%** | **53%** |
+| `transfer` | person + reference + output | 8 | 64.0% | 20% |
+| *accept everything* | — | 0 | *62.3%* | 0% |
+
+**The artefact question does not work, and this is the sharpest finding of the phase.**
+The `artefact` prompt returned `CLEAN` on all 114 outputs, including every frame marked
+`fail`. It never fired once. Our failures are not artefacts — they are competent
+photographs of the wrong thing, either a plausible-but-different garment or the input
+returned unchanged. There is nothing in the pixels that looks broken, which is also why
+the deterministic gate could not see them.
+
+**Only the prompt with a reference image beats the baseline.** That is an architectural
+result, not a tuning one: **VLM-A must take the garment reference as input.** The
+original spec had it screening the output alone, and every output-only formulation sat
+exactly on the do-nothing baseline.
+
+**More context is not better.** `transfer` — person *and* reference *and* output —
+scored *below* `garment`. At 8B, three images appear to dilute attention.
+
+#### What ships
+
+Escalate if **`tryon != PERFECT` or `garment == FAIL`**, always to QX:
+
+| configuration | gen/req | perfect | ok | fail |
+|---|---|---|---|---|
+| flat BC_klein, no harness | 2.000 | 28 | 6 | 4 |
+| harness, `garment == FAIL` only | 1.737 | 31 | 5 | 2 |
+| **harness, safe gate (shipped)** | **2.105** | **30** | 7 | **1** |
+| *oracle gate* | *1.789* | *34* | *4* | *0* |
+
+At the same cost as the best single arm, the harness ships **a quarter of the
+failures**. The cheaper gate is also defensible — it beats BC_klein on both axes — and
+the choice between them is a product judgement about how a shipped `ok` compares to a
+shipped failure.
+
+#### VLM-B is dropped
+
+The pairwise selection call agreed with itself on **34% of pairs when the two images
+were swapped** — worse than chance, so it reads position rather than content. On the
+pairs that actually escalate it chose the already-failed arm **2 times in 5**. **Always
+taking QX scores 5/5** on the same set.
+
+Scoring each candidate *independently* and comparing — which has no position to be
+biased by — reached 4/5. Structurally the better mechanism, still beaten by the trivial
+rule, on n = 5. Recorded for whoever revisits it.
+
+#### The crash guard has measured justification after all
+
+Recorded as a correction: this document previously justified the deterministic checks
+on production robustness alone. The **no-op check catches `HD_p023`**, where the model
+returned the person essentially unchanged — a clean, plausible photograph that *every*
+output-only prompt correctly calls clean. The two instruments are **complementary**:
+the VLM sees incoherence, the no-op check sees the coherent-but-wrong case.
+
+#### The hair router, checked against the outcome
+
+| | sets |
+|---|---|
+| picked the strictly better arm | 6 |
+| tie — both arms the same tier | 30 |
+| picked the strictly worse arm | **2** |
+
+**Never worse on 95%.** It matches always-BC_klein's perfect count (28) at **63% of the
+cost** (1.263 vs 2.000 generations), landing near the oracle's 1.184. The two misses are
+both just under the cut, at 11.9% and 9.7% hair; the threshold is not re-tuned to them,
+because 14% is already fitted on these 38 sets.
+
+Note that **30 of 38 are ties** — the router is mostly choosing the *cheaper* arm among
+two that work, rather than choosing between different outcomes. That is still the value
+wanted, but it is not the value the headline suggests.
+
+#### Caveats
+
+The model hedges: **331 of 570 verdicts are `OK`**, only 49 are `FAIL`, which is what
+caps recall at 51%. A **binary forced choice** with no middle option and **fp16 instead
+of 4-bit** are both untried and both plausibly worth several points. These numbers are
+*Qwen3-VL-8B at 4-bit with these five prompts*, not a ceiling on open VLMs. Hosted
+inference was used for the smoke test only; the graded run is the checkpoint itself.
+
 ### Status
 
 **The deterministic gate does not ship as a quality judge.** It survives only as a

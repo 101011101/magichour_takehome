@@ -127,10 +127,11 @@ ground — it is only worth building on a gate that catches its mistakes. **QX m
 slot 2**: of PHEAD's 13 unusable sets QX rescues 11, BC_klein 6 (both PHEAD and
 BC_klein subtract and share a failure mode), 1.789 gen/request vs 2.053.
 
-### THE HARNESS — settled 2026-08-21, one piece unbuilt
+### THE HARNESS — settled and measured, 2026-08-22. v2.2 is closed.
 
-Full design and rationale: [`v2.2/EXPERIMENT.md` §2d](v2.2/EXPERIMENT.md). Charts:
-`prd/v2/v2.2/images/harness_v223.png`.
+Design: [`ARCHITECTURE.md`](ARCHITECTURE.md). Evidence:
+[`v223_vlm_eval.html`](../../v2/artifacts/v223_vlm_eval.html),
+`v2.2/images/harness_v223.png`.
 
 ```
 user specified a garment region?  ──yes──►  QX
@@ -139,48 +140,43 @@ hair over garment >= ~14%?        ──yes──►  BC_klein  (2 gen)
                     v
                  PHEAD  (1 gen)
                     |
-        crash guard + VLM artefact check ──fires──►  QX  (+2 gen)
-                    |clean                             |
-                    v                          VLM picks the better of the two
-                  ship
+   crash guard (no-op / degenerate)         ──┐
+   VLM-A  tryon != PERFECT                  ──┤
+   VLM-A  garment == FAIL                   ──┴─► QX (+2 gen), take QX
+                    |clean
+                    v
+                  ship  ──►  SeedVR2 noise_scale=0
 ```
 
-**1.526 generations/request, 32 perfect / 6 ok / 0 fail over 38 sets** — against flat
-BC_klein at 2.000 gen for 28 / 6 / 4. **The headline is the zero.**
+**2.105 generations/request. 30 perfect / 7 ok / 1 fail over 38 sets.** Flat
+BC_klein, the best single arm, is 2.000 for 28/6/4 — **same cost, a quarter of the
+failures.** A cheaper gate (`garment == FAIL` alone) gives 1.737 for 31/5/2 and beats
+BC_klein on both axes; safe was chosen deliberately.
 
-Labels of record: [`v223_perfect_tier_picks.csv`](../../v223_perfect_tier_picks.csv),
-an absolute perfect/ok/fail pass over 114 cells. It supersedes the AMT tier, whose
-`perfect` meant *tied for first among ten arms* — relative, and so unable to drive an
-absolute stop decision. They agree on 81% of cells.
+**The three things the VLM evaluation established:**
 
-| arm | perfect | ok | fail | role |
-|---|---|---|---|---|
-| PHEAD | 23 | 5 | 10 | free default |
-| BC_klein | **28** | 6 | 4 | highest ceiling |
-| QX | 20 | 17 | **1** | safety net — last line |
+1. **Do not ask about artefacts.** That prompt returned `CLEAN` on all 114 outputs and
+   never fired once. Our failures are not artefacts — they are competent photographs
+   of the wrong thing.
+2. **VLM-A must see the garment reference.** Only the prompt with a reference image
+   beat the do-nothing baseline (70.2% vs 62.3%); every output-only formulation sat
+   exactly on it. Counter-intuitively, adding the *person* image as well made it worse.
+3. **No pairwise selection call.** 34% self-consistency under image swap; picked the
+   already-failed arm 2 of 5 times. Always take QX.
 
-**THE ONE UNBUILT PIECE: the VLM artefact check.** Everything above assumes it fires
-correctly. Cost is settled — a self-hosted 7–8B open VLM runs ~$0.0003 against ~$0.015
-per generation, so it can be **wrong 100 times per save and still break even**.
-Capability is not. **Next action: validate it against the 114 absolute tiers.** 456
-outputs are on disk; this costs GPU time and no fal spend. Candidates, licence-first:
-Qwen2.5-VL-7B (Apache-2.0), Pixtral-12B (Apache-2.0), InternVL3-8B, Kimi-VL-A3B (MIT).
-Avoid Llama 3.2 Vision (excludes EU-domiciled entities) and Gemma 3 (use restrictions).
-Verify every licence against the model card before shipping.
+**Also corrected:** the crash guard is not merely a robustness measure. Its no-op check
+catches `HD_p023` — the person returned unchanged, a clean photograph every output-only
+prompt correctly calls clean. Deterministic checks and the VLM are complementary.
 
-**Ask it the narrow question.** Failure-only trigger → 32/6/0 at 1.526 gen. Full
-perfect-vs-ok tier judge → 34/4/0 at 1.789. The cheap version removes every failure
-and asks only "is this broken", which is what §2b showed a VLM can actually answer.
+**Caveat:** the model hedges (331 of 570 verdicts `OK`, only 49 `FAIL`), which caps
+recall at 51%. Binary forced-choice prompts and fp16 instead of 4-bit are both untried.
 
-**Do not** attempt a deterministic artefact check. Every output check scores AUC
-0.38–0.57 against the absolute marks, and published AI-artefact detectors answer "was
-this generated?" — 100% of these were, so they fire on everything and discriminate
-nothing. The one exception worth building is anatomical plausibility (MediaPipe Hands,
-pose impossibility) as a free pre-filter.
+### NEXT — the end-to-end run
 
-**Also unproven:** the 14% hair threshold is fitted on these 38 sets (AUC 0.862 is the
-honest number; recompute over all 48 references), and the user-specification branch has
-no evidence at all.
+Run the **assembled** pipeline over the 38 sets, **including the SeedVR2 realism
+pass**, against `qwen_2511` (the website baseline), flat klein, and flat BC_klein.
+~$2–3 fal. Including SeedVR2 closes the long-owed "composite never validated end to
+end" gap in the same pass. Then the report. See [`TODO.md`](TODO.md).
 
 ---
 

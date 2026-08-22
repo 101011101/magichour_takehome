@@ -50,12 +50,14 @@ the human parser. See §9.
                                                                    │
                         ┌──────────────────────────────────────────┘
                         ▼
-        ┌────────────────────────────────┐
-        │  3. CRASH GUARD                │   free, CPU — deterministic
-        │  4. VLM-A: "is this broken?"   │   ~$0.0003
-        └───────────────┬────────────────┘
+        ┌────────────────────────────────────────────┐
+        │  3. CRASH GUARD (no-op / degenerate)       │  free, CPU
+        │  4. VLM-A, two prompts on one model:       │  ~$0.0006
+        │       tryon   != PERFECT   ──┐             │
+        │       garment == FAIL      ──┴─► escalate  │
+        └───────────────┬────────────────────────────┘
                         │
-              fires ────┴──► QX arm (+2 gen) ──► VLM-B picks between the two
+              fires ────┴──► QX arm (+2 gen) ──► take QX unconditionally
                         │                                    │
                        clean                                 │
                         └────────────────┬───────────────────┘
@@ -67,10 +69,23 @@ the human parser. See §9.
                       OUTPUT
 ```
 
-**Measured: 1.526 generations per request. 32 perfect / 6 ok / 0 fail over 38 sets.**
-The comparison that matters is flat BC_klein — the strongest single arm — at 2.000
-generations for 28 perfect / 6 ok / **4 fail**. The harness is cheaper *and* ships
-nothing broken. **The zero is the result, not the perfect count.**
+**Measured end to end: 2.105 generations per request. 30 perfect / 7 ok / 1 fail
+over 38 sets.** The comparison that matters is flat BC_klein — the strongest single
+arm — at 2.000 generations for 28 perfect / 6 ok / **4 fail**. Same cost, a quarter
+of the failures.
+
+A cheaper configuration exists and is a legitimate choice: `garment == FAIL` alone
+gives **1.737 generations, 31 / 5 / 2** — cheaper than BC_klein *and* better. The
+safe configuration above trades +0.37 generations and one perfect for one fewer
+shipped failure. That is a product judgement, not a data one; it is set to safe here
+because a shipped failure is the worst outcome the system can produce.
+
+| configuration | gen/req | perfect | ok | fail |
+|---|---|---|---|---|
+| flat BC_klein, no harness | 2.000 | 28 | 6 | 4 |
+| harness, cheap gate | 1.737 | 31 | 5 | 2 |
+| **harness, safe gate (shipped)** | **2.105** | **30** | 7 | **1** |
+| *oracle gate, upper bound* | *1.789* | *34* | *4* | *0* |
 
 ---
 
@@ -217,49 +232,81 @@ while wrongly rejecting 2–4 good ones, because that set contains no crashes.
 
 **Do not extend it into a quality judge.** See §8.
 
-### VLM-A — the artefact screen
+### VLM-A — the escalation trigger
 
-Runs on **every** request, on the first arm's output. Asks one narrow question:
-*"Does this image contain rendering artefacts, anatomical impossibilities, or obvious
-generation errors?"* Binary answer.
+**Model: Qwen3-VL-8B-Instruct.** Two prompts, one model, one image pair each.
+Escalate if **either** fires:
 
-**Ask this, not "is this good".** A VLM scored 4/5 on an output that transferred no
-garment at all — absolute quality judgement is a question VLMs fail. "Is it broken" is
-visual and much easier.
+| prompt | sees | escalates when |
+|---|---|---|
+| `tryon` | the output | verdict is not `PERFECT` |
+| `garment` | **garment reference + output** | verdict is `FAIL` |
 
-### VLM-B — the selection call
+**VLM-A must see the garment reference.** This is the single most important thing the
+evaluation established, and it contradicts the original design. Measured over 114
+human-tiered outputs, five prompt formulations:
 
-Fires only on escalation (~26% of requests). Forced choice between the first arm's
-output and QX's: *"Which of these two is the better try-on result?"* Both candidates
-are in hand, which is the form of question a VLM handles best.
+| prompt | sees | fires | accuracy | catches `fail` |
+|---|---|---|---|---|
+| `artefact` | output | **0** | 62.3% | **0%** |
+| `usable` | output | 4 | 62.3% | 13% |
+| `tryon` | output | 2 | 62.3% | 7% |
+| **`garment`** | **ref + output** | 35 | **70.2%** | **53%** |
+| `transfer` | person + ref + output | 8 | 64.0% | 20% |
+| *accept everything* | — | 0 | *62.3%* | 0% |
 
-On current data this is **insurance rather than value** — QX is at least as good as
-the first arm on all 5 escalated sets, so "always take QX" gives the same answer. Keep
-it anyway; QX does fail once in 38, and the call costs 0.02 units.
+**Only `garment` beats the do-nothing baseline, and it is the only prompt with a
+reference image.** Three of the five sit exactly on the baseline.
 
-### The economics — why a VLM at all
+**Do not ask about artefacts.** The `artefact` prompt returned `CLEAN` on all 114
+outputs — including every frame the reviewer marked `fail`. It never fired once. The
+reason is structural and worth stating plainly: **these failures are not artefacts.**
+They are competent photographs of the wrong thing — a plausible but different garment,
+or the input returned unchanged. Nothing in the pixels looks broken.
+
+**More context is not better.** `transfer`, which sees person *and* reference *and*
+output, scored *below* `garment`. At 8B, three images appear to dilute attention. Two
+is the working number.
+
+### VLM-B — do not build it
+
+A pairwise "which of these two is better" call was built and measured. **It agreed
+with itself on only 34% of pairs when the two images were swapped** — worse than
+chance, so it reads position rather than content. On the pairs that actually escalate
+it chose the arm that had already failed 2 times in 5.
+
+**Always take QX after an escalation.** That rule scores 5/5 on the same set.
+
+A better mechanism exists if this is ever revisited: score each candidate
+*independently* and compare the scores, which has no position to be biased by. It
+reached 4/5 — better than pairwise, still worse than the trivial rule, on n = 5.
+
+### The crash guard earns its place on evidence, not just robustness
+
+The no-op check catches `HD_p023`, where the model returned the person essentially
+unchanged. That output is a clean, plausible photograph, so **every output-only prompt
+correctly calls it clean.** Only a comparison against the person input reveals it.
+
+The deterministic checks and the VLM are therefore **complementary, not competing**:
+the VLM catches incoherence it can see, the no-op check catches the coherent-but-wrong
+case it cannot.
+
+### The economics
 
 | | cost |
 |---|---|
-| one VLM call | **$0.0003** |
+| one VLM call | **$0.0003** (measured: $0.000124 on a hosted 8B) |
 | one generation | $0.015 |
 | one *wasted* escalation | **$0.030** |
 
-A VLM check is **0.02 generation-equivalents**, roughly 1% of pipeline cost. Since a
-wrong escalation costs 2 generations, **the VLM can be wrong 100 times for every time
-it saves a generation and still break even.** You are not buying accuracy; you are
-buying a cheap opinion, and almost any opinion beats none.
+Two prompts per request is **~0.04 generation-equivalents**, roughly 2% of pipeline
+cost. Since a wrong escalation costs 2 generations, **the gate can be wrong 50 times
+for every generation it saves and still break even.** Accuracy is not what is being
+bought; a cheap opinion is.
 
-This is why a VLM works here and did not in earlier analysis: earlier costing assumed a
-closed frontier API. A self-hosted 7–8B open model is 20–50× cheaper, and is open
-weights, which the deploy path requires anyway.
-
-**Trigger scope is a tunable.** Firing only on hard failures gives 32 / 6 / 0 at
-1.526 generations. Firing on anything less than perfect gives 34 / 4 / 0 at 1.789.
-**Start with failures only** — it removes every failure, which is the headline, and
-asks the easier question.
-
----
+**Serving:** one 24 GB GPU (L4 / A10G / 4090) at ~1–2 calls/sec covers 1M
+requests/month with headroom, at roughly $300–600/month — about $0.0003 per call, which
+is what the argument above assumes.
 
 ## 7. Stage 5 — realism
 
@@ -283,6 +330,9 @@ ideas again.
 | **Retry with a fresh seed** | Failure is a property of the **garment**, not the roll: a damaged reference failed on all three people it was paired with. A retry reproduces it. Escalate mechanism, never reseed |
 | **A third candidate on escalation** | +0.21 gen/request, zero quality gain. Shares the failure mode that just fired |
 | **An off-the-shelf AI-artefact detector** | They answer *"was this generated?"* — 100% of these frames were. Such a detector fires on everything and discriminates nothing |
+| **A VLM asked about artefacts** | Measured: `CLEAN` on all 114 outputs, never fired. The failures are not artefacts |
+| **A pairwise VLM selection call** | 34% self-consistency under image swap; picked the already-failed arm 2 of 5 times. Always take QX |
+| **A VLM-A that sees only the output** | Every output-only prompt sat on the do-nothing baseline. It needs the garment reference |
 | **A VLM router for hair** | The deterministic measure *is* the quantity, not a proxy. A perfect router would save 0.053 gen/request; a VLM router costs 0.020. Ceiling ≈ 2% |
 | **Z-Image Turbo, anywhere** | Fails the damage-floor test at every strength — restructures faces on **real photographs that needed no repair**. AuraFace drops to 0.72 on a real photo |
 | **A whole-image artefact pass** | The VLM `artifact_fix` criterion scored **exactly 3.00 — no change — in 14 of 14 config-batches** |
@@ -295,9 +345,11 @@ ideas again.
 
 State these wherever the numbers above are quoted.
 
-1. **VLM-A is unbuilt.** Every number in §2 assumes it fires correctly. Cost is
-   settled; capability is not measured. Validating it needs GPU time and no fal
-   spend — 456 outputs and 114 absolute tiers are on disk.
+1. **VLM-A is measured but at 4-bit, and the model hedges.** 331 of 570 verdicts were
+   `OK`; only 49 were `FAIL`, which is what caps recall at 51%. Two untried levers,
+   both plausibly worth several points: a **binary forced choice** with no middle
+   option, and **fp16 instead of 4-bit**. Read the numbers as *Qwen3-VL-8B at 4-bit
+   with these prompts*, not as a ceiling on open VLMs.
 2. **The 14% threshold is fitted** on these 38 sets. AUC 0.862 is the honest figure;
    the cut-point needs recomputing over all 48 references, held out.
 3. **The user-specification branch has no evidence at all.** Nothing in the test set
@@ -324,8 +376,8 @@ unchanged. No stage may ever emit a broken image.**
 | 4 | BC_klein and QX arms | 28 / 6 / 4 and 20 / 17 / 1 |
 | 5 | Router | routes 10 of 38 to BC_klein at 14% |
 | 6 | Crash guard | fires on a deliberately blacked frame; fires on a no-op |
-| 7 | **VLM-A** — the unbuilt piece | separates broken from clean on the 114 tiers, beating AUC 0.57 by a wide margin |
-| 8 | VLM-B, escalation wiring | 1.526 gen/request, 32 / 6 / 0 |
+| 7 | VLM-A, two prompts | reproduces 70.2% on `garment` against a 62.3% baseline |
+| 8 | escalation wiring, always to QX | 2.105 gen/request, 30 / 7 / 1 |
 | 9 | SeedVR2 pass | identity cosine does not drop; `noise_scale` is `0` |
 | 10 | **Self-hosted parity** | every number above, on downloaded weights |
 

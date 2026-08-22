@@ -360,3 +360,59 @@ directionally right and quantitatively loose.
 **Next.** Validate the VLM artefact check against the 114 absolute tiers — GPU time,
 no fal spend. Then recompute the hair threshold over all 48 references. That closes
 v2.2. The self-hosted parity run remains owed regardless.
+
+---
+
+## 2026-08-22 — the VLM gate works, but not at the question we assumed
+
+**Did.** Built a Colab notebook (free T4, Qwen3-VL-8B at 4-bit) and graded five prompt
+formulations against the 114 absolute tiers — 570 inferences, no fal spend. Also ran a
+pairwise selection test in both image orderings.
+
+**Found.** The **artefact prompt returned CLEAN on all 114 outputs** and never fired
+once, including on every frame marked `fail`. Only `garment` — the one prompt that sees
+the reference image — beat the accept-everything baseline, at 70.2% against 62.3%.
+Every output-only formulation sat exactly on the baseline.
+
+**Concluded.** *Inference.* Our failures are not artefacts. They are competent
+photographs of the wrong thing — a plausible-but-different garment, or the input
+returned unchanged — so there is nothing in the pixels that looks broken. This is the
+same reason the deterministic gate failed, arriving from a different direction, and it
+means **VLM-A must take the garment reference as input.** The original spec had it
+screening the output alone.
+
+Counter-intuitively, **more context was worse**: `transfer`, which sees person and
+reference and output, scored below `garment`. At 8B three images appear to dilute
+attention.
+
+**VLM-B is dropped.** Pairwise selection agreed with itself on **34% of pairs** when the
+images were swapped — worse than chance, so it reads position, not content — and chose
+the already-failed arm 2 times in 5. Always taking QX scores 5/5. Scoring each candidate
+independently and comparing (no position to be biased by) reached 4/5: structurally
+better, still beaten by the trivial rule, n = 5.
+
+**A correction to this log's own record.** The crash guard was written up as justified
+by production robustness alone. That was wrong: the no-op check catches `HD_p023`, where
+the model returned the person unchanged — a clean, plausible photograph that every
+output-only prompt correctly calls clean. The deterministic checks and the VLM are
+**complementary**, not competing.
+
+**Shipped configuration**, on Ray's call to take the safer of two: escalate if
+`tryon != PERFECT` **or** `garment == FAIL`, always to QX. **2.105 generations/request,
+30 perfect / 7 ok / 1 fail**, against flat BC_klein at 2.000 for 28/6/4 — same cost, a
+quarter of the failures. The cheaper gate (`garment == FAIL` alone, 1.737 gen, 31/5/2)
+beats BC_klein on both axes and remains defensible.
+
+**The hair router checked out**: never worse on 95% of sets, matching always-BC_klein's
+perfect count at 63% of the cost. Worth recording that **30 of 38 are ties** — it is
+mostly choosing the cheaper of two arms that both work.
+
+**Caveat carried forward.** The model hedges — 331 of 570 verdicts are `OK`, only 49
+`FAIL` — which is what caps recall at 51%. A binary forced choice and fp16 are both
+untried. These numbers are Qwen3-VL-8B at 4-bit with these prompts, not a ceiling on
+open VLMs.
+
+**Next.** v2.2 is closed. The end-to-end run over the assembled pipeline, with the
+SeedVR2 realism pass included so that the long-owed "composite never validated end to
+end" gap closes in the same pass. Then the report. The self-hosted parity run remains
+owed and now needs rented compute — the local machine has no GPU.
