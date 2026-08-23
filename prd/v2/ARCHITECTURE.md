@@ -378,6 +378,39 @@ decided they want resolution, so an automatic skip would deny the request. The
 measurement stands and is kept in [v2.4/RESULTS.md](v2.4/RESULTS.md); the gate does not
 ship.
 
+## 6b. Resolution — normalise to ~1 MP before generating
+
+**fal's klein endpoint silently normalises to ~1 MP.** Every stored output is
+832×1248 (1.04 MP) regardless of a person input ranging 682×1024 to 1024×1536. A
+self-hosted run that omits this generates at the input's size instead.
+
+Measured on the first self-hosted run, which did omit it:
+
+| | fal | self-hosted, un-normalised |
+|---|---|---|
+| output | 832×1248 (1.04 MP) | 1344×2048 – 1664×2496 (avg **3.45 MP**) |
+| high-frequency energy | baseline | **lower on 6 of 8 frames** |
+| time per generation | — | **128 s** vs ~39 s at 1 MP |
+
+**More pixels, less detail, three times the compute.** klein is tuned around 1 MP
+and degrades above it, so the extra resolution buys a softer image at triple the
+cost.
+
+```python
+TARGET_MP = 1.04
+def target_size(person_image):
+    w, h = person_image.size
+    k = (TARGET_MP * 1e6 / (w * h)) ** 0.5
+    # diffusion transformers need dimensions on a 16-pixel grid
+    return max(256, round(w * k / 16) * 16), max(256, round(h * k / 16) * 16)
+```
+
+**This is a deployment requirement, not a notebook detail.** It was invisible for
+the whole programme because fal did it for us; a self-hosted service that skips it
+ships softer images than every number in these documents was measured on, and pays
+3× the GPU for the privilege. Upscaling belongs in the realism stage (§7), where it
+is explicit, optional, and identity-checked.
+
 ## 7b. Configuration
 
 The whole harness is driven by one config object. Everything below has a measured

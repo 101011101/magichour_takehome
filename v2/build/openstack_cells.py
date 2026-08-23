@@ -177,6 +177,28 @@ cfg = HarnessConfig(high_resolution=RUN_REALISM, quality="safe", seed=SEED).vali
 _MODELS = {}
 
 # ---- editor -------------------------------------------------------------------
+# fal's klein endpoint SILENTLY NORMALISES to ~1 MP -- every stored output is
+# 832x1248 (1.04 MP) regardless of a person input that ranged 682x1024 to
+# 1024x1536. Left to itself, diffusers sizes from the inputs and generated at
+# 1344x2048 or 1664x2496, i.e. 2.7-4x the pixels.
+#
+# That is not free resolution. High-frequency energy came out LOWER on 6 of 8
+# frames: more pixels, less detail, a soft upscaled look. klein is tuned around
+# 1 MP and degrades above it.
+#
+# So the self-hosted path has to replicate the normalisation, and this is a
+# DEPLOYMENT REQUIREMENT rather than a notebook detail -- a self-hosted service
+# that skips it ships softer images than the fal numbers were measured on.
+TARGET_MP = 1.04
+
+def target_size(person_path):
+    im = Image.open(person_path)
+    w, h = im.size
+    k = (TARGET_MP * 1e6 / (w * h)) ** 0.5
+    # diffusion transformers need dimensions on a 16-pixel grid
+    return max(256, int(round(w * k / 16)) * 16), max(256, int(round(h * k / 16)) * 16)
+
+
 def local_generate(arm, person_path, garment_path, cfg):
     stem = os.path.splitext(os.path.basename(garment_path))[0]
     row = M[M.garment == stem]
@@ -186,10 +208,12 @@ def local_generate(arm, person_path, garment_path, cfg):
         ref = row.iloc[0].get(f"ref_{arm}")                   # cached (incl. QX)
     if not isinstance(ref, str) or not os.path.exists(ref):
         raise FileNotFoundError(f"no {arm} reference for {stem}")
+    W, H = target_size(person_path)
     pipe = _MODELS["klein"]
     img = pipe(prompt=arms.PROMPT,
                image=[Image.open(person_path).convert("RGB"),
                       Image.open(ref).convert("RGB")],
+               width=W, height=H,
                generator=torch.Generator("cuda").manual_seed(cfg.seed)).images[0]
     dst = tempfile.mktemp(suffix=f"__{arm}.jpg"); img.save(dst, quality=94)
     return dst

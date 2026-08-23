@@ -1,0 +1,167 @@
+# Self-hosted vs fal, side by side, for eyes rather than metrics.
+#
+# The arm-agreement number from the first run is withheld here on purpose: it was
+# produced by two bugs (a raw-cosine threshold applied to a normalised margin, and
+# a router that returned 0.0 when its cached crops were absent), so it measured the
+# instrumentation rather than the weights. What survives is the comparison itself.
+import csv, html, json, os
+
+REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+ART = os.path.join(REPO, "v2", "artifacts")
+RUN = os.path.join(REPO, "v2", "runs", "openstack")
+NL = chr(10)
+
+CSS = """
+:root{--bg:#0d0d10;--fg:#e8e8ea;--dim:#8a8a94;--line:#26262c;--acc:#7c5cff;
+ --good:#3fb950;--mid:#d29922;--bad:#f85149}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:14px/1.55 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:22px 30px 14px;border-bottom:1px solid var(--line)}
+h1{margin:0 0 6px;font-size:20px}.q{color:var(--acc);font-weight:600}
+.sub{color:var(--dim);max-width:96ch;font-size:13px;margin-top:6px}
+.sub b{color:var(--fg)}.sub code{background:#1b1b22;padding:1px 5px;border-radius:4px}
+.key{margin:12px 30px;border-left:3px solid var(--acc);padding:2px 0 2px 12px;
+ max-width:104ch;font-size:13px}
+.key b{color:#fff}
+#bar{position:sticky;top:0;z-index:20;background:#121216;border-bottom:1px solid var(--line);
+ padding:10px 30px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:12.5px}
+#bar button{background:#1b1b22;border:1px solid var(--line);color:var(--dim);
+ border-radius:7px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit}
+#bar button.on{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+input[type=range]{width:220px;accent-color:var(--acc)}
+#cnt{margin-left:auto;color:var(--dim)}
+.grid{display:grid;grid-template-columns:1fr;gap:24px;padding:6px 30px 30px}
+.grid.two{grid-template-columns:repeat(auto-fill,minmax(520px,1fr))}
+.card{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#101014;
+ margin:0 auto;width:max-content;max-width:100%}
+.ch{padding:8px 13px;background:#141419;border-bottom:1px solid var(--line);
+ font-size:12.5px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.ch b{font-size:13px}
+.tag{font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--line);
+ color:var(--dim)}
+.tag.arm{border-color:var(--acc);color:var(--acc)}
+.wrap{position:relative;overflow:hidden;cursor:ew-resize;background:#fff;
+ width:max-content;max-width:100%}
+.wrap>img{display:block;max-height:80vh;width:auto;max-width:100%}
+.aft{position:absolute;inset:0;overflow:hidden}
+.aft img{position:absolute;top:0;left:0;height:100%;width:auto;max-width:none}
+.hand{position:absolute;top:0;bottom:0;width:2px;background:var(--acc);pointer-events:none}
+.hand::after{content:'';position:absolute;top:50%;left:-8px;width:18px;height:18px;
+ margin-top:-9px;border-radius:50%;background:var(--acc);border:2px solid #fff}
+.tagL,.tagR{position:absolute;bottom:8px;font-size:11px;padding:3px 9px;border-radius:4px;
+ background:rgba(0,0,0,.78);color:#fff;pointer-events:none;font-weight:600}
+.tagL{left:8px}.tagR{right:8px}
+.side{display:flex;gap:2px}
+.side figure{margin:0;flex:1}
+.side img{display:block;width:100%;background:#fff}
+.side figcaption{font-size:11px;color:var(--dim);text-align:center;padding:4px}
+.cf{padding:7px 13px;font-size:11.5px;color:var(--dim);border-top:1px solid var(--line)}
+"""
+
+JS = """
+function place(w){const im=w.querySelector('.aft img');
+  if(im) im.style.width=w.getBoundingClientRect().width+'px';}
+function setp(w,p){p=Math.max(0,Math.min(1,p));
+  w.querySelector('.aft').style.width=(p*100)+'%';
+  w.querySelector('.hand').style.left=(p*100)+'%';w.dataset.p=p;}
+function wire(w){place(w);setp(w,parseFloat(w.dataset.p||0.5));
+  const mv=e=>{const r=w.getBoundingClientRect();
+    setp(w,((e.touches?e.touches[0].clientX:e.clientX)-r.left)/r.width);};
+  w.addEventListener('mousedown',e=>{mv(e);
+    const up=()=>{document.removeEventListener('mousemove',mv);
+      document.removeEventListener('mouseup',up);};
+    document.addEventListener('mousemove',mv);document.addEventListener('mouseup',up);});
+  w.addEventListener('touchmove',e=>{mv(e);e.preventDefault();},{passive:false});}
+document.querySelectorAll('.wrap').forEach(wire);
+document.querySelectorAll('.wrap>img').forEach(im=>{if(!im.complete)
+  im.addEventListener('load',()=>{const w=im.closest('.wrap');place(w);
+    setp(w,parseFloat(w.dataset.p||0.5));});});
+window.addEventListener('resize',()=>document.querySelectorAll('.wrap')
+  .forEach(w=>{place(w);setp(w,parseFloat(w.dataset.p||0.5));}));
+document.getElementById('all').addEventListener('input',function(){
+  document.querySelectorAll('.wrap').forEach(w=>setp(w,this.value/100));
+  document.getElementById('allv').textContent=this.value+'%';});
+document.addEventListener('click',e=>{
+  const b=e.target.closest('#bar button[data-m]');if(!b)return;
+  document.querySelectorAll('#bar button[data-m]').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  document.body.dataset.mode=b.dataset.m;
+  document.querySelectorAll('.card').forEach(c=>{
+    c.querySelector('.wrap').style.display=b.dataset.m==='wipe'?'':'none';
+    c.querySelector('.side').style.display=b.dataset.m==='side'?'':'none';});
+  document.querySelectorAll('.grid').forEach(g=>
+    g.classList.toggle('two',b.dataset.m==='side'));});
+"""
+
+
+def build():
+    S = json.load(open(f"{RUN}/openstack_state.json"))
+    R = list(csv.DictReader(open(f"{RUN}/openstack_summary.csv")))
+    M = {r["set_id"]: r for r in csv.DictReader(open(f"{REPO}/v223_perfect_tier_picks.csv"))}
+    e = html.escape
+
+    def rel(p):
+        return os.path.relpath(p, ART)
+
+    cards = []
+    for r in R:
+        self_img = os.path.join(RUN, r["out"].replace("out/", ""))
+        run = json.load(open(f"{REPO}/v2/runs/amt/_run.json"))
+        key = f'{r["set_id"]}|{r["arm"]}'
+        fal_img = os.path.join(REPO, "v2/runs/amt/gen", run["gen"].get(key, ""))
+        if not (os.path.exists(self_img) and os.path.exists(fal_img)):
+            continue
+        tier = M.get(r["set_id"], {}).get("tier", "")
+        cards.append(
+            f"<div class='card'><div class='ch'><b>{e(r['set_id'])}</b>"
+            f"<span class='tag arm'>{r['arm']}</span>"
+            f"<span class='tag'>{float(r['secs']):.0f}s self-hosted</span>"
+            f"<span class='tag'>{r['generations']} gen</span></div>"
+            f"<div class='wrap' data-p='0.5'>"
+            f"<img src='{rel(fal_img)}' alt='{e(r['set_id'])} fal'>"
+            f"<div class='aft'><img src='{rel(self_img)}' "
+            f"alt='{e(r['set_id'])} self-hosted'></div><div class='hand'></div>"
+            f"<span class='tagL'>fal</span><span class='tagR'>self-hosted</span></div>"
+            f"<div class='side' style='display:none'>"
+            f"<figure><img src='{rel(fal_img)}' alt='fal'>"
+            f"<figcaption>fal</figcaption></figure>"
+            f"<figure><img src='{rel(self_img)}' alt='self-hosted'>"
+            f"<figcaption>self-hosted</figcaption></figure></div>"
+            f"<div class='cf'>klein 4B distilled fp16, seed 46, identical prompt and "
+            f"garment reference</div></div>")
+
+    doc = NL.join([
+        "<title>Self-hosted parity</title>", "<style>" + CSS + "</style>",
+        "<header><h1>Self-hosted parity &mdash; the same checkpoints, our own GPU</h1>"
+        "<div class='q'>Drag any image to wipe between fal and self-hosted.</div>"
+        "<div class='sub'>FLUX.2 klein 4B distilled downloaded from Hugging Face and "
+        "run in <b>fp16, unquantised</b> on a Colab L4. Same prompt, same seed 46, "
+        "same garment reference. Every V2 number until now was a fal number; this is "
+        "the first evidence on weights we control.</div></header>",
+        "<div class='key'><b>Pixel equality is not the question and would be the "
+        "wrong one to ask.</b> A different scheduler and different kernels guarantee "
+        "the outputs differ somewhere. What matters is whether the right person is "
+        "wearing the right garment at comparable quality &mdash; and therefore "
+        "whether the harness would make the same decision.</div>",
+        "<div class='key'><b>The arm-agreement number from this run is withheld.</b> "
+        "Two bugs in the run harness &mdash; a raw cosine compared against a "
+        "normalised-margin threshold, and a router that returned 0.0 when its cached "
+        "crops were missing rather than failing &mdash; meant it measured my "
+        "instrumentation, not the weights. Both are fixed; neither touched the "
+        "images below, which were produced by klein alone.</div>",
+        "<div id='bar'>"
+        "<button data-m='wipe' class='on'>wipe</button>"
+        "<button data-m='side'>side by side</button>"
+        "<label>wipe all <span id='allv'>50%</span></label>"
+        "<input type='range' id='all' min='0' max='100' value='50'>"
+        f"<span id='cnt'>{len(cards)} pairs</span></div>",
+        "<div class='grid'>" + "".join(cards) + "</div>",
+        "<script>" + JS + "</script>"])
+    o = os.path.join(ART, "v223_self_hosted_parity.html")
+    open(o, "w", encoding="utf-8").write(doc)
+    return o, len(cards)
+
+
+if __name__ == "__main__":
+    print(build())
