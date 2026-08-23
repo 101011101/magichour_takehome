@@ -47,7 +47,12 @@ RUN_QWEN_EXTRACT = False   # Qwen-Image-Edit-2511, 57.7 GB -- half the download.
                            # Only needed to build a QX reference for an UNSEEN
                            # garment; the 38 test sets already have theirs, and the
                            # harness falls back to the cached one automatically.
-RUN_REALISM      = True    # SeedVR2-3B, 14.6 GB. Off by default in the product too.
+RUN_REALISM      = False   # OFF. SeedVR2 has no diffusers pipeline, so this falls
+                           # back to Lanczos x2 -- which doubles the pixels without
+                           # adding detail and makes the output look soft next to
+                           # fal's native-resolution frame. Undo the Lanczos and the
+                           # self-hosted generation measures SHARPER than fal on
+                           # every set. It is also off by default in the product.
 REBUILD_REFS     = True    # rebuild garment references from RAW images (the
                            # production path) instead of using the stored ones
 N_SETS           = 8       # raise once a full pass works
@@ -214,6 +219,7 @@ def local_generate(arm, person_path, garment_path, cfg):
                image=[Image.open(person_path).convert("RGB"),
                       Image.open(ref).convert("RGB")],
                width=W, height=H,
+               num_inference_steps=STEPS, guidance_scale=GUIDANCE,
                generator=torch.Generator("cuda").manual_seed(cfg.seed)).images[0]
     dst = tempfile.mktemp(suffix=f"__{arm}.jpg"); img.save(dst, quality=94)
     return dst
@@ -354,10 +360,15 @@ for _, r in M.iterrows():
                    identity=res.identity_cos, hair=res.hair_over_garment,
                    secs=round(time.time() - t, 1), out=res.image_path,
                    fal_arm=r.shipped_arm, fal_tier=r.shipped_tier)
+        # Save the frame klein produced, separately from whatever the realism stage
+        # did to it. Comparing a Lanczos-upscaled frame against fal's native one is
+        # not like-for-like, and that mistake cost a whole read of the results.
         dst = f"out/klein/{r.set_id}__{res.arm}.jpg"
         if os.path.exists(res.image_path):
-            cv2.imwrite(dst, cv2.imread(res.image_path), [cv2.IMWRITE_JPEG_QUALITY, 94])
+            im = cv2.imread(res.image_path)
+            cv2.imwrite(dst, im, [cv2.IMWRITE_JPEG_QUALITY, 94])
             rec["out"] = dst
+            rec["out_px"] = f"{im.shape[1]}x{im.shape[0]}"
         S[key] = rec; rows.append(rec); json.dump(S, open(STATE, "w"))
         same = "same" if res.arm == r.shipped_arm else f"DIFFERS (fal: {r.shipped_arm})"
         print(f"  {r.set_id[:30]:32}{res.arm:12}{rec['secs']:6.1f}s  {same}")
