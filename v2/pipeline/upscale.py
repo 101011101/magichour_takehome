@@ -1,12 +1,12 @@
 """Stage 5. SeedVR2 when asked for, Lanczos when SeedVR2 would cost identity."""
-import os
-import sys
 import tempfile
 
 import cv2
 import numpy as np
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "build"))
+from ._research import ensure
+
+ensure()
 
 
 def lanczos(path, factor=2):
@@ -40,7 +40,13 @@ def seedvr2(path, cfg):
 
 
 def identity_cos(before_path, after_path):
-    """AuraFace cosine between the two faces, compared at matched scale.
+    """RAW AuraFace cosine between the two faces, compared at matched scale.
+
+    RAW, not the normalised margin that checks.identity_margin returns. Same-person
+    cosines across a generative edit run roughly 0.80-0.92, which is why the 0.90
+    threshold here (identity_floor) means something quite different from the 0.90 in
+    identity_escalate. Do not interchange them; crossing the two fired 6 false
+    escalations in 8 on the first self-hosted run.
 
     Caveat the numbers in v2.4/RESULTS.md carry: the reference measurement compared
     a frame against a 2x upscale of itself, so part of the reported drop is

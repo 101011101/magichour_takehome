@@ -4,7 +4,9 @@
 argument. Why each choice was made, and what was tried and discarded, is in
 [DECISIONS.md](DECISIONS.md). What is left to do is in [TODO.md](TODO.md).
 
-Written 2026-08-21. Target: implementation in Magic Hour company code.
+Written 2026-08-21. **Frozen 2026-08-23 at v2.0.0.** Implemented as an installable
+package at [`v2/pipeline/`](../../v2/pipeline/README.md); V3 supersedes the assembly
+described here, and [LOCK.md](LOCK.md) records what is frozen and why.
 
 ---
 
@@ -23,8 +25,12 @@ model may enter the pipeline. Two consequences that are easy to get wrong:
 - FASHN **v1.5** is the open release. fal's `v1.6` endpoint is FASHN's closed
   commercial model — the endpoint string must never be bumped.
 
-**One licence is unresolved and blocks deploy:** `mattmdjaga/segformer_b2_clothes`,
-the human parser. See §9.
+**The parser licence blocker is closed.** `mattmdjaga/segformer_b2_clothes` was
+non-commercial via the NVLabs SegFormer licence §3.3 and is no longer used; the human
+parser is **SCHP ATR** (`basso4/humanparsing`, `parsing_atr.onnx`), **MIT**. Set
+`PARSER=segformer` to reproduce the older numbers. The swap cost one regression — SCHP
+labelled 99.1% of `p019`'s collar as head — fixed by a MediaPipe clothes veto, IoU
+0.927 → 0.999. Every model in the deployed path now carries a commercial licence.
 
 ---
 
@@ -125,7 +131,7 @@ arms consume and the single feature the router reads.
 ```
 garment reference
   → BiRefNet_lite at 1024²      → subject alpha (soft, 8-bit)
-  → SegFormer-B2 / ATR          → 18 part classes
+  → SCHP ATR                    → 18 part classes
   → MediaPipe Pose Landmarker   → body landmarks
 ```
 
@@ -462,7 +468,7 @@ ideas again.
 | **A VLM asked about artefacts** | Measured: `CLEAN` on all 114 outputs, never fired. The failures are not artefacts |
 | **A pairwise VLM selection call** | 34% self-consistency under image swap; picked the already-failed arm 2 of 5 times. Always take QX |
 | **A VLM-A that sees only the output** | Every output-only prompt sat on the do-nothing baseline. It needs the garment reference |
-| **A VLM router for hair** | The deterministic measure *is* the quantity, not a proxy. A perfect router would save 0.053 gen/request; a VLM router costs 0.020. Ceiling ≈ 2% |
+| **A VLM router for hair** | The deterministic measure *is* the quantity, not a proxy, and at its best cut-point it already reaches the oracle over PHEAD+BC (§9.2). A better router is worth zero perfects |
 | **Z-Image Turbo, anywhere** | Fails the damage-floor test at every strength — restructures faces on **real photographs that needed no repair**. AuraFace drops to 0.72 on a real photo |
 | **A whole-image artefact pass** | The VLM `artifact_fix` criterion scored **exactly 3.00 — no change — in 14 of 14 config-batches** |
 | **A grey mannequin form, or a non-white ground** | Both built, neither ever triggered. The pale-garment case rests on one observed reference |
@@ -479,12 +485,36 @@ State these wherever the numbers above are quoted.
    both plausibly worth several points: a **binary forced choice** with no middle
    option, and **fp16 instead of 4-bit**. Read the numbers as *Qwen3-VL-8B at 4-bit
    with these prompts*, not as a ceiling on open VLMs.
-2. **The 14% threshold is fitted** on these 38 sets. AUC 0.862 is the honest figure;
-   the cut-point needs recomputing over all 48 references, held out.
+2. **The 14% threshold is fitted on these 38 sets, and it is set too high.** AUC
+   0.862 is the honest figure. A sweep over the same 38 sets, run at the freeze:
+
+   | cut-point | perfect | ok | fail | gen/request |
+   |---|---|---|---|---|
+   | 0.00 *(= always BC_klein)* | 28 | 6 | 4 | 2.00 |
+   | **0.05 – 0.09** | **29** | **6** | **3** | **1.55** |
+   | 0.10 | 29 | 5 | 4 | 1.47 |
+   | 0.14 *(shipped)* | 28 | 5 | 5 | 1.26 |
+   | 1.01 *(= always PHEAD)* | 23 | 5 | 10 | 1.00 |
+
+   Two things follow. The shipped 0.14 is **past the useful point** — it trades a
+   perfect and a fail for 0.3 generations. And around 0.08 the router is *strictly
+   better than the strongest single arm and 22% cheaper*, which is the whole case for
+   keeping it: 29/6/3 against always-BC's 28/6/4 at 1.55 generations against 2.00.
+
+   That 0.08 reaches the **oracle** ceiling over PHEAD+BC (also 29/6/3), so a better
+   router is worth nothing — the remaining 3 failures need a different arm, not a
+   better decision. It works at all because of exactly one set: `p015+p007` is
+   PHEAD-perfect and BC_klein-**fail**, the bald pass damages it, and only a low
+   threshold keeps it on the cheap arm.
+
+   **Not shipped.** The plateau is flat across five consecutive cut-points rather than
+   a spike, and the direction (0.14 is too high) holds at every threshold below it —
+   but 0.08 is chosen by reading this scoreboard, which is fitting on the data it is
+   evaluated on. Recomputing over all 48 references, held out, is still owed. Locked
+   as a test: `v2/pipeline/tests/test_published_numbers.py`.
 3. **The user-specification branch has no evidence at all.** Nothing in the test set
    carries one. QX's single-failure profile makes it a safe default; that is reasoning.
-4. **The human parser's licence is unverified**, and head detection depends on it. It
-   is fine for measurement and **not cleared for the deploy path**.
+4. ~~The human parser's licence is unverified.~~ **Resolved** — SCHP ATR, MIT. See §1.
 5. **The realism thresholds (2.5 and 0.90) are fitted** on 38 frames. The mechanism —
    `hf_ratio < 1` predicts identity damage — is the transferable part; the cut-points
    are not. The identity figure is also confounded by comparing a frame against a 2×

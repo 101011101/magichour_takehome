@@ -1,12 +1,11 @@
 """Deterministic checks. Thin adapters over v2/build/failure_gate.py, which is the
 module those checks were measured in -- reimplementing them here would let the two
 drift apart silently."""
-import os
-import sys
-
 import cv2
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "build"))
+from ._research import ensure
+
+ensure()
 import failure_gate as _fg  # noqa: E402
 
 

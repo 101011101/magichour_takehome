@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "magichour-tryon-v2"
+version = "2.0.0"
+description = "V2 virtual try-on harness — open-weights, routed, gated. Frozen checkpoint."
+readme = "pipeline/README.md"
+requires-python = ">=3.10"
+license = {text = "Proprietary"}
+
+# Runtime only. The research modules in build/ pull in torch, onnxruntime and
+# mediapipe; those are listed under [project.optional-dependencies] "full" because
+# the routing and check surfaces are importable without them and `--route-only`
+# is the first thing worth running on a new machine.
+dependencies = [
+    "opencv-python-headless>=4.8",
+    "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+full = [
+    "onnxruntime>=1.17",     # NOT onnxruntime-gpu as well: two packages providing
+                             # one module segfaults the interpreter on import
+    "mediapipe>=0.10",
+    "pillow>=10.0,<11.3",    # 11.3 removed PIL._Ink, which mediapipe imports
+]
+fal = ["fal-client>=0.4"]    # serving substrate for the open checkpoints
+dev = ["pytest>=7.4"]
+
+[project.scripts]
+tryon-v2 = "pipeline.__main__:main"
+
+[tool.setuptools]
+# Editable install only -- `pip install -e v2/`. The package reaches the three
+# research modules in build/ by path (see pipeline/_research.py); a wheel would not
+# carry them. Vendoring them is the right move when this lands in company code and
+# is deliberately not done here, because every measured number came out of those
+# files and a second copy would drift silently.
+packages = ["pipeline"]
+
+[tool.pytest.ini_options]
+testpaths = ["pipeline/tests"]

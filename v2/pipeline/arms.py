@@ -24,12 +24,12 @@ a different experiment. For a garment with no stored reference -- which is every
 real upload -- build_reference() constructs one. That is the production path.
 """
 import os
-import sys
 import tempfile
 import urllib.request
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "build"))
-REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+from ._research import REPO, ensure
+
+ensure()
 
 PROMPT = ("Dress the person in image 1 in the clothing shown in image 2. Keep the "
           "person's face, identity, body and the background exactly as they are.")

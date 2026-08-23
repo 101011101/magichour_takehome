@@ -11,12 +11,12 @@ project and every C1-C4 output must stay byte-identical.
 """
 import glob
 import os
-import sys
 
 import cv2
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "build"))
-REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+from ._research import REPO, ResearchUnavailable, ensure
+
+ensure()
 SCREEN = os.path.join(REPO, "v2", "runs", "crop_screen")
 
 C31 = "__c3_no_face_alpha.png"          # hair AND face removed -- the shipped crop
@@ -45,22 +45,30 @@ def hair_from_raw(garment_path):
     """Compute the router feature from a raw image, no prepared crop needed.
 
     Uses the repo's own mask stack so the number matches the stored one rather
-    than approximating it. Costs a BiRefNet + SCHP + pose pass (~10s on CPU).
+    than approximating it. Costs a BiRefNet + SCHP + pose pass (~1.9s on CPU).
+
+    RAISES rather than returning 0.0 on any failure. 0.0 is a valid feature value
+    meaning "no hair over the garment", so returning it on an error silently routes
+    every request to the cheap arm -- which is exactly what happened on the first
+    self-hosted run, and it looked like a working system.
     """
-    import cv2
     import numpy as np
     try:
         import phase3_variants as PV
-    except ImportError:
-        return 0.0
+    except ImportError as e:
+        raise ResearchUnavailable("hair_over_garment") from e
     bgr = cv2.imread(garment_path)
     if bgr is None:
-        return 0.0
+        raise ValueError(f"unreadable garment image: {garment_path}")
     stem = os.path.splitext(os.path.basename(garment_path))[0]
     M = PV.masks(bgr, stem, cranium=True)
     a31 = float((M["noface"] > 0.5).sum())        # hair AND face removed
     a32 = float((M["nofacehair"] > 0.5).sum())    # face only removed
-    return max(0.0, (a32 - a31) / a32) if a32 else 0.0
+    if not a32:
+        raise ValueError(
+            f"empty subject mask for {garment_path}: no person found in the "
+            "garment reference, so there is no hair to measure")
+    return max(0.0, (a32 - a31) / a32)
 
 
 def area(alpha_path):

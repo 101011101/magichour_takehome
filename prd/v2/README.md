@@ -1,8 +1,18 @@
 # V2 — Virtual Try-On, open weights only
 
-V2 is being built toward deployment in Magic Hour company code. The deployed
+> **FROZEN 2026-08-23 at `v2.0.0`.** No further work lands in V2. What is frozen,
+> what is known wrong inside it, and why the freeze happened rather than a fix:
+> **[LOCK.md](LOCK.md)**. The working code is an installable package at
+> [`v2/pipeline/`](../../v2/pipeline/README.md). The next version is
+> [`prd/v3/`](../v3/README.md).
+
+V2 was built toward deployment in Magic Hour company code. The deployed
 path must be self-hostable open weights; fal endpoints are used for iteration
 only. Full constraints: [results_summary/CONDITIONS.md](results_summary/CONDITIONS.md).
+
+**Result: 31 perfect / 7 ok / 0 fail over 38 sets at 2.158 generations per request**,
+every model commercially licensed. The strongest single arm alone is 28 / 6 / 4 at
+2.000 — which is why V3 restarts from that arm rather than from this assembly.
 
 ## Layout
 
@@ -12,6 +22,9 @@ only. Full constraints: [results_summary/CONDITIONS.md](results_summary/CONDITIO
 | [SCORING_CRITERIA.md](SCORING_CRITERIA.md) | The two model buckets, the fidelity/realism axes, deterministic and VLM schemas, gates |
 | [EXTENSION_ARMS.md](EXTENSION_ARMS.md) | Open-weights arms with no hosted endpoint — deferred, with promotion triggers |
 | [RESEARCH_LOG.md](RESEARCH_LOG.md) | **Dated, append-only record** of what was done, seen and concluded each day, with observation kept separate from inference |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | **The assembly spec.** Standalone: what to build and how, no history, no argument |
+| [DECISIONS.md](DECISIONS.md) | Why each choice was made, with the photographs |
+| [LOCK.md](LOCK.md) | **What is frozen, and what is known wrong inside it** |
 | [ideas/](ideas/) | Proposals not yet committed to a workstream |
 | [v2.0/](v2.0/) | **Workstream — choosing the editing base.** Status: closed, klein 4B distilled decided 2026-08-14. Documents reconstructed after the runs, and labelled as such |
 | [v2.1/](v2.1/) | **Workstream — image realism and gloss.** Status: conditional pass, parked |
