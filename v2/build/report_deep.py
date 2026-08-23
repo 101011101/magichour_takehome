@@ -284,7 +284,8 @@ arm can be a worse second step.</b></div>
 place), the six face-destruction arms (blur, twirl, pixelate — identity leaks), and
 pairing BC_klein with D3B, which scored 13 points <i>below</i> an independence model
 because both are bald-based subtraction.</div>
-<p class='dim'>Evidence: <a href='v221_attention_mod.html'>v221_attention_mod.html</a>
+<p class='dim'>Evidence: <a href='failures.html'><b>every failure, per arm, with
+what rescued it</b></a> &middot; <a href='v221_attention_mod.html'>v221_attention_mod.html</a>
 — 38 sets × 10 arms.</p>"""))
 
     # ---------------- 7 the gate that failed ------------------------------
@@ -483,7 +484,8 @@ on the same data they are evaluated on, notably the 14% router cut.</li>
         "most of what this cost.</p>"
         f"<div class='toc'>{toc}</div></div></header>",
         "<div class='nav'><a href='index.html'>&larr; the short version</a> "
-        "&middot; the long version</div>",
+        "&middot; the long version &middot; "
+        "<a href='failures.html'>every failure &rarr;</a></div>",
         "<div class='wrap'>" + body + "</div>",
         "<div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>",
         "<footer><div class='wrap'>Human review is the verdict throughout. Five times "

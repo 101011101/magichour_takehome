@@ -157,8 +157,8 @@ def build():
         "<div class='l'>generations / request</div></div>"
         "</div></header>",
         "<div class='nav'>the short version &middot; "
-        "<a href='deep.html'>the long version, with every decision and its evidence "
-        "&rarr;</a></div>",
+        "<a href='deep.html'>the long version &rarr;</a> &middot; "
+        "<a href='failures.html'>every failure and what rescued it &rarr;</a></div>",
         "<div class='sec'>"
         "<h2>The numbers</h2>"
         "<table><tr><th>over 38 sets</th><th>gen/req</th><th>perfect</th><th>ok</th>"
