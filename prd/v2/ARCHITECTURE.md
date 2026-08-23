@@ -503,6 +503,7 @@ unchanged. No stage may ever emit a broken image.**
 
 | # | build | verify against |
 |---|---|---|
+| 0 | `arms.build_reference()` on an unseen garment | produces a crop; PHEAD verified free/CPU, BC_klein and QX each need one generation |
 | 1 | Stage 1 masks — BiRefNet, parser, pose, the head rule | crops by eye on the known-hard references: `p021`, `p028`, `p016`, `p009`, `p023` |
 | 2 | `hair_over_garment` | reproduces AUC 0.862 against the labelled tiers |
 | 3 | PHEAD arm end to end | 23 / 5 / 10 on the 38 sets |
