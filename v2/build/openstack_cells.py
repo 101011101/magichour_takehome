@@ -405,6 +405,56 @@ for f in ("openstack_out.zip", "openstack_summary.csv",
         files.download(f)
 
 # %% [markdown]
+# ## 7. Demo — two photos in, a try-on out
+#
+# The production path. Nothing here is looked up: the garment reference is **built
+# from the raw image**, exactly as it would be for a customer upload.
+#
+# Drop any person photo and any garment photo into `demo/` and run. If `demo/` is
+# empty it falls back to a test pair so the cell always demonstrates something.
+
+# %%
+import glob, shutil
+os.makedirs("demo", exist_ok=True)
+have = sorted(glob.glob("demo/*"))
+if len(have) < 2:
+    r0 = M.iloc[0]
+    shutil.copy(r0.person_img, "demo/1_person.jpg")
+    shutil.copy(r0.garment_img, "demo/2_garment.jpg")
+    have = sorted(glob.glob("demo/*"))
+    print("demo/ was empty -- using a test pair. Upload your own to replace it.")
+PERSON, GARMENT = have[0], have[1]
+print(f"person : {PERSON}\ngarment: {GARMENT}")
+
+# Force the unseen path even for a garment that happens to have a cached reference,
+# so this demonstrates what a real upload does rather than a lookup.
+from pipeline import arms as _arms
+_real_reference = _arms.reference
+_arms.reference = lambda arm, stem: None
+
+t0 = time.time()
+try:
+    res = harness.run(PERSON, GARMENT, cfg)
+    print(f"\n  route      {res.route_reason}")
+    print(f"  arm        {res.arm}" + ("  (escalated)" if res.escalated else ""))
+    print(f"  gate       {res.gate_reason or 'clean'}")
+    print(f"  realism    {res.upscaled}")
+    print(f"  cost       {res.generations} generations, {time.time()-t0:.0f}s")
+    print("\n  trace:")
+    for line in res.trace:
+        print(f"    {line}")
+finally:
+    _arms.reference = _real_reference
+
+from IPython.display import display
+from PIL import Image
+w = 300
+for lab, p in (("person", PERSON), ("garment", GARMENT), ("RESULT", res.image_path)):
+    im = Image.open(p).convert("RGB")
+    print(f"\n{lab}  {im.size[0]}x{im.size[1]}")
+    display(im.resize((w, int(w * im.size[1] / im.size[0]))))
+
+# %% [markdown]
 # ## Reading the result
 #
 # **Judge the contact sheet by eye first.** Four times in this project an
