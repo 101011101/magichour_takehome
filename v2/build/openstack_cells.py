@@ -179,6 +179,14 @@ import tempfile, urllib.request
 from PIL import Image
 
 cfg = HarnessConfig(high_resolution=RUN_REALISM, quality="safe", seed=SEED).validate()
+
+# klein 4B is DISTILLED -- the model card calls it "our fastest distilled model for
+# sub-second image generation" and its example uses num_inference_steps=4,
+# guidance_scale=1.0. diffusers defaults to ~28 steps with CFG, which is the wrong
+# operating point for a timestep-distilled model: far slower, and applying guidance
+# to a model distilled not to need it degrades rather than improves. Passing these
+# explicitly is not a tuning choice, it is the documented way to run this checkpoint.
+STEPS, GUIDANCE = 4, 1.0
 _MODELS = {}
 
 # ---- editor -------------------------------------------------------------------
