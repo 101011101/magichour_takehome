@@ -57,9 +57,15 @@ USE_DRIVE_CACHE  = False   # False = download ~42 GB to local disk each session
                            # True only if you will run several sessions.
 BRANCH           = "v2.2.3-harness"
 
-!pip -q install -U "transformers>=4.57" accelerate diffusers safetensors bitsandbytes onnxruntime-gpu mediapipe insightface huggingface_hub scikit-image
-# pillow is deliberately NOT upgraded: it leaves Colab with a mixed PIL install that
-# dies as "cannot import name _Ink from PIL._typing" as soon as transformers loads.
+# Deliberately NOT installed:
+#   onnxruntime-gpu -- Colab already ships onnxruntime, and installing the GPU build
+#     on top leaves two packages providing the same module, which segfaults the
+#     kernel. It also buys nothing: every InferenceSession in the repo pins
+#     CPUExecutionProvider, and these models are small.
+#   pillow          -- upgrading leaves a mixed PIL install that dies as
+#     "cannot import name _Ink from PIL._typing" the moment transformers loads.
+#   scikit-image    -- Colab's version works and upgrading conflicts with cucim.
+!pip -q install -U "transformers>=4.57" accelerate diffusers safetensors bitsandbytes mediapipe insightface huggingface_hub
 
 import os, sys, json, time, gc, csv, subprocess
 import torch
@@ -87,6 +93,12 @@ else:
 
 def free():
     gc.collect(); torch.cuda.empty_cache()
+
+# The deterministic stack runs on CPU, so system RAM is the constraint in cell 3,
+# not VRAM. A T4 runtime has ~12.7 GB and BiRefNet at 1024^2 is the heavy one.
+import onnxruntime as _ort, psutil
+print(f"onnxruntime {_ort.__version__}  providers={_ort.get_available_providers()}")
+print(f"system RAM {psutil.virtual_memory().total/1e9:.1f} GB")
 
 # %% [markdown]
 # ## 1. Inputs
