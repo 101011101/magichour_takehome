@@ -47,7 +47,23 @@ different test set, so the comparison would be invalid twice over.
 
 Estimated **~$2–3 fal**.
 
-### 2. Self-hosted parity run
+### 2. Self-hosted parity run — **first pass done**, see [PARITY.md](PARITY.md)
+
+klein reproduces: generations visually equivalent on weights we control. The run
+found **one deployment requirement** (normalise to ~1 MP — fal was doing it
+silently; skipping it costs 32% of the detail and 3× the GPU) and **two bugs in
+`v2/pipeline/`** that would have shipped (identity compared on the wrong scale,
+and a router that returned 0.0 instead of failing). All three fixed.
+
+Published numbers are unaffected — recomputed and identical. The arm-agreement
+figure from that run is withdrawn; it measured the bugs.
+
+**Remaining:** a corrected re-run (~15 min on cached weights) for the
+arm-agreement number and a clean per-generation time at 1 MP; SeedVR2 self-hosted
+(no diffusers pipeline, needs the ByteDance repo); Qwen-Image-Edit for the
+unseen-garment path.
+
+#### Original scope
 
 Every number in every V2 document is a **fal** number and V2's premise is open
 weights in the deploy path. **Needs a rented GPU or Colab** — the local machine is

@@ -517,3 +517,58 @@ image caught it.
 
 **Next.** Unchanged: the end-to-end run, self-hosted parity, the `segformer_b2_clothes`
 licence, the report.
+
+---
+
+## 2026-08-22d — the parity run was not a formality
+
+**Did.** Ran the whole harness on downloaded weights for the first time: FLUX.2
+klein 4B distilled fp16 unquantised on a Colab L4, Qwen3-VL-8B 4-bit, the MIT
+deterministic stack, no fal anywhere. 8 sets. Full write-up in
+[PARITY.md](PARITY.md).
+
+**Found — klein reproduces.** The generations are visually equivalent: right person,
+right garment, right scene. That was the question and the answer is yes.
+
+**Found — three things the fal path had hidden.**
+
+1. **fal silently normalises to ~1 MP.** All 456 stored outputs are 832×1248
+   regardless of inputs ranging 682×1024 to 1024×1536. Nothing documents it. Left to
+   itself diffusers sized from the inputs and generated at 3.45 MP average — which
+   came out **32% lower in high-frequency detail** and took **128 s instead of ~39 s
+   per generation**. More pixels, less information, triple the compute. Ruled out
+   JPEG: the self-hosted files are nearly twice the size on disk.
+2. **Identity compared on the wrong scale.** `check_identity` returns
+   `_norm(cos, 0.18, 0.42)`, a margin; `upscale.identity_cos` returns the raw
+   cosine; `input_comparison` applied the 0.90 threshold to the raw one. Same-person
+   cosines run 0.80–0.92, so it fired on 6 of 8. `identity_escalate` (0.90 margin)
+   and `identity_floor` (0.90 raw) are the same number meaning different things.
+3. **The router returned 0.0 instead of failing.** It read a gitignored crop cache
+   absent from a fresh clone, so every set routed to PHEAD and routing was silently
+   off.
+
+**Concluded.** *Inference.* Generate at the resolution the model was tuned for and
+add resolution with a model built for it — klein @ 1 MP → SeedVR2 ×2 beats klein @
+2.75 MP on final size, detail (+12% against −32%) and cost. The realism stage was
+already the right shape; nothing needed redesigning, only configuring.
+
+**The published numbers are unaffected** — 2.158 gen/request, 31 / 7 / 0, recomputed
+after both fixes and identical. They came from analysis over labelled CSVs where
+`chk_identity` was always the margin. **The arm-agreement figure from this run is
+withdrawn**: it measured the bugs.
+
+**Both bugs were in `v2/pipeline/`, the deliverable, and both failed by returning a
+plausible default rather than raising.** In production the first triples cost and the
+second disables a component, and neither logs anything. That pattern is the lesson,
+not the two instances.
+
+**Methodological, and the fifth instance.** The instruments reported 62% arm
+agreement, which was wrong. Ray looked at the images and said "correct swap, bad
+pixels" — right on both counts, and both halves were load-bearing. This run was
+scoped as a formality and instead produced a deployment requirement and two shipping
+bugs, because someone executed the code and then looked at the output.
+
+**Next.** Optional corrected re-run (~15 min on cached weights) for the arm-agreement
+number and a clean per-generation time at 1 MP, which is what the self-host-versus-fal
+cost case needs. Then the report. Still untested: SeedVR2 self-hosted (no diffusers
+pipeline; needs the ByteDance repo) and Qwen-Image-Edit for unseen garments.

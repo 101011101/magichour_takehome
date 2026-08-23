@@ -60,6 +60,7 @@ other.
 | **[ARCHITECTURE.md](ARCHITECTURE.md)** | **standalone assembly spec** — what to build and how, no history. Component table with licences, the three arms decomposed, the two VLM checks, build order, and a *what not to build* section |
 | **[DECISIONS.md](DECISIONS.md)** | every sub-version as question → architecture → result → verdict → how to redo it. All scrapped arms with the measurement that killed them, and the withdrawn-claims ledger |
 | **[TODO.md](TODO.md)** | what is left, ordered, with the blocking/iteration split |
+| **[PARITY.md](PARITY.md)** | the self-hosted run: klein reproduces, plus one deployment requirement and two shipped bugs it caught |
 
 **Then, for the working detail:**
 
