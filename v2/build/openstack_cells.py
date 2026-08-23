@@ -239,13 +239,29 @@ try:
 except ImportError:
     from transformers import AutoModelForImageTextToText as VLMCls
 
+# klein (23.7 GB) and Qwen3-VL must be resident together, because harness.run()
+# interleaves them per request -- generate, judge, maybe escalate, judge again.
+# On a 16 GB card that only works if klein is offloaded aggressively.
+#
+#   model_cpu_offload      whole submodules move as a unit -- peak = largest one
+#   sequential_cpu_offload finer grained, fits almost anything, materially slower
+#
+# Under 20 GB we take the slow-but-fits path rather than OOM.
 t0 = time.time()
 _MODELS["klein"] = DiffusionPipeline.from_pretrained(
     "black-forest-labs/FLUX.2-klein-4B", torch_dtype=DTYPE)
-_MODELS["klein"].enable_model_cpu_offload()
+if VRAM < 20:
+    _MODELS["klein"].enable_sequential_cpu_offload()
+    print("klein: SEQUENTIAL offload (slow, fits a 16 GB card)")
+else:
+    _MODELS["klein"].enable_model_cpu_offload()
+    print("klein: model offload")
 print(f"klein loaded {(time.time()-t0)/60:.1f} min")
+free()
+print(f"  VRAM in use after klein: {torch.cuda.memory_allocated()/1e9:.1f} GB")
 
-q = None if VRAM > 26 else BitsAndBytesConfig(
+# 4-bit unless there is room to spare: ~6 GB instead of ~17.5 GB.
+q = None if VRAM > 30 else BitsAndBytesConfig(
     load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=DTYPE)
 t0 = time.time()
 _MODELS["vlm"] = VLMCls.from_pretrained("Qwen/Qwen3-VL-8B-Instruct",
@@ -254,7 +270,12 @@ _MODELS["vlm"] = VLMCls.from_pretrained("Qwen/Qwen3-VL-8B-Instruct",
 _MODELS["vproc"] = AutoProcessor.from_pretrained("Qwen/Qwen3-VL-8B-Instruct",
                                                  min_pixels=256*28*28,
                                                  max_pixels=1024*28*28)
+free()
 print(f"Qwen3-VL loaded {(time.time()-t0)/60:.1f} min  (4-bit: {q is not None})")
+print(f"  VRAM in use with both resident: {torch.cuda.memory_allocated()/1e9:.1f} "
+      f"/ {VRAM:.0f} GB")
+if torch.cuda.memory_allocated() / 1e9 > VRAM * 0.85:
+    print("  WARNING: little headroom left. If cell 6 OOMs, move to an L4 (24 GB).")
 
 if RUN_REALISM:
     print("\nSeedVR2 has no diffusers pipeline. To enable:")
