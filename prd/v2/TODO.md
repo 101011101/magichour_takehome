@@ -49,8 +49,32 @@ figure from that run is withdrawn; it measured the bugs.
 
 **Remaining:** a corrected re-run (~15 min on cached weights) for the
 arm-agreement number and a clean per-generation time at 1 MP; SeedVR2 self-hosted
-(no diffusers pipeline, needs the ByteDance repo); Qwen-Image-Edit for the
-unseen-garment path.
+(see PARITY.md §4 — needs apex, flash-attn and H100-class hardware, so it is a
+project rather than a cell).
+
+### 2b. The unseen-garment path — **wired** (2026-08-22)
+
+`arms.build_reference()` constructs a garment reference from a raw image when no
+cached one exists, which is every real upload. All three pieces already existed in
+the build scripts; they were simply never connected to `pipeline/`.
+
+| arm | how | cost |
+|---|---|---|
+| PHEAD | BiRefNet + SCHP + pose → crop | free, CPU. **Verified** on a garment with no cache |
+| BC_klein | klein bald pass → the same crop | 1 generation. Wired, not yet exercised |
+| QX | Qwen-Image-Edit extraction | 1 generation. Wired, not yet exercised |
+
+Stored references still take precedence, so the 38-set numbers stay reproducible on
+exactly the images they were measured on — a rebuilt PHEAD crop comes out 1347×475
+against the stored 1194×467, and swapping those silently would change the
+experiment.
+
+It **raises rather than returning a degraded reference.** A silently wrong crop is
+worse than a failed request; the router already made that case by returning 0.0
+instead of failing and disabling itself for a whole run.
+
+**Owed:** one paid run of the BC_klein and QX build paths (~$0.06) to confirm the two
+generative preprocessing steps behave outside the original run scripts.
 
 #### Original scope
 
