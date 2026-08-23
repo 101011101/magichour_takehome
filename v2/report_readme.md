@@ -15,7 +15,7 @@ Two pages, self-contained. Nothing points outside the folder.
 
 ## Deploy
 
-    npx vercel deploy v2/report --prod
+    npx vercel deploy v2/report
 
 `index.html` is the entry point.
 
@@ -29,3 +29,20 @@ indexed or cached in the meantime.
 That is a judgement for the repo owner, not a technical detail. If the report is
 for internal review, `vercel deploy` without `--prod` gives a preview URL, and
 Vercel's password protection or an SSO-gated team project keeps it private.
+
+## Live
+
+    https://report-g763vsjmj-ray-tans-projects.vercel.app
+
+Deployed 2026-08-23. **Protected by Vercel SSO** — reachable only when signed in to
+the owning Vercel account. That is the right default here: the images are
+AI-generated try-ons of identifiable people, and a public URL cannot be un-published
+once indexed.
+
+To let someone else see it, in order of least to most exposure:
+
+1. **Shareable link** — Vercel dashboard → the deployment → Share. Time-limited,
+   no account needed, not indexable.
+2. **Add them to the project** — Vercel dashboard → Settings → Members.
+3. **Disable Deployment Protection** — Settings → Deployment Protection. This makes
+   it world-readable. Consider whether the images should be.

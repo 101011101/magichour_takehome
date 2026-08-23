@@ -20,8 +20,25 @@ PAGES = ["progression_grid.html", "v20_arms_ts2.html", "v20_klein_variant.html",
 PATHY = re.compile(r"""((?:\.\./|\./)?[\w./+-]+?\.(?:jpg|jpeg|png))""", re.I)
 
 
+VERCEL_JSON = """{
+  "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/img/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ]
+}
+"""
+
+
 def build(maxw=900):
     os.makedirs(OUT, exist_ok=True)
+    # written here rather than by hand: v2/report/ is gitignored and rebuilt from
+    # scratch, so anything not generated is lost on the next build
+    open(os.path.join(OUT, "vercel.json"), "w").write(VERCEL_JSON)
     stats = []
     for page in PAGES:
         p = os.path.join(ART, page)
