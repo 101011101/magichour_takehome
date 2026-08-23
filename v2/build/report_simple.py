@@ -48,6 +48,19 @@ h2{font-size:19px;margin:34px 0 6px}
  color:#8ce99a;border:1px solid #24502e;margin-left:auto}
 .imgs{display:grid;grid-template-columns:130px 130px 1fr 1fr;gap:2px;align-items:start;
  padding:10px}
+/* baseline successes: three across in one row. The point needs making once, not
+   six times -- klein being good is the premise, not the finding. */
+.wins{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0 4px}
+@media(max-width:780px){.wins{grid-template-columns:1fr}}
+.win-card{border:1px solid var(--line);border-radius:10px;background:#101014;
+ overflow:hidden}
+.win-card .trio{display:grid;grid-template-columns:1fr 1fr 1.5fr;gap:2px;padding:7px}
+.win-card .trio img{width:100%;display:block;background:#fff;border-radius:4px;
+ cursor:zoom-in}
+.win-card .trio figcaption{font-size:9.5px;color:var(--dim);text-align:center;
+ padding:3px 0}
+.win-card .lbl{padding:6px 10px;font-size:11px;color:var(--good);font-weight:700;
+ border-top:1px solid var(--line);text-align:center}
 @media(max-width:820px){.imgs{grid-template-columns:1fr 1fr}}
 figure{margin:0}
 figure img{width:100%;display:block;background:#fff;border-radius:5px;cursor:zoom-in}
@@ -85,7 +98,7 @@ FAULT = {"wrongperson": "wrong person", "wrongclothes": "wrong clothes",
 
 def build():
     ps = A.pairs()
-    wins = A.baseline_successes(6)
+    wins = A.baseline_successes(3)
     e = html.escape
 
     def big(src, alt, cls=""):
@@ -96,21 +109,17 @@ def build():
 
     win_rows = []
     for w in wins:
+        r = A.asset(w["base"], 640, hires=True)
         win_rows.append(
-            f"<div class='row'><div class='rh'><b>{e(w['set_id'])}</b>"
-            f"<span class='ok' style='margin-left:auto'>baseline already correct — "
-            f"no harness needed</span></div><div class='imgs'>"
-            f"<figure><img src='{A.asset(w['person'],320)}' alt='person'>"
+            f"<div class='win-card'><div class='trio'>"
+            f"<figure><img src='{A.asset(w['person'],240)}' alt='person'>"
             f"<figcaption>person</figcaption></figure>"
-            f"<figure><img src='{A.asset(w['garment'],320)}' alt='garment'>"
+            f"<figure><img src='{A.asset(w['garment'],240)}' alt='garment'>"
             f"<figcaption>garment</figcaption></figure>"
-            + big(w['base'], f"{w['set_id']} — base klein, no harness") +
-            f"<figcaption style='color:var(--good);font-weight:700'>"
-            f"klein alone &mdash; correct</figcaption></figure>"
-            f"<figure style='display:flex;align-items:center;justify-content:center;"
-            f"color:var(--dim);font-size:12.5px;text-align:center;padding:14px'>"
-            f"nothing to fix here.<br>These 39% are why the<br>model was chosen.</figure>"
-            f"</div></div>")
+            f"<figure><img src='{r}' data-full='{r.replace('.jpg','@2x.jpg')}' "
+            f"alt='{e(w['set_id'])} — base klein, no harness'>"
+            f"<figcaption>klein alone</figcaption></figure></div>"
+            f"<div class='lbl'>correct, no harness</div></div>")
     rows = []
     for p in ps:
         tags = "".join(f"<span class='fault'>{FAULT.get(f,f)}</span>" for f in p["faults"])
@@ -170,7 +179,8 @@ def build():
         "cropping, no routing and no gate. Those cases are shown here so the "
         "failures that follow are read for what they are &mdash; <b>edge cases the "
         "harness was built for</b> &mdash; and not as a weak model or a bad "
-        "prompt. Same prompt and seed throughout.</p>" + "".join(win_rows) +
+        "prompt. Same prompt and seed throughout.</p>"
+        "<div class='wins'>" + "".join(win_rows) + "</div>" +
         f"<h2>Then &mdash; the edge cases</h2><p class='note'>{len(ps)} sets where the original "
         f"uncropped output was kept, so a direct before/after exists. "
         f"{faults} of them have failures recorded by category during review; those "

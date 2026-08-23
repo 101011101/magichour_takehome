@@ -48,13 +48,16 @@ def asset(src, maxw=900, q=84, hires=False):
     return _seen[key]
 
 
-def baseline_successes(limit=6):
+def baseline_successes(limit=3):
     """Sets where base klein got it right with no crop, no routing, no gate.
 
     In the report these come FIRST. Without them a reader can reasonably conclude
     the failures were bad prompting or a weak model, and the whole argument for the
     harness collapses. klein is a strong model: it is clean on 13 of 33 reviewed
     sets. The harness exists for the other 20.
+
+    Three is the limit on purpose. This is the premise, not the finding -- showing
+    it six times spends the reader's attention on the part nobody disputes.
     """
     ann = list(csv.DictReader(open(f"{REPO}/v221_review_annotations.csv")))
     combo = {os.path.basename(p).replace("__base.png", ""): p
