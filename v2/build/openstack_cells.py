@@ -239,28 +239,52 @@ try:
 except ImportError:
     from transformers import AutoModelForImageTextToText as VLMCls
 
-# klein (23.7 GB) and Qwen3-VL must be resident together, because harness.run()
-# interleaves them per request -- generate, judge, maybe escalate, judge again.
-# On a 16 GB card that only works if klein is offloaded aggressively.
+# The repo is 23.7 GB but the PIPELINE only needs 16 GB of it:
 #
-#   model_cpu_offload      whole submodules move as a unit -- peak = largest one
-#   sequential_cpu_offload finer grained, fits almost anything, materially slower
+#     transformer/        7.75 GB
+#     text_encoder/       8.05 GB   <- the biggest single piece
+#     vae/ + tokenizer/   0.19 GB
+#     flux-2-klein-4b.safetensors  7.75 GB  <- a DUPLICATE of the transformer in
+#                                              single-file format. from_pretrained
+#                                              never reads it. Skip the download.
 #
-# Under 20 GB we take the slow-but-fits path rather than OOM.
+# A free T4 runtime has ~12.7 GB of SYSTEM RAM, and CPU offload holds the whole
+# model there. 16 GB does not fit, which is why offloading harder did not help --
+# the constraint was RAM, not VRAM.
+#
+# So quantise the TEXT ENCODER to 4-bit (8.05 -> ~2 GB) and leave the diffusion
+# transformer in fp16. Text-encoder quantisation costs far less output quality
+# than quantising the transformer would, which matters here because a degraded
+# transformer would confound the parity comparison this notebook exists to make.
+from huggingface_hub import snapshot_download
+KLEIN = "black-forest-labs/FLUX.2-klein-4B"
+local = snapshot_download(KLEIN, ignore_patterns=["flux-2-klein-4b.safetensors"])
+print(f"klein weights at {local}")
+
 t0 = time.time()
-_MODELS["klein"] = DiffusionPipeline.from_pretrained(
-    "black-forest-labs/FLUX.2-klein-4B", torch_dtype=DTYPE)
-if VRAM < 20:
-    _MODELS["klein"].enable_sequential_cpu_offload()
-    print("klein: SEQUENTIAL offload (slow, fits a 16 GB card)")
-else:
-    _MODELS["klein"].enable_model_cpu_offload()
-    print("klein: model offload")
+te = None
+if VRAM < 30:
+    from transformers import BitsAndBytesConfig as TFQ, AutoModel
+    try:
+        te = AutoModel.from_pretrained(
+            local, subfolder="text_encoder", dtype=DTYPE,
+            quantization_config=TFQ(load_in_4bit=True, bnb_4bit_quant_type="nf4",
+                                    bnb_4bit_compute_dtype=DTYPE))
+        print("text encoder loaded in 4-bit")
+    except Exception as ex:
+        print(f"4-bit text encoder failed ({type(ex).__name__}), using fp16")
+        te = None
+
+kw = {"torch_dtype": DTYPE}
+if te is not None:
+    kw["text_encoder"] = te
+_MODELS["klein"] = DiffusionPipeline.from_pretrained(local, **kw)
+_MODELS["klein"].enable_model_cpu_offload()
 print(f"klein loaded {(time.time()-t0)/60:.1f} min")
 free()
-print(f"  VRAM in use after klein: {torch.cuda.memory_allocated()/1e9:.1f} GB")
+print(f"  VRAM after klein: {torch.cuda.memory_allocated()/1e9:.1f} GB"
+      f" | RAM used {psutil.virtual_memory().percent:.0f}%")
 
-# 4-bit unless there is room to spare: ~6 GB instead of ~17.5 GB.
 q = None if VRAM > 30 else BitsAndBytesConfig(
     load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=DTYPE)
 t0 = time.time()
@@ -272,10 +296,11 @@ _MODELS["vproc"] = AutoProcessor.from_pretrained("Qwen/Qwen3-VL-8B-Instruct",
                                                  max_pixels=1024*28*28)
 free()
 print(f"Qwen3-VL loaded {(time.time()-t0)/60:.1f} min  (4-bit: {q is not None})")
-print(f"  VRAM in use with both resident: {torch.cuda.memory_allocated()/1e9:.1f} "
-      f"/ {VRAM:.0f} GB")
-if torch.cuda.memory_allocated() / 1e9 > VRAM * 0.85:
-    print("  WARNING: little headroom left. If cell 6 OOMs, move to an L4 (24 GB).")
+print(f"  VRAM with both: {torch.cuda.memory_allocated()/1e9:.1f} / {VRAM:.0f} GB"
+      f" | RAM {psutil.virtual_memory().percent:.0f}%")
+if psutil.virtual_memory().percent > 85:
+    print("  WARNING: system RAM is nearly full. If the kernel dies in cell 6, the")
+    print("  free tier is out of room -- use Colab Pro's high-RAM runtime with an L4.")
 
 if RUN_REALISM:
     print("\nSeedVR2 has no diffusers pipeline. To enable:")
