@@ -26,3 +26,9 @@ v2/runs/amt/*
 !v2/runs/crop_screen/
 v2/runs/crop_screen/*
 !v2/runs/crop_screen/crop_log.csv
+
+# The built report. 111 MB of downsized generations, regenerable in one command
+# from v2/build/report_*.py. Deploy it with `npx vercel deploy v2/report`; keeping
+# it out of git avoids permanently publishing try-ons of identifiable people to a
+# public repo, which is the repo owner's call rather than a default.
+v2/report/
