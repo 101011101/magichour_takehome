@@ -11,8 +11,11 @@ REPO, OUT = A.REPO, A.OUT
 ART = os.path.join(REPO, "v2", "artifacts")
 PAGES = ["progression_grid.html", "v20_arms_ts2.html", "v20_klein_variant.html",
          "v221_attention_mod.html", "v221_review.html", "v223_harness_picks.html",
-         "v223_realism_pass.html", "v223_self_hosted_parity.html",
-         "v223_vlm_eval.html"]
+         "v223_realism_pass.html", "v223_vlm_eval.html"]
+# v223_self_hosted_parity.html is deliberately NOT deployed. The parity run passed
+# on the numbers, but its images were produced with a Lanczos fallback and the wrong
+# step count, so they understate the model. Section 11 says so in words. Restore this
+# page once the corrected comparison exists.
 # Match ANY relative image path anywhere in the file, not just src= attributes.
 # Three of these pages build their paths in JavaScript from an embedded data blob
 # (src="'+it.src+'"), so an attribute-only regex silently rewrote nothing and the

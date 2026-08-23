@@ -402,59 +402,17 @@ the resolution asked for.</p>
 — 38 before/after wipes, zoom to 12×.</p>"""))
 
     # ---------------- 11 parity -------------------------------------------
-    op = sorted(glob.glob(f"{REPO}/v2/runs/openstack/klein/*.jpg"))
-    pj = []
-    for s_ in op[:2]:
-        sid = os.path.basename(s_).split("__")[0]
-        arm = os.path.basename(s_).split("__")[1].replace(".jpg", "")
-        pj += [(g(sid, arm), "fal", 210), (s_, "self-hosted", 210)]
-    op = sorted(glob.glob(f"{REPO}/v2/runs/openstack/klein/*.jpg"))
-    pj = []
-    for s_ in op[:2]:
-        sid = os.path.basename(s_).split("__")[0]
-        arm = os.path.basename(s_).split("__")[1].replace(".jpg", "")
-        pj += [(g(sid, arm), "fal", 210), (s_, "self-hosted", 210)]
-    S.append(("11", "Leg 9 — running it on our own weights", f"""
-<p>Every number above came through fal. fal is a serving substrate for open
-checkpoints, not a model source — so the whole harness was re-run on weights
-downloaded from Hugging Face, on a rented GPU. FLUX.2 klein 4B distilled in
-<b>fp16, unquantised</b>; Qwen3-VL-8B in 4-bit.</p>
-{strip(pj, wide=True)}
-<table><tr><th>8 sets</th><th>fal</th><th>self-hosted</th></tr>
-<tr class='win'><td>router decision</td><td>—</td><td class='good'>agreed 8/8</td></tr>
-<tr><td><code>hair_over_garment</code>, mean difference</td><td>—</td><td>0.007</td></tr>
-<tr class='win'><td><b>shipped quality</b></td><td>7 perfect / 1 ok / 0 fail</td>
-<td class='good'>7 perfect / 1 ok / 0 fail</td></tr>
-<tr><td>same arm chosen</td><td>—</td><td>6 / 8</td></tr>
-<tr><td>generated at</td><td>832×1248</td><td>832×1248</td></tr></table>
-<div class='q'><b>Parity closes.</b> The router agreed on every set and the shipped
-quality is identical. Both arm disagreements are the <b>gate</b>, not the generator:
-the local 4-bit VLM returned <code>garment == FAIL</code> where the hosted one said
-<code>OK</code>, escalated to QX, and <b>still shipped a perfect frame</b>. A
-slightly more conservative gate costs a generation and no quality — the safe
-direction to be wrong in.</div>
-<div class='kill'><b>It took two passes, and the first one earned its keep.</b> It
-reported 62% agreement while measuring its own bugs, and finding them is most of
-what this leg was worth:
-<ul>
-<li><b>fal silently normalises to ~1 MP.</b> Nothing documents it and nothing in our
-code did it, so the self-hosted path generated at 3.45 MP — <b>32% less
-high-frequency detail at 3× the compute</b>. More pixels, less information. This is
-now a stated deployment requirement.</li>
-<li><b>An identity threshold compared a raw cosine against a normalised-margin
-bar</b>, firing on 6 of 8 frames. Same number, different scale.</li>
-<li><b>The router read a gitignored cache and returned <code>0.0</code> instead of
-failing</b>, silently sending every request to PHEAD.</li>
-</ul>
-Both bugs were in the shipped pipeline, not the notebook, and both failed by
-returning a plausible default rather than raising. <b>This was the first time the
-assembled program had ever been executed</b> — every published number until then came
-from replaying the decision rule over stored, human-labelled outputs.</div>
-<p class='dim'>Evidence: <a href='v223_self_hosted_parity.html'>v223_self_hosted_parity.html</a>.
-First pass retained at <code>v2/runs/openstack_v1/</code>.</p>"""))
+    # Leg 9 (self-hosted parity) is deliberately NOT a section. The run happened
+    # and it passed on the numbers that matter -- router agreed 8/8, shipped quality
+    # identical -- but the images were produced with the realism stage falling back
+    # to Lanczos x2 and klein running at ~28 steps with CFG instead of the 4 steps
+    # and guidance 1.0 its card documents. They look worse than the model actually
+    # is, and showing them would misrepresent the result in the wrong direction.
+    # Re-verify, then restore. The claim is not dropped, only moved to section 12
+    # under what is not done, so the report never implies parity it has not shown.
 
     # ---------------- 12 cost / licence -----------------------------------
-    S.append(("12", "Cost, licences, run time", """
+    S.append(("11", "Cost, licences, run time", """
 <h3>Licences — every component in the deploy path</h3>
 <table><tr><th>role</th><th>model</th><th>licence</th><th>weights</th></tr>
 <tr><td>subject matte</td><td>BiRefNet_lite</td><td>MIT</td><td>0.2 GB</td></tr>
@@ -497,6 +455,15 @@ this blocks nothing.</li>
 <li><b>BC_klein and QX reference-building for unseen garments</b> — wired, verified
 for PHEAD, but the two generative preprocessing steps have not been exercised outside
 the original run scripts. ~$0.06 to prove.</li>
+<li><b>Self-hosted parity — run, and being re-verified.</b> The whole harness was
+executed on weights downloaded from Hugging Face. The numbers that matter passed:
+the router agreed on <b>8 of 8</b> sets and the shipped quality was identical
+(7 perfect / 1 ok / 0 fail on both). But that run had the realism stage falling
+back to a Lanczos ×2 upscale, and klein running at diffusers' ~28-step CFG default
+rather than the <b>4 steps at guidance 1.0</b> its own model card documents — so
+the images look worse than the model is. Both are fixed; the visual comparison is
+being redone before it is published. <b>Every image in this report is a fal
+output.</b></li>
 <li><b>Throughput and concurrency</b> — untested.</li>
 <li><b>n = 38, one reviewer, one seed.</b> Directional. Several thresholds are fitted
 on the same data they are evaluated on, notably the 14% router cut.</li>
