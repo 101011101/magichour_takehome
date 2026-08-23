@@ -112,12 +112,34 @@ bugs, not the weights.
 
 ## 4. Still untested
 
-**SeedVR2 self-hosted.** It has no diffusers pipeline — the model card says
-"no code snippets available; check the repository" — so fal wraps ByteDance's own
-inference code. The notebook leaves it as an explicit hook rather than a guessed
-API; unset, `upscale.seedvr2` returns `None` and the shipped Lanczos fallback takes
-over, which is the designed behaviour. Wiring it means cloning
-`github.com/ByteDance-Seed/SeedVR`. Licence confirmed Apache-2.0.
+**SeedVR2 self-hosted — a project, not a cell.** The weights are open and
+downloadable (Apache-2.0, `seedvr2_ema_3b.pth`, 13.6 GB, ungated — verified with a
+no-auth fetch). What is missing is a usable inference path. From the ByteDance repo:
+
+| requirement | consequence |
+|---|---|
+| `flash_attn==2.5.9.post1` | needs Ampere or newer; will not build on a T4 |
+| **`apex`** | NVIDIA apex, awkward to build reliably |
+| `torchrun --nproc-per-node` | distributed by design |
+| **video-only** | no documented single-image path |
+| *"1 H100-80G can handle 100×720×1280"* | their own stated hardware baseline |
+
+**fal is doing real wrapping work to expose this as a single-image endpoint.** That
+cost was invisible while we consumed it as an API.
+
+The notebook therefore leaves an explicit hook rather than a guessed API; unset,
+`upscale.seedvr2` returns `None` and the shipped Lanczos fallback takes over, which
+is the designed degradation and still exercises the identity floor.
+
+**Three options for deployment**, and the stage is `high_resolution=False` by
+default so none of them block shipping:
+
+1. **Reproduce fal's wrapping** — apex, flash-attn, a single-image adapter, H100-class
+   hardware.
+2. **Swap the upscaler** for one with a clean single-image path — Real-ESRGAN or
+   AuraSR-v2, both already on v2.4's candidate list.
+3. **Ship Lanczos.** Free, deterministic, already the fallback. Costs the +12%
+   high-frequency gain SeedVR2 measured.
 
 **Qwen-Image-Edit-2511** (the QX extractor, 57.7 GB) was not downloaded. The 38 test
 garments already have their QX references, so escalation worked; building one for an

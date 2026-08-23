@@ -346,6 +346,13 @@ default is measurably worse on both fidelity (4.88 vs 5.00) and identity (0.892 
 0.943). SeedVR2 accepts **no text input** — it restores and upscales; it does not
 repair artefacts and it does not remove gloss.
 
+**Self-hosting this stage is not free.** SeedVR2's weights are Apache-2.0 and
+downloadable, but its inference path needs `flash_attn`, `apex`, `torchrun`, and is
+documented as video-only against an H100-80G baseline — fal is doing real wrapping
+work to expose it per-image. Alternatives with a clean single-image path
+(Real-ESRGAN, AuraSR-v2) are on v2.4's list, and the Lanczos fallback below already
+ships. The stage is off by default, so this blocks nothing.
+
 ```
 if not cfg.high_resolution:
     ship the frame as-is                    # the default path, zero cost
