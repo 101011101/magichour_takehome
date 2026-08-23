@@ -73,7 +73,13 @@ def hair_over_garment(garment_path):
     c31 = masks.crop(garment_path, keep_hair=False)
     c32 = masks.crop(garment_path, keep_hair=True)
     a31, a32 = masks.area(c31), masks.area(c32)
-    return max(0.0, (a32 - a31) / a32) if a32 else 0.0
+    if a32:
+        return max(0.0, (a32 - a31) / a32)
+    # No prepared crop on disk -- an unseen garment, or a checkout without
+    # v2/runs/. Compute it. Returning 0.0 here silently routes EVERY request to
+    # PHEAD, which is what happened on the first self-hosted run and is worse than
+    # failing loudly.
+    return masks.hair_from_raw(garment_path)
 
 
 def route(garment_path, cfg):
@@ -108,14 +114,20 @@ def input_comparison(out_path, person_path, cfg):
     checks caught exactly one thing the VLM did not, and it was the only frame that
     shipped broken. They cost nothing -- CPU, already loaded, no API call.
     """
-    from . import checks, upscale
+    from . import checks
     if checks.degenerate(out_path):
         return True, "degenerate frame"
     if checks.noop(out_path, person_path) < cfg.noop_floor:
         return True, "no-op: output is the person input unchanged"
-    cos = upscale.identity_cos(person_path, out_path)
-    if cos is not None and cos < cfg.identity_escalate:
-        return True, f"identity {cos:.3f} < {cfg.identity_escalate}: wrong person"
+    # NOT a raw cosine. checks.identity_margin wraps failure_gate.check_identity,
+    # which returns _norm(cos, 0.18, 0.42) -- the same normalised scale the 0.90
+    # threshold was validated on. A raw cosine between the same person across a
+    # generative edit runs 0.80-0.92, so a 0.90 raw threshold fires on almost
+    # everything; the equivalent margin is 1.000. The two scales look alike and
+    # are not, which cost a whole Colab run.
+    m = checks.identity_margin(out_path, person_path)
+    if m is not None and m < cfg.identity_escalate:
+        return True, f"identity margin {m:.3f} < {cfg.identity_escalate}: wrong person"
     return False, ""
 
 

@@ -41,6 +41,28 @@ def crop(garment_path, keep_hair=False):
     return p if os.path.exists(p) else None
 
 
+def hair_from_raw(garment_path):
+    """Compute the router feature from a raw image, no prepared crop needed.
+
+    Uses the repo's own mask stack so the number matches the stored one rather
+    than approximating it. Costs a BiRefNet + SCHP + pose pass (~10s on CPU).
+    """
+    import cv2
+    import numpy as np
+    try:
+        import phase3_variants as PV
+    except ImportError:
+        return 0.0
+    bgr = cv2.imread(garment_path)
+    if bgr is None:
+        return 0.0
+    stem = os.path.splitext(os.path.basename(garment_path))[0]
+    M = PV.masks(bgr, stem, cranium=True)
+    a31 = float((M["noface"] > 0.5).sum())        # hair AND face removed
+    a32 = float((M["nofacehair"] > 0.5).sum())    # face only removed
+    return max(0.0, (a32 - a31) / a32) if a32 else 0.0
+
+
 def area(alpha_path):
     """Opaque pixel count of an RGBA crop."""
     if not alpha_path:
