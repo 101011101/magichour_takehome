@@ -19,33 +19,22 @@ is the *replacement* question, not the validation one.
 
 ## Blocking V2 completion
 
-### 1. The end-to-end run — the deliverable number
+### 1. ~~The end-to-end run on fal~~ — **dropped as redundant** (2026-08-22)
 
-Run the **assembled** pipeline over the 38 sets: router → arm → input comparison →
-VLM-A → escalate → optional realism.
+Written when `arms.generate` still raised `NotImplementedError`, to prove the
+assembled program actually runs. **The self-hosted parity run did that** — and
+proved it by executing the code for the first time and finding two bugs.
 
-**`arms.generate` is now wired** (2026-08-22). It reads each arm's stored garment
-reference rather than rebuilding it — those references produced every measured
-number, and a rebuilt PHEAD crop comes out 1347×475 against the stored 1194×467, so
-rebuilding would silently change the experiment. All 22 test garments have all three
-references, zero missing.
+It also had a flaw worth recording: a fresh fal run would produce **new images with
+no human tiers**. The 31 / 7 / 0 result depends on the labels attached to the
+*existing* outputs, so fresh generations would need a full re-marking session before
+they could be scored at all. That is $2–3 plus hours of eye time to reproduce a
+number we already have from replaying the decision logic over labelled outputs.
 
-What remains genuinely open is **building a reference for an unseen garment**, which
-production needs and the report does not.
-
-Comparison arms, same sets, same seed:
-
-| arm | why |
-|---|---|
-| `qwen_2511` | the model on the Magic Hour website today — the baseline that matters |
-| flat `klein` (C3.1) | the v2.0 base with the shipped crop, no harness |
-| flat `BC_klein` | the strongest single arm |
-| **the harness** | the deliverable |
-
-**Not** the V1 cascade: seedream is closed-weights, and its numbers came from a
-different test set, so the comparison would be invalid twice over.
-
-Estimated **~$2–3 fal**.
+**What the report should say instead:** the harness result is a replay of the
+shipped decision rule over 456 human-labelled generations, and the assembled program
+has been executed end to end self-hosted. Those are two different claims and both
+are now true.
 
 ### 2. Self-hosted parity run — **first pass done**, see [PARITY.md](PARITY.md)
 
