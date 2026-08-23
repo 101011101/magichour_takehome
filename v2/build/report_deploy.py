@@ -11,7 +11,13 @@ REPO, OUT = A.REPO, A.OUT
 ART = os.path.join(REPO, "v2", "artifacts")
 PAGES = ["progression_grid.html", "v20_arms_ts2.html", "v20_klein_variant.html",
          "v221_attention_mod.html", "v221_review.html", "v223_harness_picks.html",
-         "v223_realism_pass.html", "v223_vlm_eval.html"]
+         "v223_realism_pass.html", "v223_vlm_eval.html",
+         # v221_attention_mod.html links these seven, so omitting them deploys a
+         # page with seven dead links. ~9 MB downsized -- cheaper to include than
+         # to break the evidence trail.
+         "v221_phase3_bg.html", "v221_phase3_m.html", "v221_phase3_ac.html",
+         "v221_phase3_acab.html", "v221_phase3_acc.html",
+         "v221_phase3_crops.html", "v221_phase3_fashn.html"]
 # v223_self_hosted_parity.html is deliberately NOT deployed. The parity run passed
 # on the numbers, but its images were produced with a Lanczos fallback and the wrong
 # step count, so they understate the model. Section 11 says so in words. Restore this
