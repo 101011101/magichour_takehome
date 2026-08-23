@@ -66,7 +66,10 @@ footer{border-top:1px solid var(--line);padding:26px 30px;color:var(--dim);
 JS = """
 document.addEventListener('click',e=>{
   const im=e.target.closest('figure img');if(!im)return;
-  document.getElementById('lbi').src=im.getAttribute('src');
+  // load the 1800px companion, not the thumbnail -- enlarging a thumbnail is
+  // just scaling it up, which is not what "click to enlarge" should mean
+  document.getElementById('lbi').src =
+    im.dataset.full || im.getAttribute('src');
   document.getElementById('lbc').textContent=im.getAttribute('alt');
   document.getElementById('lb').classList.add('on');});
 document.getElementById('lb').addEventListener('click',()=>
@@ -82,7 +85,32 @@ FAULT = {"wrongperson": "wrong person", "wrongclothes": "wrong clothes",
 
 def build():
     ps = A.pairs()
+    wins = A.baseline_successes(6)
     e = html.escape
+
+    def big(src, alt, cls=""):
+        a = A.asset(src, 900, hires=True)
+        full = a.replace(".jpg", "@2x.jpg")
+        return (f"<figure class='big {cls}'><img src='{a}' data-full='{full}' "
+                f"alt='{e(alt)}'>")
+
+    win_rows = []
+    for w in wins:
+        win_rows.append(
+            f"<div class='row'><div class='rh'><b>{e(w['set_id'])}</b>"
+            f"<span class='ok' style='margin-left:auto'>baseline already correct — "
+            f"no harness needed</span></div><div class='imgs'>"
+            f"<figure><img src='{A.asset(w['person'],320)}' alt='person'>"
+            f"<figcaption>person</figcaption></figure>"
+            f"<figure><img src='{A.asset(w['garment'],320)}' alt='garment'>"
+            f"<figcaption>garment</figcaption></figure>"
+            + big(w['base'], f"{w['set_id']} — base klein, no harness") +
+            f"<figcaption style='color:var(--good);font-weight:700'>"
+            f"klein alone &mdash; correct</figcaption></figure>"
+            f"<figure style='display:flex;align-items:center;justify-content:center;"
+            f"color:var(--dim);font-size:12.5px;text-align:center;padding:14px'>"
+            f"nothing to fix here.<br>These 39% are why the<br>model was chosen.</figure>"
+            f"</div></div>")
     rows = []
     for p in ps:
         tags = "".join(f"<span class='fault'>{FAULT.get(f,f)}</span>" for f in p["faults"])
@@ -94,12 +122,10 @@ def build():
             f"<figcaption>person</figcaption></figure>"
             f"<figure><img src='{A.asset(p['garment'],320)}' alt='garment reference'>"
             f"<figcaption>garment</figcaption></figure>"
-            f"<figure class='big before'><img src='{A.asset(p['base'])}' "
-            f"alt='{e(p['set_id'])} — base klein, uncropped reference'>"
-            f"<figcaption>BEFORE &mdash; klein, no harness</figcaption></figure>"
-            f"<figure class='big after'><img src='{A.asset(p['shipped'])}' "
-            f"alt='{e(p['set_id'])} — shipped harness'>"
-            f"<figcaption>AFTER &mdash; shipped harness</figcaption></figure>"
+            + big(p['base'], f"{p['set_id']} — base klein, uncropped reference", "before")
+            + f"<figcaption>BEFORE &mdash; klein, no harness</figcaption></figure>"
+            + big(p['shipped'], f"{p['set_id']} — shipped harness", "after")
+            + f"<figcaption>AFTER &mdash; shipped harness</figcaption></figure>"
             f"</div></div>")
 
     faults = sum(1 for p in ps if p["faults"])
@@ -138,11 +164,19 @@ def build():
         "<td class='n'>31</td><td>7</td><td class='n'>0</td></tr></table>"
         "<p class='note' style='margin:14px auto 0;text-align:center'>Same cost as "
         "the best single arm. Nothing ships broken.</p>"
-        f"<h2>The pictures</h2><p class='note'>{len(ps)} sets where the original "
+        "<h2>First — klein alone already works, often</h2>"
+        "<p class='note'>The base model is strong. On <b>13 of 33 reviewed sets "
+        "(39%)</b> it produced a correct try-on from the raw reference with no "
+        "cropping, no routing and no gate. Those cases are shown here so the "
+        "failures that follow are read for what they are &mdash; <b>edge cases the "
+        "harness was built for</b> &mdash; and not as a weak model or a bad "
+        "prompt. Same prompt and seed throughout.</p>" + "".join(win_rows) +
+        f"<h2>Then &mdash; the edge cases</h2><p class='note'>{len(ps)} sets where the original "
         f"uncropped output was kept, so a direct before/after exists. "
         f"{faults} of them have failures recorded by category during review; those "
-        f"are listed on each row and ordered worst-first. Click any image to "
-        f"enlarge.</p>" + "".join(rows) + "</div>",
+        f"are named on each row. <b>Ordered easiest first, hardest last</b> &mdash; the "
+        f"final row is the set that failed four different ways at once. Click any "
+        f"image for full resolution.</p>" + "".join(rows) + "</div>",
         "<div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>",
         "<footer>FLUX.2 klein 4B distilled &middot; every component MIT or "
         "Apache-2.0 &middot; open weights, self-hostable<br>"

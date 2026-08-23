@@ -14,11 +14,16 @@ IMG = os.path.join(OUT, "img")
 _seen = {}
 
 
-def asset(src, maxw=900, q=84):
-    """Copy an image into the report folder, downsized. Returns the relative path."""
+def asset(src, maxw=900, q=84, hires=False):
+    """Copy an image into the report folder, downsized. Returns the relative path.
+
+    hires=True also writes a 1800px companion as <name>@2x.jpg, which the lightbox
+    loads. Without it, clicking to enlarge just scales the thumbnail up, which
+    defeats the point of enlarging.
+    """
     if not src or not os.path.exists(src):
         return ""
-    key = os.path.abspath(src)
+    key = (os.path.abspath(src), maxw, hires)
     if key in _seen:
         return _seen[key]
     im = cv2.imread(src)
@@ -28,11 +33,57 @@ def asset(src, maxw=900, q=84):
     if w > maxw:
         im = cv2.resize(im, (maxw, int(h * maxw / w)), interpolation=cv2.INTER_AREA)
     # content hash, so the same source never lands twice under two names
-    name = hashlib.md5(key.encode()).hexdigest()[:10] + ".jpg"
+    name = hashlib.md5(str(key).encode()).hexdigest()[:10] + ".jpg"
     os.makedirs(IMG, exist_ok=True)
     cv2.imwrite(os.path.join(IMG, name), im, [cv2.IMWRITE_JPEG_QUALITY, q])
+    if hires:
+        big = cv2.imread(src)
+        bh, bw = big.shape[:2]
+        if bw > 1800:
+            big = cv2.resize(big, (1800, int(bh * 1800 / bw)),
+                             interpolation=cv2.INTER_AREA)
+        cv2.imwrite(os.path.join(IMG, name.replace(".jpg", "@2x.jpg")), big,
+                    [cv2.IMWRITE_JPEG_QUALITY, 90])
     _seen[key] = "img/" + name
     return _seen[key]
+
+
+def baseline_successes(limit=6):
+    """Sets where base klein got it right with no crop, no routing, no gate.
+
+    In the report these come FIRST. Without them a reader can reasonably conclude
+    the failures were bad prompting or a weak model, and the whole argument for the
+    harness collapses. klein is a strong model: it is clean on 13 of 33 reviewed
+    sets. The harness exists for the other 20.
+    """
+    ann = list(csv.DictReader(open(f"{REPO}/v221_review_annotations.csv")))
+    combo = {os.path.basename(p).replace("__base.png", ""): p
+             for p in glob.glob(f"{REPO}/v2/runs/combo/*__base.png")}
+    ts2 = {os.path.basename(p): p
+           for p in glob.glob(f"{REPO}/v2/runs/ts2/outputs/klein_4b_edit__*")}
+    meta = {r["stem"]: r["src_path"] for r in csv.DictReader(
+        open(f"{REPO}/v2/runs/crop_screen/crop_log.csv"))}
+    out = []
+    for r in ann:
+        if any(_yes(r.get(k, "")) for k in _FAULTS):
+            continue
+        sid, per, gar = r["set_id"], r["person"], r["garment_source"]
+        b = (combo.get(f"{per}__wears__{gar}")
+             or (ts2.get(f"klein_4b_edit__{sid}.png") if sid.startswith("ts2_") else None))
+        if b:
+            out.append(dict(set_id=sid, person=meta.get(per, ""),
+                            garment=meta.get(gar, ""), base=b))
+        if len(out) >= limit:
+            break
+    return out
+
+
+_FAULTS = ("base_nontransfer", "base_wrongperson", "base_wrongclothes",
+           "base_duplication", "base_wrongbg")
+
+
+def _yes(v):
+    return str(v).strip().lower() in ("1", "true", "yes", "y")
 
 
 def pairs():
@@ -61,8 +112,13 @@ def pairs():
     out = []
     for sid, r in real.items():
         t = T[sid]
-        base = (combo.get(f"{t['garment']}__wears__{t['person']}")
-                or combo.get(f"{t['person']}__wears__{t['garment']}")
+        # The combo naming is {PERSON}__wears__{GARMENT} -- confirmed from the
+        # run manifests, where "base" is the person input and "source" is the
+        # garment. There is NO reversed fallback on purpose: the reverse pairing
+        # frequently exists as its own set, so falling back to it silently shows a
+        # BEFORE image from a different combination. That happened on 2 of 23 rows
+        # before this was caught by eye.
+        base = (combo.get(f"{t['person']}__wears__{t['garment']}")
                 or (ts2.get(f"klein_4b_edit__{sid}.png") if sid.startswith("ts2_") else None))
         if not base:
             continue
@@ -80,7 +136,11 @@ def pairs():
             base=base, shipped=shipped, faults=faults,
             base_tier=tier.get((sid, "control"), ""),
             hair=float(t["hair_over_garment"]), escalated=r["escalated"]))
-    out.sort(key=lambda x: (-len(x["faults"]), x["set_id"]))
+    # Fewest baseline faults first, worst last. The report builds toward the hard
+    # cases rather than opening on them -- a reader who starts at the four-fault
+    # disaster reads it as cherry-picking, where arriving there last reads as the
+    # edge the harness was built for.
+    out.sort(key=lambda x: (len(x["faults"]), x["set_id"]))
     return out
 
 

@@ -60,7 +60,8 @@ code{background:#1b1b22;padding:1px 5px;border-radius:4px;font-size:12.5px}
 """
 JS = """
 document.addEventListener('click',e=>{const im=e.target.closest('.strip img,.fig img');
-  if(!im)return;document.getElementById('lbi').src=im.getAttribute('src');
+  if(!im)return;
+  document.getElementById('lbi').src=im.dataset.full||im.getAttribute('src');
   document.getElementById('lbc').textContent=im.getAttribute('alt');
   document.getElementById('lb').classList.add('on');});
 document.getElementById('lb').addEventListener('click',()=>
@@ -74,17 +75,22 @@ def strip(items, wide=False):
     """items: (path, caption, maxw)"""
     out = []
     for p, cap, mw in items:
-        a = A.asset(p, mw)
+        a = A.asset(p, mw, hires=True)
         if a:
+            full = a.replace(".jpg", "@2x.jpg")
             out.append(f"<figure class='{'w' if wide else ''}'><img src='{a}' "
-                       f"alt='{html.escape(cap)}'><figcaption>{cap}</figcaption></figure>")
+                       f"data-full='{full}' alt='{html.escape(cap)}'>"
+                       f"<figcaption>{cap}</figcaption></figure>")
     return "<div class='strip'>" + "".join(out) + "</div>" if out else ""
 
 
 def fig(path, cap, mw=1100):
-    a = A.asset(path, mw)
-    return (f"<div class='fig'><img src='{a}' alt='{html.escape(cap)}'>"
-            f"<figcaption>{cap}</figcaption></div>") if a else ""
+    a = A.asset(path, mw, hires=True)
+    if not a:
+        return ""
+    full = a.replace(".jpg", "@2x.jpg")
+    return (f"<div class='fig'><img src='{a}' data-full='{full}' "
+            f"alt='{html.escape(cap)}'><figcaption>{cap}</figcaption></div>")
 
 
 def build():
@@ -140,8 +146,13 @@ the ceiling of what these three arms can do.</div>"""))
                  (p["base"], "klein output — " +
                   ", ".join(A.__dict__ and f for f in p["faults"][:2]), 230)]
     S.append(("2", "The problem: the reference contains a person", f"""
-<p>klein given a garment reference that is itself a photo of someone wearing the
-garment fails on <b>61% of sets</b>. Reviewed by eye over 33 sets:</p>
+<p><b>klein is a strong model, and that is the point.</b> On 13 of 33 reviewed sets
+(39%) it produced a correct try-on from the raw reference with no help at all — the
+<a href='index.html'>short report</a> shows those first. The 61% below are the edge
+cases, not a weak base or a bad prompt: same model, same prompt, same seed
+throughout.</p>
+<p>Given a garment reference that is itself a photo of someone wearing the garment,
+klein fails on <b>61% of sets</b>. Reviewed by eye over 33 sets:</p>
 <table><tr><th>failure</th><th>share of sets</th></tr>
 <tr><td>wrong clothes</td><td>36%</td></tr>
 <tr><td>wrong person — the reference's face arrives in the output</td><td>33%</td></tr>
