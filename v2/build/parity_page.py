@@ -24,6 +24,20 @@ h1{margin:0 0 6px;font-size:20px}.q{color:var(--acc);font-weight:600}
 .key{margin:12px 30px;border-left:3px solid var(--acc);padding:2px 0 2px 12px;
  max-width:104ch;font-size:13px}
 .key b{color:#fff}
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:4px 30px 8px}
+@media(max-width:1000px){.panels{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:10px;background:#121216}
+.panel h2{margin:0;padding:10px 14px;font-size:13px;border-bottom:1px solid var(--line)}
+.panel .in{padding:12px 14px}
+table{border-collapse:collapse;font-size:12.5px;width:100%}
+th,td{padding:5px 9px;text-align:right;border-bottom:1px solid #1d1d23}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--dim);font-weight:600}
+tr.hi td{background:#141a14}
+.win{color:var(--good);font-weight:700}
+.dim{color:var(--dim)}
+.note{color:var(--dim);font-size:12.5px;margin:8px 0 0}
+.note code{background:#1b1b22;padding:1px 5px;border-radius:4px;color:var(--fg)}
 #bar{position:sticky;top:0;z-index:20;background:#121216;border-bottom:1px solid var(--line);
  padding:10px 30px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:12.5px}
 #bar button{background:#1b1b22;border:1px solid var(--line);color:var(--dim);
@@ -95,8 +109,32 @@ document.addEventListener('click',e=>{
 """
 
 
+def summary_panel():
+    """The numbers, recomputed on every build so the page cannot drift from the run."""
+    R = list(csv.DictReader(open(f"{RUN}/openstack_summary.csv")))
+    T = {r["set_id"]: r for r in csv.DictReader(
+        open(f"{REPO}/v223_perfect_tier_picks.csv"))}
+    tier = {(r["set_id"], r["arm"]): r["tier"] for r in csv.DictReader(
+        open(f"{REPO}/v223_perfect_tier_picks.csv"))}
+    n = len(R)
+    same = sum(1 for r in R if r["arm"] == r["fal_arm"])
+    gens = sum(int(r["generations"]) for r in R)
+    secs = sum(float(r["secs"]) for r in R)
+    hairs = [abs(float(r["hair"]) - float(T[r["set_id"]]["hair_over_garment"])) for r in R]
+    route_same = sum(1 for r in R
+                     if (float(r["hair"]) >= 0.14) ==
+                        (float(T[r["set_id"]]["hair_over_garment"]) >= 0.14))
+    import collections
+    sq = collections.Counter(tier.get((r["set_id"], r["arm"])) for r in R)
+    fq = collections.Counter(tier.get((r["set_id"], r["fal_arm"])) for r in R)
+    diffs = [r for r in R if r["arm"] != r["fal_arm"]]
+    return dict(n=n, same=same, route_same=route_same, gens=gens, secs=secs,
+                hair=sum(hairs)/n, sq=sq, fq=fq, diffs=diffs, R=R, tier=tier, T=T)
+
+
 def build():
     S = json.load(open(f"{RUN}/openstack_state.json"))
+    P = summary_panel()
     R = list(csv.DictReader(open(f"{RUN}/openstack_summary.csv")))
     M = {r["set_id"]: r for r in csv.DictReader(open(f"{REPO}/v223_perfect_tier_picks.csv"))}
     e = html.escape
@@ -144,12 +182,48 @@ def build():
         "the outputs differ somewhere. What matters is whether the right person is "
         "wearing the right garment at comparable quality &mdash; and therefore "
         "whether the harness would make the same decision.</div>",
-        "<div class='key'><b>The arm-agreement number from this run is withheld.</b> "
-        "Two bugs in the run harness &mdash; a raw cosine compared against a "
-        "normalised-margin threshold, and a router that returned 0.0 when its cached "
-        "crops were missing rather than failing &mdash; meant it measured my "
-        "instrumentation, not the weights. Both are fixed; neither touched the "
-        "images below, which were produced by klein alone.</div>",
+        "<div class='panels'>"
+        "<div class='panel'><h2>The result</h2><div class='in'>"
+        "<table><tr><th></th><th>fal</th><th>self-hosted</th></tr>"
+        f"<tr class='hi'><td>router decision</td><td>&mdash;</td>"
+        f"<td class='win'>agreed {P['route_same']}/{P['n']}</td></tr>"
+        f"<tr><td><code>hair_over_garment</code>, mean difference</td><td>&mdash;</td>"
+        f"<td>{P['hair']:.3f}</td></tr>"
+        f"<tr class='hi'><td><b>shipped quality</b></td>"
+        f"<td>{P['fq']['perfect']} perfect / {P['fq']['ok']} ok / {P['fq']['fail']} fail</td>"
+        f"<td class='win'>{P['sq']['perfect']} perfect / {P['sq']['ok']} ok / "
+        f"{P['sq']['fail']} fail</td></tr>"
+        f"<tr><td>same arm chosen</td><td>&mdash;</td>"
+        f"<td>{P['same']}/{P['n']}</td></tr>"
+        f"<tr><td>generations per request</td><td>2.00</td>"
+        f"<td>{P['gens']/P['n']:.2f}</td></tr>"
+        f"<tr><td>generated at</td><td>832&times;1248</td>"
+        f"<td class='win'>832&times;1248</td></tr>"
+        f"<tr><td>seconds per generation</td><td>&mdash;</td>"
+        f"<td>{P['secs']/P['gens']:.0f} s <span class='dim'>(L4, CPU offload)</span></td></tr>"
+        "</table>"
+        "<p class='note'><b>Identical shipped quality.</b> The router agreed on every "
+        "set and the generations are equivalent. Parity closes.</p>"
+        "</div></div>"
+        "<div class='panel'><h2>Where the two arms differ</h2><div class='in'>"
+        + "".join(
+            f"<p class='note' style='margin-bottom:10px'><code>{e(d['set_id'][:44])}</code><br>"
+            f"router picked the same arm. The local 4-bit VLM returned "
+            f"<b>{e(d['gate'])}</b> where the hosted one said OK, so it escalated to "
+            f"QX &mdash; and still shipped "
+            f"<b>{P['tier'].get((d['set_id'], d['arm']))}</b>.</p>"
+            for d in P["diffs"])
+        + "<p class='note'><b>Both disagreements are the gate, not the generator.</b> "
+        "The local gate is slightly more conservative: it costs a generation and "
+        "costs no quality. That is the safe direction to be wrong in.</p>"
+        "</div></div></div>",
+        "<div class='key'><b>Getting here took two passes.</b> The first reported 62% "
+        "agreement and was measuring its own bugs &mdash; a raw cosine compared "
+        "against a normalised-margin threshold, a router returning 0.0 instead of "
+        "failing when its cache was absent, and generation at 3.45&nbsp;MP because "
+        "fal silently normalises to 1&nbsp;MP and nothing in our code did. All three "
+        "are fixed; the first pass is kept in <code>v2/runs/openstack_v1/</code> as "
+        "the evidence for them.</div>",
         "<div id='bar'>"
         "<button data-m='wipe' class='on'>wipe</button>"
         "<button data-m='side'>side by side</button>"

@@ -408,26 +408,50 @@ the resolution asked for.</p>
         sid = os.path.basename(s_).split("__")[0]
         arm = os.path.basename(s_).split("__")[1].replace(".jpg", "")
         pj += [(g(sid, arm), "fal", 210), (s_, "self-hosted", 210)]
+    op = sorted(glob.glob(f"{REPO}/v2/runs/openstack/klein/*.jpg"))
+    pj = []
+    for s_ in op[:2]:
+        sid = os.path.basename(s_).split("__")[0]
+        arm = os.path.basename(s_).split("__")[1].replace(".jpg", "")
+        pj += [(g(sid, arm), "fal", 210), (s_, "self-hosted", 210)]
     S.append(("11", "Leg 9 — running it on our own weights", f"""
-<p>Every number above was produced through fal. fal is a serving substrate for open
+<p>Every number above came through fal. fal is a serving substrate for open
 checkpoints, not a model source — so the whole harness was re-run on weights
-downloaded from Hugging Face, on a rented GPU.</p>
+downloaded from Hugging Face, on a rented GPU. FLUX.2 klein 4B distilled in
+<b>fp16, unquantised</b>; Qwen3-VL-8B in 4-bit.</p>
 {strip(pj, wide=True)}
-<div class='q'><b>klein reproduces.</b> Right person, right garment, right scene.
-Pixel equality is not the question and would be the wrong one to ask — different
-scheduler, different kernels.</div>
-<div class='kill'><b>The run found an invisible deployment requirement.</b> fal
-silently normalises every request to ~1 MP. Left to itself the self-hosted path
-generated at 3.45 MP average — and came out <b>32% lower in high-frequency
-detail</b> at <b>128 s per generation instead of ~39 s</b>. More pixels, less
-information, triple the compute. A deployment that skips the normalisation ships
-softer images than every number here was measured on.</div>
-<div class='kill'><b>And two bugs in the shipped code</b>, because this was the first
-time the assembled program had ever been executed: an identity threshold comparing a
-raw cosine against a normalised-margin bar, and a router that returned <code>0.0</code>
-instead of failing when its cache was absent, silently disabling routing. Both failed
-by returning a plausible default rather than raising.</div>
-<p class='dim'>Evidence: <a href='v223_self_hosted_parity.html'>v223_self_hosted_parity.html</a>.</p>"""))
+<table><tr><th>8 sets</th><th>fal</th><th>self-hosted</th></tr>
+<tr class='win'><td>router decision</td><td>—</td><td class='good'>agreed 8/8</td></tr>
+<tr><td><code>hair_over_garment</code>, mean difference</td><td>—</td><td>0.007</td></tr>
+<tr class='win'><td><b>shipped quality</b></td><td>7 perfect / 1 ok / 0 fail</td>
+<td class='good'>7 perfect / 1 ok / 0 fail</td></tr>
+<tr><td>same arm chosen</td><td>—</td><td>6 / 8</td></tr>
+<tr><td>generated at</td><td>832×1248</td><td>832×1248</td></tr></table>
+<div class='q'><b>Parity closes.</b> The router agreed on every set and the shipped
+quality is identical. Both arm disagreements are the <b>gate</b>, not the generator:
+the local 4-bit VLM returned <code>garment == FAIL</code> where the hosted one said
+<code>OK</code>, escalated to QX, and <b>still shipped a perfect frame</b>. A
+slightly more conservative gate costs a generation and no quality — the safe
+direction to be wrong in.</div>
+<div class='kill'><b>It took two passes, and the first one earned its keep.</b> It
+reported 62% agreement while measuring its own bugs, and finding them is most of
+what this leg was worth:
+<ul>
+<li><b>fal silently normalises to ~1 MP.</b> Nothing documents it and nothing in our
+code did it, so the self-hosted path generated at 3.45 MP — <b>32% less
+high-frequency detail at 3× the compute</b>. More pixels, less information. This is
+now a stated deployment requirement.</li>
+<li><b>An identity threshold compared a raw cosine against a normalised-margin
+bar</b>, firing on 6 of 8 frames. Same number, different scale.</li>
+<li><b>The router read a gitignored cache and returned <code>0.0</code> instead of
+failing</b>, silently sending every request to PHEAD.</li>
+</ul>
+Both bugs were in the shipped pipeline, not the notebook, and both failed by
+returning a plausible default rather than raising. <b>This was the first time the
+assembled program had ever been executed</b> — every published number until then came
+from replaying the decision rule over stored, human-labelled outputs.</div>
+<p class='dim'>Evidence: <a href='v223_self_hosted_parity.html'>v223_self_hosted_parity.html</a>.
+First pass retained at <code>v2/runs/openstack_v1/</code>.</p>"""))
 
     # ---------------- 12 cost / licence -----------------------------------
     S.append(("12", "Cost, licences, run time", """
@@ -458,8 +482,9 @@ are non-commercial — the pipeline pins AuraFace explicitly.</div>
 <tr><td>gate — two VLM calls</td><td>~$0.0006 (≈2% of pipeline cost)</td></tr>
 <tr><td>deterministic stack</td><td>free, CPU</td></tr>
 <tr><td>at 1M requests/month, hosted</td><td>~$19.5k</td></tr>
-<tr><td>at 1M requests/month, self-hosted</td><td>~$3–11k <span class='dim'>(wide —
-needs a clean per-generation timing)</span></td></tr>
+<tr><td>at 1M requests/month, self-hosted</td><td>~$3–11k <span class='dim'>(the
+measured 75 s/generation is on a rented L4 with CPU offload, not serving
+hardware — a real figure needs a resident model)</span></td></tr>
 <tr><td colspan=2 class='dim'>Total spend building all of V2: <b>≈ $21 of fal</b> plus
 ~$3 of judging.</td></tr></table>
 <h3>What is not done</h3>

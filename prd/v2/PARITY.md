@@ -4,18 +4,45 @@
 for open checkpoints, not a model source — but nothing had been verified on weights
 we downloaded and ran ourselves, and V2's premise is open weights in the deploy path.
 
-**The answer, first.** klein reproduces. The generations are visually equivalent —
-right person, right garment, right scene. But the run found **one invisible
-deployment requirement and two bugs in the shipped pipeline code**, and the fal path
-had concealed all three.
+**The answer, first.** **klein reproduces, and so does the harness.** Over 8 sets
+the router agreed **8/8**, the shipped quality was **identical** — 7 perfect / 1 ok /
+0 fail on both — and the two arm disagreements were the *gate* being more
+conservative locally, not the generator behaving differently.
 
-Evidence: [`v223_self_hosted_parity.html`](../../v2/artifacts/v223_self_hosted_parity.html)
-— 8 pairs, drag to wipe. Data: `v2/runs/openstack/`.
+Getting there took two passes. The first found **one invisible deployment
+requirement and two bugs in the shipped pipeline code**, all three concealed by the
+fal path. The corrected second pass is what the numbers below describe.
+
+Evidence: [`v223_self_hosted_parity.html`](../../v2/artifacts/v223_self_hosted_parity.html).
+Data: `v2/runs/openstack/` (corrected run), `v2/runs/openstack_v1/` (first pass).
 Notebook: [`v2/v2_openstack.ipynb`](../../v2/v2_openstack.ipynb).
 
-Run on a Colab L4, FLUX.2 klein 4B distilled in **fp16, unquantised**, seed 46,
-identical prompts and references. Qwen3-VL-8B in 4-bit — the same configuration the
-gate evaluation used, so it is consistent with the numbers it is compared against.
+Colab L4, FLUX.2 klein 4B distilled **fp16 unquantised**, seed 46, identical prompts.
+Qwen3-VL-8B in 4-bit — the same configuration the gate evaluation used.
+
+## 0. The corrected run
+
+| | fal | self-hosted |
+|---|---|---|
+| router decision | — | **agreed 8/8** |
+| `hair_over_garment`, mean absolute difference | — | **0.007** |
+| shipped: perfect / ok / fail | 7 / 1 / 0 | **7 / 1 / 0** |
+| arm chosen | — | 6/8 same |
+| generations per request | 2.00 | 2.88 |
+| generation size | 832×1248 | **832×1248** |
+| per generation | — | 75 s (L4, CPU offload) |
+| total, 8 sets | — | 29 min (first pass: 47) |
+
+**Both arm disagreements are the gate, not the generator.** On
+`HD_zendaya+lp_beige_coat` and `HD_p009+man_black_suit` the router picked the same
+arm and the local 4-bit VLM returned `garment == FAIL` where the hosted one had said
+`OK`. Both escalated to QX — and **both still shipped a `perfect` frame.** The local
+gate is slightly more conservative, which costs a generation and no quality.
+
+**Content varies with sampling, as it must.** Several self-hosted frames add garment
+detail the fal frame does not — a handbag, a tie, an open collar showing a shirt.
+Plausible outputs, different sampling, not a defect. Pixel equality was never the
+question.
 
 ---
 
