@@ -1,8 +1,24 @@
 # V2 — locked
 
-**Frozen 2026-08-23 at `v2.0.0`.** No further work lands in V2. What is here is
-complete, measured, and implemented as an installable package. V3 starts from a
-different premise and is tracked separately in [`prd/v3/`](../v3/README.md).
+**Frozen 2026-08-23.** No further work lands in V2. What is here is complete,
+measured, and implemented as an installable package. V3 starts from a different
+premise and is tracked separately in [`prd/v3/`](../v3/README.md).
+
+**What "V2" means here: all of it.** Every workstream, at its final state — not an
+early one. The package implements the v2.2.3 harness and the v2.4 realism pass, which
+is the newest work in the project.
+
+| workstream | at the freeze |
+|---|---|
+| [v2.0](v2.0/) base model | closed — FLUX.2 klein 4B distilled |
+| [v2.1](v2.1/) realism | conditional pass, parked |
+| [v2.2](v2.2/) accuracy, attention, harness | **complete** — v2.2.1 cropping, v2.2.2 closed obsolete, v2.2.3 harness. The bulk of the package |
+| [v2.3](v2.3/) artifacts | design complete, **nothing run** |
+| [v2.4](v2.4/) auxiliary realism | deferred by decision; the realism pass itself validated |
+
+The package carries its own version, **`pipeline 1.0.0`** — a package release number,
+deliberately not reusing the `v2.x` workstream numbering it would otherwise collide
+with.
 
 This document says exactly what is frozen, what is *known to be wrong inside it*, and
 why the freeze happened rather than a fix.

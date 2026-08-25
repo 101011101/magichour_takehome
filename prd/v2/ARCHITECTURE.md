@@ -4,7 +4,7 @@
 argument. Why each choice was made, and what was tried and discarded, is in
 [DECISIONS.md](DECISIONS.md). What is left to do is in [TODO.md](TODO.md).
 
-Written 2026-08-21. **Frozen 2026-08-23 at v2.0.0.** Implemented as an installable
+Written 2026-08-21. **Frozen 2026-08-23.** Implemented as an installable
 package at [`v2/pipeline/`](../../v2/pipeline/README.md); V3 supersedes the assembly
 described here, and [LOCK.md](LOCK.md) records what is frozen and why.
 

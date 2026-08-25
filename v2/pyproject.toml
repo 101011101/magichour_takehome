@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "magichour-tryon-v2"
-version = "2.0.0"
+version = "1.0.0"   # package release, not a workstream number (prd/v2/v2.0..v2.4)
 description = "V2 virtual try-on harness — open-weights, routed, gated. Frozen checkpoint."
 readme = "pipeline/README.md"
 requires-python = ">=3.10"

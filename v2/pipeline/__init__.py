@@ -12,6 +12,8 @@ See prd/v2/LOCK.md.
 from .config import HarnessConfig
 from .harness import run, route, hair_over_garment, Result
 
-__version__ = "2.0.0"
+__version__ = "1.0.0"
+"""Package version, NOT a workstream number. `prd/v2/v2.0` .. `v2.4` are workstreams;
+this is the first release of the package that implements all of them."""
 __all__ = ["HarnessConfig", "run", "route", "hair_over_garment", "Result",
            "__version__"]

@@ -1,6 +1,11 @@
 # `pipeline` — the V2 try-on harness
 
-**Frozen at v2.0.0, 2026-08-23.** This is a checkpoint, not the direction of travel.
+**V2 is frozen, 2026-08-23.** This package is `pipeline 1.0.0` — its first release,
+implementing V2 whole: the v2.2.3 harness (router, gate, escalation) and v2.4's realism
+pass. The `1.0.0` is a package version and has nothing to do with the `v2.0`..`v2.4`
+workstream directories in `prd/v2/`.
+
+This is a checkpoint, not the direction of travel.
 V3 replaces it with a single two-call path; the reasoning is in
 [`prd/v2/LOCK.md`](../../prd/v2/LOCK.md). Nothing here is deprecated — it is the
 best-measured configuration the project produced, and it is preserved whole so it can

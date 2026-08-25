@@ -1,6 +1,6 @@
 # V2 — Virtual Try-On, open weights only
 
-> **FROZEN 2026-08-23 at `v2.0.0`.** No further work lands in V2. What is frozen,
+> **FROZEN 2026-08-23.** All workstreams closed; no further work lands in V2. What is frozen,
 > what is known wrong inside it, and why the freeze happened rather than a fix:
 > **[LOCK.md](LOCK.md)**. The working code is an installable package at
 > [`v2/pipeline/`](../../v2/pipeline/README.md). The next version is

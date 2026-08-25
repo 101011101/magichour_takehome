@@ -1,6 +1,6 @@
 # V2 — what is left
 
-> **CLOSED 2026-08-23.** V2 is frozen at `v2.0.0`; nothing on this list will be done
+> **CLOSED 2026-08-23.** V2 is frozen; nothing on this list will be done
 > inside V2. It is kept as the record of what was outstanding at the freeze. The items
 > that still matter were carried into [LOCK.md §3](LOCK.md#3-known-wrong-at-the-moment-of-freeze)
 > (known wrong) and [prd/v3/README.md §6](../v3/README.md) (inherited debts); the rest
