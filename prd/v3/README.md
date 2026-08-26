@@ -130,5 +130,7 @@ Nothing built. This document is the brief.
 | | |
 |---|---|
 | Baseline | flat BC_klein, 28 / 6 / 4, 2.000 generations — already runnable via `tryon-v2 --hair-threshold 0` |
+| General investigation | [INVESTIGATION.md](INVESTIGATION.md) — the diagnosis every sub-investigation stands on: what each of the four failures is, and why three are not artefacts. Evidence bundle `v3/artefacts/`, page `v3/report/artefacts.html` |
+| Document schema | [SCHEMA.md](SCHEMA.md) — how V3's documents are laid out and what each is allowed to contain |
 | First experiment | shape 1, klein-as-extractor, on the four BC_klein failures |
 | Not yet decided | whether the crop's CPU stack is vendored or kept as a service |
