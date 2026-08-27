@@ -1,0 +1,330 @@
+{
+ "p029|p7.3": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest.",
+  "colour": "dark beige skin",
+  "framing": "chest_up",
+  "person": "p001"
+ },
+ "p029|p7.1.3.a": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest. Whatever the person is wearing or carrying, the mannequin has too, in the same place; whatever they do not have, it does not.",
+  "intent": "keep, symmetric",
+  "framing": "chest_up"
+ },
+ "p029|p7.1.3.b": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest. Keep the bag, hat, scarf, belt, glasses and jewellery if the person has them, and add none if they do not.",
+  "intent": "keep, enumerated",
+  "framing": "chest_up"
+ },
+ "p029|p7.1.3.c": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest. Show the clothing only: no bag, no hat, no jewellery, no eyewear, even if the person has them.",
+  "intent": "drop",
+  "framing": "chest_up"
+ },
+ "p029|p7.1.3.d": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest. Anything the person carries hangs on the mannequin the same way - over the same shoulder, in the same hand.",
+  "intent": "keep, placement",
+  "framing": "chest_up"
+ },
+ "p029|p7.1.3.e": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest. Keep all accessories.",
+  "intent": "keep, category, bare",
+  "framing": "chest_up"
+ },
+ "p029|p7.1.3.f": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest. Keep every accessory the person is wearing or carrying, and add none they do not have.",
+  "intent": "keep, category, grounded",
+  "framing": "chest_up"
+ },
+ "p029|p7.1.3.g": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest. Remove all accessories.",
+  "intent": "drop, category",
+  "framing": "chest_up"
+ },
+ "p030|p7.3": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest.",
+  "colour": "light brown skin",
+  "framing": "chest_up",
+  "person": "p002"
+ },
+ "p030|p7.1.3.a": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest. Whatever the person is wearing or carrying, the mannequin has too, in the same place; whatever they do not have, it does not.",
+  "intent": "keep, symmetric",
+  "framing": "chest_up"
+ },
+ "p030|p7.1.3.b": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest. Keep the bag, hat, scarf, belt, glasses and jewellery if the person has them, and add none if they do not.",
+  "intent": "keep, enumerated",
+  "framing": "chest_up"
+ },
+ "p030|p7.1.3.c": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest. Show the clothing only: no bag, no hat, no jewellery, no eyewear, even if the person has them.",
+  "intent": "drop",
+  "framing": "chest_up"
+ },
+ "p030|p7.1.3.d": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest. Anything the person carries hangs on the mannequin the same way - over the same shoulder, in the same hand.",
+  "intent": "keep, placement",
+  "framing": "chest_up"
+ },
+ "p030|p7.1.3.e": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest. Keep all accessories.",
+  "intent": "keep, category, bare",
+  "framing": "chest_up"
+ },
+ "p030|p7.1.3.f": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest. Keep every accessory the person is wearing or carrying, and add none they do not have.",
+  "intent": "keep, category, grounded",
+  "framing": "chest_up"
+ },
+ "p030|p7.1.3.g": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest. Remove all accessories.",
+  "intent": "drop, category",
+  "framing": "chest_up"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.3": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "person": "p003"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.1.3.a": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. Whatever the person is wearing or carrying, the mannequin has too, in the same place; whatever they do not have, it does not.",
+  "intent": "keep, symmetric",
+  "framing": "waist_up"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.1.3.b": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. Keep the bag, hat, scarf, belt, glasses and jewellery if the person has them, and add none if they do not.",
+  "intent": "keep, enumerated",
+  "framing": "waist_up"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.1.3.c": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. Show the clothing only: no bag, no hat, no jewellery, no eyewear, even if the person has them.",
+  "intent": "drop",
+  "framing": "waist_up"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.1.3.d": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. Anything the person carries hangs on the mannequin the same way - over the same shoulder, in the same hand.",
+  "intent": "keep, placement",
+  "framing": "waist_up"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.1.3.e": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. Keep all accessories.",
+  "intent": "keep, category, bare",
+  "framing": "waist_up"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.1.3.f": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. Keep every accessory the person is wearing or carrying, and add none they do not have.",
+  "intent": "keep, category, grounded",
+  "framing": "waist_up"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.1.3.g": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. Remove all accessories.",
+  "intent": "drop, category",
+  "framing": "waist_up"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.3": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "black skin",
+  "framing": "full_body",
+  "person": "p006"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.1.3.a": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Whatever the person is wearing or carrying, the mannequin has too, in the same place; whatever they do not have, it does not.",
+  "intent": "keep, symmetric",
+  "framing": "full_body"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.1.3.b": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Keep the bag, hat, scarf, belt, glasses and jewellery if the person has them, and add none if they do not.",
+  "intent": "keep, enumerated",
+  "framing": "full_body"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.1.3.c": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Show the clothing only: no bag, no hat, no jewellery, no eyewear, even if the person has them.",
+  "intent": "drop",
+  "framing": "full_body"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.1.3.d": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Anything the person carries hangs on the mannequin the same way - over the same shoulder, in the same hand.",
+  "intent": "keep, placement",
+  "framing": "full_body"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.1.3.e": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Keep all accessories.",
+  "intent": "keep, category, bare",
+  "framing": "full_body"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.1.3.f": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Keep every accessory the person is wearing or carrying, and add none they do not have.",
+  "intent": "keep, category, grounded",
+  "framing": "full_body"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.1.3.g": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Remove all accessories.",
+  "intent": "drop, category",
+  "framing": "full_body"
+ },
+ "g013|p7.3": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "light brown skin",
+  "framing": "full_body",
+  "person": "p021"
+ },
+ "g013|p7.1.3.a": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Whatever the person is wearing or carrying, the mannequin has too, in the same place; whatever they do not have, it does not.",
+  "intent": "keep, symmetric",
+  "framing": "full_body"
+ },
+ "g013|p7.1.3.b": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Keep the bag, hat, scarf, belt, glasses and jewellery if the person has them, and add none if they do not.",
+  "intent": "keep, enumerated",
+  "framing": "full_body"
+ },
+ "g013|p7.1.3.c": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Show the clothing only: no bag, no hat, no jewellery, no eyewear, even if the person has them.",
+  "intent": "drop",
+  "framing": "full_body"
+ },
+ "g013|p7.1.3.d": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Anything the person carries hangs on the mannequin the same way - over the same shoulder, in the same hand.",
+  "intent": "keep, placement",
+  "framing": "full_body"
+ },
+ "g013|p7.1.3.e": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Keep all accessories.",
+  "intent": "keep, category, bare",
+  "framing": "full_body"
+ },
+ "g013|p7.1.3.f": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Keep every accessory the person is wearing or carrying, and add none they do not have.",
+  "intent": "keep, category, grounded",
+  "framing": "full_body"
+ },
+ "g013|p7.1.3.g": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Remove all accessories.",
+  "intent": "drop, category",
+  "framing": "full_body"
+ },
+ "g015|p7.3": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "person": "p023"
+ },
+ "g015|p7.1.3.a": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Whatever the person is wearing or carrying, the mannequin has too, in the same place; whatever they do not have, it does not.",
+  "intent": "keep, symmetric",
+  "framing": "full_body"
+ },
+ "g015|p7.1.3.b": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Keep the bag, hat, scarf, belt, glasses and jewellery if the person has them, and add none if they do not.",
+  "intent": "keep, enumerated",
+  "framing": "full_body"
+ },
+ "g015|p7.1.3.c": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Show the clothing only: no bag, no hat, no jewellery, no eyewear, even if the person has them.",
+  "intent": "drop",
+  "framing": "full_body"
+ },
+ "g015|p7.1.3.d": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Anything the person carries hangs on the mannequin the same way - over the same shoulder, in the same hand.",
+  "intent": "keep, placement",
+  "framing": "full_body"
+ },
+ "g015|p7.1.3.e": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Keep all accessories.",
+  "intent": "keep, category, bare",
+  "framing": "full_body"
+ },
+ "g015|p7.1.3.f": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Keep every accessory the person is wearing or carrying, and add none they do not have.",
+  "intent": "keep, category, grounded",
+  "framing": "full_body"
+ },
+ "g015|p7.1.3.g": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Remove all accessories.",
+  "intent": "drop, category",
+  "framing": "full_body"
+ },
+ "g024|p7.3": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "person": "p025"
+ },
+ "g024|p7.1.3.a": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Whatever the person is wearing or carrying, the mannequin has too, in the same place; whatever they do not have, it does not.",
+  "intent": "keep, symmetric",
+  "framing": "full_body"
+ },
+ "g024|p7.1.3.b": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Keep the bag, hat, scarf, belt, glasses and jewellery if the person has them, and add none if they do not.",
+  "intent": "keep, enumerated",
+  "framing": "full_body"
+ },
+ "g024|p7.1.3.c": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Show the clothing only: no bag, no hat, no jewellery, no eyewear, even if the person has them.",
+  "intent": "drop",
+  "framing": "full_body"
+ },
+ "g024|p7.1.3.d": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Anything the person carries hangs on the mannequin the same way - over the same shoulder, in the same hand.",
+  "intent": "keep, placement",
+  "framing": "full_body"
+ },
+ "g024|p7.1.3.e": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Keep all accessories.",
+  "intent": "keep, category, bare",
+  "framing": "full_body"
+ },
+ "g024|p7.1.3.f": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Keep every accessory the person is wearing or carrying, and add none they do not have.",
+  "intent": "keep, category, grounded",
+  "framing": "full_body"
+ },
+ "g024|p7.1.3.g": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. Remove all accessories.",
+  "intent": "drop, category",
+  "framing": "full_body"
+ },
+ "g029|p7.3": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "black skin",
+  "framing": "waist_up",
+  "person": "p027"
+ },
+ "g029|p7.1.3.a": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. Whatever the person is wearing or carrying, the mannequin has too, in the same place; whatever they do not have, it does not.",
+  "intent": "keep, symmetric",
+  "framing": "waist_up"
+ },
+ "g029|p7.1.3.b": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. Keep the bag, hat, scarf, belt, glasses and jewellery if the person has them, and add none if they do not.",
+  "intent": "keep, enumerated",
+  "framing": "waist_up"
+ },
+ "g029|p7.1.3.c": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. Show the clothing only: no bag, no hat, no jewellery, no eyewear, even if the person has them.",
+  "intent": "drop",
+  "framing": "waist_up"
+ },
+ "g029|p7.1.3.d": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. Anything the person carries hangs on the mannequin the same way - over the same shoulder, in the same hand.",
+  "intent": "keep, placement",
+  "framing": "waist_up"
+ },
+ "g029|p7.1.3.e": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. Keep all accessories.",
+  "intent": "keep, category, bare",
+  "framing": "waist_up"
+ },
+ "g029|p7.1.3.f": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. Keep every accessory the person is wearing or carrying, and add none they do not have.",
+  "intent": "keep, category, grounded",
+  "framing": "waist_up"
+ },
+ "g029|p7.1.3.g": {
+  "prompt": "Show this person's outfit on a mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. Remove all accessories.",
+  "intent": "drop, category",
+  "framing": "waist_up"
+ }
+}

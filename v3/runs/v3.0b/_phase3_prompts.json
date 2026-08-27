@@ -1,0 +1,562 @@
+{
+ "p029|p7.3.1": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown from the head to the chest, on a plain white background.",
+  "words": 21,
+  "colour": "dark beige skin",
+  "framing": "chest_up",
+  "input": "raw"
+ },
+ "p029|p7.3.2": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown from the head to the chest, on a plain white background. Each garment keeps its own colour, print, texture and cut.",
+  "words": 31,
+  "colour": "dark beige skin",
+  "framing": "chest_up",
+  "input": "raw"
+ },
+ "p029|p7.3.3": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown from the head to the chest, on a plain white background. Each garment keeps its own colour, print, texture and cut. The mannequin is smooth and featureless.",
+  "words": 37,
+  "colour": "dark beige skin",
+  "framing": "chest_up",
+  "input": "raw"
+ },
+ "p029|p7.3.4": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown from the head to the chest, on a plain white background. Each garment keeps its own colour, print, texture and cut. The mannequin is smooth and featureless. The mannequin wears every garment the person wears, drawn as they wear it.",
+  "words": 50,
+  "colour": "dark beige skin",
+  "framing": "chest_up",
+  "input": "raw"
+ },
+ "p029|p7.3.5": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown from the head to the chest, on a plain white background. The mannequin is smooth and featureless, and wears every garment the person wears, drawn as they wear it, keeping its shape and drape. Each garment keeps its own colour, print, texture and cut. The mannequin wears exactly the garments in the photograph.",
+  "words": 63,
+  "colour": "dark beige skin",
+  "framing": "chest_up",
+  "input": "raw"
+ },
+ "p029|p7.3.6": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest.",
+  "words": 96,
+  "colour": "dark beige skin",
+  "framing": "chest_up",
+  "input": "raw"
+ },
+ "p029|p7.3.CROPB": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest.",
+  "words": 96,
+  "colour": "dark beige skin",
+  "framing": "chest_up",
+  "input": "CROPB"
+ },
+ "p029|p7.3.CROPH": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest.",
+  "words": 96,
+  "colour": "dark beige skin",
+  "framing": "chest_up",
+  "input": "CROPH"
+ },
+ "p030|p7.3.1": {
+  "prompt": "This person's outfit on a light brown skin mannequin, shown from the head to the chest, on a plain white background.",
+  "words": 21,
+  "colour": "light brown skin",
+  "framing": "chest_up",
+  "input": "raw"
+ },
+ "p030|p7.3.2": {
+  "prompt": "This person's outfit on a light brown skin mannequin, shown from the head to the chest, on a plain white background. Each garment keeps its own colour, print, texture and cut.",
+  "words": 31,
+  "colour": "light brown skin",
+  "framing": "chest_up",
+  "input": "raw"
+ },
+ "p030|p7.3.3": {
+  "prompt": "This person's outfit on a light brown skin mannequin, shown from the head to the chest, on a plain white background. Each garment keeps its own colour, print, texture and cut. The mannequin is smooth and featureless.",
+  "words": 37,
+  "colour": "light brown skin",
+  "framing": "chest_up",
+  "input": "raw"
+ },
+ "p030|p7.3.4": {
+  "prompt": "This person's outfit on a light brown skin mannequin, shown from the head to the chest, on a plain white background. Each garment keeps its own colour, print, texture and cut. The mannequin is smooth and featureless. The mannequin wears every garment the person wears, drawn as they wear it.",
+  "words": 50,
+  "colour": "light brown skin",
+  "framing": "chest_up",
+  "input": "raw"
+ },
+ "p030|p7.3.5": {
+  "prompt": "This person's outfit on a light brown skin mannequin, shown from the head to the chest, on a plain white background. The mannequin is smooth and featureless, and wears every garment the person wears, drawn as they wear it, keeping its shape and drape. Each garment keeps its own colour, print, texture and cut. The mannequin wears exactly the garments in the photograph.",
+  "words": 63,
+  "colour": "light brown skin",
+  "framing": "chest_up",
+  "input": "raw"
+ },
+ "p030|p7.3.6": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest.",
+  "words": 96,
+  "colour": "light brown skin",
+  "framing": "chest_up",
+  "input": "raw"
+ },
+ "p030|p7.3.CROPB": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest.",
+  "words": 96,
+  "colour": "light brown skin",
+  "framing": "chest_up",
+  "input": "CROPB"
+ },
+ "p030|p7.3.CROPH": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest.",
+  "words": 96,
+  "colour": "light brown skin",
+  "framing": "chest_up",
+  "input": "CROPH"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.3.1": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown from the head to the hip, on a plain white background.",
+  "words": 21,
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "input": "raw"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.3.2": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown from the head to the hip, on a plain white background. Each garment keeps its own colour, print, texture and cut.",
+  "words": 31,
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "input": "raw"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.3.3": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown from the head to the hip, on a plain white background. Each garment keeps its own colour, print, texture and cut. The mannequin is smooth and featureless.",
+  "words": 37,
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "input": "raw"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.3.4": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown from the head to the hip, on a plain white background. Each garment keeps its own colour, print, texture and cut. The mannequin is smooth and featureless. The mannequin wears every garment the person wears, drawn as they wear it.",
+  "words": 50,
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "input": "raw"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.3.5": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown from the head to the hip, on a plain white background. The mannequin is smooth and featureless, and wears every garment the person wears, drawn as they wear it, keeping its shape and drape. Each garment keeps its own colour, print, texture and cut. The mannequin wears exactly the garments in the photograph.",
+  "words": 63,
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "input": "raw"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.3.6": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "words": 96,
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "input": "raw"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.3.CROPB": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "words": 96,
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "input": "CROPB"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.3.CROPH": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "words": 96,
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "input": "CROPH"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.3.1": {
+  "prompt": "This person's outfit on a black skin mannequin, shown full length, on a plain white background.",
+  "words": 16,
+  "colour": "black skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.3.2": {
+  "prompt": "This person's outfit on a black skin mannequin, shown full length, on a plain white background. Each garment keeps its own colour, print, texture and cut.",
+  "words": 26,
+  "colour": "black skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.3.3": {
+  "prompt": "This person's outfit on a black skin mannequin, shown full length, on a plain white background. Each garment keeps its own colour, print, texture and cut. The mannequin is smooth and featureless.",
+  "words": 32,
+  "colour": "black skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.3.4": {
+  "prompt": "This person's outfit on a black skin mannequin, shown full length, on a plain white background. Each garment keeps its own colour, print, texture and cut. The mannequin is smooth and featureless. The mannequin wears every garment the person wears, drawn as they wear it.",
+  "words": 45,
+  "colour": "black skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.3.5": {
+  "prompt": "This person's outfit on a black skin mannequin, shown full length, on a plain white background. The mannequin is smooth and featureless, and wears every garment the person wears, drawn as they wear it, keeping its shape and drape. Each garment keeps its own colour, print, texture and cut. The mannequin wears exactly the garments in the photograph.",
+  "words": 58,
+  "colour": "black skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.3.6": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "words": 87,
+  "colour": "black skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.3.CROPB": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "words": 87,
+  "colour": "black skin",
+  "framing": "full_body",
+  "input": "CROPB"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.3.CROPH": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "words": 87,
+  "colour": "black skin",
+  "framing": "full_body",
+  "input": "CROPH"
+ },
+ "g013|p7.3.1": {
+  "prompt": "This person's outfit on a light brown skin mannequin, shown full length, on a plain white background.",
+  "words": 17,
+  "colour": "light brown skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g013|p7.3.2": {
+  "prompt": "This person's outfit on a light brown skin mannequin, shown full length, on a plain white background. Each garment keeps its own colour, print, texture and cut.",
+  "words": 27,
+  "colour": "light brown skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g013|p7.3.3": {
+  "prompt": "This person's outfit on a light brown skin mannequin, shown full length, on a plain white background. Each garment keeps its own colour, print, texture and cut. The mannequin is smooth and featureless.",
+  "words": 33,
+  "colour": "light brown skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g013|p7.3.4": {
+  "prompt": "This person's outfit on a light brown skin mannequin, shown full length, on a plain white background. Each garment keeps its own colour, print, texture and cut. The mannequin is smooth and featureless. The mannequin wears every garment the person wears, drawn as they wear it.",
+  "words": 46,
+  "colour": "light brown skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g013|p7.3.5": {
+  "prompt": "This person's outfit on a light brown skin mannequin, shown full length, on a plain white background. The mannequin is smooth and featureless, and wears every garment the person wears, drawn as they wear it, keeping its shape and drape. Each garment keeps its own colour, print, texture and cut. The mannequin wears exactly the garments in the photograph.",
+  "words": 59,
+  "colour": "light brown skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g013|p7.3.6": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "words": 88,
+  "colour": "light brown skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g013|p7.3.CROPB": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "words": 88,
+  "colour": "light brown skin",
+  "framing": "full_body",
+  "input": "CROPB"
+ },
+ "g013|p7.3.CROPH": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "words": 88,
+  "colour": "light brown skin",
+  "framing": "full_body",
+  "input": "CROPH"
+ },
+ "g015|p7.3.1": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown full length, on a plain white background.",
+  "words": 17,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g015|p7.3.2": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown full length, on a plain white background. Each garment keeps its own colour, print, texture and cut.",
+  "words": 27,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g015|p7.3.3": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown full length, on a plain white background. Each garment keeps its own colour, print, texture and cut. The mannequin is smooth and featureless.",
+  "words": 33,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g015|p7.3.4": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown full length, on a plain white background. Each garment keeps its own colour, print, texture and cut. The mannequin is smooth and featureless. The mannequin wears every garment the person wears, drawn as they wear it.",
+  "words": 46,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g015|p7.3.5": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown full length, on a plain white background. The mannequin is smooth and featureless, and wears every garment the person wears, drawn as they wear it, keeping its shape and drape. Each garment keeps its own colour, print, texture and cut. The mannequin wears exactly the garments in the photograph.",
+  "words": 59,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g015|p7.3.6": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "words": 88,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g015|p7.3.CROPB": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "words": 88,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "CROPB"
+ },
+ "g015|p7.3.CROPH": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "words": 88,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "CROPH"
+ },
+ "g024|p7.3.1": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown full length, on a plain white background.",
+  "words": 17,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g024|p7.3.2": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown full length, on a plain white background. Each garment keeps its own colour, print, texture and cut.",
+  "words": 27,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g024|p7.3.3": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown full length, on a plain white background. Each garment keeps its own colour, print, texture and cut. The mannequin is smooth and featureless.",
+  "words": 33,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g024|p7.3.4": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown full length, on a plain white background. Each garment keeps its own colour, print, texture and cut. The mannequin is smooth and featureless. The mannequin wears every garment the person wears, drawn as they wear it.",
+  "words": 46,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g024|p7.3.5": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown full length, on a plain white background. The mannequin is smooth and featureless, and wears every garment the person wears, drawn as they wear it, keeping its shape and drape. Each garment keeps its own colour, print, texture and cut. The mannequin wears exactly the garments in the photograph.",
+  "words": 59,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g024|p7.3.6": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "words": 88,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g024|p7.3.CROPB": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "words": 88,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "CROPB"
+ },
+ "g024|p7.3.CROPH": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "words": 88,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "CROPH"
+ },
+ "g029|p7.3.1": {
+  "prompt": "This person's outfit on a black skin mannequin, shown from the head to the hip, on a plain white background.",
+  "words": 20,
+  "colour": "black skin",
+  "framing": "waist_up",
+  "input": "raw"
+ },
+ "g029|p7.3.2": {
+  "prompt": "This person's outfit on a black skin mannequin, shown from the head to the hip, on a plain white background. Each garment keeps its own colour, print, texture and cut.",
+  "words": 30,
+  "colour": "black skin",
+  "framing": "waist_up",
+  "input": "raw"
+ },
+ "g029|p7.3.3": {
+  "prompt": "This person's outfit on a black skin mannequin, shown from the head to the hip, on a plain white background. Each garment keeps its own colour, print, texture and cut. The mannequin is smooth and featureless.",
+  "words": 36,
+  "colour": "black skin",
+  "framing": "waist_up",
+  "input": "raw"
+ },
+ "g029|p7.3.4": {
+  "prompt": "This person's outfit on a black skin mannequin, shown from the head to the hip, on a plain white background. Each garment keeps its own colour, print, texture and cut. The mannequin is smooth and featureless. The mannequin wears every garment the person wears, drawn as they wear it.",
+  "words": 49,
+  "colour": "black skin",
+  "framing": "waist_up",
+  "input": "raw"
+ },
+ "g029|p7.3.5": {
+  "prompt": "This person's outfit on a black skin mannequin, shown from the head to the hip, on a plain white background. The mannequin is smooth and featureless, and wears every garment the person wears, drawn as they wear it, keeping its shape and drape. Each garment keeps its own colour, print, texture and cut. The mannequin wears exactly the garments in the photograph.",
+  "words": 62,
+  "colour": "black skin",
+  "framing": "waist_up",
+  "input": "raw"
+ },
+ "g029|p7.3.6": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "words": 95,
+  "colour": "black skin",
+  "framing": "waist_up",
+  "input": "raw"
+ },
+ "g029|p7.3.CROPB": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "words": 95,
+  "colour": "black skin",
+  "framing": "waist_up",
+  "input": "CROPB"
+ },
+ "g029|p7.3.CROPH": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "words": 95,
+  "colour": "black skin",
+  "framing": "waist_up",
+  "input": "CROPH"
+ },
+ "p029|p7.3.1acc": {
+  "prompt": "This person's entire outfit including accessories on a dark beige skin mannequin, shown from the head to the chest, on a plain white background.",
+  "words": 24,
+  "colour": "dark beige skin",
+  "framing": "chest_up",
+  "input": "raw"
+ },
+ "p030|p7.3.1acc": {
+  "prompt": "This person's entire outfit including accessories on a light brown skin mannequin, shown from the head to the chest, on a plain white background.",
+  "words": 24,
+  "colour": "light brown skin",
+  "framing": "chest_up",
+  "input": "raw"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.3.1acc": {
+  "prompt": "This person's entire outfit including accessories on a dark beige skin mannequin, shown from the head to the hip, on a plain white background.",
+  "words": 24,
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "input": "raw"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.3.1acc": {
+  "prompt": "This person's entire outfit including accessories on a black skin mannequin, shown full length, on a plain white background.",
+  "words": 19,
+  "colour": "black skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g013|p7.3.1acc": {
+  "prompt": "This person's entire outfit including accessories on a light brown skin mannequin, shown full length, on a plain white background.",
+  "words": 20,
+  "colour": "light brown skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g015|p7.3.1acc": {
+  "prompt": "This person's entire outfit including accessories on a dark beige skin mannequin, shown full length, on a plain white background.",
+  "words": 20,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g024|p7.3.1acc": {
+  "prompt": "This person's entire outfit including accessories on a dark beige skin mannequin, shown full length, on a plain white background.",
+  "words": 20,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g029|p7.3.1acc": {
+  "prompt": "This person's entire outfit including accessories on a black skin mannequin, shown from the head to the hip, on a plain white background.",
+  "words": 23,
+  "colour": "black skin",
+  "framing": "waist_up",
+  "input": "raw"
+ },
+ "p029|p7.3.1exact": {
+  "prompt": "This person's exact outfit on a dark beige skin mannequin, shown from the head to the chest, on a plain white background.",
+  "words": 22,
+  "colour": "dark beige skin",
+  "framing": "chest_up",
+  "input": "raw"
+ },
+ "p030|p7.3.1exact": {
+  "prompt": "This person's exact outfit on a light brown skin mannequin, shown from the head to the chest, on a plain white background.",
+  "words": 22,
+  "colour": "light brown skin",
+  "framing": "chest_up",
+  "input": "raw"
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p7.3.1exact": {
+  "prompt": "This person's exact outfit on a dark beige skin mannequin, shown from the head to the hip, on a plain white background.",
+  "words": 22,
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "input": "raw"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p7.3.1exact": {
+  "prompt": "This person's exact outfit on a black skin mannequin, shown full length, on a plain white background.",
+  "words": 17,
+  "colour": "black skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g013|p7.3.1exact": {
+  "prompt": "This person's exact outfit on a light brown skin mannequin, shown full length, on a plain white background.",
+  "words": 18,
+  "colour": "light brown skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g015|p7.3.1exact": {
+  "prompt": "This person's exact outfit on a dark beige skin mannequin, shown full length, on a plain white background.",
+  "words": 18,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g024|p7.3.1exact": {
+  "prompt": "This person's exact outfit on a dark beige skin mannequin, shown full length, on a plain white background.",
+  "words": 18,
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "input": "raw"
+ },
+ "g029|p7.3.1exact": {
+  "prompt": "This person's exact outfit on a black skin mannequin, shown from the head to the hip, on a plain white background.",
+  "words": 21,
+  "colour": "black skin",
+  "framing": "waist_up",
+  "input": "raw"
+ }
+}

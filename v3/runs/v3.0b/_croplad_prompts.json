@@ -1,0 +1,242 @@
+{
+ "p021|cl.A0raw": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "hair": "19.5%",
+  "arm": "A0raw",
+  "input": "v3/runs/v3.0b/inputs/p021.jpg"
+ },
+ "p021|cl.A1bbox": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "hair": "19.5%",
+  "arm": "A1bbox",
+  "input": "v3/runs/v3.0b/inputs/p021__A1bbox.jpg"
+ },
+ "p021|cl.A2mask256": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "hair": "19.5%",
+  "arm": "A2mask256",
+  "input": "v3/runs/v3.0b/inputs/p021__A2mask256.jpg"
+ },
+ "p021|cl.A4biref1024": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "hair": "19.5%",
+  "arm": "A4biref1024",
+  "input": "v3/runs/v3.0b/inputs/p021__A4biref1024.jpg"
+ },
+ "p021|cl.A5biref1024h": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show only the part of the body that the photograph shows.",
+  "colour": "dark beige skin",
+  "framing": "unknown",
+  "hair": "19.5%",
+  "arm": "A5biref1024h",
+  "input": "v3/runs/v3.0b/inputs/p021__A5biref1024h.jpg"
+ },
+ "p023|cl.A0raw": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the knee only, cut off below the knee.",
+  "colour": "light brown skin",
+  "framing": "knee_up",
+  "hair": "16.9%",
+  "arm": "A0raw",
+  "input": "v3/runs/v3.0b/inputs/p023.jpg"
+ },
+ "p023|cl.A1bbox": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the knee only, cut off below the knee.",
+  "colour": "light brown skin",
+  "framing": "knee_up",
+  "hair": "16.9%",
+  "arm": "A1bbox",
+  "input": "v3/runs/v3.0b/inputs/p023__A1bbox.jpg"
+ },
+ "p023|cl.A2mask256": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the knee only, cut off below the knee.",
+  "colour": "light brown skin",
+  "framing": "knee_up",
+  "hair": "16.9%",
+  "arm": "A2mask256",
+  "input": "v3/runs/v3.0b/inputs/p023__A2mask256.jpg"
+ },
+ "p023|cl.A4biref1024": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the knee only, cut off below the knee.",
+  "colour": "light brown skin",
+  "framing": "knee_up",
+  "hair": "16.9%",
+  "arm": "A4biref1024",
+  "input": "v3/runs/v3.0b/inputs/p023__A4biref1024.jpg"
+ },
+ "p023|cl.A5biref1024h": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the knee only, cut off below the knee.",
+  "colour": "light brown skin",
+  "framing": "knee_up",
+  "hair": "16.9%",
+  "arm": "A5biref1024h",
+  "input": "v3/runs/v3.0b/inputs/p023__A5biref1024h.jpg"
+ },
+ "dualuse_zendaya_white_blazer_skirt|cl.A0raw": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "hair": "14.4%",
+  "arm": "A0raw",
+  "input": "v3/runs/v3.0b/inputs/dualuse_zendaya_white_blazer_skirt.jpg"
+ },
+ "dualuse_zendaya_white_blazer_skirt|cl.A1bbox": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "hair": "14.4%",
+  "arm": "A1bbox",
+  "input": "v3/runs/v3.0b/inputs/dualuse_zendaya_white_blazer_skirt__A1bbox.jpg"
+ },
+ "dualuse_zendaya_white_blazer_skirt|cl.A2mask256": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "hair": "14.4%",
+  "arm": "A2mask256",
+  "input": "v3/runs/v3.0b/inputs/dualuse_zendaya_white_blazer_skirt__A2mask256.jpg"
+ },
+ "dualuse_zendaya_white_blazer_skirt|cl.A4biref1024": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "hair": "14.4%",
+  "arm": "A4biref1024",
+  "input": "v3/runs/v3.0b/inputs/dualuse_zendaya_white_blazer_skirt__A4biref1024.jpg"
+ },
+ "dualuse_zendaya_white_blazer_skirt|cl.A5biref1024h": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "hair": "14.4%",
+  "arm": "A5biref1024h",
+  "input": "v3/runs/v3.0b/inputs/dualuse_zendaya_white_blazer_skirt__A5biref1024h.jpg"
+ },
+ "p019|cl.A0raw": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the knee only, cut off below the knee.",
+  "colour": "dark beige skin",
+  "framing": "knee_up",
+  "hair": "13.5%",
+  "arm": "A0raw",
+  "input": "v3/runs/v3.0b/inputs/p019.jpg"
+ },
+ "p019|cl.A1bbox": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "hair": "13.5%",
+  "arm": "A1bbox",
+  "input": "v3/runs/v3.0b/inputs/p019__A1bbox.jpg"
+ },
+ "p019|cl.A2mask256": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "hair": "13.5%",
+  "arm": "A2mask256",
+  "input": "v3/runs/v3.0b/inputs/p019__A2mask256.jpg"
+ },
+ "p019|cl.A4biref1024": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "hair": "13.5%",
+  "arm": "A4biref1024",
+  "input": "v3/runs/v3.0b/inputs/p019__A4biref1024.jpg"
+ },
+ "p019|cl.A5biref1024h": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show only the part of the body that the photograph shows.",
+  "colour": "dark beige skin",
+  "framing": "unknown",
+  "hair": "13.5%",
+  "arm": "A5biref1024h",
+  "input": "v3/runs/v3.0b/inputs/p019__A5biref1024h.jpg"
+ },
+ "p028|cl.A0raw": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "light brown skin",
+  "framing": "waist_up",
+  "hair": "11.9%",
+  "arm": "A0raw",
+  "input": "v3/runs/v3.0b/inputs/p028.jpg"
+ },
+ "p028|cl.A1bbox": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "light brown skin",
+  "framing": "waist_up",
+  "hair": "11.9%",
+  "arm": "A1bbox",
+  "input": "v3/runs/v3.0b/inputs/p028__A1bbox.jpg"
+ },
+ "p028|cl.A2mask256": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "light brown skin",
+  "framing": "waist_up",
+  "hair": "11.9%",
+  "arm": "A2mask256",
+  "input": "v3/runs/v3.0b/inputs/p028__A2mask256.jpg"
+ },
+ "p028|cl.A4biref1024": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "light brown skin",
+  "framing": "waist_up",
+  "hair": "11.9%",
+  "arm": "A4biref1024",
+  "input": "v3/runs/v3.0b/inputs/p028__A4biref1024.jpg"
+ },
+ "p028|cl.A5biref1024h": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "light brown skin",
+  "framing": "waist_up",
+  "hair": "11.9%",
+  "arm": "A5biref1024h",
+  "input": "v3/runs/v3.0b/inputs/p028__A5biref1024h.jpg"
+ },
+ "p009|cl.A0raw": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "hair": "7.2%",
+  "arm": "A0raw",
+  "input": "v3/runs/v3.0b/inputs/p009.jpg"
+ },
+ "p009|cl.A1bbox": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "hair": "7.2%",
+  "arm": "A1bbox",
+  "input": "v3/runs/v3.0b/inputs/p009__A1bbox.jpg"
+ },
+ "p009|cl.A2mask256": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "hair": "7.2%",
+  "arm": "A2mask256",
+  "input": "v3/runs/v3.0b/inputs/p009__A2mask256.jpg"
+ },
+ "p009|cl.A4biref1024": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "hair": "7.2%",
+  "arm": "A4biref1024",
+  "input": "v3/runs/v3.0b/inputs/p009__A4biref1024.jpg"
+ },
+ "p009|cl.A5biref1024h": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "hair": "7.2%",
+  "arm": "A5biref1024h",
+  "input": "v3/runs/v3.0b/inputs/p009__A5biref1024h.jpg"
+ }
+}

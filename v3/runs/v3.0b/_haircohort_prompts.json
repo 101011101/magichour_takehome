@@ -1,0 +1,146 @@
+{
+ "p021|hc.raw": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown full length, on a plain white background.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "hair": "19.5%",
+  "person": "p001",
+  "input": "raw"
+ },
+ "p021|hc.CROPB": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown full length, on a plain white background.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "hair": "19.5%",
+  "person": "p001",
+  "input": "CROPB"
+ },
+ "p021|hc.CROPH": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown as the photograph frames the person, on a plain white background.",
+  "colour": "dark beige skin",
+  "framing": "unknown",
+  "hair": "19.5%",
+  "person": "p001",
+  "input": "CROPH"
+ },
+ "p023|hc.raw": {
+  "prompt": "This person's outfit on a light brown skin mannequin, shown from the head to the knee, on a plain white background.",
+  "colour": "light brown skin",
+  "framing": "knee_up",
+  "hair": "16.9%",
+  "person": "p002",
+  "input": "raw"
+ },
+ "p023|hc.CROPB": {
+  "prompt": "This person's outfit on a light brown skin mannequin, shown from the head to the knee, on a plain white background.",
+  "colour": "light brown skin",
+  "framing": "knee_up",
+  "hair": "16.9%",
+  "person": "p002",
+  "input": "CROPB"
+ },
+ "p023|hc.CROPH": {
+  "prompt": "This person's outfit on a light brown skin mannequin, shown from the head to the knee, on a plain white background.",
+  "colour": "light brown skin",
+  "framing": "knee_up",
+  "hair": "16.9%",
+  "person": "p002",
+  "input": "CROPH"
+ },
+ "dualuse_zendaya_white_blazer_skirt|hc.raw": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown full length, on a plain white background.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "hair": "14.4%",
+  "person": "p004",
+  "input": "raw"
+ },
+ "dualuse_zendaya_white_blazer_skirt|hc.CROPB": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown full length, on a plain white background.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "hair": "14.4%",
+  "person": "p004",
+  "input": "CROPB"
+ },
+ "dualuse_zendaya_white_blazer_skirt|hc.CROPH": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown from the head to the knee, on a plain white background.",
+  "colour": "dark beige skin",
+  "framing": "knee_up",
+  "hair": "14.4%",
+  "person": "p004",
+  "input": "CROPH"
+ },
+ "p019|hc.raw": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown from the head to the knee, on a plain white background.",
+  "colour": "dark beige skin",
+  "framing": "knee_up",
+  "hair": "13.5%",
+  "person": "p005",
+  "input": "raw"
+ },
+ "p019|hc.CROPB": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown from the head to the hip, on a plain white background.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "hair": "13.5%",
+  "person": "p005",
+  "input": "CROPB"
+ },
+ "p019|hc.CROPH": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown as the photograph frames the person, on a plain white background.",
+  "colour": "dark beige skin",
+  "framing": "unknown",
+  "hair": "13.5%",
+  "person": "p005",
+  "input": "CROPH"
+ },
+ "p028|hc.raw": {
+  "prompt": "This person's outfit on a light brown skin mannequin, shown from the head to the hip, on a plain white background.",
+  "colour": "light brown skin",
+  "framing": "waist_up",
+  "hair": "11.9%",
+  "person": "p007",
+  "input": "raw"
+ },
+ "p028|hc.CROPB": {
+  "prompt": "This person's outfit on a light brown skin mannequin, shown from the head to the hip, on a plain white background.",
+  "colour": "light brown skin",
+  "framing": "waist_up",
+  "hair": "11.9%",
+  "person": "p007",
+  "input": "CROPB"
+ },
+ "p028|hc.CROPH": {
+  "prompt": "This person's outfit on a light brown skin mannequin, shown from the head to the hip, on a plain white background.",
+  "colour": "light brown skin",
+  "framing": "waist_up",
+  "hair": "11.9%",
+  "person": "p007",
+  "input": "CROPH"
+ },
+ "p009|hc.raw": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown from the head to the hip, on a plain white background.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "hair": "7.2%",
+  "person": "p008",
+  "input": "raw"
+ },
+ "p009|hc.CROPB": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown from the head to the hip, on a plain white background.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "hair": "7.2%",
+  "person": "p008",
+  "input": "CROPB"
+ },
+ "p009|hc.CROPH": {
+  "prompt": "This person's outfit on a dark beige skin mannequin, shown from the head to the hip, on a plain white background.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "hair": "7.2%",
+  "person": "p008",
+  "input": "CROPH"
+ }
+}

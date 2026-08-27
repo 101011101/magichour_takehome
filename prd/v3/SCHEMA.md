@@ -21,6 +21,7 @@ prd/v3/
 │
 ├── v3.0/
 │   ├── EXPERIMENT.md    what is investigated + how → result → next
+│   ├── TEST.md          the matrix — what is combined with what, and why
 │   ├── RESULTS.md       every case, every number, the analysis methodology
 │   └── SOLUTION.md      the architecture this investigation yielded, if any
 ├── v3.1/  same three
@@ -77,6 +78,20 @@ investigation actually moved, including the links that went nowhere.
 - **Ends with:** a conclusion, and a statement of whether the investigation yielded a
   solution. If it did, `SOLUTION.md` exists. If it did not, say so — a negative result
   is a result and it stays in the tree.
+
+### `v3.x/TEST.md` — the matrix
+
+What is combined with what, so that every arm sees the same pairs and a later run can be
+compared to an earlier one without arguing about the set.
+
+- **Contains:** the matrix itself, the selection rationale per entry, what was excluded
+  and why, the run conditions held fixed (model, seed, resolution, prompt), the generation
+  budget, and the review protocol.
+- **Never contains:** results. It is written *before* the run and does not change after
+  it; a change to the set is a new test, recorded as such.
+- **Generated, not typed.** The matrix of record is a CSV under `v3/testsets/`, produced
+  by a script under `v3/build/`. The document renders it. Editing the table by hand is how
+  a run stops matching its own specification.
 
 ### `v3.x/RESULTS.md` — the evidence layer
 

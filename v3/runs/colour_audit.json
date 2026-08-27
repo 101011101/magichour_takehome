@@ -1,0 +1,1010 @@
+[
+ {
+  "id": "p001",
+  "path": "test_set3/people/p001.jpg",
+  "tone": {
+   "name": "dark beige skin",
+   "swatch": "#D3AF8B",
+   "L": 70.6,
+   "a": 14.0,
+   "b": 19.0,
+   "ITA": 47.3,
+   "from": "face",
+   "measured_hex": "#D2A38B",
+   "pixels": 2172,
+   "coverage": 0.0031,
+   "assigned_hex": "#D3AF8B",
+   "deltaE": 7.9
+  }
+ },
+ {
+  "id": "p002",
+  "path": "test_set3/people/p002.jpg",
+  "tone": {
+   "name": "light brown skin",
+   "swatch": "#9E6B49",
+   "L": 49.8,
+   "a": 15.0,
+   "b": 9.0,
+   "ITA": -1.2,
+   "from": "face",
+   "measured_hex": "#946D68",
+   "pixels": 4774,
+   "coverage": 0.0068,
+   "assigned_hex": "#9E6B49",
+   "deltaE": 18.1
+  }
+ },
+ {
+  "id": "p003",
+  "path": "test_set3/people/p003.jpg",
+  "tone": {
+   "name": "dark beige skin",
+   "swatch": "#D3AF8B",
+   "L": 68.6,
+   "a": 20.0,
+   "b": 23.0,
+   "ITA": 39.0,
+   "from": "face",
+   "measured_hex": "#D7997F",
+   "pixels": 4621,
+   "coverage": 0.0064,
+   "assigned_hex": "#D3AF8B",
+   "deltaE": 13.0
+  }
+ },
+ {
+  "id": "p004",
+  "path": "test_set3/people/p004.jpg",
+  "tone": {
+   "name": "dark beige skin",
+   "swatch": "#D3AF8B",
+   "L": 68.2,
+   "a": 22.0,
+   "b": 10.0,
+   "ITA": 61.3,
+   "from": "face",
+   "measured_hex": "#D39795",
+   "pixels": 5965,
+   "coverage": 0.0085,
+   "assigned_hex": "#D3AF8B",
+   "deltaE": 19.9
+  }
+ },
+ {
+  "id": "p005",
+  "path": "test_set3/people/p005.jpg",
+  "tone": {
+   "name": "dark beige skin",
+   "swatch": "#D3AF8B",
+   "L": 67.1,
+   "a": 12.0,
+   "b": 14.0,
+   "ITA": 50.6,
+   "from": "face",
+   "measured_hex": "#C29B8B",
+   "pixels": 3382,
+   "coverage": 0.0048,
+   "assigned_hex": "#D3AF8B",
+   "deltaE": 11.9
+  }
+ },
+ {
+  "id": "p006",
+  "path": "test_set3/people/p006.jpg",
+  "tone": {
+   "name": "black skin",
+   "swatch": "#41291D",
+   "L": 25.1,
+   "a": 12.0,
+   "b": 11.0,
+   "ITA": -66.2,
+   "from": "face",
+   "measured_hex": "#52342B",
+   "pixels": 1891,
+   "coverage": 0.0027,
+   "assigned_hex": "#41291D",
+   "deltaE": 6.3
+  }
+ },
+ {
+  "id": "p007",
+  "path": "test_set3/people/p007.jpg",
+  "tone": {
+   "name": "light brown skin",
+   "swatch": "#9E6B49",
+   "L": 45.1,
+   "a": 8.0,
+   "b": 1.0,
+   "ITA": -78.5,
+   "from": "face",
+   "measured_hex": "#796669",
+   "pixels": 25390,
+   "coverage": 0.0364,
+   "assigned_hex": "#9E6B49",
+   "deltaE": 27.9
+  }
+ },
+ {
+  "id": "p008",
+  "path": "test_set3/people/p008.jpg",
+  "tone": {
+   "name": "dark beige skin",
+   "swatch": "#D3AF8B",
+   "L": 68.2,
+   "a": 16.0,
+   "b": 21.0,
+   "ITA": 41.0,
+   "from": "face",
+   "measured_hex": "#CF9B81",
+   "pixels": 7544,
+   "coverage": 0.0096,
+   "assigned_hex": "#D3AF8B",
+   "deltaE": 9.9
+  }
+ },
+ {
+  "id": "p009",
+  "path": "test_set3/people/p009.jpg",
+  "tone": {
+   "name": "tan skin",
+   "swatch": "#B5835C",
+   "L": 55.7,
+   "a": 23.0,
+   "b": 35.0,
+   "ITA": 9.2,
+   "from": "face",
+   "measured_hex": "#BA7549",
+   "pixels": 7987,
+   "coverage": 0.0114,
+   "assigned_hex": "#B5835C",
+   "deltaE": 10.5
+  }
+ },
+ {
+  "id": "p010",
+  "path": "test_set3/people/p010.jpg",
+  "tone": {
+   "name": "tan skin",
+   "swatch": "#B5835C",
+   "L": 56.1,
+   "a": 11.0,
+   "b": 16.0,
+   "ITA": 20.8,
+   "from": "face",
+   "measured_hex": "#A37F6B",
+   "pixels": 4010,
+   "coverage": 0.0057,
+   "assigned_hex": "#B5835C",
+   "deltaE": 13.9
+  }
+ },
+ {
+  "id": "p011",
+  "path": "test_set3/people/p011.jpg",
+  "tone": {
+   "name": "tan skin",
+   "swatch": "#B5835C",
+   "L": 56.9,
+   "a": 20.0,
+   "b": 23.0,
+   "ITA": 16.6,
+   "from": "face",
+   "measured_hex": "#B57A61",
+   "pixels": 17530,
+   "coverage": 0.0251,
+   "assigned_hex": "#B5835C",
+   "deltaE": 8.1
+  }
+ },
+ {
+  "id": "p012",
+  "path": "test_set3/people/p012.jpg",
+  "tone": {
+   "name": "tan skin",
+   "swatch": "#B5835C",
+   "L": 56.1,
+   "a": 15.0,
+   "b": 24.0,
+   "ITA": 14.2,
+   "from": "face",
+   "measured_hex": "#AC7C5D",
+   "pixels": 3829,
+   "coverage": 0.0055,
+   "assigned_hex": "#B5835C",
+   "deltaE": 5.7
+  }
+ },
+ {
+  "id": "p013",
+  "path": "test_set3/people/p013.jpg",
+  "tone": {
+   "name": "dark beige skin",
+   "swatch": "#D3AF8B",
+   "L": 65.9,
+   "a": 18.0,
+   "b": 21.0,
+   "ITA": 37.1,
+   "from": "face",
+   "measured_hex": "#CB937B",
+   "pixels": 10353,
+   "coverage": 0.0148,
+   "assigned_hex": "#D3AF8B",
+   "deltaE": 12.9
+  }
+ },
+ {
+  "id": "p014",
+  "path": "test_set3/people/p014.jpg",
+  "tone": {
+   "name": "brown skin",
+   "swatch": "#84553A",
+   "L": 40.0,
+   "a": 15.0,
+   "b": 21.0,
+   "ITA": -25.5,
+   "from": "face",
+   "measured_hex": "#7F543D",
+   "pixels": 28274,
+   "coverage": 0.0405,
+   "assigned_hex": "#84553A",
+   "deltaE": 3.3
+  }
+ },
+ {
+  "id": "p015",
+  "path": "test_set3/people/p015.jpg",
+  "tone": {
+   "name": "black skin",
+   "swatch": "#41291D",
+   "L": 22.4,
+   "a": 11.0,
+   "b": 7.0,
+   "ITA": -75.8,
+   "from": "face",
+   "measured_hex": "#482F2B",
+   "pixels": 49927,
+   "coverage": 0.0714,
+   "assigned_hex": "#41291D",
+   "deltaE": 6.0
+  }
+ },
+ {
+  "id": "p016",
+  "path": "test_set3/people/p016.jpg",
+  "tone": {
+   "name": "beige skin",
+   "swatch": "#E0C3A3",
+   "L": 76.5,
+   "a": 10.0,
+   "b": 14.0,
+   "ITA": 62.1,
+   "from": "body",
+   "measured_hex": "#D9B6A3",
+   "pixels": 8214,
+   "coverage": 0.0118,
+   "assigned_hex": "#E0C3A3",
+   "deltaE": 8.7
+  }
+ },
+ {
+  "id": "p017",
+  "path": "test_set3/people/p017.jpg",
+  "tone": {
+   "name": "brown skin",
+   "swatch": "#84553A",
+   "L": 39.2,
+   "a": 10.0,
+   "b": 15.0,
+   "ITA": -35.7,
+   "from": "face",
+   "measured_hex": "#745644",
+   "pixels": 17343,
+   "coverage": 0.0248,
+   "assigned_hex": "#84553A",
+   "deltaE": 10.9
+  }
+ },
+ {
+  "id": "p018",
+  "path": "test_set3/people/p018.jpg",
+  "tone": {
+   "name": "black skin",
+   "swatch": "#41291D",
+   "L": 21.6,
+   "a": 3.0,
+   "b": 8.0,
+   "ITA": -74.3,
+   "from": "face",
+   "measured_hex": "#3C3228",
+   "pixels": 5773,
+   "coverage": 0.0083,
+   "assigned_hex": "#41291D",
+   "deltaE": 8.4
+  }
+ },
+ {
+  "id": "p019",
+  "path": "test_set3/people/p019.jpg",
+  "tone": {
+   "name": "dark beige skin",
+   "swatch": "#D3AF8B",
+   "L": 69.0,
+   "a": 18.0,
+   "b": 21.0,
+   "ITA": 42.2,
+   "from": "face",
+   "measured_hex": "#D49C83",
+   "pixels": 14538,
+   "coverage": 0.0208,
+   "assigned_hex": "#D3AF8B",
+   "deltaE": 11.2
+  }
+ },
+ {
+  "id": "p020",
+  "path": "test_set3/people/p020.jpg",
+  "tone": {
+   "name": "dark brown skin",
+   "swatch": "#63402C",
+   "L": 27.5,
+   "a": 23.0,
+   "b": 22.0,
+   "ITA": -45.7,
+   "from": "face",
+   "measured_hex": "#683120",
+   "pixels": 10493,
+   "coverage": 0.0125,
+   "assigned_hex": "#63402C",
+   "deltaE": 11.2
+  }
+ },
+ {
+  "id": "p021",
+  "path": "test_set3/people/p021.jpg",
+  "tone": {
+   "name": "light brown skin",
+   "swatch": "#9E6B49",
+   "L": 49.0,
+   "a": 13.0,
+   "b": 15.0,
+   "ITA": -3.7,
+   "from": "face",
+   "measured_hex": "#926C5C",
+   "pixels": 5950,
+   "coverage": 0.0085,
+   "assigned_hex": "#9E6B49",
+   "deltaE": 12.7
+  }
+ },
+ {
+  "id": "p022",
+  "path": "test_set3/people/p022.jpg",
+  "tone": {
+   "name": "tan skin",
+   "swatch": "#B5835C",
+   "L": 54.1,
+   "a": 12.0,
+   "b": 6.0,
+   "ITA": 34.5,
+   "from": "face",
+   "measured_hex": "#9A7A78",
+   "pixels": 3002,
+   "coverage": 0.0043,
+   "assigned_hex": "#B5835C",
+   "deltaE": 23.7
+  }
+ },
+ {
+  "id": "p023",
+  "path": "test_set3/people/p023.jpg",
+  "tone": {
+   "name": "dark beige skin",
+   "swatch": "#D3AF8B",
+   "L": 66.7,
+   "a": 20.0,
+   "b": 23.0,
+   "ITA": 35.9,
+   "from": "face",
+   "measured_hex": "#D1947A",
+   "pixels": 7074,
+   "coverage": 0.0101,
+   "assigned_hex": "#D3AF8B",
+   "deltaE": 13.9
+  }
+ },
+ {
+  "id": "p024",
+  "path": "test_set3/people/p024.jpg",
+  "tone": {
+   "name": "light brown skin",
+   "swatch": "#9E6B49",
+   "L": 49.8,
+   "a": 8.0,
+   "b": 12.0,
+   "ITA": -0.9,
+   "from": "face",
+   "measured_hex": "#8B7162",
+   "pixels": 20350,
+   "coverage": 0.0291,
+   "assigned_hex": "#9E6B49",
+   "deltaE": 17.5
+  }
+ },
+ {
+  "id": "p025",
+  "path": "test_set3/people/p025.jpg",
+  "tone": {
+   "name": "dark beige skin",
+   "swatch": "#D3AF8B",
+   "L": 67.5,
+   "a": 10.0,
+   "b": 24.0,
+   "ITA": 36.0,
+   "from": "face",
+   "measured_hex": "#C59D7A",
+   "pixels": 2288,
+   "coverage": 0.0031,
+   "assigned_hex": "#D3AF8B",
+   "deltaE": 6.7
+  }
+ },
+ {
+  "id": "p026",
+  "path": "test_set3/people/p026.jpg",
+  "tone": {
+   "name": "dark brown skin",
+   "swatch": "#63402C",
+   "L": 32.5,
+   "a": 13.0,
+   "b": 21.0,
+   "ITA": -39.7,
+   "from": "face",
+   "measured_hex": "#69442C",
+   "pixels": 2029,
+   "coverage": 0.0029,
+   "assigned_hex": "#63402C",
+   "deltaE": 3.6
+  }
+ },
+ {
+  "id": "p027",
+  "path": "test_set3/people/p027.jpg",
+  "tone": {
+   "name": "black skin",
+   "swatch": "#41291D",
+   "L": 23.9,
+   "a": 11.0,
+   "b": 12.0,
+   "ITA": -65.3,
+   "from": "face",
+   "measured_hex": "#4E3227",
+   "pixels": 7338,
+   "coverage": 0.007,
+   "assigned_hex": "#41291D",
+   "deltaE": 4.8
+  }
+ },
+ {
+  "id": "p028",
+  "path": "test_set3/people/p028.jpg",
+  "tone": {
+   "name": "dark beige skin",
+   "swatch": "#D3AF8B",
+   "L": 67.1,
+   "a": 20.0,
+   "b": 19.0,
+   "ITA": 41.9,
+   "from": "face",
+   "measured_hex": "#D19582",
+   "pixels": 6567,
+   "coverage": 0.0094,
+   "assigned_hex": "#D3AF8B",
+   "deltaE": 14.3
+  }
+ },
+ {
+  "id": "p029",
+  "path": "test_set3/people/p029.jpg",
+  "tone": {
+   "name": "dark brown skin",
+   "swatch": "#63402C",
+   "L": 31.4,
+   "a": 16.0,
+   "b": 14.0,
+   "ITA": -53.1,
+   "from": "face",
+   "measured_hex": "#684035",
+   "pixels": 13355,
+   "coverage": 0.0191,
+   "assigned_hex": "#63402C",
+   "deltaE": 5.1
+  }
+ },
+ {
+  "id": "p030",
+  "path": "test_set3/people/p030.jpg",
+  "tone": {
+   "name": "brown skin",
+   "swatch": "#84553A",
+   "L": 36.1,
+   "a": 16.0,
+   "b": 14.0,
+   "ITA": -44.8,
+   "from": "face",
+   "measured_hex": "#744B3F",
+   "pixels": 21070,
+   "coverage": 0.0302,
+   "assigned_hex": "#84553A",
+   "deltaE": 11.1
+  }
+ },
+ {
+  "id": "dualuse_emma_watson_black_blazer_armscrossed",
+  "path": "test_set3/people/dualuse_emma_watson_black_blazer_armscrossed.jpg",
+  "tone": {
+   "name": "dark beige skin",
+   "swatch": "#D3AF8B",
+   "L": 67.5,
+   "a": 7.0,
+   "b": 13.0,
+   "ITA": 53.3,
+   "from": "face",
+   "measured_hex": "#BA9F8D",
+   "pixels": 99578,
+   "coverage": 0.0231,
+   "assigned_hex": "#D3AF8B",
+   "deltaE": 11.8
+  }
+ },
+ {
+  "id": "dualuse_gal_gadot_blue_dress_redcarpet",
+  "path": "test_set3/people/dualuse_gal_gadot_blue_dress_redcarpet.jpg",
+  "tone": {
+   "name": "dark beige skin",
+   "swatch": "#D3AF8B",
+   "L": 66.3,
+   "a": 20.0,
+   "b": 21.0,
+   "ITA": 37.8,
+   "from": "face",
+   "measured_hex": "#CF937D",
+   "pixels": 13846,
+   "coverage": 0.0071,
+   "assigned_hex": "#D3AF8B",
+   "deltaE": 14.3
+  }
+ },
+ {
+  "id": "dualuse_hugh_jackman_grey_suit_outdoor",
+  "path": "test_set3/people/dualuse_hugh_jackman_grey_suit_outdoor.jpg",
+  "tone": {
+   "name": "tan skin",
+   "swatch": "#B5835C",
+   "L": 51.4,
+   "a": 21.0,
+   "b": 14.0,
+   "ITA": 5.6,
+   "from": "face",
+   "measured_hex": "#A46C64",
+   "pixels": 14206,
+   "coverage": 0.0095,
+   "assigned_hex": "#B5835C",
+   "deltaE": 17.8
+  }
+ },
+ {
+  "id": "dualuse_man_black_suit_studio_nonceleb",
+  "path": "test_set3/people/dualuse_man_black_suit_studio_nonceleb.jpg",
+  "tone": {
+   "name": "dark beige skin",
+   "swatch": "#D3AF8B",
+   "L": 71.4,
+   "a": 13.0,
+   "b": 12.0,
+   "ITA": 60.7,
+   "from": "face",
+   "measured_hex": "#CEA69A",
+   "pixels": 128778,
+   "coverage": 0.0091,
+   "assigned_hex": "#D3AF8B",
+   "deltaE": 12.3
+  }
+ },
+ {
+  "id": "dualuse_queen_latifah_gown_stage",
+  "path": "test_set3/people/dualuse_queen_latifah_gown_stage.jpg",
+  "tone": {
+   "name": "light tan skin",
+   "swatch": "#C69A72",
+   "L": 59.6,
+   "a": 17.0,
+   "b": 32.0,
+   "ITA": 16.7,
+   "from": "face",
+   "measured_hex": "#BC8358",
+   "pixels": 664727,
+   "coverage": 0.0167,
+   "assigned_hex": "#C69A72",
+   "deltaE": 10.5
+  }
+ },
+ {
+  "id": "dualuse_scarlett_johansson_black_dress_backview_night",
+  "path": "test_set3/people/dualuse_scarlett_johansson_black_dress_backview_night.avif",
+  "tone": {
+   "name": "beige skin",
+   "swatch": "#E0C3A3",
+   "L": 76.5,
+   "a": 14.0,
+   "b": 6.0,
+   "ITA": 77.2,
+   "from": "face",
+   "measured_hex": "#DBB3B2",
+   "pixels": 12690,
+   "coverage": 0.0088,
+   "assigned_hex": "#E0C3A3",
+   "deltaE": 17.1
+  }
+ },
+ {
+  "id": "dualuse_woman_top_denim_skirt_nonceleb",
+  "path": "test_set3/people/dualuse_woman_top_denim_skirt_nonceleb.jpg",
+  "tone": {
+   "name": "dark brown skin",
+   "swatch": "#63402C",
+   "L": 35.3,
+   "a": 9.0,
+   "b": 4.0,
+   "ITA": -74.8,
+   "from": "face",
+   "measured_hex": "#644E4D",
+   "pixels": 120275,
+   "coverage": 0.0067,
+   "assigned_hex": "#63402C",
+   "deltaE": 15.3
+  }
+ },
+ {
+  "id": "dualuse_zendaya_white_blazer_skirt",
+  "path": "test_set3/people/dualuse_zendaya_white_blazer_skirt.jpeg",
+  "tone": {
+   "name": "tan skin",
+   "swatch": "#B5835C",
+   "L": 56.1,
+   "a": 21.0,
+   "b": 30.0,
+   "ITA": 11.5,
+   "from": "face",
+   "measured_hex": "#B77753",
+   "pixels": 20566,
+   "coverage": 0.0061,
+   "assigned_hex": "#B5835C",
+   "deltaE": 6.7
+  }
+ },
+ {
+  "id": "dualuse_lp_beige_long_coat_menswear",
+  "path": "test_set3/people/dualuse_lp_beige_long_coat_menswear.webp",
+  "tone": {
+   "name": "black skin",
+   "swatch": "#41291D",
+   "L": 14.1,
+   "a": 5.0,
+   "b": 9.0,
+   "ITA": -75.9,
+   "from": "face",
+   "measured_hex": "#2F2117",
+   "pixels": 82255,
+   "coverage": 0.0084,
+   "assigned_hex": "#41291D",
+   "deltaE": 7.4
+  }
+ },
+ {
+  "id": "dualuse_lp_floral_kimono_set",
+  "path": "test_set3/people/dualuse_lp_floral_kimono_set.webp",
+  "tone": {
+   "name": "brown skin",
+   "swatch": "#84553A",
+   "L": 36.9,
+   "a": 15.0,
+   "b": 18.0,
+   "ITA": -36.1,
+   "from": "face",
+   "measured_hex": "#764D3A",
+   "pixels": 40098,
+   "coverage": 0.0051,
+   "assigned_hex": "#84553A",
+   "deltaE": 7.2
+  }
+ },
+ {
+  "id": "dualuse_lp_navy_quarterzip_knit_LOWRES",
+  "path": "test_set3/people/dualuse_lp_navy_quarterzip_knit_LOWRES.avif",
+  "tone": {
+   "name": "dark beige skin",
+   "swatch": "#D3AF8B",
+   "L": 69.0,
+   "a": 11.0,
+   "b": 15.0,
+   "ITA": 51.7,
+   "from": "face",
+   "measured_hex": "#C6A18E",
+   "pixels": 3575,
+   "coverage": 0.0054,
+   "assigned_hex": "#D3AF8B",
+   "deltaE": 9.8
+  }
+ },
+ {
+  "id": "dualuse_lp_plaid_overcoat_brown_suit",
+  "path": "test_set3/people/dualuse_lp_plaid_overcoat_brown_suit.jpg",
+  "tone": {
+   "name": "beige skin",
+   "swatch": "#E0C3A3",
+   "L": 74.1,
+   "a": 12.0,
+   "b": 14.0,
+   "ITA": 59.9,
+   "from": "face",
+   "measured_hex": "#D6AE9D",
+   "pixels": 8002,
+   "coverage": 0.0044,
+   "assigned_hex": "#E0C3A3",
+   "deltaE": 11.2
+  }
+ },
+ {
+  "id": "dualuse_navy_peacoat_onmodel",
+  "path": "test_set3/people/dualuse_navy_peacoat_onmodel.webp",
+  "tone": {
+   "name": "light beige skin",
+   "swatch": "#EBD3BB",
+   "L": 83.5,
+   "a": 11.0,
+   "b": 17.0,
+   "ITA": 63.1,
+   "from": "face",
+   "measured_hex": "#F1C8B1",
+   "pixels": 7312,
+   "coverage": 0.0063,
+   "assigned_hex": "#EBD3BB",
+   "deltaE": 6.7
+  }
+ },
+ {
+  "id": "g004",
+  "path": "test_set3/people/g004.jpg",
+  "tone": {
+   "name": "dark brown skin",
+   "swatch": "#63402C",
+   "L": 27.5,
+   "a": 16.0,
+   "b": 20.0,
+   "ITA": -48.4,
+   "from": "face",
+   "measured_hex": "#5F3723",
+   "pixels": 6221,
+   "coverage": 0.0077,
+   "assigned_hex": "#63402C",
+   "deltaE": 4.2
+  }
+ },
+ {
+  "id": "g005",
+  "path": "test_set3/people/g005.jpg",
+  "tone": {
+   "name": "light tan skin",
+   "swatch": "#C69A72",
+   "L": 62.0,
+   "a": 15.0,
+   "b": 20.0,
+   "ITA": 30.9,
+   "from": "face",
+   "measured_hex": "#BB8B73",
+   "pixels": 6850,
+   "coverage": 0.0082,
+   "assigned_hex": "#C69A72",
+   "deltaE": 9.3
+  }
+ },
+ {
+  "id": "g009",
+  "path": "test_set3/people/g009.jpg",
+  "tone": {
+   "name": "light tan skin",
+   "swatch": "#C69A72",
+   "L": 62.7,
+   "a": 16.0,
+   "b": 28.0,
+   "ITA": 24.5,
+   "from": "face",
+   "measured_hex": "#C28C67",
+   "pixels": 4371,
+   "coverage": 0.0054,
+   "assigned_hex": "#C69A72",
+   "deltaE": 6.4
+  }
+ },
+ {
+  "id": "g011",
+  "path": "test_set3/people/g011.jpg",
+  "tone": {
+   "name": "dark beige skin",
+   "swatch": "#D3AF8B",
+   "L": 71.8,
+   "a": 15.0,
+   "b": 18.0,
+   "ITA": 50.4,
+   "from": "face",
+   "measured_hex": "#D6A590",
+   "pixels": 5943,
+   "coverage": 0.0069,
+   "assigned_hex": "#D3AF8B",
+   "deltaE": 8.8
+  }
+ },
+ {
+  "id": "g012",
+  "path": "test_set3/people/g012.jpg",
+  "tone": {
+   "name": "tan skin",
+   "swatch": "#B5835C",
+   "L": 55.7,
+   "a": 20.0,
+   "b": 26.0,
+   "ITA": 12.3,
+   "from": "face",
+   "measured_hex": "#B37759",
+   "pixels": 3565,
+   "coverage": 0.0042,
+   "assigned_hex": "#B5835C",
+   "deltaE": 6.6
+  }
+ },
+ {
+  "id": "g013",
+  "path": "test_set3/people/g013.jpg",
+  "tone": {
+   "name": "dark beige skin",
+   "swatch": "#D3AF8B",
+   "L": 67.1,
+   "a": 18.0,
+   "b": 28.0,
+   "ITA": 31.4,
+   "from": "face",
+   "measured_hex": "#D29672",
+   "pixels": 3370,
+   "coverage": 0.0039,
+   "assigned_hex": "#D3AF8B",
+   "deltaE": 13.0
+  }
+ },
+ {
+  "id": "g014",
+  "path": "test_set3/people/g014.jpg",
+  "tone": {
+   "name": "tan skin",
+   "swatch": "#B5835C",
+   "L": 51.4,
+   "a": 24.0,
+   "b": 29.0,
+   "ITA": 2.7,
+   "from": "face",
+   "measured_hex": "#AD694A",
+   "pixels": 5534,
+   "coverage": 0.0065,
+   "assigned_hex": "#B5835C",
+   "deltaE": 11.7
+  }
+ },
+ {
+  "id": "g015",
+  "path": "test_set3/people/g015.jpg",
+  "tone": {
+   "name": "tan skin",
+   "swatch": "#B5835C",
+   "L": 52.2,
+   "a": 14.0,
+   "b": 23.0,
+   "ITA": 5.4,
+   "from": "face",
+   "measured_hex": "#A07356",
+   "pixels": 2050,
+   "coverage": 0.0024,
+   "assigned_hex": "#B5835C",
+   "deltaE": 9.0
+  }
+ },
+ {
+  "id": "g018",
+  "path": "test_set3/people/g018.jpg",
+  "tone": {
+   "name": "beige skin",
+   "swatch": "#E0C3A3",
+   "L": 74.1,
+   "a": 17.0,
+   "b": 16.0,
+   "ITA": 56.4,
+   "from": "face",
+   "measured_hex": "#DFAA9A",
+   "pixels": 11620,
+   "coverage": 0.0136,
+   "assigned_hex": "#E0C3A3",
+   "deltaE": 14.1
+  }
+ },
+ {
+  "id": "g024",
+  "path": "test_set3/people/g024.jpg",
+  "tone": {
+   "name": "beige skin",
+   "swatch": "#E0C3A3",
+   "L": 76.1,
+   "a": 12.0,
+   "b": 24.0,
+   "ITA": 47.4,
+   "from": "face",
+   "measured_hex": "#E1B390",
+   "pixels": 7705,
+   "coverage": 0.0073,
+   "assigned_hex": "#E0C3A3",
+   "deltaE": 9.0
+  }
+ },
+ {
+  "id": "g027",
+  "path": "test_set3/people/g027.jpg",
+  "tone": {
+   "name": "light tan skin",
+   "swatch": "#C69A72",
+   "L": 60.8,
+   "a": 16.0,
+   "b": 13.0,
+   "ITA": 39.7,
+   "from": "face",
+   "measured_hex": "#B6887C",
+   "pixels": 23797,
+   "coverage": 0.0395,
+   "assigned_hex": "#C69A72",
+   "deltaE": 16.0
+  }
+ },
+ {
+  "id": "g029",
+  "path": "test_set3/people/g029.jpg",
+  "tone": {
+   "name": "light brown skin",
+   "swatch": "#9E6B49",
+   "L": 45.9,
+   "a": 18.0,
+   "b": 23.0,
+   "ITA": -10.2,
+   "from": "face",
+   "measured_hex": "#946047",
+   "pixels": 4501,
+   "coverage": 0.0059,
+   "assigned_hex": "#9E6B49",
+   "deltaE": 5.7
+  }
+ },
+ {
+  "id": "g030",
+  "path": "test_set3/people/g030.jpg",
+  "tone": {
+   "name": "light tan skin",
+   "swatch": "#C69A72",
+   "L": 59.2,
+   "a": 21.0,
+   "b": 28.0,
+   "ITA": 18.2,
+   "from": "face",
+   "measured_hex": "#BF805E",
+   "pixels": 45386,
+   "coverage": 0.0433,
+   "assigned_hex": "#C69A72",
+   "deltaE": 12.5
+  }
+ }
+]

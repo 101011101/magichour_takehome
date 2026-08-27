@@ -32,3 +32,6 @@ v2/runs/crop_screen/*
 # it out of git avoids permanently publishing try-ons of identifiable people to a
 # public repo, which is the repo owner's call rather than a default.
 v2/report/
+
+# --- V3 run outputs: same rule as V2. Images regenerable; JSON audits tracked.
+v3/runs/**/*.jpg

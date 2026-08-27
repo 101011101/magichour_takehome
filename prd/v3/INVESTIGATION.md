@@ -1,98 +1,74 @@
 # V3 general investigation — what is actually wrong
 
-Opened 2026-08-26. The general investigation document under
-[SCHEMA.md](SCHEMA.md): the diagnosis every sub-investigation stands on. It says what
-is wrong and by what mechanism, and it is where the `v3.x` split is drawn from. It
-reports no sub-investigation's outcome — when one lands, this file gains a link.
-
-Evidence bundle: [`v3/artefacts/`](../../v3/artefacts/). Side-by-side page:
-[`v3/report/artefacts.html`](../../v3/report/artefacts.html).
-
-[V3's brief](README.md) says "V3's job is the four failures." This document says what
-the four failures *are*, at the level of the pixel and the mechanism, because the
-answer changes which of the three candidate shapes is worth building first.
+The general investigation document under [SCHEMA.md](SCHEMA.md): the shared ground every
+sub-investigation stands on. It carries **the vocabulary** and **the model-level
+mechanism**, and it maps which `v3.x` owns which question. Case detail, numbers and
+outcomes live in the sub-investigations and are linked, never repeated here.
 
 ---
 
-## 1. The headline: three of the four are not artefacts
+## 1. What V3 is investigating
 
-The word "artefact" is doing damage. Measured over the same 38 sets, `v223_vlm_eval.csv`
-records the VLM `artefact` prompt returning **CLEAN on all 114 outputs — including
-every human `fail`**. V2 wrote the conclusion down and V3 has not absorbed it:
+[The brief](README.md) says "V3's job is the four failures." Looking at the four frames
+says the brief is describing them wrongly: only one is a render artefact, two are the
+model returning the input unchanged, and one is a garment rendered with the wrong
+geometry. They share a cause, and the cause is in the reference rather than in the model.
 
-> our failures are not artefacts — they are competent photographs of the wrong thing.
+That reframing is what the sub-investigations are drawn from. It is established in
+[v3.0](v3.0/EXPERIMENT.md) and summarised in one line: **klein reproduces whatever the
+reference's boundary contains, and where the reference contains no legible garment it
+reproduces nothing at all.**
 
-Looking at the four frames confirms it. Only one is a render defect.
+## 2. Vocabulary: three bands, named by what reached the output
 
-| set | hair | what BC_klein produced | class |
-|---|---|---|---|
-| `HD_p023` | 16.9% | person unchanged, still in the floral kimono. SSIM vs the person input **0.982** — the degenerate IF = 0 / IP = 10 point, [§3.3](#33-the-no-op-is-a-named-failure-mode-and-4-steps-is-why) | **returns the input unchanged** |
-| `HD_p023+p019` | 16.9% | cream fleece jacket kept, collar mildly restyled, garment not transferred | **near no-op** |
-| `dualuse_navy_peacoat_onmodel+p012` | 14.0% | cardigan transferred, but the **stand collar is deleted and the neck stretched** | **garment geometry** |
-| `p015+p007` | 4.5% | correct sleeveless tee, but the **armhole hem dissolves into the shoulder** instead of terminating | **render artefact** |
+Working vocabulary for V3, extending V2's "attention deficit". Every failure seen so far
+sits in one of three bands, and the bands are defined by **what arrived in the output
+relative to the garment** — which is observable — rather than by attention, **which we
+have never actually looked at.** That caveat is load-bearing: no attention map has been
+inspected in this project. "Attention" is inherited descriptive vocabulary from V2's
+descent hypothesis, not a measured mechanism, and it should not harden into one without
+someone opening the model.
 
-This matters because a de-artefacting pass — a realism model, an inpaint, a second
-edit — repairs the fourth row and does nothing for the first three. V2 already
-measured that: `artifact_fix = 3.00` in 14 of 14 batches, and "no global realism pass
-has ever repaired an artifact" (`prd/v2/v2.1/RESULTS.md`).
+| band | what it means | seen in |
+|---|---|---|
+| **over-attention** | **More arrived than the garment.** Content that is not the garment survives into the output: the reference's *pose*, its cut boundary, its matte fringe, its wearer's identity, its background | `p012`'s deleted collar, `p007`'s dissolved hem, V2's identity import at −0.933 margin, the uncropped baseline's background damage |
+| **questionable attention** | **Some of the garment arrived, incompletely.** The right region is attended and resolved wrong or half — a shallow collar where a stand collar belongs, a hue that shifted, a pattern that smoothed | most of the 6 BC and 17 QX `ok` verdicts; the whole extraction-drift table |
+| **failed attention** | **None of the garment arrived.** The reference contributed no usable signal at the timesteps that decide layout, and the output is the input | `HD_p023`, both pairings |
 
-## 2. The common cause: klein copies the cut boundary
+### 2.1 Over-attention has two sources, and they are the mechanism split
 
-klein treats image 2 as a picture to imitate, not as a garment to parse. Whatever the
-subtractive crop leaves at its boundary is reproduced in the output. Every one of the
-four is that same fact at a different severity.
+A subtractive arm gets more than the garment by **copying** what was beside it — the
+mechanism in [§3.1](#31-image-2-is-not-conditioning-it-is-clean-tokens-in-the-same-attention-sequence).
+A regenerative arm gets more than the garment by **inventing** what was not there: QX's
+one outright failure is white speckle and scratch marks strewn across a plain black tee
+that exist in neither input. Same band, opposite mechanism — which is precisely why the
+two arms have no shared failures, and why the band is worth naming above the mechanism
+rather than below it.
 
-**`p012` — the boundary becomes garment geometry.** The BC crop
-([`04_ref_BC_klein.jpg`](../../v3/artefacts/cases/dualuse_navy_peacoat_onmodel+p012/04_ref_BC_klein.jpg))
-cuts flat through the neck just above the cardigan's stand collar and leaves a bare
-neck stub. The output has no collar and an elongated neck. This is the over-cut V2
-already logged — "head removal takes the collar on several worn references (p004, p022
-clearest)" (`prd/v2/RESEARCH_LOG.md`, 2026-08-15) — showing up in a *shipped* arm
-rather than in a discarded crop iteration.
+### 2.2 Pose belongs in over-attention, and there is prior evidence for it
 
-The mechanism behind all three is [§3](#3-why-this-happens-at-the-model-level): image 2
-is not conditioning, it is a block of clean tokens sitting in the same attention sequence
-as the pixels being generated, spatially registered against them. There is nothing in the
-token stream that marks an edge as annotation rather than photograph. Worth sitting with:
-the field's convergent fix for this class of leak is a **coarser, dilated,
-shape-uninformative** boundary, and V2.2.1 spent its effort making ours *sharper* — jag
-0.427 to 0.048. That was right for edge quality and it is wrong for this failure.
+The reference's *pose* is over-attention's most legible case: a seated profile, a torso
+lean, crossed arms. V2 has a measurement pointing at it that was never followed up — the
+routing probe built from **torso lean, non-frontality and garment share** put 6 of 8
+BC_klein-weak garments in its top 8, against a 36% baseline
+(`prd/v2/v2.2/RESULTS.md`). That is not proof that pose transfers; it is evidence that
+non-frontality of the *reference* predicts failure of the *edit*, which is the same claim
+one step back. **[inferred]**
 
-**`p007` — the boundary becomes a texture artefact.** The BC crop carries a soft alpha
-fringe at the shoulder. In the output the sleeve hem fades into skin rather than ending
-at a hem, with a thin hard contour above it. PHEAD and QX both render a defined armhole
-with folds on the same set.
+### 2.3 The question the vocabulary makes askable
 
-**`p023` — the boundary destroys the garment entirely.** After the head cut, the crop
-is a seated figure in profile: mostly thigh and arm, garment a minority of the frame,
-no recognisable garment silhouette. klein cannot find a garment in it and returns the
-input. **The same reference, two different people, two no-ops** — the two bundles'
-reference files are byte-identical — so failure is a property of the garment, not the
-pairing, exactly as v2.2 concluded.
+QX raises the floor by forcing the reference into a canonical view, and in doing so
+discards drape, rotation and pattern — **×0.51 of the edge detail on average across the
+cohort** ([v3.0/RESULTS §4](v3.0/RESULTS.md#4-why-qx-rescues-all-four-and-what-it-costs)). So the trade is not
+"cleaner reference versus messier reference". It is:
 
-The aggravating factor on `p023` is colour: the tank and skirt are **nude, the same
-value as the bare arms and thigh they are worn on**. After the head cut the crop is a
-low-contrast field of skin-toned pixels with no silhouette in it. That is a different
-hard case from `p021`'s hair, and the two are grouped together in V2 only because both
-are `HD_` references.
+> **Is the original context worth more than the interference it causes?**
 
-`p023` is also one of the two references with **furniture in the subject matte** (the
-stool), a defect `prd/v2/ARCHITECTURE.md` lists as known and unfixed.
-
-### A measurement that did not survive
-
-The obvious quantification — a subtractive crop should be mostly bare skin where a
-regenerated one is mostly garment — was tried over all four references (chroma skin
-test, YCrCb, recorded in [`manifest.json`](../../v3/artefacts/manifest.json)) and
-**carries no signal**. On `p023` every reference scores 0.91–0.99 *including QX's*,
-because a coarse chroma box cannot tell a nude tank from the arm wearing it. On `p007`
-QX scores a clean 0%, but its non-white pixels are near-achromatic cream, so anything
-would. Only `p012`, a dark navy, gives a number that means what it looks like. The
-number stays in the manifest, labelled; the argument rests on the frames.
-
-Global SSIM is similarly narrow. It isolates the `HD_p023` no-op at 0.982 and separates
-nothing else — on the other three cases all four arms sit within 0.01 of each other,
-failure and rescue alike.
+The literature has the same tension on record. **[documented]** MV-VTON finds a single
+garment view "insufficient" and uses two (<https://arxiv.org/abs/2404.17364>); RefTon
+argues a worn reference reveals drape and translucency a flat shot cannot
+(<https://arxiv.org/html/2511.00956v6>). **[documented absence]** Nobody has measured the
+trade for a reference like ours, because nobody feeds a reference like ours.
 
 ## 3. Why this happens at the model level
 
@@ -401,131 +377,230 @@ result with nothing to cite.
    reported as an ablation — LOKI measures the analogous +9.8 points, but not for
    artefact prompting.
 
-## 4. `p015+p007` is the expensive one, and the bald pass caused it
+## 4. Prompt construction — what is measured, and what is not
 
-Hair damage on `p007` is **4.5%**. The bald pass buys nothing at that level, and
-**PHEAD — the same crop without the bald call, one generation instead of two — is
-`perfect` on this set.** The second klein call re-rendered the reference, softened its
-edges, and the softened edge is what got copied.
+Researched 2026-08-27, prompted by the suspicion that
+[v3.1's mannequin prompt](v3.1/EXPERIMENT.md) had grown too long. Shared ground because
+it governs any prompt written anywhere in V3, not just the mannequin one. Labels per
+[SCHEMA.md §4](SCHEMA.md).
 
-BC_klein's cheapest failure is caused by a call it did not need to make.
+### 4.1 Length is not the problem. Constraint count is
 
-This is a direct argument against one line in the V3 brief. V3 drops the router as
-complexity, but the hair-damage figure is a number the CPU mask stack already computes,
-and choosing PHEAD over BC_klein *removes* a generation. It is one model, one `if`, and
-one or two calls — inside the constraint, not outside it. The V2 sweep
-([ARCHITECTURE §9.2](../v2/ARCHITECTURE.md)) puts a cut-point of 0.05–0.09 at
-**29 / 6 / 3 at 1.55 generations** against flat BC's 28 / 6 / 4 at 2.000: better *and*
-22% cheaper.
+**[documented]** Prompt length degrades adherence only far above where we operate.
+DetailMaster measures degradation at ~285-token prompts
+(<https://arxiv.org/html/2505.16915>); PRISM finds adherence "dropping by up to 30% for
+those over 500 tokens" (<https://arxiv.org/html/2604.18258v1>). **Our 94-word prompt is
+about 120 tokens.**
 
-Standing caveat, carried from [the lock list](../v2/LOCK.md#3-known-wrong-at-the-moment-of-freeze):
-0.08 was chosen by reading the same 38 sets it is scored on, and the held-out
-recomputation over all 48 references was never run. "Drop the router" and "make the
-bald pass unconditional" are separate decisions, and only the second one costs
-`p015+p007`.
+**[documented]** And there is no token ceiling to hit. Qwen-Image-Edit's encoder is a
+frozen **Qwen2.5-VL-7B-Instruct** (<https://arxiv.org/abs/2508.02324>), and in diffusers
+the edit pipeline's `max_sequence_length` is **validated and then never applied** — the
+truncation slice exists only in the text-to-image pipeline. The practical ceiling is the
+VLM context window, i.e. thousands of tokens. For comparison CLIP caps at 77 and
+Long-CLIP measured "the actual effective length is even less than 20"
+(<https://arxiv.org/abs/2403.15378>).
 
-## 5. Why QX rescues all four, and what it costs
+**[documented]** What does collapse is *joint* satisfaction of many constraints at once.
+ConceptMix scores "all k+1 concepts satisfied" and DALL·E 3 goes 0.83 → 0.50 → 0.17 →
+0.08 from k=1 to k=7 (<https://arxiv.org/abs/2408.14339>). **[inferred]** But that is
+close to conjunction arithmetic: at 90% per constraint, seven constraints gives 0.48 with
+no interaction at all. ConceptMix does not test whether the drop exceeds independence.
+So this is evidence our seven-constraint prompt will rarely be perfect — **not** evidence
+that length is the mechanism.
 
-QX (`QX_qwen_p1`, Qwen-Image-Edit-2511 regenerating the garment onto white) takes all
-four: perfect, perfect, perfect, ok. The mechanism is the whole explanation — a
-regenerated reference **has no cut boundary to copy and no fringe to reproduce**. There
-is nothing at its edges that came from a mask.
+**[documented]** The mechanism for individual dropped constraints is attention
+competition, not length: Attend-and-Excite documents "catastrophic neglect, where one or
+more of the subjects of the prompt are not generated", caused by cross-attention mass
+concentrating on a subset of tokens (<https://arxiv.org/abs/2301.13826>). **[inferred]**
+Adding a clause that introduces a *new noun* is therefore more costly than adding one that
+does not — the noun enters the competition.
 
-That is also why it cannot fail the way BC_klein fails, and why V2 measured **zero
-overlap** between their failure sets.
+### 4.2 Compound instructions cost fidelity, not compliance — and that is our result
 
-The cost is measured and it is not small (`prd/v2/v2.2/EXPERIMENT.md` §AC-A):
+**[documented]** Complex-Edit fuses 1 to 8 atomic instructions into one and measures both
+axes (<https://arxiv.org/abs/2504.13143>). Going C1 → C8 costs instruction-following
+between **−0.11 and −0.81** of 10 for most models, and costs identity preservation
+**−1.8 to −2.4**. Its conclusion: increasing complexity "mainly affects editing models'
+perceptual quality (especially in identity preservation), while its impact on instruction
+following varies across models."
 
-- hue drift **21–30° on every reference**; worst `p009` at **88°**
-- texture retention as low as **×0.23** (`p030`'s pattern)
-- only `p019` and `p028` come back clean
-- "No extraction arm currently returns the same garment"
-- and the trap worth stating out loud: the reviewer *preferred* the Qwen crops by eye
-  while they were losing half the pattern. Cleanest-looking and most faithful pull apart.
+**This names what v3.1's ablation found.** Going from 27 to 94 words did not make the
+model *disobey* — every level produced a mannequin, cropped correctly, on white. What it
+did was let the garment take the mannequin's colour on `p029`. **That is a fidelity loss,
+not an instruction-following loss**, which is exactly the axis the literature says
+compound prompts damage. → [v3.1/RESULTS §3c.11](v3.1/RESULTS.md#3c11-prompt-length-ablation-most-of-p73-is-doing-nothing-and-some-of-it-hurts)
 
-That trade is what 20 perfect / 17 ok / 1 fail means. QX raises the floor and lowers the
-ceiling.
+**[inferred], and it is a warning about our own scoring:** if a review protocol scores
+"did it follow the instruction", it is measuring the axis that degrades *least*. For a
+try-on, fidelity **is** the product.
 
-It is also not an invention of ours. Regenerating the garment onto a clean ground before
-try-on is a published task — **Virtual Try-Off** — whose stated purpose is enabling
-person-to-person try-on, with a measured gain for exactly this case, and no published
-system feeds a worn head-removed torso the way we do. See
-[§3.5](#35-our-qx-arm-is-a-published-preprocessing-step). That is the strongest external
-validation in this investigation and it changes the standing of shape 1 in §7. **V3 shape 1 — klein as the extractor — inherits the trade, and klein's own
-extraction quality is unmeasured; QX's numbers are Qwen's.** Measure drift on klein
-extractions with `v2/build/extraction_drift.py` before treating shape 1 as a
-substitution.
+### 4.3 For Qwen specifically, do not split the prompt across calls
 
-## 6. Nothing caught any of them
+**[documented]** EdiVal-Agent ran the A/B directly — three instructions as three turns
+versus one compound prompt — and **tested Qwen-Image-Edit by name**
+(<https://arxiv.org/abs/2509.13399>):
 
-For all four BC_klein failures, from `v223_vlm_eval.csv`:
+| model | 3 sequential calls | 1 compound prompt |
+|---|---|---|
+| Nano Banana | **35.4** | 28.1 |
+| GPT-Image-1 | **38.4** | 28.8 |
+| **Qwen-Image-Edit** | 22.6 | **27.6** |
+| FLUX.1-Kontext-dev | 16.6 | **19.6** |
 
-| set | artefact | usable | tryon | transfer | garment | human |
-|---|---|---|---|---|---|---|
-| `p015+p007` | CLEAN | OK | **PERFECT** | OK | OK | fail |
-| `dualuse_navy_peacoat_onmodel+p012` | CLEAN | OK | **PERFECT** | FAIL | FAIL | fail |
-| `HD_p023` | CLEAN | OK | **PERFECT** | OK | FAIL | fail |
-| `HD_p023+p019` | CLEAN | OK | **PERFECT** | OK | FAIL | fail |
+Qwen had "the sharpest per-turn degradation of any model tested", attributed to exposure
+bias — single-turn editors are trained on real images, not on their own outputs. The
+paper: "when exposure bias is pronounced, compressing instructions into a single, complex
+prompt can perform better; see Qwen-Image-Edit."
 
-The `tryon` prompt calls every one of them perfect. The `artefact` prompt is dead across
-the whole eval. The mechanism, and why the reference-shown prompt is the only one that
-works, is [§3.6](#36-why-the-vlm-saw-nothing) — briefly: showing the garment converts the
-task from low-level perceptual quality assessment, where sub-10B VLMs are near-useless,
-into semantic matching against a referent, where they are competent. The same blind spot
-is measured for our deterministic metrics: SSIM's rank correlation with human judgement of
-**clothing fit is 0.056**. Only `garment` — the one prompt that is shown the reference — fires, on
-three of four, and the case it misses is `p015+p007`: **the one true render artefact is
-the one every instrument is blindest to.**
+**This contradicts the most common practitioner advice.** Black Forest Labs' own skills
+repo says to "refine through multiple small edits rather than one large one"
+(<https://github.com/black-forest-labs/skills>) — written for FLUX, and EdiVal contradicts
+it for FLUX.1-Kontext too. **[documented]** Complex-Edit found the same independently:
+"CoT-inspired sequential editing yields much worse results than directly executing complex
+instructions."
 
-V3 ships no gate at all, so this failure would ship silently. One CPU SSIM against the
-person input costs nothing, needs no model, and catches `HD_p023` at 0.982. It is not a
-harness.
+**[documented]** Reformatting the compound prompt buys nothing either. EdiVal tested four
+variants on Qwen-Image-Edit: plain concatenation **27.6**, shuffled 27.1, "first…then…
+last" connectors 26.9, and appending "keep {objects} unchanged" **25.9** — the single
+most-repeated community tip measured **worst** of the four.
 
-## 7. What this implies for the three candidate shapes
+**[documented]** The better use of a second call is **Best-of-N**: Complex-Edit found
+"sequential editing with Best-of-N can still barely surpass direct editing without
+Best-of-N". Within a two-call budget, two parallel samples plus a selector is
+better-evidenced than two sequential edit passes.
 
-The `v3.x` split is not fixed yet. What follows re-orders the brief's own candidate
-list against the mechanism above; it is not the investigation map.
+### 4.4 Negations should be rewritten as positives
 
-Re-ordering [the brief's table](README.md#4-the-one-thing-to-carry-over-qxs-mechanism)
-against the mechanism above:
+Every first-party source agrees, and our prompts are full of them.
 
-| shape | verdict |
-|---|---|
-| **3 — regenerate only the damage** | Promoted to first. All four failures are boundary defects, and the mask stack already knows where the boundary is. `p023` is the honest test: RESULTS.md flags that its damage is *open, not enclosed*, which makes inpainting a category error — so this either fixes `p012`/`p007` and fails `p023`, or the framing is wrong. Either outcome is information. |
-| **1 — klein as extractor** | Promoted on the research, qualified on the evidence. The *stage* is standard practice with a published quantified gain for person-to-person ([§3.5](#35-our-qx-arm-is-a-published-preprocessing-step)); what is unmeasured is klein's ability to perform it. Score it on drift (hue, pattern retention), not only on tier, or it reproduces QX's ceiling without QX's provenance. |
-| **2 — one prompt, bald *and* isolate** | Last. It asks a 4-step distilled call to do two edits, and `p023` shows that a single confusing reference is enough to make klein no-op. |
+**[documented]** BFL: "FLUX does NOT support negative prompts. Always describe what you
+WANT" and "writing 'a person without glasses' causes the model to focus on 'glasses' and
+often generate exactly what you were trying to avoid"
+(<https://docs.bfl.ml/guides/prompting_unified_technical.md>). Google: use "semantic
+negative prompts" — "instead of saying 'no cars,' describe the intended scene positively"
+(<https://ai.google.dev/gemini-api/docs/image-generation>). Even Imagen, the one vendor
+endorsing negatives, wants bare nouns in a separate field and says "avoid instructive
+language or words like 'no' or 'don't'".
 
-Plus two that are not on the brief's list and cost nothing:
+**[documented]** **Qwen's own prompt rewriter forbids negation outright** — rule 8 of
+`polish_prompt_zh` in <https://github.com/QwenLM/Qwen-Image>: the rewritten prompt must
+contain no negation words, and if the user says "no chopsticks", the word "chopsticks"
+must not appear at all.
 
-- **Make the bald pass conditional on hair damage.** Free, already measured, and the only
-  change that touches `p015+p007`.
-- **Fix the reference before fixing the model.** Six of the mitigations in
-  [§3.7](#37-mitigations-that-have-a-mechanism-behind-them) are CPU-side reference
-  preparation — do not cut through the garment, erode rather than feather, pad and centre,
-  upsample toward the 1024² cap that BFL's code will never reach on its own — and two are
-  prompt wording. None costs a generation. The cropper was built to make the boundary
-  *cleaner*; the mechanism says it should be made *less informative*, which is a different
-  objective and has never been tested here.
+**[documented]** The encoder-side cause: "Vision-Language Models Do Not Understand
+Negation" (CVPR 2025, NegBench, 79k examples) finds VLMs "struggle significantly with
+negation, often performing at chance level" (<https://arxiv.org/abs/2501.09425>). Qwen
+conditions on a VLM, so this applies directly. A human study on DALL·E 3 found **no
+logical operator reached >50% agreement**, with negation among the worst
+(<https://arxiv.org/abs/2411.17066>).
 
----
+**[documented]** Negation is properly a score-space operation, not a lexical one —
+Composable Diffusion defines NOT over the score function
+(<https://arxiv.org/abs/2206.01714>), which is why `negative_prompt` exists as a separate
+parameter. fal exposes `negative_prompt` on `qwen-image-edit-2511` but **does not expose
+`true_cfg_scale`**, which is what drives the negative branch in Qwen's reference config —
+**[inferred]** so it should be verified to do anything before being relied on.
 
-## 8. Evidence paths
+### 4.5 Aspect ratio drives subject duplication
 
-| what | where |
-|---|---|
-| Assembled bundle, four cases, inputs + intermediates + all four arms | [`v3/artefacts/cases/`](../../v3/artefacts/cases/) |
-| Manifest with provenance and metrics | [`v3/artefacts/manifest.json`](../../v3/artefacts/manifest.json) |
-| Rebuild the bundle | [`v3/artefacts/build_bundle.py`](../../v3/artefacts/build_bundle.py) |
-| Side-by-side page | [`v3/report/artefacts.html`](../../v3/report/artefacts.html) |
-| Human tiers, all 38 sets × 3 arms | `v223_perfect_tier_picks.csv` |
-| VLM verdicts, 570 rows | `v223_vlm_eval.csv` |
-| Every arm failure with its rescue | `v2/report/failures.html` |
-| Extraction drift, QX's cost | `prd/v2/v2.2/EXPERIMENT.md` §AC-A; images `v2/runs/acab/` |
-| Crop mechanism and its known defects | `v2/build/garment_crop.py` header; `prd/v2/DECISIONS.md` §3 |
+**[documented]** ScaleCrafter reports that sampling at an aspect ratio away from training
+produces "object repetition", and that a 512×1024 sample from a 512-trained model shows it
+from the ratio change alone (<https://arxiv.org/abs/2310.07702>). ElasticDiffusion reports
+models "replicate textures and body parts" at non-square ratios and generate "multiple
+dogs for an input prompt 'one dog'" (<https://arxiv.org/abs/2311.18822>).
 
-## 9. One correction to the V2 record
+**[documented absence]** All of that is **U-Net text-to-image**. Both mechanistic
+explanations — convolutional receptive field, U-Net deep-block features — are U-Net
+specific and do not transfer to Qwen-Image-Edit's MMDiT backbone without new evidence.
+**Nobody publishes a duplication rate against aspect ratio for any editing model.**
 
-[`prd/v2/EDGE_CASE_INDEX.md`](../v2/EDGE_CASE_INDEX.md) §3c states "BC_klein's only two
-failures (`HD_p023`, `HD_p023+p019`)". There are **four**. `v223_perfect_tier_picks.csv`
-and `v2/report/failures.html` both agree on four; §3c is wrong. The V3 brief's
-"V3's job is the four failures" is right, and the index it points at is not.
+**[documented — measured here]** So it was tested directly, and it holds for our case.
+→ [v3.1/RESULTS §3c.12](v3.1/RESULTS.md#3c12-aspect-ratio-causes-the-duplication-and-padding-fixes-it)
+
+**[documented]** And the obvious prompt-side fix is unlikely to work: T2ICountBench finds
+"all state-of-the-art diffusion models fail to generate the correct number of objects" and
+that "prompt refinement … generally do[es] not improve counting accuracy"
+(<https://arxiv.org/abs/2503.06884>). **Adding "exactly one mannequin" is the intervention
+the literature says fails.**
+
+### 4.6 Two things to check about fal before trusting any of this
+
+**[documented]** Qwen's README states: "editing results may become unstable if prompt
+rewriting is not used. Therefore, we strongly recommend applying prompt rewriting", and
+Alibaba's own API defaults `prompt_extend: true`.
+
+**Checked 2026-08-27. fal does not rewrite. Our prompts reach the model verbatim.**
+
+Two pieces of evidence:
+
+1. **[documented]** The endpoint schema exposes **13 parameters and none of them is prompt
+   rewriting** — no `prompt_extend`, no `enable_prompt_expansion`, no toggle of any kind
+   (`https://fal.ai/api/openapi/queue/openapi.json?endpoint_id=fal-ai/qwen-image-edit-2511`).
+   Alibaba's own API has `prompt_extend` and defaults it true; fal has no such field.
+2. **[documented — measured here]** Two separate calls, identical prompt, identical seed,
+   returned **byte-identical images**: max pixel difference 0, 0.00% of pixels differing.
+   An LLM rewriter in the path would have to be deterministic *and* cached to produce
+   that.
+
+**[inferred]** The second test rules out *stochastic* rewriting rather than rewriting
+altogether — a temperature-0 rewriter would also be reproducible. Combined with the
+absent parameter, no rewriting is the reasonable reading.
+
+**What follows, both ways:**
+
+- **Good:** every prompt result in v3.1 measured **our wording**, not a rewriter's
+  paraphrase of it. The prompt-iteration record stands.
+- **Bad:** we are running the configuration Qwen itself calls unstable, and unlike
+  Alibaba's API there is no switch to turn it on. Any instability attributed to a clause
+  may be the instability Qwen warns about.
+
+**Also found in the schema, and directly useful:** `image_size` — *"If None, uses the
+input image dimensions."* We have been passing None, which is why a landscape input
+produced a landscape canvas and the duplication in
+[v3.1/RESULTS §3c.12](v3.1/RESULTS.md#3c12-aspect-ratio-causes-the-duplication-and-padding-fixes-it).
+**Setting it explicitly is a second fix for that, and one that costs no padding.**
+
+### 4.7 What the literature does not answer
+
+- **Whether restating or overlapping constraints helps or hurts.** Nothing measures it.
+  Redundancy has to be ablated on our own set.
+- **Whether Qwen-Image-Edit-2511** — as opposed to the original — degrades with instruction
+  count. EdiVal tested the original, and 2511's headline change is precisely "mitigate
+  image drift, improved character consistency", i.e. the exposure-bias axis. Its
+  sequential-versus-compound tradeoff may have moved. **[speculative]**
+- **Positional weighting.** BFL and fal both assert that earlier tokens dominate; **no
+  paper measures it.** The defensible version is the attention-competition finding in
+  §4.1, which is about *which* tokens win, not *where* they sit.
+
+## 5. The map
+
+| | question | status |
+|---|---|---|
+| **[v3.0](v3.0/EXPERIMENT.md)** | What are BC_klein's and QX's failure and success conditions, and what causes them? | **open** — diagnosis complete, [new run specified](v3.0/TEST.md) |
+| **[v3.1](v3.1/RESULTS.md)** | How far does the ghost-mannequin reference get? | **open** — `p7` chosen from eight prompts, 28 extractions and 28 edits on disk, unscored |
+| **[v3.2](v3.2/EXPERIMENT.md)** | Does running the klein edit twice recover what PHEAD loses by skipping the bald pass? | **concluded, negative** — the second pass persists PHEAD's defects rather than correcting them; unusable on all 28 |
+
+### 4.1 Closed side-branches
+
+Things tried and dropped before they earned a directory. Kept because a negative result
+is a result, and because the next person will otherwise try them again.
+
+**All-Qwen (`QQ`), 2026-08-26 — dropped.** Qwen extracts, Qwen edits. Held against klein
+with the *identical reference file*, so the only variable was the editor. 28/28 generated
+without endpoint failure and unusable by eye: **Qwen does not hold the person — identity,
+background and framing move together**, where klein keeps the frame. Conclusion: *klein
+is the better editor of the two.* Frames: `v3/runs/v3.0b/gen/*__QQ.jpg`; prompt: `QWEN`
+in `v3/build/run_v30.py`.
+
+One thing it cost nothing to learn and is worth keeping: Qwen-Image-Edit-2511 **accepts
+two input images**. V2 only ever called it with one, so this was unknown rather than
+assumed.
+
+A single smoke frame had shown Qwen holding body shape better than klein where both klein
+arms slimmed the subject. It was labelled *n = 1, not a finding* at the time and did not
+generalise — the worked example of why that label is worth writing down.
+
+`v3.0` owns the whole diagnosis: the four BC_klein failures, QX's single failure and its
+extraction drift, the instruments that missed everything, and the 36-pair run designed to
+turn one-off observations into conditions. Later investigations will be drawn from its
+conclusions, not from this document.

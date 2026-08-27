@@ -1,0 +1,52 @@
+{
+ "seconds": {
+  "A1bbox": 0.695,
+  "A2mask256": 0.246,
+  "A4biref1024": 108.874,
+  "A5biref1024h": 1.405
+ },
+ "roughness": {
+  "p021": {
+   "A0raw": 1.0,
+   "A1bbox": 1.0,
+   "A2mask256": 1.666,
+   "A4biref1024": 1.383,
+   "A5biref1024h": 1.853
+  },
+  "p023": {
+   "A0raw": 1.0,
+   "A1bbox": 1.0,
+   "A2mask256": 1.288,
+   "A4biref1024": 1.325,
+   "A5biref1024h": 1.226
+  },
+  "dualuse_zendaya_white_blazer_skirt": {
+   "A0raw": 1.0,
+   "A1bbox": 1.0,
+   "A2mask256": 1.661,
+   "A4biref1024": 1.231,
+   "A5biref1024h": 1.285
+  },
+  "p019": {
+   "A0raw": 1.0,
+   "A1bbox": 1.049,
+   "A2mask256": 1.227,
+   "A4biref1024": 1.153,
+   "A5biref1024h": 1.143
+  },
+  "p028": {
+   "A0raw": 1.0,
+   "A1bbox": 1.0,
+   "A2mask256": 1.125,
+   "A4biref1024": 1.104,
+   "A5biref1024h": 1.104
+  },
+  "p009": {
+   "A0raw": 1.0,
+   "A1bbox": 1.0,
+   "A2mask256": 1.257,
+   "A4biref1024": 1.251,
+   "A5biref1024h": 1.215
+  }
+ }
+}

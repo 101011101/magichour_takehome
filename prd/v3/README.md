@@ -40,8 +40,17 @@ eight differently.
 
 One clarification worth holding, because it is easy to lose: **the CPU mask stack that
 produces the crop is not the harness.** BiRefNet_lite, SCHP ATR, MediaPipe Selfie
-Multiclass and MediaPipe Pose — ~1.9s, no GPU, no API call, all commercially licensed.
-That is preprocessing, and it stays.
+Multiclass and MediaPipe Pose — no API call, all commercially licensed. That is
+preprocessing, and it stays.
+
+> **Correction, 2026-08-27: the "~1.9s" this document previously claimed is wrong.**
+> It came from `v2/runs/crop_screen/crop_log.csv`, where every row is annotated
+> `birefnet_cached` and `runtime_s` has a median of 0.50 s — it is the refinement stages
+> measured **with the matte already computed**. Cold, BiRefNet_lite at 1024² takes **~49 s
+> on the development machine** (Intel i3-8100, 4 cores, AVX2, CPU execution provider).
+> On the GPU the deployment target already needs for klein it is tens of milliseconds.
+> Quote it as a GPU number or as a cold-CPU number, but not as 1.9s.
+> See [v3.1/RESULTS §3c.20](v3.1/RESULTS.md#3c20-the-99-seconds-is-a-laptop-artefact-and-v2s-19-s-figure-is-wrong).
 
 ## 3. The starting point
 
@@ -105,8 +114,9 @@ scoreboard; a change that fixes two of them without losing a perfect is a win.
 
 **Report cost and latency at ~1 MP with no upscale**, per the production framing:
 current measured figures are klein at **5.3s per generation**, so flat BC_klein is
-~10.6s of generation plus ~1.9s of CPU preprocessing, at roughly **$30 per 1000
-images** on fal. Self-hosted numbers replace these before anything is claimed.
+~10.6s of generation plus CPU preprocessing, at roughly **$30 per 1000 images** on fal.
+Self-hosted numbers replace these before anything is claimed — and **the preprocessing
+term is currently unquantified**, see the correction in §2.
 
 ## 6. Inherited debts
 
@@ -130,7 +140,10 @@ Nothing built. This document is the brief.
 | | |
 |---|---|
 | Baseline | flat BC_klein, 28 / 6 / 4, 2.000 generations — already runnable via `tryon-v2 --hair-threshold 0` |
-| General investigation | [INVESTIGATION.md](INVESTIGATION.md) — the diagnosis every sub-investigation stands on: what each of the four failures is, and why three are not artefacts. Evidence bundle `v3/artefacts/`, page `v3/report/artefacts.html` |
+| General investigation | [INVESTIGATION.md](INVESTIGATION.md) — shared ground: the vocabulary, and the model-level mechanism |
 | Document schema | [SCHEMA.md](SCHEMA.md) — how V3's documents are laid out and what each is allowed to contain |
-| First experiment | shape 1, klein-as-extractor, on the four BC_klein failures |
+| **v3.0 — open** | [failure and success conditions of BC_klein and QX](v3.0/EXPERIMENT.md) · [results](v3.0/RESULTS.md) · [36-pair matrix](v3.0/TEST.md). Evidence bundle `v3/artefacts/`, page `v3/report/artefacts.html` |
+| **v3.1 — open** | how far does the ghost-mannequin reference get? [results](v3.1/RESULTS.md) — `p7` chosen, 28 extractions + 28 edits on disk. Experiment doc written after scoring |
+| **v3.2 — concluded, negative** | does running the klein edit twice recover what PHEAD loses by skipping the bald pass? **No** — PHEAD's defects persist through the second pass, not corrected. [experiment](v3.2/EXPERIMENT.md) · [matrix](v3.2/TEST.md) · [results](v3.2/RESULTS.md) |
+| First experiment | ~~shape 1, klein-as-extractor, on the four BC_klein failures~~ — superseded: shape 1 is partly already measured, see [v3.0 link 4](v3.0/EXPERIMENT.md#4-what-does-qx-actually-cost) |
 | Not yet decided | whether the crop's CPU stack is vendored or kept as a service |
