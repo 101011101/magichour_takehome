@@ -6,6 +6,7 @@ Deterministic, no API calls, safe to re-run. Edit this, never the HTML.
 """
 import json
 import os
+import sys
 
 from PIL import Image
 
@@ -26,7 +27,7 @@ CASES = {
     "p015+p007": {
         "title": "p015 + p007",
         "hair": "4.5%",
-        "klass": "render artefact",
+        "klass": "over-attention · render artefact",
         "zoom_note": "The armhole, same crop on all three. BC_klein dissolves the sleeve "
                      "edge into the shoulder as a soft translucent wedge; PHEAD ends it at a "
                      "defined edge and QX at a fold. This is the only one of the four that is a "
@@ -40,7 +41,7 @@ CASES = {
     "dualuse_navy_peacoat_onmodel+p012": {
         "title": "navy peacoat model + p012",
         "hair": "14.0%",
-        "klass": "garment geometry",
+        "klass": "over-attention · garment geometry",
         "zoom_note": "The collar, on all three outputs at the same crop. BC_klein has "
                      "none and a stretched bare neck; PHEAD manages a shallow band; QX renders "
                      "the full stand collar. The three references differ in exactly that way — "
@@ -53,7 +54,7 @@ CASES = {
     "HD_p023": {
         "title": "floral kimono model + p023",
         "hair": "16.9%",
-        "klass": "no-op",
+        "klass": "failed attention · returns the input",
         "zoom_note": "Nothing to magnify — the output is the input. BC_klein and PHEAD both "
                      "leave her in her own kimono; QX, same person, same seed, transfers the "
                      "tank and skirt.",
@@ -66,7 +67,7 @@ CASES = {
     "HD_p023+p019": {
         "title": "p019 + p023",
         "hair": "16.9%",
-        "klass": "near no-op",
+        "klass": "failed attention · near-unchanged",
         "zoom_note": "BC_klein and PHEAD both leave the person in her own cream turtleneck. "
                      "QX is the only arm that moves the neckline at all, and it still reaches "
                      "only ok — the one set in 38 no arm solves.",
@@ -125,6 +126,7 @@ def main():
     out.append("<table><tr><th>set</th><th>hair</th><th>defect class</th><th>BC_klein</th>"
                "<th>PHEAD</th><th>QX</th><th>SSIM vs person</th></tr>"
                + "".join(rows) + "</table>")
+    out.append(VOCAB)
     out.append(MECHANISM)
 
     for sid in ORDER:
@@ -167,6 +169,7 @@ def main():
 
         out.append(f"<div class='paths'>bundle: <code>v3/artefacts/cases/{sid}/</code></div>")
 
+    out.append(qx_section(man))
     out.append(TAIL)
     out.append("</div>" + LIGHTBOX)
     open(os.path.join(REPORT, "artefacts.html"), "w").write("\n".join(out))
@@ -175,6 +178,212 @@ def main():
 
 def slug(s):
     return s.replace("+", "_").replace(".", "_")
+
+
+# QX's own failure surface. The one outright fail, then the drift cohort.
+QX_FAIL = {"set_id": "p017+p002", "person": "p017", "garment": "p002"}
+DRIFT_SHOW = [
+    ("p009", "worst recolour of the cohort — the garment comes back a different hue"),
+    ("p030", "worst texture loss — the pattern is smoothed away by every arm"),
+    ("p021", "the opposite failure — chroma and pattern are <i>invented</i>, not lost"),
+    ("p012", "one of the four rescues: QX took this to perfect while losing half the pattern"),
+]
+
+
+def drift_table():
+    """Live from v2/runs/acab via the V2 triage script. Not a verdict — a rank."""
+    import glob
+    sys.path.insert(0, os.path.join(REPO, "v2", "build"))
+    import extraction_drift as D
+    import cv2
+    rows, agg = [], {}
+    stems = sorted({os.path.basename(f).split("__")[0]
+                    for f in glob.glob(os.path.join(REPO, "v2/runs/acab/*__CTRL.jpg"))})
+    for st in stems:
+        ctrl = cv2.imread(os.path.join(REPO, f"v2/runs/acab/{st}__CTRL.jpg"))
+        row = {"ref": st}
+        for arm in ("QX_qwen_p1", "QX_kleind", "QX_kleinb"):
+            f = os.path.join(REPO, f"v2/runs/acab/{st}__{arm}.jpg")
+            if not os.path.exists(f):
+                continue
+            d = D.compare(ctrl, cv2.imread(f))
+            if d:
+                row[arm] = d
+                agg.setdefault(arm, []).append(d)
+        rows.append(row)
+    return rows, agg
+
+
+def qx_section(man):
+    """QX's own failure surface: the one outright fail, then extraction drift."""
+    import csv as _csv
+    meta = {r["stem"]: r["src_path"] for r in _csv.DictReader(
+        open(os.path.join(REPO, "v2/runs/crop_screen/crop_log.csv")))}
+    o = [QX_HEAD]
+
+    # 1. The single outright failure.
+    sid, per, g = QX_FAIL["set_id"], QX_FAIL["person"], QX_FAIL["garment"]
+    src = {"person": meta[per], "garment": meta[g],
+           "qxref": f"v2/runs/acab/{g}__QX_qwen_p1.jpg",
+           "bcref": f"v2/runs/amt/{g}__BC_klein.jpg",
+           "qxout": f"v2/runs/amt/gen/{sid}__QX_qwen_p1.jpg",
+           "bcout": f"v2/runs/amt/gen/{sid}__BC_klein.jpg",
+           "pheadout": f"v2/runs/amt/gen/{sid}__PHEAD.jpg"}
+
+    def w(k, box=None, width=440):
+        return web(os.path.join(REPO, src[k]), f"qxfail_{k}.jpg", box, width)
+
+    o.append("<h2 id='qxfail'><span class='m'>invented detail</span>p017 + p002"
+             "<span class='sub'> · hair 1.9% · QX <b class='bad'>fail</b>, "
+             "both subtractive arms <b class='good'>perfect</b></span></h2>")
+    o.append("<p class='note'>QX's only outright failure in 38 sets, and it is on a set "
+             "neither subtractive arm has any trouble with. The garment is a plain black "
+             "tee. <b>QX's reference invents a whole ghost figure — tee, jeans and "
+             "sneakers — and the output arrives covered in white speckle and scratch marks "
+             "that exist nowhere in the input.</b> This is the arm the V2 harness escalated "
+             "to <i>in order to route around AI artefacts</i>, and it produced the only "
+             "true speckle artefact in the evaluation.</p>")
+    o.append("<div class='lab'>the reference chain</div>")
+    o.append("<div class='strip s4'>"
+             + fig(w("person"), "person (input)")
+             + fig(w("garment"), "garment reference")
+             + fig(w("bcref"), "BC_klein ref — subtracted", "win")
+             + fig(w("qxref"), "QX ref — regenerated", "fail") + "</div>")
+    o.append("<div class='lab'>the three arms</div>")
+    o.append("<div class='strip s3'>"
+             + fig(w("qxout"), "QX — fail", "fail")
+             + fig(w("bcout"), "BC_klein — perfect", "win")
+             + fig(w("pheadout"), "PHEAD — perfect", "win") + "</div>")
+    z = (0.25, 0.20, 0.85, 0.62)
+    o.append("<div class='lab'>magnified — the chest. The speckle is not in the garment, "
+             "not in the person, and not in the reference. It was invented at the edit "
+             "call, on a garment with nothing in it to invent from.</div>")
+    o.append("<div class='strip s3'>"
+             + fig(web(os.path.join(REPO, src["qxout"]), "qxfail_z_qx.jpg", z, 620),
+                   "QX — fail", "fail")
+             + fig(web(os.path.join(REPO, src["bcout"]), "qxfail_z_bc.jpg", z, 620),
+                   "BC_klein — perfect", "win")
+             + fig(web(os.path.join(REPO, src["qxref"]), "qxfail_z_ref.jpg",
+                       (0.15, 0.05, 0.85, 0.45), 620), "QX reference, same region") + "</div>")
+
+    # 2. Extraction drift across the cohort.
+    rows, agg = drift_table()
+    o.append(DRIFT_HEAD)
+    hdr = ("<tr><th>reference</th><th>dL</th><th>dC</th><th>dHue</th><th>pattern</th>"
+           "<th>dL</th><th>dC</th><th>dHue</th><th>pattern</th>"
+           "<th>dL</th><th>dC</th><th>dHue</th><th>pattern</th></tr>")
+    body = []
+    for r in rows:
+        cells = []
+        for arm in ("QX_qwen_p1", "QX_kleind", "QX_kleinb"):
+            d = r.get(arm)
+            if not d:
+                cells.append("<td colspan='4' class='dim'>—</td>")
+                continue
+            cells.append(
+                f"<td class='{'bad' if abs(d['dL']) > 12 else ''}'>{d['dL']:+.0f}</td>"
+                f"<td class='{'bad' if abs(d['dC']) > 10 else ''}'>{d['dC']:+.0f}</td>"
+                f"<td class='{'bad' if d['dHue'] > 25 else ''}'>{d['dHue']:.0f}&deg;</td>"
+                f"<td class='{'bad' if d['dEdge'] < 0.5 or d['dEdge'] > 1.9 else ''}'>"
+                f"&times;{d['dEdge']:.2f}</td>")
+        body.append(f"<tr><td>{r['ref'][:38]}</td>" + "".join(cells) + "</tr>")
+    means = []
+    for arm in ("QX_qwen_p1", "QX_kleind", "QX_kleinb"):
+        ds = agg.get(arm, [])
+        n = len(ds) or 1
+        means.append(
+            f"<td><b>{sum(abs(d['dL']) for d in ds)/n:.0f}</b></td>"
+            f"<td><b>{sum(abs(d['dC']) for d in ds)/n:.0f}</b></td>"
+            f"<td><b>{sum(d['dHue'] for d in ds)/n:.0f}&deg;</b></td>"
+            f"<td><b>&times;{sum(d['dEdge'] for d in ds)/n:.2f}</b></td>")
+    o.append("<table class='drift'><tr><th></th>"
+             "<th colspan='4'>QX_qwen_p1 (shipped)</th>"
+             "<th colspan='4'>klein distilled</th>"
+             "<th colspan='4'>klein base</th></tr>"
+             + hdr + "".join(body)
+             + "<tr class='tot'><td>mean |drift|</td>" + "".join(means) + "</tr></table>")
+    o.append(DRIFT_NOTE)
+
+    # 3. Drift, shown.
+    for ref, why in DRIFT_SHOW:
+        o.append(f"<div class='lab'><b>{ref}</b> — {why}</div>")
+        panels = [("v2/runs/acab/%s__CTRL.jpg" % ref, "control crop — the truth", ""),
+                  ("v2/runs/acab/%s__QX_qwen_p1.jpg" % ref, "QX (Qwen)", "fail"),
+                  ("v2/runs/acab/%s__QX_kleind.jpg" % ref, "klein distilled", ""),
+                  ("v2/runs/acab/%s__QX_kleinb.jpg" % ref, "klein base", "")]
+        strip = []
+        for path, cap, cls in panels:
+            if not os.path.exists(os.path.join(REPO, path)):
+                continue
+            strip.append(fig(web(os.path.join(REPO, path),
+                                 f"drift_{ref}_{cap.split()[0]}.jpg", None, 430), cap, cls))
+        o.append("<div class='strip s4'>" + "".join(strip) + "</div>")
+    return "\n".join(o)
+
+VOCAB = """<h3 style='margin-top:34px'>Three bands, named by what reached the output</h3>
+<p class='note'>Working vocabulary, extending V2's &ldquo;attention deficit&rdquo;. The
+bands are defined by <b>what arrived in the output relative to the garment</b>, which is
+observable, rather than by attention, which we have never looked at.</p>
+<div class='band'>
+<div><b>Over-attention</b>More arrived than the garment. Content that is not the garment
+survives into the output: the reference's <i>pose</i>, its cut boundary, its matte fringe,
+its wearer's identity, its background.<span class='who'>p012 collar · p007 hem · V2's
+identity import at &minus;0.933 margin</span></div>
+<div><b>Questionable attention</b>Some of the garment arrived, incompletely. The right
+region is attended and resolved wrong or half — a shallow collar where a stand collar
+belongs, a hue that shifted, a pattern that smoothed.<span class='who'>most of the 6 BC
+and 17 QX <i>ok</i> verdicts · the whole drift table</span></div>
+<div><b>Failed attention</b>None of the garment arrived. The reference contributed no
+usable signal at the timesteps that decide layout, and the output is the input.
+<span class='who'>HD_p023, both pairings</span></div>
+</div>
+<div class='q'><b>Over-attention has two sources, and they are the subtract/regenerate
+split.</b> A subtractive arm gets more than the garment by <i>copying</i> what was beside
+it. A regenerative arm gets more than the garment by <i>inventing</i> what was not there —
+QX's speckle on a plain black tee. Same band, opposite mechanism, which is exactly why the
+two arms have no shared failures.</div>
+<div class='q'><b>The open question this vocabulary makes askable.</b> QX raises the floor
+by forcing the reference into a canonical view, and in doing so discards drape, rotation
+and pattern — <b>&times;0.51 of the edge detail on average</b>. So: is the original context
+worth more than the interference it causes? The literature has the same tension on record —
+MV-VTON finds a single garment view &ldquo;insufficient&rdquo; and uses two; RefTon argues
+a worn reference reveals drape and translucency a flat shot cannot. Nobody has measured the
+trade for a reference like ours.</div>"""
+
+QX_HEAD = """<h2 style='border-top-width:3px;border-top-color:var(--acc)'>
+<span class='m'>the other side</span>QX's own failures
+<span class='sub'> · 20 perfect / 17 ok / 1 fail</span></h2>
+<p class='note'>Everything above is an argument for QX. This section is the argument
+against it, because <b>V3 proposes to fold QX's mechanism into the single path, and it
+would inherit this too.</b> QX has the highest floor of any arm and the lowest ceiling,
+and the two facts have the same cause: it does not subtract the context, it <i>replaces</i>
+the garment. What comes back is a garment that is cleaner than the crop and is not
+necessarily the same garment.</p>"""
+
+DRIFT_HEAD = """<h2 id='drift'><span class='m'>the ceiling</span>Extraction drift
+<span class='sub'> · 11 references, recomputed live from <code>v2/runs/acab/</code></span></h2>
+<p class='note'>Median lightness, chroma and circular hue shift of the garment pixels
+against the control crop, plus an edge-density ratio that catches a pattern being smoothed
+away or invented. Deliberately dumb statistics, because V2 established that no embedding
+metric can be trusted here — <code>garment_sim</code> scored 0.78 on an output that
+transferred no garment at all. Red is past the flag threshold. <b>This is a rank, not a
+verdict:</b> a changed collar or a moved seam does not show up in any of these columns.</p>
+<p class='note'><b>The third and fourth column groups are V3's shape 1, already run.</b>
+klein was measured as an extractor during V2's AC-A phase and the numbers were never used.
+They do not say what you would expect.</p>"""
+
+DRIFT_NOTE = """<div class='q'><b>klein is the better extractor on hue and pattern, and
+much worse on lightness.</b> Averaged over the cohort: Qwen holds lightness to 12 but
+returns <b>half the edge detail</b> (&times;0.51) and drifts hue 29&deg;; klein distilled
+drifts lightness 27 and hue 27 but keeps &times;0.80 of the detail; klein base keeps
+&times;1.01 — the only arm that neither loses nor invents texture on average — at hue
+21&deg;. Every arm is flagged on 9 or more of 11 references. <b>No extraction arm returns
+the same garment.</b></div>
+<div class='q'>Two failures pull in opposite directions and both matter.
+<code>p030</code> comes back at <b>&times;0.23</b> of its pattern from Qwen — the texture
+is gone. <code>p021</code> comes back from klein base at <b>&times;2.70</b> with chroma
+<b>+42</b> — texture and saturation that were never there. A floor-raiser that invents is
+not obviously safer than a crop that subtracts; it fails somewhere else.</div>"""
 
 
 HEAD = """<title>Why BC_klein needs QX</title>
@@ -225,6 +434,17 @@ figure.win img{outline:2px solid var(--good);outline-offset:-2px}
 figure.win figcaption{color:var(--good);font-weight:700}
 .paths{font-size:11.5px;color:var(--dim);margin:10px 0 0}
 code{background:#1b1b22;padding:1px 5px;border-radius:4px;font-size:12.5px}
+table.drift{font-size:11.5px;width:100%}
+table.drift td,table.drift th{padding:4px 6px}
+table.drift th[colspan]{text-align:center;border-bottom:1px solid var(--line);
+ color:var(--fg);font-size:12px}
+table.drift tr.tot td{border-top:1px solid var(--line);color:var(--fg)}
+td.dim{color:var(--dim)}
+.band{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+@media(max-width:860px){.band{grid-template-columns:1fr}}
+.band div{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:#101014}
+.band b{display:block;font-size:14px;margin-bottom:5px}
+.band .who{font-size:11.5px;color:var(--dim);margin-top:7px}
 #lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:99;
  align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:20px}
 #lb.on{display:flex}#lb img{max-width:95vw;max-height:90vh;object-fit:contain;background:#fff}
@@ -270,6 +490,8 @@ is itself the case restating itself — the garment is the same value as the ski
 so after the head cut the crop is a low-contrast field with no silhouette in it.</p>"""
 
 TAIL = """<h3>What QX costs, and why this is not simply &ldquo;use QX&rdquo;</h3>
+<p class='note'>Shown in full above: <a href='#qxfail'>QX's one outright failure</a> and
+<a href='#drift'>the drift table</a>.</p>
 <p class='note'>QX takes all four: perfect, perfect, perfect, ok. It is also
 <b>20 perfect / 17 ok / 1 fail</b> over the same 38 sets — the lowest ceiling of any arm.
 Regeneration invents detail: hue drifts <b>21&ndash;30&deg; on every reference</b> (worst
@@ -301,7 +523,7 @@ the person input needs no model and catches <code>HD_p023</code> at 0.982.</p>""
 
 LIGHTBOX = """<div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>
 <footer><div class='wrap'>Tiers are one reviewer's absolute judgement, unblinded, n=38, one
-seed. Analysis: <code>prd/v3/INVESTIGATION.md</code>. Bundle and provenance:
+seed. Analysis: <code>prd/v3/v3.0/RESULTS.md</code>. Bundle and provenance:
 <code>v3/artefacts/manifest.json</code>. Click any image for full resolution.</div></footer>
 <script>
 document.addEventListener('click',e=>{const im=e.target.closest('figure img');
