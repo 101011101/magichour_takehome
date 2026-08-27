@@ -1,0 +1,57 @@
+id,role_pool,source_set,source_path,path,pose,body_size,skin_tone,gender,framing,photo_style,hard_case,category,note,hair_frac,face_frac
+p001,people,test_set1,test_set1/people/p001.jpg,test_set3/people/p001.jpg,neutral_standing,slim,light,woman,full_body,,,person,,0.00540,0.00327
+p002,people,test_set1,test_set1/people/p002.jpg,test_set3/people/p002.jpg,neutral_standing,average,medium,man,full_body,,,person,,0.00233,0.00715
+p003,people,test_set1,test_set1/people/p003.jpg,test_set3/people/p003.jpg,neutral_standing,plus_size,dark,woman,full_body,,,person,,0.00644,0.00662
+p004,people,test_set1,test_set1/people/p004.jpg,test_set3/people/p004.jpg,neutral_standing,average,light,man,waist_up,,,person,,0.00258,0.00897
+p005,people,test_set1,test_set1/people/p005.jpg,test_set3/people/p005.jpg,neutral_standing,plus_size,medium,woman,full_body,,,person,,0.00456,0.00516
+p006,people,test_set1,test_set1/people/p006.jpg,test_set3/people/p006.jpg,neutral_standing,slim,dark,man,full_body,,,person,,0.00000,0.00291
+p007,people,test_set1,test_set1/people/p007.jpg,test_set3/people/p007.jpg,neutral_standing,plus_size,light,man,waist_up,,,person,,0.01956,0.03701
+p008,people,test_set1,test_set1/people/p008.jpg,test_set3/people/p008.jpg,neutral_standing,slim,medium,woman,full_body,,,person,,0.00228,0.01006
+p009,people,test_set1,test_set1/people/p009.jpg,test_set3/people/p009.jpg,arms_crossed,average,dark,woman,full_body,,hand_over_torso,person,,0.01593,0.01277
+p010,people,test_set1,test_set1/people/p010.jpg,test_set3/people/p010.jpg,arms_crossed,slim,light,man,full_body,,hand_over_torso,person,,0.00239,0.00599
+p011,people,test_set1,test_set1/people/p011.jpg,test_set3/people/p011.jpg,arms_crossed,plus_size,medium,man,waist_up,,hand_over_torso,person,,0.00000,0.02669
+p012,people,test_set1,test_set1/people/p012.jpg,test_set3/people/p012.jpg,arms_crossed,slim,dark,woman,full_body,,hand_over_torso,person,,0.02040,0.00568
+p013,people,test_set1,test_set1/people/p013.jpg,test_set3/people/p013.jpg,arms_crossed,average,light,woman,waist_up,,hand_over_torso,person,,0.00023,0.01666
+p014,people,test_set1,test_set1/people/p014.jpg,test_set3/people/p014.jpg,arms_crossed,average,medium,man,waist_up,,hand_over_torso,person,,0.02604,0.04119
+p015,people,test_set1,test_set1/people/p015.jpg,test_set3/people/p015.jpg,arms_crossed,plus_size,dark,man,waist_up,,hand_over_torso,person,,0.00000,0.07279
+p016,people,test_set1,test_set1/people/p016.jpg,test_set3/people/p016.jpg,side_profile,slim,light,woman,full_body,,,person,,0.00206,0.00078
+p017,people,test_set1,test_set1/people/p017.jpg,test_set3/people/p017.jpg,three_quarter,plus_size,medium,man,full_body,,,person,,0.00580,0.02564
+p018,people,test_set1,test_set1/people/p018.jpg,test_set3/people/p018.jpg,side_profile,average,dark,man,three_quarter_length,,,person,,0.00286,0.01043
+p019,people,test_set1,test_set1/people/p019.jpg,test_set3/people/p019.jpg,side_profile,plus_size,light,woman,waist_up,,,person,,0.03248,0.02198
+p020,people,test_set1,test_set1/people/p020.jpg,test_set3/people/p020.jpg,side_profile,slim,medium,man,waist_up,warm ambient market light,,person,,0.00720,0.01498
+p021,people,test_set1,test_set1/people/p021.jpg,test_set3/people/p021.jpg,sitting,slim,dark,woman,full_body,,,person,,0.03597,0.00878
+p022,people,test_set1,test_set1/people/p022.jpg,test_set3/people/p022.jpg,sitting,average,light,man,full_body,,,person,,0.00357,0.00472
+p023,people,test_set1,test_set1/people/p023.jpg,test_set3/people/p023.jpg,sitting,plus_size,medium,woman,waist_up,,,person,,0.06278,0.01071
+p024,people,test_set1,test_set1/people/p024.jpg,test_set3/people/p024.jpg,sitting,average,dark,man,full_body,,,person,,0.00059,0.03001
+p025,people,test_set1,test_set1/people/p025.jpg,test_set3/people/p025.jpg,walking,slim,light,woman,full_body,,,person,,0.00146,0.00334
+p026,people,test_set1,test_set1/people/p026.jpg,test_set3/people/p026.jpg,walking,average,medium,woman,full_body,,,person,,0.00669,0.00337
+p027,people,test_set1,test_set1/people/p027.jpg,test_set3/people/p027.jpg,walking,plus_size,dark,man,full_body,,,person,,0.00169,0.00768
+p028,people,test_set1,test_set1/people/p028.jpg,test_set3/people/p028.jpg,arms_raised,plus_size,light,woman,waist_up,,,person,,0.02574,0.00979
+p029,people,test_set1,test_set1/people/p029.jpg,test_set3/people/p029.jpg,holding_object,slim,medium,man,waist_up,,,person,,0.01413,0.01973
+p030,people,test_set1,test_set1/people/p030.jpg,test_set3/people/p030.jpg,arms_raised,average,dark,woman,waist_up,,,person,,0.02987,0.03162
+dualuse_emma_watson_black_blazer_armscrossed,people,test_set2/people,test_set2/people/dualuse_emma_watson_black_blazer_armscrossed.jpg,test_set3/people/dualuse_emma_watson_black_blazer_armscrossed.jpg,,,,,,,,,,0.01638,0.02406
+dualuse_gal_gadot_blue_dress_redcarpet,people,test_set2/people,test_set2/people/dualuse_gal_gadot_blue_dress_redcarpet.jpg,test_set3/people/dualuse_gal_gadot_blue_dress_redcarpet.jpg,,,,,,,,,,0.01984,0.00748
+dualuse_hugh_jackman_grey_suit_outdoor,people,test_set2/people,test_set2/people/dualuse_hugh_jackman_grey_suit_outdoor.jpg,test_set3/people/dualuse_hugh_jackman_grey_suit_outdoor.jpg,,,,,,,,,,0.00416,0.00979
+dualuse_man_black_suit_studio_nonceleb,people,test_set2/people,test_set2/people/dualuse_man_black_suit_studio_nonceleb.jpg,test_set3/people/dualuse_man_black_suit_studio_nonceleb.jpg,,,,,,,,,,0.00227,0.00982
+dualuse_queen_latifah_gown_stage,people,test_set2/people,test_set2/people/dualuse_queen_latifah_gown_stage.jpg,test_set3/people/dualuse_queen_latifah_gown_stage.jpg,,,,,,,,,,0.01993,0.01712
+dualuse_scarlett_johansson_black_dress_backview_night,people,test_set2/people,test_set2/people/dualuse_scarlett_johansson_black_dress_backview_night.avif,test_set3/people/dualuse_scarlett_johansson_black_dress_backview_night.avif,,,,,,,,,,0.01516,0.00926
+dualuse_woman_top_denim_skirt_nonceleb,people,test_set2/people,test_set2/people/dualuse_woman_top_denim_skirt_nonceleb.jpg,test_set3/people/dualuse_woman_top_denim_skirt_nonceleb.jpg,,,,,,,,,,0.02157,0.00705
+dualuse_zendaya_white_blazer_skirt,people,test_set2/people,test_set2/people/dualuse_zendaya_white_blazer_skirt.jpeg,test_set3/people/dualuse_zendaya_white_blazer_skirt.jpeg,,,,,,,,,,0.02123,0.00633
+dualuse_lp_beige_long_coat_menswear,people,test_set2/clothes (on-model),test_set2/clothes/dualuse_lp_beige_long_coat_menswear.webp,test_set3/people/dualuse_lp_beige_long_coat_menswear.webp,,,,,,,,,,0.00189,0.00884
+dualuse_lp_floral_kimono_set,people,test_set2/clothes (on-model),test_set2/clothes/dualuse_lp_floral_kimono_set.webp,test_set3/people/dualuse_lp_floral_kimono_set.webp,,,,,,,,,,0.00084,0.00536
+dualuse_lp_navy_quarterzip_knit_LOWRES,people,test_set2/clothes (on-model),test_set2/clothes/dualuse_lp_navy_quarterzip_knit_LOWRES.avif,test_set3/people/dualuse_lp_navy_quarterzip_knit_LOWRES.avif,,,,,,,,,,0.00565,0.00584
+dualuse_lp_plaid_overcoat_brown_suit,people,test_set2/clothes (on-model),test_set2/clothes/dualuse_lp_plaid_overcoat_brown_suit.jpg,test_set3/people/dualuse_lp_plaid_overcoat_brown_suit.jpg,,,,,,,,,,0.00009,0.00468
+dualuse_navy_peacoat_onmodel,people,test_set2/clothes (on-model),test_set2/clothes/dualuse_navy_peacoat_onmodel.webp,test_set3/people/dualuse_navy_peacoat_onmodel.webp,,,,,,,,,,0.00229,0.00649
+g004,people,test_set1/garments (on-model),test_set1/garments/g004.jpg,test_set3/people/g004.jpg,,,,,,on_model,,tight_top,,0.00343,0.00798
+g005,people,test_set1/garments (on-model),test_set1/garments/g005.jpg,test_set3/people/g005.jpg,,,,,,on_model,graphic_logo,tight_top,,0.00245,0.00854
+g009,people,test_set1/garments (on-model),test_set1/garments/g009.jpg,test_set3/people/g009.jpg,,,,,,on_model,,loose_top,,0.01730,0.00568
+g011,people,test_set1/garments (on-model),test_set1/garments/g011.jpg,test_set3/people/g011.jpg,,,,,,on_model,,dress,,0.00791,0.00714
+g012,people,test_set1/garments (on-model),test_set1/garments/g012.jpg,test_set3/people/g012.jpg,,,,,,on_model,fine_pattern,dress,,0.00871,0.00434
+g013,people,test_set1/garments (on-model),test_set1/garments/g013.jpg,test_set3/people/g013.jpg,,,,,,on_model,fine_pattern,dress,,0.00541,0.00408
+g014,people,test_set1/garments (on-model),test_set1/garments/g014.jpg,test_set3/people/g014.jpg,,,,,,on_model,,dress,,0.00485,0.00671
+g015,people,test_set1/garments (on-model),test_set1/garments/g015.jpg,test_set3/people/g015.jpg,,,,,,on_model,,dress,,0.00000,0.00254
+g018,people,test_set1/garments (on-model),test_set1/garments/g018.jpg,test_set3/people/g018.jpg,,,,,,on_model,open_front,outerwear,,0.03655,0.01393
+g024,people,test_set1/garments (on-model),test_set1/garments/g024.jpg,test_set3/people/g024.jpg,,,,,,on_model,,lower_body,,0.00695,0.00757
+g027,people,test_set1/garments (on-model),test_set1/garments/g027.jpg,test_set3/people/g027.jpg,,,,,,on_model,graphic_text,hard_case,,0.02194,0.04039
+g029,people,test_set1/garments (on-model),test_set1/garments/g029.jpg,test_set3/people/g029.jpg,,,,,,on_model,fine_pattern,hard_case,,0.06154,0.00614
+g030,people,test_set1/garments (on-model),test_set1/garments/g030.jpg,test_set3/people/g030.jpg,,,,,,on_model,texture_sheer,hard_case,,0.05940,0.04427
