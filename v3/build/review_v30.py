@@ -51,10 +51,11 @@ def main():
     global ARMS
     # QQ (all-Qwen) is a closed side-branch; its frames stay on disk, off the page.
     # QMB is v3.1's ghost-mannequin arm and joins the comparison when it exists.
-    if any(k.endswith("|QMB") for k in run.get("outputs", {})):
+    import glob
+    if glob.glob(os.path.join(RUN, "gen", "*__MQ.jpg")):
         ARMS = [("BC", "BC_klein &mdash; subtractive crop"),
                 ("QX", "QX &mdash; isolated on white"),
-                ("QMB", "QMB &mdash; ghost mannequin")]
+                ("MQ", "MQ &mdash; v3.1: A4 crop + p7.3 mannequin")]
 
     groups = {}
     for r in rows:
@@ -94,7 +95,11 @@ def main():
         strip.append(fig(web(os.path.join(RUN, "refs", f"{g}__BC.jpg"), f"{g}__BC.jpg", 400),
                          "BC_klein ref — subtracted"))
         strip.append(fig(web(os.path.join(RUN, "refs", f"{g}__QX.jpg"), f"{g}__QX.jpg", 400),
-                         "QX ref — regenerated"))
+                         "QX ref — isolated on white (incumbent)"))
+        strip.append(fig(web(os.path.join(RUN, "inputs", f"{g}__A4.jpg"),
+                             f"{g}__A4.jpg", 400), "A4 crop — CPU, no call"))
+        strip.append(fig(web(os.path.join(RUN, "refs", f"{g}__MQ.jpg"), f"{g}__MQ.jpg", 400),
+                         "MQ ref — mannequin (ours)"))
         body.append("<div class='strip s4'>" + "".join(strip) + "</div>")
 
         for r in rs:
@@ -155,7 +160,7 @@ h2 .m{font-size:11px;color:var(--dim);font-weight:400;text-transform:uppercase;
 h2 .sub{font-size:13px;color:var(--dim);font-weight:400}
 .lab{font-size:12.5px;color:var(--dim);margin:16px 0 6px}
 .strip{display:grid;gap:5px;margin-bottom:8px}
-.s4{grid-template-columns:repeat(5,1fr)}
+.s4{grid-template-columns:repeat(6,1fr)}
 .s3{grid-template-columns:1fr 1.1fr 1.1fr}
 .s4c{grid-template-columns:.85fr 1fr 1fr 1fr}
 @media(max-width:1100px){.s4c{grid-template-columns:1fr 1fr}}
