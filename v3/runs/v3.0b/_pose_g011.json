@@ -1,0 +1,98 @@
+{
+ "g013__pose.neutral": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. The mannequin stands in a neutral upright pose, feet together.",
+  "colour": "light brown skin",
+  "pose": "neutral",
+  "set_id": "p021+g013",
+  "person": "p021"
+ },
+ "g013__pose.forward": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. The mannequin stands straight and faces forward, weight even on both feet.",
+  "colour": "light brown skin",
+  "pose": "forward",
+  "set_id": "p021+g013",
+  "person": "p021"
+ },
+ "g011__pose.neutral": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. The mannequin stands in a neutral upright pose, feet together.",
+  "colour": "dark beige skin",
+  "pose": "neutral",
+  "set_id": "p019+g011",
+  "person": "p019"
+ },
+ "g011__pose.forward": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. The mannequin stands straight and faces forward, weight even on both feet.",
+  "colour": "dark beige skin",
+  "pose": "forward",
+  "set_id": "p019+g011",
+  "person": "p019"
+ },
+ "g014__pose.neutral": {
+  "prompt": "Show this person's outfit on a tan skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. The mannequin stands in a neutral upright pose, feet together.",
+  "colour": "tan skin",
+  "pose": "neutral",
+  "set_id": "p022+g014",
+  "person": "p022"
+ },
+ "g014__pose.forward": {
+  "prompt": "Show this person's outfit on a tan skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. The mannequin stands straight and faces forward, weight even on both feet.",
+  "colour": "tan skin",
+  "pose": "forward",
+  "set_id": "p022+g014",
+  "person": "p022"
+ },
+ "g030__pose.neutral": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. The mannequin stands in a neutral upright pose, feet together.",
+  "colour": "dark beige skin",
+  "pose": "neutral",
+  "set_id": "p028+g030",
+  "person": "p028"
+ },
+ "g030__pose.forward": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. The mannequin stands straight and faces forward, weight even on both feet.",
+  "colour": "dark beige skin",
+  "pose": "forward",
+  "set_id": "p028+g030",
+  "person": "p028"
+ },
+ "p019__b1_black_tee": {
+  "prompt": "Change the person's clothing to a plain black t-shirt.",
+  "kind": "B1 person only, no reference"
+ },
+ "p019__b1_red_dress": {
+  "prompt": "Change the person's clothing to a red dress.",
+  "kind": "B1 person only, no reference"
+ },
+ "p019__b1_blue_shirt": {
+  "prompt": "Change the person's clothing to a blue button-down shirt.",
+  "kind": "B1 person only, no reference"
+ },
+ "p019__b2_g014": {
+  "prompt": "Dress the person in image 1 in the clothing shown in image 2. Keep the person's face, identity, body and the background exactly as they are.",
+  "kind": "B2 other reference: g014"
+ },
+ "p019__b2_g030": {
+  "prompt": "Dress the person in image 1 in the clothing shown in image 2. Keep the person's face, identity, body and the background exactly as they are.",
+  "kind": "B2 other reference: g030"
+ },
+ "p019__b2_dualuse_man_black_": {
+  "prompt": "Dress the person in image 1 in the clothing shown in image 2. Keep the person's face, identity, body and the background exactly as they are.",
+  "kind": "B2 other reference: dualuse_man_black_suit_studio_nonceleb"
+ },
+ "p019__b3_standard": {
+  "prompt": "Dress the person in image 1 in the clothing shown in image 2. Keep the person's face, identity, body and the background exactly as they are.",
+  "kind": "B3 g011 reference, varied instruction"
+ },
+ "p019__b3_garment_only": {
+  "prompt": "Replace only the clothing in image 1 with the clothing in image 2. The person's skin, face, hair and the background are unchanged.",
+  "kind": "B3 g011 reference, varied instruction"
+ },
+ "p019__b3_terse": {
+  "prompt": "Put the outfit from image 2 onto the person in image 1.",
+  "kind": "B3 g011 reference, varied instruction"
+ },
+ "p019__b3_skin": {
+  "prompt": "Dress the person in image 1 in the clothing shown in image 2. The person's own skin tone and skin texture are unchanged everywhere they are visible.",
+  "kind": "B3 g011 reference, varied instruction"
+ }
+}

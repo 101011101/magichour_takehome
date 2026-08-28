@@ -90,9 +90,13 @@ def tone(bgr):
     h, w = bgr.shape[:2]
     ch = [cv2.resize(m.numpy_view(), (w, h), interpolation=cv2.INTER_LINEAR)
           for m in res.confidence_masks]
-    face, body = ch[G.FACE] > 0.6, ch[G.BODY] > 0.6
-    sel, src = (face, "face") if face.sum() > 500 else (body, "body")
-    if sel.sum() < 300:
+    # FACE only. The body-skin fallback was removed 2026-08-28: body skin is a
+    # different and usually more exposed surface than a face, so a fallback silently
+    # swaps the thing being measured for something else and reports it the same way.
+    # Better to return nothing and let the caller decide than to return a number that
+    # means something else. It had fired on 1 of 56 images.
+    sel, src = ch[G.FACE] > 0.6, "face"
+    if sel.sum() < 500:
         return None
     lab = cv2.cvtColor(bgr, cv2.COLOR_BGR2LAB).astype(np.float32)
     L = float(np.median(lab[..., 0][sel])) * 100.0 / 255.0
