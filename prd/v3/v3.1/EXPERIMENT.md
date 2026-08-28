@@ -472,7 +472,106 @@ and does not matter" rather than "there was no difference".
 
 **36 cells: 6 references × 6 arms, one prompt.** No prompt variation, no second axis.
 
-**Result.** *Nothing run.*
+**Result.** **`A4` chosen, and both cheap arms failed for reasons the metric could not
+see.** `A2` does not merely round the silhouette — it *removes garment*, a segmentation
+error rather than the edge-quality defect V2 rejected it for. `A5` is worse than `A4`:
+removing the head loses the context the hair needs, which **inverts** the hypothesis the
+arm was built on. `A1` and `A4` are the live options; `A4` ships.
+
+**And the cost axis turned out to be the wrong one.** The 99 s is an Intel i3-8100, 4
+cores, AVX2, CPU execution provider — a 2017 entry-level desktop. The deployment target
+runs klein and therefore has a GPU, where BiRefNet_lite is tens of milliseconds. The
+0.28 s versus 99 s choice is a development-loop problem, not a production one.
+→ [RESULTS §3c.20](RESULTS.md#3c20-the-99-seconds-is-a-laptop-artefact-and-v2s-19-s-figure-is-wrong)
+
+### 10 — The arm, end to end **← run, unscored**
+
+`A4` crop + full `p7.3` + Qwen extraction + klein edit, over all 28 pairs of the run-B
+fold. **28/28, no failures.** Two calls, everything before the extraction on CPU.
+
+Comparable to `BC_klein` and `QX` on identical persons, seed and edit prompt — with one
+confound stated in advance: **BC and QX ran on the raw reference path and MQ runs on the
+crop**, so a win belongs to the arm and not to either half of it.
+→ [RESULTS §3c.21](RESULTS.md#3c21-the-arm-assembled-and-run-end-to-end),
+[§3c.22](RESULTS.md#3c22-what-this-comparison-can-and-cannot-claim)
+
+**Result.** *Generated. Not scored — and scoring is now the blocking step for every
+open question in this investigation.*
+
+---
+
+## Phase 5 — the question the colour reader was built to answer
+
+Opened 2026-08-28.
+
+### 11 — Does the mannequin's colour change the try-on? **← run, unscored**
+
+**Why this is embarrassing and worth stating plainly.** Three colour experiments have run
+— `p7.2`, `p7.2b`, `p7.2b+` — and **all three compared references.** 120 colour variants
+sit on disk and **not one had ever been through an edit.** A CPU reader, a ten-step
+ladder, a quantiser and a calibration investigation were built on top of a premise that
+was never tested: that the mannequin's colour changes the *output*.
+
+**How.** Six references × five colours, each taken through **both** calls. The colour word
+is the only variable; prompt shape, seed and edit prompt are fixed.
+
+| arm | colour | what it isolates |
+|---|---|---|
+| `matched` | CPU reader on the paired person | what ships today |
+| `white` | `white skin` | the old `p7` default, and the low-amplitude case on pale garments |
+| `grey` | `grey` | achromatic, **person-independent — needs no reader at all** |
+| `black` | `black skin` | the other achromatic extreme |
+| `opposite` | the ladder step furthest in lightness from `matched` | a wrong answer **by construction** |
+
+`opposite` is there so a null result cannot be explained away. If the two colours compared
+happened to be similar, "no difference" would be uninformative; furthest-by-lightness
+removes that escape.
+
+**The six references** span the failures and the successes: `g011` (the colour failure —
+beige coat, dark mannequin, textures merged), `g013` (the other MQ failure), `zendaya`
+(white garment, the white-on-white case), `man_black_suit` (black garment), `g014` (plain
+blue, MQ perfect — the control), `g030` (gold sequin, high chroma).
+
+**The outcome that would matter most is a null one.** If the five output columns are
+indistinguishable, **the entire colour apparatus is machinery attached to something that
+does not affect the product** — the reader, the ladder, the quantisation and the
+calibration defect in [RESULTS §3c.25](RESULTS.md#3c25-p019s-colour-the-read-is-right-and-the-render-is-not)
+can all be deleted in favour of one fixed word. That would be the largest simplification
+available to v3.1 and it is a real possible result, not a rhetorical one.
+
+**Result.** 30 extractions and 30 edits, no failures. Page:
+`v3/report/v31_colour_klein.html`. Reviewed, not tier-scored.
+
+**Colour matters, and it matters in a way the experiment was not designed to find.** The
+colour word does not only set the mannequin's colour — **it decides what kind of object is
+rendered.** `grey`, `white skin` and `black skin` name plausible mannequin materials and
+produce a neutral, static form. `light brown skin` names something that is not a
+manufactured object, so the model renders **a person** — and people have poses, strides and
+a second leg for the edit to reconcile. **`p021`'s "extra leg" is downstream of a colour
+word.**
+
+That folds the pose question into the colour question: they were never independent.
+→ [RESULTS §3c.28](RESULTS.md#3c28-the-colour-word-does-not-only-set-colour-it-decides-what-kind-of-object-is-rendered)
+
+**The null result did not happen**, so the colour apparatus is not deleted — but the
+argument for simplifying it got stronger, not weaker. `grey` or `black` satisfies every
+constraint discovered so far simultaneously, and needs no reader. **The reader's remaining
+justification is contrast against the garment, not resemblance to the person** — which
+needs no face and was what §3c.25 said the rule should have been.
+
+**Still open:** `g011`'s texture merge is **not** fixed by colour, which weakens the
+leading hypothesis for it and leaves it without a candidate cause.
+
+### 12 — The body-skin fallback, removed
+
+The tone reader fell back to **body skin** when it could not find a face. Body skin is a
+different and usually more exposed surface than a face, so the fallback **silently
+substituted the thing being measured and reported it identically** — the caller could not
+tell which had happened.
+
+Removed 2026-08-28. The reader now returns nothing rather than something else, and the
+caller decides. It had fired on **1 of 56** images; face-only now reads 55 of 56, with
+`p016` returning nothing.
 
 ---
 

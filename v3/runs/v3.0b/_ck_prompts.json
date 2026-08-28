@@ -1,0 +1,272 @@
+{
+ "dualuse_man_black_suit_studio_nonceleb|matched": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "black skin",
+  "arm": "matched",
+  "person": "p006",
+  "set_id": "p006+dualuse_man_black_suit_studio_nonceleb",
+  "matched": "black skin",
+  "why": "black garment - the black-on-black case"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|white": {
+  "prompt": "Show this person's outfit on a white skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "white skin",
+  "arm": "white",
+  "person": "p006",
+  "set_id": "p006+dualuse_man_black_suit_studio_nonceleb",
+  "matched": "black skin",
+  "why": "black garment - the black-on-black case"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|grey": {
+  "prompt": "Show this person's outfit on a grey mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "grey",
+  "arm": "grey",
+  "person": "p006",
+  "set_id": "p006+dualuse_man_black_suit_studio_nonceleb",
+  "matched": "black skin",
+  "why": "black garment - the black-on-black case"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|black": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "black skin",
+  "arm": "black",
+  "person": "p006",
+  "set_id": "p006+dualuse_man_black_suit_studio_nonceleb",
+  "matched": "black skin",
+  "why": "black garment - the black-on-black case"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|opposite": {
+  "prompt": "Show this person's outfit on a pale skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "pale skin",
+  "arm": "opposite",
+  "person": "p006",
+  "set_id": "p006+dualuse_man_black_suit_studio_nonceleb",
+  "matched": "black skin",
+  "why": "black garment - the black-on-black case"
+ },
+ "dualuse_zendaya_white_blazer_skirt|matched": {
+  "prompt": "Show this person's outfit on a tan skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "tan skin",
+  "arm": "matched",
+  "person": "p010",
+  "set_id": "p010+dualuse_zendaya_white_blazer_skirt",
+  "matched": "tan skin",
+  "why": "white garment - the white-on-white case"
+ },
+ "dualuse_zendaya_white_blazer_skirt|white": {
+  "prompt": "Show this person's outfit on a white skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "white skin",
+  "arm": "white",
+  "person": "p010",
+  "set_id": "p010+dualuse_zendaya_white_blazer_skirt",
+  "matched": "tan skin",
+  "why": "white garment - the white-on-white case"
+ },
+ "dualuse_zendaya_white_blazer_skirt|grey": {
+  "prompt": "Show this person's outfit on a grey mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "grey",
+  "arm": "grey",
+  "person": "p010",
+  "set_id": "p010+dualuse_zendaya_white_blazer_skirt",
+  "matched": "tan skin",
+  "why": "white garment - the white-on-white case"
+ },
+ "dualuse_zendaya_white_blazer_skirt|black": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "black skin",
+  "arm": "black",
+  "person": "p010",
+  "set_id": "p010+dualuse_zendaya_white_blazer_skirt",
+  "matched": "tan skin",
+  "why": "white garment - the white-on-white case"
+ },
+ "dualuse_zendaya_white_blazer_skirt|opposite": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "black skin",
+  "arm": "opposite",
+  "person": "p010",
+  "set_id": "p010+dualuse_zendaya_white_blazer_skirt",
+  "matched": "tan skin",
+  "why": "white garment - the white-on-white case"
+ },
+ "g011|matched": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "dark beige skin",
+  "arm": "matched",
+  "person": "p019",
+  "set_id": "p019+g011",
+  "matched": "dark beige skin",
+  "why": "the colour failure: beige coat on the wearer, dark mannequin, textures merged"
+ },
+ "g011|white": {
+  "prompt": "Show this person's outfit on a white skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "white skin",
+  "arm": "white",
+  "person": "p019",
+  "set_id": "p019+g011",
+  "matched": "dark beige skin",
+  "why": "the colour failure: beige coat on the wearer, dark mannequin, textures merged"
+ },
+ "g011|grey": {
+  "prompt": "Show this person's outfit on a grey mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "grey",
+  "arm": "grey",
+  "person": "p019",
+  "set_id": "p019+g011",
+  "matched": "dark beige skin",
+  "why": "the colour failure: beige coat on the wearer, dark mannequin, textures merged"
+ },
+ "g011|black": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "black skin",
+  "arm": "black",
+  "person": "p019",
+  "set_id": "p019+g011",
+  "matched": "dark beige skin",
+  "why": "the colour failure: beige coat on the wearer, dark mannequin, textures merged"
+ },
+ "g011|opposite": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "black skin",
+  "arm": "opposite",
+  "person": "p019",
+  "set_id": "p019+g011",
+  "matched": "dark beige skin",
+  "why": "the colour failure: beige coat on the wearer, dark mannequin, textures merged"
+ },
+ "g013|matched": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "light brown skin",
+  "arm": "matched",
+  "person": "p021",
+  "set_id": "p021+g013",
+  "matched": "light brown skin",
+  "why": "the other MQ failure, and a patterned garment"
+ },
+ "g013|white": {
+  "prompt": "Show this person's outfit on a white skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "white skin",
+  "arm": "white",
+  "person": "p021",
+  "set_id": "p021+g013",
+  "matched": "light brown skin",
+  "why": "the other MQ failure, and a patterned garment"
+ },
+ "g013|grey": {
+  "prompt": "Show this person's outfit on a grey mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "grey",
+  "arm": "grey",
+  "person": "p021",
+  "set_id": "p021+g013",
+  "matched": "light brown skin",
+  "why": "the other MQ failure, and a patterned garment"
+ },
+ "g013|black": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "black skin",
+  "arm": "black",
+  "person": "p021",
+  "set_id": "p021+g013",
+  "matched": "light brown skin",
+  "why": "the other MQ failure, and a patterned garment"
+ },
+ "g013|opposite": {
+  "prompt": "Show this person's outfit on a pale skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "pale skin",
+  "arm": "opposite",
+  "person": "p021",
+  "set_id": "p021+g013",
+  "matched": "light brown skin",
+  "why": "the other MQ failure, and a patterned garment"
+ },
+ "g014|matched": {
+  "prompt": "Show this person's outfit on a tan skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "tan skin",
+  "arm": "matched",
+  "person": "p022",
+  "set_id": "p022+g014",
+  "matched": "tan skin",
+  "why": "plain blue dress, MQ perfect - the control"
+ },
+ "g014|white": {
+  "prompt": "Show this person's outfit on a white skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "white skin",
+  "arm": "white",
+  "person": "p022",
+  "set_id": "p022+g014",
+  "matched": "tan skin",
+  "why": "plain blue dress, MQ perfect - the control"
+ },
+ "g014|grey": {
+  "prompt": "Show this person's outfit on a grey mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "grey",
+  "arm": "grey",
+  "person": "p022",
+  "set_id": "p022+g014",
+  "matched": "tan skin",
+  "why": "plain blue dress, MQ perfect - the control"
+ },
+ "g014|black": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "black skin",
+  "arm": "black",
+  "person": "p022",
+  "set_id": "p022+g014",
+  "matched": "tan skin",
+  "why": "plain blue dress, MQ perfect - the control"
+ },
+ "g014|opposite": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet.",
+  "colour": "black skin",
+  "arm": "opposite",
+  "person": "p022",
+  "set_id": "p022+g014",
+  "matched": "tan skin",
+  "why": "plain blue dress, MQ perfect - the control"
+ },
+ "g030|matched": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "dark beige skin",
+  "arm": "matched",
+  "person": "p028",
+  "set_id": "p028+g030",
+  "matched": "dark beige skin",
+  "why": "gold sequin, MQ perfect - a high-chroma garment"
+ },
+ "g030|white": {
+  "prompt": "Show this person's outfit on a white skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "white skin",
+  "arm": "white",
+  "person": "p028",
+  "set_id": "p028+g030",
+  "matched": "dark beige skin",
+  "why": "gold sequin, MQ perfect - a high-chroma garment"
+ },
+ "g030|grey": {
+  "prompt": "Show this person's outfit on a grey mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "grey",
+  "arm": "grey",
+  "person": "p028",
+  "set_id": "p028+g030",
+  "matched": "dark beige skin",
+  "why": "gold sequin, MQ perfect - a high-chroma garment"
+ },
+ "g030|black": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "black skin",
+  "arm": "black",
+  "person": "p028",
+  "set_id": "p028+g030",
+  "matched": "dark beige skin",
+  "why": "gold sequin, MQ perfect - a high-chroma garment"
+ },
+ "g030|opposite": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip.",
+  "colour": "black skin",
+  "arm": "opposite",
+  "person": "p028",
+  "set_id": "p028+g030",
+  "matched": "dark beige skin",
+  "why": "gold sequin, MQ perfect - a high-chroma garment"
+ }
+}
