@@ -46,6 +46,17 @@ figure.win img{outline:2px solid var(--good);outline-offset:-2px}
 figure.win figcaption{color:var(--good);font-weight:700}
 .paths{font-size:11.5px;color:var(--dim);margin:10px 0 0}
 code{background:#1b1b22;padding:1px 5px;border-radius:4px;font-size:12.5px}
+table.drift{font-size:11.5px;width:100%}
+table.drift td,table.drift th{padding:4px 6px}
+table.drift th[colspan]{text-align:center;border-bottom:1px solid var(--line);
+ color:var(--fg);font-size:12px}
+table.drift tr.tot td{border-top:1px solid var(--line);color:var(--fg)}
+td.dim{color:var(--dim)}
+.band{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+@media(max-width:860px){.band{grid-template-columns:1fr}}
+.band div{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:#101014}
+.band b{display:block;font-size:14px;margin-bottom:5px}
+.band .who{font-size:11.5px;color:var(--dim);margin-top:7px}
 #lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:99;
  align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:20px}
 #lb.on{display:flex}#lb img{max-width:95vw;max-height:90vh;object-fit:contain;background:#fff}
@@ -67,7 +78,36 @@ a flat neck cut becomes a missing collar, an alpha fringe becomes a hem that dis
 crop with no garment silhouette left in it produces no edit at all. QX regenerates the garment
 onto white, so its reference has no cut boundary to copy. That is the entire reason the two
 arms have <b>zero overlapping failures</b>.</div>
-<table><tr><th>set</th><th>hair</th><th>defect class</th><th>BC_klein</th><th>PHEAD</th><th>QX</th><th>SSIM vs person</th></tr><tr><td><a href='#p015_p007'>p015 + p007</a></td><td>4.5%</td><td class='l'>render artefact</td><td class='bad'>fail</td><td class='mid'>perfect</td><td class='good'>perfect</td><td>0.576</td></tr><tr><td><a href='#dualuse_navy_peacoat_onmodel_p012'>navy peacoat model + p012</a></td><td>14.0%</td><td class='l'>garment geometry</td><td class='bad'>fail</td><td class='bad'>fail</td><td class='good'>perfect</td><td>0.879</td></tr><tr><td><a href='#HD_p023'>floral kimono model + p023</a></td><td>16.9%</td><td class='l'>no-op</td><td class='bad'>fail</td><td class='bad'>fail</td><td class='good'>perfect</td><td>0.982</td></tr><tr><td><a href='#HD_p023_p019'>p019 + p023</a></td><td>16.9%</td><td class='l'>near no-op</td><td class='bad'>fail</td><td class='bad'>fail</td><td class='mid'>ok</td><td>0.879</td></tr></table>
+<table><tr><th>set</th><th>hair</th><th>defect class</th><th>BC_klein</th><th>PHEAD</th><th>QX</th><th>SSIM vs person</th></tr><tr><td><a href='#p015_p007'>p015 + p007</a></td><td>4.5%</td><td class='l'>over-attention · render artefact</td><td class='bad'>fail</td><td class='mid'>perfect</td><td class='good'>perfect</td><td>0.576</td></tr><tr><td><a href='#dualuse_navy_peacoat_onmodel_p012'>navy peacoat model + p012</a></td><td>14.0%</td><td class='l'>over-attention · garment geometry</td><td class='bad'>fail</td><td class='bad'>fail</td><td class='good'>perfect</td><td>0.879</td></tr><tr><td><a href='#HD_p023'>floral kimono model + p023</a></td><td>16.9%</td><td class='l'>failed attention · returns the input</td><td class='bad'>fail</td><td class='bad'>fail</td><td class='good'>perfect</td><td>0.982</td></tr><tr><td><a href='#HD_p023_p019'>p019 + p023</a></td><td>16.9%</td><td class='l'>failed attention · near-unchanged</td><td class='bad'>fail</td><td class='bad'>fail</td><td class='mid'>ok</td><td>0.879</td></tr></table>
+<h3 style='margin-top:34px'>Three bands, named by what reached the output</h3>
+<p class='note'>Working vocabulary, extending V2's &ldquo;attention deficit&rdquo;. The
+bands are defined by <b>what arrived in the output relative to the garment</b>, which is
+observable, rather than by attention, which we have never looked at.</p>
+<div class='band'>
+<div><b>Over-attention</b>More arrived than the garment. Content that is not the garment
+survives into the output: the reference's <i>pose</i>, its cut boundary, its matte fringe,
+its wearer's identity, its background.<span class='who'>p012 collar · p007 hem · V2's
+identity import at &minus;0.933 margin</span></div>
+<div><b>Questionable attention</b>Some of the garment arrived, incompletely. The right
+region is attended and resolved wrong or half — a shallow collar where a stand collar
+belongs, a hue that shifted, a pattern that smoothed.<span class='who'>most of the 6 BC
+and 17 QX <i>ok</i> verdicts · the whole drift table</span></div>
+<div><b>Failed attention</b>None of the garment arrived. The reference contributed no
+usable signal at the timesteps that decide layout, and the output is the input.
+<span class='who'>HD_p023, both pairings</span></div>
+</div>
+<div class='q'><b>Over-attention has two sources, and they are the subtract/regenerate
+split.</b> A subtractive arm gets more than the garment by <i>copying</i> what was beside
+it. A regenerative arm gets more than the garment by <i>inventing</i> what was not there —
+QX's speckle on a plain black tee. Same band, opposite mechanism, which is exactly why the
+two arms have no shared failures.</div>
+<div class='q'><b>The open question this vocabulary makes askable.</b> QX raises the floor
+by forcing the reference into a canonical view, and in doing so discards drape, rotation
+and pattern — <b>&times;0.51 of the edge detail on average</b>. So: is the original context
+worth more than the interference it causes? The literature has the same tension on record —
+MV-VTON finds a single garment view &ldquo;insufficient&rdquo; and uses two; RefTon argues
+a worn reference reveals drape and translucency a flat shot cannot. Nobody has measured the
+trade for a reference like ours.</div>
 <div class='q'>Read the SSIM column first, and then stop reading it.
 <b>HD_p023 at 0.982 is klein handing back the photograph it was given</b> — not a bad edit, no
 edit. That is the only thing this number separates: on the other three cases all four arms sit
@@ -89,7 +129,7 @@ navy, gives a number that means what it looks like. <b>The metric is in the mani
 no signal; the argument on this page rests on the frames.</b> That <code>p023</code> defeats it
 is itself the case restating itself — the garment is the same value as the skin it is worn on,
 so after the head cut the crop is a low-contrast field with no silhouette in it.</p>
-<h2 id='p015_p007'><span class='m'>render artefact</span>p015 + p007<span class='sub'> · hair 4.5% · BC_klein <b class='bad'>fail</b></span></h2>
+<h2 id='p015_p007'><span class='m'>over-attention · render artefact</span>p015 + p007<span class='sub'> · hair 4.5% · BC_klein <b class='bad'>fail</b></span></h2>
 <p class='note'>Hair damage is <b>4.5%</b> — low enough that the bald pass buys nothing, and
         <b>PHEAD, which is the same crop without that call, is perfect on this set</b>. The extra
         klein pass re-rendered the reference and softened its edges, and the softened edge is what
@@ -102,7 +142,7 @@ so after the head cut the crop is a low-contrast field with no silhouette in it.
 <div class='lab'>magnified — The armhole, same crop on all three. BC_klein dissolves the sleeve edge into the shoulder as a soft translucent wedge; PHEAD ends it at a defined edge and QX at a fold. This is the only one of the four that is a render defect in the ordinary sense.</div>
 <div class='strip s3'><figure class='fail'><img src='img/p015_p007_z_BC_klein.jpg' alt='BC_klein — fail'><figcaption>BC_klein — fail</figcaption></figure><figure class='win'><img src='img/p015_p007_z_PHEAD.jpg' alt='PHEAD — perfect'><figcaption>PHEAD — perfect</figcaption></figure><figure class='win'><img src='img/p015_p007_z_QX_qwen_p1.jpg' alt='QX — perfect'><figcaption>QX — perfect</figcaption></figure></div>
 <div class='paths'>bundle: <code>v3/artefacts/cases/p015+p007/</code></div>
-<h2 id='dualuse_navy_peacoat_onmodel_p012'><span class='m'>garment geometry</span>navy peacoat model + p012<span class='sub'> · hair 14.0% · BC_klein <b class='bad'>fail</b></span></h2>
+<h2 id='dualuse_navy_peacoat_onmodel_p012'><span class='m'>over-attention · garment geometry</span>navy peacoat model + p012<span class='sub'> · hair 14.0% · BC_klein <b class='bad'>fail</b></span></h2>
 <p class='note'>The transfer happens; the garment is wrong. This is the over-cut V2 already
         logged — <i>&ldquo;head removal takes the collar on several worn references&rdquo;</i> — appearing
         in a shipped arm rather than in a discarded crop iteration. The boundary of the mask
@@ -114,7 +154,7 @@ so after the head cut the crop is a low-contrast field with no silhouette in it.
 <div class='lab'>magnified — The collar, on all three outputs at the same crop. BC_klein has none and a stretched bare neck; PHEAD manages a shallow band; QX renders the full stand collar. The three references differ in exactly that way — BC's cuts flat through the neck just above the collar and leaves a stub.</div>
 <div class='strip s3'><figure class='fail'><img src='img/dualuse_navy_peacoat_onmodel_p012_z_BC_klein.jpg' alt='BC_klein — fail'><figcaption>BC_klein — fail</figcaption></figure><figure class='fail'><img src='img/dualuse_navy_peacoat_onmodel_p012_z_PHEAD.jpg' alt='PHEAD — fail'><figcaption>PHEAD — fail</figcaption></figure><figure class='win'><img src='img/dualuse_navy_peacoat_onmodel_p012_z_QX_qwen_p1.jpg' alt='QX — perfect'><figcaption>QX — perfect</figcaption></figure></div>
 <div class='paths'>bundle: <code>v3/artefacts/cases/dualuse_navy_peacoat_onmodel+p012/</code></div>
-<h2 id='HD_p023'><span class='m'>no-op</span>floral kimono model + p023<span class='sub'> · hair 16.9% · BC_klein <b class='bad'>fail</b></span></h2>
+<h2 id='HD_p023'><span class='m'>failed attention · returns the input</span>floral kimono model + p023<span class='sub'> · hair 16.9% · BC_klein <b class='bad'>fail</b></span></h2>
 <p class='note'>SSIM against the person input is <b>0.982</b>: klein returned the photograph it
         was given. After the head cut the reference is a seated figure in profile, mostly bare
         arm and thigh, garment a minority of a low-contrast frame — and the garment is
@@ -127,7 +167,7 @@ so after the head cut the crop is a low-contrast field with no silhouette in it.
 <div class='lab'>magnified — Nothing to magnify — the output is the input. BC_klein and PHEAD both leave her in her own kimono; QX, same person, same seed, transfers the tank and skirt.</div>
 <div class='strip s3'><figure class='fail'><img src='img/HD_p023_z_BC_klein.jpg' alt='BC_klein — fail'><figcaption>BC_klein — fail</figcaption></figure><figure class='fail'><img src='img/HD_p023_z_PHEAD.jpg' alt='PHEAD — fail'><figcaption>PHEAD — fail</figcaption></figure><figure class='win'><img src='img/HD_p023_z_QX_qwen_p1.jpg' alt='QX — perfect'><figcaption>QX — perfect</figcaption></figure></div>
 <div class='paths'>bundle: <code>v3/artefacts/cases/HD_p023/</code></div>
-<h2 id='HD_p023_p019'><span class='m'>near no-op</span>p019 + p023<span class='sub'> · hair 16.9% · BC_klein <b class='bad'>fail</b></span></h2>
+<h2 id='HD_p023_p019'><span class='m'>failed attention · near-unchanged</span>p019 + p023<span class='sub'> · hair 16.9% · BC_klein <b class='bad'>fail</b></span></h2>
 <p class='note'>The same reference, a different person, the same outcome: the cream fleece
         jacket stays. <b>Failure is a property of the garment, not the pairing</b> — which is what
         makes it worth fixing at the reference rather than at the output.</p>
@@ -138,7 +178,58 @@ so after the head cut the crop is a low-contrast field with no silhouette in it.
 <div class='lab'>magnified — BC_klein and PHEAD both leave the person in her own cream turtleneck. QX is the only arm that moves the neckline at all, and it still reaches only ok — the one set in 38 no arm solves.</div>
 <div class='strip s3'><figure class='fail'><img src='img/HD_p023_p019_z_BC_klein.jpg' alt='BC_klein — fail'><figcaption>BC_klein — fail</figcaption></figure><figure class='fail'><img src='img/HD_p023_p019_z_PHEAD.jpg' alt='PHEAD — fail'><figcaption>PHEAD — fail</figcaption></figure><figure class=''><img src='img/HD_p023_p019_z_QX_qwen_p1.jpg' alt='QX — ok'><figcaption>QX — ok</figcaption></figure></div>
 <div class='paths'>bundle: <code>v3/artefacts/cases/HD_p023+p019/</code></div>
+<h2 style='border-top-width:3px;border-top-color:var(--acc)'>
+<span class='m'>the other side</span>QX's own failures
+<span class='sub'> · 20 perfect / 17 ok / 1 fail</span></h2>
+<p class='note'>Everything above is an argument for QX. This section is the argument
+against it, because <b>V3 proposes to fold QX's mechanism into the single path, and it
+would inherit this too.</b> QX has the highest floor of any arm and the lowest ceiling,
+and the two facts have the same cause: it does not subtract the context, it <i>replaces</i>
+the garment. What comes back is a garment that is cleaner than the crop and is not
+necessarily the same garment.</p>
+<h2 id='qxfail'><span class='m'>invented detail</span>p017 + p002<span class='sub'> · hair 1.9% · QX <b class='bad'>fail</b>, both subtractive arms <b class='good'>perfect</b></span></h2>
+<p class='note'>QX's only outright failure in 38 sets, and it is on a set neither subtractive arm has any trouble with. The garment is a plain black tee. <b>QX's reference invents a whole ghost figure — tee, jeans and sneakers — and the output arrives covered in white speckle and scratch marks that exist nowhere in the input.</b> This is the arm the V2 harness escalated to <i>in order to route around AI artefacts</i>, and it produced the only true speckle artefact in the evaluation.</p>
+<div class='lab'>the reference chain</div>
+<div class='strip s4'><figure class=''><img src='img/qxfail_person.jpg' alt='person (input)'><figcaption>person (input)</figcaption></figure><figure class=''><img src='img/qxfail_garment.jpg' alt='garment reference'><figcaption>garment reference</figcaption></figure><figure class='win'><img src='img/qxfail_bcref.jpg' alt='BC_klein ref — subtracted'><figcaption>BC_klein ref — subtracted</figcaption></figure><figure class='fail'><img src='img/qxfail_qxref.jpg' alt='QX ref — regenerated'><figcaption>QX ref — regenerated</figcaption></figure></div>
+<div class='lab'>the three arms</div>
+<div class='strip s3'><figure class='fail'><img src='img/qxfail_qxout.jpg' alt='QX — fail'><figcaption>QX — fail</figcaption></figure><figure class='win'><img src='img/qxfail_bcout.jpg' alt='BC_klein — perfect'><figcaption>BC_klein — perfect</figcaption></figure><figure class='win'><img src='img/qxfail_pheadout.jpg' alt='PHEAD — perfect'><figcaption>PHEAD — perfect</figcaption></figure></div>
+<div class='lab'>magnified — the chest. The speckle is not in the garment, not in the person, and not in the reference. It was invented at the edit call, on a garment with nothing in it to invent from.</div>
+<div class='strip s3'><figure class='fail'><img src='img/qxfail_z_qx.jpg' alt='QX — fail'><figcaption>QX — fail</figcaption></figure><figure class='win'><img src='img/qxfail_z_bc.jpg' alt='BC_klein — perfect'><figcaption>BC_klein — perfect</figcaption></figure><figure class=''><img src='img/qxfail_z_ref.jpg' alt='QX reference, same region'><figcaption>QX reference, same region</figcaption></figure></div>
+<h2 id='drift'><span class='m'>the ceiling</span>Extraction drift
+<span class='sub'> · 11 references, recomputed live from <code>v2/runs/acab/</code></span></h2>
+<p class='note'>Median lightness, chroma and circular hue shift of the garment pixels
+against the control crop, plus an edge-density ratio that catches a pattern being smoothed
+away or invented. Deliberately dumb statistics, because V2 established that no embedding
+metric can be trusted here — <code>garment_sim</code> scored 0.78 on an output that
+transferred no garment at all. Red is past the flag threshold. <b>This is a rank, not a
+verdict:</b> a changed collar or a moved seam does not show up in any of these columns.</p>
+<p class='note'><b>The third and fourth column groups are V3's shape 1, already run.</b>
+klein was measured as an extractor during V2's AC-A phase and the numbers were never used.
+They do not say what you would expect.</p>
+<table class='drift'><tr><th></th><th colspan='4'>QX_qwen_p1 (shipped)</th><th colspan='4'>klein distilled</th><th colspan='4'>klein base</th></tr><tr><th>reference</th><th>dL</th><th>dC</th><th>dHue</th><th>pattern</th><th>dL</th><th>dC</th><th>dHue</th><th>pattern</th><th>dL</th><th>dC</th><th>dHue</th><th>pattern</th></tr><tr><td>dualuse_scarlett_johansson_black_dress</td><td class=''>-11</td><td class=''>-6</td><td class='bad'>53&deg;</td><td class='bad'>&times;0.44</td><td class=''>+10</td><td class=''>-1</td><td class=''>7&deg;</td><td class='bad'>&times;0.34</td><td class=''>+8</td><td class=''>-3</td><td class=''>13&deg;</td><td class='bad'>&times;0.33</td></tr><tr><td>dualuse_woman_top_denim_skirt_nonceleb</td><td class=''>-11</td><td class=''>-1</td><td class='bad'>63&deg;</td><td class=''>&times;0.64</td><td class='bad'>+53</td><td class=''>+2</td><td class='bad'>45&deg;</td><td class=''>&times;1.10</td><td class='bad'>+58</td><td class='bad'>+14</td><td class='bad'>54&deg;</td><td class='bad'>&times;2.37</td></tr><tr><td>dualuse_zendaya_white_blazer_skirt</td><td class='bad'>+19</td><td class=''>+0</td><td class='bad'>54&deg;</td><td class='bad'>&times;0.33</td><td class='bad'>+24</td><td class=''>-2</td><td class='bad'>30&deg;</td><td class='bad'>&times;0.24</td><td class=''>+11</td><td class=''>+2</td><td class='bad'>41&deg;</td><td class=''>&times;0.54</td></tr><tr><td>p009</td><td class='bad'>-13</td><td class=''>-4</td><td class='bad'>88&deg;</td><td class=''>&times;0.52</td><td class=''>+10</td><td class=''>-1</td><td class='bad'>56&deg;</td><td class=''>&times;0.71</td><td class=''>+10</td><td class=''>-2</td><td class='bad'>39&deg;</td><td class=''>&times;0.84</td></tr><tr><td>p012</td><td class=''>-9</td><td class=''>+0</td><td class=''>16&deg;</td><td class='bad'>&times;0.45</td><td class='bad'>+46</td><td class=''>+3</td><td class='bad'>28&deg;</td><td class='bad'>&times;0.47</td><td class='bad'>+54</td><td class='bad'>+13</td><td class=''>15&deg;</td><td class='bad'>&times;0.45</td></tr><tr><td>p016</td><td class='bad'>+15</td><td class='bad'>+10</td><td class=''>9&deg;</td><td class='bad'>&times;0.38</td><td class=''>+12</td><td class=''>+3</td><td class='bad'>80&deg;</td><td class=''>&times;1.74</td><td class='bad'>+26</td><td class=''>+7</td><td class=''>8&deg;</td><td class=''>&times;0.56</td></tr><tr><td>p019</td><td class=''>+11</td><td class=''>-0</td><td class=''>5&deg;</td><td class=''>&times;1.08</td><td class='bad'>+22</td><td class=''>-2</td><td class=''>3&deg;</td><td class=''>&times;0.92</td><td class=''>-1</td><td class=''>+0</td><td class=''>4&deg;</td><td class=''>&times;1.30</td></tr><tr><td>p021</td><td class=''>+9</td><td class='bad'>+33</td><td class=''>18&deg;</td><td class=''>&times;0.53</td><td class='bad'>+50</td><td class='bad'>+37</td><td class=''>16&deg;</td><td class='bad'>&times;1.98</td><td class='bad'>+24</td><td class='bad'>+42</td><td class=''>14&deg;</td><td class='bad'>&times;2.70</td></tr><tr><td>p023</td><td class=''>+7</td><td class=''>-5</td><td class=''>9&deg;</td><td class='bad'>&times;0.40</td><td class='bad'>+29</td><td class=''>-8</td><td class=''>0&deg;</td><td class='bad'>&times;0.38</td><td class='bad'>+20</td><td class=''>-5</td><td class=''>7&deg;</td><td class=''>&times;0.68</td></tr><tr><td>p028</td><td class=''>-7</td><td class=''>-0</td><td class=''>0&deg;</td><td class=''>&times;0.62</td><td class=''>+9</td><td class=''>-1</td><td class=''>8&deg;</td><td class=''>&times;0.62</td><td class=''>+9</td><td class=''>+2</td><td class=''>9&deg;</td><td class=''>&times;1.05</td></tr><tr><td>p030</td><td class='bad'>+17</td><td class=''>-4</td><td class=''>1&deg;</td><td class='bad'>&times;0.23</td><td class='bad'>+35</td><td class=''>-6</td><td class=''>21&deg;</td><td class='bad'>&times;0.25</td><td class='bad'>+19</td><td class=''>-4</td><td class='bad'>30&deg;</td><td class='bad'>&times;0.31</td></tr><tr class='tot'><td>mean |drift|</td><td><b>12</b></td><td><b>6</b></td><td><b>29&deg;</b></td><td><b>&times;0.51</b></td><td><b>27</b></td><td><b>6</b></td><td><b>27&deg;</b></td><td><b>&times;0.80</b></td><td><b>22</b></td><td><b>8</b></td><td><b>21&deg;</b></td><td><b>&times;1.01</b></td></tr></table>
+<div class='q'><b>klein is the better extractor on hue and pattern, and
+much worse on lightness.</b> Averaged over the cohort: Qwen holds lightness to 12 but
+returns <b>half the edge detail</b> (&times;0.51) and drifts hue 29&deg;; klein distilled
+drifts lightness 27 and hue 27 but keeps &times;0.80 of the detail; klein base keeps
+&times;1.01 — the only arm that neither loses nor invents texture on average — at hue
+21&deg;. Every arm is flagged on 9 or more of 11 references. <b>No extraction arm returns
+the same garment.</b></div>
+<div class='q'>Two failures pull in opposite directions and both matter.
+<code>p030</code> comes back at <b>&times;0.23</b> of its pattern from Qwen — the texture
+is gone. <code>p021</code> comes back from klein base at <b>&times;2.70</b> with chroma
+<b>+42</b> — texture and saturation that were never there. A floor-raiser that invents is
+not obviously safer than a crop that subtracts; it fails somewhere else.</div>
+<div class='lab'><b>p009</b> — worst recolour of the cohort — the garment comes back a different hue</div>
+<div class='strip s4'><figure class=''><img src='img/drift_p009_control.jpg' alt='control crop — the truth'><figcaption>control crop — the truth</figcaption></figure><figure class='fail'><img src='img/drift_p009_QX.jpg' alt='QX (Qwen)'><figcaption>QX (Qwen)</figcaption></figure><figure class=''><img src='img/drift_p009_klein.jpg' alt='klein distilled'><figcaption>klein distilled</figcaption></figure><figure class=''><img src='img/drift_p009_klein.jpg' alt='klein base'><figcaption>klein base</figcaption></figure></div>
+<div class='lab'><b>p030</b> — worst texture loss — the pattern is smoothed away by every arm</div>
+<div class='strip s4'><figure class=''><img src='img/drift_p030_control.jpg' alt='control crop — the truth'><figcaption>control crop — the truth</figcaption></figure><figure class='fail'><img src='img/drift_p030_QX.jpg' alt='QX (Qwen)'><figcaption>QX (Qwen)</figcaption></figure><figure class=''><img src='img/drift_p030_klein.jpg' alt='klein distilled'><figcaption>klein distilled</figcaption></figure><figure class=''><img src='img/drift_p030_klein.jpg' alt='klein base'><figcaption>klein base</figcaption></figure></div>
+<div class='lab'><b>p021</b> — the opposite failure — chroma and pattern are <i>invented</i>, not lost</div>
+<div class='strip s4'><figure class=''><img src='img/drift_p021_control.jpg' alt='control crop — the truth'><figcaption>control crop — the truth</figcaption></figure><figure class='fail'><img src='img/drift_p021_QX.jpg' alt='QX (Qwen)'><figcaption>QX (Qwen)</figcaption></figure><figure class=''><img src='img/drift_p021_klein.jpg' alt='klein distilled'><figcaption>klein distilled</figcaption></figure><figure class=''><img src='img/drift_p021_klein.jpg' alt='klein base'><figcaption>klein base</figcaption></figure></div>
+<div class='lab'><b>p012</b> — one of the four rescues: QX took this to perfect while losing half the pattern</div>
+<div class='strip s4'><figure class=''><img src='img/drift_p012_control.jpg' alt='control crop — the truth'><figcaption>control crop — the truth</figcaption></figure><figure class='fail'><img src='img/drift_p012_QX.jpg' alt='QX (Qwen)'><figcaption>QX (Qwen)</figcaption></figure><figure class=''><img src='img/drift_p012_klein.jpg' alt='klein distilled'><figcaption>klein distilled</figcaption></figure><figure class=''><img src='img/drift_p012_klein.jpg' alt='klein base'><figcaption>klein base</figcaption></figure></div>
 <h3>What QX costs, and why this is not simply &ldquo;use QX&rdquo;</h3>
+<p class='note'>Shown in full above: <a href='#qxfail'>QX's one outright failure</a> and
+<a href='#drift'>the drift table</a>.</p>
 <p class='note'>QX takes all four: perfect, perfect, perfect, ok. It is also
 <b>20 perfect / 17 ok / 1 fail</b> over the same 38 sets — the lowest ceiling of any arm.
 Regeneration invents detail: hue drifts <b>21&ndash;30&deg; on every reference</b> (worst
@@ -169,7 +260,7 @@ instrument is blindest to.</b> V3 ships no gate, so it would ship silently. One 
 the person input needs no model and catches <code>HD_p023</code> at 0.982.</p>
 </div><div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>
 <footer><div class='wrap'>Tiers are one reviewer's absolute judgement, unblinded, n=38, one
-seed. Analysis: <code>prd/v3/INVESTIGATION.md</code>. Bundle and provenance:
+seed. Analysis: <code>prd/v3/v3.0/RESULTS.md</code>. Bundle and provenance:
 <code>v3/artefacts/manifest.json</code>. Click any image for full resolution.</div></footer>
 <script>
 document.addEventListener('click',e=>{const im=e.target.closest('figure img');
