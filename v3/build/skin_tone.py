@@ -155,6 +155,31 @@ FRAME_PHRASE = {
     "unknown": "a mannequin",
 }
 
+# DYNAMIC PROMPTING. One read, one table, both clauses.
+#
+# The extent clause and the pose clause were written separately and contradicted each
+# other: a fixed pose sentence saying "feet together" told the model feet were in frame
+# while the extent clause told it to cut above them, and the pose clause won - a waist-up
+# crop came back full length. The two are now emitted TOGETHER from the same framing
+# category, so they cannot disagree by construction.
+#
+# The rule that makes them consistent: NEVER NAME A BODY PART THE CROP EXCLUDES. Below
+# the hip there are no feet to put together, so neutrality has to be expressed with
+# something that is still in frame - square to the camera, shoulders level.
+FRAME_CLAUSE = {
+    "full_body": (" Show the whole mannequin, head to feet."
+                  " It stands in a neutral upright pose, feet together, facing forward."),
+    "knee_up":   (" Show the mannequin from the head to the knee only, cut off below the"
+                  " knee. It stands in a neutral upright pose, legs together, facing"
+                  " forward."),
+    "waist_up":  (" Show the mannequin from the head to the hip only, cut off below the"
+                  " hip. It stands upright and square to the camera, shoulders level."),
+    "chest_up":  (" Show the mannequin from the head to the chest only, cut off below the"
+                  " chest. It stands upright and square to the camera, shoulders level."),
+    "unknown":   (" Show only the part of the body that the photograph shows."
+                  " It stands upright and square to the camera."),
+}
+
 
 def read(path):
     bgr = cv2.imread(path)

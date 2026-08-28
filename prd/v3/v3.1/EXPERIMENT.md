@@ -1,6 +1,10 @@
 # v3.1 — EXPERIMENT
 
-**Status: open.** One question:
+**Status: LOCKED 2026-08-28.** The architecture is in [SOLUTION.md](SOLUTION.md).
+What follows is the record of how it was arrived at; it is not amended after the lock,
+and the defects it leaves open are listed in SOLUTION §6.
+
+One question:
 
 > **How far does a ghost-mannequin reference get?**
 
@@ -45,7 +49,7 @@ Two rules generalise out of that and are worth carrying to any prompt work in V3
 
 **Next:** does the better reference make a better try-on?
 
-### 2 — `p7` through klein, against the two incumbents **← current**
+### 2 — `p7` through klein, against the two incumbents **← superseded by link 10**
 
 **How.** 28 `p7` extractions, then 28 klein edits, on the [run-B fold](../v3.0/TEST.md).
 All three arms end in the **same klein call, same seed, same prompt**, so the reference
@@ -60,7 +64,7 @@ scoring:
 - **On single-garment references the three arms are indistinguishable.** The mannequin
   shape costs the same two calls and buys nothing there.
 
-### 3 — Three defects that have to be fixed before scoring means anything **← open**
+### 3 — Three defects that have to be fixed before scoring means anything **← two fixed, one parked**
 
 Raised on review and checked against the frames
 ([RESULTS §3b](RESULTS.md#3b-three-defects-in-the-p7-mannequin-from-review)). Taken
@@ -196,7 +200,7 @@ Everything in phase 2 lands on its own page — `v3/report/v31_phase2.html` — 
 answers different questions from the prompt-iteration pages and mixing them would make
 both harder to read.
 
-### 4 — Is the colour reader extracting correctly? **← open**
+### 4 — Is the colour reader extracting correctly? **← run; audit clean, 56/56 read**
 
 **Why now.** The enum structure is adopted, which means **the ladder is the interface**:
 everything downstream sees a named phrase and nothing else. That makes the reader the one
@@ -233,7 +237,7 @@ assigned, so the quantisation error is visible as a number rather than left to t
 step near this person. A systematic drift in one direction, meaning the thresholds are
 misplaced. Each of those has a different fix and the audit distinguishes them.
 
-### 5 — `p7.3`: the two components combined **← open**
+### 5 — `p7.3`: the two components combined **← run, and superseded by link 7**
 
 **Why.** `p7.1.3` and `p7.2b+` were run with the other variable held empty, on purpose.
 Two fixes that each work alone are not thereby a fix that works together — the framing
@@ -255,7 +259,7 @@ neutral, or worse than either alone.
 reference. `p7.3` is the first candidate worth the edit call, because a better-looking
 mannequin is not yet a better try-on and that gap has been open since link 2.
 
-### 6 — `p7.1.3.n`: keeping or dropping accessories **← open**
+### 6 — `p7.1.3.n`: keeping or dropping accessories **← descoped**
 
 **Why.** `p7` contains one sentence about accessories and it only points one way:
 *"The mannequin wears only what the person is wearing and nothing else: if they are not
@@ -309,7 +313,7 @@ Two things changed the ground under the earlier phases and both are now settled:
 
 Phase 3 lands on its own page — `v3/report/v31_phase3.html`.
 
-### 7 — `p7.3.n`: the minimum prompt **← open**
+### 7 — `p7.3.n`: the minimum prompt **← landed; `p7.3.1` adopted, then qualified by link 13**
 
 **Why.** The [ablation](RESULTS.md#3c11-prompt-length-ablation-most-of-p73-is-doing-nothing-and-some-of-it-hurts)
 showed 27 words matching 94 on five of eight references, and the 94-word version **losing
@@ -350,7 +354,7 @@ So the ladder is built negation-free and the negated version is kept only as the
 between adjacent columns is readable without consulting a file. The question per column is
 the same: **is the garment still the garment**, and did anything get invented.
 
-### 8 — Cropping the input before extraction **← open**
+### 8 — Cropping the input before extraction **← landed; superseded by the ladder in link 9**
 
 **Why.** Until now the model has been handed a **raw photograph** — a person in a room,
 with background, and in one case 83% of the frame empty. The mask stack that V2 built is
@@ -416,7 +420,7 @@ crop costs 49 seconds, and 48.9 of them are BiRefNet_lite at 1024²**. Pose land
 a bounding box in 40 ms and Selfie Multiclass gives a subject mask in 151 ms. Nobody has
 asked whether the expensive matte earns its place.
 
-### 9 — The crop-quality ladder **← open**
+### 9 — The crop-quality ladder **← landed; `A4` chosen**
 
 **Why the question is open rather than settled.** V2 chose BiRefNet at 1024² for a
 specific, measured reason: the cheap 256² map is *"a staircase by construction"* and
@@ -559,8 +563,7 @@ constraint discovered so far simultaneously, and needs no reader. **The reader's
 justification is contrast against the garment, not resemblance to the person** — which
 needs no face and was what §3c.25 said the rule should have been.
 
-**Still open:** `g011`'s texture merge is **not** fixed by colour, which weakens the
-leading hypothesis for it and leaves it without a candidate cause.
+**Still open at that point:** `g011`'s texture merge is **not** fixed by colour.
 
 ### 12 — The body-skin fallback, removed
 
@@ -573,13 +576,128 @@ Removed 2026-08-28. The reader now returns nothing rather than something else, a
 caller decides. It had fired on **1 of 56** images; face-only now reads 55 of 56, with
 `p016` returning nothing.
 
+## Phase 6 — pose, texture, and making two clauses agree
+
+Opened 2026-08-28. Phase 5 found that the colour word decides *what kind of object* is
+rendered, which folded the pose question into the colour question. Phase 6 asks whether
+the pose can be bought back with words instead of by giving up the colour, stops guessing
+at `g011`, and repairs a contradiction the pose fix introduced.
+
+### 13 — A pose word, and what is actually wrong with `g011` **← run, unscored**
+
+**Pose.** Appending *"The mannequin stands in a neutral upright pose, feet together"*
+removes the stride on `g013`, the reference behind the extra-leg failure. Eight words, and
+it means the skin-tone colour word can be kept rather than traded away for an achromatic
+one.
+
+**It is not free.** On `g030` the pose sentence also changed the **framing** — *"feet
+together"* implies feet are in frame and overrode the extent clause that said to cut above
+them. **Two clauses in the same prompt now disagree about how much body to show.** The pose
+word can silently undo `p7.1.3`.
+→ [RESULTS §3c.30](RESULTS.md#3c30-a-pose-word-fixes-the-stride-and-quietly-overrides-the-extent-clause)
+
+**`g011`.** Three tests, each isolating a stage: the person alone with no reference; the
+person with *other* references; the person with `g011` under four different edit prompts.
+
+**It is the reference, and the variable is sleeves.** Without any reference klein renders
+her arms perfectly. With a **sleeveless** reference it cooks; with a **long-sleeved** one it
+does not. All four edit prompts cook, including one that explicitly says her skin texture
+is unchanged — **the prompt is not a lever.**
+
+**The mechanism is V2's finding inverted.** `p019` wears a long-sleeved coat, so her arms
+were never photographed. A sleeveless garment demands skin that does not exist in the
+input, and the model fills it from the nearest thing in the attention sequence — the
+mannequin's arm. V2: *subtraction cannot recover a garment region that hair was covering.*
+Here: **the edit cannot recover skin that clothing was covering.**
+→ [RESULTS §3c.31](RESULTS.md#3c31-g011s-cooked-texture-it-is-neither-the-person-nor-the-prompt)
+
+**The consequence is bigger than one reference.** The defect should fire whenever the
+target garment exposes a region the source photograph covered — bare arms under long
+sleeves, bare legs under trousers, an open neck under a high collar. **It is a property of
+the pairing, and nothing in the pipeline detects it.** The CPU stack reads the garment
+reference; it has never been asked what the person's photograph hides.
+
+### 14 — Dynamic prompting **← run, unscored**
+
+**Why.** Link 13 found the pose clause silently overriding the extent clause: *"feet
+together"* implies feet are in frame, which contradicts *"cut off below the hip"*, and the
+pose clause wins. Two independently-written sentences in one prompt disagreeing about the
+same fact.
+
+**What changed.** Both clauses are now emitted from **one table keyed on one framing
+read** — `FRAME_CLAUSE` — under a single rule: **never name a body part the crop
+excludes.** Below the hip there are no feet to put together, so neutrality is expressed as
+*square to the camera, shoulders level*. The pose wording therefore varies with the
+category instead of being a constant, which is what makes the contradiction impossible
+rather than merely unlikely.
+
+**How it is tested.** 8 references covering **every** category the reader produces — 3
+`waist_up`, 1 `chest_up`, 1 `knee_up`, 3 `full_body` — so the schema is exercised rather
+than sampled. 8 extractions + 8 edits, no failures.
+→ [RESULTS §3c.32](RESULTS.md#3c32-dynamic-prompting-one-read-one-table-both-clauses)
+
+**Why it matters past the probe:** 9 of the 28 A4 crops are not full-body, so the clause
+that must not mention feet fires on a third of the set.
+
+**The general shape, worth stating because it will recur:** a CPU reader produces a
+*category*, and the category selects a *whole clause* rather than filling a slot in a
+fixed one. That is what keeps two facts about the same thing from being written twice and
+differently. **`g011` is parked** — the diagnosis in link 13 stands and generalises, but it
+is out of scope for now.
+
+**Result.** *Generated, not scored.*
+
 ---
 
 ## Conclusion
 
-*Not reached.* Link 1 has landed and is durable — `p7` and the two prompt rules survive
-whatever happens next. Link 2 is generated and unscored. Link 3 is the reason scoring has
-not happened: **three known defects would be scored as arm failures when they are
-reference-construction failures**, and the fix for two of them is free.
+*Not reached.* Fourteen links, one scored comparison, no `SOLUTION.md`.
 
-No `SOLUTION.md`, and none should be written until link 3 closes.
+### What has landed and would survive being wrong about everything else
+
+- **The model does exactly what the words permit.** Four instances: `"the garment"`
+  permitted one garment; `"bag, belt, hat"` permitted invention; `"tan"` permitted a tan
+  picture; `"light brown skin"` permitted a *person*, and people have strides. Every prompt
+  failure in this investigation has been a permission wider than the intent.
+- **Tell the model what is there; do not tell it what to omit.** Grounding an instruction
+  in the image works (`p7.1.3`); enumerating what to include does not.
+- **Naming a colour as *skin* binds it to the mannequin**; a bare chromatic adjective
+  contaminates the whole picture.
+- **Compound prompts are paid for in fidelity, not compliance** — which is the axis a
+  try-on is judged on, and the axis a compliance-shaped review would miss.
+- **Dynamic prompting**: a CPU reader produces a *category*, and the category selects a
+  *whole clause*. Two facts about the same thing are never written twice.
+
+### What the one scored comparison says
+
+Over the 24 pairs where all three arms are marked: **MQ 92% perfect, BC 79%, QX 58%**.
+But head-to-head **MQ beats BC on 3 pairs and loses on 2, with 19 ties** — the rate gap
+rests on a net of one pair. **Against QX the margin is real** (9 better, 1 worse). And MQ
+has no `ok` at all: it is right or it is broken, where BC degrades gracefully and never
+fails. **BC's floor is higher; MQ's ceiling is higher.**
+
+### What blocks a conclusion
+
+1. **The comparison is confounded.** MQ ran on the A4 crop, BC and QX on the raw path — two
+   differences at once, so a win belongs to the arm and not to the mannequin prompt.
+   Separating them is one more arm.
+2. **Most of v3.1 is unscored.** Links 10, 11, 13 and 14 are generated and judged by eye
+   against named defects. That was the right way to iterate and it is not a number.
+3. **Nearly every decision was made on an eight-reference probe cohort**, and the 28-pair
+   run is its first contact with the full fold.
+4. **n = 28, one seed, one reviewer, unblinded** — the debt V2 froze with, unchanged.
+
+### Known defects carried forward, not fixed
+
+- **The ladder's words are not calibrated to what the model renders** — `dark beige skin`
+  came back 23 L\* points darker than its own swatch, and not uniformly, so no offset
+  corrects it.
+- **`g011`'s cooked texture is parked.** The diagnosis generalises: the defect fires
+  whenever the target garment exposes a region the source photograph covered. It is a
+  property of the *pairing*, and nothing in the pipeline detects it.
+- **Accessories drop inconsistently**, by decision.
+- **Call 2 has never been varied.** Every prompt experiment here was on call 1; the klein
+  edit prompt has been a constant since V2 and is the largest untouched surface left.
+
+**What would close this:** scoring links 10, 11 and 14, and running the unconfounded
+fourth arm. Until then v3.1 has a strong candidate and no verdict.

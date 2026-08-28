@@ -143,7 +143,7 @@ Nothing built. This document is the brief.
 | General investigation | [INVESTIGATION.md](INVESTIGATION.md) — shared ground: the vocabulary, and the model-level mechanism |
 | Document schema | [SCHEMA.md](SCHEMA.md) — how V3's documents are laid out and what each is allowed to contain |
 | **v3.0 — open** | [failure and success conditions of BC_klein and QX](v3.0/EXPERIMENT.md) · [results](v3.0/RESULTS.md) · [36-pair matrix](v3.0/TEST.md). Evidence bundle `v3/artefacts/`, page `v3/report/artefacts.html` |
-| **v3.1 — open** | how far does the ghost-mannequin reference get? [results](v3.1/RESULTS.md) — `p7` chosen, 28 extractions + 28 edits on disk. Experiment doc written after scoring |
+| **v3.1 — LOCKED** | ghost-mannequin reference: crop + dynamic prompting + mannequin extraction, two calls. [architecture](v3.1/SOLUTION.md) · [chain](v3.1/EXPERIMENT.md) · [evidence](v3.1/RESULTS.md). Full 200-pair run bundled at `v3_colab_bundle.zip` |
 | **v3.2 — concluded, negative** | does running the klein edit twice recover what PHEAD loses by skipping the bald pass? **No** — PHEAD's defects persist through the second pass, not corrected. [experiment](v3.2/EXPERIMENT.md) · [matrix](v3.2/TEST.md) · [results](v3.2/RESULTS.md) |
 | First experiment | ~~shape 1, klein-as-extractor, on the four BC_klein failures~~ — superseded: shape 1 is partly already measured, see [v3.0 link 4](v3.0/EXPERIMENT.md#4-what-does-qx-actually-cost) |
 | Not yet decided | whether the crop's CPU stack is vendored or kept as a service |

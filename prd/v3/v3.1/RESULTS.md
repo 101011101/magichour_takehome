@@ -1223,360 +1223,123 @@ the failing cases are already being told not to do the thing they do. And **ever
 experiment in v3.1 has been on call 1.** Call 2 has been a constant since V2, which makes
 it the largest untouched surface in the pipeline.
 
-### 3c.8 The two fixes have not been combined
+### 3c.30 A pose word fixes the stride — and quietly overrides the extent clause
 
-### 3c.21 The arm, assembled and run end to end
+Two phrasings appended to the full prompt, on the four references whose matched colour
+rendered a moving figure. **A positive instruction naming what is wanted**, which is the
+form that has worked throughout.
 
-Everything v3.1 established, run over the whole 28-pair fold so it can be compared with
-BC_klein and QX on identical inputs. **28/28 through both calls, no failures.**
-
-| stage | | cost |
+| reference | no pose word | `+ neutral upright pose, feet together` |
 |---|---|---|
-| crop | `A4` — BiRefNet_lite @1024², background removed, **head kept**, cropped to subject bbox | CPU |
-| read | pose → extent clause; skin → colour phrase from the **paired person**, quantised to the ten-step ladder | CPU, ~190 ms |
-| extract | Qwen-Image-Edit-2511, full `p7.3` | **call 1** |
-| edit | klein, the V2 AMT prompt, seed 46 | **call 2** |
+| **`g013`** | **stride, legs apart, sandalled foot forward** | **feet together, neutral, headless form** |
+| `g014` | legs slightly apart | feet together |
+| `g011` | already neutral | unchanged |
+| `g030` | already neutral | unchanged |
 
-**Two calls, which is the production budget.** Everything before the extraction is CPU.
-Outputs at `v3/runs/v3.0b/gen/{set_id}__MQ.jpg`, beside `BC` and `QX` from the same fold;
-all three arms are on `v3/report/v30b_review.html`, 84 cells.
+**It works, and it costs eight words.** `g013` — the reference behind the "extra leg"
+failure — comes back neutral. Both phrasings behave the same; *"stands straight and faces
+forward, weight even on both feet"* is not better than *"neutral upright pose, feet
+together"*.
 
-**A note on the crops.** 21 of the 28 BiRefNet mattes were reused from the cache written by
-the earlier ladder runs under different stem names, which skipped roughly 40 minutes of
-inference. The cache is keyed on stem, so identical work had been done three times under
-three names — worth knowing before anyone budgets CPU for a rerun.
+**A side effect worth catching before it becomes a mystery.** On `g030` the pose sentence
+also **changed the framing**: without it the mannequin was cropped near the waist, with it
+the full length including the skirt appears. *"Feet together"* implies feet are in frame,
+which contradicts an extent clause that says to cut above them. **Two clauses in the same
+prompt now disagree about how much body to show**, and the pose clause wins.
 
-### 3c.22 What this comparison can and cannot claim
+That is a real interaction and it means the pose word is not free: it can silently undo
+`p7.1.3`, which was the fix for the invention defect. **Either the pose phrasing has to
+avoid naming feet, or the two clauses have to be written as one.** Not yet done.
 
-Written before scoring, so the limits are fixed in advance rather than discovered in the
-reading.
+### 3c.31 `g011`'s cooked texture — it is neither the person nor the prompt
 
-**Can claim:** whether the v3.1 arm, as a whole, beats BC_klein and QX on the same 28
-pairs at the same seed with the same edit prompt.
+Three questions, separated so the answer names a stage.
 
-**Cannot claim, and this is the one that matters:** **which half of the arm is responsible.**
-BC and QX were run on the **raw** reference path; MQ runs on the **A4 crop**. MQ therefore
-differs from them in two ways at once — the crop *and* the extraction prompt. A win belongs
-to the arm, not to either component. Separating them needs a fourth arm — MQ's prompt on an
-uncropped reference — at 28 more calls.
-
-**Also open at the moment of running:**
-
-1. **Nothing in v3.1 has been tier-scored.** Every verdict so far — the prompt ladder, the
-   colour ladder, the crop ladder — was by eye against a named defect. That was the right
-   way to iterate and it is not a number.
-2. **An eight-reference probe cohort drove nearly every decision.** This run is the first
-   time those choices meet the full fold, and a choice that was right for eight references
-   chosen for their defects need not be right for twenty-eight.
-3. **The blank-terminations defect (§3b.3) was parked behind the framing fix and never
-   re-checked.** The framing fix landed; nobody looked at whether the feet resolved.
-4. **Accessories will drop inconsistently**, by decision (§3c.9).
-5. **`p7.3.1exact` was never judged**, and the minimal prompt is cheaper on fidelity than
-   the full one. Moot while the full prompt ships, but it is an open loop.
-6. **n = 28, one seed, one reviewer, unblinded.** The standing debt, unchanged since V2.
-
-### 3c.22b The scored result — MQ leads
-
-First tier-scored data in v3.1. Reviewer pass over the 84-cell grid, exported to
-`v30b_review.csv`. **80 of 84 cells marked**; four MQ cells left blank (pairs 8, 9, 25,
-26), so the comparison below is over the **24 pairs where all three arms are scored.**
-
-| arm | perfect | ok | fail | perfect rate |
-|---|---|---|---|---|
-| BC_klein | 19 | 5 | 0 | 79% |
-| QX | 14 | 7 | 3 | 58% |
-| **MQ** | **22** | **0** | 2 | **92%** |
-
-Head-to-head on the same 24 pairs:
-
-| | better | worse | tie |
-|---|---|---|---|
-| MQ vs BC | 3 | 2 | 19 |
-| **MQ vs QX** | **9** | 1 | 14 |
-| BC vs QX | 10 | 3 | 11 |
-
-**MQ has the highest perfect rate and no `ok` at all** — it is either right or it is
-broken, where BC degrades gracefully through five `ok`s and never fails. That shape
-matters for a production choice: BC's floor is higher, MQ's ceiling is higher.
-
-**`p019+g011` is the only pair no arm gets perfect** — BC `ok`, QX `fail`, MQ `fail`.
-
-**Read the head-to-head before the rate.** MQ beats BC on 3 pairs and loses on 2, with 19
-ties. **On this evidence MQ is not clearly better than BC** — the perfect-rate gap of 13
-points rests on a net of one pair. Against QX the margin is real: 9 better, 1 worse.
-
-And the standing confound in §3c.22 applies to all of it: MQ ran on the A4 crop while BC
-and QX ran raw, so any part of this belongs to the arm and not to the mannequin prompt.
-
-### 3c.23 First review of the assembled arm
-
-Reviewer pass over the 28-pair grid, 2026-08-28. Not tier-scored — named observations.
-
-**Improvements attributed to the arm:**
-
-| pair | person | what got better |
+| test | what was run | result |
 |---|---|---|
-| 10 | `p010` | the belly region of the design is corrected |
-| 19 | `p019` | **improvement over QX**, which returned only a sweater; MQ transfers the dress |
-| 22 | `p022` | no shirt where there should not be one |
-| 28 | `p028` | the entire outfit transfers |
-| 6 | `p006` | correct shoes |
+| **B1 — is it the person?** | klein on `p019` **alone**, text-only clothing edits, **no reference at all** | **clean.** Black tee, red dress, blue shirt — all with natural arm skin |
+| **B2 — is it the reference?** | klein on `p019` with **other** mannequin references | `g014` (sleeveless blue dress) **cooks**. `g030` (long-sleeved gold jacket) is **fine** |
+| **B3 — is it the prompt?** | `p019` + `g011`, four different edit instructions including one that explicitly says the person's skin tone and texture are unchanged | **all four cook.** The prompt is not a lever |
 
-Four of those five are the things the mannequin was built to fix — completeness,
-footwear, and not inventing a layer. `p019` is worth separating: **the arm improves the
-transfer and damages the person in the same frame**, which is why it appears in both
-lists.
+**The pattern is sleeves.** Every reference that leaves the arms bare cooks; the one that
+covers them does not. And it is not the person — without a reference, klein renders her
+arms perfectly well.
 
-**Two failures: `p019` and `p021` morph the individual into the clothes.**
+**The mechanism, and it is V2's own finding inverted.** `p019` wears a **long-sleeved
+coat**. Her arms have never been observed — those pixels do not exist in the input. A
+sleeveless garment demands arm skin the photograph never contained.
 
-### 3c.24 The pose hypothesis — I tested the wrong pose, and it holds for `p021`
+> V2: *"subtraction cannot recover a garment region that hair was covering — the pixels
+> were never observed."*
+>
+> Here: **the edit cannot recover skin that clothing was covering.** Same missing-pixel
+> problem, on the person's side instead of the garment's.
 
-**Correction.** The proposal was about **the mannequin's pose**. I tested the *subject's*
-pose against `test_set3`'s tags and reported that the hypothesis failed. That answered a
-question nobody asked.
+**And the reference decides what fills the gap.** Given no reference (B1), klein invents
+plausible skin from its prior and gets it right. Given a reference (B2, B3), it fills from
+the nearest available content in the attention sequence — **the mannequin's arms** — which
+is a manufactured surface in a colour chosen from her face. The result is skin-shaped, the
+wrong tone, and the wrong texture. That is
+[§3.1's mechanism](../INVESTIGATION.md#31-image-2-is-not-conditioning-it-is-clean-tokens-in-the-same-attention-sequence)
+operating on a region the prompt never mentions.
 
-**Re-checked against the mannequin references themselves:**
+**Why colour did not fix it (§3c.28).** The mannequin's tone is a *secondary* cue. The
+primary problem is that information is missing, and changing the colour of the thing being
+copied from does not stop it being copied from.
 
-| reference | outcome | mannequin stance |
+**What this predicts, and it is testable:** the defect should appear whenever
+**target garment exposes a region the source photograph covered** — bare arms under long
+sleeves, bare legs under trousers, an open neckline under a high collar. It is a property
+of the *pairing*, not of either image, and **nothing in the pipeline currently detects
+it.** The CPU stack knows what the garment reference shows; it does not know what the
+person's photograph hides.
+
+### 3c.32 Dynamic prompting — one read, one table, both clauses
+
+The extent and pose clauses were written separately and **contradicted each other**
+(§3c.30): a fixed pose sentence naming *"feet together"* told the model feet were in frame
+while the extent clause told it to cut above them, and the pose clause won.
+
+**They now come from one table keyed on the framing read**, so they cannot disagree by
+construction. `FRAME_CLAUSE` in `v3/build/skin_tone.py`:
+
+| framing read | extent | pose |
 |---|---|---|
-| **`g013`** | **MQ fail — "extra leg"** | **stepping stance: one leg forward, one behind, a sandalled foot visible** |
-| `g011` | MQ fail — morph | upright, feet together, neutral |
-| `g014` | perfect | upright, neutral |
-| `g030` | perfect | upright, neutral |
-| `zendaya` | perfect | upright, neutral |
+| `chest_up` | head to the chest only, cut off below the chest | upright and square to the camera, shoulders level |
+| `waist_up` | head to the hip only, cut off below the hip | upright and square to the camera, shoulders level |
+| `knee_up` | head to the knee only, cut off below the knee | neutral upright, **legs** together, facing forward |
+| `full_body` | the whole mannequin, head to feet | neutral upright, **feet** together, facing forward |
+| `unknown` | only the part the photograph shows | upright and square to the camera |
 
-**On `g013` the hypothesis is right and the mechanism is direct.** The mannequin is in a
-contrapposto stride with a forward leg, and the output has **an extra leg** — the
-reviewer's own note. A non-neutral mannequin gives the edit a second leg position to
-reconcile, and it reconciles by keeping both.
+**The rule that makes them consistent: never name a body part the crop excludes.** Below
+the hip there are no feet to put together, so neutrality is expressed with something still
+in frame. That is the whole schema, and it is why the pose column changes with the category
+instead of being a constant.
 
-**On `g011` it does not apply** — that mannequin is upright and neutral, and its failure
-is the colour one in §3c.25.
+**How the framing is decided**, since it drives both halves: MediaPipe Pose Landmarker on
+the crop, 36 ms CPU, reporting which joints are **confident and inside the frame** —
+shoulder → hip → knee → ankle. Ankle present is `full_body`; knee without ankle is
+`knee_up`; hip without knee is `waist_up`; shoulders only is `chest_up`. It reads a
+coordinate the detector already returns, which is a much weaker question than the eight
+head-detection heuristics V2 burned through trying to *locate* a boundary.
 
-So the two MQ failures have **two different causes**, and only one is pose:
+**Run:** 8 references chosen to cover **every category the reader produces** — 3
+`waist_up`, 1 `chest_up`, 1 `knee_up`, 3 `full_body` — so the schema is exercised rather
+than sampled. 8 extractions + 8 edits, no failures. Page: `v3/report/v31_dynamic.html`,
+showing crop → previous reference → new reference → klein output.
 
-- `p021+g013` — **mannequin stance.** Fixable by asking for a neutral stance in the
-  extraction prompt, which is a positive instruction and therefore the safe kind.
-- `p019+g011` — **colour**, below.
+**Distribution over the 28 A4 crops**, which is why this matters beyond the probe:
+`full_body` 19, `waist_up` 7, `knee_up` 1, `chest_up` 1. **Nine of 28 are cropped**, so
+the clause that must not mention feet fires on a third of the set.
 
-**Superseded.** The subject-pose table that stood here is withdrawn: `sitting` appearing
-on both sides was a true observation about an irrelevant variable.
+**Not scored.**
 
-### 3c.24b The subject-pose table, withdrawn
+### 3c.33 `g011` — parked
 
-The proposed cause was that the mannequin is in a non-neutral pose and should be upright.
-Checked against the `pose` tags in `test_set3/manifest.csv`:
-
-| person | pose | outcome |
-|---|---|---|
-| `p019` | **side_profile** | morph |
-| `p021` | sitting | morph |
-| `p022` | **sitting** | better |
-| `p010` | arms_crossed | better |
-| `p028` | arms_raised | better |
-| `p006` | neutral_standing | better |
-
-**`sitting` appears on both sides**, and `arms_crossed` and `arms_raised` are both wins.
-Non-neutral pose is **not sufficient** to explain the failures.
-
-Two qualifications, because the hypothesis is not dead:
-
-1. **`side_profile` is unique to `p019`** and appears nowhere among the wins. n = 1, so it
-   is a candidate rather than a finding.
-2. **It is the *person's* pose that varies here, not the mannequin's.** The mannequins in
-   both failing references are upright and neutral — that was checked. If the pose that
-   matters is the person's, the intervention is not "make the mannequin upright" but
-   something on the person side, and the arm has no person-side stage.
-
-### 3c.25 `p019`'s colour: the read is right and the render is not
-
-Traced end to end.
-
-**The measurement is defensible.** The face mask is clean — inspected directly, no bleed
-onto the beige turtleneck collar sitting under her chin, which was the obvious suspect.
-14,582 face pixels, L\* median 69, measured `#D49C83`. Warm, because the photograph is
-warmly lit and the mask spans both the lit and shadowed sides of a three-quarter face.
-
-**The word is right too.** L\* 69 quantises to **`dark beige skin`**, whose ladder swatch
-is `#D3AF8B` at **L\* 74** — close to the measurement.
-
-**The render is not.** The mannequin in `g011__MQ.jpg` measures **L\* 51** in the head
-region: **23 points darker than the swatch its own word names.** That is the discrepancy
-the review spotted, and it is downstream of everything the reader does.
-
-> **The ladder's words were never calibrated against what the model renders.** §3c.7
-> established that the reader picks a sensible word and §3c.6 that the word stays on the
-> mannequin. **Neither checked that the model renders the word at the lightness the word
-> means.** `g013` renders `light brown skin` at L\* 49 against a swatch of 50 — accurate.
-> `g011` is 23 points out. The mapping is not uniformly wrong, which is worse than if it
-> were: it cannot be corrected by an offset.
-
-**And this is what causes `p019`'s morph.** A mannequin far darker than the wearer, under
-a black dress, transferred onto a pale elderly woman: her arms come back in a mid-brown
-that is neither her skin nor her coat. **The mannequin's tone leaked into the person** —
-the same class of failure as §3c.3's colour bleed, one stage further down the pipeline.
-
-**Reviewer's correction, and it is the better description:** `p019` is **not** a profile
-problem. It is a **texture mix-up between the mannequin's skin and the original person's
-clothing** — the beige coat and the mid-brown mannequin arm are close enough in value that
-the edit resolves them into one surface. That is the low-amplitude boundary of
-[§3.4](../INVESTIGATION.md#34-why-p023-specifically-amplitude-not-contrast) once more,
-and it is the third time it has appeared: first between a nude garment and bare skin, then
-between a white garment and a white mannequin, now between a beige coat and a brown
-mannequin.
-
-**The rule that keeps being violated:** the mannequin's colour is chosen against the
-*person's face* and never checked against **anything else in either image.** It was
-flagged as unbuilt when the colour design was written and it is still unbuilt.
-
-**A separate problem on `p021`, noted while checking.** Its face mask is also clean, but
-L\* runs from 20 at the 10th percentile to 72 at the 90th — half the face is in shadow.
-The median of 49 is pulled up by the lit side and quantises to `light brown skin`, which
-is **lighter than the person actually is**. So the two failures are not the same failure:
-`p019` is a render that ignores a correct word, `p021` is a word that a bimodal
-lighting distribution made wrong. **The median survives shadow better than the mean; it
-does not survive a face that is half-lit.**
-
-**Neither has a fix yet.** Both are recorded before any is attempted.
-
-### 3c.26 How the skin colour is actually grabbed
-
-Asked directly, so written out exactly.
-
-```
-person photograph
-  └─ MediaPipe Selfie Multiclass, 256×256, CPU, 149 ms
-       └─ FACE class at confidence > 0.6          ← face only, no fallback
-            └─ every pixel in that mask → L*a*b*
-                 └─ MEDIAN of each channel independently
-                      └─ nearest ladder step BY L* ALONE
-                           └─ the word, e.g. "dark beige skin"
-                                └─ concatenated into the prompt
-```
-
-**It is a median, not an average.** The median is the middle value: half the face pixels
-are lighter, half darker. A mean would be dragged by a specular highlight on the nose or a
-dark shadow under the jaw; the median ignores both, because moving an extreme value does
-not move the middle one. That choice is why a hard-lit face still reads sensibly.
-
-**Only L\* picks the word.** `a` and `b` — the colour axes — are measured, recorded, and
-**not used to choose.** The ladder is a lightness ladder. So a warm face and a cool face of
-the same lightness get the same word, and the measured hex that would distinguish them is
-kept only for the audit. **[inferred]** This is defensible for skin, which varies far more
-in lightness than in hue, but it has never been tested.
-
-**The hex never reaches the model.** It exists only so the mapping can be checked.
-`p7.2` established that a chromatic word bleeds into the garment and that binding it with
-*"skin"* stops it; nothing suggested a hex code would be read at all.
-
-**And it is measured on the face of a whole photograph** — 5,000 to 15,000 pixels out of
-roughly a million, typically 0.5% to 2% of the frame. It is a small, specific sample, which
-is the point, and also the reason a half-lit face breaks it (§3c.25).
-
-**The body-skin fallback is removed** (2026-08-28). It fired on 1 of 56 images and
-substituted a different surface while reporting it identically. The reader now returns
-nothing instead; `p016` is the one image that now has no read.
-
-### 3c.27 Colour through klein — the test that should have come first
-
-**Every colour experiment so far compared references.** `p7.2`, `p7.2b` and `p7.2b+`
-produced **120 colour variants on disk, none of which had ever been through an edit.** The
-reader, the ladder and the calibration work in §3c.25 all rest on a premise that was never
-checked: that the mannequin's colour changes the *output*.
-
-Six references × five colours, both calls each, colour word the only variable.
-30 extractions + 30 edits, no failures. Page: `v3/report/v31_colour_klein.html`.
-
-Arms: `matched` (what ships), `white` (the old default), `grey` (achromatic and
-**person-independent**), `black`, and `opposite` — the ladder step furthest in lightness
-from matched, included **so that a null result cannot be dismissed as two similar colours
-being compared.**
-
-**Not scored.** The reading is fixed in advance:
-
-- **Five columns indistinguishable** → the whole colour apparatus is machinery attached to
-  something that does not affect the product, and collapses to one fixed word. **The
-  largest simplification available to v3.1.**
-- **`grey` ≈ `matched`** → the reader is unnecessary; keep the colour, drop the person
-  dependency.
-- **`matched` clearly best** → the reader earns its place, and the calibration defect in
-  §3c.25 becomes worth fixing rather than worth deleting.
-- **`opposite` visibly worse** → colour matters and lightness is the axis it matters on.
-
-### 3c.28 The colour word does not only set colour — it decides what kind of object is rendered
-
-Reviewer findings on the colour-through-klein run, 2026-08-28, with the mechanism checked
-against the references.
-
-**1. Mannequin colour matters.** Reviewer: *"if they are similar it reduces attention
-deficit or chance of fucking it up."* The premise the reader was built on survives the
-test it should have had first.
-
-**2. Mannequin pose matters, and the colour word controls it.** Reviewer: *"in g013 the
-black and grey models are neutral but the others have movement — the movement ones have an
-extra leg sticking out."* Checked directly across `g013`'s five colours:
-
-| word | what came back |
-|---|---|
-| `light brown skin` (matched) | **a person's legs** — visible skin, sandals, mid-stride |
-| `pale skin` (opposite) | organic legs, slight asymmetry |
-| `white skin` | neutral mannequin, feet together |
-| `grey` | neutral mannequin, feet together |
-| `black skin` | neutral mannequin, feet together |
-
-**The mechanism is naming, not colour.** *"grey mannequin"*, *"white mannequin"* and
-*"black mannequin"* all name **plausible mannequin materials** — the model renders an
-object. *"Light brown skin mannequin"* names something that does not exist as a
-manufactured object, so the model renders **a person**. And people have poses; objects
-stand still.
-
-That is the same rule as everywhere else in this investigation, one level up:
-**the model does exactly what the words permit.** A mid-tone skin word permits a human,
-and a human brings a stride, a weight shift and a second leg position for the edit to
-reconcile. `p021`'s "extra leg" is downstream of a colour word.
-
-**3. White is the wrong default.** Reviewer: *"best not white because it will mix with the
-clothing too much."* That is the low-amplitude boundary again — the failure mode that has
-now appeared four times (nude on skin, white garment on white form, beige coat on brown
-arm, and this).
-
-**Where that leaves the colour design.** `grey` and `black` satisfy every constraint found
-so far at once:
-
-| constraint | source | `grey`/`black` |
-|---|---|---|
-| does not bleed into the garment | §3c.3 | achromatic — passes |
-| does not merge with a pale garment | above | non-white — passes |
-| renders a neutral, static pose | above | names a material, not a person — passes |
-| needs no reader, no ladder, no calibration | §3c.26 | person-independent — passes |
-
-**This is a strong argument for deleting the entire colour apparatus and fixing one
-achromatic word.** It is not yet the conclusion: nobody has checked whether a grey
-mannequin under a *grey* garment reintroduces the merge that white does under a white one,
-and `black` under the black suit is the same question. **The reader's remaining
-justification would be exactly that case** — picking an achromatic value that contrasts
-with *the garment*, which is what §3c.25 said the rule should have been all along, and
-which needs no face at all.
-
-**4. `g011` is not solved by colour.** Reviewer: *"I don't know why the skin texture is so
-strange."* Confirmed unexplained. Colour was the leading hypothesis in §3c.25 and the
-colour sweep does not fix it, so that hypothesis is **weakened, not confirmed**. Open, with
-no candidate cause.
-
-### 3c.29 The klein prompt, unchanged since V2
-
-Asked directly. Call 2 uses the V2 AMT prompt verbatim and **V3 has never varied it**:
-
-> Dress the person in image 1 in the clothing shown in image 2. Keep the person's face,
-> identity, body and the background exactly as they are.
-
-Endpoint `fal-ai/flux-2/klein/4b/distilled/edit`, seed 46, 4 steps, guidance 1.0.
-
-**Two things worth noticing now rather than later.** It says *"keep the person's … body …
-exactly as they are"* — which is precisely the instruction the morph failures violate, so
-the failing cases are already being told not to do the thing they do. And **every prompt
-experiment in v3.1 has been on call 1.** Call 2 has been a constant since V2, which makes
-it the largest untouched surface in the pipeline.
+The cooked-texture case is **out of scope for now**, by decision. The diagnosis stands and
+is worth keeping because it generalises past this reference: the defect fires whenever the
+target garment exposes a region the source photograph covered, it is a property of the
+*pairing*, and **nothing in the pipeline detects it** (§3c.31). Parked, not solved.
 
 ### 3c.8 The two fixes have not been combined
 

@@ -1,0 +1,118 @@
+<title>Dynamic prompting</title>
+<meta name='viewport' content='width=device-width,initial-scale=1'>
+<style>
+:root{--bg:#0d0d10;--fg:#e8e8ea;--dim:#8a8a94;--line:#26262c;--acc:#7c5cff;--good:#3fb950}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:15px/1.6 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1500px;margin:0 auto;padding:30px 26px 0}
+h1{margin:0 0 6px;font-size:25px}
+h2{font-size:19px;margin:52px 0 8px;padding-top:16px;border-top:1px solid var(--line);
+ display:flex;gap:12px;align-items:baseline}
+h2 .r{font-size:12px;color:var(--dim);font-weight:400}
+h3{font-size:13px;margin:24px 0 6px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+h3 .r{font-size:11.5px;color:var(--dim);font-weight:400}
+h3 .r b{color:var(--fg)}
+.lede{color:var(--dim);max-width:96ch;font-size:14px;margin:0 0 14px}
+.lede b{color:var(--fg)}
+.note{color:var(--dim);font-size:13px;max-width:96ch;margin:6px 0}
+.q{border-left:3px solid var(--acc);padding:2px 0 2px 14px;margin:14px 0;max-width:98ch;
+ font-size:13.5px;color:#c8c8d0}
+.q b{color:var(--fg)}
+.lab{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);
+ margin:14px 0 5px}
+pre{background:#0b0b0e;border:1px solid var(--line);border-radius:8px;padding:11px 15px;
+ font:12.5px/1.7 ui-monospace,SFMono-Regular,monospace;white-space:pre-wrap;color:#b9b9c4;
+ max-width:1100px;margin:8px 0 4px}
+table{border-collapse:collapse;font-size:12.5px;margin:14px 0;width:100%;max-width:1400px}
+th,td{padding:8px 13px;border-bottom:1px solid #1d1d23;text-align:left;vertical-align:top}
+th{color:var(--dim);font-weight:600}
+td.l b{display:block}
+td.l span{font-size:11px;color:var(--dim)}
+td.pose{color:var(--good)}
+.strip{display:grid;gap:5px;margin-bottom:6px}
+.s4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.s4{grid-template-columns:repeat(2,1fr)}}
+figure{margin:0}
+figure img{width:100%;display:block;background:#fff;border-radius:6px;cursor:zoom-in;
+ aspect-ratio:3/4;object-fit:contain}
+figure.win img{outline:2px solid #2c5c33;outline-offset:-2px}
+figure.win figcaption{color:var(--good);font-weight:600}
+figcaption{font-size:11px;color:var(--dim);text-align:center;padding:5px 3px;line-height:1.4}
+.ph{background:#17171d;border:1px dashed var(--line);border-radius:6px;aspect-ratio:3/4;
+ display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:11px}
+#lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:99;
+ align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:16px}
+#lb.on{display:flex}#lb img{max-width:96vw;max-height:92vh;object-fit:contain;background:#fff}
+#lbc{color:var(--dim);font-size:13px}
+footer{border-top:1px solid var(--line);margin-top:44px;padding:22px 0 30px;
+ color:var(--dim);font-size:12.5px}
+code{background:#1b1b22;padding:1px 5px;border-radius:4px;font-size:12px}
+</style>
+<div class='wrap'><h1>Dynamic prompting</h1>
+<p class='lede'>The extent clause and the pose clause were written separately and
+contradicted each other: a fixed pose sentence saying <i>&ldquo;feet together&rdquo;</i>
+told the model feet were in frame while the extent clause told it to cut above them
+&mdash; and <b>the pose clause won</b>, reopening a waist-up crop to full length.
+<b>Both clauses now come from one table, keyed on one framing read</b>, so they cannot
+disagree by construction. Click any image for full size.</p></div>
+
+<div class='wrap'>
+<div class='q'><b>How the framing is decided</b>, since it drives everything
+here: MediaPipe Pose Landmarker runs on the crop (36&nbsp;ms, CPU) and reports which
+joints are <b>confident and inside the frame</b> &mdash; shoulder, hip, knee, ankle. Ankle
+present means <code>full_body</code>; knee but no ankle means <code>knee_up</code>; hip but
+no knee means <code>waist_up</code>; shoulders only means <code>chest_up</code>. It reads a
+coordinate the detector already returns, which is a far weaker question than the eight
+head-detection heuristics V2 burned through trying to <i>find</i> a boundary.</div>
+<div class='q'><b>The rule that makes the two clauses consistent:</b> never name a body
+part the crop excludes. Below the hip there are no feet to put together, so neutrality has
+to be expressed with something still in frame &mdash; <i>square to the camera, shoulders
+level</i>. That is the whole schema, and it is why the pose column changes with the
+category rather than being a constant.</div>
+<h2>The table</h2>
+<p class='note'>One read, one lookup, both clauses. The pose half never names a part the extent half has cut off.</p>
+<table><tr><th>framing read</th><th>extent clause</th><th>pose clause</th></tr><tr><td class='l'><b>chest_up</b><span>1 reference</span></td><td class='l'>Show the mannequin from the head to the chest only, cut off below the chest.</td><td class='l pose'>It stands upright and square to the camera, shoulders level.</td></tr><tr><td class='l'><b>waist_up</b><span>3 references</span></td><td class='l'>Show the mannequin from the head to the hip only, cut off below the hip.</td><td class='l pose'>It stands upright and square to the camera, shoulders level.</td></tr><tr><td class='l'><b>knee_up</b><span>1 reference</span></td><td class='l'>Show the mannequin from the head to the knee only, cut off below the knee.</td><td class='l pose'>It stands in a neutral upright pose, legs together, facing forward.</td></tr><tr><td class='l'><b>full_body</b><span>3 references</span></td><td class='l'>Show the whole mannequin, head to feet.</td><td class='l pose'>It stands in a neutral upright pose, feet together, facing forward.</td></tr><tr><td class='l'><b>unknown</b><span>0 references</span></td><td class='l'>Show only the part of the body that the photograph shows.</td><td class='l pose'>It stands upright and square to the camera.</td></tr></table>
+<h2>chest_up<span class='r'>1 reference</span></h2>
+<pre>Show the mannequin from the head to the chest only, cut off below the chest. It stands upright and square to the camera, shoulders level.</pre>
+<div class='lab'>the crop the reader saw &rarr; the mannequin it produced &rarr; what klein made of it</div>
+<h3>p030<span class='r'>colour <b>light brown skin</b> &middot; person <b>p002</b></span></h3>
+<div class='strip s4'><figure class=''><img src='img_dyn/p030__A4.jpg' data-full='img_dyn/p030__A4@f.jpg' alt='A4 crop - what the reader saw' loading='lazy'><figcaption>A4 crop &mdash; what the reader saw</figcaption></figure><figure class=''><img src='img_dyn/p030__MQ.jpg' data-full='img_dyn/p030__MQ@f.jpg' alt='before - extent clause only' loading='lazy'><figcaption>before &mdash; extent clause only</figcaption></figure><figure class='win'><img src='img_dyn/p030__dyn.jpg' data-full='img_dyn/p030__dyn@f.jpg' alt='after - extent + pose from one table' loading='lazy'><figcaption>after &mdash; extent + pose from one table</figcaption></figure><figure class='win'><img src='img_dyn/p002+p030__dyn.jpg' data-full='img_dyn/p002+p030__dyn@f.jpg' alt='klein output' loading='lazy'><figcaption>klein output</figcaption></figure></div>
+<h2>waist_up<span class='r'>3 references</span></h2>
+<pre>Show the mannequin from the head to the hip only, cut off below the hip. It stands upright and square to the camera, shoulders level.</pre>
+<div class='lab'>the crop the reader saw &rarr; the mannequin it produced &rarr; what klein made of it</div>
+<h3>p029<span class='r'>colour <b>dark beige skin</b> &middot; person <b>p001</b></span></h3>
+<div class='strip s4'><figure class=''><img src='img_dyn/p029__A4.jpg' data-full='img_dyn/p029__A4@f.jpg' alt='A4 crop - what the reader saw' loading='lazy'><figcaption>A4 crop &mdash; what the reader saw</figcaption></figure><figure class=''><img src='img_dyn/p029__MQ.jpg' data-full='img_dyn/p029__MQ@f.jpg' alt='before - extent clause only' loading='lazy'><figcaption>before &mdash; extent clause only</figcaption></figure><figure class='win'><img src='img_dyn/p029__dyn.jpg' data-full='img_dyn/p029__dyn@f.jpg' alt='after - extent + pose from one table' loading='lazy'><figcaption>after &mdash; extent + pose from one table</figcaption></figure><figure class='win'><img src='img_dyn/p001+p029__dyn.jpg' data-full='img_dyn/p001+p029__dyn@f.jpg' alt='klein output' loading='lazy'><figcaption>klein output</figcaption></figure></div>
+<h3>dualuse_emma_watson_black_blazer_armscrossed<span class='r'>colour <b>dark beige skin</b> &middot; person <b>p003</b></span></h3>
+<div class='strip s4'><figure class=''><img src='img_dyn/dualuse_emma_watson_black_blazer_armscrossed__A4.jpg' data-full='img_dyn/dualuse_emma_watson_black_blazer_armscrossed__A4@f.jpg' alt='A4 crop - what the reader saw' loading='lazy'><figcaption>A4 crop &mdash; what the reader saw</figcaption></figure><figure class=''><img src='img_dyn/dualuse_emma_watson_black_blazer_armscrossed__MQ.jpg' data-full='img_dyn/dualuse_emma_watson_black_blazer_armscrossed__MQ@f.jpg' alt='before - extent clause only' loading='lazy'><figcaption>before &mdash; extent clause only</figcaption></figure><figure class='win'><img src='img_dyn/dualuse_emma_watson_black_blazer_armscrossed__dyn.jpg' data-full='img_dyn/dualuse_emma_watson_black_blazer_armscrossed__dyn@f.jpg' alt='after - extent + pose from one table' loading='lazy'><figcaption>after &mdash; extent + pose from one table</figcaption></figure><figure class='win'><img src='img_dyn/p003+dualuse_emma_watson_black_blazer_armscrossed__dyn.jpg' data-full='img_dyn/p003+dualuse_emma_watson_black_blazer_armscrossed__dyn@f.jpg' alt='klein output' loading='lazy'><figcaption>klein output</figcaption></figure></div>
+<h3>g018<span class='r'>colour <b>light brown skin</b> &middot; person <b>p024</b></span></h3>
+<div class='strip s4'><figure class=''><img src='img_dyn/g018__A4.jpg' data-full='img_dyn/g018__A4@f.jpg' alt='A4 crop - what the reader saw' loading='lazy'><figcaption>A4 crop &mdash; what the reader saw</figcaption></figure><figure class=''><img src='img_dyn/g018__MQ.jpg' data-full='img_dyn/g018__MQ@f.jpg' alt='before - extent clause only' loading='lazy'><figcaption>before &mdash; extent clause only</figcaption></figure><figure class='win'><img src='img_dyn/g018__dyn.jpg' data-full='img_dyn/g018__dyn@f.jpg' alt='after - extent + pose from one table' loading='lazy'><figcaption>after &mdash; extent + pose from one table</figcaption></figure><figure class='win'><img src='img_dyn/p024+g018__dyn.jpg' data-full='img_dyn/p024+g018__dyn@f.jpg' alt='klein output' loading='lazy'><figcaption>klein output</figcaption></figure></div>
+<h2>knee_up<span class='r'>1 reference</span></h2>
+<pre>Show the mannequin from the head to the knee only, cut off below the knee. It stands in a neutral upright pose, legs together, facing forward.</pre>
+<div class='lab'>the crop the reader saw &rarr; the mannequin it produced &rarr; what klein made of it</div>
+<h3>dualuse_queen_latifah_gown_stage<span class='r'>colour <b>light brown skin</b> &middot; person <b>p007</b></span></h3>
+<div class='strip s4'><figure class=''><img src='img_dyn/dualuse_queen_latifah_gown_stage__A4.jpg' data-full='img_dyn/dualuse_queen_latifah_gown_stage__A4@f.jpg' alt='A4 crop - what the reader saw' loading='lazy'><figcaption>A4 crop &mdash; what the reader saw</figcaption></figure><figure class=''><img src='img_dyn/dualuse_queen_latifah_gown_stage__MQ.jpg' data-full='img_dyn/dualuse_queen_latifah_gown_stage__MQ@f.jpg' alt='before - extent clause only' loading='lazy'><figcaption>before &mdash; extent clause only</figcaption></figure><figure class='win'><img src='img_dyn/dualuse_queen_latifah_gown_stage__dyn.jpg' data-full='img_dyn/dualuse_queen_latifah_gown_stage__dyn@f.jpg' alt='after - extent + pose from one table' loading='lazy'><figcaption>after &mdash; extent + pose from one table</figcaption></figure><figure class='win'><img src='img_dyn/p007+dualuse_queen_latifah_gown_stage__dyn.jpg' data-full='img_dyn/p007+dualuse_queen_latifah_gown_stage__dyn@f.jpg' alt='klein output' loading='lazy'><figcaption>klein output</figcaption></figure></div>
+<h2>full_body<span class='r'>3 references</span></h2>
+<pre>Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.</pre>
+<div class='lab'>the crop the reader saw &rarr; the mannequin it produced &rarr; what klein made of it</div>
+<h3>g013<span class='r'>colour <b>light brown skin</b> &middot; person <b>p021</b></span></h3>
+<div class='strip s4'><figure class=''><img src='img_dyn/g013__A4.jpg' data-full='img_dyn/g013__A4@f.jpg' alt='A4 crop - what the reader saw' loading='lazy'><figcaption>A4 crop &mdash; what the reader saw</figcaption></figure><figure class=''><img src='img_dyn/g013__MQ.jpg' data-full='img_dyn/g013__MQ@f.jpg' alt='before - extent clause only' loading='lazy'><figcaption>before &mdash; extent clause only</figcaption></figure><figure class='win'><img src='img_dyn/g013__dyn.jpg' data-full='img_dyn/g013__dyn@f.jpg' alt='after - extent + pose from one table' loading='lazy'><figcaption>after &mdash; extent + pose from one table</figcaption></figure><figure class='win'><img src='img_dyn/p021+g013__dyn.jpg' data-full='img_dyn/p021+g013__dyn@f.jpg' alt='klein output' loading='lazy'><figcaption>klein output</figcaption></figure></div>
+<h3>g014<span class='r'>colour <b>tan skin</b> &middot; person <b>p022</b></span></h3>
+<div class='strip s4'><figure class=''><img src='img_dyn/g014__A4.jpg' data-full='img_dyn/g014__A4@f.jpg' alt='A4 crop - what the reader saw' loading='lazy'><figcaption>A4 crop &mdash; what the reader saw</figcaption></figure><figure class=''><img src='img_dyn/g014__MQ.jpg' data-full='img_dyn/g014__MQ@f.jpg' alt='before - extent clause only' loading='lazy'><figcaption>before &mdash; extent clause only</figcaption></figure><figure class='win'><img src='img_dyn/g014__dyn.jpg' data-full='img_dyn/g014__dyn@f.jpg' alt='after - extent + pose from one table' loading='lazy'><figcaption>after &mdash; extent + pose from one table</figcaption></figure><figure class='win'><img src='img_dyn/p022+g014__dyn.jpg' data-full='img_dyn/p022+g014__dyn@f.jpg' alt='klein output' loading='lazy'><figcaption>klein output</figcaption></figure></div>
+<h3>dualuse_man_black_suit_studio_nonceleb<span class='r'>colour <b>black skin</b> &middot; person <b>p006</b></span></h3>
+<div class='strip s4'><figure class=''><img src='img_dyn/dualuse_man_black_suit_studio_nonceleb__A4.jpg' data-full='img_dyn/dualuse_man_black_suit_studio_nonceleb__A4@f.jpg' alt='A4 crop - what the reader saw' loading='lazy'><figcaption>A4 crop &mdash; what the reader saw</figcaption></figure><figure class=''><img src='img_dyn/dualuse_man_black_suit_studio_nonceleb__MQ.jpg' data-full='img_dyn/dualuse_man_black_suit_studio_nonceleb__MQ@f.jpg' alt='before - extent clause only' loading='lazy'><figcaption>before &mdash; extent clause only</figcaption></figure><figure class='win'><img src='img_dyn/dualuse_man_black_suit_studio_nonceleb__dyn.jpg' data-full='img_dyn/dualuse_man_black_suit_studio_nonceleb__dyn@f.jpg' alt='after - extent + pose from one table' loading='lazy'><figcaption>after &mdash; extent + pose from one table</figcaption></figure><figure class='win'><img src='img_dyn/p006+dualuse_man_black_suit_studio_nonceleb__dyn.jpg' data-full='img_dyn/p006+dualuse_man_black_suit_studio_nonceleb__dyn@f.jpg' alt='klein output' loading='lazy'><figcaption>klein output</figcaption></figure></div>
+<footer>Table of record: <code>FRAME_CLAUSE</code> in
+<code>v3/build/skin_tone.py</code> &middot; prompts as sent:
+<code>v3/runs/v3.0b/_dyn_prompts.json</code> &middot; runner:
+<code>v3/build/run_dyn.py</code> &middot; rebuild:
+<code>python3 v3/build/dyn_page.py</code>. Eight references chosen to cover every category
+the reader produces, so the schema is exercised rather than sampled.</footer></div><div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div><script>
+document.addEventListener('click',e=>{const im=e.target.closest('figure img');
+  if(!im)return;document.getElementById('lbi').src=im.dataset.full||im.getAttribute('src');
+  document.getElementById('lbc').textContent=im.getAttribute('alt');
+  document.getElementById('lb').classList.add('on');});
+document.getElementById('lb').addEventListener('click',()=>
+  document.getElementById('lb').classList.remove('on'));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')
+  document.getElementById('lb').classList.remove('on')});
+</script>

@@ -35,3 +35,12 @@ v2/report/
 
 # --- V3 run outputs: same rule as V2. Images regenerable; JSON audits tracked.
 v3/runs/**/*.jpg
+
+# --- V3 run outputs -----------------------------------------------------------
+# Same rule as V2: generated images and mattes are not tracked (~400MB, all
+# regenerable from the code and the matrices below). The Colab bundle carries its
+# own copy of the test set, so v3/colab/testset is not tracked twice.
+v3/runs/*
+!v3/runs/*.json
+v3/report/img*/
+v3/colab/testset/

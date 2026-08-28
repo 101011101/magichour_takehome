@@ -577,7 +577,7 @@ produced a landscape canvas and the duplication in
 | | question | status |
 |---|---|---|
 | **[v3.0](v3.0/EXPERIMENT.md)** | What are BC_klein's and QX's failure and success conditions, and what causes them? | **open** — diagnosis complete, [new run specified](v3.0/TEST.md) |
-| **[v3.1](v3.1/RESULTS.md)** | How far does the ghost-mannequin reference get? | **open** — `p7` chosen from eight prompts, 28 extractions and 28 edits on disk, unscored |
+| **[v3.1](v3.1/SOLUTION.md)** | How far does the ghost-mannequin reference get? | **LOCKED 2026-08-28** — crop + dynamic prompting + mannequin extraction, two calls. [Architecture](v3.1/SOLUTION.md) · [chain](v3.1/EXPERIMENT.md) · [evidence](v3.1/RESULTS.md) |
 | **[v3.2](v3.2/EXPERIMENT.md)** | Does running the klein edit twice recover what PHEAD loses by skipping the bald pass? | **concluded, negative** — the second pass persists PHEAD's defects rather than correcting them; unusable on all 28 |
 
 ### 4.1 Closed side-branches

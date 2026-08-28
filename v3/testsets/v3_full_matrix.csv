@@ -1,0 +1,201 @@
+pair,set_id,person,person_file,person_pose,person_tone,person_gender,person_framing,garment,garment_file,garment_category,garment_hard_case,garment_src
+1,p001+p002,p001,p001.jpg,neutral_standing,light,woman,full_body,p002,p002.jpg,person,,test_set1
+2,p002+p003,p002,p002.jpg,neutral_standing,medium,man,full_body,p003,p003.jpg,person,,test_set1
+3,p003+p004,p003,p003.jpg,neutral_standing,dark,woman,full_body,p004,p004.jpg,person,,test_set1
+4,p004+p005,p004,p004.jpg,neutral_standing,light,man,waist_up,p005,p005.jpg,person,,test_set1
+5,p005+p006,p005,p005.jpg,neutral_standing,medium,woman,full_body,p006,p006.jpg,person,,test_set1
+6,p006+p007,p006,p006.jpg,neutral_standing,dark,man,full_body,p007,p007.jpg,person,,test_set1
+7,p007+p008,p007,p007.jpg,neutral_standing,light,man,waist_up,p008,p008.jpg,person,,test_set1
+8,p008+p009,p008,p008.jpg,neutral_standing,medium,woman,full_body,p009,p009.jpg,person,hand_over_torso,test_set1
+9,p009+p010,p009,p009.jpg,arms_crossed,dark,woman,full_body,p010,p010.jpg,person,hand_over_torso,test_set1
+10,p010+p011,p010,p010.jpg,arms_crossed,light,man,full_body,p011,p011.jpg,person,hand_over_torso,test_set1
+11,p011+p012,p011,p011.jpg,arms_crossed,medium,man,waist_up,p012,p012.jpg,person,hand_over_torso,test_set1
+12,p012+p013,p012,p012.jpg,arms_crossed,dark,woman,full_body,p013,p013.jpg,person,hand_over_torso,test_set1
+13,p013+p014,p013,p013.jpg,arms_crossed,light,woman,waist_up,p014,p014.jpg,person,hand_over_torso,test_set1
+14,p014+p015,p014,p014.jpg,arms_crossed,medium,man,waist_up,p015,p015.jpg,person,hand_over_torso,test_set1
+15,p015+p016,p015,p015.jpg,arms_crossed,dark,man,waist_up,p016,p016.jpg,person,,test_set1
+16,p016+p017,p016,p016.jpg,side_profile,light,woman,full_body,p017,p017.jpg,person,,test_set1
+17,p017+p018,p017,p017.jpg,three_quarter,medium,man,full_body,p018,p018.jpg,person,,test_set1
+18,p018+p019,p018,p018.jpg,side_profile,dark,man,three_quarter_length,p019,p019.jpg,person,,test_set1
+19,p019+p020,p019,p019.jpg,side_profile,light,woman,waist_up,p020,p020.jpg,person,,test_set1
+20,p020+p021,p020,p020.jpg,side_profile,medium,man,waist_up,p021,p021.jpg,person,,test_set1
+21,p021+p022,p021,p021.jpg,sitting,dark,woman,full_body,p022,p022.jpg,person,,test_set1
+22,p022+p023,p022,p022.jpg,sitting,light,man,full_body,p023,p023.jpg,person,,test_set1
+23,p023+p024,p023,p023.jpg,sitting,medium,woman,waist_up,p024,p024.jpg,person,,test_set1
+24,p024+p025,p024,p024.jpg,sitting,dark,man,full_body,p025,p025.jpg,person,,test_set1
+25,p025+p026,p025,p025.jpg,walking,light,woman,full_body,p026,p026.jpg,person,,test_set1
+26,p026+p027,p026,p026.jpg,walking,medium,woman,full_body,p027,p027.jpg,person,,test_set1
+27,p027+p028,p027,p027.jpg,walking,dark,man,full_body,p028,p028.jpg,person,,test_set1
+28,p028+p029,p028,p028.jpg,arms_raised,light,woman,waist_up,p029,p029.jpg,person,,test_set1
+29,p029+p030,p029,p029.jpg,holding_object,medium,man,waist_up,p030,p030.jpg,person,,test_set1
+30,p030+dualuse_emma_watson_black_blazer_armscrossed,p030,p030.jpg,arms_raised,dark,woman,waist_up,dualuse_emma_watson_black_blazer_armscrossed,dualuse_emma_watson_black_blazer_armscrossed.jpg,,,test_set2/people
+31,dualuse_emma_watson_black_blazer_armscrossed+dualuse_gal_gadot_blue_dress_redcarpet,dualuse_emma_watson_black_blazer_armscrossed,dualuse_emma_watson_black_blazer_armscrossed.jpg,,,,,dualuse_gal_gadot_blue_dress_redcarpet,dualuse_gal_gadot_blue_dress_redcarpet.jpg,,,test_set2/people
+32,dualuse_gal_gadot_blue_dress_redcarpet+dualuse_hugh_jackman_grey_suit_outdoor,dualuse_gal_gadot_blue_dress_redcarpet,dualuse_gal_gadot_blue_dress_redcarpet.jpg,,,,,dualuse_hugh_jackman_grey_suit_outdoor,dualuse_hugh_jackman_grey_suit_outdoor.jpg,,,test_set2/people
+33,dualuse_hugh_jackman_grey_suit_outdoor+dualuse_man_black_suit_studio_nonceleb,dualuse_hugh_jackman_grey_suit_outdoor,dualuse_hugh_jackman_grey_suit_outdoor.jpg,,,,,dualuse_man_black_suit_studio_nonceleb,dualuse_man_black_suit_studio_nonceleb.jpg,,,test_set2/people
+34,dualuse_man_black_suit_studio_nonceleb+dualuse_queen_latifah_gown_stage,dualuse_man_black_suit_studio_nonceleb,dualuse_man_black_suit_studio_nonceleb.jpg,,,,,dualuse_queen_latifah_gown_stage,dualuse_queen_latifah_gown_stage.jpg,,,test_set2/people
+35,dualuse_queen_latifah_gown_stage+dualuse_scarlett_johansson_black_dress_backview_night,dualuse_queen_latifah_gown_stage,dualuse_queen_latifah_gown_stage.jpg,,,,,dualuse_scarlett_johansson_black_dress_backview_night,dualuse_scarlett_johansson_black_dress_backview_night.avif,,,test_set2/people
+36,dualuse_scarlett_johansson_black_dress_backview_night+dualuse_woman_top_denim_skirt_nonceleb,dualuse_scarlett_johansson_black_dress_backview_night,dualuse_scarlett_johansson_black_dress_backview_night.avif,,,,,dualuse_woman_top_denim_skirt_nonceleb,dualuse_woman_top_denim_skirt_nonceleb.jpg,,,test_set2/people
+37,dualuse_woman_top_denim_skirt_nonceleb+dualuse_zendaya_white_blazer_skirt,dualuse_woman_top_denim_skirt_nonceleb,dualuse_woman_top_denim_skirt_nonceleb.jpg,,,,,dualuse_zendaya_white_blazer_skirt,dualuse_zendaya_white_blazer_skirt.jpeg,,,test_set2/people
+38,dualuse_zendaya_white_blazer_skirt+dualuse_lp_beige_long_coat_menswear,dualuse_zendaya_white_blazer_skirt,dualuse_zendaya_white_blazer_skirt.jpeg,,,,,dualuse_lp_beige_long_coat_menswear,dualuse_lp_beige_long_coat_menswear.webp,,,test_set2/clothes (on-model)
+39,dualuse_lp_beige_long_coat_menswear+dualuse_lp_floral_kimono_set,dualuse_lp_beige_long_coat_menswear,dualuse_lp_beige_long_coat_menswear.webp,,,,,dualuse_lp_floral_kimono_set,dualuse_lp_floral_kimono_set.webp,,,test_set2/clothes (on-model)
+40,dualuse_lp_floral_kimono_set+dualuse_lp_navy_quarterzip_knit_LOWRES,dualuse_lp_floral_kimono_set,dualuse_lp_floral_kimono_set.webp,,,,,dualuse_lp_navy_quarterzip_knit_LOWRES,dualuse_lp_navy_quarterzip_knit_LOWRES.avif,,,test_set2/clothes (on-model)
+41,dualuse_lp_navy_quarterzip_knit_LOWRES+dualuse_lp_plaid_overcoat_brown_suit,dualuse_lp_navy_quarterzip_knit_LOWRES,dualuse_lp_navy_quarterzip_knit_LOWRES.avif,,,,,dualuse_lp_plaid_overcoat_brown_suit,dualuse_lp_plaid_overcoat_brown_suit.jpg,,,test_set2/clothes (on-model)
+42,dualuse_lp_plaid_overcoat_brown_suit+dualuse_navy_peacoat_onmodel,dualuse_lp_plaid_overcoat_brown_suit,dualuse_lp_plaid_overcoat_brown_suit.jpg,,,,,dualuse_navy_peacoat_onmodel,dualuse_navy_peacoat_onmodel.webp,,,test_set2/clothes (on-model)
+43,dualuse_navy_peacoat_onmodel+g004,dualuse_navy_peacoat_onmodel,dualuse_navy_peacoat_onmodel.webp,,,,,g004,g004.jpg,tight_top,,test_set1/garments (on-model)
+44,g004+g005,g004,g004.jpg,,,,,g005,g005.jpg,tight_top,graphic_logo,test_set1/garments (on-model)
+45,g005+g009,g005,g005.jpg,,,,,g009,g009.jpg,loose_top,,test_set1/garments (on-model)
+46,g009+g011,g009,g009.jpg,,,,,g011,g011.jpg,dress,,test_set1/garments (on-model)
+47,g011+g012,g011,g011.jpg,,,,,g012,g012.jpg,dress,fine_pattern,test_set1/garments (on-model)
+48,g012+g013,g012,g012.jpg,,,,,g013,g013.jpg,dress,fine_pattern,test_set1/garments (on-model)
+49,g013+g014,g013,g013.jpg,,,,,g014,g014.jpg,dress,,test_set1/garments (on-model)
+50,g014+g015,g014,g014.jpg,,,,,g015,g015.jpg,dress,,test_set1/garments (on-model)
+51,g015+g018,g015,g015.jpg,,,,,g018,g018.jpg,outerwear,open_front,test_set1/garments (on-model)
+52,g018+g024,g018,g018.jpg,,,,,g024,g024.jpg,lower_body,,test_set1/garments (on-model)
+53,g024+g027,g024,g024.jpg,,,,,g027,g027.jpg,hard_case,graphic_text,test_set1/garments (on-model)
+54,g027+g029,g027,g027.jpg,,,,,g029,g029.jpg,hard_case,fine_pattern,test_set1/garments (on-model)
+55,g029+g030,g029,g029.jpg,,,,,g030,g030.jpg,hard_case,texture_sheer,test_set1/garments (on-model)
+56,g030+p001,g030,g030.jpg,,,,,p001,p001.jpg,person,,test_set1
+57,p001+p006,p001,p001.jpg,neutral_standing,light,woman,full_body,p006,p006.jpg,person,,test_set1
+58,p002+p007,p002,p002.jpg,neutral_standing,medium,man,full_body,p007,p007.jpg,person,,test_set1
+59,p003+p008,p003,p003.jpg,neutral_standing,dark,woman,full_body,p008,p008.jpg,person,,test_set1
+60,p004+p009,p004,p004.jpg,neutral_standing,light,man,waist_up,p009,p009.jpg,person,hand_over_torso,test_set1
+61,p005+p010,p005,p005.jpg,neutral_standing,medium,woman,full_body,p010,p010.jpg,person,hand_over_torso,test_set1
+62,p006+p011,p006,p006.jpg,neutral_standing,dark,man,full_body,p011,p011.jpg,person,hand_over_torso,test_set1
+63,p007+p012,p007,p007.jpg,neutral_standing,light,man,waist_up,p012,p012.jpg,person,hand_over_torso,test_set1
+64,p008+p013,p008,p008.jpg,neutral_standing,medium,woman,full_body,p013,p013.jpg,person,hand_over_torso,test_set1
+65,p009+p014,p009,p009.jpg,arms_crossed,dark,woman,full_body,p014,p014.jpg,person,hand_over_torso,test_set1
+66,p010+p015,p010,p010.jpg,arms_crossed,light,man,full_body,p015,p015.jpg,person,hand_over_torso,test_set1
+67,p011+p016,p011,p011.jpg,arms_crossed,medium,man,waist_up,p016,p016.jpg,person,,test_set1
+68,p012+p017,p012,p012.jpg,arms_crossed,dark,woman,full_body,p017,p017.jpg,person,,test_set1
+69,p013+p018,p013,p013.jpg,arms_crossed,light,woman,waist_up,p018,p018.jpg,person,,test_set1
+70,p014+p019,p014,p014.jpg,arms_crossed,medium,man,waist_up,p019,p019.jpg,person,,test_set1
+71,p015+p020,p015,p015.jpg,arms_crossed,dark,man,waist_up,p020,p020.jpg,person,,test_set1
+72,p016+p021,p016,p016.jpg,side_profile,light,woman,full_body,p021,p021.jpg,person,,test_set1
+73,p017+p022,p017,p017.jpg,three_quarter,medium,man,full_body,p022,p022.jpg,person,,test_set1
+74,p018+p023,p018,p018.jpg,side_profile,dark,man,three_quarter_length,p023,p023.jpg,person,,test_set1
+75,p019+p024,p019,p019.jpg,side_profile,light,woman,waist_up,p024,p024.jpg,person,,test_set1
+76,p020+p025,p020,p020.jpg,side_profile,medium,man,waist_up,p025,p025.jpg,person,,test_set1
+77,p021+p026,p021,p021.jpg,sitting,dark,woman,full_body,p026,p026.jpg,person,,test_set1
+78,p022+p027,p022,p022.jpg,sitting,light,man,full_body,p027,p027.jpg,person,,test_set1
+79,p023+p028,p023,p023.jpg,sitting,medium,woman,waist_up,p028,p028.jpg,person,,test_set1
+80,p024+p029,p024,p024.jpg,sitting,dark,man,full_body,p029,p029.jpg,person,,test_set1
+81,p025+p030,p025,p025.jpg,walking,light,woman,full_body,p030,p030.jpg,person,,test_set1
+82,p026+dualuse_emma_watson_black_blazer_armscrossed,p026,p026.jpg,walking,medium,woman,full_body,dualuse_emma_watson_black_blazer_armscrossed,dualuse_emma_watson_black_blazer_armscrossed.jpg,,,test_set2/people
+83,p027+dualuse_gal_gadot_blue_dress_redcarpet,p027,p027.jpg,walking,dark,man,full_body,dualuse_gal_gadot_blue_dress_redcarpet,dualuse_gal_gadot_blue_dress_redcarpet.jpg,,,test_set2/people
+84,p028+dualuse_hugh_jackman_grey_suit_outdoor,p028,p028.jpg,arms_raised,light,woman,waist_up,dualuse_hugh_jackman_grey_suit_outdoor,dualuse_hugh_jackman_grey_suit_outdoor.jpg,,,test_set2/people
+85,p029+dualuse_man_black_suit_studio_nonceleb,p029,p029.jpg,holding_object,medium,man,waist_up,dualuse_man_black_suit_studio_nonceleb,dualuse_man_black_suit_studio_nonceleb.jpg,,,test_set2/people
+86,p030+dualuse_queen_latifah_gown_stage,p030,p030.jpg,arms_raised,dark,woman,waist_up,dualuse_queen_latifah_gown_stage,dualuse_queen_latifah_gown_stage.jpg,,,test_set2/people
+87,dualuse_emma_watson_black_blazer_armscrossed+dualuse_scarlett_johansson_black_dress_backview_night,dualuse_emma_watson_black_blazer_armscrossed,dualuse_emma_watson_black_blazer_armscrossed.jpg,,,,,dualuse_scarlett_johansson_black_dress_backview_night,dualuse_scarlett_johansson_black_dress_backview_night.avif,,,test_set2/people
+88,dualuse_gal_gadot_blue_dress_redcarpet+dualuse_woman_top_denim_skirt_nonceleb,dualuse_gal_gadot_blue_dress_redcarpet,dualuse_gal_gadot_blue_dress_redcarpet.jpg,,,,,dualuse_woman_top_denim_skirt_nonceleb,dualuse_woman_top_denim_skirt_nonceleb.jpg,,,test_set2/people
+89,dualuse_hugh_jackman_grey_suit_outdoor+dualuse_zendaya_white_blazer_skirt,dualuse_hugh_jackman_grey_suit_outdoor,dualuse_hugh_jackman_grey_suit_outdoor.jpg,,,,,dualuse_zendaya_white_blazer_skirt,dualuse_zendaya_white_blazer_skirt.jpeg,,,test_set2/people
+90,dualuse_man_black_suit_studio_nonceleb+dualuse_lp_beige_long_coat_menswear,dualuse_man_black_suit_studio_nonceleb,dualuse_man_black_suit_studio_nonceleb.jpg,,,,,dualuse_lp_beige_long_coat_menswear,dualuse_lp_beige_long_coat_menswear.webp,,,test_set2/clothes (on-model)
+91,dualuse_queen_latifah_gown_stage+dualuse_lp_floral_kimono_set,dualuse_queen_latifah_gown_stage,dualuse_queen_latifah_gown_stage.jpg,,,,,dualuse_lp_floral_kimono_set,dualuse_lp_floral_kimono_set.webp,,,test_set2/clothes (on-model)
+92,dualuse_scarlett_johansson_black_dress_backview_night+dualuse_lp_navy_quarterzip_knit_LOWRES,dualuse_scarlett_johansson_black_dress_backview_night,dualuse_scarlett_johansson_black_dress_backview_night.avif,,,,,dualuse_lp_navy_quarterzip_knit_LOWRES,dualuse_lp_navy_quarterzip_knit_LOWRES.avif,,,test_set2/clothes (on-model)
+93,dualuse_woman_top_denim_skirt_nonceleb+dualuse_lp_plaid_overcoat_brown_suit,dualuse_woman_top_denim_skirt_nonceleb,dualuse_woman_top_denim_skirt_nonceleb.jpg,,,,,dualuse_lp_plaid_overcoat_brown_suit,dualuse_lp_plaid_overcoat_brown_suit.jpg,,,test_set2/clothes (on-model)
+94,dualuse_zendaya_white_blazer_skirt+dualuse_navy_peacoat_onmodel,dualuse_zendaya_white_blazer_skirt,dualuse_zendaya_white_blazer_skirt.jpeg,,,,,dualuse_navy_peacoat_onmodel,dualuse_navy_peacoat_onmodel.webp,,,test_set2/clothes (on-model)
+95,dualuse_lp_beige_long_coat_menswear+g004,dualuse_lp_beige_long_coat_menswear,dualuse_lp_beige_long_coat_menswear.webp,,,,,g004,g004.jpg,tight_top,,test_set1/garments (on-model)
+96,dualuse_lp_floral_kimono_set+g005,dualuse_lp_floral_kimono_set,dualuse_lp_floral_kimono_set.webp,,,,,g005,g005.jpg,tight_top,graphic_logo,test_set1/garments (on-model)
+97,dualuse_lp_navy_quarterzip_knit_LOWRES+g009,dualuse_lp_navy_quarterzip_knit_LOWRES,dualuse_lp_navy_quarterzip_knit_LOWRES.avif,,,,,g009,g009.jpg,loose_top,,test_set1/garments (on-model)
+98,dualuse_lp_plaid_overcoat_brown_suit+g011,dualuse_lp_plaid_overcoat_brown_suit,dualuse_lp_plaid_overcoat_brown_suit.jpg,,,,,g011,g011.jpg,dress,,test_set1/garments (on-model)
+99,dualuse_navy_peacoat_onmodel+g012,dualuse_navy_peacoat_onmodel,dualuse_navy_peacoat_onmodel.webp,,,,,g012,g012.jpg,dress,fine_pattern,test_set1/garments (on-model)
+100,g004+g013,g004,g004.jpg,,,,,g013,g013.jpg,dress,fine_pattern,test_set1/garments (on-model)
+101,g005+g014,g005,g005.jpg,,,,,g014,g014.jpg,dress,,test_set1/garments (on-model)
+102,g009+g015,g009,g009.jpg,,,,,g015,g015.jpg,dress,,test_set1/garments (on-model)
+103,g011+g018,g011,g011.jpg,,,,,g018,g018.jpg,outerwear,open_front,test_set1/garments (on-model)
+104,g012+g024,g012,g012.jpg,,,,,g024,g024.jpg,lower_body,,test_set1/garments (on-model)
+105,g013+g027,g013,g013.jpg,,,,,g027,g027.jpg,hard_case,graphic_text,test_set1/garments (on-model)
+106,g014+g029,g014,g014.jpg,,,,,g029,g029.jpg,hard_case,fine_pattern,test_set1/garments (on-model)
+107,g015+g030,g015,g015.jpg,,,,,g030,g030.jpg,hard_case,texture_sheer,test_set1/garments (on-model)
+108,g018+p001,g018,g018.jpg,,,,,p001,p001.jpg,person,,test_set1
+109,g024+p002,g024,g024.jpg,,,,,p002,p002.jpg,person,,test_set1
+110,g027+p003,g027,g027.jpg,,,,,p003,p003.jpg,person,,test_set1
+111,g029+p004,g029,g029.jpg,,,,,p004,p004.jpg,person,,test_set1
+112,g030+p005,g030,g030.jpg,,,,,p005,p005.jpg,person,,test_set1
+113,p001+p014,p001,p001.jpg,neutral_standing,light,woman,full_body,p014,p014.jpg,person,hand_over_torso,test_set1
+114,p002+p015,p002,p002.jpg,neutral_standing,medium,man,full_body,p015,p015.jpg,person,hand_over_torso,test_set1
+115,p003+p016,p003,p003.jpg,neutral_standing,dark,woman,full_body,p016,p016.jpg,person,,test_set1
+116,p004+p017,p004,p004.jpg,neutral_standing,light,man,waist_up,p017,p017.jpg,person,,test_set1
+117,p005+p018,p005,p005.jpg,neutral_standing,medium,woman,full_body,p018,p018.jpg,person,,test_set1
+118,p006+p019,p006,p006.jpg,neutral_standing,dark,man,full_body,p019,p019.jpg,person,,test_set1
+119,p007+p020,p007,p007.jpg,neutral_standing,light,man,waist_up,p020,p020.jpg,person,,test_set1
+120,p008+p021,p008,p008.jpg,neutral_standing,medium,woman,full_body,p021,p021.jpg,person,,test_set1
+121,p009+p022,p009,p009.jpg,arms_crossed,dark,woman,full_body,p022,p022.jpg,person,,test_set1
+122,p010+p023,p010,p010.jpg,arms_crossed,light,man,full_body,p023,p023.jpg,person,,test_set1
+123,p011+p024,p011,p011.jpg,arms_crossed,medium,man,waist_up,p024,p024.jpg,person,,test_set1
+124,p012+p025,p012,p012.jpg,arms_crossed,dark,woman,full_body,p025,p025.jpg,person,,test_set1
+125,p013+p026,p013,p013.jpg,arms_crossed,light,woman,waist_up,p026,p026.jpg,person,,test_set1
+126,p014+p027,p014,p014.jpg,arms_crossed,medium,man,waist_up,p027,p027.jpg,person,,test_set1
+127,p015+p028,p015,p015.jpg,arms_crossed,dark,man,waist_up,p028,p028.jpg,person,,test_set1
+128,p016+p029,p016,p016.jpg,side_profile,light,woman,full_body,p029,p029.jpg,person,,test_set1
+129,p017+p030,p017,p017.jpg,three_quarter,medium,man,full_body,p030,p030.jpg,person,,test_set1
+130,p018+dualuse_emma_watson_black_blazer_armscrossed,p018,p018.jpg,side_profile,dark,man,three_quarter_length,dualuse_emma_watson_black_blazer_armscrossed,dualuse_emma_watson_black_blazer_armscrossed.jpg,,,test_set2/people
+131,p019+dualuse_gal_gadot_blue_dress_redcarpet,p019,p019.jpg,side_profile,light,woman,waist_up,dualuse_gal_gadot_blue_dress_redcarpet,dualuse_gal_gadot_blue_dress_redcarpet.jpg,,,test_set2/people
+132,p020+dualuse_hugh_jackman_grey_suit_outdoor,p020,p020.jpg,side_profile,medium,man,waist_up,dualuse_hugh_jackman_grey_suit_outdoor,dualuse_hugh_jackman_grey_suit_outdoor.jpg,,,test_set2/people
+133,p021+dualuse_man_black_suit_studio_nonceleb,p021,p021.jpg,sitting,dark,woman,full_body,dualuse_man_black_suit_studio_nonceleb,dualuse_man_black_suit_studio_nonceleb.jpg,,,test_set2/people
+134,p022+dualuse_queen_latifah_gown_stage,p022,p022.jpg,sitting,light,man,full_body,dualuse_queen_latifah_gown_stage,dualuse_queen_latifah_gown_stage.jpg,,,test_set2/people
+135,p023+dualuse_scarlett_johansson_black_dress_backview_night,p023,p023.jpg,sitting,medium,woman,waist_up,dualuse_scarlett_johansson_black_dress_backview_night,dualuse_scarlett_johansson_black_dress_backview_night.avif,,,test_set2/people
+136,p024+dualuse_woman_top_denim_skirt_nonceleb,p024,p024.jpg,sitting,dark,man,full_body,dualuse_woman_top_denim_skirt_nonceleb,dualuse_woman_top_denim_skirt_nonceleb.jpg,,,test_set2/people
+137,p025+dualuse_zendaya_white_blazer_skirt,p025,p025.jpg,walking,light,woman,full_body,dualuse_zendaya_white_blazer_skirt,dualuse_zendaya_white_blazer_skirt.jpeg,,,test_set2/people
+138,p026+dualuse_lp_beige_long_coat_menswear,p026,p026.jpg,walking,medium,woman,full_body,dualuse_lp_beige_long_coat_menswear,dualuse_lp_beige_long_coat_menswear.webp,,,test_set2/clothes (on-model)
+139,p027+dualuse_lp_floral_kimono_set,p027,p027.jpg,walking,dark,man,full_body,dualuse_lp_floral_kimono_set,dualuse_lp_floral_kimono_set.webp,,,test_set2/clothes (on-model)
+140,p028+dualuse_lp_navy_quarterzip_knit_LOWRES,p028,p028.jpg,arms_raised,light,woman,waist_up,dualuse_lp_navy_quarterzip_knit_LOWRES,dualuse_lp_navy_quarterzip_knit_LOWRES.avif,,,test_set2/clothes (on-model)
+141,p029+dualuse_lp_plaid_overcoat_brown_suit,p029,p029.jpg,holding_object,medium,man,waist_up,dualuse_lp_plaid_overcoat_brown_suit,dualuse_lp_plaid_overcoat_brown_suit.jpg,,,test_set2/clothes (on-model)
+142,p030+dualuse_navy_peacoat_onmodel,p030,p030.jpg,arms_raised,dark,woman,waist_up,dualuse_navy_peacoat_onmodel,dualuse_navy_peacoat_onmodel.webp,,,test_set2/clothes (on-model)
+143,dualuse_emma_watson_black_blazer_armscrossed+g004,dualuse_emma_watson_black_blazer_armscrossed,dualuse_emma_watson_black_blazer_armscrossed.jpg,,,,,g004,g004.jpg,tight_top,,test_set1/garments (on-model)
+144,dualuse_gal_gadot_blue_dress_redcarpet+g005,dualuse_gal_gadot_blue_dress_redcarpet,dualuse_gal_gadot_blue_dress_redcarpet.jpg,,,,,g005,g005.jpg,tight_top,graphic_logo,test_set1/garments (on-model)
+145,dualuse_hugh_jackman_grey_suit_outdoor+g009,dualuse_hugh_jackman_grey_suit_outdoor,dualuse_hugh_jackman_grey_suit_outdoor.jpg,,,,,g009,g009.jpg,loose_top,,test_set1/garments (on-model)
+146,dualuse_man_black_suit_studio_nonceleb+g011,dualuse_man_black_suit_studio_nonceleb,dualuse_man_black_suit_studio_nonceleb.jpg,,,,,g011,g011.jpg,dress,,test_set1/garments (on-model)
+147,dualuse_queen_latifah_gown_stage+g012,dualuse_queen_latifah_gown_stage,dualuse_queen_latifah_gown_stage.jpg,,,,,g012,g012.jpg,dress,fine_pattern,test_set1/garments (on-model)
+148,dualuse_scarlett_johansson_black_dress_backview_night+g013,dualuse_scarlett_johansson_black_dress_backview_night,dualuse_scarlett_johansson_black_dress_backview_night.avif,,,,,g013,g013.jpg,dress,fine_pattern,test_set1/garments (on-model)
+149,dualuse_woman_top_denim_skirt_nonceleb+g014,dualuse_woman_top_denim_skirt_nonceleb,dualuse_woman_top_denim_skirt_nonceleb.jpg,,,,,g014,g014.jpg,dress,,test_set1/garments (on-model)
+150,dualuse_zendaya_white_blazer_skirt+g015,dualuse_zendaya_white_blazer_skirt,dualuse_zendaya_white_blazer_skirt.jpeg,,,,,g015,g015.jpg,dress,,test_set1/garments (on-model)
+151,dualuse_lp_beige_long_coat_menswear+g018,dualuse_lp_beige_long_coat_menswear,dualuse_lp_beige_long_coat_menswear.webp,,,,,g018,g018.jpg,outerwear,open_front,test_set1/garments (on-model)
+152,dualuse_lp_floral_kimono_set+g024,dualuse_lp_floral_kimono_set,dualuse_lp_floral_kimono_set.webp,,,,,g024,g024.jpg,lower_body,,test_set1/garments (on-model)
+153,dualuse_lp_navy_quarterzip_knit_LOWRES+g027,dualuse_lp_navy_quarterzip_knit_LOWRES,dualuse_lp_navy_quarterzip_knit_LOWRES.avif,,,,,g027,g027.jpg,hard_case,graphic_text,test_set1/garments (on-model)
+154,dualuse_lp_plaid_overcoat_brown_suit+g029,dualuse_lp_plaid_overcoat_brown_suit,dualuse_lp_plaid_overcoat_brown_suit.jpg,,,,,g029,g029.jpg,hard_case,fine_pattern,test_set1/garments (on-model)
+155,dualuse_navy_peacoat_onmodel+g030,dualuse_navy_peacoat_onmodel,dualuse_navy_peacoat_onmodel.webp,,,,,g030,g030.jpg,hard_case,texture_sheer,test_set1/garments (on-model)
+156,g004+p001,g004,g004.jpg,,,,,p001,p001.jpg,person,,test_set1
+157,g005+p002,g005,g005.jpg,,,,,p002,p002.jpg,person,,test_set1
+158,g009+p003,g009,g009.jpg,,,,,p003,p003.jpg,person,,test_set1
+159,g011+p004,g011,g011.jpg,,,,,p004,p004.jpg,person,,test_set1
+160,g012+p005,g012,g012.jpg,,,,,p005,p005.jpg,person,,test_set1
+161,g013+p006,g013,g013.jpg,,,,,p006,p006.jpg,person,,test_set1
+162,g014+p007,g014,g014.jpg,,,,,p007,p007.jpg,person,,test_set1
+163,g015+p008,g015,g015.jpg,,,,,p008,p008.jpg,person,,test_set1
+164,g018+p009,g018,g018.jpg,,,,,p009,p009.jpg,person,hand_over_torso,test_set1
+165,g024+p010,g024,g024.jpg,,,,,p010,p010.jpg,person,hand_over_torso,test_set1
+166,g027+p011,g027,g027.jpg,,,,,p011,p011.jpg,person,hand_over_torso,test_set1
+167,g029+p012,g029,g029.jpg,,,,,p012,p012.jpg,person,hand_over_torso,test_set1
+168,g030+p013,g030,g030.jpg,,,,,p013,p013.jpg,person,hand_over_torso,test_set1
+169,p001+p024,p001,p001.jpg,neutral_standing,light,woman,full_body,p024,p024.jpg,person,,test_set1
+170,p002+p025,p002,p002.jpg,neutral_standing,medium,man,full_body,p025,p025.jpg,person,,test_set1
+171,p003+p026,p003,p003.jpg,neutral_standing,dark,woman,full_body,p026,p026.jpg,person,,test_set1
+172,p004+p027,p004,p004.jpg,neutral_standing,light,man,waist_up,p027,p027.jpg,person,,test_set1
+173,p005+p028,p005,p005.jpg,neutral_standing,medium,woman,full_body,p028,p028.jpg,person,,test_set1
+174,p006+p029,p006,p006.jpg,neutral_standing,dark,man,full_body,p029,p029.jpg,person,,test_set1
+175,p007+p030,p007,p007.jpg,neutral_standing,light,man,waist_up,p030,p030.jpg,person,,test_set1
+176,p008+dualuse_emma_watson_black_blazer_armscrossed,p008,p008.jpg,neutral_standing,medium,woman,full_body,dualuse_emma_watson_black_blazer_armscrossed,dualuse_emma_watson_black_blazer_armscrossed.jpg,,,test_set2/people
+177,p009+dualuse_gal_gadot_blue_dress_redcarpet,p009,p009.jpg,arms_crossed,dark,woman,full_body,dualuse_gal_gadot_blue_dress_redcarpet,dualuse_gal_gadot_blue_dress_redcarpet.jpg,,,test_set2/people
+178,p010+dualuse_hugh_jackman_grey_suit_outdoor,p010,p010.jpg,arms_crossed,light,man,full_body,dualuse_hugh_jackman_grey_suit_outdoor,dualuse_hugh_jackman_grey_suit_outdoor.jpg,,,test_set2/people
+179,p011+dualuse_man_black_suit_studio_nonceleb,p011,p011.jpg,arms_crossed,medium,man,waist_up,dualuse_man_black_suit_studio_nonceleb,dualuse_man_black_suit_studio_nonceleb.jpg,,,test_set2/people
+180,p012+dualuse_queen_latifah_gown_stage,p012,p012.jpg,arms_crossed,dark,woman,full_body,dualuse_queen_latifah_gown_stage,dualuse_queen_latifah_gown_stage.jpg,,,test_set2/people
+181,p013+dualuse_scarlett_johansson_black_dress_backview_night,p013,p013.jpg,arms_crossed,light,woman,waist_up,dualuse_scarlett_johansson_black_dress_backview_night,dualuse_scarlett_johansson_black_dress_backview_night.avif,,,test_set2/people
+182,p014+dualuse_woman_top_denim_skirt_nonceleb,p014,p014.jpg,arms_crossed,medium,man,waist_up,dualuse_woman_top_denim_skirt_nonceleb,dualuse_woman_top_denim_skirt_nonceleb.jpg,,,test_set2/people
+183,p015+dualuse_zendaya_white_blazer_skirt,p015,p015.jpg,arms_crossed,dark,man,waist_up,dualuse_zendaya_white_blazer_skirt,dualuse_zendaya_white_blazer_skirt.jpeg,,,test_set2/people
+184,p016+dualuse_lp_beige_long_coat_menswear,p016,p016.jpg,side_profile,light,woman,full_body,dualuse_lp_beige_long_coat_menswear,dualuse_lp_beige_long_coat_menswear.webp,,,test_set2/clothes (on-model)
+185,p017+dualuse_lp_floral_kimono_set,p017,p017.jpg,three_quarter,medium,man,full_body,dualuse_lp_floral_kimono_set,dualuse_lp_floral_kimono_set.webp,,,test_set2/clothes (on-model)
+186,p018+dualuse_lp_navy_quarterzip_knit_LOWRES,p018,p018.jpg,side_profile,dark,man,three_quarter_length,dualuse_lp_navy_quarterzip_knit_LOWRES,dualuse_lp_navy_quarterzip_knit_LOWRES.avif,,,test_set2/clothes (on-model)
+187,p019+dualuse_lp_plaid_overcoat_brown_suit,p019,p019.jpg,side_profile,light,woman,waist_up,dualuse_lp_plaid_overcoat_brown_suit,dualuse_lp_plaid_overcoat_brown_suit.jpg,,,test_set2/clothes (on-model)
+188,p020+dualuse_navy_peacoat_onmodel,p020,p020.jpg,side_profile,medium,man,waist_up,dualuse_navy_peacoat_onmodel,dualuse_navy_peacoat_onmodel.webp,,,test_set2/clothes (on-model)
+189,p021+g004,p021,p021.jpg,sitting,dark,woman,full_body,g004,g004.jpg,tight_top,,test_set1/garments (on-model)
+190,p022+g005,p022,p022.jpg,sitting,light,man,full_body,g005,g005.jpg,tight_top,graphic_logo,test_set1/garments (on-model)
+191,p023+g009,p023,p023.jpg,sitting,medium,woman,waist_up,g009,g009.jpg,loose_top,,test_set1/garments (on-model)
+192,p024+g011,p024,p024.jpg,sitting,dark,man,full_body,g011,g011.jpg,dress,,test_set1/garments (on-model)
+193,p025+g012,p025,p025.jpg,walking,light,woman,full_body,g012,g012.jpg,dress,fine_pattern,test_set1/garments (on-model)
+194,p026+g013,p026,p026.jpg,walking,medium,woman,full_body,g013,g013.jpg,dress,fine_pattern,test_set1/garments (on-model)
+195,p027+g014,p027,p027.jpg,walking,dark,man,full_body,g014,g014.jpg,dress,,test_set1/garments (on-model)
+196,p028+g015,p028,p028.jpg,arms_raised,light,woman,waist_up,g015,g015.jpg,dress,,test_set1/garments (on-model)
+197,p029+g018,p029,p029.jpg,holding_object,medium,man,waist_up,g018,g018.jpg,outerwear,open_front,test_set1/garments (on-model)
+198,p030+g024,p030,p030.jpg,arms_raised,dark,woman,waist_up,g024,g024.jpg,lower_body,,test_set1/garments (on-model)
+199,dualuse_emma_watson_black_blazer_armscrossed+g027,dualuse_emma_watson_black_blazer_armscrossed,dualuse_emma_watson_black_blazer_armscrossed.jpg,,,,,g027,g027.jpg,hard_case,graphic_text,test_set1/garments (on-model)
+200,dualuse_gal_gadot_blue_dress_redcarpet+g029,dualuse_gal_gadot_blue_dress_redcarpet,dualuse_gal_gadot_blue_dress_redcarpet.jpg,,,,,g029,g029.jpg,hard_case,fine_pattern,test_set1/garments (on-model)
