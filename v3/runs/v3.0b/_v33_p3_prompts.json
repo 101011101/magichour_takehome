@@ -1,0 +1,1348 @@
+{
+ "p029|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p029|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p029|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p029|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "waist_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p029|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p029|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person faces the camera squarely, shoulders level. The photograph shows them from the head to the chest only; keep exactly that framing, cut off below the chest.",
+  "framing": "chest_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person faces the camera squarely, shoulders level. The photograph shows them from the head to the chest only; keep exactly that framing, cut off below the chest.",
+  "framing": "chest_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person faces the camera squarely, shoulders level. The photograph shows them from the head to the chest only; keep exactly that framing, cut off below the chest.",
+  "framing": "chest_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person faces the camera squarely, shoulders level. The photograph shows them from the head to the chest only; keep exactly that framing, cut off below the chest. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "chest_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person faces the camera squarely, shoulders level. The photograph shows them from the head to the chest only; keep exactly that framing, cut off below the chest.",
+  "framing": "chest_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person faces the camera squarely, shoulders level. The photograph shows them from the head to the chest only; keep exactly that framing, cut off below the chest.",
+  "framing": "chest_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "waist_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 47,
+  "note": "seed 46 returned a black frame; seed 47 used"
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_man_black_suit_studio_nonceleb|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_man_black_suit_studio_nonceleb|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_man_black_suit_studio_nonceleb|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_man_black_suit_studio_nonceleb|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_man_black_suit_studio_nonceleb|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_man_black_suit_studio_nonceleb|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, legs together. The photograph shows them from the head to the knee only; keep exactly that framing, cut off below the knee.",
+  "framing": "knee_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, legs together. The photograph shows them from the head to the knee only; keep exactly that framing, cut off below the knee. Legs straight.",
+  "framing": "knee_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, legs together. The photograph shows them from the head to the knee only; keep exactly that framing, cut off below the knee. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "knee_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, legs together. The photograph shows them from the head to the knee only; keep exactly that framing, cut off below the knee. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "knee_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, legs together. The photograph shows them from the head to the knee only; keep exactly that framing, cut off below the knee.",
+  "framing": "knee_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, legs together. The photograph shows them from the head to the knee only; keep exactly that framing, cut off below the knee. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "knee_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 47,
+  "note": "seed 46 returned a black frame; seed 47 used"
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_zendaya_white_blazer_skirt|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_zendaya_white_blazer_skirt|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_zendaya_white_blazer_skirt|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_zendaya_white_blazer_skirt|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_zendaya_white_blazer_skirt|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_zendaya_white_blazer_skirt|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_floral_kimono_set|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_floral_kimono_set|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_floral_kimono_set|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_floral_kimono_set|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_floral_kimono_set|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_floral_kimono_set|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_navy_peacoat_onmodel|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_navy_peacoat_onmodel|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_navy_peacoat_onmodel|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_navy_peacoat_onmodel|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_navy_peacoat_onmodel|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_navy_peacoat_onmodel|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g004|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g004|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g004|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g004|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g004|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g004|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g005|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g005|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g005|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g005|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g005|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g005|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g009|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g009|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g009|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g009|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g009|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g009|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g011|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g011|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g011|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g011|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g011|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g011|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g012|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g012|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g012|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g012|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g012|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g012|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g013|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g013|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g013|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g013|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g013|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g013|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g014|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g014|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g014|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g014|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g014|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g014|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "waist_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "waist_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g024|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g024|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g024|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g024|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g024|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g024|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. Legs straight. Every garment keeps its shape through the change of pose: a dress stays a dress, a skirt stays a skirt, its hem hanging as one piece. Feet point towards the camera.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "waist_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g029|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g029|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g029|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g029|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "waist_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g029|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g029|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|Q0": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|Q1_legs": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|Q2_legsgarment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|Q3_garment": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "framing": "waist_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|Q4_feet": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|Q5_all": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "same_as_Q0": true,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|A1_armsdown": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person faces the camera squarely, shoulders level. The photograph shows them from the head to the chest only; keep exactly that framing, cut off below the chest. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Arms down, relaxed at the sides.",
+  "framing": "chest_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "p030|A2_armssides": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person faces the camera squarely, shoulders level. The photograph shows them from the head to the chest only; keep exactly that framing, cut off below the chest. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Arms at the sides.",
+  "framing": "chest_up",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "dualuse_man_black_suit_studio_nonceleb|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "dualuse_zendaya_white_blazer_skirt|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "dualuse_lp_beige_long_coat_menswear|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "dualuse_lp_floral_kimono_set|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "dualuse_navy_peacoat_onmodel|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "g004|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "g005|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "g009|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "g011|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "g012|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "g013|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "g014|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ },
+ "g024|Q6_feetstraight": {
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. Feet straight.",
+  "framing": "full_body",
+  "same_as_Q0": false,
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46,
+  "base": "Q3"
+ }
+}

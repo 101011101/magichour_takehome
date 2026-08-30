@@ -103,6 +103,25 @@ production tradeoff, not a ranking.
 
 Locked does not mean correct.
 
+**0. It uses two models, and V3's constraint is one.** The brief is explicit — *"One base
+model on the server: FLUX.2 klein 4B distilled. Nothing else loaded"* — and states the
+central problem as getting the regeneration property *"inside two klein calls, on one
+model"* ([README §2, §4](../README.md)). **This architecture uses Qwen-Image-Edit-2511 for
+call 1 and klein for call 2.** Resident weights are ~55 GB + ~16 GB against ~16 GB for
+klein alone: an H100-80 or two A100-40s per worker, or a 40 GB model load on every
+request.
+
+**So the architecture below is locked as a measured design, not as a deployable one.**
+
+The obvious repair has never been tried: **klein with the mannequin prompt.** V2 measured
+klein as an extractor, but with the old `p1` "isolated on white" wording and before any of
+v3.1's work — and on those numbers klein is **better than Qwen on hue (21.3° against
+28.6°) and far better on texture retention (×1.01 against ×0.51)**, worse only on
+lightness, which is the axis the colour word now controls
+([v3.0/RESULTS §4.2](../v3.0/RESULTS.md#42-klein-as-an-extractor-is-already-measured)).
+That is a promising starting point sitting unused. **8 references, ~$0.24, and it decides
+whether v3.1 ships as one model or two.**
+
 1. **The tone ladder is not calibrated to what the model renders.** `dark beige skin` came
    back **23 L\* points darker** than its own swatch, and not uniformly — so no offset
    fixes it ([§3c.25](RESULTS.md#3c25-p019s-colour-the-read-is-right-and-the-render-is-not)).

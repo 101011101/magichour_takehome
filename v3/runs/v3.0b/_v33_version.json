@@ -1,0 +1,146 @@
+{
+ "refs": {
+  "p029": {
+   "source": "p029__p3_Q3_garment.jpg",
+   "ankle_cut_row": null,
+   "reader_on_reference": false
+  },
+  "p030": {
+   "source": "p030__p7_Q3.jpg",
+   "ankle_cut_row": "already cut in phase 7",
+   "reader_on_reference": false
+  },
+  "dualuse_emma_watson_black_blazer_armscrossed": {
+   "source": "dualuse_emma_watson_black_blazer_armscrossed__p3_Q3_garment.jpg",
+   "ankle_cut_row": null,
+   "reader_on_reference": false
+  },
+  "dualuse_gal_gadot_blue_dress_redcarpet": {
+   "source": "dualuse_gal_gadot_blue_dress_redcarpet__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1529,
+   "reader_on_reference": true
+  },
+  "dualuse_hugh_jackman_grey_suit_outdoor": {
+   "source": "dualuse_hugh_jackman_grey_suit_outdoor__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1411,
+   "reader_on_reference": true
+  },
+  "dualuse_man_black_suit_studio_nonceleb": {
+   "source": "dualuse_man_black_suit_studio_nonceleb__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1437,
+   "reader_on_reference": true
+  },
+  "dualuse_queen_latifah_gown_stage": {
+   "source": "dualuse_queen_latifah_gown_stage__p3_Q3_garment.jpg",
+   "ankle_cut_row": null,
+   "reader_on_reference": false
+  },
+  "dualuse_scarlett_johansson_black_dress_backview_night": {
+   "source": "dualuse_scarlett_johansson_black_dress_backview_night__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1486,
+   "reader_on_reference": true
+  },
+  "dualuse_woman_top_denim_skirt_nonceleb": {
+   "source": "dualuse_woman_top_denim_skirt_nonceleb__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1385,
+   "reader_on_reference": true
+  },
+  "dualuse_zendaya_white_blazer_skirt": {
+   "source": "dualuse_zendaya_white_blazer_skirt__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1483,
+   "reader_on_reference": true
+  },
+  "dualuse_lp_beige_long_coat_menswear": {
+   "source": "dualuse_lp_beige_long_coat_menswear__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1434,
+   "reader_on_reference": true
+  },
+  "dualuse_lp_floral_kimono_set": {
+   "source": "dualuse_lp_floral_kimono_set__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1101,
+   "reader_on_reference": false
+  },
+  "dualuse_lp_navy_quarterzip_knit_LOWRES": {
+   "source": "dualuse_lp_navy_quarterzip_knit_LOWRES__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1406,
+   "reader_on_reference": true
+  },
+  "dualuse_lp_plaid_overcoat_brown_suit": {
+   "source": "dualuse_lp_plaid_overcoat_brown_suit__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1212,
+   "reader_on_reference": true
+  },
+  "dualuse_navy_peacoat_onmodel": {
+   "source": "dualuse_navy_peacoat_onmodel__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1491,
+   "reader_on_reference": true
+  },
+  "g004": {
+   "source": "g004__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1359,
+   "reader_on_reference": false
+  },
+  "g005": {
+   "source": "g005__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1476,
+   "reader_on_reference": true
+  },
+  "g009": {
+   "source": "g009__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1252,
+   "reader_on_reference": true
+  },
+  "g011": {
+   "source": "g011__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1493,
+   "reader_on_reference": true
+  },
+  "g012": {
+   "source": "g012__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1308,
+   "reader_on_reference": true
+  },
+  "g013": {
+   "source": "g013__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1328,
+   "reader_on_reference": false
+  },
+  "g014": {
+   "source": "g014__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1400,
+   "reader_on_reference": true
+  },
+  "g015": {
+   "source": "g015__p3_Q3_garment.jpg",
+   "ankle_cut_row": null,
+   "reader_on_reference": false
+  },
+  "g018": {
+   "source": "g018__p3_Q3_garment.jpg",
+   "ankle_cut_row": null,
+   "reader_on_reference": false
+  },
+  "g024": {
+   "source": "g024__p3_Q3_garment.jpg",
+   "ankle_cut_row": 1500,
+   "reader_on_reference": true
+  },
+  "g027": {
+   "source": "g027__p3_Q3_garment.jpg",
+   "ankle_cut_row": null,
+   "reader_on_reference": false
+  },
+  "g029": {
+   "source": "g029__p3_Q3_garment.jpg",
+   "ankle_cut_row": null,
+   "reader_on_reference": false
+  },
+  "g030": {
+   "source": "g030__p3_Q3_garment.jpg",
+   "ankle_cut_row": null,
+   "reader_on_reference": false
+  }
+ },
+ "edit_prompt": "Dress the person in image 1 in the clothing shown in image 2. Keep the person's face, identity, body and the background exactly as they are. The person's body, limbs and feet are exactly as in image 1 - nothing added, nothing removed.",
+ "seed": 46
+}

@@ -1,0 +1,54 @@
+{
+ "g012|R1_ankleafter": {
+  "cut_row": 1308,
+  "of": 1536,
+  "source": "p3_Q3_garment",
+  "prompt": null,
+  "reader_on_reference": true
+ },
+ "g012|R2_hemafter": {
+  "cut_row": 1308,
+  "of": 1536,
+  "source": "p3_Q3_garment",
+  "prompt": null,
+  "reader_on_reference": true
+ },
+ "g012|R3_anklebefore": {
+  "cut_row": 855,
+  "of": 1024,
+  "framing_after_cut": "waist_up",
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "seed": 46
+ },
+ "g012|R4_prompt": {
+  "framing": "full_body",
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. The frame ends at the ankles; the feet are outside it.",
+  "seed": 46
+ },
+ "g013|R1_ankleafter": {
+  "cut_row": 1328,
+  "of": 1632,
+  "source": "p3_Q3_garment",
+  "prompt": null,
+  "reader_on_reference": false
+ },
+ "g013|R2_hemafter": {
+  "cut_row": 1328,
+  "of": 1632,
+  "source": "p3_Q3_garment",
+  "prompt": null,
+  "reader_on_reference": false
+ },
+ "g013|R3_anklebefore": {
+  "cut_row": 833,
+  "of": 1024,
+  "framing_after_cut": "waist_up",
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+  "seed": 46
+ },
+ "g013|R4_prompt": {
+  "framing": "full_body",
+  "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length. The frame ends at the ankles; the feet are outside it.",
+  "seed": 46
+ }
+}

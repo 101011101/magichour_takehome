@@ -1,0 +1,898 @@
+{
+ "p029|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "chest_up",
+  "colour": "dark beige skin",
+  "person": "p001",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p029|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person faces the camera squarely, shoulders level. The photograph shows them from the head to the chest only; keep exactly that framing, cut off below the chest.",
+  "framing": "chest_up",
+  "colour": "dark beige skin",
+  "person": "p001",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p029|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from the head to the chest only; keep exactly that framing, cut off below the chest.",
+  "framing": "chest_up",
+  "colour": "dark beige skin",
+  "person": "p001",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p029|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless dark beige skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "chest_up",
+  "colour": "dark beige skin",
+  "person": "p001",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "chest_up",
+  "colour": "light brown skin",
+  "person": "p002",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person faces the camera squarely, shoulders level. The photograph shows them from the head to the chest only; keep exactly that framing, cut off below the chest.",
+  "framing": "chest_up",
+  "colour": "light brown skin",
+  "person": "p002",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from the head to the chest only; keep exactly that framing, cut off below the chest.",
+  "framing": "chest_up",
+  "colour": "light brown skin",
+  "person": "p002",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless light brown skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "chest_up",
+  "colour": "light brown skin",
+  "person": "p002",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "waist_up",
+  "colour": "dark beige skin",
+  "person": "p003",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "colour": "dark beige skin",
+  "person": "p003",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "colour": "dark beige skin",
+  "person": "p003",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless dark beige skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "waist_up",
+  "colour": "dark beige skin",
+  "person": "p003",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p004",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p004",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p004",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless dark beige skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p004",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p005",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p005",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p005",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless dark beige skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p005",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_man_black_suit_studio_nonceleb|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "black skin",
+  "person": "p006",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_man_black_suit_studio_nonceleb|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "black skin",
+  "person": "p006",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_man_black_suit_studio_nonceleb|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "black skin",
+  "person": "p006",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_man_black_suit_studio_nonceleb|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless black skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "black skin",
+  "person": "p006",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "waist_up",
+  "colour": "light brown skin",
+  "person": "p007",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "colour": "light brown skin",
+  "person": "p007",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "colour": "light brown skin",
+  "person": "p007",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless light brown skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "waist_up",
+  "colour": "light brown skin",
+  "person": "p007",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p008",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p008",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p008",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless dark beige skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p008",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p009",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p009",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p009",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless tan skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p009",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_zendaya_white_blazer_skirt|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p010",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_zendaya_white_blazer_skirt|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p010",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_zendaya_white_blazer_skirt|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p010",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_zendaya_white_blazer_skirt|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless tan skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p010",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p011",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p011",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p011",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless tan skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p011",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_floral_kimono_set|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p012",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_floral_kimono_set|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p012",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_floral_kimono_set|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p012",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_floral_kimono_set|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless tan skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p012",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p013",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p013",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p013",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless dark beige skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p013",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "brown skin",
+  "person": "p014",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "brown skin",
+  "person": "p014",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "brown skin",
+  "person": "p014",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless brown skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "brown skin",
+  "person": "p014",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_navy_peacoat_onmodel|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "black skin",
+  "person": "p015",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_navy_peacoat_onmodel|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "black skin",
+  "person": "p015",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_navy_peacoat_onmodel|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "black skin",
+  "person": "p015",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_navy_peacoat_onmodel|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless black skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "black skin",
+  "person": "p015",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g004|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "beige skin",
+  "person": "p016",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g004|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "beige skin",
+  "person": "p016",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g004|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "beige skin",
+  "person": "p016",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g004|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless beige skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "beige skin",
+  "person": "p016",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g005|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "brown skin",
+  "person": "p017",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g005|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "brown skin",
+  "person": "p017",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g005|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "brown skin",
+  "person": "p017",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g005|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless brown skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "brown skin",
+  "person": "p017",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g009|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "black skin",
+  "person": "p018",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g009|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "black skin",
+  "person": "p018",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g009|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "black skin",
+  "person": "p018",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g009|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless black skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "black skin",
+  "person": "p018",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g011|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p019",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g011|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p019",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g011|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p019",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g011|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless dark beige skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p019",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g012|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "dark brown skin",
+  "person": "p020",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g012|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "dark brown skin",
+  "person": "p020",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g012|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "dark brown skin",
+  "person": "p020",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g012|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless dark brown skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "dark brown skin",
+  "person": "p020",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g013|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "light brown skin",
+  "person": "p021",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g013|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "light brown skin",
+  "person": "p021",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g013|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "light brown skin",
+  "person": "p021",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g013|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless light brown skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "light brown skin",
+  "person": "p021",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g014|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p022",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g014|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p022",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g014|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p022",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g014|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless tan skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "tan skin",
+  "person": "p022",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p023",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p023",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p023",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless dark beige skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p023",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "waist_up",
+  "colour": "light brown skin",
+  "person": "p024",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "colour": "light brown skin",
+  "person": "p024",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "colour": "light brown skin",
+  "person": "p024",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless light brown skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "waist_up",
+  "colour": "light brown skin",
+  "person": "p024",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g024|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p025",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g024|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p025",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g024|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from head to feet; keep that framing.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p025",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g024|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless dark beige skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "full_body",
+  "colour": "dark beige skin",
+  "person": "p025",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "waist_up",
+  "colour": "dark brown skin",
+  "person": "p026",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "colour": "dark brown skin",
+  "person": "p026",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "colour": "dark brown skin",
+  "person": "p026",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless dark brown skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "waist_up",
+  "colour": "dark brown skin",
+  "person": "p026",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g029|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "waist_up",
+  "colour": "black skin",
+  "person": "p027",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g029|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "colour": "black skin",
+  "person": "p027",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g029|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "colour": "black skin",
+  "person": "p027",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g029|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless black skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "waist_up",
+  "colour": "black skin",
+  "person": "p027",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|MH_pose": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together.",
+  "framing": "waist_up",
+  "colour": "dark beige skin",
+  "person": "p028",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|MH_posefr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright and square to the camera, shoulders level, arms relaxed at the sides. The photograph shows them from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "colour": "dark beige skin",
+  "person": "p028",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|MH_fr": {
+  "prompt": "Replace this person's head with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are. The photograph shows the person from the head to the hip only; keep exactly that framing, cut off below the hip.",
+  "framing": "waist_up",
+  "colour": "dark beige skin",
+  "person": "p028",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|MH_col": {
+  "prompt": "Replace this person's head with a smooth, featureless dark beige skin mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands, the pose and the background exactly as they are.",
+  "framing": "waist_up",
+  "colour": "dark beige skin",
+  "person": "p028",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ }
+}

@@ -1,0 +1,938 @@
+{
+ "dualuse_queen_latifah_gown_stage|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the knee only; show only the pieces visible in it, ending where it ends.",
+  "framing": "knee_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|k2_flat": {
+  "prompt": "Lay every piece of this person's outfit flat on pure white, arranged as it is worn - top above bottom, each piece whole and separate, nothing overlapping. The person is gone. Copy each piece exactly - the same colour, print, texture and cut. Only the pieces the person is actually wearing. The photograph shows the person from the head to the knee only; show only the pieces visible in it, ending where it ends.",
+  "framing": "knee_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|k3_minimal": {
+  "prompt": "This person's whole outfit on pure white, no person. Every piece exactly as photographed: same colour, print, texture and cut. The photograph shows the person from the head to the knee only; show only the pieces visible in it, ending where it ends.",
+  "framing": "knee_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "knee_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|k2_flat": {
+  "prompt": "Lay every piece of this person's outfit flat on pure white, arranged as it is worn - top above bottom, each piece whole and separate, nothing overlapping. The person is gone. Copy each piece exactly - the same colour, print, texture and cut. Only the pieces the person is actually wearing. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|k3_minimal": {
+  "prompt": "This person's whole outfit on pure white, no person. Every piece exactly as photographed: same colour, print, texture and cut. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|k2_flat": {
+  "prompt": "Lay every piece of this person's outfit flat on pure white, arranged as it is worn - top above bottom, each piece whole and separate, nothing overlapping. The person is gone. Copy each piece exactly - the same colour, print, texture and cut. Only the pieces the person is actually wearing. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|k3_minimal": {
+  "prompt": "This person's whole outfit on pure white, no person. Every piece exactly as photographed: same colour, print, texture and cut. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|k2_flat": {
+  "prompt": "Lay every piece of this person's outfit flat on pure white, arranged as it is worn - top above bottom, each piece whole and separate, nothing overlapping. The person is gone. Copy each piece exactly - the same colour, print, texture and cut. Only the pieces the person is actually wearing. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|k3_minimal": {
+  "prompt": "This person's whole outfit on pure white, no person. Every piece exactly as photographed: same colour, print, texture and cut. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|k2_flat": {
+  "prompt": "Lay every piece of this person's outfit flat on pure white, arranged as it is worn - top above bottom, each piece whole and separate, nothing overlapping. The person is gone. Copy each piece exactly - the same colour, print, texture and cut. Only the pieces the person is actually wearing. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|k3_minimal": {
+  "prompt": "This person's whole outfit on pure white, no person. Every piece exactly as photographed: same colour, print, texture and cut. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|k2_flat": {
+  "prompt": "Lay every piece of this person's outfit flat on pure white, arranged as it is worn - top above bottom, each piece whole and separate, nothing overlapping. The person is gone. Copy each piece exactly - the same colour, print, texture and cut. Only the pieces the person is actually wearing. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|k3_minimal": {
+  "prompt": "This person's whole outfit on pure white, no person. Every piece exactly as photographed: same colour, print, texture and cut. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|k2_flat": {
+  "prompt": "Lay every piece of this person's outfit flat on pure white, arranged as it is worn - top above bottom, each piece whole and separate, nothing overlapping. The person is gone. Copy each piece exactly - the same colour, print, texture and cut. Only the pieces the person is actually wearing. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|k3_minimal": {
+  "prompt": "This person's whole outfit on pure white, no person. Every piece exactly as photographed: same colour, print, texture and cut. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|k2_flat": {
+  "prompt": "Lay every piece of this person's outfit flat on pure white, arranged as it is worn - top above bottom, each piece whole and separate, nothing overlapping. The person is gone. Copy each piece exactly - the same colour, print, texture and cut. Only the pieces the person is actually wearing. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|k3_minimal": {
+  "prompt": "This person's whole outfit on pure white, no person. Every piece exactly as photographed: same colour, print, texture and cut. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the form from the head to the hip only, cut off below the hip. It stands upright and square to the camera, shoulders level.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_floral_kimono_set|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_floral_kimono_set|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_floral_kimono_set|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_floral_kimono_set|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_man_black_suit_studio_nonceleb|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_man_black_suit_studio_nonceleb|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_man_black_suit_studio_nonceleb|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_man_black_suit_studio_nonceleb|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_navy_peacoat_onmodel|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_navy_peacoat_onmodel|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_navy_peacoat_onmodel|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_navy_peacoat_onmodel|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the form from the head to the knee only, cut off below the knee. It stands in a neutral upright pose, legs together, facing forward.",
+  "framing": "knee_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "knee_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_zendaya_white_blazer_skirt|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_zendaya_white_blazer_skirt|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_zendaya_white_blazer_skirt|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_zendaya_white_blazer_skirt|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g004|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g004|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g004|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g004|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g005|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g005|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g005|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g005|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g009|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g009|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g009|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g009|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g011|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g011|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g011|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g011|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g012|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g012|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g012|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g012|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g013|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g013|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g013|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g013|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g014|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g014|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g014|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g014|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the form from the head to the hip only, cut off below the hip. It stands upright and square to the camera, shoulders level.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the form from the head to the hip only, cut off below the hip. It stands upright and square to the camera, shoulders level.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g024|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g024|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g024|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the whole form, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g024|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the form from the head to the hip only, cut off below the hip. It stands upright and square to the camera, shoulders level.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g029|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g029|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g029|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the form from the head to the hip only, cut off below the hip. It stands upright and square to the camera, shoulders level.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g029|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the form from the head to the hip only, cut off below the hip. It stands upright and square to the camera, shoulders level.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p029|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p029|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p029|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the form from the head to the hip only, cut off below the hip. It stands upright and square to the camera, shoulders level.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p029|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|k1_ghost": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the chest only; show only the pieces visible in it, ending where it ends.",
+  "framing": "chest_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|k4_qx": {
+  "prompt": "Return only the clothing from this photo, isolated on a plain white background. Remove the person entirely - no face, no skin, no hair, no background. Preserve the garment's exact colour, pattern and shape.",
+  "framing": "chest_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|k5_form": {
+  "prompt": "Show this person's outfit worn by an invisible mannequin against pure white: the clothes hold the shape of a body - shoulders, chest, waist, hips - but the mannequin itself cannot be seen, so the collar, cuffs and hem open onto nothing. The person is gone - no face, no skin, no hair. Every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape; copy each piece exactly - the same colour, print, texture and cut. Only what the person is wearing: if they are not carrying a bag, there is no bag. Show the form from the head to the chest only, cut off below the chest. It stands upright and square to the camera, shoulders level.",
+  "framing": "chest_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|k1_noext": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape, drape and position it has on the person, and the person themself is gone - no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag.",
+  "framing": "chest_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_floral_kimono_set|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_man_black_suit_studio_nonceleb|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_navy_peacoat_onmodel|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the knee only; show only the pieces visible in it, ending where it ends.",
+  "framing": "knee_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_zendaya_white_blazer_skirt|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g004|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g005|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g009|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g011|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g012|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g013|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g014|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g024|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from head to feet, so every piece including footwear is shown.",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g029|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p029|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the hip only; show only the pieces visible in it, ending where it ends.",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|k6_ghost2": {
+  "prompt": "Show only this person's clothes, against pure white, as if worn by an invisible body: every piece keeps the shape and drape it has on the person. The body is entirely invisible - where a sleeve ends there is no hand, where a hem ends there is no leg and no foot, at the collar there is no neck, no face and no hair; where the clothes end there is only white. Copy each piece exactly - the same colour, print, texture and cut. Only what the person is actually wearing: if they are not carrying a bag, there is no bag. The photograph shows the person from the head to the chest only; show only the pieces visible in it, ending where it ends.",
+  "framing": "chest_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ }
+}

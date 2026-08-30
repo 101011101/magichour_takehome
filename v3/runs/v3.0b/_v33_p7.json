@@ -1,0 +1,14 @@
+{
+ "changed": [
+  "p030"
+ ],
+ "meta": {
+  "p030": {
+   "framing": "chest_up",
+   "prompt": "Replace this person's head, from the neck up, with a smooth, featureless mannequin head of the same size, in the same position and facing the same way - no face, no hair. Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person faces the camera squarely, shoulders level, arms down, relaxed at the sides. The photograph shows them from the head to the chest only; keep exactly that framing, cut off below the chest. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.",
+   "seed": 46,
+   "ankle_cut_row": null
+  }
+ },
+ "edit_prompt": "Dress the person in image 1 in the clothing shown in image 2. Keep the person's face, identity, body and the background exactly as they are. The person's body, limbs and feet are exactly as in image 1 - nothing added, nothing removed."
+}

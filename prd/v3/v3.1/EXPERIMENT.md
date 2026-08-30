@@ -687,6 +687,14 @@ fails. **BC's floor is higher; MQ's ceiling is higher.**
    run is its first contact with the full fold.
 4. **n = 28, one seed, one reviewer, unblinded** — the debt V2 froze with, unchanged.
 
+### The constraint this arm does not satisfy
+
+**V3 specifies one model on the server. This arm uses two.** Qwen extracts, klein edits —
+~71 GB of resident weights against klein's 16 GB. It is locked as a *measured design*, and
+the repair that has never been tried is **klein with the mannequin prompt**, on numbers V2
+already collected that favour klein on hue and texture.
+See [SOLUTION §6.0](SOLUTION.md#6-known-defects-carried-into-the-lock).
+
 ### Known defects carried forward, not fixed
 
 - **The ladder's words are not calibrated to what the model renders** — `dark beige skin`

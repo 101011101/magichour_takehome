@@ -1,0 +1,8 @@
+{
+ "arms": {
+  "Q0": "p3_Q0",
+  "Q3": "p3_Q3_garment"
+ },
+ "edit_prompt": "Dress the person in image 1 in the clothing shown in image 2. Keep the person's face, identity, body and the background exactly as they are.",
+ "seed": 46
+}

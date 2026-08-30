@@ -1,0 +1,17 @@
+{
+ "pairs": [
+  "p021+g013",
+  "p022+g014",
+  "p008+dualuse_scarlett_johansson_black_dress_backview_night",
+  "p003+dualuse_emma_watson_black_blazer_armscrossed"
+ ],
+ "prompts": {
+  "E0": "Dress the person in image 1 in the clothing shown in image 2. Keep the person's face, identity, body and the background exactly as they are.",
+  "E1": "Dress the person in image 1 in the clothing shown in image 2. Keep the person's face, identity, body and the background exactly as they are. Do not add any body parts.",
+  "E2": "Dress the person in image 1 in the clothing shown in image 2. Keep the person's face, identity, body and the background exactly as they are. The person has exactly two legs and two feet.",
+  "E3": "Dress the person in image 1 in the clothing shown in image 2. Keep the person's face, identity, body and the background exactly as they are. The person's body, limbs and feet are exactly as in image 1 - nothing added, nothing removed.",
+  "E4": "Dress the person in image 1 in the clothing shown in image 2. Keep the person's face, identity, body and the background exactly as they are. The clothing drapes over the body as one garment; the body underneath is unchanged."
+ },
+ "reference": "p3_Q3_garment",
+ "seed": 46
+}

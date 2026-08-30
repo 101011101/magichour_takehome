@@ -1,0 +1,198 @@
+{
+ "p029|p001": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. It stands upright and square to the camera, shoulders level.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "p030|p002": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the chest only, cut off below the chest. It stands upright and square to the camera, shoulders level.",
+  "colour": "light brown skin",
+  "framing": "chest_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_emma_watson_black_blazer_armscrossed|p003": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. It stands upright and square to the camera, shoulders level.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_gal_gadot_blue_dress_redcarpet|p004": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_hugh_jackman_grey_suit_outdoor|p005": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_man_black_suit_studio_nonceleb|p006": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "black skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_queen_latifah_gown_stage|p007": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the knee only, cut off below the knee. It stands in a neutral upright pose, legs together, facing forward.",
+  "colour": "light brown skin",
+  "framing": "knee_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_scarlett_johansson_black_dress_backview_night|p008": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_woman_top_denim_skirt_nonceleb|p009": {
+  "prompt": "Show this person's outfit on a tan skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "tan skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_zendaya_white_blazer_skirt|p010": {
+  "prompt": "Show this person's outfit on a tan skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "tan skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_beige_long_coat_menswear|p011": {
+  "prompt": "Show this person's outfit on a tan skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "tan skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_floral_kimono_set|p012": {
+  "prompt": "Show this person's outfit on a tan skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "tan skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_navy_quarterzip_knit_LOWRES|p013": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_lp_plaid_overcoat_brown_suit|p014": {
+  "prompt": "Show this person's outfit on a brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "brown skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "dualuse_navy_peacoat_onmodel|p015": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "black skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g004|p016": {
+  "prompt": "Show this person's outfit on a beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "beige skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g005|p017": {
+  "prompt": "Show this person's outfit on a brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "brown skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g009|p018": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "black skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g011|p019": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g012|p020": {
+  "prompt": "Show this person's outfit on a dark brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "dark brown skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g013|p021": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "light brown skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g014|p022": {
+  "prompt": "Show this person's outfit on a tan skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "tan skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g015|p023": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. It stands upright and square to the camera, shoulders level.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g018|p024": {
+  "prompt": "Show this person's outfit on a light brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. It stands upright and square to the camera, shoulders level.",
+  "colour": "light brown skin",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g024|p025": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the whole mannequin, head to feet. It stands in a neutral upright pose, feet together, facing forward.",
+  "colour": "dark beige skin",
+  "framing": "full_body",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g027|p026": {
+  "prompt": "Show this person's outfit on a dark brown skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. It stands upright and square to the camera, shoulders level.",
+  "colour": "dark brown skin",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g029|p027": {
+  "prompt": "Show this person's outfit on a black skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. It stands upright and square to the camera, shoulders level.",
+  "colour": "black skin",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ },
+ "g030|p028": {
+  "prompt": "Show this person's outfit on a dark beige skin mannequin against pure white. The mannequin wears every piece the person is actually wearing, exactly as they wear it, keeping its shape and drape - and the person themself is gone, no face, no skin, no hair. Copy each piece exactly - the same colour, print, texture and cut. The mannequin wears only what the person is wearing and nothing else: if they are not carrying a bag, there is no bag. Show the mannequin from the head to the hip only, cut off below the hip. It stands upright and square to the camera, shoulders level.",
+  "colour": "dark beige skin",
+  "framing": "waist_up",
+  "endpoint": "fal-ai/flux-2/klein/4b/distilled/edit",
+  "seed": 46
+ }
+}
