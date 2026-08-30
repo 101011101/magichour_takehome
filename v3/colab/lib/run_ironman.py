@@ -116,7 +116,7 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
          gpu_usd_per_hour=None):
     for x in ("inputs", "refs", "gen", "meta"):
         os.makedirs(os.path.join(OUT, x), exist_ok=True)
-    paths = L.fetch_models()
+    paths = L.fetch_models(persist=os.environ.get("V3_MODEL_DIR"))   # cached to Drive after the first fetch
     rows = list(csv.DictReader(open(matrix)))
     if limit:
         rows = rows[:int(limit)]
