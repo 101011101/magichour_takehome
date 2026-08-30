@@ -194,6 +194,10 @@ v3.1 used and this investigation did not:
 | protocol | the V2 ternary (`perfect` / `ok` / `fail`) with a band tag on every non-perfect; **blinded** — arm names hidden, order shuffled; more than one seed on the version |
 | what would unlock the accessory question | a count of pairs where a reference-borne bag is worn in the output, per arm |
 | what would unlock the head-colour question | the version with and without the colour word, scored, not eyed |
-| runner to write | `v3/build/run_v33_ironman.py` — composes `run_v33_version.py` over any matrix; a blinded review page in the house style |
+| where it runs | **Colab, A100, self-hosted klein** (`black-forest-labs/FLUX.2-klein-4B`, `Flux2KleinPipeline`, weights from the Drive HF cache) — the plan's rule that final numbers come from downloaded weights |
+| the bundle | `v33_ironman_bundle.zip` = `v3/colab/v33_ironman.ipynb` + `lib/{v3lib,klein_local,run_ironman}.py` + the 200-pair matrix + testset; `v3/colab/README_ironman.md` |
+| what comes back | one zip: inputs, references, `gen/{set_id}__{V,BC}__s{seed}.jpg`, and `meta/` with every prompt, **`timings.csv` (every stage and call timed) and `cost.json`** (klein calls, seconds per call, wall time, USD at the hourly rate set in the notebook, fal-equivalent at $0.015/call) |
+| then locally | `python3 v3/build/ironman_page.py <zip>` → `v3/report/v33_ironman.html`, **blinded** (A/B per pair, order shuffled, key in `v3/runs/ironman/<stamp>/key.csv`), timing and cost tables at the top |
+| scale | 200 pairs × 2 arms × 3 seeds ≈ 1,312 klein calls; low single-digit seconds each on an A100 — well under an hour of generation |
 
 Nothing in the version changes for this test. It is measurement.
