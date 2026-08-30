@@ -1,6 +1,10 @@
 """Turn an iron-man zip into a blinded review page with timing and cost tables.
 
-  python3 v3/build/ironman_page.py v33_ironman_run_<stamp>.zip [--unblind]
+  python3 v3/build/ironman_page.py v33_ironman_run_<stamp>.zip [--unblind] [--rate 0.689 --currency CAD]
+
+--rate recomputes the measured cost from the recorded wall time at a corrected hourly
+rate (the notebook's default was a placeholder); the recomputation is written back into
+meta/cost.json with the original kept under "as_run".
 
 Unpacks to v3/runs/ironman/<stamp>/, writes v3/report/v33_ironman.html and img_im/.
 Per pair, per seed: the person, then the arms in a shuffled order labelled A/B; the
@@ -41,7 +45,7 @@ def fig(pair, cap, cls=""):
             f"<figcaption>{cap}</figcaption></figure>")
 
 
-def main(zip_path, unblind=False):
+def main(zip_path, unblind=False, rate=None, currency="USD"):
     stamp = os.path.splitext(os.path.basename(zip_path))[0].replace("v33_ironman_run_", "")
     run = os.path.join(REPO, "v3", "runs", "ironman", stamp)
     if not os.path.isdir(run):
@@ -52,6 +56,14 @@ def main(zip_path, unblind=False):
     os.makedirs(IMG, exist_ok=True)
     meta = json.load(open(os.path.join(run, "meta", "run.json")))
     cost = json.load(open(os.path.join(run, "meta", "cost.json")))
+    if rate is not None:
+        cost.setdefault("as_run", {"gpu_usd_per_hour": cost.get("gpu_usd_per_hour"), "usd_measured": cost.get("usd_measured")})
+        cost["gpu_rate_per_hour"], cost["currency"] = rate, currency
+        cost["measured_cost"] = round(cost["wall_seconds"] / 3600 * rate, 3)
+        cost["cost_per_pair_per_arm_per_seed"] = round(cost["measured_cost"] / max(cost["klein_calls"], 1), 4)
+        json.dump(cost, open(os.path.join(run, "meta", "cost.json"), "w"), indent=1)
+    cur = cost.get("currency", "USD"); rate_v = cost.get("gpu_rate_per_hour", cost.get("gpu_usd_per_hour"))
+    measured = cost.get("measured_cost", cost.get("usd_measured"))
     rows = list(csv.DictReader(open(os.path.join(REPO, "v3", "testsets", "v3_full_matrix.csv"))))[: meta["pairs"]]
     arms, seeds = meta["arms"], meta["seeds"]
     rng = random.Random(int(hashlib.sha1(stamp.encode()).hexdigest(), 16) % 10**8)
@@ -67,7 +79,8 @@ def main(zip_path, unblind=False):
     for k, v in [("klein calls", t["klein_calls"]), ("seconds per klein call (mean)", t["klein_seconds_per_call"]),
                  ("klein seconds, total", t["klein_seconds"]), ("model load, seconds", t.get("model_load_seconds")),
                  ("wall time, minutes", round(t["wall_seconds"] / 60, 1)),
-                 ("GPU rate, USD/hour", t.get("gpu_usd_per_hour")), ("<b>USD, measured</b>", t.get("usd_measured")),
+                 (f"GPU rate, {cur}/hour", rate_v), (f"<b>{cur}, measured (wall time × rate)</b>", measured),
+                 (f"{cur} per klein call, measured", t.get("cost_per_pair_per_arm_per_seed")),
                  ("USD, fal-equivalent at $0.015/call", t["usd_fal_equivalent"])]:
         o.append(f"<tr><td>{k}</td><td>{html.escape(str(v))}</td></tr>")
     o.append("</table><table class='t'><tr><th>arm</th><th>klein calls</th><th>klein seconds</th></tr>")
@@ -138,4 +151,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementB
 </script>"""
 
 if __name__ == "__main__":
-    main(sys.argv[1], "--unblind" in sys.argv)
+    a = sys.argv
+    rate = float(a[a.index("--rate") + 1]) if "--rate" in a else None
+    cur = a[a.index("--currency") + 1] if "--currency" in a else "USD"
+    main(a[1], "--unblind" in a, rate, cur)
