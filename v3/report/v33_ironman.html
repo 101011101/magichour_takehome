@@ -672,9 +672,7 @@ function paint(){document.querySelectorAll('.vote').forEach(d=>{const k=d.datase
   document.getElementById('count').textContent=Object.keys(votes).length+' / '+total+' scored';}
 document.addEventListener('click',e=>{const b=e.target.closest('.vote button');if(!b)return;const d=b.closest('.vote');
   votes[d.dataset.sid+'|'+d.dataset.seed]=b.dataset.v;try{localStorage.setItem(KEY,JSON.stringify(votes))}catch(x){}paint();});
-document.getElementById('export').onclick=()=>{let csv='set_id,seed,vote
-';Object.keys(votes).sort().forEach(k=>{const [s,d]=k.split('|');csv+=s+','+d+','+votes[k]+'
-';});
+document.getElementById('export').onclick=()=>{let csv='set_id,seed,vote\n';Object.keys(votes).sort().forEach(k=>{const [s,d]=k.split('|');csv+=s+','+d+','+votes[k]+'\n';});
   const box=document.getElementById('csvbox');box.style.display='block';box.value=csv;box.select();
   try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='votes.csv';a.click();}catch(x){}};
 document.getElementById('clear').onclick=()=>{if(confirm('Clear all votes?')){votes={};try{localStorage.removeItem(KEY)}catch(x){}paint();}};
