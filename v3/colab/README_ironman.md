@@ -3,6 +3,9 @@
 The locked v3.3 version against `BC` (v3.1's incumbent), **self-hosted klein on an A100**,
 over the 200-pair matrix, at several seeds. One model, everything timed.
 
+**Open in Colab:** https://colab.research.google.com/github/101011101/magichour_takehome/blob/v3.3-lock/v3/colab/v33_ironman.ipynb
+— nothing to upload; cell 3 fetches `v33_ironman_bundle.zip` from the `v3.3-lock` branch.
+
 ```
 v33_ironman.ipynb    the notebook — run cells in order, Runtime → A100
 matrix.csv           200 pairs (v3/testsets/v3_full_matrix.csv)
