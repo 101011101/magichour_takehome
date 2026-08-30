@@ -917,6 +917,22 @@ page `v3/report/v33_ironman.html` (blinded; key `key.csv` beside the run).
 400 A/B cells per seed, the key held beside the run. **No verdicts are recorded here.**
 The reviewer scores on the V2 ternary; the numbers go in a §14 when they exist.
 
+**Two things the run makes visible, recorded before scoring.**
+
+1. **Self-hosted klein is the same weights but not the same sampler path as fal.** The 56
+   `V` references were made from the same crop, prompt and seed on both — and they are
+   close but **not identical**: the A100 frames differ in framing detail and, on
+   `scarlett`, the hold sentence did not hold (jumpsuit on the A100, dress on fal, seed
+   46). So fal's endpoint and `Flux2KleinPipeline` in bf16 do not reproduce each other
+   seed-for-seed — expected for different inference stacks, and the reason the iron-man
+   scores are the numbers of record, not the fal-era ones.
+2. **The `BC` arm here keeps the bald head; v3.1's `BC` references on disk are headless.**
+   `run_ironman.py` does bald → A4 crop (head kept, as every v3.3 reference); the
+   `refs/{g}__BC.jpg` in `v3/runs/v3.0b` came from v3.0's pipeline with V2's head cut.
+   Both are "bald pass then crop", but they are not the same reference. The iron-man `BC`
+   is the fairer incumbent for this comparison (one crop procedure for both arms) and is
+   labelled `BC` on the page; v3.1's number (79% perfect) was measured on the other.
+
 **One observation, not a score.** The version's call 1 is cheaper than the incumbent's:
 a `V` reference costs 0.96 s + 0.04 s of CPU where a `BC` reference costs 1.70 s + a
 second crop (7.4 s on this CPU) — the head swap on the already-cropped frame is a smaller
