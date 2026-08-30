@@ -7,7 +7,7 @@ parity with v3.1's locked arm at the output by eye
 ([RESULTS §8.1](RESULTS.md#81-results--56-klein-edits-0-failures-no-black-frames-reviewed-by-eye-unscored)).
 Per [SCHEMA.md](../SCHEMA.md) this document carries the architecture and links to the
 evidence; the argument is in [EXPERIMENT.md](EXPERIMENT.md), the cases in
-[RESULTS.md](RESULTS.md). **Unscored** — the next step is the scored comparison in §7.
+[RESULTS.md](RESULTS.md). **Unscored.** The iron-man run of §7 has been made — 1,200 outputs, 3 seeds, CAD 0.66 ([RESULTS §13](RESULTS.md#13-the-iron-man-run--data-on-disk-unscored-2026-08-30)) — and awaits the reviewer's scores.
 
 **The locked version in one line:** `A4 crop → klein head swap (neck up) + dynamic
 pose+framing clause + garment-hold sentence + mannequin head colour → bbox re-crop →
@@ -201,3 +201,5 @@ v3.1 used and this investigation did not:
 | scale | 200 pairs × 2 arms × 3 seeds ≈ 1,312 klein calls; low single-digit seconds each on an A100 — well under an hour of generation |
 
 Nothing in the version changes for this test. It is measurement.
+
+**Run 2026-08-30** — `v33_ironman_run_20260830_0548`: 200 pairs × 2 arms × 3 seeds on an A100-40GB, 1,312 klein calls at 2.04 s each, 57.6 min, **CAD 0.66**. Data and the blinded page are on disk; scoring is the next act ([RESULTS §13](RESULTS.md#13-the-iron-man-run--data-on-disk-unscored-2026-08-30)).

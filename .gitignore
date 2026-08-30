@@ -44,3 +44,6 @@ v3/runs/*
 !v3/runs/*.json
 v3/report/img*/
 v3/colab/testset/
+
+# iron-man run zips: 200+ MB, evidence lives on Drive
+v33_ironman_run_*.zip

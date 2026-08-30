@@ -891,3 +891,33 @@ from the arms-row reference (§11.1).
 from the 200-pair matrix) were run through the version earlier the same day and are on
 disk as `gen/{set_id}__P8E3.jpg` with `_v33_p8.json`; they were not reviewed for this
 section and make no claim here.
+
+## 13. The iron-man run — data on disk, unscored (2026-08-30)
+
+**Run** `v33_ironman_run_20260830_0548` — the locked version (`V`) against `BC`, self-hosted
+`black-forest-labs/FLUX.2-klein-4B` (bf16) on an **NVIDIA A100-SXM4-40GB** in Colab, over the
+**200-pair matrix** (`v3/testsets/v3_full_matrix.csv`), **seeds 46, 47, 48**. Bundle
+`v33_ironman_bundle.zip` @ `v3.3-lock`; runner `v3/colab/lib/run_ironman.py`; notebook
+`v3/colab/v33_ironman.ipynb`. Unpacked to `v3/runs/ironman/20260830_0548/` (gitignored);
+page `v3/report/v33_ironman.html` (blinded; key `key.csv` beside the run).
+
+| | |
+|---|---|
+| outputs | **1,200** — 200 pairs × 2 arms × 3 seeds; **0 black frames**; 17 distinct output sizes, each the person's |
+| references | 56 `V` (head swap → re-crop → ankle cut), 56 `BC` (bald → A4 crop) |
+| klein calls | **1,312** — 656 per arm — at **2.04 s per call** (mean; `edit/V` 2.04, `edit/BC` 2.16, `ref/V` 0.96, `bald/BC` 1.70) |
+| model load | 251.6 s, once (from the Drive HF cache) |
+| wall time | **57.6 min** end to end, including load and 112 crops |
+| A4 crop | **6.8–7.4 s per crop** — BiRefNet ran on the host CPU, not the GPU (`onnxruntime-gpu` did not expose `CUDAExecutionProvider` on this runtime); 112 crops ≈ 13 min of the wall time. On the GPU this would be seconds |
+| cost | **CAD 0.66** measured — 57.6 min at CAD 0.689/h (5.3 CU/h × CAD 0.13/CU); the notebook's placeholder USD 1.20/h gave USD 1.15 and is kept in `cost.json` under `as_run` |
+| fal-equivalent | USD 19.68 at $0.015/call — the self-hosted run is **~30× cheaper per call** |
+| per output | CAD 0.0005 per pair-arm-seed |
+
+**What this run is.** Evidence for the scoring that locks the version: a blinded page of
+400 A/B cells per seed, the key held beside the run. **No verdicts are recorded here.**
+The reviewer scores on the V2 ternary; the numbers go in a §14 when they exist.
+
+**One observation, not a score.** The version's call 1 is cheaper than the incumbent's:
+a `V` reference costs 0.96 s + 0.04 s of CPU where a `BC` reference costs 1.70 s + a
+second crop (7.4 s on this CPU) — the head swap on the already-cropped frame is a smaller
+edit than the bald pass on the raw one.
