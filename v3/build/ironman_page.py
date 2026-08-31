@@ -91,7 +91,7 @@ def main(zip_path, unblind=False, rate=None, currency="USD"):
         o.append(f"<tr><td>{html.escape(k)}</td><td>{v}</td></tr>")
     o.append("</table>")
     o.append("<div class='q'>Arm names are hidden and the order is shuffled per pair; the key is <code>key.csv</code> beside the run. "
-             "Under each pair, click <b>A better / B better / tie / both fail</b> for every seed. Votes save in this browser as you go. "
+             "Under each pair, click <b>A better / B better / tie / both fail</b> for every seed, or press <b>A S D F</b> for the seed block in view; &larr; &rarr; move between pairs, &uarr; &darr; between seed blocks. Votes save in this browser as you go. "
              "<b>Export CSV</b> downloads <code>votes.csv</code> (set_id, seed, vote); if the download is blocked, the same CSV appears in the box to copy.</div>"
              "<div class='bar'><button id='export'>Export CSV</button> <button id='clear'>Clear votes</button> "
              "<span id='count'></span></div><textarea id='csvbox' placeholder='CSV appears here on export'></textarea>")
@@ -102,7 +102,7 @@ def main(zip_path, unblind=False, rate=None, currency="USD"):
         for a in arms:
             key.append({"set_id": sid, "arm": a, "label": labels[a]})
         o.append(f"<section class='pair' id='pair{i}'><div class='pairhead'><span class='pn'>{i} / {len(rows)}</span> "
-                 f"<b>{html.escape(p)}</b> wears <b>{html.escape(g)}</b><span class='hint'>&larr; &rarr; pairs &middot; A / B / T / F vote the seed block in view</span></div>")
+                 f"<b>{html.escape(p)}</b> wears <b>{html.escape(g)}</b><span class='hint'>&larr; &rarr; pairs &middot; A S D F = A / B / tie / fail on the seed block in view</span></div>")
         o.append("<div class='inputs'>"
                  + fig(web(os.path.join(run, "inputs", f"{p}.jpg"), f"{p}__in.jpg"), "person")
                  + fig(web(os.path.join(run, "inputs", f"{g}.jpg"), f"{g}__in.jpg"), "garment photograph") + "</div>")
@@ -195,7 +195,7 @@ document.addEventListener('scroll',()=>requestAnimationFrame(activeBlock),{passi
 document.addEventListener('keydown',e=>{if(e.target.tagName==='TEXTAREA')return;
   if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();const i=currentPair()+(e.key==='ArrowRight'?1:-1);if(pairs[i])pairs[i].scrollIntoView({block:'start'});return;}
   if(e.key==='ArrowDown'||e.key==='ArrowUp'){const blocks=[...document.querySelectorAll('.seedblock')];const a=activeBlock();const i=blocks.indexOf(a)+(e.key==='ArrowDown'?1:-1);if(blocks[i]){e.preventDefault();blocks[i].scrollIntoView({block:'center'});}return;}
-  const map={a:'A',b:'B',t:'tie',f:'fail'};const v=map[e.key.toLowerCase()];if(!v)return;const blk=activeBlock();if(!blk)return;
+  const map={a:'A',s:'B',d:'tie',f:'fail',b:'B',t:'tie'};   // A S D F = A / B / tie / both fail (B and T still work)const v=map[e.key.toLowerCase()];if(!v)return;const blk=activeBlock();if(!blk)return;
   const btn=blk.querySelector(`.vote button[data-v='${v}']`);if(btn)btn.click();});
 </script>"""
 
