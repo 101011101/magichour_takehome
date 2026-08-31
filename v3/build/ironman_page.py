@@ -106,13 +106,14 @@ def main(zip_path, unblind=False, rate=None, currency="USD"):
         o.append("<div class='inputs'>"
                  + fig(web(os.path.join(run, "inputs", f"{p}.jpg"), f"{p}__in.jpg"), "person")
                  + fig(web(os.path.join(run, "inputs", f"{g}.jpg"), f"{g}__in.jpg"), "garment photograph") + "</div>")
+        o.append("<div class='seeds'>")
         for seed in seeds:
             cells = "".join(fig(web(os.path.join(run, "gen", f"{sid}__{a}__s{seed}.jpg"), f"{sid}__{a}__s{seed}.jpg"),
                                 f"<b>{labels[a]}</b>" + (f" &middot; {a}" if unblind else "")) for a in order)
             btns = "".join(f"<button data-v='{v}'>{t}</button>" for v, t in [("A", "A better"), ("B", "B better"), ("tie", "tie"), ("fail", "both fail")])
             o.append(f"<div class='seedblock'><div class='seedhead'>seed {seed}</div><div class='ab'>{cells}</div>"
                      f"<div class='vote' data-sid='{html.escape(sid)}' data-seed='{seed}'>{btns}</div></div>")
-        o.append("</section>")
+        o.append("</div></section>")
     o.append(FOOT + "</div>" + LB + SCRIPT)
     with open(os.path.join(os.path.dirname(run.rstrip('/')) if run.endswith('run') else run, "key.csv"), "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["set_id", "arm", "label"]); w.writeheader(); w.writerows(key)
@@ -143,11 +144,15 @@ figcaption .n{display:block;font-size:9.5px;opacity:.85}
 #lb.on{display:flex}#lb img{max-width:96vw;max-height:92vh;object-fit:contain;background:#fff}
 #lbc{color:var(--dim);font-size:13px}
 footer{border-top:1px solid var(--line);margin-top:44px;padding:22px 0 30px;color:var(--dim);font-size:12.5px}
-.pair{min-height:100vh;scroll-snap-align:start;padding:14px 0 30px;border-top:2px solid var(--acc);margin-top:30px}
+.pair{min-height:100vh;scroll-snap-align:start;padding:14px 0 30px;border-top:2px solid var(--acc);margin-top:30px;
+ display:grid;grid-template-columns:240px minmax(0,1fr);grid-template-areas:"head head" "inputs seeds";gap:8px 18px;align-items:start}
+.pairhead{grid-area:head}.inputs{grid-area:inputs;position:sticky;top:64px}.seeds{grid-area:seeds;min-width:0}
+@media(max-width:900px){.pair{grid-template-columns:1fr;grid-template-areas:"head" "inputs" "seeds"}.inputs{position:static}}
 html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 .pairhead{font-size:16px;margin:0 0 10px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}.pn{color:var(--acc);font-weight:700}.hint{color:var(--dim);font-size:12px;margin-left:auto}
-.inputs{display:grid;grid-template-columns:repeat(2,minmax(0,150px));gap:8px;margin-bottom:8px}
-.inputs figure img{aspect-ratio:3/4;object-fit:cover;object-position:top}
+.inputs{display:grid;grid-template-columns:1fr;gap:10px}
+.inputs figure img{aspect-ratio:3/4;object-fit:contain;max-height:40vh}
+.inputs figcaption{font-size:12px}
 .seedblock{border:1px solid var(--line);border-radius:10px;padding:10px 14px 12px;margin:14px 0;background:#111116}
 .seedblock.active{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
 .seedhead{font-size:13px;letter-spacing:.6px;text-transform:uppercase;color:var(--dim);margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed var(--line)}
