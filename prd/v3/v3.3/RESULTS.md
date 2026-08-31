@@ -1012,3 +1012,35 @@ none. The VLM is a second opinion, not a scorer — the same conclusion V2 reach
   reference — which is v3.0's finding again, now on 600 cells.
 - Against **`BC_klein`** — the arm of record, head subtracted — the comparison is still
   to be made (§13.1 repair).
+
+### 14.5 Second export (02:45) with nudges, and the failure taxonomy
+
+Four cells changed (all three `floral_kimono + g024` seeds and one `+ g005` seed moved to
+**fail**); 11 **acceptable** nudges (8 on BCA4 wins, 3 on fails), no leans. Final:
+**tie 459 (76.6%) · V 83 (13.9%) · BCA4 31 (5.2%) · fail 26 (4.3%) → 23 hard fails
+after nudges.** V takes 73% of the 114 decided cells. Files: `v33_ironman_votes_bca4.csv`
+(with the `nudge` column), `votes_unblinded.csv` beside the run.
+
+**Every hard fail and V loss was looked at** (person | garment | V reference | V output |
+BCA4 output). They sort into five classes, largest first:
+
+| # | class | where it shows | cells | mechanism |
+|---|---|---|---|---|
+| **F1** | **the wearer's own clothing survives under the new garment** | `floral_kimono` as wearer (6 fails: sleeves, hat, bag, trouser legs stay under a tee and shorts / a sweater and skirt), `g004 + g005` (olive trousers under shorts), `p001 + p014` (jeans under a tee), Hugh's shoes | ~12 | **both arms.** The edit replaces what the new garment *covers* and leaves what it *exposes*. A long-sleeved, long-legged wearer receiving a tee and shorts keeps sleeves and legs. There is no person-side agnostic; the E3 sentence keeps the body, and the body's old clothes with it |
+| **F2** | **skirt / dress → trousers on the wearer** | `zendaya`'s wrap skirt on Hugh, `p015`, `p025` (walking, legs apart); `g005 + g014` slip dress on a man | ~7 | **both arms.** Person-side: a male or legs-apart wearer's silhouette gives two tubes (§9.2 again). Not reachable from either prompt |
+| **F3** | **V's regenerated reference drifts from the photograph** | `p003 + p004` (henley too blue — the V reference *is* bluer), `zendaya + peacoat` and `g018 + g024` (turtleneck, jeans, boots gone from V's reference — re-pose plus the ankle cut), `scarlett` as jumpsuit at seed 46 on the A100, `plaid + g029` (cut lengthened) | ~9 | **V only.** Call 1 re-renders the garment; BCA4's reference is the photograph. This is the VLM's garment-fidelity gap (3.02 vs 3.11) made concrete, and it is where every clean V loss comes from |
+| **F4** | **exposed-skin pairing** | `p019 + gal_gadot` (cooked), `p028` (arms raised, slip dress) | ~3 | v3.1 §3c.31, unchanged; both arms |
+| **F5** | wearer's accessories / headwear retained; dark scene | `p011`'s chef hat, `p013`'s hat, `p018`'s bag; `p020`'s kiosk | ~4 | by design (identity) and lighting; ties mostly |
+
+**Two things the taxonomy says about v3.4.**
+
+1. **The largest classes are person-side (F1, F2) and hit both arms** — the reference
+   cannot fix them, and 77% ties say the reference rarely decides anything. v3.4's biggest
+   lever is **image 1**: a garment-agnostic of the wearer (mask the clothing the new
+   garment will not cover), or a call-2 sentence that names the wearer's clothing as
+   *replaced* rather than the body as *kept*.
+2. **V's only clean losses are F3, and they are the price of regenerating the reference.**
+   A version that re-poses only when the photograph's pose demands it — the pose reader
+   already says whether the wearer is neutral — and otherwise ships `MH` (head swap,
+   garment untouched) would keep V's wins and give back the colour and the pieces.
+   The ankle cut also costs where the reference's shoes were wanted (`peacoat` boots).
