@@ -95,24 +95,24 @@ def main(zip_path, unblind=False, rate=None, currency="USD"):
              "<b>Export CSV</b> downloads <code>votes.csv</code> (set_id, seed, vote); if the download is blocked, the same CSV appears in the box to copy.</div>"
              "<div class='bar'><button id='export'>Export CSV</button> <button id='clear'>Clear votes</button> "
              "<span id='count'></span></div><textarea id='csvbox' placeholder='CSV appears here on export'></textarea>")
-    for r in rows:
+    for i, r in enumerate(rows, 1):
         sid, p, g = r["set_id"], r["person"], r["garment"]
         order = list(arms); rng.shuffle(order)
-        labels = {a: chr(65 + i) for i, a in enumerate(order)}
+        labels = {a: chr(65 + i2) for i2, a in enumerate(order)}
         for a in arms:
             key.append({"set_id": sid, "arm": a, "label": labels[a]})
-        o.append(f"<h2>{r['pair']} &middot; {html.escape(p)} wears {html.escape(g)}</h2>")
-        cells = [fig(web(os.path.join(run, "inputs", f"{p}.jpg"), f"{p}__in.jpg"), "person"),
-                 fig(web(os.path.join(run, "inputs", f"{g}.jpg"), f"{g}__in.jpg"), "garment photograph")]
+        o.append(f"<section class='pair' id='pair{i}'><div class='pairhead'><span class='pn'>{i} / {len(rows)}</span> "
+                 f"<b>{html.escape(p)}</b> wears <b>{html.escape(g)}</b><span class='hint'>&larr; &rarr; pairs &middot; A / B / T / F vote the seed block in view</span></div>")
+        o.append("<div class='inputs'>"
+                 + fig(web(os.path.join(run, "inputs", f"{p}.jpg"), f"{p}__in.jpg"), "person")
+                 + fig(web(os.path.join(run, "inputs", f"{g}.jpg"), f"{g}__in.jpg"), "garment photograph") + "</div>")
         for seed in seeds:
-            for a in order:
-                lab = f"{labels[a]}" + (f" &middot; {a}" if unblind else "") + f"<span class='n'>seed {seed}</span>"
-                cells.append(fig(web(os.path.join(run, "gen", f"{sid}__{a}__s{seed}.jpg"), f"{sid}__{a}__s{seed}.jpg"), lab))
-        o.append(f"<div class='strip' style='grid-template-columns:repeat({min(len(cells), 8)},minmax(0,1fr))'>" + "".join(cells) + "</div>")
-        btns = "".join(f"<div class='vote' data-sid='{html.escape(sid)}' data-seed='{seed}'><span class='vs'>seed {seed}:</span>"
-                       + "".join(f"<button data-v='{v}'>{t}</button>" for v, t in [("A", "A better"), ("B", "B better"), ("tie", "tie"), ("fail", "both fail")])
-                       + "</div>" for seed in seeds)
-        o.append(f"<div class='votes'>{btns}</div>")
+            cells = "".join(fig(web(os.path.join(run, "gen", f"{sid}__{a}__s{seed}.jpg"), f"{sid}__{a}__s{seed}.jpg"),
+                                f"<b>{labels[a]}</b>" + (f" &middot; {a}" if unblind else "")) for a in order)
+            btns = "".join(f"<button data-v='{v}'>{t}</button>" for v, t in [("A", "A better"), ("B", "B better"), ("tie", "tie"), ("fail", "both fail")])
+            o.append(f"<div class='seedblock'><div class='seedhead'>seed {seed}</div><div class='ab'>{cells}</div>"
+                     f"<div class='vote' data-sid='{html.escape(sid)}' data-seed='{seed}'>{btns}</div></div>")
+        o.append("</section>")
     o.append(FOOT + "</div>" + LB + SCRIPT)
     with open(os.path.join(os.path.dirname(run.rstrip('/')) if run.endswith('run') else run, "key.csv"), "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["set_id", "arm", "label"]); w.writeheader(); w.writerows(key)
@@ -143,8 +143,19 @@ figcaption .n{display:block;font-size:9.5px;opacity:.85}
 #lb.on{display:flex}#lb img{max-width:96vw;max-height:92vh;object-fit:contain;background:#fff}
 #lbc{color:var(--dim);font-size:13px}
 footer{border-top:1px solid var(--line);margin-top:44px;padding:22px 0 30px;color:var(--dim);font-size:12.5px}
-.votes{display:flex;flex-wrap:wrap;gap:14px;margin:4px 0 0}.vote{display:flex;gap:4px;align-items:center}.vs{font-size:11px;color:var(--dim);margin-right:4px}
-.vote button{background:#17171d;color:var(--fg);border:1px solid var(--line);border-radius:5px;padding:3px 9px;font-size:12px;cursor:pointer}
+.pair{min-height:100vh;scroll-snap-align:start;padding:14px 0 30px;border-top:2px solid var(--acc);margin-top:30px}
+html{scroll-snap-type:y proximity;scroll-behavior:smooth}
+.pairhead{font-size:16px;margin:0 0 10px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}.pn{color:var(--acc);font-weight:700}.hint{color:var(--dim);font-size:12px;margin-left:auto}
+.inputs{display:grid;grid-template-columns:repeat(2,minmax(0,150px));gap:8px;margin-bottom:8px}
+.inputs figure img{aspect-ratio:3/4;object-fit:cover;object-position:top}
+.seedblock{border:1px solid var(--line);border-radius:10px;padding:10px 14px 12px;margin:14px 0;background:#111116}
+.seedblock.active{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.seedhead{font-size:13px;letter-spacing:.6px;text-transform:uppercase;color:var(--dim);margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed var(--line)}
+.ab{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:1200px}
+.ab figure img{aspect-ratio:3/4;object-fit:contain;max-height:78vh}
+.ab figcaption{font-size:15px;padding:8px 2px}
+.vote{display:flex;gap:8px;align-items:center;margin-top:10px}
+.vote button{background:#17171d;color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:8px 18px;font-size:15px;cursor:pointer}
 .vote button.on{background:var(--acc);border-color:var(--acc);color:#fff}
 .bar{position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
 .bar button{background:#17171d;color:var(--fg);border:1px solid var(--acc);border-radius:5px;padding:5px 12px;font-size:13px;cursor:pointer}
@@ -175,6 +186,17 @@ document.getElementById('export').onclick=()=>{let csv='set_id,seed,vote\\n';Obj
   try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='votes.csv';a.click();}catch(x){}};
 document.getElementById('clear').onclick=()=>{if(confirm('Clear all votes?')){votes={};try{localStorage.removeItem(KEY)}catch(x){}paint();}};
 paint();
+// ---- slideshow: arrows move between pairs, A/B/T/F vote the seed block nearest the viewport centre ----
+const pairs=[...document.querySelectorAll('.pair')];
+function activeBlock(){const mid=innerHeight/2;let best=null,bd=1e9;document.querySelectorAll('.seedblock').forEach(b=>{const r=b.getBoundingClientRect();const c=(r.top+r.bottom)/2;const d=Math.abs(c-mid);if(d<bd){bd=d;best=b;}});
+  document.querySelectorAll('.seedblock.active').forEach(b=>b.classList.remove('active'));if(best)best.classList.add('active');return best;}
+function currentPair(){let best=0,bd=1e9;pairs.forEach((p,i)=>{const d=Math.abs(p.getBoundingClientRect().top);if(d<bd){bd=d;best=i;}});return best;}
+document.addEventListener('scroll',()=>requestAnimationFrame(activeBlock),{passive:true});activeBlock();
+document.addEventListener('keydown',e=>{if(e.target.tagName==='TEXTAREA')return;
+  if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();const i=currentPair()+(e.key==='ArrowRight'?1:-1);if(pairs[i])pairs[i].scrollIntoView({block:'start'});return;}
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){const blocks=[...document.querySelectorAll('.seedblock')];const a=activeBlock();const i=blocks.indexOf(a)+(e.key==='ArrowDown'?1:-1);if(blocks[i]){e.preventDefault();blocks[i].scrollIntoView({block:'center'});}return;}
+  const map={a:'A',b:'B',t:'tie',f:'fail'};const v=map[e.key.toLowerCase()];if(!v)return;const blk=activeBlock();if(!blk)return;
+  const btn=blk.querySelector(`.vote button[data-v='${v}']`);if(btn)btn.click();});
 </script>"""
 
 if __name__ == "__main__":
