@@ -220,9 +220,7 @@ function paint(){let n=0;cells.forEach(c=>{const k=c.dataset.sid+'|'+c.dataset.s
   try{localStorage.setItem(KEY,JSON.stringify(acc))}catch(x){}
   document.getElementById('count').textContent=n+' / '+cells.length+' marked v3.3 acceptable';}
 document.addEventListener('click',e=>{const b=e.target.closest('.acc button');if(!b)return;const c=b.closest('.acc');acc[c.dataset.sid+'|'+c.dataset.seed]=b.dataset.a;paint();});
-document.getElementById('export').onclick=()=>{let csv='set_id,seed,reviewer_verdict,v33_acceptable
-';cells.forEach(c=>{const k=c.dataset.sid+'|'+c.dataset.seed;csv+=c.dataset.sid+','+c.dataset.seed+','+c.dataset.verdict+','+(acc[k]==='ok'?'yes':'no')+'
-';});
+document.getElementById('export').onclick=()=>{let csv='set_id,seed,reviewer_verdict,v33_acceptable\n';cells.forEach(c=>{const k=c.dataset.sid+'|'+c.dataset.seed;csv+=c.dataset.sid+','+c.dataset.seed+','+c.dataset.verdict+','+(acc[k]==='ok'?'yes':'no')+'\n';});
   const box=document.getElementById('csvbox');box.style.display='block';box.value=csv;box.select();
   try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='v33_acceptable.csv';a.click();}catch(x){}};
 document.getElementById('reset').onclick=()=>{if(confirm('Reset all marks to the page defaults?')){acc={};try{localStorage.removeItem(KEY)}catch(x){}cells.forEach(c=>{c.querySelectorAll('button').forEach(b=>b.classList.remove('on'));if(c.dataset.pre==='1')c.querySelector('button.ok').classList.add('on');else c.querySelector('button.no').classList.add('on');});paint();}};
