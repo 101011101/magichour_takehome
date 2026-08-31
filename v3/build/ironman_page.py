@@ -37,6 +37,9 @@ def web(src, dst, width=420):
     return "img_im/" + dst, "img_im/" + os.path.basename(full)
 
 
+ARMNAME = {"BC": "BC klein", "V": "v3.3"}
+
+
 def fig(pair, cap, cls=""):
     src, full = pair
     if not src:
@@ -98,21 +101,32 @@ def main(zip_path, unblind=False, rate=None, currency="USD"):
     for i, r in enumerate(rows, 1):
         sid, p, g = r["set_id"], r["person"], r["garment"]
         order = list(arms); rng.shuffle(order)
-        labels = {a: chr(65 + i2) for i2, a in enumerate(order)}
+        labels = {a: chr(65 + i2) for i2, a in enumerate(order)}       # the blinded key is unchanged
         for a in arms:
             key.append({"set_id": sid, "arm": a, "label": labels[a]})
+        if unblind:
+            order = [a for a in ("BC", "V") if a in arms] + [a for a in arms if a not in ("BC", "V")]   # BC left, v3.3 right
         o.append(f"<section class='pair' id='pair{i}'><div class='pairhead'><span class='pn'>{i} / {len(rows)}</span> "
-                 f"<b>{html.escape(p)}</b> wears <b>{html.escape(g)}</b><span class='hint'>&larr; &rarr; pairs &middot; A S D F vote the seed block in view and advance to the next</span></div>")
+                 f"<b>{html.escape(p)}</b> wears <b>{html.escape(g)}</b><span class='hint'>&larr; &rarr; pairs &middot; A S D F = left / right / tie / fail on the block in view, then advance &middot; Z X C = lean left / lean right / acceptable (nudge)</span></div>")
         o.append("<div class='inputs'>"
                  + fig(web(os.path.join(run, "inputs", f"{p}.jpg"), f"{p}__in.jpg"), "person")
                  + fig(web(os.path.join(run, "inputs", f"{g}.jpg"), f"{g}__in.jpg"), "garment photograph") + "</div>")
         o.append("<div class='seeds'>")
         for seed in seeds:
             cells = "".join(fig(web(os.path.join(run, "gen", f"{sid}__{a}__s{seed}.jpg"), f"{sid}__{a}__s{seed}.jpg"),
-                                f"<b>{labels[a]}</b>" + (f" &middot; {a}" if unblind else "")) for a in order)
-            btns = "".join(f"<button data-v='{v}'>{t}</button>" for v, t in [("A", "A better"), ("B", "B better"), ("tie", "tie"), ("fail", "both fail")])
+                                (f"<b>{ARMNAME.get(a, a)}</b>" if unblind else f"<b>{labels[a]}</b>"),
+                                f"lab-{labels[a]}") for a in order)
+            if unblind:
+                bl = [(labels[a], f"{ARMNAME.get(a, a)} better") for a in order]
+            else:
+                bl = [("A", "A better"), ("B", "B better")]
+            btns = "".join(f"<button data-v='{v}'>{t}</button>" for v, t in bl + [("tie", "tie"), ("fail", "both fail")])
+            nud = "".join(f"<button data-n='{v}'>{t}</button>" for v, t in
+                          ([(labels[order[0]], f"lean {ARMNAME.get(order[0], order[0])}"), (labels[order[1]], f"lean {ARMNAME.get(order[1], order[1])}")] if unblind
+                           else [("A", "lean A"), ("B", "lean B")]) + [("ok", "acceptable"), ("", "no nudge")])
             o.append(f"<div class='seedblock'><div class='seedhead'>seed {seed}</div><div class='ab'>{cells}</div>"
-                     f"<div class='vote' data-sid='{html.escape(sid)}' data-seed='{seed}'>{btns}</div></div>")
+                     f"<div class='vote' data-sid='{html.escape(sid)}' data-seed='{seed}'>{btns}"
+                     f"<span class='nlab'>nudge:</span>{nud}</div></div>")
         o.append("</div></section>")
     o.append(FOOT + "</div>" + LB + SCRIPT)
     with open(os.path.join(os.path.dirname(run.rstrip('/')) if run.endswith('run') else run, "key.csv"), "w", newline="") as f:
@@ -162,6 +176,13 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 .vote{display:flex;gap:8px;align-items:center;margin-top:10px}
 .vote button{background:#17171d;color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:8px 18px;font-size:15px;cursor:pointer}
 .vote button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.vote button[data-n]{padding:5px 10px;font-size:12px;border-style:dashed}.vote button[data-n].on{background:#3a3a55;border-color:#8a8ad0;border-style:solid}
+.nlab{font-size:11px;color:var(--dim);margin-left:14px}
+.ab figure img{border:4px solid transparent;border-radius:8px}
+.ab figure.won img{border-color:var(--good);box-shadow:0 0 0 2px var(--good)}
+.ab figure.tied img{border-color:#5a5a66}
+.ab figure.failed img{border-color:#b43c3c}
+.ab figure.leaned img{border-color:#8a8ad0;border-style:dashed}
 .bar{position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
 .bar button{background:#17171d;color:var(--fg);border:1px solid var(--acc);border-radius:5px;padding:5px 12px;font-size:13px;cursor:pointer}
 #count{color:var(--dim);font-size:12px;margin-left:10px}
@@ -181,12 +202,18 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementB
 // ---- votes ----
 const KEY='ironman-votes-'+location.pathname; let votes={}; try{votes=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
 const total=document.querySelectorAll('.vote').length;
-function paint(){document.querySelectorAll('.vote').forEach(d=>{const k=d.dataset.sid+'|'+d.dataset.seed;
-  d.querySelectorAll('button').forEach(b=>b.classList.toggle('on',votes[k]===b.dataset.v));});
-  document.getElementById('count').textContent=Object.keys(votes).length+' / '+total+' scored';}
-document.addEventListener('click',e=>{const b=e.target.closest('.vote button');if(!b)return;const d=b.closest('.vote');
-  votes[d.dataset.sid+'|'+d.dataset.seed]=b.dataset.v;try{localStorage.setItem(KEY,JSON.stringify(votes))}catch(x){}paint();});
-document.getElementById('export').onclick=()=>{let csv='set_id,seed,vote\\n';Object.keys(votes).sort().forEach(k=>{const [s,d]=k.split('|');csv+=s+','+d+','+votes[k]+'\\n';});
+const NKEY=KEY+'-nudge'; let nudges={}; try{nudges=JSON.parse(localStorage.getItem(NKEY)||'{}')}catch(e){}
+function paint(){document.querySelectorAll('.vote').forEach(d=>{const k=d.dataset.sid+'|'+d.dataset.seed;const v=votes[k];const n=nudges[k]||'';
+  d.querySelectorAll('button[data-v]').forEach(b=>b.classList.toggle('on',v===b.dataset.v));
+  d.querySelectorAll('button[data-n]').forEach(b=>b.classList.toggle('on',n===b.dataset.n&&n!==''));
+  const figs=d.parentElement.querySelectorAll('.ab figure');figs.forEach(f=>{f.classList.remove('won','tied','failed','leaned');
+    const lab=[...f.classList].find(c=>c.startsWith('lab-'));const L=lab?lab.slice(4):'';
+    if(v==='tie'){f.classList.add(n===L?'leaned':'tied');}else if(v==='fail'){f.classList.add(n==='ok'?'tied':'failed');}else if(v&&v===L){f.classList.add('won');}});});
+  document.getElementById('count').textContent=Object.keys(votes).length+' / '+total+' scored · '+Object.values(nudges).filter(x=>x).length+' nudged';}
+document.addEventListener('click',e=>{const b=e.target.closest('.vote button');if(!b)return;const d=b.closest('.vote');const k=d.dataset.sid+'|'+d.dataset.seed;
+  if(b.dataset.n!==undefined){nudges[k]=b.dataset.n;try{localStorage.setItem(NKEY,JSON.stringify(nudges))}catch(x){}paint();return;}
+  votes[k]=b.dataset.v;try{localStorage.setItem(KEY,JSON.stringify(votes))}catch(x){}paint();});
+document.getElementById('export').onclick=()=>{let csv='set_id,seed,vote,nudge\\n';Object.keys(votes).sort().forEach(k=>{const [s,d]=k.split('|');csv+=s+','+d+','+votes[k]+','+(nudges[k]||'')+'\\n';});
   const box=document.getElementById('csvbox');box.style.display='block';box.value=csv;box.select();
   try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='votes.csv';a.click();}catch(x){}};
 document.getElementById('clear').onclick=()=>{if(confirm('Clear all votes?')){votes={};try{localStorage.removeItem(KEY)}catch(x){}paint();}};
@@ -200,6 +227,8 @@ document.addEventListener('scroll',()=>requestAnimationFrame(activeBlock),{passi
 document.addEventListener('keydown',e=>{if(e.target.tagName==='TEXTAREA')return;
   if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();const i=currentPair()+(e.key==='ArrowRight'?1:-1);if(pairs[i])pairs[i].scrollIntoView({block:'start'});return;}
   if(e.key==='ArrowDown'||e.key==='ArrowUp'){const blocks=[...document.querySelectorAll('.seedblock')];const a=activeBlock();const i=blocks.indexOf(a)+(e.key==='ArrowDown'?1:-1);if(blocks[i]){e.preventDefault();blocks[i].scrollIntoView({block:'center'});}return;}
+  const nmap={z:0,x:1,c:'ok'};if(e.key.toLowerCase() in nmap){const blk=activeBlock();if(!blk)return;const nb=blk.querySelectorAll('.vote button[data-n]');
+    const which=nmap[e.key.toLowerCase()];const btn=which==='ok'?[...nb].find(b=>b.dataset.n==='ok'):nb[which];if(btn)btn.click();return;}
   const map={a:'A',s:'B',d:'tie',f:'fail',b:'B',t:'tie'};   /* A S D F = A / B / tie / both fail; B and T still work */const v=map[e.key.toLowerCase()];if(!v)return;const blk=activeBlock();if(!blk)return;
   const btn=blk.querySelector(`.vote button[data-v='${v}']`);if(!btn)return;btn.click();
   // after a hotkey vote, advance to the next seed block (arrow keys still work on their own)
