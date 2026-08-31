@@ -937,3 +937,20 @@ The reviewer scores on the V2 ternary; the numbers go in a §14 when they exist.
 a `V` reference costs 0.96 s + 0.04 s of CPU where a `BC` reference costs 1.70 s + a
 second crop (7.4 s on this CPU) — the head swap on the already-cropped frame is a smaller
 edit than the bald pass on the raw one.
+
+### 13.1 Correction — the `BC` arm as run is not `BC_klein` (2026-08-30)
+
+Reviewer's check, confirmed: **the run's `BC` kept the bald head.** `run_ironman.py` did
+bald → A4 crop (head kept); V2's `BC_klein` is bald → V2 cropper → **head subtracted** →
+white ([v2 ARCHITECTURE §BC_klein](../../v2/ARCHITECTURE.md), `run_v30.crop_ref(cranium=True)`).
+The §13 note that called the head-kept variant "the fairer incumbent" is withdrawn; it is
+a different arm, renamed **`BCA4`** and kept on disk as a record. Everything scored
+against it — the reviewer's votes to this point and the 388 VLM `BC` scores (~$6.8) —
+compares `V` with `BCA4`, not with the arm of record, and is filed as such.
+
+**Repair.** The bald frames were not saved by the first runner (fixed: `refs/{g}__bald.jpg`
+is now written). Notebook cells 8–9: regenerate the 56 bald frames on the A100 → the V2
+cropper locally (`v3/build/ironman_bc_crop.py`, the actual `phase3_variants.masks(cranium=True)`
+→ `noface`, ~50 s per frame on this CPU) → 600 `BC` edits on the A100. `V` outputs and
+scores are unchanged. The page is rebuilt with the corrected `BC` and a **new vote store**,
+so the `BCA4` votes cannot mix with the real ones.

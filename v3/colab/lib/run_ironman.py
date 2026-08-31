@@ -113,7 +113,9 @@ def ankle_cut(bgr, paths, fallback_ratio=None):
 
 # ---- the run -------------------------------------------------------------------
 def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=ARMS,
-         gpu_usd_per_hour=None):
+         gpu_usd_per_hour=None, stage="all"):
+    """stage: 'all' | 'bald' (BC bald frames only, refs/{g}__bald.jpg, no crop, no edits)
+              | 'bcedit' (BC edits from refs/{g}__BC.jpg supplied from outside - the V2 cropper)"""
     for x in ("inputs", "refs", "gen", "meta"):
         os.makedirs(os.path.join(OUT, x), exist_ok=True)
     paths = L.fetch_models(persist=os.environ.get("V3_MODEL_DIR"))   # cached to Drive after the first fetch
@@ -145,7 +147,10 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
         made += 1
     print(f"2 crops: {made} made on {L._S.get('biref_prov', '?')}")
 
-    K.load()
+    if stage != "bcedit":
+        K.load()
+    else:
+        K.load()
     meta = {}
     mp = d("meta", "prompts.json")
     if os.path.exists(mp):
@@ -168,16 +173,19 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
                     im, paths, (ya / crop.shape[0]) if ya is not None else None))
                 meta[f"{g}|V"]["ankle_cut_row"] = y
                 cv2.imwrite(out, im, [cv2.IMWRITE_JPEG_QUALITY, 95])
-        if "BC" in arms:
-            out = d("refs", f"{g}__BC.jpg")
-            meta[f"{g}|BC"] = {"prompt": L.BALD_PROMPT}
-            if not os.path.exists(out):
+        if "BC" in arms and stage != "bcedit":
+            meta[f"{g}|BC"] = {"prompt": L.BALD_PROMPT, "crop": "V2 cropper, head subtracted (run locally: v3/build/ironman_bc_crop.py)"}
+            braw = d("refs", f"{g}__bald.jpg")
+            if not os.path.exists(braw):
                 bald = klein("bald", "BC", g, seeds[0], [raw], L.BALD_PROMPT)
                 bald = cv2.resize(bald, (raw.shape[1], raw.shape[0]), interpolation=cv2.INTER_AREA)
-                im = timed("a4_crop", "BC", g, 0, lambda b=bald: L.crop_a4(b, paths))
-                cv2.imwrite(out, im, [cv2.IMWRITE_JPEG_QUALITY, 95])
+                cv2.imwrite(braw, bald, [cv2.IMWRITE_JPEG_QUALITY, 95])
+            # the BC reference itself (head subtracted) is made by the V2 cropper outside this
+            # runner; it must exist as refs/{g}__BC.jpg before the 'bcedit' stage
         json.dump(meta, open(mp, "w"), indent=1)
     print(f"3 references: {len(garments)} per arm")
+    if stage == "bald":
+        write_timings(wall0, rows, arms, seeds, gpu_usd_per_hour); print("bald stage done"); return
 
     # 4 edits, per pair, per seed
     n = 0
@@ -185,6 +193,9 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
         sid, p, g = r["set_id"], r["person"], r["garment"]
         person = cv2.imread(d("inputs", f"{p}.jpg"))
         for arm in arms:
+            if stage == "bcedit" and arm != "BC": continue
+            if not os.path.exists(d("refs", f"{g}__{arm}.jpg")):
+                raise SystemExit(f"missing reference refs/{g}__{arm}.jpg" + (" - run the V2 cropper first" if arm == "BC" else ""))
             ref = cv2.imread(d("refs", f"{g}__{arm}.jpg"))
             prompt = E3 if arm == "V" else BC_EDIT
             for seed in seeds:
