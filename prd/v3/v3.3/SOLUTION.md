@@ -7,7 +7,7 @@ parity with v3.1's locked arm at the output by eye
 ([RESULTS §8.1](RESULTS.md#81-results--56-klein-edits-0-failures-no-black-frames-reviewed-by-eye-unscored)).
 Per [SCHEMA.md](../SCHEMA.md) this document carries the architecture and links to the
 evidence; the argument is in [EXPERIMENT.md](EXPERIMENT.md), the cases in
-[RESULTS.md](RESULTS.md). **Unscored.** The iron-man run of §7 has been made — 1,200 outputs, 3 seeds, CAD 0.66 ([RESULTS §13](RESULTS.md#13-the-iron-man-run--data-on-disk-unscored-2026-08-30)) — and awaits the reviewer's scores.
+[RESULTS.md](RESULTS.md). **Scored against `BCA4`** (bald + A4 crop, head kept): reviewer tie 77%, V 14%, BCA4 6%, fail 4% — V takes 71% of decided cells; VLM 42:39 for V ([RESULTS §14](RESULTS.md#14-iron-man-scores--the-version-against-bca4-2026-08-31)). The comparison against `BC_klein` proper (head subtracted) is pending the §13.1 repair.
 
 **The locked version in one line:** `A4 crop → klein head swap (neck up) + dynamic
 pose+framing clause + garment-hold sentence + mannequin head colour → bbox re-crop →

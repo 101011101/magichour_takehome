@@ -954,3 +954,61 @@ cropper locally (`v3/build/ironman_bc_crop.py`, the actual `phase3_variants.mask
 → `noface`, ~50 s per frame on this CPU) → 600 `BC` edits on the A100. `V` outputs and
 scores are unchanged. The page is rebuilt with the corrected `BC` and a **new vote store**,
 so the `BCA4` votes cannot mix with the real ones.
+
+## 14. Iron-man scores — the version against `BCA4` (2026-08-31)
+
+**What this compares.** `V` (the locked version) against **`BCA4`** — bald pass → A4 crop
+with the head kept — *not* `BC_klein` (§13.1). The reviewer chose to finish scoring
+against it as a "is V good enough" test; the `BC_klein` round is separate and pending.
+200 pairs × 3 seeds, blinded A/B on `v3/report/v33_ironman.html`, one reviewer.
+Files: `v33_ironman_votes_bca4.csv` (as exported), `votes_unblinded.csv` beside the run.
+
+### 14.1 Reviewer — 599 of 600 cells
+
+| verdict | cells | share |
+|---|---|---|
+| **tie** | 459 | **76.6%** |
+| **V better** | 84 | 14.0% |
+| BCA4 better | 34 | 5.7% |
+| both fail | 22 | 3.7% |
+
+Of the **118 decided cells, V takes 71%** (84 : 34). Per pair, majority over the three
+seeds: tie 153 · **V 27** · BCA4 10 · fail 5 · split 5; **132 of 200 pairs are unanimous
+across seeds.** Seven pairs flip between a V win and a BCA4 win at different seeds.
+Per seed the picture is flat (V 27/26/31, BCA4 10/13/11), so the margin is not a
+one-seed accident.
+
+Where V wins: `p013`, `p029`, `g030`, `p028`, `p030`, `g014`, `p002`, `p011` as
+garments. Where BCA4 wins: `g029`, `scarlett`, `g024`, `p016`. Where both fail:
+**`zendaya` 8 of 22** (the white-on-white pair from v3.1), `g005` 4.
+
+### 14.2 VLM (gpt-5.5, blind, six criteria) — 353 pair-seeds scored before the budget stop
+
+Fidelity first, realism breaking ties: **V 148 (42%) · BCA4 136 (39%) · tie 69.** Means
+(1–5): fidelity V 3.99 / BCA4 3.96, realism 3.84 / 3.78. Per criterion V leads on
+identity, scene, clean, hands and realism; **BCA4 leads on garment** (3.11 vs 3.02;
+BCA4 better on 84 cells, V on 51). ~$13.7 spent; scores `v33_ironman_vlm_scores_bca4.csv`,
+comparison `v33_ironman_vlm_compare_bca4.csv`.
+
+### 14.3 Reviewer vs VLM
+
+On the 56 decided cells both scored: **59% agreement.** The VLM confirms the reviewer's
+V wins (28 of 38) but not the BCA4 wins (5 of 18 — it calls 10 of those for V). The
+larger gap is on the reviewer's ties: the VLM splits 284 of them into decisions
+(104 V / 122 BCA4 / 58 tie), i.e. it manufactures preferences where a person sees
+none. The VLM is a second opinion, not a scorer — the same conclusion V2 reached.
+
+### 14.4 Reading
+
+- **V is at least as good as bald-plus-A4 at the output, on 200 pairs and 3 seeds**,
+  by the reviewer (71% of decided cells) and by the VLM (42:39). Since V's reference
+  is a smaller edit (0.96 s vs 1.70 s + a second crop, §13) and needs no second model,
+  that is the result v3.3 needed against this incumbent.
+- **The one axis where the incumbent is ahead is garment fidelity** (VLM), consistent
+  with the re-pose re-rendering the garment (§7.1, §8.1) where BCA4 leaves it
+  photographed. The reviewer's BCA4 wins cluster on garments where that shows
+  (`g029` houndstooth, `g024` pleats, `scarlett`).
+- **Three quarters of cells are ties.** Most of the fold is decided by the edit, not the
+  reference — which is v3.0's finding again, now on 600 cells.
+- Against **`BC_klein`** — the arm of record, head subtracted — the comparison is still
+  to be made (§13.1 repair).

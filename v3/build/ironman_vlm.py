@@ -139,16 +139,16 @@ def compare(run, votes=None):
         win = "V" if fv > fb else "BC" if fb > fv else "V" if rv > rb else "BC" if rb > rv else "tie"; wins[win] += 1
         for c in CRITERIA:
             d = int(v[c]) - int(b[c]); crit_w[c]["V" if d > 0 else "BC" if d < 0 else "tie"] += 1
-        out.append({"set_id": sid, "seed": seed, "fidelity_V": round(fv, 2), "fidelity_BC": round(fb, 2),
-                    "realism_V": round(rv, 2), "realism_BC": round(rb, 2), "mean_V": round(mv, 2), "mean_BC": round(mb, 2), "vlm_winner": win,
+        out.append({"set_id": sid, "seed": seed, "fid_V": round(fv, 2), "fid_BC": round(fb, 2),
+                    "real_V": round(rv, 2), "real_BC": round(rb, 2), "mean_V": round(mv, 2), "mean_BC": round(mb, 2), "vlm_winner": win,
                     **{f"{c}_V": v[c] for c in CRITERIA}, **{f"{c}_BC": b[c] for c in CRITERIA}})
     with open(os.path.join(run, "meta", "vlm_compare.csv"), "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(out[0].keys())); w.writeheader(); w.writerows(out)
     n = len(out)
     print(f"{n} pair-seeds compared (fidelity first, realism breaks ties). VLM winner: V {wins['V']} ({wins['V']/n:.0%}) · BC {wins['BC']} ({wins['BC']/n:.0%}) · tie {wins['tie']}")
-    for ax, ks in (("fidelity", FIDELITY), ("realism", REALISM)):
+    for ax, lab in (("fid", "fidelity"), ("real", "realism")):
         av = sum(r[f"{ax}_V"] for r in out) / n; ab = sum(r[f"{ax}_BC"] for r in out) / n
-        print(f"  {ax:9s} mean V {av:.2f}  BC {ab:.2f}")
+        print(f"  {lab:9s} mean V {av:.2f}  BC {ab:.2f}")
     for c in CRITERIA:
         mv = sum(int(by[(s, d, 'V')][c]) for s, d in pairs if (s, d, 'V') in by and (s, d, 'BC') in by) / n
         mb = sum(int(by[(s, d, 'BC')][c]) for s, d in pairs if (s, d, 'V') in by and (s, d, 'BC') in by) / n
@@ -156,12 +156,15 @@ def compare(run, votes=None):
     if votes:
         key = {(r["set_id"], r["label"]): r["arm"] for r in csv.DictReader(open(os.path.join(run, "key.csv")))}
         hv = {(r["set_id"], r["seed"]): r["vote"] for r in csv.DictReader(open(votes))}
-        agree = tot = 0
+        agree = tot = 0; cross = {"reviewer_V": {"V": 0, "BC": 0, "tie": 0}, "reviewer_BC": {"V": 0, "BC": 0, "tie": 0}, "reviewer_tie": {"V": 0, "BC": 0, "tie": 0}}
         for r in out:
             v = hv.get((r["set_id"], r["seed"]))
             if v in ("A", "B"):
-                tot += 1; agree += key[(r["set_id"], v)] == r["vlm_winner"]
+                tot += 1; arm = key[(r["set_id"], v)]; agree += arm == r["vlm_winner"]; cross[f"reviewer_{arm}"][r["vlm_winner"]] += 1
+            elif v == "tie":
+                cross["reviewer_tie"][r["vlm_winner"]] += 1
         print(f"agreement with the reviewer on {tot} decided pair-seeds: {agree/max(tot,1):.0%}")
+        for k, d in cross.items(): print(f"  {k:12s} -> VLM says V {d['V']:3d} · BC {d['BC']:3d} · tie {d['tie']:3d}")
 
 
 if __name__ == "__main__":
