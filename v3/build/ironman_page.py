@@ -195,7 +195,7 @@ document.addEventListener('scroll',()=>requestAnimationFrame(activeBlock),{passi
 document.addEventListener('keydown',e=>{if(e.target.tagName==='TEXTAREA')return;
   if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();const i=currentPair()+(e.key==='ArrowRight'?1:-1);if(pairs[i])pairs[i].scrollIntoView({block:'start'});return;}
   if(e.key==='ArrowDown'||e.key==='ArrowUp'){const blocks=[...document.querySelectorAll('.seedblock')];const a=activeBlock();const i=blocks.indexOf(a)+(e.key==='ArrowDown'?1:-1);if(blocks[i]){e.preventDefault();blocks[i].scrollIntoView({block:'center'});}return;}
-  const map={a:'A',s:'B',d:'tie',f:'fail',b:'B',t:'tie'};   // A S D F = A / B / tie / both fail (B and T still work)const v=map[e.key.toLowerCase()];if(!v)return;const blk=activeBlock();if(!blk)return;
+  const map={a:'A',s:'B',d:'tie',f:'fail',b:'B',t:'tie'};   /* A S D F = A / B / tie / both fail; B and T still work */const v=map[e.key.toLowerCase()];if(!v)return;const blk=activeBlock();if(!blk)return;
   const btn=blk.querySelector(`.vote button[data-v='${v}']`);if(btn)btn.click();});
 </script>"""
 
