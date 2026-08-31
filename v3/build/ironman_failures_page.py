@@ -54,7 +54,7 @@ def main(embed=None):
         if w in ("BC", "fail"): cells.append({**v, "winner": w, "cls": classify(v["set_id"])})
     groups = {}
     for c in cells: groups.setdefault(c["cls"], []).append(c)
-    o = [HEAD, "<div class='wrap'>", f"<h1>Where v3.3 fails</h1><p class='lede'>Every cell the reviewer scored against the version on the iron-man run &mdash; "
+    o = [HEAD, "<div class='wrap'>", BAR, f"<h1>Where v3.3 fails</h1><p class='lede'>Every cell the reviewer scored against the version on the iron-man run &mdash; "
          f"<b>{sum(1 for c in cells if c['winner']=='BC')} BC-klein (BCA4) wins</b> and <b>{sum(1 for c in cells if c['winner']=='fail')} both-fail</b> cells "
          f"out of 599 &mdash; grouped by the failure classes of RESULTS &sect;14.5. Each row is the whole chain: the two inputs, the A4 crop, "
          f"the two references, the two outputs. Reference arm here is BCA4 (bald &rarr; A4 crop, head kept), not BC_klein proper.</p>"]
@@ -68,7 +68,10 @@ def main(embed=None):
             nud = f" &middot; nudge: {html.escape(c['nudge'])}" if c.get("nudge") else ""
             sv = scores.get((sid, "V", seed)); note = html.escape(sv["note"]) if sv else ""
             vs = (f"VLM V: garment {sv['garment']} identity {sv['identity']} scene {sv['scene']} clean {sv['clean']} hands {sv['hands']} realism {sv['realism']}" if sv else "VLM: not scored")
-            o.append(f"<h2>{html.escape(p)} wears {html.escape(g)} &middot; seed {seed}<span class='t bad'>{verdict}{nud}</span></h2>")
+            pre = " on" if c.get("nudge") == "ok" else ""
+            o.append(f"<h2>{html.escape(p)} wears {html.escape(g)} &middot; seed {seed}<span class='t bad'>{verdict}{nud}</span>"
+                     f"<span class='acc' data-sid='{html.escape(sid)}' data-seed='{seed}' data-verdict='{c['winner']}'>"
+                     f"<button class='ok{pre}' data-a='ok'>v3.3 acceptable</button><button class='no{'' if pre else ' on'}' data-a='fail'>v3.3 fails</button></span></h2>")
             o.append(f"<div class='lab'>{vs}" + (f" &mdash; <i>{note}</i>" if note else "") + "</div>")
             o.append("<div class='strip s7'>"
                      + fig(os.path.join(RUN, "inputs", f"{p}.jpg"), "person &mdash; image 1")
@@ -83,6 +86,9 @@ def main(embed=None):
     dst = embed or os.path.join(REPORT, "v33_ironman_failures.html")
     open(dst, "w").write("\n".join(o)); print(dst, len(cells), "cells", f"{os.path.getsize(dst)/1e6:.1f} MB")
 
+BAR = """<div class='bar'><button id='export'>Export CSV</button> <button id='reset'>Reset to defaults</button>
+<span id='count'></span><span class='hint'>Default for every cell here is <b>v3.3 fails</b>; click <b>v3.3 acceptable</b> where the v3.3 output is usable even though BC klein won (or both were marked fail). Pre-set from your "acceptable" nudges.</span></div>
+<textarea id='csvbox' placeholder='CSV appears here on export'></textarea>"""
 HEAD = """<title>Where v3.3 Fails</title>
 <meta name='viewport' content='width=device-width,initial-scale=1'>
 <style>
@@ -102,6 +108,12 @@ figcaption{font-size:11px;color:var(--dim);text-align:center;padding:5px 2px;lin
 #lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:99;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:16px}
 #lb.on{display:flex}#lb img{max-width:96vw;max-height:92vh;object-fit:contain;background:#fff}#lbc{color:var(--dim);font-size:13px}
 footer{border-top:1px solid var(--line);margin-top:44px;padding:22px 0 30px;color:var(--dim);font-size:12.5px}code{background:#1b1b22;padding:1px 5px;border-radius:4px;font-size:12px}
+.bar{position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bar button{background:#17171d;color:var(--fg);border:1px solid var(--acc);border-radius:5px;padding:5px 12px;font-size:13px;cursor:pointer}
+#count{color:var(--dim);font-size:12px}.hint{color:var(--dim);font-size:12px;margin-left:auto;max-width:60ch}
+#csvbox{width:100%;height:60px;margin:6px 0 0;background:#17171d;color:var(--dim);border:1px solid var(--line);font:11px ui-monospace,monospace;display:none}
+.acc{margin-left:auto;display:inline-flex;gap:4px}.acc button{background:#17171d;color:var(--fg);border:1px solid var(--line);border-radius:5px;padding:4px 10px;font-size:12px;cursor:pointer}
+.acc button.on.ok{background:#1f4d2c;border-color:var(--good)}.acc button.on.no{background:#4d1f1f;border-color:#b43c3c}
 </style>
 """
 FOOT = """<footer>Cells from <code>v33_ironman_votes_bca4.csv</code> unblinded through <code>key.csv</code>; classes hand-assigned per
@@ -113,6 +125,20 @@ document.addEventListener('click',e=>{const im=e.target.closest('figure img');if
 document.getElementById('lbi').src=im.getAttribute('src');document.getElementById('lbc').textContent=im.getAttribute('alt');document.getElementById('lb').classList.add('on');});
 document.getElementById('lb').addEventListener('click',()=>document.getElementById('lb').classList.remove('on'));
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lb').classList.remove('on')});
+// ---- v3.3 acceptable marks: default fail; pre-set from the page (nudges); stored per browser ----
+const KEY='ironman-v33acc-'+location.pathname; let acc={}; try{acc=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+const cells=[...document.querySelectorAll('.acc')];
+function paint(){let n=0;cells.forEach(c=>{const k=c.dataset.sid+'|'+c.dataset.seed;const v=k in acc?acc[k]:(c.querySelector('button.ok').classList.contains('on')&&!(k in acc)?'ok':'fail');
+  if(!(k in acc)){acc[k]=v;} c.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.a===acc[k]));if(acc[k]==='ok')n++;});
+  try{localStorage.setItem(KEY,JSON.stringify(acc))}catch(x){}
+  document.getElementById('count').textContent=n+' / '+cells.length+' marked v3.3 acceptable';}
+document.addEventListener('click',e=>{const b=e.target.closest('.acc button');if(!b)return;const c=b.closest('.acc');acc[c.dataset.sid+'|'+c.dataset.seed]=b.dataset.a;paint();});
+document.getElementById('export').onclick=()=>{let csv='set_id,seed,reviewer_verdict,v33_acceptable\n';cells.forEach(c=>{const k=c.dataset.sid+'|'+c.dataset.seed;csv+=c.dataset.sid+','+c.dataset.seed+','+c.dataset.verdict+','+(acc[k]==='ok'?'yes':'no')+'\n';});
+  const box=document.getElementById('csvbox');box.style.display='block';box.value=csv;box.select();
+  try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='v33_acceptable.csv';a.click();}catch(x){}};
+document.getElementById('reset').onclick=()=>{if(confirm('Reset all marks to the page defaults?')){acc={};try{localStorage.removeItem(KEY)}catch(x){}cells.forEach(c=>{c.querySelectorAll('button').forEach(b=>b.classList.remove('on'));if(c.dataset.pre==='1')c.querySelector('button.ok').classList.add('on');else c.querySelector('button.no').classList.add('on');});paint();}};
+cells.forEach(c=>{if(c.querySelector('button.ok').classList.contains('on'))c.dataset.pre='1';});
+paint();
 </script>"""
 
 if __name__ == "__main__":
