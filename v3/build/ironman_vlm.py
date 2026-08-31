@@ -78,7 +78,10 @@ def judge(client, model, person, garment, result, attempts=3):
     return None
 
 
-def score(run, model, limit=None, workers=8):
+FIDELITY, REALISM = ["garment", "identity", "scene"], ["clean", "hands", "realism"]
+
+
+def score(run, model, limit=None, workers=8, budget_usd=15.0):
     from openai import OpenAI
     load_env(); client = OpenAI()
     out = os.path.join(run, "meta", "vlm_scores.csv")
@@ -92,23 +95,29 @@ def score(run, model, limit=None, workers=8):
         if (sid, arm, seed) in done: continue
         p, g = sid.split("+", 1)
         jobs.append((sid, arm, seed, os.path.join(run, "inputs", f"{p}.jpg"), os.path.join(run, "inputs", f"{g}.jpg"), os.path.join(run, "gen", f)))
+    jobs.sort(key=lambda j: (int(j[2]), j[0], j[1]))   # seed 46 for every pair first: a complete comparison before the budget bites
     if limit: jobs = jobs[:int(limit)]
     print(f"{len(jobs)} outputs to judge on {model} ({len(done)} already scored)", flush=True)
     fields = ["set_id", "arm", "seed", "model"] + CRITERIA + ["note", "seconds", "tokens_in", "tokens_out"]
     new = not os.path.exists(out)
-    with open(out, "a", newline="") as fh, ThreadPoolExecutor(workers) as ex:
+    pi, po = PRICE.get(model, (0, 0))
+    n = tin = tout = 0; usd = 0.0
+    with open(out, "a", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=fields)
         if new: w.writeheader()
-        futs = {ex.submit(judge, client, model, pp, gp, rp): (sid, arm, seed) for sid, arm, seed, pp, gp, rp in jobs}
-        n = tin = tout = 0
-        for f in as_completed(futs):
-            sid, arm, seed = futs[f]; v = f.result()
-            if v is None: print("  unscored", sid, arm, seed, flush=True); continue
-            w.writerow({"set_id": sid, "arm": arm, "seed": seed, "model": model, **{k: v[k] for k in CRITERIA + ["note", "seconds", "tokens_in", "tokens_out"]}}); fh.flush()
-            n += 1; tin += v["tokens_in"]; tout += v["tokens_out"]
-            if n % 25 == 0: print(f"  {n}/{len(jobs)}", flush=True)
-    pi, po = PRICE.get(model, (0, 0))
-    usd = (tin * pi + tout * po) / 1e6
+        for i in range(0, len(jobs), workers * 4):          # batches, so the budget stop is honoured
+            batch = jobs[i:i + workers * 4]
+            with ThreadPoolExecutor(workers) as ex:
+                futs = {ex.submit(judge, client, model, pp, gp, rp): (sid, arm, seed) for sid, arm, seed, pp, gp, rp in batch}
+                for f in as_completed(futs):
+                    sid, arm, seed = futs[f]; v = f.result()
+                    if v is None: print("  unscored", sid, arm, seed, flush=True); continue
+                    w.writerow({"set_id": sid, "arm": arm, "seed": seed, "model": model, **{k: v[k] for k in CRITERIA + ["note", "seconds", "tokens_in", "tokens_out"]}}); fh.flush()
+                    n += 1; tin += v["tokens_in"]; tout += v["tokens_out"]
+            usd = (tin * pi + tout * po) / 1e6
+            print(f"  {n}/{len(jobs)}  ~${usd:.2f}", flush=True)
+            if usd >= budget_usd:
+                print(f"BUDGET STOP at ~${usd:.2f} (limit ${budget_usd}); re-run to continue", flush=True); break
     print(f"scored {n}: {tin} in / {tout} out tokens; ~${usd:.2f} at the PRICE table "
           f"(${usd / max(n, 1):.4f} per output; extrapolated to 1200: ${usd / max(n, 1) * 1200:.2f})")
 
@@ -124,15 +133,22 @@ def compare(run, votes=None):
         v, b = by.get((sid, seed, "V")), by.get((sid, seed, "BC"))
         if not v or not b: continue
         mv = sum(int(v[c]) for c in CRITERIA) / 6; mb = sum(int(b[c]) for c in CRITERIA) / 6
-        win = "V" if mv > mb else "BC" if mb > mv else "tie"; wins[win] += 1
+        fv, fb = sum(int(v[c]) for c in FIDELITY) / 3, sum(int(b[c]) for c in FIDELITY) / 3
+        rv, rb = sum(int(v[c]) for c in REALISM) / 3, sum(int(b[c]) for c in REALISM) / 3
+        # SCORING_CRITERIA §4: fidelity first, realism breaks a fidelity tie
+        win = "V" if fv > fb else "BC" if fb > fv else "V" if rv > rb else "BC" if rb > rv else "tie"; wins[win] += 1
         for c in CRITERIA:
             d = int(v[c]) - int(b[c]); crit_w[c]["V" if d > 0 else "BC" if d < 0 else "tie"] += 1
-        out.append({"set_id": sid, "seed": seed, "mean_V": round(mv, 2), "mean_BC": round(mb, 2), "vlm_winner": win,
+        out.append({"set_id": sid, "seed": seed, "fidelity_V": round(fv, 2), "fidelity_BC": round(fb, 2),
+                    "realism_V": round(rv, 2), "realism_BC": round(rb, 2), "mean_V": round(mv, 2), "mean_BC": round(mb, 2), "vlm_winner": win,
                     **{f"{c}_V": v[c] for c in CRITERIA}, **{f"{c}_BC": b[c] for c in CRITERIA}})
     with open(os.path.join(run, "meta", "vlm_compare.csv"), "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(out[0].keys())); w.writeheader(); w.writerows(out)
     n = len(out)
-    print(f"{n} pair-seeds compared. VLM winner: V {wins['V']} ({wins['V']/n:.0%}) · BC {wins['BC']} ({wins['BC']/n:.0%}) · tie {wins['tie']}")
+    print(f"{n} pair-seeds compared (fidelity first, realism breaks ties). VLM winner: V {wins['V']} ({wins['V']/n:.0%}) · BC {wins['BC']} ({wins['BC']/n:.0%}) · tie {wins['tie']}")
+    for ax, ks in (("fidelity", FIDELITY), ("realism", REALISM)):
+        av = sum(r[f"{ax}_V"] for r in out) / n; ab = sum(r[f"{ax}_BC"] for r in out) / n
+        print(f"  {ax:9s} mean V {av:.2f}  BC {ab:.2f}")
     for c in CRITERIA:
         mv = sum(int(by[(s, d, 'V')][c]) for s, d in pairs if (s, d, 'V') in by and (s, d, 'BC') in by) / n
         mb = sum(int(by[(s, d, 'BC')][c]) for s, d in pairs if (s, d, 'V') in by and (s, d, 'BC') in by) / n
@@ -156,4 +172,5 @@ if __name__ == "__main__":
     else:
         score(run, a[a.index("--model") + 1] if "--model" in a else "gpt-5-mini",
               a[a.index("--limit") + 1] if "--limit" in a else None,
-              int(a[a.index("--workers") + 1]) if "--workers" in a else 8)
+              int(a[a.index("--workers") + 1]) if "--workers" in a else 8,
+              float(a[a.index("--budget") + 1]) if "--budget" in a else 15.0)
