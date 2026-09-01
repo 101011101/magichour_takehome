@@ -1,6 +1,6 @@
 # v3.4 — EXPERIMENT
 
-**Status: opened 2026-08-31, nothing run.** One question:
+**Status: opened 2026-08-31; link A set up, not run.** One question:
 
 > **What is left on the table after v3.3, and which side of the edit is it on?**
 
@@ -29,9 +29,35 @@ try, and the person-side work the fix for the residue.
 |---|---|---|
 | **F0** | the failing cell is a seed draw, not a pair property | **N seeds + a selector** — CV gate (does the wearer's original clothing survive where the reference does not cover? MediaPipe `CLOTHES` on image 1 vs the output) or the VLM as gate. Costs N× call 2 (2 s each self-hosted); the 2-call budget becomes 2 + (N−1) edits |
 
+## The test set
+
+The **v3.3 failure set** — the 31 pairs on which v3.3 had a failing cell, with their
+classes — is the matrix for every early link ([TEST.md](TEST.md)). It is selected on
+failure, so it can show whether a change *reaches* the failures; only the full matrix can
+say what it costs elsewhere.
+
 ## The chain
 
-### 0 — Select-from-N **← first, cheapest, largest**
+### A — Does removing the ankle cut change the failures? **← set up, awaiting the A100 run**
+
+**Why.** The reviewer's request. The cut was adopted as a general measure on a null probe
+([v3.3 RESULTS §9.1](../v3.3/RESULTS.md#91-probe-results--g013-g012-4-reference-calls-10-edits-0-failures));
+the iron-man losses include references whose footwear and lower pieces went missing
+(`peacoat`'s boots, F3), and the cut is one of two things that could have removed them
+(the re-pose is the other). This is the cheapest way to separate them.
+
+**How.** Arm `Vnc` — the locked version with the ankle cut removed and nothing else
+changed — on the 31 failure pairs at seeds 46/47/48, self-hosted, reusing the iron-man
+inputs and crops. Notebook cell 10; `v3/colab/lib/run_ironman.py` arm `Vnc` (the uncut
+reference is now also saved for `V`, as `{g}__V_uncut.jpg`). 31 references + 93 edits,
+~5 min of A100.
+
+**What counts.** Per cell, v3.3 (`V`) beside `Vnc`: did the cell's failure go, stay, or
+change class. Footwear on the reference is the thing to look at first.
+
+**Result.** *Pending.*
+
+### 0 — Select-from-N **← cheapest, largest**
 
 On the 31 failing pairs and 30 clean controls: 3 seeds already on disk; the question is
 only the selector. A CV gate that picks the right seed on the 27 rescuable pairs without

@@ -160,18 +160,20 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
     for g in garments:
         crop = cv2.imread(d("inputs", f"{g}__A4.jpg"))
         raw = cv2.imread(d("inputs", f"{g}.jpg"))
-        if "V" in arms:
-            fr = timed("framing", "V", g, 0, lambda c=crop: L.framing(c, paths)["framing"])
+        for varm in [a for a in ("V", "Vnc") if a in arms]:      # Vnc = the version WITHOUT the ankle cut (v3.4 link A)
+            fr = timed("framing", varm, g, 0, lambda c=crop: L.framing(c, paths)["framing"])
             prompt = SWAP + KEEP + PERSON_CLAUSE[fr] + HOLD
-            meta[f"{g}|V"] = {"framing": fr, "prompt": prompt}
-            out = d("refs", f"{g}__V.jpg")
+            meta[f"{g}|{varm}"] = {"framing": fr, "prompt": prompt, "ankle_cut": varm == "V"}
+            out = d("refs", f"{g}__{varm}.jpg")
             if not os.path.exists(out):
-                im = klein("ref", "V", g, seeds[0], [crop], prompt)
+                im = klein("ref", varm, g, seeds[0], [crop], prompt)
                 im = recrop(im)
-                ya = ankle_y(crop, paths)
-                im, y = timed("ankle_cut", "V", g, 0, lambda im=im, ya=ya: ankle_cut(
-                    im, paths, (ya / crop.shape[0]) if ya is not None else None))
-                meta[f"{g}|V"]["ankle_cut_row"] = y
+                cv2.imwrite(d("refs", f"{g}__{varm}_uncut.jpg"), im, [cv2.IMWRITE_JPEG_QUALITY, 95])   # kept from now on
+                if varm == "V":
+                    ya = ankle_y(crop, paths)
+                    im, y = timed("ankle_cut", "V", g, 0, lambda im=im, ya=ya: ankle_cut(
+                        im, paths, (ya / crop.shape[0]) if ya is not None else None))
+                    meta[f"{g}|V"]["ankle_cut_row"] = y
                 cv2.imwrite(out, im, [cv2.IMWRITE_JPEG_QUALITY, 95])
         if "BC" in arms and stage != "bcedit":
             meta[f"{g}|BC"] = {"prompt": L.BALD_PROMPT, "crop": "V2 cropper, head subtracted (run locally: v3/build/ironman_bc_crop.py)"}
@@ -194,10 +196,11 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
         person = cv2.imread(d("inputs", f"{p}.jpg"))
         for arm in arms:
             if stage == "bcedit" and arm != "BC": continue
+            if arm == "Vnc" and stage == "all" and "BC" in arms: pass
             if not os.path.exists(d("refs", f"{g}__{arm}.jpg")):
                 raise SystemExit(f"missing reference refs/{g}__{arm}.jpg" + (" - run the V2 cropper first" if arm == "BC" else ""))
             ref = cv2.imread(d("refs", f"{g}__{arm}.jpg"))
-            prompt = E3 if arm == "V" else BC_EDIT
+            prompt = E3 if arm in ("V", "Vnc") else BC_EDIT
             for seed in seeds:
                 out = d("gen", f"{sid}__{arm}__s{seed}.jpg")
                 if os.path.exists(out):
