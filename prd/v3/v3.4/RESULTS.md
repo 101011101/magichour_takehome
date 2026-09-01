@@ -196,3 +196,41 @@ nothing else. Notebook `v34_a100.ipynb` cell 8.
 
 The honest prior, from §3: three draws already agree the failure rate is variance on hard
 pairs; the canvas can move the *rate*, not abolish the seed-stable residue.
+
+### 4.4 The blind judge: is fal better on the failure set? — not distinguishably
+
+gpt-5.5, blind to the arm, all 186 cells (31 pairs × 3 seeds × {fal 46/47/48, A100
+49/50/51}, both `Vnc`), $3.56. Report and data: `v3/runs/v34/judge_fal_vs_a100/`.
+
+| metric (1–5) | fal | A100 | diff | 95% CI | sign p | Wilcoxon p |
+|---|---|---|---|---|---|---|
+| fidelity (garment, identity, scene) | 3.87 | 3.78 | +0.09 | [−0.01, +0.20] | 0.15 | 0.13 |
+| realism (clean, hands, realism) | 3.66 | 3.60 | +0.05 | [−0.08, +0.20] | 1.00 | 0.58 |
+| garment alone | 2.70 | 2.76 | −0.06 | n.s. | | |
+| pair wins (fidelity first) | 19 | 12 | +7 | permutation p 0.24 | | |
+
+- fal's edge is **identity/scene preservation** (+0.16/+0.17, CIs touching zero) — the
+  canvas story, plausibly — **not garment**: on the criterion the failure classes are
+  about, the A100 is marginally ahead, and the fail proxy is **41 of 93 cells on both
+  arms**.
+- **The gap is smaller than one seed's noise.** Within-pair seed SD is 0.24 on both
+  backends; A100 seed 49 beats A100 seed 51 by +0.16 fidelity (17–8 pairs) — larger than
+  fal's edge over the A100.
+- Per class: F1 +0.14 (8/9 pairs, but garment 2–3 on both arms), F2 +0.07, **F3 −0.02
+  (a dead heat on 12 pairs)**, F4 +0.61 (n = 2).
+- fal wins all nine cross-seed cells on 4 pairs (`hugh + zendaya`, `scarlett + denim`,
+  `g027 + p003`, `p013 + scarlett`); the A100 on none. Small, and consistent with the
+  identity/scene edge.
+- **`floral_kimono + g024`**: the judge calls the F1 leak — hat, bag, sandals, cuffs
+  surviving — in **all six cells**, fal seeds 46 and 48 included (garment 3 and 2; seed
+  48 is the lowest of the six). Pair fidelity 3.56 fal vs 3.67 A100. The reviewer's
+  reading that fal passed at 46 and 48 is not supported by the judge, and link A's own
+  record (§1.1, "identical failure") did not see it either — worth a second look at
+  full size on `v3/report/v34_linkA.html`.
+
+**Reading, with §4.1–4.3.** The code difference is real (canvas → tokens → schedule),
+and the judge sees its likely signature — a small, consistent identity/scene edge for
+fal. It does **not** see a garment-fidelity edge, and the overall gap sits inside
+seed-to-seed noise. "If fal fails, we fail; if we fail, fal may not" is therefore
+**variance plus a small canvas effect**, not a stronger model. Link D measures the
+canvas effect directly; select-from-N remains the lever for the variance.

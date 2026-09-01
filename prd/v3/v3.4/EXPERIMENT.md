@@ -98,7 +98,10 @@ same on both paths.
 controls at the link-C seeds, so the canvas is the only variable. Cell 8 of
 `v34_a100.ipynb`, ~4 min of A100.
 
-**Result.** *Pending.*
+**Result.** *Pending.* The blind judge's prior ([RESULTS §4.4](RESULTS.md#44-the-blind-judge-is-fal-better-on-the-failure-set--not-distinguishably)):
+fal's edge over the A100 on the failure set is +0.09 fidelity, inside one seed's noise,
+all of it identity/scene and none of it garment — so link D should move identity/scene
+preservation, and is not expected to move the F1/F2 garment failures.
 
 ### 0 — Select-from-N **← next after D; cheapest, largest**
 
