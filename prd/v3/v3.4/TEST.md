@@ -14,10 +14,10 @@ typed. Each row carries the failure class (`F1`–`F4`), whether the failure is 
 
 | class | pairs | what it is |
 |---|---|---|
-| F1 | 8 | the wearer's own clothing survives where the new garment exposes it |
+| F1 | 9 | the wearer's own clothing survives where the new garment exposes it |
 | F2 | 8 | skirt / dress rendered as trousers on a male or legs-apart wearer |
 | F3 | 12 | the regenerated reference drifts (colour, dropped pieces, hem) |
-| F4 | 3 | exposed-skin pairing |
+| F4 | 2 | exposed-skin pairing |
 
 The set is **selected on failure**, so a rate measured on it does not transfer to the
 fold; its purpose is to show whether a change reaches the failures at all. Anything that
