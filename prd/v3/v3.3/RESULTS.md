@@ -1044,3 +1044,20 @@ BCA4 output). They sort into five classes, largest first:
    already says whether the wearer is neutral — and otherwise ships `MH` (head swap,
    garment untouched) would keep V's wins and give back the colour and the pieces.
    The ankle cut also costs where the reference's shoes were wanted (`peacoat` boots).
+
+### 14.6 Are the failures seed-stable? Mostly not
+
+Under the reviewer's rule (a cell is a v3.3 failure if BC klein won or both failed,
+unless nudged acceptable): **31 of 200 pairs have at least one failing cell. 27 of them
+pass at another seed; 4 fail at all three.**
+
+| | pairs | classes |
+|---|---|---|
+| rescued by another seed | **27** | F3 12 · F1 7 · F2 6 · F4 2 |
+| seed-stable | **4** | `emma_watson + scarlett` (BC at every seed), `hugh + zendaya`, `floral_kimono + g005`, `floral_kimono + g024` (fail at every seed) — F2 2, F1 2 |
+
+So the per-cell failure rate (7.7%) is mostly **variance, not a deterministic defect**: the
+hard pairs sit near the edit's decision boundary and the seed tips them. A best-of-N
+with a selector would remove up to 27/31 of the failing pairs; the 4 seed-stable ones
+are extreme coverage mismatches (a kimono wearer receiving a tee and shorts) and the
+skirt-on-a-man case, which no reference or seed reaches.

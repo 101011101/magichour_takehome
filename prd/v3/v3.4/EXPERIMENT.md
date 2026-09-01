@@ -20,9 +20,24 @@ is the brief for v3.4. Post-synthesis conclusions only, per [SCHEMA.md](../SCHEM
 | F4 | exposed-skin pairing | person, both | detector only — v3.1 §3c.31 stands |
 | F5 | wearer's headwear / bags kept | by design | product decision, not an experiment |
 
+**The finding that reorders this list** ([v3.3 RESULTS §14.6](../v3.3/RESULTS.md#146-are-the-failures-seed-stable-mostly-not)):
+27 of the 31 failing pairs pass at another seed; only 4 fail at every seed. The failure
+rate is mostly variance on hard pairs. That makes **select-from-N** the first thing to
+try, and the person-side work the fix for the residue.
+
+| | | |
+|---|---|---|
+| **F0** | the failing cell is a seed draw, not a pair property | **N seeds + a selector** — CV gate (does the wearer's original clothing survive where the reference does not cover? MediaPipe `CLOTHES` on image 1 vs the output) or the VLM as gate. Costs N× call 2 (2 s each self-hosted); the 2-call budget becomes 2 + (N−1) edits |
+
 ## The chain
 
-### 1 — Where does the tie mass come from? **← first, free**
+### 0 — Select-from-N **← first, cheapest, largest**
+
+On the 31 failing pairs and 30 clean controls: 3 seeds already on disk; the question is
+only the selector. A CV gate that picks the right seed on the 27 rescuable pairs without
+demoting the controls is worth more than every prompt experiment in v3.3 combined.
+
+### 1 — Where does the tie mass come from? **← free**
 
 Before spending: over the 459 tied cells, is the output *identical* between arms (the
 edit ignored the reference difference) or *different and equally good*? A pixel/embedding
