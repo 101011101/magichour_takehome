@@ -1,6 +1,6 @@
 # v3.4 — EXPERIMENT
 
-**Status: opened 2026-08-31; link A set up, not run.** One question:
+**Status: open — link A run (negative). Opened 2026-08-31.** One question:
 
 > **What is left on the table after v3.3, and which side of the edit is it on?**
 
@@ -38,7 +38,7 @@ say what it costs elsewhere.
 
 ## The chain
 
-### A — Does removing the ankle cut change the failures? **← set up, awaiting the A100 run**
+### A — Does removing the ankle cut change the failures? **← run on fal, negative**
 
 **Why.** The reviewer's request. The cut was adopted as a general measure on a null probe
 ([v3.3 RESULTS §9.1](../v3.3/RESULTS.md#91-probe-results--g013-g012-4-reference-calls-10-edits-0-failures));
@@ -55,7 +55,12 @@ reference is now also saved for `V`, as `{g}__V_uncut.jpg`). 31 references + 93 
 **What counts.** Per cell, v3.3 (`V`) beside `Vnc`: did the cell's failure go, stay, or
 change class. Footwear on the reference is the thing to look at first.
 
-**Result.** *Pending.*
+**Result. No.** Run on fal at the reviewer's request (22 references, 186 edits, three
+seeds). `V` and `Vnc` share every pixel but the feet, and **every failure class is
+identical between them** — the kimono sleeves, the skirt-as-trousers, the colour drift
+are all upstream of the cut. The only visible difference is footwear on a few cells: with
+the cut the wearer keeps their shoes, without it the reference's come along. The cut stays
+in the lock; footwear is a product decision. → [RESULTS §1](RESULTS.md#1-link-a--the-ankle-cut-removed-on-the-failure-set-2026-08-31)
 
 ### 0 — Select-from-N **← cheapest, largest**
 
