@@ -1,6 +1,6 @@
 # v3.4 — EXPERIMENT
 
-**Status: open — link A run (negative). Opened 2026-08-31.** One question:
+**Status: open — links A and B run. Opened 2026-08-31.** One question:
 
 > **What is left on the table after v3.3, and which side of the edit is it on?**
 
@@ -61,6 +61,21 @@ identical between them** — the kimono sleeves, the skirt-as-trousers, the colo
 are all upstream of the cut. The only visible difference is footwear on a few cells: with
 the cut the wearer keeps their shoes, without it the reference's come along. The cut stays
 in the lock; footwear is a product decision. → [RESULTS §1](RESULTS.md#1-link-a--the-ankle-cut-removed-on-the-failure-set-2026-08-31)
+
+### B — Is fal more consistent than the self-hosted model? **← run on 30 controls, no**
+
+**Why.** Link A's rescues on a failure-selected set could be a better sampler or a fresh
+draw. Thirty clean control pairs (no failing cell at any seed on the A100), the same
+version without the cut, on fal at three seeds.
+
+**Result.** fal fails **~5% of the control cells** the A100 passed — the wearer's shorts
+surviving under trousers, a dress hem showing under a slip dress — the same rate and the
+same class (F1) as the A100 on the fold, on different cells. **fal is a different draw
+of the same model, not a better one.** Reference preprocessing is not worth chasing on
+this evidence. → [RESULTS §2](RESULTS.md#2-link-b--fal-on-30-clean-controls-is-fal-more-consistent-2026-08-31)
+
+**Staged:** `v3/colab/v34_a100.ipynb` — failure set + controls on the A100 at new seeds
+49/50/51, no ankle cut — closes the same question from the other side.
 
 ### 0 — Select-from-N **← cheapest, largest**
 

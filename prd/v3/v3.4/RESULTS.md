@@ -45,3 +45,50 @@ across the 93 cell-pairs.
 and the A100 run of the same prompt and seed (`g014 + g029`: the blazer over the blue
 dress on the A100, a long coat on fal) — the backend variance of v3.3 §13 again, and
 another reason select-from-N is the first real link.
+
+## 2. Link B — fal on 30 clean controls: is fal "more consistent"? (2026-08-31)
+
+**Why.** On link A's failure set fal passed many cells the A100 had failed, and the
+reviewer asked whether fal's inference stack is simply better at limbs and leaks. The
+failure set cannot answer that — it is selected on A100 failures, and 27 of its 31 pairs
+pass on *any* fresh draw ([v3.3 §14.6](../v3.3/RESULTS.md#146-are-the-failures-seed-stable-mostly-not)).
+A control set can: if fal is better, it should not fail pairs the A100 did not.
+
+**Run.** `v3/testsets/v34_controls.csv` — 30 pairs drawn (seed 34) from the 163 pairs on
+which v3.3 had **no** failing cell at any seed. Arm `Vnc` (no ankle cut) on fal, seeds
+46/47/48: 23 references, 90 edits, 0 failures, ~$1.7. Page `v3/report/v34_controls.html`
+(fal beside the A100 output the reviewer scored, per seed, with a fail toggle for the
+reviewer). Outputs `v3/runs/v34/linkB_controls/`.
+
+### 2.1 Result — fal fails the controls at the fold's rate
+
+By my eye (the reviewer's marks, when exported, are the number of record):
+
+| fal cell | what | class |
+|---|---|---|
+| `g005 + g009` seeds 46, 48 | the wearer's grey shorts survive under the cream trousers → shorts | F1 |
+| `g013 + g014` seeds 47, 48 | the wearer's patterned dress hem shows under the blue slip dress | F1 |
+| `floral_kimono + quarterzip` all seeds | kimono sleeves and bag survive — as on the A100 (the reviewer had called those cells ties: equally wrong) | F1 |
+| the other 25 pairs | indistinguishable from the A100 to the eye; small drape / footwear differences | — |
+
+**≈ 4–5 of 90 cells (5%)** are failures on fal that the A100 did not make on these pairs
+— against the A100's own 4.3% fail rate on the fold. Same rate, same class (F1, the
+wearer's clothing surviving), different cells.
+
+### 2.2 Reading
+
+- **fal is not more consistent. It is a different draw of the same model.** Link A's
+  rescues were regression to the mean on a failure-selected set; on unselected pairs fal
+  fails where the A100 passed, at the same rate and in the same way.
+- The failures are **F1 again**, on cells that were clean on the A100 — the strongest
+  evidence yet that the clothing-leak class is a *sampling* hazard on hard pairs, not a
+  property of a backend or of a seed. Select-from-N is the lever; the person-side
+  agnostic is the fix.
+- No difference between the stacks is worth chasing at the reference-preprocessing
+  level on this evidence. The one difference that *is* real — 35/255 mean pixel
+  difference between "same-seed" references — is the RNG, not the model.
+
+**Staged, not run:** `v3/colab/v34_a100.ipynb` — the same two matrices on the A100 at
+**new seeds 49/50/51**, no ankle cut, one clean notebook. It closes the loop from the
+other side: if a fresh A100 draw rescues the failure set as fal did, backend is off the
+table entirely.

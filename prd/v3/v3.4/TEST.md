@@ -23,10 +23,24 @@ The set is **selected on failure**, so a rate measured on it does not transfer t
 fold; its purpose is to show whether a change reaches the failures at all. Anything that
 looks like a fix here is then run on the full matrix before it is believed.
 
+## The control set
+
+`v3/testsets/v34_controls.csv` — **30 pairs** drawn with a fixed seed (34) from the 163
+pairs on which v3.3 had no failing cell at any seed. Unselected on failure, so a failure
+rate measured on it *does* transfer; its job is to catch what a change costs. Carries the
+three A100 verdicts per pair.
+
+## The A100 run of record for v3.4
+
+`v3/colab/v34_a100.ipynb` — a new notebook, **no ankle cut** (arm `Vnc`), both matrices,
+**seeds 49/50/51** (new, so the run is a fresh draw against the iron-man's 46/47/48),
+reusing the iron-man inputs and A4 crops from Drive. Self-hosted klein 4B distilled.
+
 ## Held fixed
 
-Everything in the v3.3 lock: A4 crop, head swap, `PERSON_CLAUSE`, hold sentence, `E3`,
-seeds 46/47/48, self-hosted klein 4B distilled on an A100, the same normalised inputs
+Everything in the v3.3 lock except the ankle cut (removed for every v3.4 arm at the
+reviewer's decision; link A showed it neutral on the failures): A4 crop, head swap,
+`PERSON_CLAUSE`, hold sentence, `E3`; seeds 46/47/48 on fal, 49/50/51 on the A100, self-hosted klein 4B distilled on an A100, the same normalised inputs
 and crops as the iron-man run (the arm reuses its `run/` directory).
 
 ## Review
