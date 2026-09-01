@@ -152,7 +152,7 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
     else:
         K.load()
     meta = {}
-    mp = d("meta", "prompts.json")
+    mp = d("meta", "prompts.json" if matrix == "matrix.csv" else f"prompts_{os.path.splitext(os.path.basename(matrix))[0]}.json")
     if os.path.exists(mp):
         meta = json.load(open(mp))
 

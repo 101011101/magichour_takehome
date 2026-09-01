@@ -15,10 +15,11 @@ IM = os.path.join(REPO, "v3", "runs", "ironman", "20260830_0548")
 OUT = os.path.join(REPO, "v3", "runs", "v34", "linkA")
 SEEDS = (46, 47, 48)
 
-def main():
+def main(matrix="v34_failures.csv", arms=("V", "Vnc"), seeds=SEEDS, out=None):
+    global OUT; OUT = out or OUT
     load_env(); L.MODEL_DIR = os.path.join(REPO, "v2", "runs", ".models"); paths = L.fetch_models(verbose=False)
     for x in ("refs", "gen", "meta"): os.makedirs(os.path.join(OUT, x), exist_ok=True)
-    rows = list(csv.DictReader(open(os.path.join(REPO, "v3", "testsets", "v34_failures.csv"))))
+    rows = list(csv.DictReader(open(os.path.join(REPO, "v3", "testsets", matrix))))
     garments = sorted({r["garment"] for r in rows}); meta = {}
     # references: one call per garment, then cut / uncut
     jobs = []
@@ -29,10 +30,11 @@ def main():
             jobs.append((g, crop, prompt))
     print(f"{len(garments)} garments, {len(jobs)} reference calls", flush=True)
     def ref(g, crop, prompt):
-        im = recrop(L.call(L.KLEIN, {"image_urls": [L.b64(crop)], "prompt": prompt, "seed": SEEDS[0]}))
+        im = recrop(L.call(L.KLEIN, {"image_urls": [L.b64(crop)], "prompt": prompt, "seed": seeds[0]}))
         cv2.imwrite(os.path.join(OUT, "refs", f"{g}__Vnc.jpg"), im, [cv2.IMWRITE_JPEG_QUALITY, 95])
         ya = ankle_y(crop, paths); cut, y = ankle_cut(im, paths, (ya / crop.shape[0]) if ya is not None else None)
-        cv2.imwrite(os.path.join(OUT, "refs", f"{g}__V.jpg"), cut, [cv2.IMWRITE_JPEG_QUALITY, 95]); return g, y
+        if "V" in arms: cv2.imwrite(os.path.join(OUT, "refs", f"{g}__V.jpg"), cut, [cv2.IMWRITE_JPEG_QUALITY, 95])
+        return g, y
     with ThreadPoolExecutor(4) as ex:
         for f in as_completed([ex.submit(ref, *j) for j in jobs]):
             g, y = f.result(); meta[g]["ankle_cut_row"] = y; print("  ref", g, "cut at", y, flush=True)
@@ -42,9 +44,9 @@ def main():
     for r in rows:
         sid, p, g = r["set_id"], r["person"], r["garment"]
         person = cv2.imread(os.path.join(IM, "inputs", f"{p}.jpg"))
-        for arm in ("V", "Vnc"):
+        for arm in arms:
             refim = cv2.imread(os.path.join(OUT, "refs", f"{g}__{arm}.jpg"))
-            for s in SEEDS:
+            for s in seeds:
                 out = os.path.join(OUT, "gen", f"{sid}__{arm}__s{s}.jpg")
                 if os.path.exists(out): continue
                 jobs.append((out, (lambda a=person, b=refim, s=s: L.call(L.KLEIN, {"image_urls": [L.b64(a), L.b64(b)], "prompt": E3, "seed": s}))))
@@ -55,9 +57,13 @@ def main():
             try: cv2.imwrite(futs[f], f.result(), [cv2.IMWRITE_JPEG_QUALITY, 95]); n += 1
             except Exception as e: print("  FAIL", os.path.basename(futs[f]), str(e)[:80], flush=True)
             if n % 40 == 0: print(f"  {n}", flush=True)
-    json.dump({"backend": "fal " + L.KLEIN, "seeds": SEEDS, "edit_prompt": E3, "pairs": len(rows), "calls": len(garments) + len(jobs), "usd_fal": round((len(garments) + len(jobs)) * 0.015, 2)},
+    json.dump({"backend": "fal " + L.KLEIN, "seeds": list(seeds), "arms": list(arms), "matrix": matrix, "edit_prompt": E3, "pairs": len(rows), "calls": len(garments) + len(jobs), "usd_fal": round((len(garments) + len(jobs)) * 0.015, 2)},
               open(os.path.join(OUT, "meta", "run.json"), "w"), indent=1)
     print("done")
 
 if __name__ == "__main__":
-    main()
+    a = sys.argv
+    main(a[a.index("--matrix") + 1] if "--matrix" in a else "v34_failures.csv",
+         tuple(a[a.index("--arms") + 1].split(",")) if "--arms" in a else ("V", "Vnc"),
+         tuple(int(x) for x in a[a.index("--seeds") + 1].split(",")) if "--seeds" in a else SEEDS,
+         a[a.index("--out") + 1] if "--out" in a else None)
