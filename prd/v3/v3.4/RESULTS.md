@@ -92,3 +92,51 @@ wearer's clothing surviving), different cells.
 **new seeds 49/50/51**, no ankle cut, one clean notebook. It closes the loop from the
 other side: if a fresh A100 draw rescues the failure set as fal did, backend is off the
 table entirely.
+
+## 3. Link C — the A100 at new seeds, no ankle cut, failure set + controls (2026-09-01)
+
+**Run** `v34_a100_nocut_20260901_0323` from `v3/colab/v34_a100.ipynb`: arm `Vnc`, seeds
+**49/50/51**, NVIDIA A100-40GB, klein 4B bf16 from the Drive cache (load 273 s). 36
+references + 183 edits = 219 klein calls at **1.94 s/call**; the two matrices ran as
+separate stages, ~3.5 min of generation each; **~CAD 0.08** for both at the reviewer's
+rate. Page `v3/report/v34_a100.html` (new cell · original scored cell · fal cell, per
+seed, with fail toggles for the reviewer); outputs `v3/runs/v34/v34_a100_nocut_*/`.
+
+### 3.1 Failure set — the fresh A100 draw rescues what fal rescued, and no more
+
+By my eye, against the original verdicts:
+
+| | pairs | what the new seeds do |
+|---|---|---|
+| seed-stable on the original run (`floral_kimono + g005`, `+ g024`, `hugh + zendaya`, `emma + scarlett`) | 4 | **still fail at all three new seeds** — the kimono sleeves and bag, the wrap skirt as trousers, the dress as a strapless top. A fifth, `p025 + zendaya`, is trousers at all three new seeds too |
+| the rest | 27 | **mixed, as before**: `g005 + g014` passes 1 of 3 (shorts leak at 49, split at 50), `g024 + p002` 1 of 3, `g004 + g005` 1 of 3, `g014 + g029` varies between coat and blazer-over-dress; the F3 pairs (`plaid + g029`, `peacoat + g030`, `zendaya + peacoat`, `g018 + g024`, `p026 + g013`, `p011 + p016`, `p028 + g015`) are clean or near-clean at most new seeds |
+
+The rescue rate is the same order as fal's on link A. Nothing here that fal did and the
+A100 does not, or the reverse.
+
+### 3.2 Controls — the fresh A100 draw creates new F1 leaks at ~5%
+
+| new-A100 cell | what |
+|---|---|
+| `g005 + g009` seed 49 | the wearer's grey shorts under the cream trousers (the same cell that leaked on fal at 46/48) |
+| `g014 + p007` seeds 49, 50 | the wearer's blue dress hem under the white dress |
+| `g018 + p010` seed 49 | the wearer's black skirt under the blue pleated skirt |
+| `floral_kimono + quarterzip` all seeds | kimono sleeves and bag, as on every backend and seed |
+
+**~4–5 of 90 (5%)**, all F1, on cells that were clean at 46/47/48 — the same rate and the
+same class fal produced on link B, on partly different cells.
+
+### 3.3 Reading — the backend is off the table
+
+Three backends/draws on the same pairs now agree: the original A100 (46/47/48), fal
+(46/47/48), the A100 again (49/50/51). Each rescues ~85% of the failure set and each
+fails ~5% of clean controls, always in class F1 (the wearer's clothing surviving) and on
+seed-stable pairs always the same four or five. **The failure rate is a property of the
+model on hard pairs, sampled; not of fal, not of the A100, not of a seed.** That settles
+links A–C together:
+
+- the ankle cut is neutral (A);
+- fal is not a better sampler (B);
+- a fresh A100 draw is not either (C);
+- **select-from-N is the lever** for the ~85% that are draws, and the person-side
+  agnostic is the only route to the seed-stable residue.

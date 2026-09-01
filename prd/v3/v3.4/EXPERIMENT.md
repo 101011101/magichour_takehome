@@ -1,6 +1,6 @@
 # v3.4 — EXPERIMENT
 
-**Status: open — links A and B run. Opened 2026-08-31.** One question:
+**Status: open — links A, B, C run; the backend question is closed. Opened 2026-08-31.** One question:
 
 > **What is left on the table after v3.3, and which side of the edit is it on?**
 
@@ -74,10 +74,17 @@ same class (F1) as the A100 on the fold, on different cells. **fal is a differen
 of the same model, not a better one.** Reference preprocessing is not worth chasing on
 this evidence. → [RESULTS §2](RESULTS.md#2-link-b--fal-on-30-clean-controls-is-fal-more-consistent-2026-08-31)
 
-**Staged:** `v3/colab/v34_a100.ipynb` — failure set + controls on the A100 at new seeds
-49/50/51, no ankle cut — closes the same question from the other side.
+### C — A fresh A100 draw at new seeds, no ankle cut **← run, closes the question**
 
-### 0 — Select-from-N **← cheapest, largest**
+**How.** `v3/colab/v34_a100.ipynb`: failure set and controls, seeds 49/50/51, 219 calls
+at 1.94 s, ~CAD 0.08.
+
+**Result.** The A100 at new seeds does what fal did: rescues ~85% of the failure set,
+leaves the same four seed-stable pairs failing (plus `p025 + zendaya`), and creates new
+F1 leaks on ~5% of clean control cells. **Three draws agree: the failure rate is the model
+sampled on hard pairs, not a backend or a seed.** → [RESULTS §3](RESULTS.md#3-link-c--the-a100-at-new-seeds-no-ankle-cut-failure-set--controls-2026-09-01)
+
+### 0 — Select-from-N **← next; cheapest, largest**
 
 On the 31 failing pairs and 30 clean controls: 3 seeds already on disk; the question is
 only the selector. A CV gate that picks the right seed on the 27 rescuable pairs without
