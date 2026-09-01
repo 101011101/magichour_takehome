@@ -41,17 +41,28 @@ def _pil(bgr):
 
 
 def _size(bgr, maxpix=1_150_000):
+    """v3.3 rule: keep image 1's size up to 1.15 MP, never upscale, floor to 16."""
     h, w = bgr.shape[:2]
     k = min(1.0, (maxpix / (h * w)) ** 0.5)
     return max(16, int(h * k) // 16 * 16), max(16, int(w * k) // 16 * 16)
 
 
-def edit(images_bgr, prompt, seed, steps=STEPS, guidance=GUIDANCE):
-    """images_bgr: [image 1, (image 2)] as BGR arrays. Output sized to image 1.
-    Returns (bgr, seconds)."""
+def _size_fal(bgr, area=1_048_576):
+    """fal's rule, measured (v3.4 probe, 20/20 responses reproduced): scale image 1 to
+    area 1024^2 preserving aspect - UP or down - then floor each side to a multiple of 32.
+    Keeps every call-2 canvas at <= 4096 tokens, below the 4300-token branch in
+    compute_empirical_mu, i.e. on the schedule the distilled model was trained for."""
+    h, w = bgr.shape[:2]
+    k = (area / (h * w)) ** 0.5
+    return max(32, int(h * k) // 32 * 32), max(32, int(w * k) // 32 * 32)
+
+
+def edit(images_bgr, prompt, seed, steps=STEPS, guidance=GUIDANCE, canvas="v33"):
+    """images_bgr: [image 1, (image 2)] as BGR arrays. Output canvas from image 1 by the
+    'v33' rule (the lock) or the 'fal' rule (v3.4 link D). Returns (bgr, seconds)."""
     import torch
     pipe = load()
-    h, w = _size(images_bgr[0])
+    h, w = (_size_fal if canvas == "fal" else _size)(images_bgr[0])
     t0 = time.time()
     out = pipe(prompt=prompt, image=[_pil(b) for b in images_bgr],
                height=h, width=w, num_inference_steps=steps, guidance_scale=guidance,

@@ -1,6 +1,6 @@
 # v3.4 — EXPERIMENT
 
-**Status: open — links A, B, C run; the backend question is closed. Opened 2026-08-31.** One question:
+**Status: open — links A–C run; the deep dive found one real code difference (the call-2 canvas); link D set up. Opened 2026-08-31.** One question:
 
 > **What is left on the table after v3.3, and which side of the edit is it on?**
 
@@ -84,7 +84,23 @@ leaves the same four seed-stable pairs failing (plus `p025 + zendaya`), and crea
 F1 leaks on ~5% of clean control cells. **Three draws agree: the failure rate is the model
 sampled on hard pairs, not a backend or a seed.** → [RESULTS §3](RESULTS.md#3-link-c--the-a100-at-new-seeds-no-ankle-cut-failure-set--controls-2026-09-01)
 
-### 0 — Select-from-N **← next; cheapest, largest**
+### D — Does fal's call-2 canvas change the failures? **← set up, awaiting the A100**
+
+**Why.** The deep dive ([RESULTS §4](RESULTS.md#4-deep-dive--what-is-different-between-our-klein-and-fals-2026-09-01))
+found the one code-level difference that survives reading both implementations: we size
+call 2 to image 1 at ≤1.15 MP / floor 16 / no upscale; fal renders at area 1024² / floor
+32 / up or down. Above 4,300 tokens the distilled model's sigma schedule switches (38 of
+200 of our outputs crossed it); below, we render small persons on far fewer tokens than
+fal. Everything else — guidance, steps, encoding, prompt length, position ids — is the
+same on both paths.
+
+**How.** Arm `Vfc` = `Vnc` with fal's canvas on call 2, on the failure set and the
+controls at the link-C seeds, so the canvas is the only variable. Cell 8 of
+`v34_a100.ipynb`, ~4 min of A100.
+
+**Result.** *Pending.*
+
+### 0 — Select-from-N **← next after D; cheapest, largest**
 
 On the 31 failing pairs and 30 clean controls: 3 seeds already on disk; the question is
 only the selector. A CV gate that picks the right seed on the 27 rescuable pairs without

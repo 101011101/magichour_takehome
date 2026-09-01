@@ -140,3 +140,59 @@ links A–C together:
 - a fresh A100 draw is not either (C);
 - **select-from-N is the lever** for the ~85% that are draws, and the person-side
   agnostic is the only route to the seed-stable residue.
+
+## 4. Deep dive — what is different between our klein and fal's (2026-09-01)
+
+Three background investigations, launched on the reviewer's observation that fal passes
+cells the A100 fails (`floral_kimono + g024` at fal seeds 46 and 48; every A100 seed
+failed) and that "if fal fails, everything fails, but not the reverse". Full write-ups:
+`v3/runs/v34/deepdive_code_diff.md` (sources read and quoted),
+`v3/runs/v34/probe_fal/PROBE.md` (28 fal calls, measured), and the VLM judge report in
+`v3/runs/v34/judge_fal_vs_a100/` (pending at the time of writing).
+
+### 4.1 Measured on fal (probe)
+
+| question | measured |
+|---|---|
+| output canvas | **not image 1's size.** 0.5 / 0.7 / 1.1 / 1.5 / 2.5 MP inputs all return 832×1248. Rule reproducing 20/20 responses: scale image 1 to **area 1,048,576 px preserving aspect, up or down, floor each side to a multiple of 32**. The OpenAPI's "uses the input image size" is wrong in practice |
+| reference size | irrelevant: 0.25 / 0.93 / 3 MP references give outputs equal to the noise floor → the reference is re-sampled to a fixed size internally |
+| steps | default is 4 (4 vs explicit 4: identical; 4 vs 8: MAD 3.7) |
+| determinism | 9 of 11 same-argument repeats pixel-identical; 2 differ by MAD ≈ 0.4 (noise floor). Never byte-identical (a per-response C2PA chunk) |
+| input encoding | PNG vs JPEG-q95 data-URI, data-URI vs uploaded URL: at or below the noise floor |
+| order / duplicates | image 1 sets the canvas; identity follows the human photo wherever it is; duplicated references are not collapsed |
+
+### 4.2 Read from source (diffusers `Flux2KleinPipeline`, BFL `flux2/sampling.py`)
+
+The one line that differs: `klein_local.py` passes `height, width` = image 1 at ≤1.15 MP,
+floor 16, never upscaled. Two consequences, both code-verified:
+
+1. **The sigma schedule.** `compute_empirical_mu` — byte-identical in diffusers and BFL —
+   branches at **4,300 image tokens (≈1.10 MP)**. Above it, `mu ≈ 1.20` (sigmas
+   `[1, .91, .77, .53, 0]`); below, `mu ≈ 2.29` (`[1, .97, .91, .77, 0]`). klein 4B is
+   timestep-distilled; its 4 steps are for one schedule. fal's canvas (≤4,096 tokens) is
+   always below the branch. **Ours crossed it on 38 of 200 iron-man call-2 outputs**
+   (token range 2,304–4,489) — the agent's "every output" was wrong and is corrected
+   here. Those 38 pairs have a v3.3 failing cell **21%** of the time against **14%** for
+   the 162 below; suggestive, not decisive at n = 38.
+2. **Token count in general.** Because fal upscales to ~1 MP and we do not, the 162
+   pairs below the branch render on **2,300–4,000 tokens locally against fal's ~4,000
+   every time**. The wearer's sleeves, hems and limbs are smaller structures on a
+   coarser grid. Also the output grid ≠ the pipeline's 1 MP reference grid for image 1
+   (e.g. 54×82 vs 52×78), so RoPE-aligned wearer tokens are displaced 3–4 tokens toward
+   the bottom/right — plausible, untested.
+
+Killed by reading both sources: guidance (`guidance_embeds: false`), step count, sigma
+spacing, PNG vs PIL, prompt truncation (512 tokens, prompt ≈ 80), position ids, concat
+order, VAE sampling. Unverifiable: fal's kernels/dtype/GPU, its exact reference cap, its
+seed→noise mapping.
+
+### 4.3 What follows — link D
+
+One rule fixes both: **fal's canvas on call 2** (area 1024², floor 32, up or down),
+implemented as `klein_local._size_fal` and arm **`Vfc`** (= `Vnc` + that canvas; call 1
+unchanged, its ~0.5 MP crop never crossed the branch). Run on the failure set and the
+controls at **the link-C seeds 49/50/51**, so `Vnc` vs `Vfc` differ in the canvas and
+nothing else. Notebook `v34_a100.ipynb` cell 8.
+
+The honest prior, from §3: three draws already agree the failure rate is variance on hard
+pairs; the canvas can move the *rate*, not abolish the seed-stable residue.

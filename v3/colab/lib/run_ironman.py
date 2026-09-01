@@ -75,7 +75,7 @@ def timed(stage, arm, ident, seed, fn):
 
 
 def klein(stage, arm, ident, seed, images, prompt):
-    im, secs = K.edit(images, prompt, seed)
+    im, secs = K.edit(images, prompt, seed, canvas=("fal" if (arm == "Vfc" and stage == "edit") else "v33"))
     _T.append({"stage": stage, "arm": arm, "id": ident, "seed": seed, "seconds": secs,
                "klein_call": 1})
     return im
@@ -160,7 +160,7 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
     for g in garments:
         crop = cv2.imread(d("inputs", f"{g}__A4.jpg"))
         raw = cv2.imread(d("inputs", f"{g}.jpg"))
-        for varm in [a for a in ("V", "Vnc") if a in arms]:      # Vnc = the version WITHOUT the ankle cut (v3.4 link A)
+        for varm in [a for a in ("V", "Vnc", "Vfc") if a in arms]:   # Vnc = no ankle cut (v3.4 A); Vfc = Vnc + fal's call-2 canvas (v3.4 D)
             fr = timed("framing", varm, g, 0, lambda c=crop: L.framing(c, paths)["framing"])
             prompt = SWAP + KEEP + PERSON_CLAUSE[fr] + HOLD
             meta[f"{g}|{varm}"] = {"framing": fr, "prompt": prompt, "ankle_cut": varm == "V"}
@@ -200,7 +200,7 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
             if not os.path.exists(d("refs", f"{g}__{arm}.jpg")):
                 raise SystemExit(f"missing reference refs/{g}__{arm}.jpg" + (" - run the V2 cropper first" if arm == "BC" else ""))
             ref = cv2.imread(d("refs", f"{g}__{arm}.jpg"))
-            prompt = E3 if arm in ("V", "Vnc") else BC_EDIT
+            prompt = E3 if arm in ("V", "Vnc", "Vfc") else BC_EDIT
             for seed in seeds:
                 out = d("gen", f"{sid}__{arm}__s{seed}.jpg")
                 if os.path.exists(out):
