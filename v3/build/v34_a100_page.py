@@ -17,7 +17,10 @@ def src(path, w=300):
     return "img_v34c/" + os.path.basename(o)
 def fig(path, cap, cls=""):
     s = src(path); return f"<figure class='{cls}'><img src='{s}' alt='{html.escape(cap)}' loading='lazy'><figcaption>{cap}</figcaption></figure>" if s else f"<figure><div class='ph'>&mdash;</div><figcaption>{cap}</figcaption></figure>"
-def main(run, embed=None):
+LC = os.path.join(REPO, "v3", "runs", "v34", "v34_a100_nocut_20260901_0323")   # link C (Vnc, 49/50/51)
+
+
+def main(run, embed=None, arm="Vnc"):
     global EMBED; EMBED = embed
     o = [HEAD, "<div class='wrap'>", BAR, "<h1>v3.4 on the A100 &mdash; no ankle cut, new seeds</h1>",
          "<p class='lede'>The locked version with the ankle cut removed, seeds <b>49/50/51</b>, self-hosted klein 4B on an A100. Two matrices: the 31-pair v3.3 failure set and the 30 clean controls. "
@@ -29,14 +32,18 @@ def main(run, embed=None):
         for r in rows:
             sid, p, g = r["set_id"], r["person"], r["garment"]
             o.append(f"<h2>{html.escape(p)} wears {html.escape(g)}<span class='ar'>{html.escape(r.get('class',''))} &middot; original verdicts {r['v46']} / {r['v47']} / {r['v48']}</span></h2>")
-            o.append("<div class='strip s3'>" + fig(os.path.join(IM, "inputs", f"{p}.jpg"), "person") + fig(os.path.join(IM, "inputs", f"{g}.jpg"), "garment photograph") + fig(os.path.join(run, "refs", f"{g}__Vnc.jpg"), "reference, uncut (this run)") + "</div>")
+            if not os.path.exists(os.path.join(run, "refs", f"{g}__{arm}.jpg")) and not any(os.path.exists(os.path.join(run, "gen", f"{sid}__{arm}__s{s}.jpg")) for s in (49, 50, 51)):
+                continue
+            o.append("<div class='strip s3'>" + fig(os.path.join(IM, "inputs", f"{p}.jpg"), "person") + fig(os.path.join(IM, "inputs", f"{g}.jpg"), "garment photograph") + fig(os.path.join(run, "refs", f"{g}__{arm}.jpg"), "reference, uncut (this run)") + "</div>")
             for new, old in ((49, 46), (50, 47), (51, 48)):
+                third = (fig(os.path.join(LC, "gen", f"{sid}__Vnc__s{new}.jpg"), f"link C: no cut, v3.3 canvas, s{new}") if arm == "V34"
+                         else fig(os.path.join(fal, "gen", f"{sid}__Vnc__s{old}.jpg"), f"fal s{old}, no cut"))
                 o.append(f"<div class='lab'>seed {new} (new) &middot; {old} (original)<span class='mk' data-sid='{html.escape(sid)}' data-seed='{new}'><button data-m='pass' class='on'>pass</button><button data-m='fail'>FAIL</button></span></div><div class='strip s3'>"
-                         + fig(os.path.join(run, "gen", f"{sid}__Vnc__s{new}.jpg"), f"<b>new A100</b> s{new}, no cut", "ship")
+                         + fig(os.path.join(run, "gen", f"{sid}__{arm}__s{new}.jpg"), f"<b>{arm}</b> s{new}" + (" &mdash; no cut, fal canvas" if arm == "V34" else " &mdash; no cut"), "ship")
                          + fig(os.path.join(IM, "gen", f"{sid}__V__s{old}.jpg"), f"original A100 s{old} &mdash; scored {r[f'v{old}']}", "bad" if r[f"v{old}"] in ("BC", "fail") else "")
-                         + fig(os.path.join(fal, "gen", f"{sid}__Vnc__s{old}.jpg"), f"fal s{old}, no cut") + "</div>")
+                         + third + "</div>")
     o.append(FOOT + "</div>" + LB + SCRIPT)
-    dst = embed or os.path.join(REPORT, "v34_a100.html"); open(dst, "w").write("\n".join(o)); print(dst, f"{os.path.getsize(dst)/1e6:.1f} MB")
+    dst = embed or os.path.join(REPORT, "v34_a100.html" if arm == "Vnc" else f"v34_a100_{arm}.html"); open(dst, "w").write("\n".join(o)); print(dst, f"{os.path.getsize(dst)/1e6:.1f} MB")
 BAR = """<div class='bar'><button id='export'>Export CSV</button><span id='count'></span></div><textarea id='csvbox'></textarea>"""
 HEAD = """<title>A100, New Seeds, No Cut</title><meta name='viewport' content='width=device-width,initial-scale=1'>
 <style>:root{--bg:#0d0d10;--fg:#e8e8ea;--dim:#8a8a94;--line:#26262c;--acc:#7c5cff;--good:#3fb950;--bad:#f0655a}*{box-sizing:border-box}
@@ -64,4 +71,5 @@ document.getElementById('export').onclick=()=>{let csv='set_id,seed,verdict\\\\n
  const box=document.getElementById('csvbox');box.style.display='block';box.value=csv;box.select();try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='v34_a100_marks.csv';a.click();}catch(x){}};
 paint();</script>"""
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[sys.argv.index("--embed") + 1] if "--embed" in sys.argv else None)
+    a = sys.argv
+    main(a[1], a[a.index("--embed") + 1] if "--embed" in a else None, a[a.index("--arm") + 1] if "--arm" in a else "Vnc")

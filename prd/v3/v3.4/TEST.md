@@ -32,9 +32,11 @@ three A100 verdicts per pair.
 
 ## The A100 run of record for v3.4
 
-`v3/colab/v34_a100.ipynb` — a new notebook, **no ankle cut** (arm `Vnc`), both matrices,
-**seeds 49/50/51** (new, so the run is a fresh draw against the iron-man's 46/47/48),
-reusing the iron-man inputs and A4 crops from Drive. Self-hosted klein 4B distilled.
+`v3/colab/v34_a100.ipynb` — **the v3.4 version** (arm `V34`: no ankle cut, call 2 on fal's
+1024²/floor-32 canvas), the failure set, **seeds 49/50/51** — the link-C seeds, so `Vnc` vs
+`V34` is a paired comparison with the canvas as the only variable. Reuses the iron-man
+inputs and A4 crops from Drive. Self-hosted klein 4B distilled. Link C (`Vnc`, both
+matrices, the same seeds) was run from an earlier version of this notebook.
 
 ## Held fixed
 

@@ -84,7 +84,7 @@ leaves the same four seed-stable pairs failing (plus `p025 + zendaya`), and crea
 F1 leaks on ~5% of clean control cells. **Three draws agree: the failure rate is the model
 sampled on hard pairs, not a backend or a seed.** → [RESULTS §3](RESULTS.md#3-link-c--the-a100-at-new-seeds-no-ankle-cut-failure-set--controls-2026-09-01)
 
-### D — Does fal's call-2 canvas change the failures? **← set up, awaiting the A100**
+### D — Does fal's call-2 canvas change the failures? **← the v3.4 version; failure set staged**
 
 **Why.** The deep dive ([RESULTS §4](RESULTS.md#4-deep-dive--what-is-different-between-our-klein-and-fals-2026-09-01))
 found the one code-level difference that survives reading both implementations: we size
@@ -94,9 +94,10 @@ call 2 to image 1 at ≤1.15 MP / floor 16 / no upscale; fal renders at area 102
 fal. Everything else — guidance, steps, encoding, prompt length, position ids — is the
 same on both paths.
 
-**How.** Arm `Vfc` = `Vnc` with fal's canvas on call 2, on the failure set and the
-controls at the link-C seeds, so the canvas is the only variable. Cell 8 of
-`v34_a100.ipynb`, ~4 min of A100.
+**How.** The reviewer adopted the canvas into **the v3.4 version** (arm `V34` = no
+ankle cut + fal's canvas on call 2; [RESULTS §5](RESULTS.md#5-the-v34-version-and-link-ds-set-up-2026-09-01)).
+`v3/colab/v34_a100.ipynb` now runs exactly that: `V34` on the failure set at the link-C
+seeds 49/50/51, so the canvas is the only variable against link C. ~3 min of A100.
 
 **Result.** *Pending.* The blind judge's prior ([RESULTS §4.4](RESULTS.md#44-the-blind-judge-is-fal-better-on-the-failure-set--not-distinguishably)):
 fal's edge over the A100 on the failure set is +0.09 fidelity, inside one seed's noise,

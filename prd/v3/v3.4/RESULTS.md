@@ -234,3 +234,30 @@ fal. It does **not** see a garment-fidelity edge, and the overall gap sits insid
 seed-to-seed noise. "If fal fails, we fail; if we fail, fal may not" is therefore
 **variance plus a small canvas effect**, not a stronger model. Link D measures the
 canvas effect directly; select-from-N remains the lever for the variance.
+
+## 5. The v3.4 version, and link D's set-up (2026-09-01)
+
+**The v3.4 version** (decided by the reviewer after §4): the v3.3 lock with two changes.
+
+| | v3.3 lock | v3.4 version |
+|---|---|---|
+| ankle cut | on | **off** (link A: neutral on the failures; footwear follows the reference) |
+| call-2 canvas | image 1 at ≤1.15 MP, floor 16, never upscaled | **fal's rule: area 1,048,576 px, aspect kept, up or down, floor 32** (`klein_local._size_fal`) — ≤4,096 tokens, below the 4,300-token schedule branch, ~4,000 tokens for every person |
+| everything else | — | unchanged: A4 crop, head swap from the neck up, `PERSON_CLAUSE`, hold sentence, `E3`, seed 46 references |
+
+Arm name **`V34`** in `run_ironman.py`. Call 1 is untouched (its ~0.5 MP crop never
+crossed the branch). `BC`, when it is run beside `V34`, gets the same canvas so the
+comparison stays fair — the canvas is a property of call 2, not of the arm.
+
+**Link D as it will run.** `v3/colab/v34_a100.ipynb`, `V34` on the **failure set only**
+(the reviewer's choice — a sample first), seeds **49/50/51**, the link-C seeds, so the
+`Vnc` cell and the `V34` cell for the same pair and seed differ in the canvas and nothing
+else. Page: `python3 v3/build/v34_a100_page.py <dir> --arm V34` puts the three side by
+side — `V34` · the original scored cell · the link-C `Vnc` cell. Judge if wanted: the
+same gpt-5.5 rubric as §4.4, on `V34` vs `Vnc`, is the paired number.
+
+**What would count.** Per §4.4, the canvas should move identity/scene preservation
+first; garment fidelity (F1/F2) is not expected to move. The four seed-stable pairs are
+not expected to move either.
+
+*Result: pending.*
