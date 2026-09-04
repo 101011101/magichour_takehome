@@ -5,6 +5,7 @@
   Vnc  V without the ankle cut                                                                        (v3.4 link A)
   V34  Vnc with call 2 rendered on fal's canvas: area 1024^2, floor 32, up or down                    (the v3.4 version)
   VE   V34 with call 1 on fal's canvas as well - references at ~1 MP                                  (link E)
+  VA   VE with every input Lanczos/area-resized to ~1 MP BEFORE its call - klein never scales         (link F)
 
 Both arms: same model, same call 2 except the E3 sentence is the version's. Every model
 call and every CPU/GPU stage is timed into meta/timings.csv; meta/cost.json totals them
@@ -78,7 +79,17 @@ def timed(stage, arm, ident, seed, fn):
 
 
 FAL_CANVAS_ARMS = ("V34", "Vfc")   # the v3.4 version: call 2 on fal's canvas (area 1024^2, floor 32, up or down)
-FAL_BOTH_ARMS = ("VE",)            # link E: calls 1 AND 2 on fal's canvas - everything at ~1 MP, references included
+FAL_BOTH_ARMS = ("VE", "VA")       # calls 1 AND 2 on fal's canvas; VA also pre-scales inputs so klein never upscales
+ALGO_ARMS = ("VA",)                # link F: inputs algorithmically resized to ~1 MP before the call (Lanczos up, area down)
+
+
+def to_1mp(bgr, area=1_048_576):
+    h, w = bgr.shape[:2]
+    k = (area / (h * w)) ** 0.5
+    if abs(k - 1.0) < 0.02:
+        return bgr
+    return cv2.resize(bgr, (max(1, int(w * k)), max(1, int(h * k))),
+                      interpolation=cv2.INTER_LANCZOS4 if k > 1 else cv2.INTER_AREA)
 _RUN = {"bc_canvas": "v33"}        # BC's call 2 follows the version in the run - the canvas is a property of call 2, not of the arm (RESULTS v3.4 §5)
 
 
@@ -173,13 +184,13 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
     for g in garments:
         crop = cv2.imread(d("inputs", f"{g}__A4.jpg"))
         raw = cv2.imread(d("inputs", f"{g}.jpg"))
-        for varm in [a for a in ("V", "Vnc", "Vfc", "V34", "VE") if a in arms]:   # Vnc = no cut; V34 = the v3.4 version (no cut + fal call-2 canvas); VE = fal canvas on both calls
+        for varm in [a for a in ("V", "Vnc", "Vfc", "V34", "VE", "VA") if a in arms]:   # Vnc = no cut; V34 = fal call-2 canvas; VE = fal canvas both calls; VA = + algorithmic input scaling
             fr = timed("framing", varm, g, 0, lambda c=crop: L.framing(c, paths)["framing"])
             prompt = SWAP + KEEP + PERSON_CLAUSE[fr] + HOLD
             meta[f"{g}|{varm}"] = {"framing": fr, "prompt": prompt, "ankle_cut": varm == "V"}
             out = d("refs", f"{g}__{varm}.jpg")
             if not os.path.exists(out):
-                im = klein("ref", varm, g, seeds[0], [crop], prompt)
+                im = klein("ref", varm, g, seeds[0], [to_1mp(crop) if varm in ALGO_ARMS else crop], prompt)
                 im = recrop(im)
                 cv2.imwrite(d("refs", f"{g}__{varm}_uncut.jpg"), im, [cv2.IMWRITE_JPEG_QUALITY, 95])   # kept from now on
                 if varm == "V":
@@ -213,12 +224,13 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
             if not os.path.exists(d("refs", f"{g}__{arm}.jpg")):
                 raise SystemExit(f"missing reference refs/{g}__{arm}.jpg" + (" - run the V2 cropper first" if arm == "BC" else ""))
             ref = cv2.imread(d("refs", f"{g}__{arm}.jpg"))
-            prompt = E3 if arm in ("V", "Vnc", "Vfc", "V34", "VE") else BC_EDIT
+            prompt = E3 if arm in ("V", "Vnc", "Vfc", "V34", "VE", "VA") else BC_EDIT
+            im1 = to_1mp(person) if arm in ALGO_ARMS else person
             for seed in seeds:
                 out = d("gen", f"{sid}__{arm}__s{seed}.jpg")
                 if os.path.exists(out):
                     continue
-                cv2.imwrite(out, klein("edit", arm, sid, seed, [person, ref], prompt), [cv2.IMWRITE_JPEG_QUALITY, 95])
+                cv2.imwrite(out, klein("edit", arm, sid, seed, [im1, ref], prompt), [cv2.IMWRITE_JPEG_QUALITY, 95])
                 n += 1
                 if n % 25 == 0:
                     print(f"    {n} edits", flush=True)

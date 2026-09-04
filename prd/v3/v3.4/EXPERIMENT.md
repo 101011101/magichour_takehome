@@ -141,6 +141,27 @@ full body shot." Sources: HF model card + BFL flux2 repo (`util.py`, `model.py`,
 `sampling.py`), diffusers `pipeline_flux2_klein.py` + issue #13349, FLUX.1-Kontext-dev
 discussion #23, fal klein guides, myaiforce.com anatomy post.
 
+### F — All scaling algorithmic (arm `VA`) **← wired 2026-09-04; the decided rule**
+
+**Why.** Link E's win came with a cost: klein's generation-upscale hallucinates garment
+structure on small crops ([RESULTS §7.1](RESULTS.md#71-the-reference-hallucination-verified-2026-09-04)
+— `p004`'s buttonless tee grows a two-button placket at ×2.67). The reviewer's rule:
+**klein never scales** — every input is resized to ~1 MP by an algorithm (Lanczos up,
+INTER_AREA down) *before* its call, so the render canvas always matches the
+conditioning. Soft-but-faithful evidence at every grid position, no invented detail.
+
+**How.** Arm `VA` in `run_ironman.py` (`ALGO_ARMS`, `to_1mp()`): the A4 crop is
+pre-scaled before call 1, the person before call 2; both calls on the fal canvas rule
+(which now ≈ the input's own size). `v3/colab/v34_a100.ipynb` runs it on the failure
+set at 49/50/51 — cell-for-cell against `VE` (link E) and `V34` (link D). Page:
+`v34_a100_page.py <dir> --arm VA` → `VA` · `VE` · `V34` · original · fal, winner vote
+per row.
+
+**What counts.** `g027+p003` (does the framing fix survive honest conditioning?),
+`g029+p004` (does the hallucinated placket go?), and the 13 cells `V34` won off `VE`.
+
+**Result.** *Pending.*
+
 ### 0 — Select-from-N **← next after D; cheapest, largest**
 
 On the 31 failing pairs and 30 clean controls: 3 seeds already on disk; the question is
@@ -184,3 +205,10 @@ outcome.** This reverses the lock's product choice on footwear (link A: cut = we
 keeps their shoes; no cut = the reference's shoes come along — v3.4 chooses the
 latter). The cut stays in arm `V` for baseline comparability only. **The canvas rule is
 NOT decided**: `V34` (call 2 at 1 MP) vs `VE` (both calls at 1 MP) awaits link E.
+
+**Scaling is algorithmic — decided by the reviewer 2026-09-04, after §7.1.** Klein
+never upscales: every input is resized to ~1 MP by an algorithm (Lanczos up,
+INTER_AREA down) before its call, so the render canvas always matches the
+conditioning. Raw photographs were already algorithmic-only (`normalise`: INTER_AREA
+down to 1.15 MP, small images untouched); the generation-upscale in `VE`'s call 1 was
+the only violation. Arm `VA` (link F) implements the rule; `VEi` (§7.1) is superseded.
