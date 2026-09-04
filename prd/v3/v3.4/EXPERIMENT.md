@@ -1,6 +1,6 @@
 # v3.4 — EXPERIMENT
 
-**Status: open — links A–D run. D (2026-09-04): the canvas holds ≥fal on 85/93 cells, 29/31 pairs pass at ≥1 seed; one canvas-suspect regression (`g027+p003` dwarfism, worse at all 3 seeds) under investigation. Opened 2026-08-31.** One question:
+**Status: open — links A–E run. E (2026-09-04): the 1 MP reference fixes the dwarfism (`g027+p003` to `VE` 3/3) but is not a general win — `V34` edges `VE` 13–8 with 68 ties, the v3.3 lock best on only 4/93. Canvas fork open ([RESULTS §7](RESULTS.md#7-link-e--references-at-1-mp-run-and-voted-2026-09-04)); select-from-N (§0) is next. Opened 2026-08-31.** One question:
 
 > **What is left on the table after v3.3, and which side of the edit is it on?**
 
@@ -121,6 +121,12 @@ staged; page `v34_a100_page.py <dir> --arm VE` → `VE` · original · link-D `V
 Prediction:
 `g027+p003` recovers the waist-up framing; risk: reference regressions elsewhere, since
 every scored run used ~0.5 MP-or-less references.
+
+**Result ([RESULTS §7](RESULTS.md#7-link-e--references-at-1-mp-run-and-voted-2026-09-04)).**
+Prediction confirmed — `g027+p003` to `VE` at all three seeds. Fold-wide the vote is
+68 tie · 13 `V34` · 8 `VE` · 4 original: a targeted fix, not a general win. The canvas
+fork (V34 base + VE in select-from-N, vs a conditional upscale, vs VE flat) is the
+reviewer's call; recommendation recorded in §7.
 
 **§E-notes — klein research of record (2026-09-04).** Settings: klein 4B is step- and
 guidance-distilled to **4 steps**; the official CLI hard-fixes `steps=4, guidance=1.0`,
