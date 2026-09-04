@@ -31,8 +31,8 @@ def main(run, embed=None, arm="Vnc"):
         o[-1] = o[-1].replace("Mark any new-A100 cell that fails; default pass.",
                               "Columns per seed row, newest first: <b>LATEST &mdash; VE</b> (1 MP ref, fal canvas, this run) &middot; "
                               "<b>LAST &mdash; V34</b> (small ref, link D) &middot; <b>Vnc</b> (v3.3 canvas, link C) &middot; "
-                              "<b>original A100</b> (the scored cell) &middot; <b>fal</b> (link A, the benchmark). Mark each LATEST cell: "
-                              "<b>&gt;fal &middot; pass</b> (default) &middot; <b>&gt;fal &middot; FAIL</b> (fails, but no worse than fal's) &middot; <b>worse than fal</b>.")
+                              "<b>original A100</b> (the scored cell) &middot; <b>fal</b> (link A, the benchmark). Per row, vote the winner: "
+                              "<b>LATEST</b> &middot; <b>LAST</b> &middot; <b>ORIGINAL</b> &middot; <b>tie</b> (default) — the winner gets the green border.")
     elif arm == "V34":
         o[-1] = o[-1].replace("Mark any new-A100 cell that fails; default pass.",
                               "Fourth column: <b>fal</b> (no cut, s46/47/48, link A) &mdash; the benchmark. Mark each V34 cell: "
@@ -61,9 +61,15 @@ def main(run, embed=None, arm="Vnc"):
                     cells, cls = mine + orig + fig(os.path.join(LC, "gen", f"{sid}__Vnc__s{new}.jpg"), f"link C: no cut, v3.3 canvas, s{new}") + bench, "s4"
                 else:
                     cells, cls = mine + orig + fig(os.path.join(fal, "gen", f"{sid}__Vnc__s{old}.jpg"), f"fal s{old}, no cut"), "s3"
-                mk = ("<button data-m='pass' class='on'>&gt;fal &middot; pass</button><button data-m='fail_better'>&gt;fal &middot; FAIL</button><button data-m='worse'>worse than fal</button>"
-                      if arm in ("V34", "VE") else "<button data-m='pass' class='on'>pass</button><button data-m='fail'>FAIL</button>")
-                o.append(f"<div class='lab'>seed {new} (new) &middot; {old} (original)<span class='mk' data-sid='{html.escape(sid)}' data-seed='{new}'>{mk}</span></div><div class='strip {cls}'>"
+                if arm == "VE":   # head-to-head: which cell wins the row (data-fig = column to highlight)
+                    mk = ("<button data-m='latest' data-fig='0'>LATEST</button><button data-m='last' data-fig='1'>LAST</button>"
+                          "<button data-m='original' data-fig='3'>ORIGINAL</button><button data-m='tie' class='on'>tie</button>")
+                elif arm == "V34":
+                    mk = "<button data-m='pass' class='on'>&gt;fal &middot; pass</button><button data-m='fail_better'>&gt;fal &middot; FAIL</button><button data-m='worse'>worse than fal</button>"
+                else:
+                    mk = "<button data-m='pass' class='on'>pass</button><button data-m='fail'>FAIL</button>"
+                dd = " data-def='tie'" if arm == "VE" else ""
+                o.append(f"<div class='lab'>seed {new} (new) &middot; {old} (original)<span class='mk' data-sid='{html.escape(sid)}' data-seed='{new}'{dd}>{mk}</span></div><div class='strip {cls}'>"
                          + cells + "</div>")
     o.append(FOOT + "</div>" + LB + SCRIPT)
     dst = embed or os.path.join(REPORT, "v34_a100.html" if arm == "Vnc" else f"v34_a100_{arm}.html"); open(dst, "w").write("\n".join(o)); print(dst, f"{os.path.getsize(dst)/1e6:.1f} MB")
@@ -85,14 +91,17 @@ FOOT = """<footer>Run <code>v3/colab/v34_a100.ipynb</code> (A100, seeds 49/50/51
 LB = "<div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>"
 SCRIPT = """<script>document.addEventListener('click',e=>{const im=e.target.closest('figure img');if(!im)return;document.getElementById('lbi').src=im.getAttribute('src');document.getElementById('lbc').textContent=im.getAttribute('alt');document.getElementById('lb').classList.add('on');});
 document.getElementById('lb').addEventListener('click',()=>document.getElementById('lb').classList.remove('on'));document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lb').classList.remove('on')});
-const KEY='v34-a100-3way-'+location.pathname;let marks={};try{marks=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+const KEY='v34-a100-best-'+location.pathname;let marks={};try{marks=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
 const mks=[...document.querySelectorAll('.mk')];
-function paint(){let nf=0,nw=0;mks.forEach(m=>{const k=m.dataset.sid+'|'+m.dataset.seed;const v=marks[k]||'pass';m.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.m===v));
- const f=m.closest('.lab').nextElementSibling.querySelector('figure');f.classList.toggle('failed',v==='fail'||v==='worse');f.classList.toggle('warn',v==='fail_better');f.classList.toggle('ship',v==='pass');
- if(v==='fail_better')nf++;if(v==='fail'||v==='worse')nw++;});
- document.getElementById('count').textContent=(mks.length-nf-nw)+' pass · '+nf+' FAIL but >fal · '+nw+' worse than fal, of '+mks.length;}
+function paint(){const tally={};mks.forEach(m=>{const k=m.dataset.sid+'|'+m.dataset.seed;const v=marks[k]||m.dataset.def||'pass';m.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.m===v));
+ const figs=[...m.closest('.lab').nextElementSibling.querySelectorAll('figure')];figs.forEach(f=>f.classList.remove('ship','failed','warn'));
+ const b=m.querySelector("button[data-m='"+v+"']");
+ if(b&&b.dataset.fig!==undefined){figs[+b.dataset.fig].classList.add('ship');}
+ else{figs[0].classList.toggle('failed',v==='fail'||v==='worse');figs[0].classList.toggle('warn',v==='fail_better');figs[0].classList.toggle('ship',v==='pass');}
+ tally[v]=(tally[v]||0)+1;});
+ document.getElementById('count').textContent=Object.entries(tally).map(([a,c])=>c+' '+a).join(' · ')+', of '+mks.length;}
 document.addEventListener('click',e=>{const b=e.target.closest('.mk button');if(!b)return;const m=b.closest('.mk');marks[m.dataset.sid+'|'+m.dataset.seed]=b.dataset.m;try{localStorage.setItem(KEY,JSON.stringify(marks))}catch(x){}paint();});
-document.getElementById('export').onclick=()=>{let csv='set_id,seed,verdict\\n';mks.forEach(m=>{const k=m.dataset.sid+'|'+m.dataset.seed;csv+=m.dataset.sid+','+m.dataset.seed+','+(marks[k]||'pass')+'\\n';});
+document.getElementById('export').onclick=()=>{let csv='set_id,seed,verdict\\n';mks.forEach(m=>{const k=m.dataset.sid+'|'+m.dataset.seed;csv+=m.dataset.sid+','+m.dataset.seed+','+(marks[k]||m.dataset.def||'pass')+'\\n';});
  const box=document.getElementById('csvbox');box.style.display='block';box.value=csv;box.select();try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='v34_a100_marks.csv';a.click();}catch(x){}};
 paint();</script>"""
 if __name__ == "__main__":
