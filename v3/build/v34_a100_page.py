@@ -27,7 +27,9 @@ def main(run, embed=None, arm="Vnc"):
          "Per seed row: <b>new A100</b> (this run) &middot; <b>original A100</b> (seed 46/47/48, the cell the reviewer scored) &middot; <b>fal</b> (no cut, same seed number, links A/B). "
          "Mark any new-A100 cell that fails; default pass.</p>"]
     if arm == "V34":
-        o[-1] = o[-1].replace("Mark any", "Fourth column: <b>fal</b> (no cut, s46/47/48, link A) &mdash; the benchmark: worse than fal, or acceptable. Mark any")
+        o[-1] = o[-1].replace("Mark any new-A100 cell that fails; default pass.",
+                              "Fourth column: <b>fal</b> (no cut, s46/47/48, link A) &mdash; the benchmark. Mark each V34 cell: "
+                              "<b>&gt;fal &middot; pass</b> (default) &middot; <b>&gt;fal &middot; FAIL</b> (fails, but no worse than fal's) &middot; <b>worse than fal</b>.")
     for title, mat, fal in (("Failure set (31 pairs)", "v34_failures.csv", FA), ("Controls (30 pairs)", "v34_controls.csv", FB)):
         rows = list(csv.DictReader(open(os.path.join(REPO, "v3", "testsets", mat))))
         o.append(f"<h2 class='sec'>{title}</h2>")
@@ -41,7 +43,9 @@ def main(run, embed=None, arm="Vnc"):
                 third = (fig(os.path.join(LC, "gen", f"{sid}__Vnc__s{new}.jpg"), f"link C: no cut, v3.3 canvas, s{new}") if arm == "V34"
                          else fig(os.path.join(fal, "gen", f"{sid}__Vnc__s{old}.jpg"), f"fal s{old}, no cut"))
                 fourth = fig(os.path.join(fal, "gen", f"{sid}__Vnc__s{old}.jpg"), f"fal s{old} &mdash; the benchmark") if arm == "V34" else ""
-                o.append(f"<div class='lab'>seed {new} (new) &middot; {old} (original)<span class='mk' data-sid='{html.escape(sid)}' data-seed='{new}'><button data-m='pass' class='on'>pass</button><button data-m='fail'>FAIL</button></span></div><div class='strip {'s4' if arm == 'V34' else 's3'}'>"
+                mk = ("<button data-m='pass' class='on'>&gt;fal &middot; pass</button><button data-m='fail_better'>&gt;fal &middot; FAIL</button><button data-m='worse'>worse than fal</button>"
+                      if arm == "V34" else "<button data-m='pass' class='on'>pass</button><button data-m='fail'>FAIL</button>")
+                o.append(f"<div class='lab'>seed {new} (new) &middot; {old} (original)<span class='mk' data-sid='{html.escape(sid)}' data-seed='{new}'>{mk}</span></div><div class='strip {'s4' if arm == 'V34' else 's3'}'>"
                          + fig(os.path.join(run, "gen", f"{sid}__{arm}__s{new}.jpg"), f"<b>{arm}</b> s{new}" + (" &mdash; no cut, fal canvas" if arm == "V34" else " &mdash; no cut"), "ship")
                          + fig(os.path.join(IM, "gen", f"{sid}__V__s{old}.jpg"), f"original A100 s{old} &mdash; scored {r[f'v{old}']}", "bad" if r[f"v{old}"] in ("BC", "fail") else "")
                          + third + fourth + "</div>")
@@ -54,7 +58,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 ui-sans-serif,-
 h1{margin:0 0 6px;font-size:25px}h2{font-size:14px;margin:40px 0 6px;padding-top:12px;border-top:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}h2.sec{font-size:20px;margin-top:56px;border-top:2px solid var(--acc)}h2 .ar{font-size:12px;color:var(--dim);font-weight:400}
 .lede{color:var(--dim);max-width:100ch;font-size:14px;margin:0 0 14px}.lede b{color:var(--fg)}.lab{font-size:12px;color:var(--dim);margin:10px 0 4px;display:flex;gap:10px;align-items:center}
 .strip{display:grid;gap:5px}.s3{grid-template-columns:repeat(3,minmax(0,1fr));max-width:900px}.s4{grid-template-columns:repeat(4,minmax(0,1fr));max-width:1200px}
-figure{margin:0}figure img{width:100%;display:block;background:#fff;border-radius:6px;cursor:zoom-in;aspect-ratio:3/4;object-fit:contain;border:3px solid transparent}figure.ship img{border-color:#2c5c33}figure.bad img{border-color:#7a3a33}figure.failed img{border-color:#b43c3c}
+figure{margin:0}figure img{width:100%;display:block;background:#fff;border-radius:6px;cursor:zoom-in;aspect-ratio:3/4;object-fit:contain;border:3px solid transparent}figure.ship img{border-color:#2c5c33}figure.bad img{border-color:#7a3a33}figure.failed img{border-color:#b43c3c}figure.warn img{border-color:#c9862c}
 figcaption{font-size:11px;color:var(--dim);text-align:center;padding:5px 2px}.ph{background:#17171d;border:1px dashed var(--line);border-radius:6px;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;color:var(--dim)}
 .bar{position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center}.bar button{background:#17171d;color:var(--fg);border:1px solid var(--acc);border-radius:5px;padding:5px 12px;cursor:pointer}
 #count{color:var(--dim);font-size:12px}#csvbox{width:100%;height:50px;margin:6px 0 0;background:#17171d;color:var(--dim);border:1px solid var(--line);font:11px ui-monospace,monospace;display:none}
@@ -65,10 +69,12 @@ FOOT = """<footer>Run <code>v3/colab/v34_a100.ipynb</code> (A100, seeds 49/50/51
 LB = "<div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>"
 SCRIPT = """<script>document.addEventListener('click',e=>{const im=e.target.closest('figure img');if(!im)return;document.getElementById('lbi').src=im.getAttribute('src');document.getElementById('lbc').textContent=im.getAttribute('alt');document.getElementById('lb').classList.add('on');});
 document.getElementById('lb').addEventListener('click',()=>document.getElementById('lb').classList.remove('on'));document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lb').classList.remove('on')});
-const KEY='v34-a100-'+location.pathname;let marks={};try{marks=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+const KEY='v34-a100-3way-'+location.pathname;let marks={};try{marks=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
 const mks=[...document.querySelectorAll('.mk')];
-function paint(){let n=0;mks.forEach(m=>{const k=m.dataset.sid+'|'+m.dataset.seed;const v=marks[k]||'pass';m.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.m===v));
- const f=m.closest('.lab').nextElementSibling.querySelector('figure');f.classList.toggle('failed',v==='fail');f.classList.toggle('ship',v!=='fail');if(v==='fail')n++;});document.getElementById('count').textContent=n+' / '+mks.length+' new-A100 cells marked fail';}
+function paint(){let nf=0,nw=0;mks.forEach(m=>{const k=m.dataset.sid+'|'+m.dataset.seed;const v=marks[k]||'pass';m.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.m===v));
+ const f=m.closest('.lab').nextElementSibling.querySelector('figure');f.classList.toggle('failed',v==='fail'||v==='worse');f.classList.toggle('warn',v==='fail_better');f.classList.toggle('ship',v==='pass');
+ if(v==='fail_better')nf++;if(v==='fail'||v==='worse')nw++;});
+ document.getElementById('count').textContent=(mks.length-nf-nw)+' pass · '+nf+' FAIL but >fal · '+nw+' worse than fal, of '+mks.length;}
 document.addEventListener('click',e=>{const b=e.target.closest('.mk button');if(!b)return;const m=b.closest('.mk');marks[m.dataset.sid+'|'+m.dataset.seed]=b.dataset.m;try{localStorage.setItem(KEY,JSON.stringify(marks))}catch(x){}paint();});
 document.getElementById('export').onclick=()=>{let csv='set_id,seed,verdict\\\\n';mks.forEach(m=>{const k=m.dataset.sid+'|'+m.dataset.seed;csv+=m.dataset.sid+','+m.dataset.seed+','+(marks[k]||'pass')+'\\\\n';});
  const box=document.getElementById('csvbox');box.style.display='block';box.value=csv;box.select();try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='v34_a100_marks.csv';a.click();}catch(x){}};
