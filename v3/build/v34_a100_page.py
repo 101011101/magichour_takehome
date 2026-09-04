@@ -26,6 +26,8 @@ def main(run, embed=None, arm="Vnc"):
          "<p class='lede'>The locked version with the ankle cut removed, seeds <b>49/50/51</b>, self-hosted klein 4B on an A100. Two matrices: the 31-pair v3.3 failure set and the 30 clean controls. "
          "Per seed row: <b>new A100</b> (this run) &middot; <b>original A100</b> (seed 46/47/48, the cell the reviewer scored) &middot; <b>fal</b> (no cut, same seed number, links A/B). "
          "Mark any new-A100 cell that fails; default pass.</p>"]
+    if arm == "V34":
+        o[-1] = o[-1].replace("Mark any", "Fourth column: <b>fal</b> (no cut, s46/47/48, link A) &mdash; the benchmark: worse than fal, or acceptable. Mark any")
     for title, mat, fal in (("Failure set (31 pairs)", "v34_failures.csv", FA), ("Controls (30 pairs)", "v34_controls.csv", FB)):
         rows = list(csv.DictReader(open(os.path.join(REPO, "v3", "testsets", mat))))
         o.append(f"<h2 class='sec'>{title}</h2>")
@@ -38,10 +40,11 @@ def main(run, embed=None, arm="Vnc"):
             for new, old in ((49, 46), (50, 47), (51, 48)):
                 third = (fig(os.path.join(LC, "gen", f"{sid}__Vnc__s{new}.jpg"), f"link C: no cut, v3.3 canvas, s{new}") if arm == "V34"
                          else fig(os.path.join(fal, "gen", f"{sid}__Vnc__s{old}.jpg"), f"fal s{old}, no cut"))
-                o.append(f"<div class='lab'>seed {new} (new) &middot; {old} (original)<span class='mk' data-sid='{html.escape(sid)}' data-seed='{new}'><button data-m='pass' class='on'>pass</button><button data-m='fail'>FAIL</button></span></div><div class='strip s3'>"
+                fourth = fig(os.path.join(fal, "gen", f"{sid}__Vnc__s{old}.jpg"), f"fal s{old} &mdash; the benchmark") if arm == "V34" else ""
+                o.append(f"<div class='lab'>seed {new} (new) &middot; {old} (original)<span class='mk' data-sid='{html.escape(sid)}' data-seed='{new}'><button data-m='pass' class='on'>pass</button><button data-m='fail'>FAIL</button></span></div><div class='strip {'s4' if arm == 'V34' else 's3'}'>"
                          + fig(os.path.join(run, "gen", f"{sid}__{arm}__s{new}.jpg"), f"<b>{arm}</b> s{new}" + (" &mdash; no cut, fal canvas" if arm == "V34" else " &mdash; no cut"), "ship")
                          + fig(os.path.join(IM, "gen", f"{sid}__V__s{old}.jpg"), f"original A100 s{old} &mdash; scored {r[f'v{old}']}", "bad" if r[f"v{old}"] in ("BC", "fail") else "")
-                         + third + "</div>")
+                         + third + fourth + "</div>")
     o.append(FOOT + "</div>" + LB + SCRIPT)
     dst = embed or os.path.join(REPORT, "v34_a100.html" if arm == "Vnc" else f"v34_a100_{arm}.html"); open(dst, "w").write("\n".join(o)); print(dst, f"{os.path.getsize(dst)/1e6:.1f} MB")
 BAR = """<div class='bar'><button id='export'>Export CSV</button><span id='count'></span></div><textarea id='csvbox'></textarea>"""
@@ -50,7 +53,7 @@ HEAD = """<title>A100, New Seeds, No Cut</title><meta name='viewport' content='w
 body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}.wrap{max-width:1300px;margin:0 auto;padding:30px 26px 0}
 h1{margin:0 0 6px;font-size:25px}h2{font-size:14px;margin:40px 0 6px;padding-top:12px;border-top:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}h2.sec{font-size:20px;margin-top:56px;border-top:2px solid var(--acc)}h2 .ar{font-size:12px;color:var(--dim);font-weight:400}
 .lede{color:var(--dim);max-width:100ch;font-size:14px;margin:0 0 14px}.lede b{color:var(--fg)}.lab{font-size:12px;color:var(--dim);margin:10px 0 4px;display:flex;gap:10px;align-items:center}
-.strip{display:grid;gap:5px}.s3{grid-template-columns:repeat(3,minmax(0,1fr));max-width:900px}
+.strip{display:grid;gap:5px}.s3{grid-template-columns:repeat(3,minmax(0,1fr));max-width:900px}.s4{grid-template-columns:repeat(4,minmax(0,1fr));max-width:1200px}
 figure{margin:0}figure img{width:100%;display:block;background:#fff;border-radius:6px;cursor:zoom-in;aspect-ratio:3/4;object-fit:contain;border:3px solid transparent}figure.ship img{border-color:#2c5c33}figure.bad img{border-color:#7a3a33}figure.failed img{border-color:#b43c3c}
 figcaption{font-size:11px;color:var(--dim);text-align:center;padding:5px 2px}.ph{background:#17171d;border:1px dashed var(--line);border-radius:6px;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;color:var(--dim)}
 .bar{position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center}.bar button{background:#17171d;color:var(--fg);border:1px solid var(--acc);border-radius:5px;padding:5px 12px;cursor:pointer}
