@@ -293,3 +293,35 @@ cells and does not disturb the seed-variance picture; per-call cost is unchanged
 link C. One pair regressed with a specific, repeated artifact — the `g027+p003`
 dwarfism — and that is the open question before v3.4 is called better than the lock.
 Next: select-from-N (EXPERIMENT §0), and the dwarfism follow-up.
+
+## 6. The `g027+p003` dwarfism, diagnosed (2026-09-04)
+
+**The artifact, looked at directly.** `g027` is a **waist-up photograph** — image 1 has
+no legs. The reference is a full-length dress. On every A100 cell (`Vnc` 49/50/51 and
+`V34` 49/50/51 — six of six) the model **zooms out to an invented full-body view**, and
+the invented lower half carries the compressed proportions the reviewer calls dwarfism.
+fal, on the same pair (link A, s46/47/48), **keeps the waist-up framing on all three
+seeds** — person exactly as in image 1, dress running out of frame, proportions intact;
+its failures there are garment-side (tank-top hybrid; at s47 the Ramones print bleeds
+through the dress). So the dwarfism is a **framing-retention failure**, not a canvas
+artifact per se: `V34`'s canvas neither caused it (link C's `Vnc` has it too) nor fixed it.
+
+**The one code-path difference left on this pair: call 1's canvas.** fal renders *every*
+call on its ~1 MP canvas, references included — its `p003` reference is **583×1561
+(0.91 MP)**. Our call 1 still uses the v33 rule (never upscale), so ours is **296×799
+(0.24 MP)** — same aspect, 3.8× fewer pixels. §5's "call 1 is untouched (its ~0.5 MP
+crop never crossed the branch)" was written from the fold's typical crop; the failure
+set's A4 crops run as low as 0.07 MP, and most references land under 0.4 MP.
+
+**What the fold says about scope.** Reference size alone is not predictive — refs under
+0.4 MP pass 3/3 in most pairs. `g027+p003` is a conjunction: waist-up person (framing
+must be held) + full-length garment (pulls toward zoom-out) + the fold's smallest person
+image (0.60 MP, the only ×1.3 upscale under the fal rule) + a small, skinny reference
+(0.24 MP, aspect 0.37). `p019+gal_gadot`, the other no-pass pair, fails on fal's own
+draws too — not this mechanism.
+
+**Candidate link E.** fal's canvas on **call 1** as well — references generated at ~1 MP
+("all things undergo the scaling pipeline"). Prediction: `g027+p003` recovers the
+waist-up framing as fal does; risk to watch: reference regressions elsewhere, since
+call 1's ~0.5 MP operating point is what every scored run used. Cheap: one notebook
+run on the failure set, arm beside `V34`.
