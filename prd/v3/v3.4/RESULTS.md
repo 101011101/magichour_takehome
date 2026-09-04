@@ -359,3 +359,20 @@ select-from-N as an alternate draw — the selector picks per pair, dwarfism cov
 (b) conditional reference upscale on a trigger (no clean trigger found yet — crop size
 does not separate the wins); (c) `VE` flat, accepting the 13 LAST cells. (a) is the
 recommendation: it needs no new trigger and select-from-N is next anyway (§0).
+
+### 7.1 The reference hallucination, verified (2026-09-04)
+
+The upscale is **generation, not resizing**: the A4 crop enters call 1 at its native
+size in both arms; only the output canvas differs. Under `VE`, klein renders ~1 MP
+conditioned on a 0.13–0.9 MP crop — diffusion super-resolution, with its failure mode.
+Verified on the extreme case: `p004`'s crop (0.13 MP) is a plain notch-neck tee, no
+buttons; the `VE` reference (×2.67) **invents a two-button henley placket** and a hem
+tag. Call 2 then faithfully dresses the person in the hallucinated garment —
+`g029+p004` votes LAST 3/3. This is §E's predicted "reference regression" with its
+mechanism: on very small crops, the generation-upscale invents garment structure.
+
+**Candidate arm `VEi`:** upscale the *finished small reference* by interpolation
+(Lanczos to area 1 MP) before call 2 — no new klein call, no invented structure, same
+token extent in the RoPE grid. Splits the g027 fix: if interpolation alone recovers the
+framing, the win was the reference's grid extent, not synthesized detail — and the
+hallucination channel closes for free.
