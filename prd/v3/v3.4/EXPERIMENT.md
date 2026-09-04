@@ -99,10 +99,38 @@ ankle cut + fal's canvas on call 2; [RESULTS §5](RESULTS.md#5-the-v34-version-a
 `v3/colab/v34_a100.ipynb` now runs exactly that: `V34` on the failure set at the link-C
 seeds 49/50/51, so the canvas is the only variable against link C. ~3 min of A100.
 
-**Result.** *Pending.* The blind judge's prior ([RESULTS §4.4](RESULTS.md#44-the-blind-judge-is-fal-better-on-the-failure-set--not-distinguishably)):
-fal's edge over the A100 on the failure set is +0.09 fidelity, inside one seed's noise,
-all of it identity/scene and none of it garment — so link D should move identity/scene
-preservation, and is not expected to move the F1/F2 garment failures.
+**Result ([RESULTS §5](RESULTS.md#5-the-v34-version-and-link-ds-set-up-2026-09-01)).**
+≥fal on 85/93 cells by the reviewer's three-way marks; 29/31 pairs pass at ≥1 seed. One
+canvas-suspect regression, `g027+p003` (worse at all 3 seeds, proportion compression);
+diagnosed in [RESULTS §6](RESULTS.md#6-the-g027p003-dwarfism-diagnosed-2026-09-04) as a
+framing-retention failure on a waist-up person — the remaining difference vs fal is
+**call 1's canvas** (fal's reference 0.91 MP, ours 0.24 MP). → link E.
+
+### E — References at ~1 MP (call 1 on the fal canvas) **← the dwarfism follow-up**
+
+Klein research (2026-09-04, sourced in §E-notes below) supports the reference side:
+the diffusers pipeline **never upscales** a sub-1 MP reference (only downscales >1 MP
+to 1 MP), a diffusers maintainer states references were likely **trained at 1 MP**, and
+references share absolute (H,W) RoPE coordinates with the output canvas — a small
+reference occupies a short corner of the grid, and FLUX.1 Kontext (same conditioning
+paradigm) has a documented "big head / short legs" failure on cropped-input →
+full-body-output cases. Arm: call 1 rendered on the fal canvas (references ≈1 MP, as
+fal does), call 2 as `V34`. Failure set beside `V34` at 49/50/51. Prediction:
+`g027+p003` recovers the waist-up framing; risk: reference regressions elsewhere, since
+every scored run used ~0.5 MP-or-less references.
+
+**§E-notes — klein research of record (2026-09-04).** Settings: klein 4B is step- and
+guidance-distilled to **4 steps**; the official CLI hard-fixes `steps=4, guidance=1.0`,
+and the 4B checkpoint has **no guidance embed** (`use_guidance_embed: False`) — our
+`guidance=0` vs `1` is bit-identical, not a knob. Schedule: `compute_empirical_mu`
+counts **output tokens only** (reference tokens don't enter mu), confirming the §4
+canvas reasoning. Teacher: size-distilled from the 32B FLUX.2 base; method undisclosed,
+no tech report. Community (not measured here): steps 4→6–8 improves anatomy on the
+distilled model; true CFG ≈1.2 with a negative helps limbs but needs bypassing the
+`is_distilled` gate; fal's own klein try-on prompt template ends "The final image is a
+full body shot." Sources: HF model card + BFL flux2 repo (`util.py`, `model.py`,
+`sampling.py`), diffusers `pipeline_flux2_klein.py` + issue #13349, FLUX.1-Kontext-dev
+discussion #23, fal klein guides, myaiforce.com anatomy post.
 
 ### 0 — Select-from-N **← next after D; cheapest, largest**
 
