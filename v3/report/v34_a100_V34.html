@@ -181,6 +181,6 @@ function paint(){let nf=0,nw=0;mks.forEach(m=>{const k=m.dataset.sid+'|'+m.datas
  if(v==='fail_better')nf++;if(v==='fail'||v==='worse')nw++;});
  document.getElementById('count').textContent=(mks.length-nf-nw)+' pass · '+nf+' FAIL but >fal · '+nw+' worse than fal, of '+mks.length;}
 document.addEventListener('click',e=>{const b=e.target.closest('.mk button');if(!b)return;const m=b.closest('.mk');marks[m.dataset.sid+'|'+m.dataset.seed]=b.dataset.m;try{localStorage.setItem(KEY,JSON.stringify(marks))}catch(x){}paint();});
-document.getElementById('export').onclick=()=>{let csv='set_id,seed,verdict\\n';mks.forEach(m=>{const k=m.dataset.sid+'|'+m.dataset.seed;csv+=m.dataset.sid+','+m.dataset.seed+','+(marks[k]||'pass')+'\\n';});
+document.getElementById('export').onclick=()=>{let csv='set_id,seed,verdict\n';mks.forEach(m=>{const k=m.dataset.sid+'|'+m.dataset.seed;csv+=m.dataset.sid+','+m.dataset.seed+','+(marks[k]||'pass')+'\n';});
  const box=document.getElementById('csvbox');box.style.display='block';box.value=csv;box.select();try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='v34_a100_marks.csv';a.click();}catch(x){}};
 paint();</script>

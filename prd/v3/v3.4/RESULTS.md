@@ -243,7 +243,7 @@ canvas effect directly; select-from-N remains the lever for the variance.
 |---|---|---|
 | ankle cut | on | **off** (link A: neutral on the failures; footwear follows the reference) |
 | call-2 canvas | image 1 at ≤1.15 MP, floor 16, never upscaled | **fal's rule: area 1,048,576 px, aspect kept, up or down, floor 32** (`klein_local._size_fal`) — ≤4,096 tokens, below the 4,300-token schedule branch, ~4,000 tokens for every person |
-| everything else | — | unchanged: A4 crop, head swap from the neck up, `PERSON_CLAUSE`, hold sentence, `E3`, seed 46 references |
+| everything else | — | unchanged: A4 crop, head swap from the neck up, `PERSON_CLAUSE`, hold sentence, `E3`, references at the run's first seed (49 in link D, as in link C — "seed 46 references" held only for runs seeded at 46) |
 
 Arm name **`V34`** in `run_ironman.py`. Call 1 is untouched (its ~0.5 MP crop never
 crossed the branch). `BC`, when it is run beside `V34`, gets the same canvas so the
@@ -262,4 +262,34 @@ same gpt-5.5 rubric as §4.4, on `V34` vs `Vnc`, is the paired number.
 first; garment fidelity (F1/F2) is not expected to move. The four seed-stable pairs are
 not expected to move either.
 
-*Result: pending.*
+**Result (2026-09-04).** Run `v3/runs/v34/v34_a100_v34_20260904_0458` (zip on Drive):
+115 klein calls at 2.07 s/call, $0.045 measured. Page `v3/report/v34_a100_V34.html`,
+four columns per seed row — `V34` · the original scored cell · link C's `Vnc` (the
+canvas pairing) · fal (link A's `Vnc`, s46/47/48, the benchmark). The reviewer marked
+every `V34` cell three ways against the bar "worse than fal, or acceptable"
+(`v34_linkD_marks.csv`):
+
+| verdict | cells |
+|---|---|
+| pass — acceptable, no worse than fal | **74 / 93** |
+| fails, but no worse than fal's | 11 |
+| worse than fal | 8 |
+
+Per pair: 18/31 pass at all three seeds; **29/31 pass at ≥1 seed** — select-from-N
+territory, consistent with links B/C. The two pairs with no passing seed are the two
+F4 pairs:
+
+- **`g027 + p003` — the one canvas-suspect regression.** Worse than fal at **all three
+  seeds**, artifact named by the reviewer: **proportion compression ("dwarfism")** —
+  the person renders short and compressed, and reads as *worse* than the v3.3-canvas
+  cells. The only pair where the canvas plausibly hurt. Open item: klein
+  training/settings research, and a reference-side hypothesis (image 2's size/aspect
+  feeding the geometry).
+- **`p019 + gal_gadot`** fails at all three seeds but **no worse than fal** — this pair
+  fails under either canvas and on fal's own draws; a pair problem, not a canvas one.
+
+**Reading.** The v3.4 canvas holds parity-or-better with the fal benchmark on 85/93
+cells and does not disturb the seed-variance picture; per-call cost is unchanged from
+link C. One pair regressed with a specific, repeated artifact — the `g027+p003`
+dwarfism — and that is the open question before v3.4 is called better than the lock.
+Next: select-from-N (EXPERIMENT §0), and the dwarfism follow-up.

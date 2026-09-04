@@ -1,6 +1,6 @@
 # v3.4 — EXPERIMENT
 
-**Status: open — links A–C run; the deep dive found one real code difference (the call-2 canvas); link D set up. Opened 2026-08-31.** One question:
+**Status: open — links A–D run. D (2026-09-04): the canvas holds ≥fal on 85/93 cells, 29/31 pairs pass at ≥1 seed; one canvas-suspect regression (`g027+p003` dwarfism, worse at all 3 seeds) under investigation. Opened 2026-08-31.** One question:
 
 > **What is left on the table after v3.3, and which side of the edit is it on?**
 
@@ -84,7 +84,7 @@ leaves the same four seed-stable pairs failing (plus `p025 + zendaya`), and crea
 F1 leaks on ~5% of clean control cells. **Three draws agree: the failure rate is the model
 sampled on hard pairs, not a backend or a seed.** → [RESULTS §3](RESULTS.md#3-link-c--the-a100-at-new-seeds-no-ankle-cut-failure-set--controls-2026-09-01)
 
-### D — Does fal's call-2 canvas change the failures? **← the v3.4 version; failure set staged**
+### D — Does fal's call-2 canvas change the failures? **← run 2026-09-04; [RESULTS §5](RESULTS.md#5-the-v34-version-and-link-ds-set-up-2026-09-01)**
 
 **Why.** The deep dive ([RESULTS §4](RESULTS.md#4-deep-dive--what-is-different-between-our-klein-and-fals-2026-09-01))
 found the one code-level difference that survives reading both implementations: we size
