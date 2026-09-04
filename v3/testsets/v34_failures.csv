@@ -1,4 +1,5 @@
 set_id,person,person_file,garment,garment_file,class,seed_stable,v46,v47,v48,person_pose,person_framing
+g027+p003,g027,g027.jpg,p003,p003.jpg,F4,no,V,BC,tie,,
 dualuse_lp_floral_kimono_set+g005,dualuse_lp_floral_kimono_set,dualuse_lp_floral_kimono_set.webp,g005,g005.jpg,F1,yes,fail,fail,fail,,
 dualuse_lp_floral_kimono_set+g024,dualuse_lp_floral_kimono_set,dualuse_lp_floral_kimono_set.webp,g024,g024.jpg,F1,yes,fail,fail,fail,,
 g004+g005,g004,g004.jpg,g005,g005.jpg,F1,no,fail,fail,V,,
@@ -28,5 +29,4 @@ p026+g013,p026,p026.jpg,g013,g013.jpg,F3,no,tie,BC,tie,walking,full_body
 p028+g015,p028,p028.jpg,g015,g015.jpg,F3,no,tie,fail,tie,arms_raised,waist_up
 p030+dualuse_queen_latifah_gown_stage,p030,p030.jpg,dualuse_queen_latifah_gown_stage,dualuse_queen_latifah_gown_stage.jpg,F3,no,V,BC,BC,arms_raised,waist_up
 p030+g024,p030,p030.jpg,g024,g024.jpg,F3,no,BC,tie,tie,arms_raised,waist_up
-g027+p003,g027,g027.jpg,p003,p003.jpg,F4,no,V,BC,tie,,
 p019+dualuse_gal_gadot_blue_dress_redcarpet,p019,p019.jpg,dualuse_gal_gadot_blue_dress_redcarpet,dualuse_gal_gadot_blue_dress_redcarpet.jpg,F4,no,tie,BC,fail,side_profile,waist_up
