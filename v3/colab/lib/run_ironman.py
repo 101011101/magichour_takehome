@@ -77,10 +77,12 @@ def timed(stage, arm, ident, seed, fn):
 
 
 FAL_CANVAS_ARMS = ("V34", "Vfc")   # the v3.4 version: call 2 on fal's canvas (area 1024^2, floor 32, up or down)
+_RUN = {"bc_canvas": "v33"}        # BC's call 2 follows the version in the run - the canvas is a property of call 2, not of the arm (RESULTS v3.4 §5)
 
 
 def klein(stage, arm, ident, seed, images, prompt):
-    im, secs = K.edit(images, prompt, seed, canvas=("fal" if (arm in FAL_CANVAS_ARMS and stage == "edit") else "v33"))
+    fal = stage == "edit" and (arm in FAL_CANVAS_ARMS or (arm == "BC" and _RUN["bc_canvas"] == "fal"))
+    im, secs = K.edit(images, prompt, seed, canvas="fal" if fal else "v33")
     _T.append({"stage": stage, "arm": arm, "id": ident, "seed": seed, "seconds": secs,
                "klein_call": 1})
     return im
@@ -118,9 +120,12 @@ def ankle_cut(bgr, paths, fallback_ratio=None):
 
 # ---- the run -------------------------------------------------------------------
 def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=ARMS,
-         gpu_usd_per_hour=None, stage="all"):
+         gpu_usd_per_hour=None, stage="all", bc_canvas=None):
     """stage: 'all' | 'bald' (BC bald frames only, refs/{g}__bald.jpg, no crop, no edits)
-              | 'bcedit' (BC edits from refs/{g}__BC.jpg supplied from outside - the V2 cropper)"""
+              | 'bcedit' (BC edits from refs/{g}__BC.jpg supplied from outside - the V2 cropper)
+       bc_canvas: BC's call-2 canvas - None follows the run (fal iff a FAL_CANVAS_ARMS arm is
+                  present); pass 'fal' explicitly when a 'bcedit' stage pairs with a V34 run"""
+    _RUN["bc_canvas"] = bc_canvas or ("fal" if any(a in FAL_CANVAS_ARMS for a in arms) else "v33")
     for x in ("inputs", "refs", "gen", "meta"):
         os.makedirs(os.path.join(OUT, x), exist_ok=True)
     paths = L.fetch_models(persist=os.environ.get("V3_MODEL_DIR"))   # cached to Drive after the first fetch
@@ -218,6 +223,7 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
     print(f"4 edits: {n} made")
     write_timings(wall0, rows, arms, seeds, gpu_usd_per_hour)
     json.dump({"pairs": len(rows), "arms": list(arms), "seeds": seeds, "matrix": matrix,
+               "bc_canvas": _RUN["bc_canvas"],
                "klein": K.info(), "prompts": {"swap": SWAP, "keep": KEEP, "hold": HOLD,
                "person_clause": PERSON_CLAUSE, "edit_V": E3, "edit_BC": BC_EDIT,
                "bald": L.BALD_PROMPT}, "python": platform.python_version()},

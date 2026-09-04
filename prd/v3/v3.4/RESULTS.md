@@ -247,7 +247,9 @@ canvas effect directly; select-from-N remains the lever for the variance.
 
 Arm name **`V34`** in `run_ironman.py`. Call 1 is untouched (its ~0.5 MP crop never
 crossed the branch). `BC`, when it is run beside `V34`, gets the same canvas so the
-comparison stays fair — the canvas is a property of call 2, not of the arm.
+comparison stays fair — the canvas is a property of call 2, not of the arm. (Implemented
+2026-09-03: the runner's `bc_canvas` follows the run — fal iff a `FAL_CANVAS_ARMS` arm is
+present, overridable for a stand-alone `bcedit` stage — and is recorded in `run.json`.)
 
 **Link D as it will run.** `v3/colab/v34_a100.ipynb`, `V34` on the **failure set only**
 (the reviewer's choice — a sample first), seeds **49/50/51**, the link-C seeds, so the
