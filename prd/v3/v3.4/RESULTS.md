@@ -325,3 +325,37 @@ draws too — not this mechanism.
 waist-up framing as fal does; risk to watch: reference regressions elsewhere, since
 call 1's ~0.5 MP operating point is what every scored run used. Cheap: one notebook
 run on the failure set, arm beside `V34`.
+
+## 7. Link E — references at ~1 MP, run and voted (2026-09-04)
+
+**Run.** `v3/runs/v34/v34_a100_ve_20260904_0611` (zip on Drive): arm `VE` (fal's canvas
+on both calls), failure set, seeds 49/50/51. 115 klein calls; ref 1.62 s, edit 2.94 s
+(the 1 MP reference adds tokens to call 2), ≈4.9 s per pair end to end, 0.058 measured.
+Page `v3/report/v34_a100_VE.html` — five columns per row (LATEST `VE` · LAST `V34` ·
+`Vnc` · original · fal); the reviewer voted the **row winner** (`v34_linkE_votes.csv`):
+
+| winner | cells |
+|---|---|
+| tie | **68 / 93** |
+| LAST — `V34` (small ref) | 13 |
+| LATEST — `VE` (1 MP ref) | 8 |
+| ORIGINAL — v3.3 lock | 4 |
+
+**Reading.**
+
+- **The dwarfism is fixed, and it is the reference.** `g027+p003` goes to `VE` at all
+  three seeds — framing held, proportions natural, as §6 predicted (its reference:
+  0.95 MP vs 0.24). `p019+gal_gadot` stays tied — still a pair problem.
+- **But the 1 MP reference is a targeted fix, not a general win.** Fold-wide `V34`
+  edges `VE` 13–8 with 68 ties; blanket upscaling costs about as much as it buys
+  (`g029+p004`, with the smallest crop of all at 0.13 MP, votes LAST 3/3 — so "small
+  ref" alone does not predict who wins).
+- **The v3.3 lock is out of the running**: ORIGINAL best on 4/93 cells (3 of them one
+  pair, `hugh_jackman+zendaya`). Both v3.4 canvases beat it.
+
+**The fork, for the reviewer.** Neither canvas dominates: `V34` is the better base,
+`VE` rescues what `V34` cannot. Options: (a) `V34` as the version, `VE` folded into
+select-from-N as an alternate draw — the selector picks per pair, dwarfism covered;
+(b) conditional reference upscale on a trigger (no clean trigger found yet — crop size
+does not separate the wins); (c) `VE` flat, accepting the 13 LAST cells. (a) is the
+recommendation: it needs no new trigger and select-from-N is next anyway (§0).
