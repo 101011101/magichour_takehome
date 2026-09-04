@@ -31,9 +31,9 @@ def main(run, embed=None, arm="Vnc"):
         o.append(f"<h2 class='sec'>{title}</h2>")
         for r in rows:
             sid, p, g = r["set_id"], r["person"], r["garment"]
+            if not any(os.path.exists(os.path.join(run, "gen", f"{sid}__{arm}__s{s}.jpg")) for s in (49, 50, 51)):
+                continue   # a reference alone (shared garment) is not a row
             o.append(f"<h2>{html.escape(p)} wears {html.escape(g)}<span class='ar'>{html.escape(r.get('class',''))} &middot; original verdicts {r['v46']} / {r['v47']} / {r['v48']}</span></h2>")
-            if not os.path.exists(os.path.join(run, "refs", f"{g}__{arm}.jpg")) and not any(os.path.exists(os.path.join(run, "gen", f"{sid}__{arm}__s{s}.jpg")) for s in (49, 50, 51)):
-                continue
             o.append("<div class='strip s3'>" + fig(os.path.join(IM, "inputs", f"{p}.jpg"), "person") + fig(os.path.join(IM, "inputs", f"{g}.jpg"), "garment photograph") + fig(os.path.join(run, "refs", f"{g}__{arm}.jpg"), "reference, uncut (this run)") + "</div>")
             for new, old in ((49, 46), (50, 47), (51, 48)):
                 third = (fig(os.path.join(LC, "gen", f"{sid}__Vnc__s{new}.jpg"), f"link C: no cut, v3.3 canvas, s{new}") if arm == "V34"
