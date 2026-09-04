@@ -170,3 +170,11 @@ cut boundaries is the risk, stated in advance. Against the F1 pairs first.
 The v3.3 lock is not reopened: its prompts, crop, ankle cut and edit sentence are the
 baseline every v3.4 arm is measured against, on the same 200-pair matrix, self-hosted,
 blinded, three seeds.
+
+## What is decided
+
+**No ankle cut in v3.4 — decided by the reviewer 2026-09-04, independent of the canvas
+outcome.** This reverses the lock's product choice on footwear (link A: cut = wearer
+keeps their shoes; no cut = the reference's shoes come along — v3.4 chooses the
+latter). The cut stays in arm `V` for baseline comparability only. **The canvas rule is
+NOT decided**: `V34` (call 2 at 1 MP) vs `VE` (both calls at 1 MP) awaits link E.
