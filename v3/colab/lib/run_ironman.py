@@ -4,6 +4,7 @@
   V    A4 crop -> klein head swap + PERSON_CLAUSE + hold -> re-crop -> ankle cut -> klein edit (E3)   (the v3.3 lock)
   Vnc  V without the ankle cut                                                                        (v3.4 link A)
   V34  Vnc with call 2 rendered on fal's canvas: area 1024^2, floor 32, up or down                    (the v3.4 version)
+  VE   V34 with call 1 on fal's canvas as well - references at ~1 MP                                  (link E)
 
 Both arms: same model, same call 2 except the E3 sentence is the version's. Every model
 call and every CPU/GPU stage is timed into meta/timings.csv; meta/cost.json totals them
@@ -77,11 +78,13 @@ def timed(stage, arm, ident, seed, fn):
 
 
 FAL_CANVAS_ARMS = ("V34", "Vfc")   # the v3.4 version: call 2 on fal's canvas (area 1024^2, floor 32, up or down)
+FAL_BOTH_ARMS = ("VE",)            # link E: calls 1 AND 2 on fal's canvas - everything at ~1 MP, references included
 _RUN = {"bc_canvas": "v33"}        # BC's call 2 follows the version in the run - the canvas is a property of call 2, not of the arm (RESULTS v3.4 §5)
 
 
 def klein(stage, arm, ident, seed, images, prompt):
-    fal = stage == "edit" and (arm in FAL_CANVAS_ARMS or (arm == "BC" and _RUN["bc_canvas"] == "fal"))
+    fal = (arm in FAL_BOTH_ARMS and stage in ("ref", "edit")) or (
+        stage == "edit" and (arm in FAL_CANVAS_ARMS or (arm == "BC" and _RUN["bc_canvas"] == "fal")))
     im, secs = K.edit(images, prompt, seed, canvas="fal" if fal else "v33")
     _T.append({"stage": stage, "arm": arm, "id": ident, "seed": seed, "seconds": secs,
                "klein_call": 1})
@@ -125,7 +128,7 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
               | 'bcedit' (BC edits from refs/{g}__BC.jpg supplied from outside - the V2 cropper)
        bc_canvas: BC's call-2 canvas - None follows the run (fal iff a FAL_CANVAS_ARMS arm is
                   present); pass 'fal' explicitly when a 'bcedit' stage pairs with a V34 run"""
-    _RUN["bc_canvas"] = bc_canvas or ("fal" if any(a in FAL_CANVAS_ARMS for a in arms) else "v33")
+    _RUN["bc_canvas"] = bc_canvas or ("fal" if any(a in FAL_CANVAS_ARMS + FAL_BOTH_ARMS for a in arms) else "v33")
     for x in ("inputs", "refs", "gen", "meta"):
         os.makedirs(os.path.join(OUT, x), exist_ok=True)
     paths = L.fetch_models(persist=os.environ.get("V3_MODEL_DIR"))   # cached to Drive after the first fetch
@@ -170,7 +173,7 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
     for g in garments:
         crop = cv2.imread(d("inputs", f"{g}__A4.jpg"))
         raw = cv2.imread(d("inputs", f"{g}.jpg"))
-        for varm in [a for a in ("V", "Vnc", "Vfc", "V34") if a in arms]:   # Vnc = no cut; V34 = the v3.4 version (no cut + fal canvas); Vfc = alias
+        for varm in [a for a in ("V", "Vnc", "Vfc", "V34", "VE") if a in arms]:   # Vnc = no cut; V34 = the v3.4 version (no cut + fal call-2 canvas); VE = fal canvas on both calls
             fr = timed("framing", varm, g, 0, lambda c=crop: L.framing(c, paths)["framing"])
             prompt = SWAP + KEEP + PERSON_CLAUSE[fr] + HOLD
             meta[f"{g}|{varm}"] = {"framing": fr, "prompt": prompt, "ankle_cut": varm == "V"}
@@ -210,7 +213,7 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
             if not os.path.exists(d("refs", f"{g}__{arm}.jpg")):
                 raise SystemExit(f"missing reference refs/{g}__{arm}.jpg" + (" - run the V2 cropper first" if arm == "BC" else ""))
             ref = cv2.imread(d("refs", f"{g}__{arm}.jpg"))
-            prompt = E3 if arm in ("V", "Vnc", "Vfc", "V34") else BC_EDIT
+            prompt = E3 if arm in ("V", "Vnc", "Vfc", "V34", "VE") else BC_EDIT
             for seed in seeds:
                 out = d("gen", f"{sid}__{arm}__s{seed}.jpg")
                 if os.path.exists(out):

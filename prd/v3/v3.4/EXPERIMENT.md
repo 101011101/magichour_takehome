@@ -115,7 +115,10 @@ references share absolute (H,W) RoPE coordinates with the output canvas — a sm
 reference occupies a short corner of the grid, and FLUX.1 Kontext (same conditioning
 paradigm) has a documented "big head / short legs" failure on cropped-input →
 full-body-output cases. Arm: call 1 rendered on the fal canvas (references ≈1 MP, as
-fal does), call 2 as `V34`. Failure set beside `V34` at 49/50/51. Prediction:
+fal does), call 2 as `V34`. Failure set beside `V34` at 49/50/51. **Wired 2026-09-04:
+arm `VE`** in `run_ironman.py` (`FAL_BOTH_ARMS`); `v3/colab/v34_a100.ipynb` runs it as
+staged; page `v34_a100_page.py <dir> --arm VE` → `VE` · original · link-D `V34` · fal.
+Prediction:
 `g027+p003` recovers the waist-up framing; risk: reference regressions elsewhere, since
 every scored run used ~0.5 MP-or-less references.
 

@@ -18,6 +18,7 @@ def src(path, w=300):
 def fig(path, cap, cls=""):
     s = src(path); return f"<figure class='{cls}'><img src='{s}' alt='{html.escape(cap)}' loading='lazy'><figcaption>{cap}</figcaption></figure>" if s else f"<figure><div class='ph'>&mdash;</div><figcaption>{cap}</figcaption></figure>"
 LC = os.path.join(REPO, "v3", "runs", "v34", "v34_a100_nocut_20260901_0323")   # link C (Vnc, 49/50/51)
+LD = os.path.join(REPO, "v3", "runs", "v34", "v34_a100_v34_20260904_0458")     # link D (V34, 49/50/51)
 
 
 def main(run, embed=None, arm="Vnc"):
@@ -26,7 +27,7 @@ def main(run, embed=None, arm="Vnc"):
          "<p class='lede'>The locked version with the ankle cut removed, seeds <b>49/50/51</b>, self-hosted klein 4B on an A100. Two matrices: the 31-pair v3.3 failure set and the 30 clean controls. "
          "Per seed row: <b>new A100</b> (this run) &middot; <b>original A100</b> (seed 46/47/48, the cell the reviewer scored) &middot; <b>fal</b> (no cut, same seed number, links A/B). "
          "Mark any new-A100 cell that fails; default pass.</p>"]
-    if arm == "V34":
+    if arm in ("V34", "VE"):
         o[-1] = o[-1].replace("Mark any new-A100 cell that fails; default pass.",
                               "Fourth column: <b>fal</b> (no cut, s46/47/48, link A) &mdash; the benchmark. Mark each V34 cell: "
                               "<b>&gt;fal &middot; pass</b> (default) &middot; <b>&gt;fal &middot; FAIL</b> (fails, but no worse than fal's) &middot; <b>worse than fal</b>.")
@@ -40,13 +41,14 @@ def main(run, embed=None, arm="Vnc"):
             o.append(f"<h2>{html.escape(p)} wears {html.escape(g)}<span class='ar'>{html.escape(r.get('class',''))} &middot; original verdicts {r['v46']} / {r['v47']} / {r['v48']}</span></h2>")
             o.append("<div class='strip s3'>" + fig(os.path.join(IM, "inputs", f"{p}.jpg"), "person") + fig(os.path.join(IM, "inputs", f"{g}.jpg"), "garment photograph") + fig(os.path.join(run, "refs", f"{g}__{arm}.jpg"), "reference, uncut (this run)") + "</div>")
             for new, old in ((49, 46), (50, 47), (51, 48)):
-                third = (fig(os.path.join(LC, "gen", f"{sid}__Vnc__s{new}.jpg"), f"link C: no cut, v3.3 canvas, s{new}") if arm == "V34"
+                third = (fig(os.path.join(LD, "gen", f"{sid}__V34__s{new}.jpg"), f"link D: V34, small ref, s{new}") if arm == "VE"
+                         else fig(os.path.join(LC, "gen", f"{sid}__Vnc__s{new}.jpg"), f"link C: no cut, v3.3 canvas, s{new}") if arm == "V34"
                          else fig(os.path.join(fal, "gen", f"{sid}__Vnc__s{old}.jpg"), f"fal s{old}, no cut"))
-                fourth = fig(os.path.join(fal, "gen", f"{sid}__Vnc__s{old}.jpg"), f"fal s{old} &mdash; the benchmark") if arm == "V34" else ""
+                fourth = fig(os.path.join(fal, "gen", f"{sid}__Vnc__s{old}.jpg"), f"fal s{old} &mdash; the benchmark") if arm in ("V34", "VE") else ""
                 mk = ("<button data-m='pass' class='on'>&gt;fal &middot; pass</button><button data-m='fail_better'>&gt;fal &middot; FAIL</button><button data-m='worse'>worse than fal</button>"
-                      if arm == "V34" else "<button data-m='pass' class='on'>pass</button><button data-m='fail'>FAIL</button>")
-                o.append(f"<div class='lab'>seed {new} (new) &middot; {old} (original)<span class='mk' data-sid='{html.escape(sid)}' data-seed='{new}'>{mk}</span></div><div class='strip {'s4' if arm == 'V34' else 's3'}'>"
-                         + fig(os.path.join(run, "gen", f"{sid}__{arm}__s{new}.jpg"), f"<b>{arm}</b> s{new}" + (" &mdash; no cut, fal canvas" if arm == "V34" else " &mdash; no cut"), "ship")
+                      if arm in ("V34", "VE") else "<button data-m='pass' class='on'>pass</button><button data-m='fail'>FAIL</button>")
+                o.append(f"<div class='lab'>seed {new} (new) &middot; {old} (original)<span class='mk' data-sid='{html.escape(sid)}' data-seed='{new}'>{mk}</span></div><div class='strip {'s4' if arm in ('V34', 'VE') else 's3'}'>"
+                         + fig(os.path.join(run, "gen", f"{sid}__{arm}__s{new}.jpg"), f"<b>{arm}</b> s{new}" + {"V34": " &mdash; no cut, fal canvas", "VE": " &mdash; fal canvas, 1 MP ref"}.get(arm, " &mdash; no cut"), "ship")
                          + fig(os.path.join(IM, "gen", f"{sid}__V__s{old}.jpg"), f"original A100 s{old} &mdash; scored {r[f'v{old}']}", "bad" if r[f"v{old}"] in ("BC", "fail") else "")
                          + third + fourth + "</div>")
     o.append(FOOT + "</div>" + LB + SCRIPT)
