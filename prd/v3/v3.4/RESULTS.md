@@ -376,3 +376,24 @@ mechanism: on very small crops, the generation-upscale invents garment structure
 token extent in the RoPE grid. Splits the g027 fix: if interpolation alone recovers the
 framing, the win was the reference's grid extent, not synthesized detail — and the
 hallucination channel closes for free.
+
+### 7.2 VS on the marked failures (fal, 2026-09-05)
+
+**Run.** Every link-D cell marked non-pass (19 cells, 13 pairs), re-generated with
+**arm `VS`** — inputs scaled by the SR model (realesr-general-x4v3, ×4 then area-down
+to 1 MP; plain area-down when already ≥1 MP) — on fal at the exact failing seeds.
+Runner `v3/build/run_v34_vs_fal.py`, outputs `v3/runs/v34/vs_fal/`
+(`inputs_sr/` · `refs/` · `gen/`), page `v3/report/v34_vs_failed.html`
+(V34 marked cell · VE · VS per row). 11 refs + 19 edits, $0.45; SR ≈ 1.5–16 s/image
+on CPU, tens of ms on an A100.
+
+**First reads.**
+
+- `p015+p016` (F3, the 0.10 MP crop, SR ×3.17): the SR input is faithful, but call 1's
+  re-pose still restructures the loose babydoll into a fitted drop-waist dress — **F3
+  drift survives sharp input**, third confirmation that call-1 regeneration, not
+  scaling, is the drift channel. The VS *rendering* is markedly cleaner than the marked
+  V34 cell (no arm-through-fabric artifact).
+- **Reviewer note (2026-09-05): "VS s50 — SR inputs (fal) is very good."**
+- Caveat as printed on the page: VS cells are fal draws beside A100 draws — orientation,
+  not record. The deciding run is `VS` on the A100.
