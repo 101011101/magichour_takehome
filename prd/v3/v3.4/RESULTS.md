@@ -395,5 +395,10 @@ on CPU, tens of ms on an A100.
   scaling, is the drift channel. The VS *rendering* is markedly cleaner than the marked
   V34 cell (no arm-through-fabric artifact).
 - **Reviewer note (2026-09-05): "VS s50 — SR inputs (fal) is very good."**
+- **Reviewer note (2026-09-05): `p019+gal_gadot` s50 under `VS` "did really good — the
+  first one ever to be successful for this specific woman with her turtleneck and
+  stuff."** This is the pair with no passing cell in any prior run — v3.3, links A–F,
+  and fal's own draws all failed it. First recorded success on it, any recipe, any
+  backend (fal draw; unconfirmed on the A100).
 - Caveat as printed on the page: VS cells are fal draws beside A100 draws — orientation,
   not record. The deciding run is `VS` on the A100.
