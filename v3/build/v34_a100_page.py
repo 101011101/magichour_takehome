@@ -59,7 +59,17 @@ def main(run, embed=None, arm="Vnc"):
             if not any(os.path.exists(os.path.join(run, "gen", f"{sid}__{arm}__s{s}.jpg")) for s in (49, 50, 51)):
                 continue   # a reference alone (shared garment) is not a row
             o.append(f"<h2>{html.escape(p)} wears {html.escape(g)}<span class='ar'>{html.escape(r.get('class',''))} &middot; original verdicts {r['v46']} / {r['v47']} / {r['v48']}</span></h2>")
-            o.append("<div class='strip s3'>" + fig(os.path.join(IM, "inputs", f"{p}.jpg"), "person") + fig(os.path.join(IM, "inputs", f"{g}.jpg"), "garment photograph") + fig(os.path.join(run, "refs", f"{g}__{arm}.jpg"), "reference, uncut (this run)") + "</div>")
+            if arm == "VS":   # sources row, then the intermediary references of every arm on a grey ground
+                o.append("<div class='strip s3'>" + fig(os.path.join(IM, "inputs", f"{p}.jpg"), "person")
+                         + fig(os.path.join(IM, "inputs", f"{g}.jpg"), "garment photograph")
+                         + fig(os.path.join(IM, "inputs", f"{g}__A4.jpg"), "A4 crop &mdash; call 1's evidence") + "</div>")
+                o.append("<div class='lab'>intermediaries &mdash; the reference each arm made from that crop</div><div class='strip s4 inter'>"
+                         + fig(os.path.join(LD, "refs", f"{g}__V34.jpg"), "V34 ref &mdash; native canvas, small")
+                         + fig(os.path.join(LE, "refs", f"{g}__VE.jpg"), "VE ref &mdash; klein-upscaled")
+                         + fig(os.path.join(LF, "refs", f"{g}__VA.jpg"), "VA ref &mdash; Lanczos inputs")
+                         + fig(os.path.join(run, "refs", f"{g}__VS.jpg"), "VS ref &mdash; SR inputs (this run)") + "</div>")
+            else:
+                o.append("<div class='strip s3'>" + fig(os.path.join(IM, "inputs", f"{p}.jpg"), "person") + fig(os.path.join(IM, "inputs", f"{g}.jpg"), "garment photograph") + fig(os.path.join(run, "refs", f"{g}__{arm}.jpg"), "reference, uncut (this run)") + "</div>")
             for new, old in ((49, 46), (50, 47), (51, 48)):
                 mine = fig(os.path.join(run, "gen", f"{sid}__{arm}__s{new}.jpg"),
                            {"VE": f"<b>LATEST &mdash; VE</b> s{new} &middot; 1 MP ref, fal canvas",
@@ -112,6 +122,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 ui-sans-serif,-
 h1{margin:0 0 6px;font-size:25px}h2{font-size:14px;margin:40px 0 6px;padding-top:12px;border-top:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}h2.sec{font-size:20px;margin-top:56px;border-top:2px solid var(--acc)}h2 .ar{font-size:12px;color:var(--dim);font-weight:400}
 .lede{color:var(--dim);max-width:100ch;font-size:14px;margin:0 0 14px}.lede b{color:var(--fg)}.lab{font-size:12px;color:var(--dim);margin:10px 0 4px;display:flex;gap:10px;align-items:center}
 .strip{display:grid;gap:5px}.s3{grid-template-columns:repeat(3,minmax(0,1fr));max-width:900px}.s4{grid-template-columns:repeat(4,minmax(0,1fr));max-width:1200px}.s5{grid-template-columns:repeat(5,minmax(0,1fr));max-width:1300px}
+.inter{background:#3a3a42;padding:10px;border-radius:10px;max-width:1180px}.inter figcaption{color:#c9c9d2}
 figure{margin:0}figure img{width:100%;display:block;background:#fff;border-radius:6px;cursor:zoom-in;aspect-ratio:3/4;object-fit:contain;border:3px solid transparent}figure.ship img{border-color:#2c5c33}figure.bad img{border-color:#7a3a33}figure.failed img{border-color:#b43c3c}figure.warn img{border-color:#c9862c}
 figcaption{font-size:11px;color:var(--dim);text-align:center;padding:5px 2px}.ph{background:#17171d;border:1px dashed var(--line);border-radius:6px;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;color:var(--dim)}
 .bar{position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center}.bar button{background:#17171d;color:var(--fg);border:1px solid var(--acc);border-radius:5px;padding:5px 12px;cursor:pointer}
