@@ -21,6 +21,7 @@ LC = os.path.join(REPO, "v3", "runs", "v34", "v34_a100_nocut_20260901_0323")   #
 LD = os.path.join(REPO, "v3", "runs", "v34", "v34_a100_v34_20260904_0458")     # link D (V34, 49/50/51)
 LE = os.path.join(REPO, "v3", "runs", "v34", "v34_a100_ve_20260904_0611")      # link E (VE, 49/50/51)
 LF = os.path.join(REPO, "v3", "runs", "v34", "v34_a100_va_20260904_0728")      # link F (VA, 49/50/51)
+LG = os.path.join(REPO, "v3", "runs", "v34", "v34_a100_vs_20260905_0550")      # link G (VS, 49/50/51)
 
 
 def main(run, embed=None, arm="Vnc"):
@@ -29,7 +30,13 @@ def main(run, embed=None, arm="Vnc"):
          "<p class='lede'>The locked version with the ankle cut removed, seeds <b>49/50/51</b>, self-hosted klein 4B on an A100. Two matrices: the 31-pair v3.3 failure set and the 30 clean controls. "
          "Per seed row: <b>new A100</b> (this run) &middot; <b>original A100</b> (seed 46/47/48, the cell the reviewer scored) &middot; <b>fal</b> (no cut, same seed number, links A/B). "
          "Mark any new-A100 cell that fails; default pass.</p>"]
-    if arm == "VS":
+    if arm == "VEi":
+        o[-1] = o[-1].replace("Mark any new-A100 cell that fails; default pass.",
+                              "Columns per seed row, newest first: <b>LATEST &mdash; VEi</b> (small ref, SR after call 1, this run) &middot; "
+                              "<b>VS</b> (SR inputs, link G) &middot; <b>VE</b> (klein-upscaled ref, link E) &middot; "
+                              "<b>original A100</b> (the scored cell) &middot; <b>fal</b> (the benchmark). Per row, vote the winner: "
+                              "<b>LATEST</b> &middot; <b>VS</b> &middot; <b>VE</b> &middot; <b>ORIGINAL</b> &middot; <b>tie</b> (default) — the winner gets the green border.")
+    elif arm == "VS":
         o[-1] = o[-1].replace("Mark any new-A100 cell that fails; default pass.",
                               "Columns per seed row, newest first: <b>LATEST &mdash; VS</b> (SR 1 MP inputs, this run) &middot; "
                               "<b>VA</b> (Lanczos inputs, link F) &middot; <b>VE</b> (klein-upscaled ref, link E) &middot; "
@@ -59,26 +66,35 @@ def main(run, embed=None, arm="Vnc"):
             if not any(os.path.exists(os.path.join(run, "gen", f"{sid}__{arm}__s{s}.jpg")) for s in (49, 50, 51)):
                 continue   # a reference alone (shared garment) is not a row
             o.append(f"<h2>{html.escape(p)} wears {html.escape(g)}<span class='ar'>{html.escape(r.get('class',''))} &middot; original verdicts {r['v46']} / {r['v47']} / {r['v48']}</span></h2>")
-            if arm == "VS":   # sources row, then the intermediary references of every arm on a grey ground
+            if arm in ("VS", "VEi"):   # sources row, then the intermediary references of every arm on a grey ground
                 o.append("<div class='strip s3'>" + fig(os.path.join(IM, "inputs", f"{p}.jpg"), "person")
                          + fig(os.path.join(IM, "inputs", f"{g}.jpg"), "garment photograph")
                          + fig(os.path.join(IM, "inputs", f"{g}__A4.jpg"), "A4 crop &mdash; call 1's evidence") + "</div>")
+                last = (fig(os.path.join(run, "refs", f"{g}__VEi.jpg"), "VEi ref &mdash; V34's, SR'd after call 1 (this run)") if arm == "VEi"
+                        else fig(os.path.join(run, "refs", f"{g}__VS.jpg"), "VS ref &mdash; SR inputs (this run)"))
+                third = (fig(os.path.join(LG, "refs", f"{g}__VS.jpg"), "VS ref &mdash; SR inputs (link G)") if arm == "VEi"
+                         else fig(os.path.join(LF, "refs", f"{g}__VA.jpg"), "VA ref &mdash; Lanczos inputs"))
                 o.append("<div class='lab'>intermediaries &mdash; the reference each arm made from that crop</div><div class='strip s4 inter'>"
                          + fig(os.path.join(LD, "refs", f"{g}__V34.jpg"), "V34 ref &mdash; native canvas, small")
                          + fig(os.path.join(LE, "refs", f"{g}__VE.jpg"), "VE ref &mdash; klein-upscaled")
-                         + fig(os.path.join(LF, "refs", f"{g}__VA.jpg"), "VA ref &mdash; Lanczos inputs")
-                         + fig(os.path.join(run, "refs", f"{g}__VS.jpg"), "VS ref &mdash; SR inputs (this run)") + "</div>")
+                         + third + last + "</div>")
             else:
                 o.append("<div class='strip s3'>" + fig(os.path.join(IM, "inputs", f"{p}.jpg"), "person") + fig(os.path.join(IM, "inputs", f"{g}.jpg"), "garment photograph") + fig(os.path.join(run, "refs", f"{g}__{arm}.jpg"), "reference, uncut (this run)") + "</div>")
             for new, old in ((49, 46), (50, 47), (51, 48)):
                 mine = fig(os.path.join(run, "gen", f"{sid}__{arm}__s{new}.jpg"),
                            {"VE": f"<b>LATEST &mdash; VE</b> s{new} &middot; 1 MP ref, fal canvas",
                             "VA": f"<b>LATEST &mdash; VA</b> s{new} &middot; algorithmic 1 MP inputs",
-                            "VS": f"<b>LATEST &mdash; VS</b> s{new} &middot; SR 1 MP inputs"}.get(
+                            "VS": f"<b>LATEST &mdash; VS</b> s{new} &middot; SR 1 MP inputs",
+                            "VEi": f"<b>LATEST &mdash; VEi</b> s{new} &middot; small ref, SR after call 1"}.get(
                                arm, f"<b>{arm}</b> s{new}" + (" &mdash; no cut, fal canvas" if arm == "V34" else " &mdash; no cut")), "ship")
                 orig = fig(os.path.join(IM, "gen", f"{sid}__V__s{old}.jpg"), f"original A100 s{old} &mdash; scored {r[f'v{old}']}", "bad" if r[f"v{old}"] in ("BC", "fail") else "")
                 bench = fig(os.path.join(fal, "gen", f"{sid}__Vnc__s{old}.jpg"), f"fal s{old} &mdash; the benchmark")
-                if arm == "VS":
+                if arm == "VEi":
+                    cells, cls = (mine
+                                  + fig(os.path.join(LG, "gen", f"{sid}__VS__s{new}.jpg"), f"VS s{new} &middot; SR inputs (link G)")
+                                  + fig(os.path.join(LE, "gen", f"{sid}__VE__s{new}.jpg"), f"VE s{new} &middot; klein-upscaled ref (link E)")
+                                  + orig + bench), "s5"
+                elif arm == "VS":
                     cells, cls = (mine
                                   + fig(os.path.join(LF, "gen", f"{sid}__VA__s{new}.jpg"), f"VA s{new} &middot; Lanczos inputs (link F)")
                                   + fig(os.path.join(LE, "gen", f"{sid}__VE__s{new}.jpg"), f"VE s{new} &middot; klein-upscaled ref (link E)")
@@ -97,7 +113,10 @@ def main(run, embed=None, arm="Vnc"):
                     cells, cls = mine + orig + fig(os.path.join(LC, "gen", f"{sid}__Vnc__s{new}.jpg"), f"link C: no cut, v3.3 canvas, s{new}") + bench, "s4"
                 else:
                     cells, cls = mine + orig + fig(os.path.join(fal, "gen", f"{sid}__Vnc__s{old}.jpg"), f"fal s{old}, no cut"), "s3"
-                if arm == "VS":   # head-to-head across the history (data-fig = column to highlight)
+                if arm == "VEi":   # head-to-head across the history (data-fig = column to highlight)
+                    mk = ("<button data-m='latest' data-fig='0'>LATEST</button><button data-m='vs' data-fig='1'>VS</button>"
+                          "<button data-m='ve' data-fig='2'>VE</button><button data-m='original' data-fig='3'>ORIGINAL</button><button data-m='tie' class='on'>tie</button>")
+                elif arm == "VS":   # head-to-head across the history (data-fig = column to highlight)
                     mk = ("<button data-m='latest' data-fig='0'>LATEST</button><button data-m='va' data-fig='1'>VA</button>"
                           "<button data-m='ve' data-fig='2'>VE</button><button data-m='original' data-fig='3'>ORIGINAL</button><button data-m='tie' class='on'>tie</button>")
                 elif arm == "VA":   # head-to-head across the history (data-fig = column to highlight)
@@ -110,7 +129,7 @@ def main(run, embed=None, arm="Vnc"):
                     mk = "<button data-m='pass' class='on'>&gt;fal &middot; pass</button><button data-m='fail_better'>&gt;fal &middot; FAIL</button><button data-m='worse'>worse than fal</button>"
                 else:
                     mk = "<button data-m='pass' class='on'>pass</button><button data-m='fail'>FAIL</button>"
-                dd = " data-def='tie'" if arm in ("VE", "VA", "VS") else ""
+                dd = " data-def='tie'" if arm in ("VE", "VA", "VS", "VEi") else ""
                 o.append(f"<div class='lab'>seed {new} (new) &middot; {old} (original)<span class='mk' data-sid='{html.escape(sid)}' data-seed='{new}'{dd}>{mk}</span></div><div class='strip {cls}'>"
                          + cells + "</div>")
     o.append(FOOT + "</div>" + LB + SCRIPT)

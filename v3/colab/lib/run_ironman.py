@@ -7,6 +7,7 @@
   VE   V34 with call 1 on fal's canvas as well - references at ~1 MP                                  (link E)
   VA   VE with every input Lanczos/area-resized to ~1 MP BEFORE its call - klein never scales         (link F)
   VS   VA with the SR model (realesr-general-x4v3) as the upscaler - sharp algorithmic inputs         (link G)
+  VEi  V34's small reference, SR-upscaled AFTER call 1 - the upscale only ever touches a finished ref (link H)
 
 Both arms: same model, same call 2 except the E3 sentence is the version's. Every model
 call and every CPU/GPU stage is timed into meta/timings.csv; meta/cost.json totals them
@@ -79,7 +80,7 @@ def timed(stage, arm, ident, seed, fn):
     return r
 
 
-FAL_CANVAS_ARMS = ("V34", "Vfc")   # the v3.4 version: call 2 on fal's canvas (area 1024^2, floor 32, up or down)
+FAL_CANVAS_ARMS = ("V34", "Vfc", "VEi")   # call 2 on fal's canvas; call 1 stays on the v33 canvas (VEi: ref made small, SR'd after)
 FAL_BOTH_ARMS = ("VE", "VA", "VS")  # calls 1 AND 2 on fal's canvas; VA/VS also pre-scale inputs so klein never upscales
 ALGO_ARMS = ("VA", "VS")           # inputs resized to ~1 MP before the call (VA: Lanczos; VS: the SR model)
 SR_WEIGHTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "realesr-general-x4v3.pth")
@@ -222,7 +223,7 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
     for g in garments:
         crop = cv2.imread(d("inputs", f"{g}__A4.jpg"))
         raw = cv2.imread(d("inputs", f"{g}.jpg"))
-        for varm in [a for a in ("V", "Vnc", "Vfc", "V34", "VE", "VA", "VS") if a in arms]:   # Vnc = no cut; V34 = fal call-2 canvas; VE = fal canvas both calls; VA/VS = + algorithmic input scaling (Lanczos / SR)
+        for varm in [a for a in ("V", "Vnc", "Vfc", "V34", "VE", "VA", "VS", "VEi") if a in arms]:   # Vnc = no cut; V34 = fal call-2 canvas; VE = fal canvas both calls; VA/VS = algorithmic input scaling; VEi = SR after call 1
             fr = timed("framing", varm, g, 0, lambda c=crop: L.framing(c, paths)["framing"])
             prompt = SWAP + KEEP + PERSON_CLAUSE[fr] + HOLD
             meta[f"{g}|{varm}"] = {"framing": fr, "prompt": prompt, "ankle_cut": varm == "V"}
@@ -231,6 +232,9 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
                 src = timed("sr", varm, g, 0, lambda c=crop, v=varm: prescale(c, v)) if varm in ALGO_ARMS else crop
                 im = klein("ref", varm, g, seeds[0], [src], prompt)
                 im = recrop(im)
+                if varm == "VEi":   # the one upscale: SR on the finished small reference, never inside a klein call
+                    cv2.imwrite(d("refs", f"{g}__{varm}_small.jpg"), im, [cv2.IMWRITE_JPEG_QUALITY, 95])
+                    im = timed("sr", varm, g, 0, lambda i=im: to_1mp_sr(i))
                 cv2.imwrite(d("refs", f"{g}__{varm}_uncut.jpg"), im, [cv2.IMWRITE_JPEG_QUALITY, 95])   # kept from now on
                 if varm == "V":
                     ya = ankle_y(crop, paths)
@@ -263,7 +267,7 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
             if not os.path.exists(d("refs", f"{g}__{arm}.jpg")):
                 raise SystemExit(f"missing reference refs/{g}__{arm}.jpg" + (" - run the V2 cropper first" if arm == "BC" else ""))
             ref = cv2.imread(d("refs", f"{g}__{arm}.jpg"))
-            prompt = E3 if arm in ("V", "Vnc", "Vfc", "V34", "VE", "VA", "VS") else BC_EDIT
+            prompt = E3 if arm in ("V", "Vnc", "Vfc", "V34", "VE", "VA", "VS", "VEi") else BC_EDIT
             im1 = timed("sr", arm, sid, 0, lambda p=person, a=arm: prescale(p, a)) if arm in ALGO_ARMS else person
             for seed in seeds:
                 out = d("gen", f"{sid}__{arm}__s{seed}.jpg")

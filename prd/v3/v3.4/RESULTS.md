@@ -377,6 +377,10 @@ token extent in the RoPE grid. Splits the g027 fix: if interpolation alone recov
 framing, the win was the reference's grid extent, not synthesized detail — and the
 hallucination channel closes for free.
 
+*(2026-09-05: revived as **link H**, upgraded from interpolation to SR, after the
+reviewer independently arrived at the same design — "the upscale should only occur
+after the first call." Wired as arm `VEi`; EXPERIMENT §H.)*
+
 ### 7.2 VS on the marked failures (fal, 2026-09-05)
 
 **Run.** Every link-D cell marked non-pass (19 cells, 13 pairs), re-generated with

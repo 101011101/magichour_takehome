@@ -1,6 +1,6 @@
 # v3.4 — EXPERIMENT
 
-**Status: open — links A–F run, G staged. F (2026-09-05, negative): Lanczos inputs lose the g027 framing 3/3 and the placket appears at every scale — call-1 regeneration, not scaling, is the drift channel. G = arm `VS` (SR inputs; fal priors: s50 "very good", first-ever `p019+gal_gadot` success) awaits its A100 run; then the canvas call. Select-from-N deferred to v4 (What is decided). Opened 2026-08-31.** One question:
+**Status: open — links A–G run, H staged. F (2026-09-05, negative): Lanczos inputs lose the g027 framing 3/3 and the placket appears at every scale — call-1 regeneration, not scaling, is the drift channel. G = arm `VS` (SR inputs; fal priors: s50 "very good", first-ever `p019+gal_gadot` success) run — fal priors did not transfer (g027 lost again; VE still the only recipe to hold it) but the p004 reference is the cleanest yet; sr cost measured 4.1%. H staged = arm `VEi` (the reviewer's design: small-canvas ref, SR after call 1) awaits its A100 run; then the canvas call. Select-from-N deferred to v4 (What is decided). Opened 2026-08-31.** One question:
 
 > **What is left on the table after v3.3, and which side of the edit is it on?**
 
@@ -178,6 +178,36 @@ passing cell in v3.3, links A–F, or fal's own draws before it.
 is timed into `timings.csv`). `v3/colab/v34_a100.ipynb` runs it on the failure set at
 49/50/51; page `v34_a100_page.py <dir> --arm VS` → `VS` · `VA` · `VE` · original · fal,
 winner vote per row.
+
+**Result ([RESULTS §8, ledger caveat](RESULTS.md#8-the-improvement-ledger-2026-09-05-for-the-report)).**
+Run 2026-09-05. The sr stage measured **4.1%** of klein time (median 0.31 s/call).
+The fal priors did **not** transfer: `g027+p003` loses the framing again (VE stays the
+only A100 recipe that held it), the `p019+gal_gadot` s50 success does not reproduce on
+the A100 draw. One clear win: the `p004` reference is the cleanest of any recipe — the
+phantom placket nearly gone. Fold-wide verdict awaits the reviewer's five-way vote on
+`v3/report/v34_a100_VS.html`. → link H.
+
+### H — The upscale after call 1 (arm `VEi`) **← the reviewer's design, 2026-09-05; wired, awaiting its A100 run**
+
+**Why.** The reviewer's reasoning, arrived at independently of §7.1's staging: klein
+should render call 1 **at the scale of its evidence** (the v3.3 small canvas — V34's
+exact reference, minimum invention pressure), and the one upscale should happen
+**after** call 1, on a finished image, where SR cannot change structure. This
+separates the reference's *content* (V34's, most conservative) from its *token
+footprint in call 2* (~1 MP, the dwarfism-fix candidate). Open question it answers:
+was VE's g027 fix the reference's content (klein-drawn at 1 MP) or its footprint (any
+sharp 1 MP reference)?
+
+**How.** Arm `VEi` in `run_ironman.py`: ref generated exactly as `V34` (native crop,
+v33 canvas, seed 49 — deterministic-equal to link D's refs; the small version is kept
+as `{g}__VEi_small.jpg`), then `to_1mp_sr` on the recropped reference (timed as `sr`);
+call 2 as `V34`/`VE` (fal canvas, native person). `v3/colab/v34_a100.ipynb` runs it on
+the failure set at 49/50/51; page `v34_a100_page.py <dir> --arm VEi` → `VEi` · `VS` ·
+`VE` · original · fal, winner vote, intermediaries row per pair.
+
+**What counts.** `g027+p003` (does the footprint alone fix the framing?), the placket
+(V34's faint one, SR-sharpened — better or worse than VS's near-clean one?), and the
+fold against `VS`/`VE`.
 
 **Result.** *Pending.*
 
