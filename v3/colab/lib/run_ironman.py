@@ -6,6 +6,7 @@
   V34  Vnc with call 2 rendered on fal's canvas: area 1024^2, floor 32, up or down                    (the v3.4 version)
   VE   V34 with call 1 on fal's canvas as well - references at ~1 MP                                  (link E)
   VA   VE with every input Lanczos/area-resized to ~1 MP BEFORE its call - klein never scales         (link F)
+  VS   VA with the SR model (realesr-general-x4v3) as the upscaler - sharp algorithmic inputs         (link G)
 
 Both arms: same model, same call 2 except the E3 sentence is the version's. Every model
 call and every CPU/GPU stage is timed into meta/timings.csv; meta/cost.json totals them
@@ -79,8 +80,10 @@ def timed(stage, arm, ident, seed, fn):
 
 
 FAL_CANVAS_ARMS = ("V34", "Vfc")   # the v3.4 version: call 2 on fal's canvas (area 1024^2, floor 32, up or down)
-FAL_BOTH_ARMS = ("VE", "VA")       # calls 1 AND 2 on fal's canvas; VA also pre-scales inputs so klein never upscales
-ALGO_ARMS = ("VA",)                # link F: inputs algorithmically resized to ~1 MP before the call (Lanczos up, area down)
+FAL_BOTH_ARMS = ("VE", "VA", "VS")  # calls 1 AND 2 on fal's canvas; VA/VS also pre-scale inputs so klein never upscales
+ALGO_ARMS = ("VA", "VS")           # inputs resized to ~1 MP before the call (VA: Lanczos; VS: the SR model)
+SR_WEIGHTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "realesr-general-x4v3.pth")
+_SR = {}
 
 
 def to_1mp(bgr, area=1_048_576):
@@ -90,6 +93,41 @@ def to_1mp(bgr, area=1_048_576):
         return bgr
     return cv2.resize(bgr, (max(1, int(w * k)), max(1, int(h * k))),
                       interpolation=cv2.INTER_LANCZOS4 if k > 1 else cv2.INTER_AREA)
+
+
+def to_1mp_sr(bgr, area=1_048_576):
+    """SR x4 (realesr-general-x4v3) then area-down to ~1 MP when upscaling; plain area
+    resize when the input is already at or above 1 MP."""
+    h, w = bgr.shape[:2]
+    if (area / (h * w)) ** 0.5 <= 1.0:
+        return to_1mp(bgr)
+    import torch
+    if "net" not in _SR:
+        import torch.nn as nn, torch.nn.functional as F
+
+        class Compact(nn.Module):
+            def __init__(s, nf=64, nc=32, up=4):
+                super().__init__(); s.up = up; s.body = nn.ModuleList([nn.Conv2d(3, nf, 3, 1, 1), nn.PReLU(nf)])
+                for _ in range(nc): s.body += [nn.Conv2d(nf, nf, 3, 1, 1), nn.PReLU(nf)]
+                s.body.append(nn.Conv2d(nf, 3 * up * up, 3, 1, 1)); s.shuf = nn.PixelShuffle(up)
+
+            def forward(s, x):
+                o = x
+                for m in s.body: o = m(o)
+                return s.shuf(o) + F.interpolate(x, scale_factor=s.up, mode='nearest')
+
+        net = Compact(); net.load_state_dict(torch.load(SR_WEIGHTS, map_location='cpu')['params']); net.eval()
+        _SR["dev"] = "cuda" if torch.cuda.is_available() else "cpu"; _SR["net"] = net.to(_SR["dev"])
+    x = torch.from_numpy(cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB).astype(np.float32) / 255).permute(2, 0, 1)[None].to(_SR["dev"])
+    with torch.no_grad():
+        y = _SR["net"](x)
+    y = cv2.cvtColor((y.clamp(0, 1)[0].permute(1, 2, 0).cpu().numpy() * 255).round().astype(np.uint8), cv2.COLOR_RGB2BGR)
+    h, w = y.shape[:2]; k = (area / (h * w)) ** 0.5
+    return cv2.resize(y, (int(w * k), int(h * k)), interpolation=cv2.INTER_AREA)
+
+
+def prescale(bgr, arm):
+    return to_1mp_sr(bgr) if arm == "VS" else to_1mp(bgr)
 _RUN = {"bc_canvas": "v33"}        # BC's call 2 follows the version in the run - the canvas is a property of call 2, not of the arm (RESULTS v3.4 §5)
 
 
@@ -184,13 +222,14 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
     for g in garments:
         crop = cv2.imread(d("inputs", f"{g}__A4.jpg"))
         raw = cv2.imread(d("inputs", f"{g}.jpg"))
-        for varm in [a for a in ("V", "Vnc", "Vfc", "V34", "VE", "VA") if a in arms]:   # Vnc = no cut; V34 = fal call-2 canvas; VE = fal canvas both calls; VA = + algorithmic input scaling
+        for varm in [a for a in ("V", "Vnc", "Vfc", "V34", "VE", "VA", "VS") if a in arms]:   # Vnc = no cut; V34 = fal call-2 canvas; VE = fal canvas both calls; VA/VS = + algorithmic input scaling (Lanczos / SR)
             fr = timed("framing", varm, g, 0, lambda c=crop: L.framing(c, paths)["framing"])
             prompt = SWAP + KEEP + PERSON_CLAUSE[fr] + HOLD
             meta[f"{g}|{varm}"] = {"framing": fr, "prompt": prompt, "ankle_cut": varm == "V"}
             out = d("refs", f"{g}__{varm}.jpg")
             if not os.path.exists(out):
-                im = klein("ref", varm, g, seeds[0], [to_1mp(crop) if varm in ALGO_ARMS else crop], prompt)
+                src = timed("sr", varm, g, 0, lambda c=crop, v=varm: prescale(c, v)) if varm in ALGO_ARMS else crop
+                im = klein("ref", varm, g, seeds[0], [src], prompt)
                 im = recrop(im)
                 cv2.imwrite(d("refs", f"{g}__{varm}_uncut.jpg"), im, [cv2.IMWRITE_JPEG_QUALITY, 95])   # kept from now on
                 if varm == "V":
@@ -224,8 +263,8 @@ def main(matrix="matrix.csv", testset="testset", limit=None, seeds=(46,), arms=A
             if not os.path.exists(d("refs", f"{g}__{arm}.jpg")):
                 raise SystemExit(f"missing reference refs/{g}__{arm}.jpg" + (" - run the V2 cropper first" if arm == "BC" else ""))
             ref = cv2.imread(d("refs", f"{g}__{arm}.jpg"))
-            prompt = E3 if arm in ("V", "Vnc", "Vfc", "V34", "VE", "VA") else BC_EDIT
-            im1 = to_1mp(person) if arm in ALGO_ARMS else person
+            prompt = E3 if arm in ("V", "Vnc", "Vfc", "V34", "VE", "VA", "VS") else BC_EDIT
+            im1 = timed("sr", arm, sid, 0, lambda p=person, a=arm: prescale(p, a)) if arm in ALGO_ARMS else person
             for seed in seeds:
                 out = d("gen", f"{sid}__{arm}__s{seed}.jpg")
                 if os.path.exists(out):

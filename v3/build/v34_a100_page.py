@@ -20,6 +20,7 @@ def fig(path, cap, cls=""):
 LC = os.path.join(REPO, "v3", "runs", "v34", "v34_a100_nocut_20260901_0323")   # link C (Vnc, 49/50/51)
 LD = os.path.join(REPO, "v3", "runs", "v34", "v34_a100_v34_20260904_0458")     # link D (V34, 49/50/51)
 LE = os.path.join(REPO, "v3", "runs", "v34", "v34_a100_ve_20260904_0611")      # link E (VE, 49/50/51)
+LF = os.path.join(REPO, "v3", "runs", "v34", "v34_a100_va_20260904_0728")      # link F (VA, 49/50/51)
 
 
 def main(run, embed=None, arm="Vnc"):
@@ -28,7 +29,13 @@ def main(run, embed=None, arm="Vnc"):
          "<p class='lede'>The locked version with the ankle cut removed, seeds <b>49/50/51</b>, self-hosted klein 4B on an A100. Two matrices: the 31-pair v3.3 failure set and the 30 clean controls. "
          "Per seed row: <b>new A100</b> (this run) &middot; <b>original A100</b> (seed 46/47/48, the cell the reviewer scored) &middot; <b>fal</b> (no cut, same seed number, links A/B). "
          "Mark any new-A100 cell that fails; default pass.</p>"]
-    if arm == "VA":
+    if arm == "VS":
+        o[-1] = o[-1].replace("Mark any new-A100 cell that fails; default pass.",
+                              "Columns per seed row, newest first: <b>LATEST &mdash; VS</b> (SR 1 MP inputs, this run) &middot; "
+                              "<b>VA</b> (Lanczos inputs, link F) &middot; <b>VE</b> (klein-upscaled ref, link E) &middot; "
+                              "<b>original A100</b> (the scored cell) &middot; <b>fal</b> (the benchmark). Per row, vote the winner: "
+                              "<b>LATEST</b> &middot; <b>VA</b> &middot; <b>VE</b> &middot; <b>ORIGINAL</b> &middot; <b>tie</b> (default) — the winner gets the green border.")
+    elif arm == "VA":
         o[-1] = o[-1].replace("Mark any new-A100 cell that fails; default pass.",
                               "Columns per seed row, newest first: <b>LATEST &mdash; VA</b> (algorithmic 1 MP inputs, this run) &middot; "
                               "<b>VE</b> (klein-upscaled ref, link E) &middot; <b>V34</b> (small ref, link D) &middot; "
@@ -56,11 +63,17 @@ def main(run, embed=None, arm="Vnc"):
             for new, old in ((49, 46), (50, 47), (51, 48)):
                 mine = fig(os.path.join(run, "gen", f"{sid}__{arm}__s{new}.jpg"),
                            {"VE": f"<b>LATEST &mdash; VE</b> s{new} &middot; 1 MP ref, fal canvas",
-                            "VA": f"<b>LATEST &mdash; VA</b> s{new} &middot; algorithmic 1 MP inputs"}.get(
+                            "VA": f"<b>LATEST &mdash; VA</b> s{new} &middot; algorithmic 1 MP inputs",
+                            "VS": f"<b>LATEST &mdash; VS</b> s{new} &middot; SR 1 MP inputs"}.get(
                                arm, f"<b>{arm}</b> s{new}" + (" &mdash; no cut, fal canvas" if arm == "V34" else " &mdash; no cut")), "ship")
                 orig = fig(os.path.join(IM, "gen", f"{sid}__V__s{old}.jpg"), f"original A100 s{old} &mdash; scored {r[f'v{old}']}", "bad" if r[f"v{old}"] in ("BC", "fail") else "")
                 bench = fig(os.path.join(fal, "gen", f"{sid}__Vnc__s{old}.jpg"), f"fal s{old} &mdash; the benchmark")
-                if arm == "VA":
+                if arm == "VS":
+                    cells, cls = (mine
+                                  + fig(os.path.join(LF, "gen", f"{sid}__VA__s{new}.jpg"), f"VA s{new} &middot; Lanczos inputs (link F)")
+                                  + fig(os.path.join(LE, "gen", f"{sid}__VE__s{new}.jpg"), f"VE s{new} &middot; klein-upscaled ref (link E)")
+                                  + orig + bench), "s5"
+                elif arm == "VA":
                     cells, cls = (mine
                                   + fig(os.path.join(LE, "gen", f"{sid}__VE__s{new}.jpg"), f"VE s{new} &middot; klein-upscaled ref (link E)")
                                   + fig(os.path.join(LD, "gen", f"{sid}__V34__s{new}.jpg"), f"V34 s{new} &middot; small ref (link D)")
@@ -74,7 +87,10 @@ def main(run, embed=None, arm="Vnc"):
                     cells, cls = mine + orig + fig(os.path.join(LC, "gen", f"{sid}__Vnc__s{new}.jpg"), f"link C: no cut, v3.3 canvas, s{new}") + bench, "s4"
                 else:
                     cells, cls = mine + orig + fig(os.path.join(fal, "gen", f"{sid}__Vnc__s{old}.jpg"), f"fal s{old}, no cut"), "s3"
-                if arm == "VA":   # head-to-head across the history (data-fig = column to highlight)
+                if arm == "VS":   # head-to-head across the history (data-fig = column to highlight)
+                    mk = ("<button data-m='latest' data-fig='0'>LATEST</button><button data-m='va' data-fig='1'>VA</button>"
+                          "<button data-m='ve' data-fig='2'>VE</button><button data-m='original' data-fig='3'>ORIGINAL</button><button data-m='tie' class='on'>tie</button>")
+                elif arm == "VA":   # head-to-head across the history (data-fig = column to highlight)
                     mk = ("<button data-m='latest' data-fig='0'>LATEST</button><button data-m='ve' data-fig='1'>VE</button>"
                           "<button data-m='v34' data-fig='2'>V34</button><button data-m='original' data-fig='3'>ORIGINAL</button><button data-m='tie' class='on'>tie</button>")
                 elif arm == "VE":   # head-to-head: which cell wins the row (data-fig = column to highlight)
@@ -84,7 +100,7 @@ def main(run, embed=None, arm="Vnc"):
                     mk = "<button data-m='pass' class='on'>&gt;fal &middot; pass</button><button data-m='fail_better'>&gt;fal &middot; FAIL</button><button data-m='worse'>worse than fal</button>"
                 else:
                     mk = "<button data-m='pass' class='on'>pass</button><button data-m='fail'>FAIL</button>"
-                dd = " data-def='tie'" if arm in ("VE", "VA") else ""
+                dd = " data-def='tie'" if arm in ("VE", "VA", "VS") else ""
                 o.append(f"<div class='lab'>seed {new} (new) &middot; {old} (original)<span class='mk' data-sid='{html.escape(sid)}' data-seed='{new}'{dd}>{mk}</span></div><div class='strip {cls}'>"
                          + cells + "</div>")
     o.append(FOOT + "</div>" + LB + SCRIPT)
