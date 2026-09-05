@@ -37,9 +37,10 @@ def main(sp):
     o.append("<h1 style='margin-top:50px'>The VS recipe on fal &mdash; SR inputs &rarr; klein, seed 49</h1>"
              "<p class='lede'>One end to end on the dwarfism pair, plus the placket reference. fal draw &mdash; "
              "orientation only; the A100 run decides (link E showed fal and A100 draws can disagree on this pair).</p>"
-             "<h2>g027 + p003</h2><div class='strip'>"
-             + fig(os.path.join(sp, "vs_ref_p003.jpg"), "reference (SR-conditioned)")
-             + fig(os.path.join(sp, "vs_out_g027_p003.jpg"), "output s49", "framing HELD &middot; proportions natural", "ship")
+             "<h2>g027 + p003 &mdash; three input treatments, same backend, same seed</h2><div class='strip'>"
+             + fig(os.path.join(sp, "ve_out_g027_p003_fal.jpg"), "native inputs &mdash; klein scales (VE)", "framing held &middot; faint print bleed in the bodice", "ship")
+             + fig(os.path.join(os.path.dirname(sp), "va_demo", "4_output.jpg"), "Lanczos inputs (VA)", "framing held on this fal draw &mdash; the A100 lost it 3/3", "ship")
+             + fig(os.path.join(sp, "vs_out_g027_p003.jpg"), "SR inputs (VS)", "framing held &middot; cleanest bodice", "ship")
              + "</div><h2>p004 &mdash; the placket check</h2><div class='strip'>"
              + fig(os.path.join(IM, "p004__A4.jpg"), "A4 crop &mdash; NO buttons")
              + fig(os.path.join(sp, "vs_ref_p004.jpg"), "reference (SR-conditioned)", "placket STILL invented &mdash; call-1 regeneration, not scaling", "bad")
