@@ -1,6 +1,6 @@
 # v3.4 — EXPERIMENT
 
-**Status: open — links A–F run, G staged. F (2026-09-05, negative): Lanczos inputs lose the g027 framing 3/3 and the placket appears at every scale — call-1 regeneration, not scaling, is the drift channel. G = arm `VS` (SR inputs; fal priors: s50 "very good", first-ever `p019+gal_gadot` success) awaits its A100 run; then the canvas call and select-from-N (§0). Opened 2026-08-31.** One question:
+**Status: open — links A–F run, G staged. F (2026-09-05, negative): Lanczos inputs lose the g027 framing 3/3 and the placket appears at every scale — call-1 regeneration, not scaling, is the drift channel. G = arm `VS` (SR inputs; fal priors: s50 "very good", first-ever `p019+gal_gadot` success) awaits its A100 run; then the canvas call. Select-from-N deferred to v4 (What is decided). Opened 2026-08-31.** One question:
 
 > **What is left on the table after v3.3, and which side of the edit is it on?**
 
@@ -181,7 +181,7 @@ winner vote per row.
 
 **Result.** *Pending.*
 
-### 0 — Select-from-N **← next after D; cheapest, largest**
+### 0 — Select-from-N **← DEFERRED TO v4 (reviewer, 2026-09-05); the brief below stands**
 
 On the 31 failing pairs and 30 clean controls: 3 seeds already on disk; the question is
 only the selector. A CV gate that picks the right seed on the 27 rescuable pairs without
@@ -224,6 +224,11 @@ outcome.** This reverses the lock's product choice on footwear (link A: cut = we
 keeps their shoes; no cut = the reference's shoes come along — v3.4 chooses the
 latter). The cut stays in arm `V` for baseline comparability only. **The canvas rule is
 NOT decided**: `V34` (call 2 at 1 MP) vs `VE` (both calls at 1 MP) awaits link E.
+
+**No third call in v3 — decided by the reviewer 2026-09-05.** Select-from-N,
+gate-and-retry, batched draws — any reliability mechanism beyond the two klein calls —
+is **v4 scope**, not v3. v3 ships exactly 2 calls per pair. The per-seed statistics
+(RESULTS §8) are the evidence for whether v4 needs it. §0 below stays as the v4 brief.
 
 **Scaling is algorithmic — decided by the reviewer 2026-09-04, after §7.1.** Klein
 never upscales: every input is resized to ~1 MP by an algorithm (Lanczos up,

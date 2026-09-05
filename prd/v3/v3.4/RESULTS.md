@@ -418,9 +418,10 @@ line links to the section that carries the evidence.
 **The seed-probability reading.** The scaling changes raise the per-seed success
 probability on the failure set (V34: 74/93 cells at the fal bar; 18/31 pairs pass at
 all three seeds) — they shrink the bad-mode mass rather than eliminate it. The residue
-is per-pair ambiguity (F1–F4), which is select-from-N / gate-and-retry territory
-(EXPERIMENT §0) within the 2-call budget: a CV gate costs no model call, a retry only
-fires on failure, and batched draws inside one call keep the call count at two.
+is per-pair ambiguity (F1–F4). Select-from-N / gate-and-retry would absorb it, but the
+reviewer ruled (2026-09-05) that **any mechanism beyond the two klein calls is v4
+scope** — v3 ships exactly 2 calls per pair, and this ledger's statistics are the
+evidence for whether v4 needs the mechanism at all.
 
 **Not yet claimed:** all VS numbers are fal draws; the A100 `VS` run (link G) is the
 confirmation. No v3.4 arm is scored on the 200-pair matrix yet.
