@@ -1,6 +1,6 @@
 # v3.4 — EXPERIMENT
 
-**Status: open — links A–E run. E (2026-09-04): the 1 MP reference fixes the dwarfism (`g027+p003` to `VE` 3/3) but is not a general win — `V34` edges `VE` 13–8 with 68 ties, the v3.3 lock best on only 4/93. Canvas fork open ([RESULTS §7](RESULTS.md#7-link-e--references-at-1-mp-run-and-voted-2026-09-04)); select-from-N (§0) is next. Opened 2026-08-31.** One question:
+**Status: open — links A–F run, G staged. F (2026-09-05, negative): Lanczos inputs lose the g027 framing 3/3 and the placket appears at every scale — call-1 regeneration, not scaling, is the drift channel. G = arm `VS` (SR inputs; fal priors: s50 "very good", first-ever `p019+gal_gadot` success) awaits its A100 run; then the canvas call and select-from-N (§0). Opened 2026-08-31.** One question:
 
 > **What is left on the table after v3.3, and which side of the edit is it on?**
 
