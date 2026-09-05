@@ -40,8 +40,9 @@ def main():
     for sid, ms in by.items():
         r = rows[sid]; p, g = r["person"], r["garment"]
         o.append(f"<h2>{html.escape(p)} wears {html.escape(g)}<span class='ar'>{html.escape(r.get('class', ''))}</span></h2>")
-        o.append("<div class='strip'>" + fig(os.path.join(IM, "inputs", f"{p}.jpg"), "person")
-                 + fig(os.path.join(IM, "inputs", f"{g}.jpg"), "garment photograph")
+        o.append("<div class='strip s4'>" + fig(os.path.join(IM, "inputs", f"{p}.jpg"), "person")
+                 + fig(os.path.join(IM, "inputs", f"{g}__A4.jpg"), "A4 crop (call 1 evidence)")
+                 + fig(os.path.join(VS, "inputs_sr", f"{g}.jpg"), "SR &rarr; ~1 MP (as fed to klein)")
                  + fig(os.path.join(VS, "refs", f"{g}__VS.jpg"), "VS reference (SR-conditioned)") + "</div>")
         for m in ms:
             s = m["seed"]
@@ -62,7 +63,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 ui-sans-serif,-
 h1{margin:0 0 6px;font-size:24px}h2{font-size:14px;margin:40px 0 6px;padding-top:12px;border-top:1px solid var(--line)}h2 .ar{font-size:12px;color:var(--dim);font-weight:400;margin-left:10px}
 .lede{color:var(--dim);max-width:110ch;font-size:14px;margin:0 0 12px}.lede b,.lede i{color:var(--fg)}
 .lab{font-size:12px;color:var(--dim);margin:10px 0 4px}
-.strip{display:grid;gap:6px;grid-template-columns:repeat(3,minmax(0,1fr));max-width:920px}
+.strip{display:grid;gap:6px;grid-template-columns:repeat(3,minmax(0,1fr));max-width:920px}.s4{grid-template-columns:repeat(4,minmax(0,1fr));max-width:1000px}
 figure{margin:0}figure img{width:100%;display:block;background:#fff;border-radius:6px;cursor:zoom-in;aspect-ratio:3/4;object-fit:contain;border:3px solid transparent}
 figure.ship img{border-color:#2c5c33}figure.bad img{border-color:#b43c3c}figure.warn img{border-color:#c9862c}
 figcaption{font-size:11px;color:var(--dim);text-align:center;padding:5px 2px}
