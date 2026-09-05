@@ -160,6 +160,25 @@ per row.
 **What counts.** `g027+p003` (does the framing fix survive honest conditioning?),
 `g029+p004` (does the hallucinated placket go?), and the 13 cells `V34` won off `VE`.
 
+**Result. Negative on both counts** ([RESULTS §7.2 first reads](RESULTS.md#72-vs-on-the-marked-failures-fal-2026-09-05)
+carry the diagnosis): the A100 loses the `g027+p003` framing 3/3 (the Lanczos-softened
+person anchors worse than `VE`'s native one), and the placket appears at every scale —
+call-1 regeneration, not scaling, is the drift channel. Lanczos retires; → link G.
+
+### G — SR-scaled inputs (arm `VS`) **← wired 2026-09-05; the A100 run decides**
+
+**Why.** The dilemma after F: blurry algorithmic inputs lose, klein's own upscale
+hallucinates. A dedicated SR model (realesr-general-x4v3, 1.2M params, 4.9 MB, tens of
+ms on the A100 — in the bundle) is the middle: sharp, structure-conservative,
+algorithmic. fal-draw priors ([RESULTS §7.2](RESULTS.md#72-vs-on-the-marked-failures-fal-2026-09-05)):
+the s50 cells read very good, and **the first-ever success on `p019+gal_gadot`** — no
+passing cell in v3.3, links A–F, or fal's own draws before it.
+
+**How.** Arm `VS` = `VA` with the upscaler swapped to SR (`to_1mp_sr`; the `sr` stage
+is timed into `timings.csv`). `v3/colab/v34_a100.ipynb` runs it on the failure set at
+49/50/51; page `v34_a100_page.py <dir> --arm VS` → `VS` · `VA` · `VE` · original · fal,
+winner vote per row.
+
 **Result.** *Pending.*
 
 ### 0 — Select-from-N **← next after D; cheapest, largest**
