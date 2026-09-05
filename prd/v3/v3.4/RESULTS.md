@@ -402,3 +402,25 @@ on CPU, tens of ms on an A100.
   backend (fal draw; unconfirmed on the A100).
 - Caveat as printed on the page: VS cells are fal draws beside A100 draws — orientation,
   not record. The deciding run is `VS` on the A100.
+
+## 8. The improvement ledger (2026-09-05, for the report)
+
+What the v3.4 scaling changes have measurably improved, in order of adoption. Every
+line links to the section that carries the evidence.
+
+| change | measured improvement | where |
+|---|---|---|
+| `V34` — call-2 canvas at 1 MP (up or down, floor 32) | the reviewer's bar vs fal met on **85/93** failure-set cells; **29/31 pairs pass at ≥1 seed** (the failure set was 0/31 at its original seeds by construction); stays on the distilled schedule (≤4,096 tokens < the 4,300 branch) | [§5](#5-the-v34-version-and-link-ds-set-up-2026-09-01) |
+| `VE` — references generated at ~1 MP | the `g027+p003` dwarfism **eliminated 3/3** (0/6 A100 cells held framing before); references carry ~4× the garment evidence into call 2 | [§6](#6-the-g027p003-dwarfism-diagnosed-2026-09-04), [§7](#7-link-e--references-at-1-mp-run-and-voted-2026-09-04) |
+| `VS` — SR-scaled inputs (algorithmic, sharp) | on the 19 marked link-D failures (fal draws): reviewer notes the s50 cells "very good"; **first-ever success on `p019+gal_gadot`** (no passing cell in v3.3, links A–F, or fal's own draws before it); `p015+p016` rendering visibly cleaner than the marked cell | [§7.2](#72-vs-on-the-marked-failures-fal-2026-09-05) |
+| the lock, for contrast | the original v3.3 cell is best on only **4/93** link-E votes — both v3.4 canvases beat it | [§7](#7-link-e--references-at-1-mp-run-and-voted-2026-09-04) |
+
+**The seed-probability reading.** The scaling changes raise the per-seed success
+probability on the failure set (V34: 74/93 cells at the fal bar; 18/31 pairs pass at
+all three seeds) — they shrink the bad-mode mass rather than eliminate it. The residue
+is per-pair ambiguity (F1–F4), which is select-from-N / gate-and-retry territory
+(EXPERIMENT §0) within the 2-call budget: a CV gate costs no model call, a retry only
+fires on failure, and batched draws inside one call keep the call count at two.
+
+**Not yet claimed:** all VS numbers are fal draws; the A100 `VS` run (link G) is the
+confirmation. No v3.4 arm is scored on the 200-pair matrix yet.
