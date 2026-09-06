@@ -1,0 +1,1256 @@
+{
+ "scored_cells": 279,
+ "tokens_in": 481545,
+ "tokens_out": 111038,
+ "usd_est": 4.0733,
+ "pairs_complete": 31,
+ "pairs_partial": [],
+ "paired": {
+  "VEivVE": {
+   "fid": {
+    "n": 31,
+    "mean_diff": -0.0681,
+    "ci95": [
+     -0.1434,
+     0.0072
+    ],
+    "sd": 0.2179,
+    "pos": 10,
+    "neg": 18,
+    "zero": 3,
+    "sign_p": 0.1849,
+    "wilcoxon_p": 0.1347,
+    "VEi_mean": 3.81,
+    "VE_mean": 3.8781
+   },
+   "real": {
+    "n": 31,
+    "mean_diff": -0.0932,
+    "ci95": [
+     -0.1756,
+     -0.0143
+    ],
+    "sd": 0.235,
+    "pos": 8,
+    "neg": 20,
+    "zero": 3,
+    "sign_p": 0.0357,
+    "wilcoxon_p": 0.0303,
+    "VEi_mean": 3.6918,
+    "VE_mean": 3.7849
+   },
+   "mean6": {
+    "n": 31,
+    "mean_diff": -0.0806,
+    "ci95": [
+     -0.1487,
+     -0.0125
+    ],
+    "sd": 0.195,
+    "pos": 10,
+    "neg": 18,
+    "zero": 3,
+    "sign_p": 0.1849,
+    "wilcoxon_p": 0.0322,
+    "VEi_mean": 3.7509,
+    "VE_mean": 3.8315
+   },
+   "garment": {
+    "n": 31,
+    "mean_diff": -0.0968,
+    "ci95": [
+     -0.2151,
+     0.0215
+    ],
+    "sd": 0.3463,
+    "pos": 4,
+    "neg": 10,
+    "zero": 17,
+    "sign_p": 0.1796,
+    "wilcoxon_p": 0.2248,
+    "VEi_mean": 2.6022,
+    "VE_mean": 2.6989
+   },
+   "identity": {
+    "n": 31,
+    "mean_diff": -0.0538,
+    "ci95": [
+     -0.1935,
+     0.0753
+    ],
+    "sd": 0.3858,
+    "pos": 9,
+    "neg": 10,
+    "zero": 12,
+    "sign_p": 1.0,
+    "wilcoxon_p": 0.2775,
+    "VEi_mean": 4.2473,
+    "VE_mean": 4.3011
+   },
+   "scene": {
+    "n": 31,
+    "mean_diff": -0.0538,
+    "ci95": [
+     -0.172,
+     0.0538
+    ],
+    "sd": 0.3231,
+    "pos": 6,
+    "neg": 9,
+    "zero": 16,
+    "sign_p": 0.6072,
+    "wilcoxon_p": 0.4105,
+    "VEi_mean": 4.5806,
+    "VE_mean": 4.6344
+   },
+   "clean": {
+    "n": 31,
+    "mean_diff": -0.0753,
+    "ci95": [
+     -0.2151,
+     0.0538
+    ],
+    "sd": 0.3821,
+    "pos": 7,
+    "neg": 9,
+    "zero": 15,
+    "sign_p": 0.8036,
+    "wilcoxon_p": 0.4155,
+    "VEi_mean": 3.5699,
+    "VE_mean": 3.6452
+   },
+   "hands": {
+    "n": 31,
+    "mean_diff": -0.1505,
+    "ci95": [
+     -0.2903,
+     -0.0215
+    ],
+    "sd": 0.3833,
+    "pos": 5,
+    "neg": 14,
+    "zero": 12,
+    "sign_p": 0.0636,
+    "wilcoxon_p": 0.0614,
+    "VEi_mean": 3.6667,
+    "VE_mean": 3.8172
+   },
+   "realism": {
+    "n": 31,
+    "mean_diff": -0.0538,
+    "ci95": [
+     -0.172,
+     0.0645
+    ],
+    "sd": 0.3344,
+    "pos": 7,
+    "neg": 10,
+    "zero": 14,
+    "sign_p": 0.6291,
+    "wilcoxon_p": 0.202,
+    "VEi_mean": 3.8387,
+    "VE_mean": 3.8925
+   },
+   "wins_pair": {
+    "VEi": 10,
+    "VE": 21,
+    "tie": 0
+   },
+   "wins_cross_cells": {
+    "VEi": 94,
+    "VE": 147,
+    "tie": 38
+   },
+   "wins_same_seed_cells": {
+    "VEi": 29,
+    "VE": 48,
+    "tie": 16
+   },
+   "all9": {
+    "VEi": [],
+    "VE": [
+     "dualuse_lp_floral_kimono_set+g024",
+     "g029+p004",
+     "p003+p026",
+     "p011+p024",
+     "p020+dualuse_navy_peacoat_onmodel"
+    ]
+   },
+   "same3": {
+    "VEi": [],
+    "VE": [
+     "dualuse_lp_floral_kimono_set+g024",
+     "g029+p004",
+     "p003+p026",
+     "p011+p024",
+     "p020+dualuse_navy_peacoat_onmodel"
+    ]
+   },
+   "perm": {
+    "fid": {
+     "obs": -0.0681,
+     "p_two_sided": 0.0927,
+     "p_one_sided": 0.972,
+     "null_sd": 0.0382,
+     "null_q95_abs": 0.0753
+    },
+    "real": {
+     "obs": -0.0932,
+     "p_two_sided": 0.0731,
+     "p_one_sided": 0.9739,
+     "null_sd": 0.0498,
+     "null_q95_abs": 0.1004
+    },
+    "mean6": {
+     "obs": -0.0806,
+     "p_two_sided": 0.0301,
+     "p_one_sided": 0.9881,
+     "null_sd": 0.0368,
+     "null_q95_abs": 0.0735
+    },
+    "wins": {
+     "obs": -11,
+     "p_two_sided": 0.0659,
+     "null_sd": 5.5579
+    }
+   }
+  },
+  "VEivVS": {
+   "fid": {
+    "n": 31,
+    "mean_diff": 0.1254,
+    "ci95": [
+     0.0358,
+     0.2294
+    ],
+    "sd": 0.2792,
+    "pos": 20,
+    "neg": 6,
+    "zero": 5,
+    "sign_p": 0.0094,
+    "wilcoxon_p": 0.0326,
+    "VEi_mean": 3.81,
+    "VS_mean": 3.6846
+   },
+   "real": {
+    "n": 31,
+    "mean_diff": 0.1004,
+    "ci95": [
+     -0.0143,
+     0.233
+    ],
+    "sd": 0.3576,
+    "pos": 16,
+    "neg": 12,
+    "zero": 3,
+    "sign_p": 0.5716,
+    "wilcoxon_p": 0.1976,
+    "VEi_mean": 3.6918,
+    "VS_mean": 3.5914
+   },
+   "mean6": {
+    "n": 31,
+    "mean_diff": 0.1129,
+    "ci95": [
+     0.0215,
+     0.2204
+    ],
+    "sd": 0.2934,
+    "pos": 20,
+    "neg": 8,
+    "zero": 3,
+    "sign_p": 0.0357,
+    "wilcoxon_p": 0.0286,
+    "VEi_mean": 3.7509,
+    "VS_mean": 3.638
+   },
+   "garment": {
+    "n": 31,
+    "mean_diff": 0.0968,
+    "ci95": [
+     -0.043,
+     0.2366
+    ],
+    "sd": 0.4055,
+    "pos": 12,
+    "neg": 9,
+    "zero": 10,
+    "sign_p": 0.6636,
+    "wilcoxon_p": 0.1653,
+    "VEi_mean": 2.6022,
+    "VS_mean": 2.5054
+   },
+   "identity": {
+    "n": 31,
+    "mean_diff": 0.1505,
+    "ci95": [
+     0.0323,
+     0.2688
+    ],
+    "sd": 0.3425,
+    "pos": 15,
+    "neg": 5,
+    "zero": 11,
+    "sign_p": 0.0414,
+    "wilcoxon_p": 0.0564,
+    "VEi_mean": 4.2473,
+    "VS_mean": 4.0968
+   },
+   "scene": {
+    "n": 31,
+    "mean_diff": 0.129,
+    "ci95": [
+     -0.0538,
+     0.3441
+    ],
+    "sd": 0.588,
+    "pos": 11,
+    "neg": 9,
+    "zero": 11,
+    "sign_p": 0.8238,
+    "wilcoxon_p": 0.5423,
+    "VEi_mean": 4.5806,
+    "VS_mean": 4.4516
+   },
+   "clean": {
+    "n": 31,
+    "mean_diff": 0.0753,
+    "ci95": [
+     -0.0538,
+     0.2151
+    ],
+    "sd": 0.3821,
+    "pos": 10,
+    "neg": 8,
+    "zero": 13,
+    "sign_p": 0.8145,
+    "wilcoxon_p": 0.1748,
+    "VEi_mean": 3.5699,
+    "VS_mean": 3.4946
+   },
+   "hands": {
+    "n": 31,
+    "mean_diff": 0.0,
+    "ci95": [
+     -0.1935,
+     0.2473
+    ],
+    "sd": 0.6441,
+    "pos": 7,
+    "neg": 11,
+    "zero": 13,
+    "sign_p": 0.4807,
+    "wilcoxon_p": 0.5682,
+    "VEi_mean": 3.6667,
+    "VS_mean": 3.6667
+   },
+   "realism": {
+    "n": 31,
+    "mean_diff": 0.2258,
+    "ci95": [
+     0.086,
+     0.3656
+    ],
+    "sd": 0.4072,
+    "pos": 14,
+    "neg": 3,
+    "zero": 14,
+    "sign_p": 0.0127,
+    "wilcoxon_p": 0.0149,
+    "VEi_mean": 3.8387,
+    "VS_mean": 3.6129
+   },
+   "wins_pair": {
+    "VEi": 23,
+    "VS": 7,
+    "tie": 1
+   },
+   "wins_cross_cells": {
+    "VEi": 150,
+    "VS": 92,
+    "tie": 37
+   },
+   "wins_same_seed_cells": {
+    "VEi": 53,
+    "VS": 27,
+    "tie": 13
+   },
+   "all9": {
+    "VEi": [
+     "g004+g005",
+     "g005+g014",
+     "g027+p003",
+     "p011+p024"
+    ],
+    "VS": [
+     "p003+p026"
+    ]
+   },
+   "same3": {
+    "VEi": [
+     "g004+g005",
+     "g005+g014",
+     "g027+p003",
+     "p011+p024",
+     "p020+p021",
+     "p025+dualuse_zendaya_white_blazer_skirt"
+    ],
+    "VS": [
+     "dualuse_lp_floral_kimono_set+g024",
+     "p003+p026"
+    ]
+   },
+   "perm": {
+    "fid": {
+     "obs": 0.1254,
+     "p_two_sided": 0.0082,
+     "p_one_sided": 0.004,
+     "null_sd": 0.0465,
+     "null_q95_abs": 0.0896
+    },
+    "real": {
+     "obs": 0.1004,
+     "p_two_sided": 0.0941,
+     "p_one_sided": 0.0479,
+     "null_sd": 0.0576,
+     "null_q95_abs": 0.1147
+    },
+    "mean6": {
+     "obs": 0.1129,
+     "p_two_sided": 0.0112,
+     "p_one_sided": 0.0056,
+     "null_sd": 0.0445,
+     "null_q95_abs": 0.0878
+    },
+    "wins": {
+     "obs": 16,
+     "p_two_sided": 0.0034,
+     "null_sd": 5.4545
+    }
+   }
+  },
+  "VEvVS": {
+   "fid": {
+    "n": 31,
+    "mean_diff": 0.1935,
+    "ci95": [
+     0.0968,
+     0.3047
+    ],
+    "sd": 0.3036,
+    "pos": 20,
+    "neg": 4,
+    "zero": 7,
+    "sign_p": 0.0015,
+    "wilcoxon_p": 0.0004,
+    "VE_mean": 3.8781,
+    "VS_mean": 3.6846
+   },
+   "real": {
+    "n": 31,
+    "mean_diff": 0.1935,
+    "ci95": [
+     0.0681,
+     0.3333
+    ],
+    "sd": 0.3849,
+    "pos": 19,
+    "neg": 7,
+    "zero": 5,
+    "sign_p": 0.029,
+    "wilcoxon_p": 0.0078,
+    "VE_mean": 3.7849,
+    "VS_mean": 3.5914
+   },
+   "mean6": {
+    "n": 31,
+    "mean_diff": 0.1935,
+    "ci95": [
+     0.0896,
+     0.319
+    ],
+    "sd": 0.3314,
+    "pos": 23,
+    "neg": 7,
+    "zero": 1,
+    "sign_p": 0.0052,
+    "wilcoxon_p": 0.0015,
+    "VE_mean": 3.8315,
+    "VS_mean": 3.638
+   },
+   "garment": {
+    "n": 31,
+    "mean_diff": 0.1935,
+    "ci95": [
+     0.0645,
+     0.3226
+    ],
+    "sd": 0.3729,
+    "pos": 14,
+    "neg": 4,
+    "zero": 13,
+    "sign_p": 0.0309,
+    "wilcoxon_p": 0.0089,
+    "VE_mean": 2.6989,
+    "VS_mean": 2.5054
+   },
+   "identity": {
+    "n": 31,
+    "mean_diff": 0.2043,
+    "ci95": [
+     0.086,
+     0.3226
+    ],
+    "sd": 0.3408,
+    "pos": 15,
+    "neg": 2,
+    "zero": 14,
+    "sign_p": 0.0023,
+    "wilcoxon_p": 0.0049,
+    "VE_mean": 4.3011,
+    "VS_mean": 4.0968
+   },
+   "scene": {
+    "n": 31,
+    "mean_diff": 0.1828,
+    "ci95": [
+     -0.0108,
+     0.4086
+    ],
+    "sd": 0.5953,
+    "pos": 12,
+    "neg": 8,
+    "zero": 11,
+    "sign_p": 0.5034,
+    "wilcoxon_p": 0.218,
+    "VE_mean": 4.6344,
+    "VS_mean": 4.4516
+   },
+   "clean": {
+    "n": 31,
+    "mean_diff": 0.1505,
+    "ci95": [
+     0.0215,
+     0.2903
+    ],
+    "sd": 0.3929,
+    "pos": 13,
+    "neg": 7,
+    "zero": 11,
+    "sign_p": 0.2632,
+    "wilcoxon_p": 0.0307,
+    "VE_mean": 3.6452,
+    "VS_mean": 3.4946
+   },
+   "hands": {
+    "n": 31,
+    "mean_diff": 0.1505,
+    "ci95": [
+     -0.0215,
+     0.3656
+    ],
+    "sd": 0.5633,
+    "pos": 11,
+    "neg": 6,
+    "zero": 14,
+    "sign_p": 0.3323,
+    "wilcoxon_p": 0.2301,
+    "VE_mean": 3.8172,
+    "VS_mean": 3.6667
+   },
+   "realism": {
+    "n": 31,
+    "mean_diff": 0.2796,
+    "ci95": [
+     0.1505,
+     0.4301
+    ],
+    "sd": 0.4136,
+    "pos": 14,
+    "neg": 1,
+    "zero": 16,
+    "sign_p": 0.001,
+    "wilcoxon_p": 0.001,
+    "VE_mean": 3.8925,
+    "VS_mean": 3.6129
+   },
+   "wins_pair": {
+    "VE": 24,
+    "VS": 7,
+    "tie": 0
+   },
+   "wins_cross_cells": {
+    "VE": 163,
+    "VS": 63,
+    "tie": 53
+   },
+   "wins_same_seed_cells": {
+    "VE": 48,
+    "VS": 22,
+    "tie": 23
+   },
+   "all9": {
+    "VE": [
+     "g027+p003",
+     "p011+p024",
+     "p019+dualuse_gal_gadot_blue_dress_redcarpet",
+     "p020+dualuse_navy_peacoat_onmodel"
+    ],
+    "VS": []
+   },
+   "same3": {
+    "VE": [
+     "g027+p003",
+     "p011+p024",
+     "p019+dualuse_gal_gadot_blue_dress_redcarpet",
+     "p020+dualuse_navy_peacoat_onmodel"
+    ],
+    "VS": []
+   },
+   "perm": {
+    "fid": {
+     "obs": 0.1935,
+     "p_two_sided": 0.0001,
+     "p_one_sided": 0.0001,
+     "null_sd": 0.0482,
+     "null_q95_abs": 0.0932
+    },
+    "real": {
+     "obs": 0.1935,
+     "p_two_sided": 0.0008,
+     "p_one_sided": 0.0005,
+     "null_sd": 0.0582,
+     "null_q95_abs": 0.1147
+    },
+    "mean6": {
+     "obs": 0.1935,
+     "p_two_sided": 0.0,
+     "p_one_sided": 0.0,
+     "null_sd": 0.0474,
+     "null_q95_abs": 0.0932
+    },
+    "wins": {
+     "obs": 17,
+     "p_two_sided": 0.0021,
+     "null_sd": 5.4681
+    }
+   }
+  }
+ },
+ "cells": {
+  "VEi": {
+   "fid": 3.81,
+   "real": 3.6918,
+   "mean6": 3.7509,
+   "garment": 2.6022,
+   "identity": 4.2473,
+   "scene": 4.5806,
+   "clean": 3.5699,
+   "hands": 3.6667,
+   "realism": 3.8387,
+   "fail_proxy": 48,
+   "n": 93,
+   "within_pair_seed_sd_fid": 0.2158
+  },
+  "VE": {
+   "fid": 3.8781,
+   "real": 3.7849,
+   "mean6": 3.8315,
+   "garment": 2.6989,
+   "identity": 4.3011,
+   "scene": 4.6344,
+   "clean": 3.6452,
+   "hands": 3.8172,
+   "realism": 3.8925,
+   "fail_proxy": 45,
+   "n": 93,
+   "within_pair_seed_sd_fid": 0.2135
+  },
+  "VS": {
+   "fid": 3.6846,
+   "real": 3.5914,
+   "mean6": 3.638,
+   "garment": 2.5054,
+   "identity": 4.0968,
+   "scene": 4.4516,
+   "clean": 3.4946,
+   "hands": 3.6667,
+   "realism": 3.6129,
+   "fail_proxy": 52,
+   "n": 93,
+   "within_pair_seed_sd_fid": 0.2676
+  }
+ },
+ "seed_splits": {
+  "VEi s49 vs s50": {
+   "first": 8,
+   "second": 17,
+   "tie": 6,
+   "fid_diff": -0.0968
+  },
+  "VEi s49 vs s51": {
+   "first": 12,
+   "second": 10,
+   "tie": 9,
+   "fid_diff": 0.0215
+  },
+  "VEi s50 vs s51": {
+   "first": 18,
+   "second": 11,
+   "tie": 2,
+   "fid_diff": 0.1183
+  },
+  "VE s49 vs s50": {
+   "first": 10,
+   "second": 16,
+   "tie": 5,
+   "fid_diff": -0.0645
+  },
+  "VE s49 vs s51": {
+   "first": 14,
+   "second": 10,
+   "tie": 7,
+   "fid_diff": 0.0108
+  },
+  "VE s50 vs s51": {
+   "first": 15,
+   "second": 8,
+   "tie": 8,
+   "fid_diff": 0.0753
+  },
+  "VS s49 vs s50": {
+   "first": 14,
+   "second": 12,
+   "tie": 5,
+   "fid_diff": 0.086
+  },
+  "VS s49 vs s51": {
+   "first": 14,
+   "second": 12,
+   "tie": 5,
+   "fid_diff": -0.0108
+  },
+  "VS s50 vs s51": {
+   "first": 13,
+   "second": 13,
+   "tie": 5,
+   "fid_diff": -0.0968
+  }
+ },
+ "per_class": {
+  "F1": {
+   "n": 9,
+   "VEivVE": {
+    "fid": {
+     "n": 9,
+     "mean_diff": -0.1605,
+     "ci95": [
+      -0.3086,
+      -0.0123
+     ],
+     "sd": 0.2429,
+     "pos": 2,
+     "neg": 6,
+     "zero": 1,
+     "sign_p": 0.2891,
+     "wilcoxon_p": 0.0584
+    },
+    "wins": {
+     "VEi": 2,
+     "VE": 7,
+     "tie": 0
+    }
+   },
+   "VEivVS": {
+    "fid": {
+     "n": 9,
+     "mean_diff": 0.1235,
+     "ci95": [
+      -0.0617,
+      0.3333
+     ],
+     "sd": 0.3261,
+     "pos": 5,
+     "neg": 3,
+     "zero": 1,
+     "sign_p": 0.7266,
+     "wilcoxon_p": 0.5281
+    },
+    "wins": {
+     "VEi": 5,
+     "VS": 3,
+     "tie": 1
+    }
+   }
+  },
+  "F2": {
+   "n": 8,
+   "VEivVE": {
+    "fid": {
+     "n": 8,
+     "mean_diff": 0.0,
+     "ci95": [
+      -0.1667,
+      0.1389
+     ],
+     "sd": 0.2376,
+     "pos": 4,
+     "neg": 4,
+     "zero": 0,
+     "sign_p": 1.0,
+     "wilcoxon_p": 0.7422
+    },
+    "wins": {
+     "VEi": 4,
+     "VE": 4,
+     "tie": 0
+    }
+   },
+   "VEivVS": {
+    "fid": {
+     "n": 8,
+     "mean_diff": 0.0417,
+     "ci95": [
+      -0.0833,
+      0.1389
+     ],
+     "sd": 0.1776,
+     "pos": 6,
+     "neg": 2,
+     "zero": 0,
+     "sign_p": 0.2891,
+     "wilcoxon_p": 0.5469
+    },
+    "wins": {
+     "VEi": 6,
+     "VS": 2,
+     "tie": 0
+    }
+   }
+  },
+  "F3": {
+   "n": 12,
+   "VEivVE": {
+    "fid": {
+     "n": 12,
+     "mean_diff": -0.0278,
+     "ci95": [
+      -0.1296,
+      0.0741
+     ],
+     "sd": 0.1903,
+     "pos": 4,
+     "neg": 6,
+     "zero": 2,
+     "sign_p": 0.7539,
+     "wilcoxon_p": 0.7581
+    },
+    "wins": {
+     "VEi": 4,
+     "VE": 8,
+     "tie": 0
+    }
+   },
+   "VEivVS": {
+    "fid": {
+     "n": 12,
+     "mean_diff": 0.1019,
+     "ci95": [
+      -0.0093,
+      0.2037
+     ],
+     "sd": 0.198,
+     "pos": 7,
+     "neg": 1,
+     "zero": 4,
+     "sign_p": 0.0703,
+     "wilcoxon_p": 0.1052
+    },
+    "wins": {
+     "VEi": 10,
+     "VS": 2,
+     "tie": 0
+    }
+   }
+  },
+  "F4": {
+   "n": 2,
+   "VEivVE": {
+    "fid": {
+     "n": 2,
+     "mean_diff": -0.1667,
+     "ci95": [
+      -0.2222,
+      -0.1111
+     ],
+     "sd": 0.0786,
+     "pos": 0,
+     "neg": 2,
+     "zero": 0,
+     "sign_p": 0.5,
+     "wilcoxon_p": 0.5
+    },
+    "wins": {
+     "VEi": 0,
+     "VE": 2,
+     "tie": 0
+    }
+   },
+   "VEivVS": {
+    "fid": {
+     "n": 2,
+     "mean_diff": 0.6111,
+     "ci95": [
+      0.2222,
+      1.0
+     ],
+     "sd": 0.55,
+     "pos": 2,
+     "neg": 0,
+     "zero": 0,
+     "sign_p": 0.5,
+     "wilcoxon_p": 0.5
+    },
+    "wins": {
+     "VEi": 2,
+     "VS": 0,
+     "tie": 0
+    }
+   }
+  }
+ },
+ "notable": {
+  "g027+p003": {
+   "VEi_s49": {
+    "garment": 4,
+    "identity": 3,
+    "scene": 3,
+    "clean": 4,
+    "hands": 4,
+    "realism": 4,
+    "note": "Garment is close in burgundy color and sleeveless empire-waist dress style, though neckline/fit and full length are not perfectly matched. Face and hair mostly match, but body shape and visible arm details changed. White background remains, but arm/hand pose changed. Mostly clean with minor unnatural fit/texture issues; visible hand is acceptable but slightly awkward."
+   },
+   "VEi_s50": {
+    "garment": 3,
+    "identity": 4,
+    "scene": 4,
+    "clean": 2,
+    "hands": 5,
+    "realism": 3,
+    "note": "Burgundy sleeveless empire dress is approximated, but cut/length and neckline are not exact and the bottom includes pasted-looking reference feet/sandals. Face, hair, tattoo, pose, and white background mostly match the original; hands are hidden. Artifacts at the hem/feet reduce cleanliness and realism."
+   },
+   "VEi_s51": {
+    "garment": 4,
+    "identity": 4,
+    "scene": 5,
+    "clean": 4,
+    "hands": 5,
+    "realism": 4,
+    "note": "Burgundy sleeveless gathered dress is close to the reference, though neckline/fit and full length are not perfectly matched. Face, hair, pose, and white background are well preserved; minor synthetic texture and drape artifacts remain."
+   },
+   "VE_s49": {
+    "garment": 4,
+    "identity": 4,
+    "scene": 3,
+    "clean": 3,
+    "hands": 3,
+    "realism": 4,
+    "note": "Reference burgundy sleeveless dress is largely matched in color and cut, though texture/fit and lower length are not exact. Identity is mostly preserved, but pose changes with one arm/hand brought forward. Background remains plain white. Some texture and edge artifacts are visible, and the visible hand is somewhat awkward."
+   },
+   "VE_s50": {
+    "garment": 3,
+    "identity": 4,
+    "scene": 5,
+    "clean": 4,
+    "hands": 5,
+    "realism": 4,
+    "note": "Burgundy sleeveless empire-waist dress is broadly matched, but the skirt length/proportions are not the same as the reference. Identity and pose/background are mostly preserved; hands are hidden. Minor texture and hem artifacts reduce cleanliness/realism."
+   },
+   "VE_s51": {
+    "garment": 4,
+    "identity": 4,
+    "scene": 5,
+    "clean": 3,
+    "hands": 5,
+    "realism": 4,
+    "note": "Garment color and sleeveless gathered dress style are close, but the bodice/texture shows artifacts and the full skirt length cannot be verified in the crop. Identity and pose/background are mostly preserved; hands are hidden. Some fabric and seam artifacts reduce cleanliness and realism."
+   },
+   "VS_s49": {
+    "garment": 3,
+    "identity": 3,
+    "scene": 3,
+    "clean": 3,
+    "hands": 2,
+    "realism": 3,
+    "note": "Dress color and general sleeveless maxi cut are similar, but the output incorrectly retains the Ramones graphic from the original shirt. Face and hair resemble image 1, but body shape and arm/hand pose are changed. Background is mostly unchanged, though pose differs. Some artifacts are visible around hands, feet, and garment texture."
+   },
+   "VS_s50": {
+    "garment": 2,
+    "identity": 2,
+    "scene": 2,
+    "clean": 2,
+    "hands": 2,
+    "realism": 2,
+    "note": "Burgundy sleeveless dress silhouette is roughly referenced, but it incorrectly retains the Ramones graphic and differs in cut/details. Face and hair resemble image 1, but body shape, pose, arms, crop, and hands are heavily altered. White background remains, but original pose is not preserved. Visible AI artifacts include odd proportions, awkward hands, and synthetic textures."
+   },
+   "VS_s51": {
+    "garment": 4,
+    "identity": 4,
+    "scene": 2,
+    "clean": 3,
+    "hands": 2,
+    "realism": 3,
+    "note": "Dress color, sleeveless cut, empire waist and pleated long skirt are close to the reference, but fit/details are simplified. Identity is mostly preserved in face and hair, though body proportions change. Background remains white, but crop and pose change significantly, with added full-body feet. Visible hand and proportions have artifacts, and the image reads somewhat AI-generated."
+   }
+  },
+  "g029+p004": {
+   "VEi_s49": {
+    "garment": 1,
+    "identity": 4,
+    "scene": 5,
+    "clean": 4,
+    "hands": 4,
+    "realism": 4,
+    "note": "Reference is a white men's henley/T-shirt, but output shows a light blue notched top under the original blazer, so garment color and cut are wrong. Person, pose, and background largely match image 1; minor AI oddness around neckline/shirt texture."
+   },
+   "VEi_s50": {
+    "garment": 2,
+    "identity": 4,
+    "scene": 5,
+    "clean": 4,
+    "hands": 4,
+    "realism": 4,
+    "note": "Output keeps the original blazer and changes the inner shirt to a pale blue V-neck/henley-like top, not the exact white reference T-shirt. Identity, pose, and background are mostly preserved; minor texture/seam distortions and slight AI smoothness remain."
+   },
+   "VEi_s51": {
+    "garment": 1,
+    "identity": 4,
+    "scene": 5,
+    "clean": 2,
+    "hands": 4,
+    "realism": 3,
+    "note": "Generated garment does not match the reference white T-shirt; it becomes a light blue hybrid jacket/blouse with leftover houndstooth blazer elements. Person identity and original pose/background are mostly preserved, but seams and clothing construction look artificial."
+   },
+   "VE_s49": {
+    "garment": 1,
+    "identity": 5,
+    "scene": 5,
+    "clean": 4,
+    "hands": 4,
+    "realism": 5,
+    "note": "Output matches the first image closely, but the garment does not match the second reference garment, which appears to be a simple white shirt rather than the blazer outfit."
+   },
+   "VE_s50": {
+    "garment": 2,
+    "identity": 5,
+    "scene": 5,
+    "clean": 4,
+    "hands": 4,
+    "realism": 5,
+    "note": "The result preserves the original woman, pose, and white studio background, but it does not match the reference garment from image 2: the white shirt cut/details differ and the houndstooth blazer remains. Overall clean and realistic with only minor hand/texture concerns."
+   },
+   "VE_s51": {
+    "garment": 2,
+    "identity": 5,
+    "scene": 5,
+    "clean": 4,
+    "hands": 4,
+    "realism": 4,
+    "note": "Identity, pose, and background match image 1 closely, but the output garment does not accurately match the reference white V-neck/henley shirt from image 2 and retains the blazer outfit. Minor texture/seam artifacts but overall realistic."
+   },
+   "VS_s49": {
+    "garment": 2,
+    "identity": 5,
+    "scene": 5,
+    "clean": 4,
+    "hands": 4,
+    "realism": 4,
+    "note": "The output preserves the original person and pose/background, but it does not match the reference garment: the reference is a plain white short-sleeve shirt, while the output keeps the houndstooth blazer and a different shirt neckline. Image is mostly clean and realistic with only minor texture/hand imperfections."
+   },
+   "VS_s50": {
+    "garment": 1,
+    "identity": 4,
+    "scene": 5,
+    "clean": 4,
+    "hands": 4,
+    "realism": 4,
+    "note": "Output largely preserves image 1 instead of transferring the reference garment from image 2; it keeps the checked blazer and black pants rather than the plain white short-sleeve shirt. Identity, pose, and white background are mostly unchanged. Minor texture/seam oddities but generally clean and realistic; visible hands look mostly correct."
+   },
+   "VS_s51": {
+    "garment": 2,
+    "identity": 5,
+    "scene": 5,
+    "clean": 3,
+    "hands": 4,
+    "realism": 4,
+    "note": "Generated result keeps the original woman's identity, pose, and white studio background, but it does not accurately match the reference garment; it retains the houndstooth blazer and only partially resembles the white T-shirt. There are visible artifacts around the right sleeve/arm and garment seam, though hands are mostly acceptable and the image remains fairly photographic."
+   }
+  },
+  "p019+dualuse_gal_gadot_blue_dress_redcarpet": {
+   "VEi_s49": {
+    "garment": 2,
+    "identity": 4,
+    "scene": 4,
+    "clean": 2,
+    "hands": 2,
+    "realism": 3,
+    "note": "The output keeps the original woman's face, hair, pose, and plain background fairly well, but the reference gown is not faithfully transferred: the one-shoulder cut, waist cutout, skirt, and thigh slit are missing, and the original high beige collar/arms remain blended into the result. There are noticeable garment/skin blending artifacts around the neck, shoulders, and crossed arms, with hands mostly obscured and anatomically unclear."
+   },
+   "VEi_s50": {
+    "garment": 2,
+    "identity": 5,
+    "scene": 5,
+    "clean": 3,
+    "hands": 4,
+    "realism": 3,
+    "note": "Blue color and partial one-shoulder shape are present, but the reference gown is not faithfully reproduced: cutout, slit, length, and overall dress structure are missing, and the original jacket collar/sleeves remain. Identity, pose, and plain background are largely preserved. Some odd garment blending and sleeve/hand area artifacts reduce cleanliness and realism."
+   },
+   "VEi_s51": {
+    "garment": 1,
+    "identity": 5,
+    "scene": 5,
+    "clean": 3,
+    "hands": 3,
+    "realism": 3,
+    "note": "Reference is a turquoise one-shoulder sleeveless gown, but output keeps the original beige jacket collar and sleeves and only changes part of the torso. Pose/background and identity are preserved, but garment blending and partially obscured hands look unnatural."
+   },
+   "VE_s49": {
+    "garment": 2,
+    "identity": 4,
+    "scene": 5,
+    "clean": 3,
+    "hands": 4,
+    "realism": 3,
+    "note": "Blue asymmetric dress is only partially captured and lacks key reference details like the waist cutout, skirt, and slit; beige original coat collar remains. Identity and pose/background are mostly preserved, with minor artifacts and slightly odd garment integration."
+   },
+   "VE_s50": {
+    "garment": 1,
+    "identity": 5,
+    "scene": 5,
+    "clean": 2,
+    "hands": 4,
+    "realism": 3,
+    "note": "Output keeps the original person, pose, and plain background, but the reference dress is not reproduced: it becomes a simple blue bodice while the original beige collar and sleeves remain, with missing one-shoulder cutout, skirt, and slit. Some blending/seam artifacts around arms and sleeves reduce cleanliness and realism."
+   },
+   "VE_s51": {
+    "garment": 2,
+    "identity": 5,
+    "scene": 5,
+    "clean": 3,
+    "hands": 3,
+    "realism": 4,
+    "note": "Reference is a blue one-shoulder sleeveless gown, but output only captures a blue one-shoulder bodice and incorrectly keeps beige coat sleeves/collar-like elements; lower dress details, cutout, and slit are absent. Identity, pose, and plain background are well preserved. Some seam/garment blending artifacts and partially obscured hands reduce cleanliness."
+   },
+   "VS_s49": {
+    "garment": 2,
+    "identity": 4,
+    "scene": 5,
+    "clean": 2,
+    "hands": 3,
+    "realism": 3,
+    "note": "Blue color and asymmetry partially match the reference, but the dress cut, cutout, slit/skirt, and overall structure are not reproduced; beige collar/sleeves from the original remain. Identity and pose/background are mostly preserved, but there are visible AI artifacts and a smooth rendered look."
+   },
+   "VS_s50": {
+    "garment": 1,
+    "identity": 4,
+    "scene": 5,
+    "clean": 3,
+    "hands": 3,
+    "realism": 3,
+    "note": "Reference is a turquoise one-shoulder cutout gown with long skirt and slit, but output only adds a blue torso panel while retaining the original beige jacket sleeves and high collar. Face/hair and pose/background are largely preserved. Hands are partially merged/obscured, and the garment integration looks artificial."
+   },
+   "VS_s51": {
+    "garment": 2,
+    "identity": 4,
+    "scene": 4,
+    "clean": 3,
+    "hands": 3,
+    "realism": 3,
+    "note": "Reference blue one-shoulder gown is only partially reproduced; beige original coat sleeves/collar remain and the full skirt, slit, cutout, and overall cut are missing. Face and hair remain close to the original, pose/background mostly unchanged. Some hybrid clothing seams and hand/arm blending look artificial."
+   }
+  },
+  "p015+p016": {
+   "VEi_s49": {
+    "garment": 1,
+    "identity": 5,
+    "scene": 5,
+    "clean": 4,
+    "hands": 4,
+    "realism": 5,
+    "note": "Output only matches the reference garment's pale yellow color; the cut and pieces are completely different from the sleeveless short dress. Person, pose, and background are well preserved, with minor hand/texture imperfections."
+   },
+   "VEi_s50": {
+    "garment": 3,
+    "identity": 4,
+    "scene": 5,
+    "clean": 4,
+    "hands": 3,
+    "realism": 4,
+    "note": "The output captures the pale yellow sleeveless dress concept but does not fully match the reference garment details or full cut. The person, pose, and background remain mostly consistent with image 1. Some hand/finger anatomy and jewelry areas look slightly distorted, though overall it appears fairly photographic."
+   },
+   "VEi_s51": {
+    "garment": 2,
+    "identity": 4,
+    "scene": 5,
+    "clean": 4,
+    "hands": 3,
+    "realism": 4,
+    "note": "Reference is a sleeveless pale yellow short dress with frill/hem and sneakers, while output is a loose short-sleeve yellow tunic and omits most garment details. Person, pose, and background are largely preserved; hands are visible with slight anatomical awkwardness."
+   },
+   "VE_s49": {
+    "garment": 2,
+    "identity": 5,
+    "scene": 5,
+    "clean": 4,
+    "hands": 4,
+    "realism": 4,
+    "note": "Reference is a pale yellow sleeveless short dress with ruffled hem and shoes, but output becomes a loose pale yellow short-sleeve top only. Person, pose, and background are well preserved; minor seam/jewelry/hand imperfections but generally realistic."
+   },
+   "VE_s50": {
+    "garment": 2,
+    "identity": 4,
+    "scene": 5,
+    "clean": 4,
+    "hands": 4,
+    "realism": 4,
+    "note": "Output captures the pale yellow sleeveless dress color and general shape, but misses the reference dress details such as the short full cut and ruffled hem, and retains unrelated accessories. Identity and scene are mostly preserved; hands are mostly plausible with minor issues."
+   },
+   "VE_s51": {
+    "garment": 2,
+    "identity": 4,
+    "scene": 5,
+    "clean": 4,
+    "hands": 4,
+    "realism": 4,
+    "note": "Output uses a pale yellow sleeveless garment but does not accurately reproduce the reference dress cut, length, ruffled hem, or full styling. Identity and original scene/pose are largely preserved, with minor artifacting around garment edges and hands."
+   },
+   "VS_s49": {
+    "garment": 2,
+    "identity": 4,
+    "scene": 5,
+    "clean": 4,
+    "hands": 4,
+    "realism": 4,
+    "note": "Garment color is close but the reference short sleeveless dress is not faithfully reproduced in cut or full styling; it becomes a simplified yellow tank/tunic. Identity and scene are mostly preserved. Minor texture/edge issues and slight hand/finger awkwardness, but overall photographic."
+   },
+   "VS_s50": {
+    "garment": 3,
+    "identity": 4,
+    "scene": 5,
+    "clean": 3,
+    "hands": 4,
+    "realism": 4,
+    "note": "Garment matches the pale yellow sleeveless dress concept but lacks the reference's full cut/hem details and is cropped. Identity and scene are largely preserved. Some smoothing and seam/fit oddities around shoulders and dress, but hands are mostly anatomically plausible."
+   },
+   "VS_s51": {
+    "garment": 2,
+    "identity": 4,
+    "scene": 5,
+    "clean": 3,
+    "hands": 3,
+    "realism": 4,
+    "note": "The output captures the pale yellow sleeveless look but misses key reference details like the short flared cut, lace hem, and overall styling. Face and setting are mostly preserved, but there are visible garment/skin blending issues and some hand/finger awkwardness."
+   }
+  }
+ }
+}

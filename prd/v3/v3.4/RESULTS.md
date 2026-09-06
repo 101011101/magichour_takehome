@@ -444,3 +444,35 @@ intermediaries row).
   reference's ~1 MP token extent in call 2, not klein-drawn 1 MP content.
 - **Reviewer (2026-09-06): "it looks pretty good for VEi."** Blind five-metric judge
   queued to check (§9.1).
+
+
+### 9.1 The blind judge on VEi vs VE and VS (2026-09-06)
+
+**Method.** The judge of record (`ironman_vlm.py::score()`, gpt-5.5, blinded — arm
+names never sent), all 279 cells (31 pairs × 3 seeds × 3 arms) in one interleaved
+batch; statistics as the prior report (paired diffs on pair means, 20k bootstrap,
+permutation null, same-arm seed splits as the noise yardstick). $4.07.
+Outputs `v3/runs/v34/judge_vei/` (REPORT.md, meta/). One correction of record: the
+rubric has **six** criteria, not five — garment · identity · scene · clean · hands ·
+realism (fidelity = mean of the first three).
+
+| comparison | fidelity Δ | pairs | vs noise |
+|---|---|---|---|
+| **VEi vs VS** | **+0.125** (CI +0.04..+0.23, perm p=0.008) | **23–7** VEi | **outside** — real |
+| **VEi vs VE** | −0.068 (CI −0.14..+0.01, perm p=0.09) | 21–10 **VE** | inside for fidelity; the hands (−0.151) and realism-axis (−0.093) deficits cross the line |
+| VE vs VS (context) | +0.194, perm p<0.001 | — | ordering is consistent: **VE ≥ VEi > VS** |
+
+Key pairs: `g027+p003` — VEi holds the framing 3/3 and beats VS by +1.00 (its largest
+edge anywhere), but VE holds it too and wins the pair; `g029+p004` — VEi's worst,
+last on all 9 cells; `p019+gal_gadot` — garment 1–2 on every arm, nothing fixes it;
+`p015+p016` — exact three-way fidelity tie. On the **garment criterion** the three
+arms are statistically identical (2.5–2.7) — the canvas work moved identity/scene/
+realism, and the seed-stable failures fail on all three arms.
+
+**Verdict (the judge's).** VEi is decisively better than VS and at-best-tied,
+leaning slightly worse, against VE — never ahead on any of the six criteria, with a
+small but real hands/cleanliness cost from the SR step. **If VEi takes the slot over
+VE, the argument is cost (ref 1.05 s vs 2.2 s — the cheapest 1 MP arm) and the
+"klein never renders above its evidence" mechanism, not judged output quality.**
+The canvas call between VE and VEi is the reviewer's, with the fold-wide winner vote
+on `v34_a100_VEi.html` as the remaining input.
