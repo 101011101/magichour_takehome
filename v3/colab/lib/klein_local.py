@@ -40,8 +40,12 @@ def _pil(bgr):
     return Image.fromarray(cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB))
 
 
-def _size(bgr, maxpix=1_150_000):
-    """v3.3 rule: keep image 1's size up to 1.15 MP, never upscale, floor to 16."""
+def _size(bgr, maxpix=1_048_576):
+    """v3.4 rule for call 1: keep image 1's size up to 1 MP (2^20 - at most 4,096 tokens,
+    under the distilled schedule's 4,300 branch), never upscale, floor to 16. v3.3 used
+    1.15 MP, which admits up to ~4,492 tokens; no A4 crop on the fold exceeds 1 MP, so
+    this cap change is a measured no-op there - it exists so an oversized future crop
+    cannot silently cross the branch."""
     h, w = bgr.shape[:2]
     k = min(1.0, (maxpix / (h * w)) ** 0.5)
     return max(16, int(h * k) // 16 * 16), max(16, int(w * k) // 16 * 16)

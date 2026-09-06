@@ -1,6 +1,6 @@
 # v3.4 — EXPERIMENT
 
-**Status: open — links A–G run, H staged. F (2026-09-05, negative): Lanczos inputs lose the g027 framing 3/3 and the placket appears at every scale — call-1 regeneration, not scaling, is the drift channel. G = arm `VS` (SR inputs; fal priors: s50 "very good", first-ever `p019+gal_gadot` success) run — fal priors did not transfer (g027 lost again; VE still the only recipe to hold it) but the p004 reference is the cleanest yet; sr cost measured 4.1%. H staged = arm `VEi` (the reviewer's design: small-canvas ref, SR after call 1) awaits its A100 run; then the canvas call. Select-from-N deferred to v4 (What is decided). Opened 2026-08-31.** One question:
+**Status: CLOSED as a chain — SOLUTION.md locked 2026-09-06 on `VEi`; iron man 2 pending (§H result, SOLUTION §7). Historical record below. Links A–G run, H run. F (2026-09-05, negative): Lanczos inputs lose the g027 framing 3/3 and the placket appears at every scale — call-1 regeneration, not scaling, is the drift channel. G = arm `VS` (SR inputs; fal priors: s50 "very good", first-ever `p019+gal_gadot` success) run — fal priors did not transfer (g027 lost again; VE still the only recipe to hold it) but the p004 reference is the cleanest yet; sr cost measured 4.1%. H staged = arm `VEi` (the reviewer's design: small-canvas ref, SR after call 1) awaits its A100 run; then the canvas call. Select-from-N deferred to v4 (What is decided). Opened 2026-08-31.** One question:
 
 > **What is left on the table after v3.3, and which side of the edit is it on?**
 
