@@ -255,6 +255,18 @@ blinded, three seeds.
 
 ## What is decided
 
+**VEi is the v3.4 version — locked by the reviewer 2026-09-06.** The recipe: A4 crop
+→ call 1 on the v3.3 canvas (klein renders at the scale of its evidence, `Q3` prompts)
+→ recrop → **SR upscale of the finished reference** (realesr-general-x4v3, ~0.19 s)
+→ call 2 on the fal canvas (native person, `E3`). No ankle cut. Grounds: the blind
+judge ([RESULTS §9.1](RESULTS.md#91-the-blind-judge-on-vei-vs-ve-and-vs-2026-09-06))
+puts VEi above VS outside seed noise and within noise of VE on fidelity; it is the
+cheapest 1 MP arm (ref 1.05 s) and the only top-tier recipe in which klein never
+renders above its conditioning. Next: **iron man 2** — VEi vs a *correctly built* `BC`
+on the 200-pair matrix at 46/47/48, VLM-compared (the prior iron man's `BC` cells were
+generated from head-ful references — the head-subtraction cropper was never run;
+verified visually 2026-09-06).
+
 **No ankle cut in v3.4 — decided by the reviewer 2026-09-04, independent of the canvas
 outcome.** This reverses the lock's product choice on footwear (link A: cut = wearer
 keeps their shoes; no cut = the reference's shoes come along — v3.4 chooses the

@@ -476,3 +476,26 @@ VE, the argument is cost (ref 1.05 s vs 2.2 s — the cheapest 1 MP arm) and the
 "klein never renders above its evidence" mechanism, not judged output quality.**
 The canvas call between VE and VEi is the reviewer's, with the fold-wide winner vote
 on `v34_a100_VEi.html` as the remaining input.
+
+
+## 10. The v3.4 version locked: VEi. Iron man 2 set up (2026-09-06)
+
+**Decision (the reviewer).** `VEi` is the v3.4 version — see EXPERIMENT "What is
+decided" for the recipe and grounds (judge §9.1: > VS outside noise, within noise of
+VE, cheapest 1 MP arm, klein never renders above its evidence).
+
+**Iron man 2.** VEi against `BC` on the 200-pair matrix (`matrix.csv`), seeds
+46/47/48 — the v3.3 iron-man design: ~1,312 klein calls, blinded page, VLM compare.
+
+**The BC discovery.** Checking the incumbent's build before the run: the prior
+iron-man's `refs/{g}__BC.jpg` still carry full (bald) heads — verified visually on
+`p003__BC` and `g004__BC` — so `ironman_bc_crop.py` (the head-subtraction repair,
+commit a283dce) was committed but **never run**, and the 600 on-disk `__BC__` cells
+are BCA4-class, consistent with v3.3 RESULTS §13's filing. Iron man 2 therefore
+rebuilds BC from scratch by the flow of record: A100 bald pass (raw photo, v3.3
+canvas) → **local** head subtraction (`ironman_bc_crop.py`, V2 cranium path → white)
+→ A100 `bcedit` at the fal call-2 canvas (`bc_canvas="fal"`, §5's fairness rule).
+Three steps because the V2 cropper's stack lives locally; the notebook carries both
+sessions.
+
+*Result: pending — session 1 (VEi arm + bald frames) first.*
