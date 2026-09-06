@@ -209,7 +209,13 @@ the failure set at 49/50/51; page `v34_a100_page.py <dir> --arm VEi` → `VEi` �
 (V34's faint one, SR-sharpened — better or worse than VS's near-clean one?), and the
 fold against `VS`/`VE`.
 
-**Result.** *Pending.*
+**Result (2026-09-06, first read).** **The footprint hypothesis is confirmed on the
+headline pair: `g027+p003` holds the waist-up framing at all three seeds** — the
+second A100 recipe ever to do it (VE the other), and it did it with V34's exact
+reference content, SR-sharpened. So the dwarfism fix was the reference's ~1 MP token
+footprint in call 2, not klein-drawn content. Costs: ref 1.05 s (small canvas — the
+cheapest of the 1 MP arms), sr 0.19 s, edit 3.18 s. Fold-wide verdict awaits the
+reviewer's five-way vote on `v3/report/v34_a100_VEi.html`.
 
 ### 0 — Select-from-N **← DEFERRED TO v4 (reviewer, 2026-09-05); the brief below stands**
 
