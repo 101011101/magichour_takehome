@@ -429,3 +429,18 @@ evidence for whether v4 needs the mechanism at all.
 
 **Not yet claimed:** all VS numbers are fal draws; the A100 `VS` run (link G) is the
 confirmation. No v3.4 arm is scored on the 200-pair matrix yet.
+
+
+## 9. Link H on the A100 — VEi first reads (2026-09-06)
+
+**Run** `v3/runs/v34/v34_a100_vei_20260906_0334`: 115 calls, ref 1.05 s (small canvas —
+cheapest of the 1 MP arms) + sr 0.19 s + edit 3.18 s ≈ 4.4 s/pair, $0.061. Page
+`v3/report/v34_a100_VEi.html` (VEi · VS · VE · original · fal, winner vote,
+intermediaries row).
+
+- **`g027+p003` holds the waist-up framing at all three seeds** — the second A100
+  recipe ever to do it (VE the other), with V34's exact reference content,
+  SR-sharpened. **The footprint hypothesis is confirmed**: the dwarfism fix is the
+  reference's ~1 MP token extent in call 2, not klein-drawn 1 MP content.
+- **Reviewer (2026-09-06): "it looks pretty good for VEi."** Blind five-metric judge
+  queued to check (§9.1).
