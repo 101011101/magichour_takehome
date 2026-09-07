@@ -499,3 +499,16 @@ Three steps because the V2 cropper's stack lives locally; the notebook carries b
 sessions.
 
 *Result: pending — session 1 (VEi arm + bald frames) first.*
+
+### 10.1 The head subtraction moves onto the A100 (2026-09-06)
+
+The local V2 cropper measured **200–1,000 s per frame on CPU** (~6–8 h for 56 — the
+"~45 min" estimate was wrong), so the step is ported into the Colab: the bundle now
+carries `garment_crop.py`, `phase3_variants.py` and `ironman_bc_crop.py` **verbatim**
+(no rewrites — the BCA4 lesson), their models self-download on Colab, and session 2's
+cell 7 crops all 56 frames on the A100 and then **validates against the 33
+head-subtracted refs the local run of record produced** before it was stopped
+(per-stem MAD ≤ 4.0, shapes within 8 px; the run aborts on any mismatch). The BC arm
+is thus single-environment (all-Colab) with a 33-ref cross-environment check.
+SOLUTION §7's "local step between sessions" is corrected by this section (the
+SOLUTION is not amended).
