@@ -512,3 +512,33 @@ head-subtracted refs the local run of record produced** before it was stopped
 is thus single-environment (all-Colab) with a 33-ref cross-environment check.
 SOLUTION §7's "local step between sessions" is corrected by this section (the
 SOLUTION is not amended).
+
+### 10.2 Iron man 2, VEi arm — the VLM readout (2026-09-07)
+
+All 600 VEi cells scored by the judge of record ($8.71); outputs
+`v3/runs/v34/judge_ironman2_vei/`. Baseline: the v3.3 lock's scores from the old
+iron-man run (incomplete — 396 cells, seed 48 partial; earlier judge run, so deltas
+<~0.1 are calibration noise).
+
+**Success rate (fail proxy garment≤2 or clean≤2):** cells **70.3% pass** (178/600
+fail); pairs **58.0%** clean at all three seeds, **82.5%** at ≥1 seed. Matched-cell
+comparison vs the lock: VEi 28.5% cell fails vs V 23.2%; fidelity **−0.094** (VEi
+3.88 vs V 3.99) — identity −0.11 and scene −0.14 carry the deficit; **garment −0.03,
+inside noise**. Paired per pair: V better on 119, VEi on 62, tie 18.
+
+**The absolute ceiling, both arms:** garment mean ≈3.0/5, modal score 3, one
+garment-5 cell in 600, zero 5/5/5 fidelity cells in either arm's record — the
+mediocre garment transfer is the system's ceiling on this matrix, not a VEi property.
+Worst-10 classes: F3×5, F1×3, F2×2.
+
+**New failure mode flagged:** on a few s46 cells (`g013+p006`, `g029+p012`) the
+output shows the **garment reference's model instead of the person** — a person-swap,
+worse than any F-class; to be eyeballed and counted before conclusions.
+
+**Reading.** VEi on the full matrix is modestly *worse* than the lock's record, at
+the edge of calibration noise, on identity/scene — the failure-set gains did not
+generalize into a fold-wide win over the lock. Caveats before any relock: the
+baseline is incomplete and from an older judge run; the clean readouts are the
+reviewer's 600-cell marks and the same-judge VEi-vs-BC comparison (session 2). The
+SOLUTION lock stands or falls on iron man 2 as designed (§7); this section is the
+first, cautionary half of that evidence.
