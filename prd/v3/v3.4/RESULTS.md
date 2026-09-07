@@ -542,3 +542,38 @@ baseline is incomplete and from an older judge run; the clean readouts are the
 reviewer's 600-cell marks and the same-judge VEi-vs-BC comparison (session 2). The
 SOLUTION lock stands or falls on iron man 2 as designed (§7); this section is the
 first, cautionary half of that evidence.
+
+### 10.3 The fail proxy is too lenient — the honest success rate (2026-09-07)
+
+The reviewer's eye disagreed with §10.2's "70% pass", and the eye is right. The proxy
+of record (garment≤2 or clean≤2) only counts a cell as failed when the garment is
+**clearly wrong**; the modal score is **garment = 3** — "partially correct" — which
+reads as a failure in a try-on product. Sweeping the bar, on the same scores:
+
+| definition | VEi (600) | V (396) | BCA4 (388) |
+|---|---|---|---|
+| garment≤2 or clean≤2 (the proxy of record) | 29.7% | 23.2% | 21.4% |
+| **garment≤3 — the garment is not clearly right** | **72.7%** | **73.5%** | **69.1%** |
+| garment≤3 or clean≤3 | 75.5% | 76.0% | 74.0% |
+| fidelity < 4 | 44.0% | 35.1% | 38.4% |
+
+Garment histogram (% of cells): 1 → 1.5/1.0/1.8 · 2 → 27.5/22.0/18.3 · **3 →
+43.7/50.5/49.0** · 4 → 27.2/26.5/30.9 · **5 → 0.2/0.0/0.0**.
+
+**Two consequences.**
+
+1. **The real success rate is ~27% of cells with the garment clearly right** (score
+   ≥4), on *every* arm — v3.3's lock included. One cell in 600 has ever scored a
+   garment 5. This is the number to carry into any report; "70% pass" measures only
+   the absence of gross failure.
+2. **The V-vs-VEi gap is threshold-dependent.** Under the lenient bar VEi looks
+   6 points worse (29.7 vs 23.2); under the strict bar they are the same within noise
+   (72.7 vs 73.5). The §10.2 reading — "VEi modestly worse" — holds only for
+   borderline cells; on the question that matters (is the garment right) the two arms
+   are indistinguishable, and BCA4 is marginally ahead of both.
+
+**Also of record:** a **correctly built BC exists only on the 28-pair fold**
+(`v3/runs/v3.0b/refs/*__BC.jpg`, 28 refs, head subtracted via the cranium path;
+12 more in `v3.0a`). On the 200-pair matrix the true incumbent has never been built —
+`ironman2` currently holds 600 VEi cells, 0 BC edits, and 33 local BC refs; Colab
+session 2 stalled on a missing `cv2.ximgproc` (opencv-contrib) and never ran.
