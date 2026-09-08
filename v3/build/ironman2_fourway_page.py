@@ -35,6 +35,14 @@ def thumb(path, name, cap, box=(320, 440)):
             f"<figcaption>{cap}</figcaption></figure>")
 
 
+VERDICT = {}   # the reviewer's audit of every VEi cell: CLEAN / MID / FAIL
+try:
+    import json as _j
+    VERDICT = {tuple(k.split("|")): v for k, v in _j.load(open(os.path.join(REPO, "v34_im2_truth.json"))).items()}
+except Exception:
+    pass
+
+
 def main():
     pairs = list(csv.DictReader(open(os.path.join(REPO, "v3", "colab", "matrix.csv"))))
     key_rows, key_js = [], {}
@@ -74,7 +82,8 @@ def main():
             for i, a in enumerate(order):
                 d, tok = SRC[a]
                 pos = chr(65 + i)
-                cells.append(f"<div class='cl' data-pos='{pos}'>" + thumb(
+                vd = VERDICT.get((sid, str(seed)), "") if a == "VEi" else ""
+                cells.append(f"<div class='cl{' vd-' + vd.lower() if vd else ''}' data-pos='{pos}'>" + thumb(
                     os.path.join(d, f"{sid}__{tok}__s{seed}.jpg"), f"{sid}__{a}__s{seed}.jpg",
                     f"{pos}<span class='rv'> &middot; {a}</span>") + "</div>")
             vote = ("<span class='vote' data-sid='" + html.escape(sid) + f"' data-seed='{seed}'>"
@@ -115,7 +124,7 @@ h1{margin:0 0 6px;font-size:24px}h2{font-size:14px;margin:40px 0 8px;padding-top
 figure{margin:0}figure img{width:100%;display:block;background:#fff;border-radius:6px;cursor:zoom-in;aspect-ratio:3/4;object-fit:contain;border:3px solid transparent}
 .cl.win figure img{border-color:#3fb950}
 figcaption{font-size:11px;color:var(--dim);text-align:center;padding:4px 2px}
-.rv{display:none}body.reveal .rv{display:inline;color:#c9c9d2}
+.rv{display:none}body.reveal .rv{display:inline;color:#c9c9d2}\nbody.verdicts .vd-clean img{border-color:#3fb950!important}body.verdicts .vd-mid img{border-color:#c9862c!important}body.verdicts .vd-fail img{border-color:#f0655a!important}body.verdicts .vd-clean figcaption:after{content:' ✓ my verdict: clean';color:#3fb950}body.verdicts .vd-mid figcaption:after{content:' ~ my verdict: shippable';color:#c9862c}body.verdicts .vd-fail figcaption:after{content:' ✗ my verdict: failure';color:#f0655a}
 .vote{display:inline-flex;gap:5px}.vote button{background:#1c1c24;color:var(--dim);border:1px solid var(--line);border-radius:5px;padding:3px 12px;font:inherit;font-size:11.5px;cursor:pointer}
 .vote button:hover{color:var(--fg)}.vote button.on{background:#2a2a36;color:#fff;border-color:var(--acc)}
 .bar{position:sticky;top:0;z-index:5;background:#0d0d10ee;backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:10px 26px;margin:-30px -26px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--dim)}
@@ -129,11 +138,12 @@ footer{margin:40px 0 20px;font-size:12px;color:var(--dim)}
 LB = "<div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>"
 BAR = ("<div class='bar'><button id='export'>Export CSV</button>"
        "<button id='reveal' class='sec'>Reveal arms</button>"
+       "<button id='verdicts' class='sec'>Show my VEi verdicts</button>"
        "<span id='tally'></span></div><textarea id='csvbox'></textarea>")
 SCRIPT = """<script>
 document.addEventListener('click',e=>{const im=e.target.closest('figure img');if(!im)return;document.getElementById('lbi').src=im.getAttribute('src');document.getElementById('lbc').textContent=im.getAttribute('alt');document.getElementById('lb').classList.add('on');});
 document.getElementById('lb').addEventListener('click',()=>document.getElementById('lb').classList.remove('on'));document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lb').classList.remove('on')});
-document.getElementById('reveal').onclick=()=>{const on=document.body.classList.toggle('reveal');document.getElementById('reveal').textContent=on?'Hide arms':'Reveal arms';};
+document.getElementById('reveal').onclick=()=>{const on=document.body.classList.toggle('reveal');document.getElementById('reveal').textContent=on?'Hide arms':'Reveal arms';};\ndocument.getElementById('verdicts').onclick=()=>{const on=document.body.classList.toggle('verdicts');document.getElementById('verdicts').textContent=on?'Hide my VEi verdicts':'Show my VEi verdicts';if(on&&!document.body.classList.contains('reveal')){document.body.classList.add('reveal');document.getElementById('reveal').textContent='Hide arms';}};
 const KEY='im2-fourway';let votes={};try{votes=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
 const ARMS=['VEi','BC','V','BCA4'];const blocks=[...document.querySelectorAll('.sb')];
 function paint(){const t={VEi:0,BC:0,V:0,BCA4:0,tie:0};
