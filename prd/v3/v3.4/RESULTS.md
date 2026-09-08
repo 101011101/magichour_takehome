@@ -577,3 +577,42 @@ Garment histogram (% of cells): 1 → 1.5/1.0/1.8 · 2 → 27.5/22.0/18.3 · **3
 12 more in `v3.0a`). On the 200-pair matrix the true incumbent has never been built —
 `ironman2` currently holds 600 VEi cells, 0 BC edits, and 33 local BC refs; Colab
 session 2 stalled on a missing `cv2.ximgproc` (opencv-contrib) and never ran.
+
+### 10.4 The reviewer audits the judge — it over-flags by 4× (2026-09-07)
+
+Every one of the 178 cells the judge failed, re-judged by the reviewer on
+`ironman2_failures.html` (`v34_im2_failure_audit.csv`): **fail — agree** (the call
+stands) · **passable** (a real flaw, still shippable) · **wrongly flagged** (the cell
+is fine).
+
+| the reviewer's verdict on the judge's failure calls | cells | share |
+|---|---|---|
+| agree — genuinely failed | **42** | 23.6% |
+| passable — flawed but shippable | 62 | 34.8% |
+| **wrongly flagged — the judge is simply wrong** | **74** | **41.6%** |
+
+**The judge upholds only 23.6% of its own failure calls.** Corrected rates on the 600
+cells:
+
+| bar | fail | pass |
+|---|---|---|
+| the judge's proxy (garment≤2 or clean≤2) | 178 · 29.7% | 70.3% |
+| **product bar** (agree + passable both counted against) | **104 · 17.3%** | **82.7%** |
+| **strict** (only cells the reviewer calls failures) | **42 · 7.0%** | **93.0%** |
+
+Per pair: of the 84 pairs with any flagged cell, **36 are fully overturned** (every
+flagged cell wrongly flagged) and **13 fully upheld** — those 13 are the real
+failures: `g004+g005`, `g005+g009`, `g005+p002`, `g027+g029`, `g027+p011`,
+`g029+p004`, `g029+p012`, `p001+p024`, `p002+p003`, `p003+p026`, `p019+p020`,
+`scarlett+woman_top_denim_skirt`, and `dualuse_emma_watson+scarlett` (partial).
+
+**What this invalidates.** Every VLM-derived number in §10.2–§10.3 — including "VEi
+is modestly worse than the lock" and the ~27%-garment-correct ceiling — rests on a
+judge whose failure calls are wrong 42% of the time. The judged comparisons between
+arms may still hold *relatively* (the same bias applies to every arm), but the
+absolute rates do not: **the honest headline is 93% of cells acceptable, 82.7% clean
+of any flaw**, pending the false-negative check.
+
+**Still open:** this audit covers only cells the judge *failed*. Cells it passed have
+not been checked — `ironman2_passed.html` (§10.5) is that pass, and until it lands the
+7.0% is a floor, not a final number.
