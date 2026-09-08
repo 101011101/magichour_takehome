@@ -627,3 +627,40 @@ of any flaw**, pending the false-negative check.
 **Still open:** this audit covers only cells the judge *failed*. Cells it passed have
 not been checked — `ironman2_passed.html` (§10.5) is that pass, and until it lands the
 7.0% is a floor, not a final number.
+
+### 10.5 The complete human verdict — all 600 VEi cells audited (2026-09-08)
+
+Both directions of the judge's error are now measured: the reviewer re-judged all 178
+cells it failed (`v34_im2_failure_audit.csv`) **and** all 422 it passed
+(`im2_pass_audit.csv`). **100% of the arm is human-judged.** Ground truth per cell in
+`v34_im2_truth.json`.
+
+| the reviewer's verdict | cells | share |
+|---|---|---|
+| clean — ships as is | 475 | **79.2%** |
+| flawed but shippable | 70 | 11.7% |
+| **real failure** | **55** | **9.2%** |
+| **success (clean + shippable)** | **545** | **90.8%** |
+
+**Per pair (all 200, three seeds each):** clean at all three seeds **69.5%** · no real
+failure at any seed **84.5%** · usable at ≥1 seed **96.0%** · broken at every seed
+**4.0%** — the eight irreducible pairs are `g004+g005`, `g005+g009`, `g005+p002`,
+`g027+g029`, `g027+p011`, `g029+p012`, `p001+p024`, `p019+p020`.
+
+**The judge, scored against the reviewer** (failure = positive):
+
+| | judge says fail | judge says pass |
+|---|---|---|
+| **really fails** | 42 | 13 |
+| **really fine** | 136 | 409 |
+
+**Precision 23.6%, recall 76.4%** — it catches three quarters of the real failures but
+**over-flags by 3.2×** (178 flagged, 55 real). Its errors are overwhelmingly false
+alarms, and they are not random: 62 of the 136 false alarms are cells the reviewer
+calls flawed-but-shippable, i.e. the judge cannot tell "imperfect" from "unusable".
+
+**What this settles.** The headline for v3.4 is **90.8% of cells usable, 9.2% real
+failures, 96% of pairs usable at ≥1 seed** — not the 70.3% of §10.2. Every VLM-derived
+absolute rate in §10.2–§10.3 is superseded by this section; the cross-arm *comparisons*
+in §9.1 and §10.2 remain provisional, since the same 3.2× over-flagging applies to all
+arms but has been calibrated on none of them but VEi.
