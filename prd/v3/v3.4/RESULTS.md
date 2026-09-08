@@ -498,7 +498,18 @@ canvas) → **local** head subtraction (`ironman_bc_crop.py`, V2 cranium path �
 Three steps because the V2 cropper's stack lives locally; the notebook carries both
 sessions.
 
-*Result: pending — session 1 (VEi arm + bald frames) first.*
+**Result: both arms complete (2026-09-08).** Session 1 `v34_ironman2_20260906_0904.zip`
+(600 VEi cells, 56 bald frames, inputs); session 2 `v34_ironman2_bc_20260908_0332.zip`
+(600 BC cells, 56 head-subtracted refs), run from the standalone BC notebook
+`v3/colab/v34_bc.ipynb`, 2.40 s/call, $0.277. Merged into `v3/runs/v34/ironman2/`.
+
+**The incumbent is verified built correctly this time**, three ways: `run.json` records
+`bc_canvas="fal"` (the §5 fairness rule) and V2's edit prompt, not `E3`; the Colab
+cropper's output was checked against the 33 references the local run of record made —
+**median MAD 0.00, max 2.34** across all 33 (i.e. the two environments produce the same
+head subtraction, most of them bit-identical); and the refs are head-subtracted by
+inspection (100% white in the top band where the head was). The BCA4 mistake is not
+repeated: this is `BC` as v3.1 defines it.
 
 ### 10.1 The head subtraction moves onto the A100 (2026-09-06)
 
