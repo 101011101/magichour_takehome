@@ -3,10 +3,14 @@
 Four arms over `v35_failures.csv` — the 31 pairs the locked v3.4 arm actually failed by
 the reviewer's own per-cell verdict (v3.4 RESULTS "Where the failure records live"):
 
-  VEi    the v3.4 lock, unchanged                                    reused, not recomputed
-  BC     v3.1's incumbent, unchanged                                 reused, not recomputed
-  VEic   the lock's reference with the mannequin head CROPPED OFF    new
-  M1qc   Q3 minus the mannequin sentence, head cropped off           new
+  VEi     the v3.4 lock, unchanged                                   reused, not recomputed
+  BC      v3.1's incumbent, unchanged                                reused, not recomputed
+  VEic    the lock's reference with the mannequin head CROPPED OFF   new
+  M1qc    Q3 minus the mannequin sentence, head cropped off          new
+  VEica   VEic with the ankle cut restored                           new, optional
+  M1qca   M1qc with the ankle cut restored                           new, optional
+
+An arm name is read, not looked up: base (`VEi` | `M1q`) + `c` head crop + `a` ankle cut.
 
 `VEic` and `M1qc` differ from each other by exactly one deleted sentence in call 1, and
 from the lock by the crop. Nothing else moves: same A4 crop, same framing read, same `E3`,
@@ -15,12 +19,21 @@ paired with a human verdict that already exists.
 
 Order of operations, which is not the obvious one:
 
-    call 1 ─▶ white-margin re-crop ─▶ HEAD CROP ─▶ SR to ~1 MP ─▶ call 2
+    call 1 ─▶ white-margin re-crop ─▶ HEAD CROP ─▶ [ankle cut] ─▶ SR to ~1 MP ─▶ call 2
 
 The crop goes BEFORE the SR pass. Cropping afterwards would take the reference back below
 1 MP and break the one rule v3.4 link H bought — what conditioning contributes is bounded
 by its token footprint in call 2 (v3.4 SOLUTION §5, rule 3). A head-cropped reference is a
 smaller image and has to be re-floated, or the arm tests two changes at once.
+
+**The ankle cut** (`a` arms) is v3.3's, `run_ironman.ankle_cut` verbatim: MediaPipe's ankle
+landmarks on the reference, cut 3% of the height above the lower one, with the A4 crop's own
+ankle ratio as the fallback. v3.4 **removed** it at the lock — link A found it neutral on
+every failure class and made footwear a product decision — so it is reopened here as its own
+variable rather than smuggled into the head-crop arms, and it is a no-op by construction on
+a reference with no ankles in frame (the detector returns nothing and the image passes
+through). Every `a` arm is paired with its cut-less twin at the same seed, so the cut is the
+only difference between them.
 
 The head crop is not new code: it is `ironman_bc_crop.crop_bc`, the V2 cropper's own head
 subtraction, the identical call that makes the `BC` references. It fires on a mannequin
@@ -53,7 +66,7 @@ import run_ironman as R                # noqa: E402  prompts, SR and re-crop of 
 from ironman_bc_crop import crop_bc    # noqa: E402  the V2 cropper's head subtraction
 
 OUT = "run"
-ARMS = ("VEic", "M1qc")                # the arms this runner computes
+ARMS = ("VEic", "M1qc")                # the arms this runner computes; +("VEica","M1qca")
 REUSED = ("VEi", "BC")                 # the arms it expects to find already made
 FAL_PER_CALL = 0.015
 
@@ -67,6 +80,17 @@ def m1q_prompt(framing):
 
 def q3_prompt(framing):
     return R.SWAP + R.KEEP + R.PERSON_CLAUSE[framing] + R.HOLD
+
+
+def parse_arm(arm):
+    """'VEica' -> ('VEi', head_crop=True, ankle_cut=True). The name IS the recipe."""
+    for base in ("VEi", "M1q"):
+        if arm.startswith(base):
+            tail = arm[len(base):]
+            assert set(tail) <= {"c", "a"} and tail.count("c") <= 1 and tail.count("a") <= 1, \
+                f"unreadable arm {arm}"
+            return base, "c" in tail, "a" in tail
+    raise SystemExit(f"unknown arm {arm}")
 
 
 _T = []
@@ -154,19 +178,30 @@ def main(matrix="v35_failures.csv", testset="testset", seeds=(46, 47, 48),
 
         meta[g] = {"framing": fr, "q3": q3_prompt(fr), "m1q": m1q_prompt(fr)}
 
-        # head crop, then SR — in that order (see the module docstring)
-        for arm, src in (("VEic", small), ("M1qc", m1q)):
-            if arm not in arms:
-                continue
+        # head crop, then the ankle cut, then SR — in that order (module docstring)
+        srcs = {"VEi": small, "M1q": m1q}
+        for arm in arms:
+            base, head_crop, ankle = parse_arm(arm)
             out = d("refs", f"{g}__{arm}.jpg")
             if os.path.exists(out):
                 continue
-            cut, cranium = timed("headcrop", arm, g, 0,
-                                 lambda s=src, a=arm: crop_bc(cv2.imread(s), f"v35_{a}_{g}"))
-            cv2.imwrite(d("refs", f"{g}__{arm}_cut.jpg"), cut, [cv2.IMWRITE_JPEG_QUALITY, 95])
-            im = timed("sr", arm, g, 0, lambda c=cut: R.to_1mp_sr(c))
+            im = cv2.imread(srcs[base])
+            if head_crop:
+                hc = d("refs", f"{g}__{base}_headcut.jpg")     # shared by the a/non-a twins
+                if os.path.exists(hc):
+                    im, cranium = cv2.imread(hc), meta.get(g, {}).get(f"{base}_cranium_used")
+                else:
+                    im, cranium = timed("headcrop", arm, g, 0,
+                                        lambda i=im, b=base: crop_bc(i, f"v35_{b}_{g}"))
+                    cv2.imwrite(hc, im, [cv2.IMWRITE_JPEG_QUALITY, 95])
+                meta[g][f"{base}_cranium_used"] = bool(cranium)
+            if ankle:
+                ya = timed("ankle_read", arm, g, 0, lambda c=crop: R.ankle_y(c, paths))
+                im, y = timed("ankle_cut", arm, g, 0, lambda i=im, ya=ya: R.ankle_cut(
+                    i, paths, (ya / crop.shape[0]) if ya is not None else None))
+                meta[g][f"{arm}_ankle_row"] = y          # None = no ankles in frame, a no-op
+            im = timed("sr", arm, g, 0, lambda i=im: R.to_1mp_sr(i))
             cv2.imwrite(out, im, [cv2.IMWRITE_JPEG_QUALITY, 95])
-            meta[g][f"{arm}_cranium_used"] = bool(cranium)
             meta[g][f"{arm}_size"] = [im.shape[1], im.shape[0]]
         json.dump(meta, open(mp, "w"), indent=1)
     print(f"3 references: {len(garments)} per arm")
@@ -199,7 +234,9 @@ def main(matrix="v35_failures.csv", testset="testset", seeds=(46, 47, 48),
                "seeds": seeds, "matrix": matrix, "klein": K.info(),
                "set_definition": "the 31 pairs of iron man 2 with a real VEi failure in "
                                  "v34_im2_truth.json (the reviewer's per-cell verdict)",
-               "order": "call 1 -> re-crop -> head crop -> SR to ~1 MP -> call 2",
+               "order": "call 1 -> re-crop -> head crop -> [ankle cut] -> SR to ~1 MP -> call 2",
+               "ankle_cut": "run_ironman.ankle_cut (v3.3's), reopened as its own variable; "
+                            "a no-op where no ankles are in frame",
                "head_crop": "ironman_bc_crop.crop_bc, the V2 cropper's own subtraction",
                "prompts": {"q3": "SWAP + KEEP + PERSON_CLAUSE + HOLD (the lock)",
                            "m1q": "KEEP + PERSON_CLAUSE + HOLD (Q3 with SWAP deleted)",

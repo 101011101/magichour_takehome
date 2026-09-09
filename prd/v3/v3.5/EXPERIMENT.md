@@ -87,13 +87,21 @@ side. It is not run again ([RESULTS §1.1](RESULTS.md#11-what-the-arms-do--first
 
 **What link C runs.** Two arms, differing by one sentence in call 1 and nothing else:
 
-| arm | call 1 | head removed by |
-|---|---|---|
-| `VEic` | the lock's `Q3` — mannequin head **and** re-pose | a crop, after call 1 |
-| `M1qc` | `Q3` **with the mannequin sentence deleted** — re-pose only | a crop, after call 1 |
+| arm | call 1 | head removed by | ankle cut |
+|---|---|---|---|
+| `VEic` | the lock's `Q3` — mannequin head **and** re-pose | a crop, after call 1 | no |
+| `M1qc` | `Q3` **with the mannequin sentence deleted** — re-pose only | a crop, after call 1 | no |
+| `VEica` · `M1qca` | as above | a crop | **yes** — v3.3's cut, reopened as its own variable |
 
 plus `VEi` and `BC` unchanged as the two reference points, or the run cannot say whether
-the crop helped.
+the crop helped. An arm name is read, not looked up: base + `c` head crop + `a` ankle cut.
+
+**The set is the union of both failure records** — `v3/testsets/v35_linkC.csv`, 51 pairs:
+20 the v3.4 lock failed, 20 v3.3 failed, 11 both. They overlap on only 11, so taking one
+would miss half the hard pairs. There is **no per-cell record of a correctly built `BC`
+failing** on this matrix — only the `VEi` arm was ever judged — so the v3.3 half's *both
+arms failed* cells are the best BC coverage available without a fresh judging pass
+([TEST.md](TEST.md)).
 
 **The head crop is possible on both** — verified 2026-09-08, not assumed. It is the V2
 cropper's own head subtraction (`phase3_variants.masks(cranium=True)` → `noface`, the exact
