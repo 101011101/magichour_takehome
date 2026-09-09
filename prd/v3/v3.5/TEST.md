@@ -58,7 +58,7 @@ comparison it cannot change.
 `v3/testsets/v35_failures.csv` — **31 pairs**, every pair of the 200-pair iron-man 2 matrix
 on which the locked v3.4 arm `VEi` has a **real failure by the reviewer's own per-cell
 verdict** (`v34_im2_truth.json`: 600 cells, 100% human-judged, 79.2% clean / 11.7%
-shippable / **9.2% real failure** — [v3.4 RESULTS §11](../v3.4/RESULTS.md)). Each row
+shippable / **9.2% real failure** — [v3.4 RESULTS §10.5](../v3.4/RESULTS.md#105-the-complete-human-verdict--all-600-vei-cells-audited-2026-09-08)). Each row
 carries the three per-seed verdicts and whether the failure is seed-stable; **8 of the 31
 fail at every seed**, and those are the ones a reference change has to reach.
 

@@ -2,6 +2,58 @@
 
 **Status: open.** Evidence for [EXPERIMENT.md](EXPERIMENT.md); the matrix is [TEST.md](TEST.md).
 
+## Where the failure records live
+
+Two different things are called "the v3.4 failure set" and they are not the same set.
+`v3/testsets/v34_failures.csv` is selected on **v3.3's** failures — it was generated from
+`v33_ironman_votes_bca4.csv` and predates the lock. `v34_im2_truth.json` and the set
+derived from it, `v3/testsets/v35_failures.csv`, are the **v3.4 lock's own** failures,
+from iron man 2. A reader asking what v3.4 failed on wants the second. Every count below
+was read off the file; rows exclude the header.
+
+**The v3.4 lock's own record — arm `VEi`, 200 pairs × seeds 46/47/48.**
+
+| file | what it is | columns / keys | rows | defined in |
+|---|---|---|---|---|
+| `v34_im2_truth.json` | the per-cell human ground truth; the artefact of record | keys `set_id\|seed`, values `CLEAN` 475 / `MID` 70 / `FAIL` 55 | 600 | §10.5 |
+| `v34_im2_failure_audit.csv` | the reviewer re-judging every cell the judge failed | `set_id,seed,judge_verdict,audit` — `judge_verdict` is `fail` throughout; `audit` = `agree` 42 / `passable` 62 / `wrong` 74; 84 pairs | 178 | §10.4 |
+| `im2_failure_audit.csv` | **byte-identical** to the above — the browser's download name, kept by accident. Cite the `v34_` one | as above | 178 | §10.4 |
+| `im2_pass_audit.csv` | the false-negative pass, every cell the judge passed | `set_id,seed,judge_verdict,audit` — `judge_verdict` is `pass` throughout; `audit` = `agree` 401 / `fails` 13 / `borderline` 8; 165 pairs | 422 | §10.5 |
+| `v3/runs/v34/judge_ironman2_vei/meta/vlm_scores.csv` | the judge's raw six scores, the input the audits overturn | `set_id,arm,seed,model,garment,identity,scene,clean,hands,realism,note,seconds,tokens_in,tokens_out` | 600 | §10.2 |
+| `v3/testsets/v35_failures.csv` | derived: the 31 pairs where `VEi` has a real failure at ≥1 seed | `set_id,person,person_file,garment,garment_file,person_framing,garment_hard_case,v46,v47,v48,seed_stable` — verdicts are `CLEAN`/`MID`/`FAIL`; `seed_stable=yes` on 8 | 31 | [v3.5 TEST.md](../v3.5/TEST.md) |
+
+The truth file is exactly the two audit CSVs merged — all 600 keys reconcile, with
+`wrong` and pass-`agree` → `CLEAN`, `passable` and `borderline` → `MID`, fail-`agree` and
+`fails` → `FAIL`. Nothing is judged twice and nothing is unjudged.
+
+**The v3.3-selected sets, and the link marks.**
+
+| file | what it is | columns | rows | defined in |
+|---|---|---|---|---|
+| `v3/testsets/v34_failures.csv` | v3.3's failures — the matrix for links A–H, **not** v3.4's failures | `set_id,person,person_file,garment,garment_file,class,seed_stable,v46,v47,v48,person_pose,person_framing` — `class` F1 9 / F2 8 / F3 12 / F4 2; `seed_stable=yes` on 4 | 31 | [TEST.md](TEST.md) |
+| `v3/testsets/v34_controls.csv` | the unselected control set | `set_id,person,person_file,garment,garment_file,v46,v47,v48` | 30 | [TEST.md](TEST.md) |
+| `v33_ironman_votes_bca4.csv` | v3.3's votes, the source `v34_failures.csv` was cut from | `set_id,seed,vote,nudge` — `vote` tie 459 / B 59 / A 55 / fail 26; `nudge=ok` on 11. 200 pairs but **599 rows, not 600** — one seed-47 cell is missing | 599 | [v3.3 RESULTS §14.5](../v3.3/RESULTS.md#145-second-export-0245-with-nudges-and-the-failure-taxonomy) |
+| `v34_linkD_marks.csv` | link D's marks on `V34` | `set_id,seed,verdict` — `pass` 74 / `fail_better` 11 / `worse` 8; 31 pairs × seeds 49/50/51 | 93 | §5 |
+| `v34_linkE_votes.csv` | link E's row winners | `set_id,seed,verdict` — `tie` 68 / `last` 13 / `latest` 8 / `original` 4 | 93 | §7 |
+| `v34_a100_marks.csv` | **byte-identical** to `v34_linkE_votes.csv` — the page's download name. Cite the `linkE` one | as above | 93 | §7 |
+| `v3/runs/v34/judge_vei/meta/per_pair.csv` | the blind judge, `VEi` vs `VE` vs `VS`, per pair | 79 columns, per-arm scores and pairwise diffs | 31 | §9.1 |
+
+**The pages that render them**, each with the script under `v3/build/` that builds it:
+`ironman2_vei.html` (`ironman2_vei_page.py`) · `ironman2_failures.html`
+(`ironman2_failures_page.py`, exports `im2_failure_audit.csv`) · `ironman2_passed.html`
+(`ironman2_passed_page.py`, exports `im2_pass_audit.csv`) · `ironman2_fourway.html`
+(`ironman2_fourway_page.py`, reads `v34_im2_truth.json` for the verdict borders) ·
+`v34_a100*.html` (`v34_a100_page.py`, exports `v34_a100_marks.csv`) ·
+`v34_vs_failed.html` (`v34_vs_failed_page.py`, reads `v34_linkD_marks.csv`) ·
+`v35_linkB.html` (`v35_linkB_page.py`, reads `v3/testsets/v35_failures.csv`).
+
+**Not in the repo.** TEST.md says `v34_failures.csv` was "generated from
+`v33_ironman_votes_bca4.csv` + `key.csv` by the script in this commit"; no such script is
+under `v3/build/`, so that set is on disk without its generator and a regeneration would be
+a rewrite. `v35_failures.csv` had the same gap when this section was written; it now has
+one — `v3/build/make_v35_failures.py`, verified to reproduce the file on disk byte for
+byte.
+
 ## 1. Link A — the ankle cut removed, on the failure set (2026-08-31)
 
 **Run.** fal `fal-ai/flux-2/klein/4b/distilled/edit`, not the A100 — the reviewer's call for

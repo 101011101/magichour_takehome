@@ -34,7 +34,9 @@ try, and the person-side work the fix for the residue.
 The **v3.3 failure set** — the 31 pairs on which v3.3 had a failing cell, with their
 classes — is the matrix for every early link ([TEST.md](TEST.md)). It is selected on
 failure, so it can show whether a change *reaches* the failures; only the full matrix can
-say what it costs elsewhere.
+say what it costs elsewhere. It is **not** the set v3.4 itself failed on; every failure,
+verdict and audit file, and which is which, is indexed in
+[RESULTS — Where the failure records live](RESULTS.md#where-the-failure-records-live).
 
 ## The chain
 
