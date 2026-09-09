@@ -257,6 +257,12 @@ blinded, three seeds.
 
 ## What is decided
 
+**Iron man 2 settled it (2026-09-08): VEi stands on 597 of 600 cells against the
+correctly-built incumbent** ([RESULTS §11](RESULTS.md#11-the-four-way-verdict-and-the-reports-examples-2026-09-08));
+`BC` wins one cell, two are lost by every arm. The reviewer's **26 starred cells across
+20 pairs (§11.1) are the figures of record for the report's BC-klein comparison** —
+`v34_im2_fourway_votes.csv`, `report_example=yes`.
+
 **VEi is the v3.4 version — locked by the reviewer 2026-09-06.** The recipe: A4 crop
 → call 1 on the v3.3 canvas (klein renders at the scale of its evidence, `Q3` prompts)
 → recrop → **SR upscale of the finished reference** (realesr-general-x4v3, ~0.19 s)
