@@ -1,0 +1,65 @@
+# v3.5 — RESULTS
+
+Per-case detail, numbers and methodology for [EXPERIMENT.md](EXPERIMENT.md), per
+[SCHEMA.md](../SCHEMA.md).
+
+## 1. Link A — the four call-1 arms on 56 garments (2026-09-08)
+
+**Run.** `v3/build/run_v35_refs.py`, **224 klein calls** on
+`fal-ai/flux-2/klein/4b/distilled/edit`, seed 46, **$3.36**, 6.1 min wall (1.9 s/call
+median). Outputs `v3/runs/v35/linkA/refs/{g}__{M0,M1,M2,G1}.jpg`; cost and per-call wall
+time in `meta/run.json` + `meta/timings.csv`; every prompt as sent in `meta/prompts.csv`.
+Crops, framing reads and the A100 `VEi` references are reused from
+`v3/runs/v34/ironman2/` — link A paid for klein calls and nothing else. Page:
+`v3/report/v35_linkA.html` (56 garments × 7 columns, unblinded).
+
+**Derived arms.** `M1c`/`M0c` — the same references with the head subtracted by the V2
+cropper (`phase3_variants.masks(cranium=True)`, the exact call
+`v3/build/ironman_bc_crop.py` makes for `BC`) — `v3/build/run_v35_headcrop.py`. **No model
+call**; ~90 s/image on this laptop's CPU, so 112 images ≈ 2.7 h, running at the time of
+writing. The mechanism is verified on the arms-crossed blazer: `M1c` comes back front-on,
+arms down, **headless, with the collar and lapels still photographic** — klein re-drew the
+pose, the cropper removed the head, and nothing re-drew the garment after that.
+
+### 1.1 What the arms do — first read (2026-09-08)
+
+The reviewer's pass over the full page is pending. Read so far: the 4-garment smoke set
+plus 18 garments sampled across the fold (`dualuse_lp_*`, `g015`–`g030`, `p015`–`p020`).
+Four things it shows, stated as claims the full pass must confirm or kill:
+
+1. **The mannequin sentence is not what does the re-posing.** `M1` — the turn sentence
+   alone, no mannequin — turns the wearer front-on as reliably as the lock does on every
+   garment read: profile shots (`p017`, `p018`), a walking side-on figure (`p016`),
+   arms-crossed (`p019`, the blazer), and the **backview dress**
+   (`dualuse_scarlett_johansson_black_dress_backview_night`), which comes back facing
+   forward with the garment's front visible. That last case is the class
+   [v3.4 SOLUTION §4](../v3.4/SOLUTION.md) carried open as **F3 / a source-image problem no
+   renderer fixes**. On this evidence the re-pose reaches it; whether the *garment* it
+   turns around is the right garment is a separate question, and the one link B has to
+   answer.
+2. **`M0`, `M1` and `M2` are the same garment.** Across the sample the three arms are hard
+   to tell apart on the clothing itself, which is what makes the pair `M1`/`M2` a clean
+   read on the mannequin sentence: it costs nothing and it buys identity removal, nothing
+   else. **One exception, and it runs against the lock:** on `p020` (long tunic over
+   trousers) the lock's own `VEi` reference and `M0` both come back in **shorts** — the
+   trousers dropped — while `M1` and `M2` keep the full tunic and trousers. A single cell
+   at one seed, not a result; flagged for the reviewer's pass because it is the F3
+   dropped-piece failure appearing on the *control* and not on the new arms.
+3. **`M1` keeps the wearer's head — including headwear.** By construction: the face
+   survives (`p015` keeps its kufi cap, the kimono set keeps its beret, `p017` its
+   glasses) where every mannequin arm removes them. That is not a defect of `M1`, it is
+   the reason `M1c` exists — but it does mean **`M1` must never be handed to call 2 with
+   the head on**, or call 2 has a second face to borrow from.
+4. **`G1` — the clothing alone — restructures the garment.** It returns a clean
+   e-commerce flat every time, and it is the only arm that fails the garment test
+   outright, in two ways seen repeatedly: **length changes** (the arms-crossed blazer
+   returns as a full-length coat; `p017`'s shirt as a shirt-dress; `p018`'s waistcoat +
+   shirt as a **sleeveless dress**; `g030`'s sequin shirt lengthened) and **dropped
+   pieces** (trousers gone on `p015`, `p017`, `g018`, `g030`; the white tee gone under
+   `g029`'s blazer). Removing the wearer removes the constraint that held the garment's
+   shape — the same mechanism as v3.4's placket, arrived at from the other side.
+
+**Reading.** The experiment's target shape survives link A: the re-pose does not need the
+mannequin, so the head can come off with a crop instead of being replaced by a generator.
+`G1` is the arm to drop unless link B finds it a job. Nothing here is a verdict on call 2
+— every claim above is about the reference, at one seed, on fal.
