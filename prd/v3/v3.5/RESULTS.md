@@ -63,3 +63,43 @@ Four things it shows, stated as claims the full pass must confirm or kill:
 mannequin, so the head can come off with a crop instead of being replaced by a generator.
 `G1` is the arm to drop unless link B finds it a job. Nothing here is a verdict on call 2
 — every claim above is about the reference, at one seed, on fal.
+
+## 2. Link B — the head-cropped reference through call 2 (probe, 2026-09-08)
+
+**Run.** `v3/build/run_v35_edits.py`, **15 klein calls** on fal, seed 46, **$0.22**,
+8.2 min (SR on this laptop's CPU dominates; the klein calls are 3–5 s each). Five pairs ×
+three arms (`BC`, `M0`, `M1c`). Outputs `v3/runs/v35/linkB/gen/`; the references as call 2
+saw them (SR'd to ~1 MP) in `v3/runs/v35/linkB/refs_sr/`. Page: `v3/report/v35_linkB.html`.
+
+**The set.** All five are **seed-stable `VEi` failures** — `g004+g005`, `g005+g009`,
+`g005+p002`, `g027+g029`, `g027+p011`, five of the eight pairs in
+`v3/testsets/v35_failures.csv` that the reviewer marked FAIL at every seed in iron man 2.
+They were picked because their references were the ones already head-cropped when the probe
+ran, not for their outcome; the other three are queued.
+
+**Cell by cell.**
+
+| pair | `BC` | `M0` | `M1c` |
+|---|---|---|---|
+| `g005+g009` cream knit + trousers | **shorts** — trousers dropped | **shorts** — trousers dropped | **full-length trousers** — the only correct one |
+| `g027+p011` yellow chef top | short sleeves, print bleeds through | long sleeves, print bleeds | long sleeves, print bleeds |
+| `g027+g029` houndstooth blazer | blazer over the wearer's own tee | cleanest of the three | correct pieces, a white shoulder artifact |
+| `g005+p002` black tee + jeans | wearer's shorts survive | wearer's shorts survive | wearer's shorts survive |
+| `g004+g005` UA tee + shorts | handbag survives | handbag survives | handbag survives |
+
+**Reading.** Two things, and they point in different directions.
+
+1. **The head crop reaches a failure the mannequin reference does not.** On `g005+g009`
+   the dropped-trousers failure is present in the incumbent *and* in the lock's own prompt,
+   and absent in `M1c`. That is the F3 dropped-piece class, and it is the second time in
+   this investigation that the explicit turn sentence has held a piece the lock lost (the
+   first was `p020`'s tunic at link A, on the reference itself). One cell each; two cells
+   is a signal to run the set, not a result.
+2. **No reference change touches F1.** On `g005+p002` and `g004+g005` the wearer's own
+   shorts and handbag survive under all three arms identically. v3.4 called F1 a
+   person-side failure; this probe is consistent with that and gives no reason to reopen
+   it from the reference side.
+
+**Not claimed.** One seed, five pairs, chosen for readiness. No blinding, no judge, no
+control set — a failure-selected probe cannot say what any of this costs on the 163 pairs
+that already work. The full 31-pair × 3-seed run is link B proper; the fold is link C.

@@ -60,10 +60,20 @@ wearer removes the constraint that held the garment's shape. First read only, on
 
 ### B — the head crop, and what call 2 does with it *(staged)*
 
-**How.** `M1c`/`M0c` cut at the shoulder line, then call 2 (`E3`, fal canvas) on a pair
-subset against `VEi` and `BC` at the same seeds. Same-backend throughout.
+**How.** The head-subtracted references through call 2, **on the 31 pairs the lock actually
+failed** — `v3/testsets/v35_failures.csv`, built from the reviewer's own per-cell verdict of
+iron man 2 (`v34_im2_truth.json`), 8 of them seed-stable. Call 2 is the lock's, unchanged;
+the reference is the only variable. Runner: `v3/build/run_v35_edits.py`; page
+`v3/report/v35_linkB.html`.
 
-**Result.** pending.
+**Result (probe, 5 seed-stable pairs, seed 46, `BC`/`M0`/`M1c`, 15 calls, $0.22).** The head
+crop is competitive and wins outright once: on `g005+g009` both `BC` and `M0` drop the
+reference's trousers and render shorts, and **`M1c` is the only arm that produces the
+full-length cream trousers**. Elsewhere it is level with `M0` and ahead of `BC` on sleeve
+length, with an occasional shoulder artifact of its own. **No arm fixes the F1 class** — on
+`g005+p002` and `g004+g005` the wearer's own shorts and handbag survive under all three,
+which is the person-side failure v3.4 named and no reference change can reach.
+→ [RESULTS §2](RESULTS.md#2-link-b--the-head-cropped-reference-through-call-2-probe-2026-09-08).
 
 ### C — the fold *(staged)*
 

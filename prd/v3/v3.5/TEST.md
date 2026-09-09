@@ -53,6 +53,24 @@ re-crop after call 1, and the call-1 canvas rule — all as the v3.4 lock. No SR
 the SR pass is identical across arms and belongs to call 2, so it would only add cost to a
 comparison it cannot change.
 
+## Link B's set — the pairs v3.4 actually failed
+
+`v3/testsets/v35_failures.csv` — **31 pairs**, every pair of the 200-pair iron-man 2 matrix
+on which the locked v3.4 arm `VEi` has a **real failure by the reviewer's own per-cell
+verdict** (`v34_im2_truth.json`: 600 cells, 100% human-judged, 79.2% clean / 11.7%
+shippable / **9.2% real failure** — [v3.4 RESULTS §11](../v3.4/RESULTS.md)). Each row
+carries the three per-seed verdicts and whether the failure is seed-stable; **8 of the 31
+fail at every seed**, and those are the ones a reference change has to reach.
+
+This is not the v3.4 failure set (`v34_failures.csv`), which was selected on *v3.3's*
+failures and predates the lock. Selected on failure either way, so a rate measured on it
+does not transfer to the fold — its job is to show whether the head-crop reference reaches
+a failure the mannequin reference did not. The 200-pair matrix is link C's job.
+
+Call 2 is the lock's, unchanged: prompt `E3`, fal's own canvas (reproduced by not passing
+`image_size`), and the reference **SR'd to ~1 MP first, exactly as `VEi` does it**. The only
+variable on the page is which reference call 2 was given.
+
 ## Backend
 
 **fal**, `fal-ai/flux-2/klein/4b/distilled/edit`, $0.015/call — the same weights as the
