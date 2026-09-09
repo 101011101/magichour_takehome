@@ -716,3 +716,59 @@ failures, 96% of pairs usable at ≥1 seed** — not the 70.3% of §10.2. Every 
 absolute rate in §10.2–§10.3 is superseded by this section; the cross-arm *comparisons*
 in §9.1 and §10.2 remain provisional, since the same 3.2× over-flagging applies to all
 arms but has been calibrated on none of them but VEi.
+
+
+## 11. The four-way verdict, and the report's examples (2026-09-08)
+
+All four arms side by side on the 200-pair matrix at 46/47/48 — `VEi` (the v3.4
+version), `BC` (the true incumbent), `V` (the v3.3 lock), `BCA4` (the incumbent as
+mis-built) — reviewed on `v3/report/ironman2_fourway.html` with labelled, fixed
+columns and VEi carrying its §10.5 verdict as a border. The rule of the pass: VEi is
+assumed to stand; a row is voted only where VEi failed **and** another arm did better.
+Votes: `v34_im2_fourway_votes.csv`.
+
+| outcome | rows |
+|---|---|
+| **VEi stands** | **597 / 600** |
+| another arm did better | **1** — `scarlett_backview + woman_top_denim_skirt` s48, to **BC** |
+| every arm failed | 2 — `woman_top_denim_skirt + zendaya_white_blazer_skirt` s46, s48 |
+
+**On the head-to-head that iron man 2 was built to settle: the incumbent beats the
+v3.4 version on one cell in six hundred.** Not one of the 55 VEi failures was rescued
+by `V` or `BCA4` either — where VEi fails, the other arms overwhelmingly fail too, which
+is the same "hard pairs, not arm choice" reading links B/C reached, now on the full
+matrix with the incumbent correctly built.
+
+### 11.1 The report's examples — the cells to show for the BC-klein comparison
+
+**These 26 cells, across 20 pairs, are the reviewer's picks for the write-up: the
+figures to show when arguing v3.4 against BC klein.** Flagged with the ★ button on the
+four-way page and carried in `v34_im2_fourway_votes.csv` as `report_example=yes`.
+VEi's own verdict on them: 15 clean, 4 shippable, 7 failure — deliberately
+mixed, so the report shows where the version wins *and* where it is honestly beaten.
+
+| pair | cells (VEi's verdict) |
+|---|---|
+| `dualuse_scarlett_johansson_black_dress_backview_night+dualuse_woman_top_denim_skirt_nonceleb` | s47 (fail), s48 (fail) |
+| `dualuse_woman_top_denim_skirt_nonceleb+dualuse_lp_plaid_overcoat_brown_suit` | s48 (clean) |
+| `dualuse_woman_top_denim_skirt_nonceleb+dualuse_zendaya_white_blazer_skirt` | s48 (mid) |
+| `g005+p002` | s47 (fail), s48 (fail) |
+| `g013+p006` | s46 (clean), s48 (clean) |
+| `g015+g018` | s48 (mid) |
+| `g024+p010` | s47 (mid) |
+| `g027+p011` | s48 (fail) |
+| `g029+p004` | s47 (clean) |
+| `g030+p013` | s47 (clean) |
+| `p001+p002` | s47 (mid) |
+| `p002+p003` | s47 (fail) |
+| `p008+dualuse_emma_watson_black_blazer_armscrossed` | s46 (clean) |
+| `p008+p013` | s47 (clean), s48 (clean) |
+| `p012+p025` | s47 (clean) |
+| `p013+p014` | s46 (clean) |
+| `p015+p016` | s48 (clean) |
+| `p017+p030` | s46 (clean), s47 (clean), s48 (clean) |
+| `p024+p025` | s46 (clean) |
+| `p028+p029` | s46 (fail) |
+
+Whoever builds the report renders these four-up — VEi · BC · V · BCA4, with the A4
+crop and each arm's reference above them, as the four-way page lays them out.
