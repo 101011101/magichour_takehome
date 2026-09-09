@@ -21,6 +21,9 @@ WHAT = {"VEi": "the v3.4 version", "BC": "the true incumbent",
 # arm -> (gen dir, filename token).  The old run's files say __BC__ but that arm is BCA4.
 SRC = {"VEi": (os.path.join(NEW, "gen"), "VEi"), "BC": (os.path.join(NEW, "gen"), "BC"),
        "V": (os.path.join(OLD, "gen"), "V"), "BCA4": (os.path.join(OLD, "gen"), "BC")}
+REF = {"VEi": (os.path.join(NEW, "refs"), "VEi"), "BC": (os.path.join(NEW, "refs"), "BC"),
+       "V": (os.path.join(OLD, "refs"), "V"), "BCA4": (os.path.join(OLD, "refs"), "BC")}
+REFWHAT = {"VEi": "small canvas + SR", "BC": "head subtracted", "V": "head swap + ankle cut", "BCA4": "bald, head kept"}
 VD = {"CLEAN": ("clean", "&#10003; clean"), "MID": ("mid", "~ shippable"), "FAIL": ("fail", "&#10007; failure")}
 
 missing = []
@@ -68,11 +71,18 @@ def main():
         o.append(f"<h2 id='{html.escape(sid)}'>{html.escape(p)} wears {html.escape(g)}"
                  f"<span class='ar'>{html.escape(sid)}</span>"
                  f"<span class='pv pv-{worst.lower()}'>VEi worst seed: {VD[worst][1]}</span></h2>")
-        o.append("<div class='strip s4'>"
+        o.append("<div class='lab'>inputs</div><div class='strip s4'>"
                  + thumb(os.path.join(NEW, "inputs", f"{p}.jpg"), f"in_{p}.jpg", "person photograph")
                  + thumb(os.path.join(NEW, "inputs", f"{g}.jpg"), f"in_{g}.jpg", "garment photograph")
-                 + thumb(os.path.join(NEW, "refs", f"{g}__VEi.jpg"), f"ref_{g}__VEi.jpg", "reference &middot; VEi")
-                 + thumb(os.path.join(NEW, "refs", f"{g}__BC.jpg"), f"ref_{g}__BC.jpg", "reference &middot; BC")
+                 + thumb(os.path.join(NEW, "inputs", f"{g}__A4.jpg"), f"a4_{g}.jpg", "A4 crop &mdash; call 1's evidence")
+                 + "<div></div></div>")
+        o.append("<div class='lab'>the reference each arm built from that crop &mdash; same column order as the outputs below</div>"
+                 "<div class='strip s4 refs'>"
+                 + "".join(
+                     f"<div class='cl c-{a}'>" + thumb(
+                         os.path.join(REF[a][0], f"{g}__{REF[a][1]}.jpg"), f"ref_{g}__{a}.jpg",
+                         f"<b class='c-{a}'>{a}</b> reference &middot; {REFWHAT[a]}") + "</div>"
+                     for a in ARMS)
                  + "</div>")
 
         for seed in SEEDS:
@@ -126,6 +136,7 @@ h2 .ar{font-size:11px;color:var(--dim);font-weight:400;font-family:ui-monospace,
 .c-VEi{color:#a78bfa}.c-BC{color:#5eead4}.c-V{color:#93c5fd}.c-BCA4{color:#fcd34d}
 .strip{display:grid;gap:8px;grid-template-columns:repeat(4,minmax(0,1fr))}
 .sb{margin:10px 0 14px;padding:10px;background:#15151b;border-radius:8px}
+.lab{font-size:11.5px;color:var(--dim);margin:10px 0 4px}.refs{padding:8px;background:#1a1a22;border-radius:8px}
 .sh{display:flex;gap:12px;align-items:center;margin-bottom:8px}.sn{font-size:12px;color:var(--dim);font-family:ui-monospace,monospace}
 figure{margin:0}figure img{width:100%;display:block;background:#fff;border-radius:6px;cursor:zoom-in;aspect-ratio:3/4;object-fit:contain;border:3px solid transparent}
 .vd-clean img{border-color:var(--ok)}.vd-mid img{border-color:var(--mid)}.vd-fail img{border-color:var(--bad)}
