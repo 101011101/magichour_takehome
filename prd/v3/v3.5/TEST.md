@@ -120,6 +120,26 @@ drawn by the same backend at the same seed, so the comparison is paired and inte
 valid. **Any number that goes into a lock is re-measured on the downloaded weights** — fal
 priors have failed to transfer to the A100 twice ([v3.4 links F→G](../v3.4/EXPERIMENT.md)).
 
+## Review — link C
+
+`v3/report/v35_linkC.html`, built by `v3/build/v35_linkC_page.py` from the Colab zip:
+
+    mkdir -p v3/runs/v35/linkC && unzip -q ~/Downloads/v35_linkC_*.zip -d v3/runs/v35/linkC
+    python3 v3/build/v35_linkC_page.py
+
+One row per arm per pair — the reference call 2 was given, then that arm's output at each
+seed, so a reference and what it produced are never more than a glance apart. **Both failure
+records' per-seed verdicts sit on every card**, which is the point: a cell that works is a
+failure *reached*, not a fresh sample. Arms toggle off (`VEic vs M1qc` puts the one-sentence
+difference side by side; `hide ankle arms` removes the cut as a variable), and the
+provenance and class filters isolate a question. The per-seed vote exports as CSV carrying
+both records' verdicts beside the mark, so the readout can say which arm rescued which kind
+of failure rather than only how many.
+
+The page reads whatever is on disk: arms and seeds are discovered from the filenames, a
+missing cell renders as a hole rather than failing the build, and where the ankle cut was a
+no-op (no ankles in frame) it says so on the arm rather than leaving it to be inferred.
+
 ## Review
 
 Unblinded contact sheets, crop beside all four arms per garment, at
