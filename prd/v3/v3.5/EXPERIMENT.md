@@ -24,7 +24,7 @@ conclusions only, per [SCHEMA.md](../SCHEMA.md).
 | `M0` | mannequin head **+** re-pose (the lock's `Q3`, verbatim) | the model | yes |
 | `M1` | re-pose only — turn front-on, neutral | **nothing** (the face survives) | yes |
 | `M2` | mannequin head **+** the same explicit turn sentence as `M1` | the model | yes |
-| `G1` | return the clothing alone, no wearer | the person is gone | yes |
+| `G1` | return the clothing alone, no wearer | the person is gone | yes — **and restructured; dropped at link A** |
 | `M1c` | `M1`, head cut off afterwards — **derived, no model call** | **a crop** | yes |
 | `M0c` | `M0`, mannequin head cut off afterwards — derived, no model call | crop + model | yes |
 
@@ -75,9 +75,50 @@ length, with an occasional shoulder artifact of its own. **No arm fixes the F1 c
 which is the person-side failure v3.4 named and no reference change can reach.
 → [RESULTS §2](RESULTS.md#2-link-b--the-head-cropped-reference-through-call-2-probe-2026-09-08).
 
-### C — the fold *(staged)*
+### C — VEi + head crop against re-pose + head crop, on the A100 *(staged, spec below)*
 
-Only if B holds: the 200-pair matrix, three seeds, blinded, against the v3.4 lock.
+**Decided out of the chain: `G1` is not a candidate.** The clothing-alone path is dropped
+on garment fidelity, not on cost or complexity — it returns a clean e-commerce flat and
+then changes the garment: length changes (blazer → full-length coat, shirt → shirt-dress,
+waistcoat + shirt → sleeveless dress) and dropped pieces (trousers gone on four of the
+garments read, the tee gone under a blazer). Removing the wearer removes the constraint
+that held the garment's shape, which is v3.4's placket mechanism arrived at from the other
+side. It is not run again ([RESULTS §1.1](RESULTS.md#11-what-the-arms-do--first-read-2026-09-08)).
+
+**What link C runs.** Two arms, differing by one sentence in call 1 and nothing else:
+
+| arm | call 1 | head removed by |
+|---|---|---|
+| `VEic` | the lock's `Q3` — mannequin head **and** re-pose | a crop, after call 1 |
+| `M1qc` | `Q3` **with the mannequin sentence deleted** — re-pose only | a crop, after call 1 |
+
+plus `VEi` and `BC` unchanged as the two reference points, or the run cannot say whether
+the crop helped.
+
+**The head crop is possible on both** — verified 2026-09-08, not assumed. It is the V2
+cropper's own head subtraction (`phase3_variants.masks(cranium=True)` → `noface`, the exact
+call `BC` makes), and it fires on a **mannequin** head as well as a real one: the human
+parser returns `cranium_used=True` on the `M0` references and the head comes off at the
+neck with the garment untouched. That it works on a featureless head is not luck — the
+cranium path was built for `BC`'s *bald* frames, where the hair signal is absent by
+construction, and it takes head **shape** from the parser and head **extent** from pose
+landmarks, neither of which needs hair or a face.
+
+**Order of operations, and why it is not the obvious one.** The crop goes **before** the
+SR pass, not after: `call 1 → white-margin re-crop → head crop → SR to ~1 MP`. Cropping
+after SR would take the reference back below 1 MP and break the one rule link H bought —
+that what conditioning contributes is bounded by its **token footprint** in call 2
+([v3.4 SOLUTION §5](../v3.4/SOLUTION.md), rule 3). A head-cropped reference is a smaller
+image; it has to be re-floated to ~1 MP or the arm is testing two changes at once.
+
+**Where it runs.** Colab, on the A100, end to end — including the crop. Every stage is
+available there: BiRefNet and MediaPipe through `v3lib.fetch_models`, the human parser as
+`basso4/humanparsing` `parsing_atr.onnx` off the HF hub, the pose landmarker from Google
+storage, klein self-hosted, SR from the bundled `realesr-general-x4v3.pth`. On this laptop
+the head crop is ~90 s an image, which is BiRefNet on an eight-year-old CPU, not the
+method; on the A100 it is seconds.
+
+**Result.** pending.
 
 ## What is carried in from v3.4
 
