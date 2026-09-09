@@ -103,3 +103,31 @@ ran, not for their outcome; the other three are queued.
 **Not claimed.** One seed, five pairs, chosen for readiness. No blinding, no judge, no
 control set — a failure-selected probe cannot say what any of this costs on the 163 pairs
 that already work. The full 31-pair × 3-seed run is link B proper; the fold is link C.
+
+### 1.2 The head crops, complete (2026-09-08)
+
+**Run.** `v3/build/run_v35_headcrop.py M1 M0` — 112 crops, `M1c` and `M0c` for all 56
+garments. **No model call**; median 82 s an image, which is BiRefNet on an eight-year-old
+CPU rather than the method. `phase3_variants.masks(cranium=True)` — the V2 cropper's own
+head subtraction, the exact call `BC` makes — and **the human parser fired on all 112**
+(`cranium_used=True` in `meta/headcrop.json`), so nothing fell back to the pose ellipse.
+
+**The mannequin head crops more cleanly than a real one.** This is the finding the pair
+`M0c`/`M1c` exists to produce, and it runs against the arm this investigation set out to
+favour. On `g029` (the houndstooth blazer) `M0c` comes back with a clean neckline and
+`M1c` carries a ragged white notch through the left shoulder where long hair met the
+lapel; the plaid overcoat shows a milder version of the same at the collar on both arms.
+The mechanism is not mysterious — a mannequin head is a smooth convex shape with a
+hair-free boundary, which is the easy case for a matte, where a real head with hair over a
+collar is the hard one, and the parser's boundary error lands **on the garment**.
+
+**And the crop inherits whatever call 1 did.** `p020` is the case: the lock's prompt drops
+the tunic's trousers and renders shorts, so `M0c` is a headless figure in shorts, while
+`M1` keeps the full tunic and `M1c` keeps it too. Removing the head cannot repair a piece
+call 1 never drew — the two failures are independent, and an arm has to win both.
+
+**What this changes for link C.** It gives `VEic` a real argument the design did not
+anticipate: the mannequin sentence costs a call-1 draw that sometimes loses a piece, but
+it buys a head that is *easier to cut off cleanly*. `M1qc` is the cheaper reference and the
+riskier crop. That is exactly the trade the 31-pair run has to price, and it is why both
+arms are in it rather than one.
