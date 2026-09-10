@@ -1,0 +1,149 @@
+<title>v3.6 &mdash; one word in call 2</title>
+<meta name='viewport' content='width=device-width,initial-scale=1'>
+<style>
+:root{--bg:#0d0d10;--fg:#e8e8ea;--dim:#8a8a94;--line:#26262c;--acc:#7c5cff;--good:#7ee787;
+ --bad:#ff9aa2;--gold:#d29922;--card:#101014}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:15.5px/1.65 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:30px 22px 0}
+h1{margin:0 0 4px;font-size:27px;letter-spacing:-.2px}
+h2{margin:38px 0 10px;font-size:19px;letter-spacing:-.1px;
+ padding-bottom:7px;border-bottom:1px solid var(--line)}
+p{margin:0 0 12px}
+.lede{color:var(--dim);font-size:15px;margin:10px 0 6px;max-width:88ch}
+.lede b,p b{color:var(--fg)}
+.sec{color:var(--dim);font-size:14px;max-width:92ch}
+.k{border-left:2px solid var(--acc);padding-left:12px;color:var(--dim)}
+.caveat{border:1px solid var(--line);background:#141419;border-radius:9px;padding:12px 14px;
+ color:var(--dim);font-size:13.5px;max-width:none}
+a{color:#a893ff}
+code{background:#1b1b22;padding:1px 5px;border-radius:4px;font-size:12.5px}
+/* architecture */
+.arch{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch;
+ margin:14px 0 16px}
+@media(max-width:900px){.arch{grid-template-columns:1fr}.arch .arrow{transform:rotate(90deg)}}
+.step{border:1px solid var(--line);border-radius:9px;background:var(--card);padding:11px 13px}
+.step.hero{border-color:#3b3160;background:#0e0c16}
+.step b{display:block;margin:2px 0 5px;font-size:14.5px}
+.step p{margin:0;color:var(--dim);font-size:12.5px;line-height:1.55}
+.step .k{border:0;padding:0;font:10px ui-monospace,monospace;color:var(--acc);
+ text-transform:uppercase;letter-spacing:.7px}
+.arrow{align-self:center;color:var(--dim)}
+.prompts{display:grid;gap:6px;margin:0 0 6px}
+.pr{display:grid;grid-template-columns:34px 1fr;gap:8px;align-items:start}
+.pr b{color:var(--acc);font:12.5px ui-monospace,monospace;padding-top:5px}
+.pr code{background:#15151b;border:1px solid var(--line);border-radius:6px;padding:6px 9px;
+ color:#c3c3ce;font:12.5px/1.55 ui-monospace,monospace;display:block}
+/* stat tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:9px;
+ margin:14px 0 14px}
+.tile{border:1px solid var(--line);border-radius:9px;background:var(--card);padding:12px 14px}
+.tile .v{font:600 26px/1.15 ui-sans-serif,-apple-system,sans-serif;letter-spacing:-.5px}
+.tile.good .v{color:var(--good)}
+.tile .l{font-size:13px;margin-top:3px}
+.tile .s{font-size:11.5px;color:var(--dim);margin-top:4px;line-height:1.45}
+/* comparison strips */
+.cellcard{border:1px solid var(--line);border-radius:9px;background:var(--card);
+ overflow:hidden;margin:9px 0}
+.ch{display:flex;gap:8px;align-items:center;padding:6px 11px;background:#141419;
+ border-bottom:1px solid var(--line);font-size:12px;flex-wrap:wrap}
+.ch b{font-size:12.5px;word-break:break-all}
+.t{font-size:9.5px;padding:1px 7px;border-radius:20px;background:#2a1a12;
+ border:1px solid #6b4423;color:var(--gold)}
+.note{margin-left:auto;color:var(--dim);font-size:11.5px}
+.cellbody{display:grid;grid-template-columns:290px 1fr;gap:10px;padding:8px}
+@media(max-width:900px){.cellbody{grid-template-columns:1fr}}
+.src{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;align-content:start}
+.outs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+figure{margin:0}
+figure img{width:100%;display:block;background:#fff;border-radius:5px;cursor:zoom-in;
+ aspect-ratio:3/4;object-fit:contain}
+.src figure img{aspect-ratio:2/3}
+figcaption{font-size:11px;color:var(--dim);text-align:center;padding:4px 2px}
+/* table */
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin:6px 0 14px}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{color:var(--dim);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.6px}
+td.good{color:var(--good)}td.bad{color:var(--bad)}
+ul{margin:6px 0 12px;padding-left:20px;color:var(--dim)}
+li{margin:5px 0}li b{color:var(--fg)}
+#lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:99;
+ align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:20px}
+#lb.on{display:flex}#lb img{max-width:95vw;max-height:90vh;object-fit:contain;background:#fff}
+#lbc{color:var(--dim);font-size:13px}
+footer{border-top:1px solid var(--line);margin-top:40px;padding:18px 0 34px;color:var(--dim);
+ font-size:12.5px}
+</style>
+<div class='wrap'><h1>v3.6 &mdash; one word in call 2</h1></div>
+
+<div class='wrap'>
+<p class='lede'>The deployed pipeline changes by <b>one verb</b>. <code>BC_klein</code>'s
+call 2 says <i>dress the person in the clothing shown in image 2</i>; <code>ER</code> says
+<i>replace the clothing in image 1 with the clothing in image 2</i>. Nothing else moves:
+same reference, same canvas, same seed, same model, same call count. This page is the
+evidence at a glance; <a href='v36_findings.html'>the long read</a> is why nothing more
+ambitious than this survived.</p>
+
+<h2>The architecture, as deployed</h2>
+<div class='arch'>
+  <div class='step'><span class='k'>call 1</span><b>klein bald pass</b>
+    <p>The garment photograph, edited to remove the wearer's hair. A small,
+    in-distribution edit &mdash; the only generative step that touches the source.</p></div>
+  <div class='arrow'>&rarr;</div>
+  <div class='step'><span class='k'>no model</span><b>V2 cropper, head subtracted</b>
+    <p>BiRefNet matte &times; human-parser classes, cranium &rarr; white. Deterministic and
+    <b>subtractive only</b>: it can remove, never invent. The garment pixels that reach
+    call 2 are the photograph's.</p></div>
+  <div class='arrow'>&rarr;</div>
+  <div class='step hero'><span class='k'>call 2</span><b>klein edit &mdash; <code>ER</code></b>
+    <p>Person + reference in, dressed person out. The one line this investigation
+    changed.</p></div>
+</div>
+<div class='prompts'>
+  <div class='pr'><b>BC</b><code>Dress the person in image 1 in the clothing shown in image 2. Keep the person&#x27;s face, identity, body and the background exactly as they are.</code></div>
+  <div class='pr'><b>ER</b><code>Replace the clothing in image 1 with the clothing in image 2. Keep the person&#x27;s face, identity, body and the background exactly as they are.</code></div>
+</div>
+
+<h2>The numbers</h2>
+<div class='tiles'><div class='tile '><div class='v'>4.8%</div><div class='l'>BC_klein failure rate</div><div class='s'>29/600 cells, blind sweep, 2026-09-10</div></div><div class='tile '><div class='v'>6/29</div><div class='l'>of BC's failures ER repairs</div><div class='s'>21% of the failure set, marked head to head</div></div><div class='tile good'><div class='v'>0/121</div><div class='l'>regressions on cells BC passed</div><div class='s'>no cell was marked BC-better anywhere on the set</div></div><div class='tile '><div class='v'>2.28s</div><div class='l'>median ER call</div><div class='s'>BC is 2.40s &mdash; the same call, one word longer</div></div><div class='tile '><div class='v'>CAD 0.28</div><div class='l'>per 600-cell arm, self-hosted</div><div class='s'>$9.00 of fal calls; ER costs the same</div></div><div class='tile '><div class='v'>0</div><div class='l'>extra model calls ER adds</div><div class='s'>same pipeline, same reference, same canvas, same seed</div></div></div>
+<p class='caveat'><b>Read these as they are.</b> The 4.8% is measured &mdash;
+a blind pass over all 600 cells of the iron-man-2 matrix. The <code>ER</code>
+column is a <b>head-to-head over 150 cells</b> (29 of BC's failures and
+121 of its passes), marked with both images side by side. 142 cells were
+left unmarked as showing no difference worth calling; they are counted as neither a win nor
+a loss. <b>No cell anywhere on the set was marked BC-better.</b> A like-for-like rate for
+<code>ER</code> needs the same blind sweep over the same 600 cells &mdash; that run is built
+and is the next step. On the marks so far it would land near
+<b>23/600 (3.8%)</b>, and that is an
+extrapolation, not a measurement.</p>
+
+<h2>What one word repairs</h2>
+<p class='sec'>Every cell <code>ER</code> was marked better on. The failure class is the
+same each time: <b>the wearer's own clothing survives underneath the new garment</b>.
+<i>Dress the person in</i> names only the putting-on and leaves the removal implicit;
+<i>replace&hellip;with</i> names both.</p>
+<div class='cellcard'><div class='ch'><b>dualuse_woman_top_denim_skirt_nonceleb+dualuse_zendaya_white_blazer_skirt</b><span class='t'>seed 48</span><span class='note'>BC failed here</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/dualuse_woman_top_denim_skirt_nonceleb__p.jpg' data-full='img_v36r/dualuse_woman_top_denim_skirt_nonceleb__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/dualuse_zendaya_white_blazer_skirt__r.jpg' data-full='img_v36r/dualuse_zendaya_white_blazer_skirt__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/dualuse_woman_top_denim_skirt_nonceleb+dualuse_zendaya_white_blazer_skirt__E0__s48.jpg' data-full='img_v36r/dualuse_woman_top_denim_skirt_nonceleb+dualuse_zendaya_white_blazer_skirt__E0__s48@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/dualuse_woman_top_denim_skirt_nonceleb+dualuse_zendaya_white_blazer_skirt__ER__s48.jpg' data-full='img_v36r/dualuse_woman_top_denim_skirt_nonceleb+dualuse_zendaya_white_blazer_skirt__ER__s48@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>g005+g009</b><span class='t'>seed 48</span><span class='note'>BC failed here</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/g005__p.jpg' data-full='img_v36r/g005__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/g009__r.jpg' data-full='img_v36r/g009__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/g005+g009__E0__s48.jpg' data-full='img_v36r/g005+g009__E0__s48@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/g005+g009__ER__s48.jpg' data-full='img_v36r/g005+g009__ER__s48@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>g005+p002</b><span class='t'>seed 47</span><span class='note'>BC failed here</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/g005__p.jpg' data-full='img_v36r/g005__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/p002__r.jpg' data-full='img_v36r/p002__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/g005+p002__E0__s47.jpg' data-full='img_v36r/g005+p002__E0__s47@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/g005+p002__ER__s47.jpg' data-full='img_v36r/g005+p002__ER__s47@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>g005+p002</b><span class='t'>seed 48</span><span class='note'>BC failed here</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/g005__p.jpg' data-full='img_v36r/g005__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/p002__r.jpg' data-full='img_v36r/p002__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/g005+p002__E0__s48.jpg' data-full='img_v36r/g005+p002__E0__s48@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/g005+p002__ER__s48.jpg' data-full='img_v36r/g005+p002__ER__s48@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>p012+dualuse_queen_latifah_gown_stage</b><span class='t'>seed 47</span><span class='note'>BC failed here</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/p012__p.jpg' data-full='img_v36r/p012__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/dualuse_queen_latifah_gown_stage__r.jpg' data-full='img_v36r/dualuse_queen_latifah_gown_stage__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/p012+dualuse_queen_latifah_gown_stage__E0__s47.jpg' data-full='img_v36r/p012+dualuse_queen_latifah_gown_stage__E0__s47@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/p012+dualuse_queen_latifah_gown_stage__ER__s47.jpg' data-full='img_v36r/p012+dualuse_queen_latifah_gown_stage__ER__s47@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>p013+dualuse_scarlett_johansson_black_dress_backview_night</b><span class='t'>seed 46</span><span class='note'>BC failed here</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/p013__p.jpg' data-full='img_v36r/p013__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/dualuse_scarlett_johansson_black_dress_backview_night__r.jpg' data-full='img_v36r/dualuse_scarlett_johansson_black_dress_backview_night__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/p013+dualuse_scarlett_johansson_black_dress_backview_night__E0__s46.jpg' data-full='img_v36r/p013+dualuse_scarlett_johansson_black_dress_backview_night__E0__s46@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/p013+dualuse_scarlett_johansson_black_dress_backview_night__ER__s46.jpg' data-full='img_v36r/p013+dualuse_scarlett_johansson_black_dress_backview_night__ER__s46@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>dualuse_woman_top_denim_skirt_nonceleb+dualuse_lp_plaid_overcoat_brown_suit</b><span class='t'>seed 48</span><span class='note'>BC passed here</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/dualuse_woman_top_denim_skirt_nonceleb__p.jpg' data-full='img_v36r/dualuse_woman_top_denim_skirt_nonceleb__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/dualuse_lp_plaid_overcoat_brown_suit__r.jpg' data-full='img_v36r/dualuse_lp_plaid_overcoat_brown_suit__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/dualuse_woman_top_denim_skirt_nonceleb+dualuse_lp_plaid_overcoat_brown_suit__E0__s48.jpg' data-full='img_v36r/dualuse_woman_top_denim_skirt_nonceleb+dualuse_lp_plaid_overcoat_brown_suit__E0__s48@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/dualuse_woman_top_denim_skirt_nonceleb+dualuse_lp_plaid_overcoat_brown_suit__ER__s48.jpg' data-full='img_v36r/dualuse_woman_top_denim_skirt_nonceleb+dualuse_lp_plaid_overcoat_brown_suit__ER__s48@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div>
+
+<h2>What it leaves alone</h2>
+<p class='sec'>The other side of the same coin, and the reason the change is safe: on cells
+that already worked, the two are indistinguishable. A prompt that rescues failures by
+redrawing everything would show it here.</p>
+<div class='cellcard'><div class='ch'><b>p022+p023</b><span class='t'>seed 47</span><span class='note'>no difference marked</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/p022__p.jpg' data-full='img_v36r/p022__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/p023__r.jpg' data-full='img_v36r/p023__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/p022+p023__E0__s47.jpg' data-full='img_v36r/p022+p023__E0__s47@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/p022+p023__ER__s47.jpg' data-full='img_v36r/p022+p023__ER__s47@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>g024+p010</b><span class='t'>seed 46</span><span class='note'>no difference marked</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/g024__p.jpg' data-full='img_v36r/g024__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/p010__r.jpg' data-full='img_v36r/p010__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/g024+p010__E0__s46.jpg' data-full='img_v36r/g024+p010__E0__s46@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/g024+p010__ER__s46.jpg' data-full='img_v36r/g024+p010__ER__s46@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>p010+p023</b><span class='t'>seed 48</span><span class='note'>no difference marked</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/p010__p.jpg' data-full='img_v36r/p010__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/p023__r.jpg' data-full='img_v36r/p023__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/p010+p023__E0__s48.jpg' data-full='img_v36r/p010+p023__E0__s48@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/p010+p023__ER__s48.jpg' data-full='img_v36r/p010+p023__ER__s48@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>dualuse_man_black_suit_studio_nonceleb+dualuse_lp_beige_long_coat_menswear</b><span class='t'>seed 47</span><span class='note'>no difference marked</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/dualuse_man_black_suit_studio_nonceleb__p.jpg' data-full='img_v36r/dualuse_man_black_suit_studio_nonceleb__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/dualuse_lp_beige_long_coat_menswear__r.jpg' data-full='img_v36r/dualuse_lp_beige_long_coat_menswear__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/dualuse_man_black_suit_studio_nonceleb+dualuse_lp_beige_long_coat_menswear__E0__s47.jpg' data-full='img_v36r/dualuse_man_black_suit_studio_nonceleb+dualuse_lp_beige_long_coat_menswear__E0__s47@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/dualuse_man_black_suit_studio_nonceleb+dualuse_lp_beige_long_coat_menswear__ER__s47.jpg' data-full='img_v36r/dualuse_man_black_suit_studio_nonceleb+dualuse_lp_beige_long_coat_menswear__ER__s47@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>p026+dualuse_lp_beige_long_coat_menswear</b><span class='t'>seed 46</span><span class='note'>no difference marked</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/p026__p.jpg' data-full='img_v36r/p026__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/dualuse_lp_beige_long_coat_menswear__r.jpg' data-full='img_v36r/dualuse_lp_beige_long_coat_menswear__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/p026+dualuse_lp_beige_long_coat_menswear__E0__s46.jpg' data-full='img_v36r/p026+dualuse_lp_beige_long_coat_menswear__E0__s46@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/p026+dualuse_lp_beige_long_coat_menswear__ER__s46.jpg' data-full='img_v36r/p026+dualuse_lp_beige_long_coat_menswear__ER__s46@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>g013+g014</b><span class='t'>seed 47</span><span class='note'>no difference marked</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/g013__p.jpg' data-full='img_v36r/g013__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/g014__r.jpg' data-full='img_v36r/g014__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/g013+g014__E0__s47.jpg' data-full='img_v36r/g013+g014__E0__s47@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/g013+g014__ER__s47.jpg' data-full='img_v36r/g013+g014__ER__s47@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div>
+
+<footer>Built by <code>v3/build/v36_report.py</code> from
+<code>v3/testsets/v36_er_vs_bc.csv</code>, <code>v3/testsets/bc_count.csv</code> and the run
+meta in <code>v3/runs/v36/a100/</code>. Images are the run's own outputs; click any for full
+size. Evidence bundles live on Drive (<code>v3_runs/v36_*.zip</code>) per the V3 rule that
+generated images stay out of git. &middot; <a href='v36_findings.html'>the long read
+&rarr;</a></footer>
+</div><div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div><script>
+document.addEventListener('click',e=>{const im=e.target.closest('figure img');
+  if(!im)return;document.getElementById('lbi').src=im.dataset.full||im.getAttribute('src');
+  document.getElementById('lbc').textContent=im.getAttribute('alt');
+  document.getElementById('lb').classList.add('on');});
+document.getElementById('lb').addEventListener('click',()=>
+  document.getElementById('lb').classList.remove('on'));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')
+  document.getElementById('lb').classList.remove('on')});
+</script>
