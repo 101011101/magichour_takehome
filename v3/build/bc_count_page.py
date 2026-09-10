@@ -33,7 +33,12 @@ SEEDS = (46, 47, 48)
 ARM = sys.argv[1] if len(sys.argv) > 1 else "BC"
 SLUG = ARM.lower()
 TITLE = {"BC": "BC_klein &mdash; bald pass, V2 crop, klein edit",
-         "VEi": "VEi &mdash; the v3.4 lock: mannequin reference, SR, klein edit"}.get(ARM, ARM)
+         "VEi": "VEi &mdash; the v3.4 lock: mannequin reference, SR, klein edit",
+         "ER": "ER &mdash; BC's pipeline, one word changed in call 2"}.get(ARM, ARM)
+# An arm made in a later run keeps its cells in its own directory; its references and
+# inputs are still BC's, because that is what makes the two rates comparable.
+GEN = {"ER": os.path.join(REPO, "v3", "runs", "v36", "ironman_er", "gen")}.get(ARM, os.path.join(RUN, "gen"))
+REF_ARM = {"ER": "BC"}.get(ARM, ARM)
 IMG = os.path.join(REPORT, "img_" + SLUG + "count")
 
 
@@ -60,7 +65,7 @@ def main():
         sid, p, g = r["set_id"], r["person"], r["garment"]
         cells = []
         for s in SEEDS:
-            t, f = web(os.path.join(RUN, "gen", f"{sid}__{ARM}__s{s}.jpg"), f"{sid}__s{s}.jpg", 420)
+            t, f = web(os.path.join(GEN, f"{sid}__{ARM}__s{s}.jpg"), f"{sid}__s{s}.jpg", 420)
             if not t:
                 continue
             n += 1
@@ -72,7 +77,7 @@ def main():
             continue
         pt, pf = web(os.path.join(RUN, "inputs", f"{p}.jpg"), f"{p}__p.jpg", 260)
         ct, cf = web(os.path.join(RUN, "inputs", f"{g}__A4.jpg"), f"{g}__a4.jpg", 260)
-        rt, rf = web(os.path.join(RUN, "refs", f"{g}__{ARM}.jpg"), f"{g}__ref.jpg", 260)
+        rt, rf = web(os.path.join(RUN, "refs", f"{g}__{REF_ARM}.jpg"), f"{g}__ref.jpg", 260)
         tags = "".join(f"<span class='t'>{html.escape(x)}</span>"
                        for x in (r["garment_category"], r["garment_hard_case"]) if x)
         cards.append(
@@ -82,7 +87,7 @@ def main():
             "<div class='body'><div class='src'>"
             + "".join(f"<figure><img src='{a}' data-full='{b}' alt='{c}' loading='lazy'>"
                       f"<figcaption>{c}</figcaption></figure>"
-                      for a, b, c in ((pt, pf, "person"), (ct, cf, "garment"), (rt, rf, f"{ARM} reference")) if a)
+                      for a, b, c in ((pt, pf, "person"), (ct, cf, "garment"), (rt, rf, f"{REF_ARM} reference")) if a)
             + f"</div><div class='outs'>{''.join(cells)}</div></div></div>")
 
     head = HEAD.replace("ARMTITLE", TITLE)
@@ -91,7 +96,7 @@ def main():
          f"<div class='grid'>{''.join(cards)}</div>",
          f"<footer>{n} cells &middot; {len(cards)} pairs &times; {len(SEEDS)} seeds &middot; "
          f"arm <code>{ARM}</code>, seeds 46/47/48 on an A100 &middot; "
-         f"<code>v3/runs/v34/ironman2/gen/&#123;set_id&#125;__{ARM}__s&#123;seed&#125;.jpg</code>"
+         f"<code>{os.path.relpath(GEN, REPO)}/&#123;set_id&#125;__{ARM}__s&#123;seed&#125;.jpg</code>"
          f" &middot; rebuild: <code>python3 v3/build/bc_count_page.py {ARM}</code>"
          "</footer></div>", LB, script]
     open(os.path.join(REPORT, SLUG + "_count.html"), "w").write("\n".join(o))

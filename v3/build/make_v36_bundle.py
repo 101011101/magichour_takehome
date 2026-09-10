@@ -15,7 +15,8 @@ OUT = os.path.join(REPO, "v36_bundle.zip")
 FILES = [("v3/colab/lib/klein_local.py", "lib/klein_local.py"),
          ("v3/colab/lib/v3lib.py", "lib/v3lib.py"),
          ("v3/colab/lib/run_v36.py", "lib/run_v36.py"),
-         ("v3/colab/v36_editset.csv", "v36_editset.csv")]
+         ("v3/colab/v36_editset.csv", "v36_editset.csv"),
+         ("v3/colab/v36_ironman_er.csv", "v36_ironman_er.csv")]
 
 
 def main():
