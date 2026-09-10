@@ -126,7 +126,21 @@ storage, klein self-hosted, SR from the bundled `realesr-general-x4v3.pth`. On t
 the head crop is ~90 s an image, which is BiRefNet on an eight-year-old CPU, not the
 method; on the A100 it is seconds.
 
-**Result.** pending.
+**Result.** Run 2026-09-10: 645 klein calls, 36.8 min, $0.42; 918 cells over six arms,
+the parser fired on 33/33 garments, the ankle cut a no-op on ~a third of references
+([RESULTS §3](RESULTS.md#3-link-c--the-run-2026-09-10)). The reviewer's pass is open.
+
+**What the run raises, ahead of that pass.** `BC_klein` counted over the same 600 iron-man-2
+cells comes to **4.8%** against the lock's **9.2%**, and fails on 17 cells where the lock
+does not against 43 the other way. The mechanism that would explain it is not about prompts:
+`BC` never lets a generative model re-draw the garment, where every `V`-family arm does, and
+a re-drawn garment reaches call 2 as a *rendering* of the garment — resampled, with
+structured invention that call 2 then transfers faithfully onto the wearer. The head crop
+cannot reach that, because it acts downstream of the re-draw. Stated, with its
+counter-evidence and what would falsify it, in
+[RESULTS §4](RESULTS.md#4-why-bc-may-simply-be-better--the-regeneration-tax) — **not
+concluded**: the two rates were measured by different protocols, and the identical `VEi`
+counting page exists so they can be measured by one.
 
 ## What is carried in from v3.4
 

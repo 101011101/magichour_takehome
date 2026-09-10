@@ -64,6 +64,34 @@ mannequin, so the head can come off with a crop instead of being replaced by a g
 `G1` is the arm to drop unless link B finds it a job. Nothing here is a verdict on call 2
 — every claim above is about the reference, at one seed, on fal.
 
+### 1.2 The head crops, complete (2026-09-08)
+
+**Run.** `v3/build/run_v35_headcrop.py M1 M0` — 112 crops, `M1c` and `M0c` for all 56
+garments. **No model call**; median 82 s an image, which is BiRefNet on an eight-year-old
+CPU rather than the method. `phase3_variants.masks(cranium=True)` — the V2 cropper's own
+head subtraction, the exact call `BC` makes — and **the human parser fired on all 112**
+(`cranium_used=True` in `meta/headcrop.json`), so nothing fell back to the pose ellipse.
+
+**The mannequin head crops more cleanly than a real one.** This is the finding the pair
+`M0c`/`M1c` exists to produce, and it runs against the arm this investigation set out to
+favour. On `g029` (the houndstooth blazer) `M0c` comes back with a clean neckline and
+`M1c` carries a ragged white notch through the left shoulder where long hair met the
+lapel; the plaid overcoat shows a milder version of the same at the collar on both arms.
+The mechanism is not mysterious — a mannequin head is a smooth convex shape with a
+hair-free boundary, which is the easy case for a matte, where a real head with hair over a
+collar is the hard one, and the parser's boundary error lands **on the garment**.
+
+**And the crop inherits whatever call 1 did.** `p020` is the case: the lock's prompt drops
+the tunic's trousers and renders shorts, so `M0c` is a headless figure in shorts, while
+`M1` keeps the full tunic and `M1c` keeps it too. Removing the head cannot repair a piece
+call 1 never drew — the two failures are independent, and an arm has to win both.
+
+**What this changes for link C.** It gives `VEic` a real argument the design did not
+anticipate: the mannequin sentence costs a call-1 draw that sometimes loses a piece, but
+it buys a head that is *easier to cut off cleanly*. `M1qc` is the cheaper reference and the
+riskier crop. That is exactly the trade the 31-pair run has to price, and it is why both
+arms are in it rather than one.
+
 ## 2. Link B — the head-cropped reference through call 2 (probe, 2026-09-08)
 
 **Run.** `v3/build/run_v35_edits.py`, **15 klein calls** on fal, seed 46, **$0.22**,
@@ -104,30 +132,95 @@ ran, not for their outcome; the other three are queued.
 control set — a failure-selected probe cannot say what any of this costs on the 163 pairs
 that already work. The full 31-pair × 3-seed run is link B proper; the fold is link C.
 
-### 1.2 The head crops, complete (2026-09-08)
+## 3. Link C — the run (2026-09-10)
 
-**Run.** `v3/build/run_v35_headcrop.py M1 M0` — 112 crops, `M1c` and `M0c` for all 56
-garments. **No model call**; median 82 s an image, which is BiRefNet on an eight-year-old
-CPU rather than the method. `phase3_variants.masks(cranium=True)` — the V2 cropper's own
-head subtraction, the exact call `BC` makes — and **the human parser fired on all 112**
-(`cranium_used=True` in `meta/headcrop.json`), so nothing fell back to the pose ellipse.
+**Run.** `v3/colab/v35_a100.ipynb` on an A100, one session: **645 klein calls, 36.8 min,
+$0.42** at CAD 0.689/h. 51 pairs × 4 new arms × 3 seeds = **612 edits**, plus 33 `M1qb`
+references; `VEi` and `BC` cells and the lock's pre-SR references came off Drive rather
+than being redrawn, which is what kept it to 645 calls instead of ~1,000. Outputs
+`v3/runs/v35/linkC/`; page `v3/report/v35_linkC.html` (918 cells, six arms).
 
-**The mannequin head crops more cleanly than a real one.** This is the finding the pair
-`M0c`/`M1c` exists to produce, and it runs against the arm this investigation set out to
-favour. On `g029` (the houndstooth blazer) `M0c` comes back with a clean neckline and
-`M1c` carries a ragged white notch through the left shoulder where long hair met the
-lapel; the plaid overcoat shows a milder version of the same at the collar on both arms.
-The mechanism is not mysterious — a mannequin head is a smooth convex shape with a
-hair-free boundary, which is the easy case for a matte, where a real head with hair over a
-collar is the hard one, and the parser's boundary error lands **on the garment**.
+**Integrity of the run**, from its own meta rather than by assertion:
 
-**And the crop inherits whatever call 1 did.** `p020` is the case: the lock's prompt drops
-the tunic's trousers and renders shorts, so `M0c` is a headless figure in shorts, while
-`M1` keeps the full tunic and `M1c` keeps it too. Removing the head cannot repair a piece
-call 1 never drew — the two failures are independent, and an arm has to win both.
+| check | result |
+|---|---|
+| cells per arm | 153/153 on all six — `VEi`, `BC`, `VEic`, `M1qbc`, `VEica`, `M1qbca` |
+| human parser fired | **33/33 garments**, both bases — no fallbacks, unlike the link A pass where the backview dress fell through all three head-finding routes |
+| ankle cut applied | 23/33 (`VEica`), 24/33 (`M1qbca`); a **no-op on the rest** — no ankles in frame, so the `a` arms differ from their twins on ~two thirds of cells only |
+| call-2 prompt | `E3`, byte-identical to the v3.3 lock, including "nothing added, nothing removed" |
+| per stage | edit 3.09 s · ref 0.95 s · SR 0.18 s · head crop 15.8 s (CPU, threaded) |
 
-**What this changes for link C.** It gives `VEic` a real argument the design did not
-anticipate: the mannequin sentence costs a call-1 draw that sometimes loses a piece, but
-it buys a head that is *easier to cut off cleanly*. `M1qc` is the cheaper reference and the
-riskier crop. That is exactly the trade the 31-pair run has to price, and it is why both
-arms are in it rather than one.
+Crops ran on **CPU by choice**: every reference of record, including the `BC` refs this
+comparison is measured against, was made with CPU ONNX inference, so CPU crops are
+numerically identical to the archive and cell 7's validation cannot drift. The GPU path
+works (cell 3 probes for an onnxruntime whose CUDA provider actually loads) and is ~6×
+faster, but it would put the crops on a different numeric footing from the baseline.
+
+## 4. Why `BC` may simply be better — the regeneration tax
+
+**The count that raises it.** `BC_klein` marked in one pass over all 600 iron-man-2 cells
+(`v3/report/bc_count.html` → `v3/testsets/bc_count.csv`, 2026-09-10): **29 failures, 4.8%**,
+19 pairs, 2 seed-stable. The `VEi` record on the same 600 cells is **55, 9.2%**, 31 pairs,
+8 seed-stable. Joined per cell:
+
+| | VEi CLEAN | VEi MID | VEi FAIL |
+|---|---|---|---|
+| **BC ok** | 467 | 61 | **43** |
+| **BC FAIL** | 8 | 9 | 12 |
+
+43 cells where the lock fails and the incumbent does not, against 17 the other way.
+
+**The mechanism this points at.** `BC` and every `V`-family arm differ on one axis that has
+nothing to do with prompts: **whether a generative model ever re-draws the garment.**
+
+- `BC`'s bald pass edits the *head*; the garment is then isolated by a **deterministic
+  matte**, which can only remove. Its garment pixels are the photograph's, end to end.
+- Every `V`-family arm — `V`, `VEi`, `VEic`, `M1qbc` — asks klein to re-draw the whole
+  frame in call 1, because a head swap and a re-pose are full-frame edits. **The garment
+  that reaches call 2 is a rendering of the garment, not the garment.**
+
+A distilled 4-step model re-drawing a garment does not copy it. It resamples it, and the
+resampling loses exactly what call 2 most needs: weave, print registration, seam and hem
+placement, the count of pieces. The loss is not uniform noise — it is *structured
+invention*, which is worse, because call 2 has no way to tell an invented placket from a
+real one and will faithfully transfer the invention onto the wearer. So a defect introduced
+in call 1 is not merely carried into call 2, it is **amplified** by it: call 2 treats the
+degraded reference as ground truth.
+
+**Evidence already in the tree, all of it consistent with this and none of it collected to
+prove it:**
+
+| observation | where |
+|---|---|
+| klein asked to render above its conditioning **invents structure** — the p004 placket appears at ×2.67 generation-upscale | [v3.4 RESULTS §7.1](../v3.4/RESULTS.md) |
+| "render at evidence scale… generate small, upscale the *finished* image algorithmically" — a rule adopted precisely because generative rendering degrades garments | [v3.4 SOLUTION §5](../v3.4/SOLUTION.md), rule 2 |
+| the garment criterion is **statistically identical across every 1 MP arm** (2.5–2.7 of 5): the whole canvas arc bought identity, scene and realism, and **bought nothing on the garment** | [v3.4 SOLUTION §6](../v3.4/SOLUTION.md) |
+| `G1`, the most aggressive regeneration (wearer removed entirely), is the **only arm that fails the garment test outright** — length changes and dropped pieces | [§1.1](#11-what-the-arms-do--first-read-2026-09-08) |
+| `p020`: the lock's own call 1 **drops the tunic's trousers** and renders shorts; the crop then inherits it | [§1.2](#12-the-head-crops-complete-2026-09-08) |
+| `g005+g009`: `VEi` and `VEic` drop the reference's trousers, `BC` and `M1qbc` do not | [§2](#2-link-b--the-head-cropped-reference-through-call-2-probe-2026-09-08), §3 |
+
+The head crop cannot address any of this. It changes **how identity is removed**, which is
+downstream of the re-draw; the garment has already been resampled by the time it is cropped.
+That is why `VEic` tracks `VEi` on the garment failures rather than repairing them.
+
+**What this does not yet establish, and must before it is believed.**
+
+1. **The two rates were not measured the same way.** `VEi`'s 9.2% came from a
+   judge-then-audit protocol; `BC`'s 4.8% from a single fresh sweep on a purpose-built page.
+   A stricter or more lenient day accounts for some unknown share of the gap. The fix is
+   already built and running: `v3/report/vei_count.html` is the identical page for `VEi`,
+   so the same eye can produce both numbers under one protocol. **No conclusion here should
+   be drawn until that pass is exported.**
+2. **`BC` cannot re-pose, and the fold does not punish it for that.** The 200-pair matrix is
+   mostly front-facing wearers, where re-posing buys nothing and only costs a re-draw. On a
+   backview or extreme-pose source `BC` has no move at all — v3.4 called that a source-image
+   problem no renderer fixes, and [§1.1](#11-what-the-arms-do--first-read-2026-09-08) showed
+   the re-pose arm turning the backview dress to front. So the honest question is not "is
+   `BC` better" but **"does the re-pose buy back more than the re-draw costs, and on what
+   share of a real catalogue?"** A fold with more awkward source photographs would move this
+   number, possibly a long way.
+3. **A hybrid is untested and is what the mechanism actually recommends.** If the re-draw is
+   the tax, the arm to build is one that pays it **only when the pose requires it** —
+   v3.4's `F3` line, "re-pose only when the pose reader says the wearer is not neutral;
+   otherwise ship the garment pixels untouched". That is a router, not a new prompt, and
+   nothing in v3.5 has tested it.
