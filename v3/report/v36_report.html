@@ -118,6 +118,27 @@ and is the next step. On the marks so far it would land near
 <b>23/600 (3.8%)</b>, and that is an
 extrapolation, not a measurement.</p>
 
+<h2>What ships</h2>
+<p><b><code>ER</code> is the arm to deploy</b> &mdash; the incumbent pipeline with one verb
+changed in call 2. Nothing else about the system moves, which is the point: it costs no call,
+no model and no measurable time.</p>
+<p><b>On top of it, a seed randomiser.</b> A rejected image is redrawn at a fresh seed rather
+than repaired. The failure record is what recommends this: of the
+<b>19 pairs that fail at all</b>, only <b>2</b> fail at
+every seed &mdash; 1.0% of the catalogue. Given a failed cell, a different
+seed of the same pair passes <b>34/58 =
+59%</b> of the time, so one retry takes the expected residual from
+4.8% to about <b>2.0%</b>, and further retries approach the
+<b>1.0% floor</b> &mdash; the pairs whose <i>reference</i> is wrong, which no
+seed repairs. Only rejected images are redrawn, so the policy adds roughly
+5% to the call count.</p>
+<p class='caveat'><b>The dependency is a rejector, and it is unbuilt.</b> A retry policy needs
+something that decides an image failed. The v3.6 VLM judge is a first attempt and is not good
+enough yet: its artifact flag fires on 45% of cells a human passed. Its limb flag is the
+strongest discriminator found so far (14.8&times; over base rate) and phasing is usable
+(2.7&times;); the artifact bucket is not. That is the next piece of work, and until it exists
+the retry rates above are a property of the model, not a shipped number.</p>
+
 <h2>What one word repairs</h2>
 <p class='sec'>Every cell <code>ER</code> was marked better on. The failure class is the
 same each time: <b>the wearer's own clothing survives underneath the new garment</b>.

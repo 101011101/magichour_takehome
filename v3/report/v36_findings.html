@@ -186,6 +186,12 @@ of them is a call-2 wording problem.</li>
 <i>does re-posing buy back more than the re-draw costs, and on what share of a real
 catalogue?</i> The 200-pair fold is mostly front-facing wearers, which flatters
 <code>BC</code>; a catalogue of awkward source photographs would move the number.</li>
+<li><b>The shippable arm is <code>ER</code>, and the product on top of it is a seed
+randomiser.</b> Only 2 of the 19 pairs that fail do so at
+every seed (1.0% of the catalogue); given a failed cell another seed passes
+59% of the time. Retrying a rejected image is therefore worth more than any further prompt work, and it
+is bounded in cost because only rejects are redrawn. Its missing piece is a rejector good
+enough to spend calls on &mdash; not the current VLM judge.</li>
 <li><b>The arm nobody has built</b> is the router: re-pose only when a pose reader says the
 wearer is not neutral, and otherwise ship the garment pixels untouched. That is the shape the
 evidence recommends, and it is not a prompt.</li>

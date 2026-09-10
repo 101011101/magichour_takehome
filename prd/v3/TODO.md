@@ -3,6 +3,40 @@
 Live list. One line per item, newest investigation last. An item is done when its evidence
 is in the tree, not when the code runs. Written 2026-09-10.
 
+## The decision
+
+**`ER` is the arm that ships.** One verb in call 2 — *replace the clothing in image 1 with
+the clothing in image 2* — over `BC`'s pipeline unchanged: klein bald pass, V2 cropper head
+subtraction, klein edit. No extra call, no extra model, no measurable extra time
+(CAD 0.273 against `BC`'s 0.277 for 600 cells), and no cell in the 150-cell head-to-head was
+marked worse than `BC`.
+
+**The product on top of it is a seed randomiser: on a rejected image, redraw at a fresh
+seed.** The failure record says why. Over `BC`'s 600 blind-marked cells (200 pairs x seeds
+46/47/48):
+
+| | |
+|---|---|
+| failed cells | 29 of 600 (4.8%) |
+| pairs failing at 1 of 3 seeds | 11 |
+| pairs failing at 2 of 3 seeds | 6 |
+| **pairs failing at every seed** | **2 (1.0% of the catalogue)** |
+
+So **17 of the 19 pairs that fail at all (89%) have at least one seed that passes**, and
+given a failed cell, a different seed of the same pair passes **34/58 = 59%** of the time.
+One retry takes the expected residual from 4.8% to **~2.0%**, two retries approach the
+**1.0% floor** set by the pairs that fail at every seed — the ones whose reference is wrong,
+which no seed repairs. The cost is bounded by the failure rate itself: only rejected images
+are redrawn, so a one-retry policy adds ~5% to the call count.
+
+- [ ] **The dependency, and it is the real work: a rejector.** A seed randomiser needs
+      something that decides an image failed. The v3.6 VLM judge is a first attempt and is
+      **not yet good enough** — its `artifacts` flag fires on 45% of cells a human passed.
+      Its `limbs_over` flag is the strongest signal found so far (14.8x lift over base rate)
+      and `phasing` is usable (2.7x); the artifact bucket is not. Build the rejector on the
+      flags that discriminate, and measure it against the blind human marks before trusting
+      it to spend calls.
+
 ## Now — the road to the report
 
 - [ ] **Mark `BC` against `ER`.** `v3/report/v36_er_vs_bc.html`, 150 cells, three keys and a

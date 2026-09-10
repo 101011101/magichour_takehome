@@ -92,7 +92,27 @@ def numbers():
             if x["arm"] == "ER"]
     bc_cost = json.load(open(os.path.join(BCRUN, "meta", "cost.json")))
     n = lambda bc, v: sum(1 for r in marks if r["bc"] == bc and r["better"] == v)   # noqa: E731
+
+    # seed behaviour of the failures: how much of the 4.8% is a seed lottery rather than a
+    # broken pair. Drives the retry argument, so it is derived here and never typed in.
+    by = {}
+    for r in count:
+        by.setdefault(r["set_id"], {})[r["seed"]] = r["bc_failed"] == "fail"
+    dist = {k: sum(1 for v in by.values() if sum(v.values()) == k) for k in (0, 1, 2, 3)}
+    num = den = 0
+    for v in by.values():
+        for sd, failed in v.items():
+            if not failed:
+                continue
+            others = [x for k, x in v.items() if k != sd]
+            den += len(others)
+            num += sum(1 for x in others if not x)
     return {
+        "pairs": len(by), "seed_dist": dist,
+        "pairs_failing": len(by) - dist[0], "pairs_stable": dist[3],
+        "stable_pct": 100 * dist[3] / len(by),
+        "retry_pass": 100 * num / den, "retry_num": num, "retry_den": den,
+        "residual": (bc_fail / len(count)) * (1 - num / den) * 100,
         "cells": len(marks),
         "bc_cells": len(count), "bc_fail": bc_fail,
         "bc_rate": 100 * bc_fail / len(count),
@@ -135,6 +155,26 @@ def page1(N):
         tile("0", "extra model calls ER adds",
              "same pipeline, same reference, same canvas, same seed"),
     ])
+    ship = f"""<h2>What ships</h2>
+<p><b><code>ER</code> is the arm to deploy</b> &mdash; the incumbent pipeline with one verb
+changed in call 2. Nothing else about the system moves, which is the point: it costs no call,
+no model and no measurable time.</p>
+<p><b>On top of it, a seed randomiser.</b> A rejected image is redrawn at a fresh seed rather
+than repaired. The failure record is what recommends this: of the
+<b>{N['pairs_failing']} pairs that fail at all</b>, only <b>{N['pairs_stable']}</b> fail at
+every seed &mdash; {N['stable_pct']:.1f}% of the catalogue. Given a failed cell, a different
+seed of the same pair passes <b>{N['retry_num']}/{N['retry_den']} =
+{N['retry_pass']:.0f}%</b> of the time, so one retry takes the expected residual from
+{N['bc_rate']:.1f}% to about <b>{N['residual']:.1f}%</b>, and further retries approach the
+<b>{N['stable_pct']:.1f}% floor</b> &mdash; the pairs whose <i>reference</i> is wrong, which no
+seed repairs. Only rejected images are redrawn, so the policy adds roughly
+{N['bc_rate']:.0f}% to the call count.</p>
+<p class='caveat'><b>The dependency is a rejector, and it is unbuilt.</b> A retry policy needs
+something that decides an image failed. The v3.6 VLM judge is a first attempt and is not good
+enough yet: its artifact flag fires on 45% of cells a human passed. Its limb flag is the
+strongest discriminator found so far (14.8&times; over base rate) and phasing is usable
+(2.7&times;); the artifact bucket is not. That is the next piece of work, and until it exists
+the retry rates above are a property of the model, not a shipped number.</p>"""
 
     galleryA = "".join(cell(r["set_id"], r["seed"],
                             note="BC failed here" if r["bc"] == "fail" else "BC passed here")
@@ -182,6 +222,8 @@ a loss. <b>No cell anywhere on the set was marked BC-better.</b> A like-for-like
 and is the next step. On the marks so far it would land near
 <b>{proj}/{N['bc_cells']} ({100 * proj / N['bc_cells']:.1f}%)</b>, and that is an
 extrapolation, not a measurement.</p>
+
+{ship}
 
 <h2>What one word repairs</h2>
 <p class='sec'>Every cell <code>ER</code> was marked better on. The failure class is the
@@ -316,6 +358,12 @@ of them is a call-2 wording problem.</li>
 <i>does re-posing buy back more than the re-draw costs, and on what share of a real
 catalogue?</i> The 200-pair fold is mostly front-facing wearers, which flatters
 <code>BC</code>; a catalogue of awkward source photographs would move the number.</li>
+<li><b>The shippable arm is <code>ER</code>, and the product on top of it is a seed
+randomiser.</b> Only {N['pairs_stable']} of the {N['pairs_failing']} pairs that fail do so at
+every seed ({N['stable_pct']:.1f}% of the catalogue); given a failed cell another seed passes
+{N['retry_pass']:.0f}% of the time. Retrying a rejected image is therefore worth more than any further prompt work, and it
+is bounded in cost because only rejects are redrawn. Its missing piece is a rejector good
+enough to spend calls on &mdash; not the current VLM judge.</li>
 <li><b>The arm nobody has built</b> is the router: re-pose only when a pose reader says the
 wearer is not neutral, and otherwise ship the garment pixels untouched. That is the shape the
 evidence recommends, and it is not a prompt.</li>
