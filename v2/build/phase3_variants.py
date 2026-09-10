@@ -410,7 +410,7 @@ def _parser():
             from huggingface_hub import hf_hub_download
             _HP["m"] = ort.InferenceSession(
                 hf_hub_download("basso4/humanparsing", "parsing_atr.onnx"),
-                providers=["CPUExecutionProvider"])
+                providers=G.ort_providers())      # CPU unless V2_ORT_GPU=1; see garment_crop
             _HP["in"] = _HP["m"].get_inputs()[0].name
         else:
             import torch

@@ -198,6 +198,20 @@ def region_band(shape, region):
     raise NotImplementedError(f"select_region={region!r} is not implemented")
 
 
+# The provider is OPT-IN, not automatic. This module was written for a 4-core laptop
+# with no GPU, and every V2 number on record was measured on CPU, so CPU stays the
+# default and nothing silently changes underneath the archive. Set V2_ORT_GPU=1 where a
+# GPU exists (the Colab runs) and CUDA is requested with CPU still behind it, so a
+# missing or mismatched CUDA runtime degrades instead of failing. Callers that care
+# whether it took can read `_STATE["biref_prov"]`.
+def ort_providers():
+    import onnxruntime as ort
+    if os.environ.get("V2_ORT_GPU", "0") == "1" and \
+            "CUDAExecutionProvider" in ort.get_available_providers():
+        return ["CUDAExecutionProvider", "CPUExecutionProvider"]
+    return ["CPUExecutionProvider"]
+
+
 # ------------------------------------------------------- stage 1: BiRefNet ----
 def _biref():
     if "biref" in _STATE:
@@ -212,7 +226,8 @@ def _biref():
     # onnxruntime already threads inside the graph; when several references run in
     # parallel processes the two levels oversubscribe 4 cores, so cap intra-op
     so.intra_op_num_threads = int(_STATE.get("threads", 0))
-    _STATE["biref"] = ort.InferenceSession(BIREF, so, providers=["CPUExecutionProvider"])
+    _STATE["biref"] = ort.InferenceSession(BIREF, so, providers=ort_providers())
+    _STATE["biref_prov"] = _STATE["biref"].get_providers()[0]
     return _STATE["biref"]
 
 
