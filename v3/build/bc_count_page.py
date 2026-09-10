@@ -71,7 +71,9 @@ def main():
             n += 1
             cells.append(f"<figure class='out' data-sid='{html.escape(sid)}' data-seed='{s}'>"
                          f"<img src='{t}' data-full='{f}' alt='{html.escape(sid)} {ARM} s{s}' loading='lazy'>"
-                         f"<figcaption><button class='fail'>fail</button><span>s{s}</span></figcaption>"
+                         f"<figcaption><button class='fail'>fail</button><span>s{s}</span>"
+                         "<button class='zoom' title='full size (or shift-click the image)'>&#10530;</button>"
+                         "</figcaption>"
                          "</figure>")
         if not cells:
             continue
@@ -143,6 +145,10 @@ figure img{width:100%;display:block;background:#fff;border-radius:5px;cursor:zoo
 figcaption{font-size:10.5px;color:var(--dim);text-align:center;padding:3px 2px;
  display:flex;gap:6px;align-items:center;justify-content:center}
 .out.failed img{outline:3px solid var(--red);outline-offset:-3px;opacity:.55}
+.out img{cursor:pointer}
+button.zoom{background:none;border:0;color:var(--dim);cursor:zoom-in;font-size:13px;
+ line-height:1;padding:0 2px}
+button.zoom:hover{color:var(--fg)}
 button.fail{background:#101014;color:var(--dim);border:1px solid var(--line);border-radius:20px;
  padding:1px 10px;cursor:pointer;font:11px ui-sans-serif,sans-serif}
 .out.failed button.fail{background:var(--red);border-color:#ff9aa2;color:#fff}
@@ -158,10 +164,12 @@ textarea{display:none;width:100%;height:150px;margin-top:10px;background:#0b0b0e
 <div class='wrap'><h1>ARMTITLE</h1><p class='sub'>600 cells, one button</p></div>
 """
 
-LEDE = """<p class='lede'>Every cell of arm <b>ARMNAME</b> from iron man 2 &mdash; 200 pairs,
+LEDE = """<p class='lede'><b>Click a result to mark it failed</b> &mdash; the image is the button.
+Shift-click it, or the &#10530; beside it, for full size; the person, garment and reference on
+the left always open full size on a click. Every cell of arm <b>ARMNAME</b> from iron man 2 &mdash; 200 pairs,
 seeds 46/47/48. Person, garment and the reference that arm was given sit on the left of each
-row; its three draws are on the right. Click <b>fail</b> on any cell you would not ship.
-Marks are kept in this browser, so you can stop and come back. <b>No prior verdict is on
+row; its three draws are on the right. Mark any cell you would not ship. Marks are kept in
+this browser, so you can stop and come back. <b>No prior verdict is on
 this page or in it</b> &mdash; a rate is only worth something if the pass did not know the
 answer while it was being made, and only comparable to another rate made the same way.
 Click any image for full size.</p>"""
@@ -177,7 +185,9 @@ BAR = """<div id='bar'>
 LB = "<div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>"
 SCRIPT = """<script>
 document.addEventListener('click',e=>{const im=e.target.closest('figure img');
-  if(!im)return;document.getElementById('lbi').src=im.dataset.full||im.getAttribute('src');
+  if(!im)return;
+  if(im.closest('figure.out')&&!e.shiftKey&&!e.target.closest('button.zoom'))return;
+  document.getElementById('lbi').src=im.dataset.full||im.getAttribute('src');
   document.getElementById('lbc').textContent=im.getAttribute('alt');
   document.getElementById('lb').classList.add('on');});
 document.getElementById('lb').addEventListener('click',()=>
@@ -201,10 +211,20 @@ function paint(){
  document.getElementById('tally').innerHTML=
   '<b>'+bad+'</b> / '+t+' cells failed ('+(100*bad/t).toFixed(1)+'%) &nbsp;·&nbsp; '
   +any+' pairs with a failure &nbsp;·&nbsp; '+allthree+' failing at every seed';}
-document.addEventListener('click',e=>{const b=e.target.closest('button.fail');if(!b)return;
- const o=b.closest('figure.out'),k=key(o);
+function toggle(o){const k=key(o);
  if(f[k])delete f[k];else f[k]=1;
- try{localStorage.setItem(KEY,JSON.stringify(f))}catch(x){}paint();});
+ try{localStorage.setItem(KEY,JSON.stringify(f))}catch(x){}paint();}
+document.addEventListener('click',e=>{
+ if(e.target.closest('button.zoom'))return;
+ const b=e.target.closest('button.fail');
+ if(b){toggle(b.closest('figure.out'));return;}
+ const im=e.target.closest('figure.out img');
+ if(im&&!e.shiftKey)toggle(im.closest('figure.out'));});
+document.addEventListener('click',e=>{const z=e.target.closest('button.zoom');if(!z)return;
+ const im=z.closest('figure.out').querySelector('img');
+ document.getElementById('lbi').src=im.dataset.full||im.getAttribute('src');
+ document.getElementById('lbc').textContent=im.getAttribute('alt');
+ document.getElementById('lb').classList.add('on');});
 
 document.getElementById('only-fail').onclick=e=>{
  document.querySelectorAll('.card').forEach(c=>
