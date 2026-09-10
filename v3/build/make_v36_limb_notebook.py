@@ -25,8 +25,10 @@ This notebook tests it there, as a matched pair over `ER`:
 
 `ERS` is not a strawman, it is the control: it is the only thing that can say whether the
 read is doing any work, or whether naming a limb is harmless and the machinery is dead
-weight. On this set the two arms genuinely differ — **the feet are out of frame on 57 of
-the 150 cells**, so `ERS` names feet on 38% of cells that have none, and `ERD` stays quiet.
+weight. On this set the two arms genuinely differ, measured before the run: **the feet are
+out of frame on 59 of the 150 cells** and the hands on 7, so the two prompts are not the
+same text on **64 of 150 cells** — `ERS` names feet on 39% of cells that have none, and
+`ERD` stays quiet. On 2 cells the pose read finds neither and `ERD` sends plain `ER`.
 
 **Why a pose read and not BiRefNet.** BiRefNet returns a matte — a silhouette with no part
 labels — so it cannot answer "is a foot in frame". MediaPipe Pose already returns a
