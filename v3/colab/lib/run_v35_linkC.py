@@ -125,6 +125,36 @@ PROMPT.update({"VEi": q3_prompt, "M1q": m1q_prompt, "M1qb": m1qb_prompt})
 _T = []
 
 
+def _headcut_job(job):
+    """One head crop.
+
+    The crop is CPU-bound (BiRefNet + the human parser, both ONNX) and stays that way on
+    Colab: onnxruntime's CUDA provider is built against a different CUDA major than torch
+    ships (ORT 1.29 wants libcublas.so.13, torch cu128 gives .12), so the provider
+    registers, fails to dlopen and falls back silently. Measured on an A100 runtime:
+    22s BiRefNet + 17s parser per image.
+
+    These run on THREADS, not processes. ONNX Runtime and MediaPipe release the GIL for
+    the duration of inference, so threads get real parallelism; processes do not survive a
+    notebook (`spawn` re-imports `__main__`, which is the kernel, and `fork` is unsafe with
+    klein already on the GPU). ORT sessions are safe for concurrent Run() calls, and the
+    caller warms them on one image first so no two threads race to build the same session.
+    """
+    import time as _t
+    import cv2 as _cv
+    from ironman_bc_crop import crop_bc as _crop
+    g, base, src, out = job
+    t0 = _t.time()
+    im, cranium = _crop(_cv.imread(src), f"v35_{base}_{g}")
+    _cv.imwrite(out, im, [_cv.IMWRITE_JPEG_QUALITY, 95])
+    return g, base, bool(cranium), round(_t.time() - t0, 1)
+
+
+def _warm(job):
+    """The first crop, run alone: it builds the ONNX sessions the threads then share."""
+    return _headcut_job(job)
+
+
 def d(*p):
     q = os.path.join(OUT, *p)
     os.makedirs(os.path.dirname(q), exist_ok=True)
@@ -147,7 +177,7 @@ def klein(stage, arm, ident, seed, images, prompt, canvas):
 
 
 def main(matrix="v35_failures.csv", testset="testset", seeds=(46, 47, 48),
-         arms=ARMS, gpu_usd_per_hour=None, limit=None):
+         arms=ARMS, gpu_usd_per_hour=None, limit=None, crop_workers=4):
     for x in ("inputs", "refs", "gen", "meta"):
         os.makedirs(os.path.join(OUT, x), exist_ok=True)
     paths = L.fetch_models(persist=os.environ.get("V3_MODEL_DIR"))
@@ -188,44 +218,66 @@ def main(matrix="v35_failures.csv", testset="testset", seeds=(46, 47, 48),
     mp = d("meta", "prompts_v35.json")
     meta = json.load(open(mp)) if os.path.exists(mp) else {}
 
-    # 3 references, one small draw per base the arms need
+    # 3a every small reference the arms need, one klein call each (GPU, sequential)
     bases = sorted({parse_arm(a)[0] for a in arms}, key=lambda b: BASES.index(b))
+    framing, srcs = {}, {}
     for g in garments:
         crop = cv2.imread(d("inputs", f"{g}__A4.jpg"))
         fr = timed("framing", "-", g, 0, lambda c=crop: L.framing(c, paths)["framing"])
+        framing[g] = fr
         meta.setdefault(g, {})["framing"] = fr
-
-        srcs = {}
         for base in bases:
             small = d("refs", f"{g}__{base}_small.jpg")
-            srcs[base] = small
+            srcs[(g, base)] = small
             meta[g][base] = PROMPT[base](fr)
-            if os.path.exists(small):           # supplied by a zip, or a previous session
+            if os.path.exists(small):       # supplied by a zip, or a previous session
                 continue
             im = klein("ref", base, g, seeds[0], [crop], PROMPT[base](fr), "v33")
             cv2.imwrite(small, R.recrop(im), [cv2.IMWRITE_JPEG_QUALITY, 95])
+    json.dump(meta, open(mp, "w"), indent=1)
 
-        # head crop, then the ankle cut, then SR - in that order (module docstring)
+    # 3b head crops, in parallel - the one stage that is not on the GPU
+    jobs = [(g, base, srcs[(g, base)], d("refs", f"{g}__{base}_headcut.jpg"))
+            for g in garments for base in bases
+            if any(parse_arm(a)[1] for a in arms if parse_arm(a)[0] == base)
+            and not os.path.exists(d("refs", f"{g}__{base}_headcut.jpg"))]
+    if jobs:
+        n_w = max(1, int(crop_workers))
+        print(f"3b {len(jobs)} head crops on {n_w} thread{'s' if n_w > 1 else ''}", flush=True)
+        t0 = time.time()
+        if n_w == 1:
+            done = [_headcut_job(j) for j in jobs]
+        else:
+            from concurrent.futures import ThreadPoolExecutor
+            done = [_warm(jobs[0])]     # the first crop alone builds the shared sessions
+            with ThreadPoolExecutor(max_workers=n_w) as ex:
+                for r in ex.map(_headcut_job, jobs[1:]):
+                    done.append(r)
+                    print(f"    {len(done)}/{len(jobs)} {r[1]} {r[0]} "
+                          f"cranium={r[2]} {r[3]}s", flush=True)
+        for g, base, cranium, secs in done:
+            meta[g][f"{base}_cranium_used"] = cranium
+            _T.append({"stage": "headcrop", "arm": base, "id": g, "seed": 0, "seconds": secs})
+        el = time.time() - t0
+        print(f"   {len(jobs)} crops in {el / 60:.1f} min "
+              f"({el / len(jobs):.1f}s each wall, {sum(r[3] for r in done) / len(jobs):.1f}s each cpu)")
+        json.dump(meta, open(mp, "w"), indent=1)
+
+    # 3c the ankle cut, then SR - in that order (module docstring)
+    for g in garments:
+        crop = cv2.imread(d("inputs", f"{g}__A4.jpg"))
         for arm in arms:
             base, head_crop, ankle = parse_arm(arm)
             out = d("refs", f"{g}__{arm}.jpg")
             if os.path.exists(out):
                 continue
-            im = cv2.imread(srcs[base])
-            if head_crop:
-                hc = d("refs", f"{g}__{base}_headcut.jpg")     # shared by the a/non-a twins
-                if os.path.exists(hc):
-                    im, cranium = cv2.imread(hc), meta[g].get(f"{base}_cranium_used")
-                else:
-                    im, cranium = timed("headcrop", arm, g, 0,
-                                        lambda i=im, b=base: crop_bc(i, f"v35_{b}_{g}"))
-                    cv2.imwrite(hc, im, [cv2.IMWRITE_JPEG_QUALITY, 95])
-                meta[g][f"{base}_cranium_used"] = bool(cranium)
+            im = cv2.imread(d("refs", f"{g}__{base}_headcut.jpg") if head_crop else srcs[(g, base)])
+            assert im is not None, f"missing intermediate for {g} {arm}"
             if ankle:
                 ya = timed("ankle_read", arm, g, 0, lambda c=crop: R.ankle_y(c, paths))
                 im, y = timed("ankle_cut", arm, g, 0, lambda i=im, ya=ya: R.ankle_cut(
                     i, paths, (ya / crop.shape[0]) if ya is not None else None))
-                meta[g][f"{arm}_ankle_row"] = y          # None = no ankles in frame, a no-op
+                meta[g][f"{arm}_ankle_row"] = y      # None = no ankles in frame, a no-op
             im = timed("sr", arm, g, 0, lambda i=im: R.to_1mp_sr(i))
             cv2.imwrite(out, im, [cv2.IMWRITE_JPEG_QUALITY, 95])
             meta[g][f"{arm}_size"] = [im.shape[1], im.shape[0]]
@@ -264,6 +316,7 @@ def main(matrix="v35_failures.csv", testset="testset", seeds=(46, 47, 48),
                "ankle_cut": "run_ironman.ankle_cut (v3.3's), reopened as its own variable; "
                             "a no-op where no ankles are in frame",
                "head_crop": "ironman_bc_crop.crop_bc, the V2 cropper's own subtraction",
+               "crop_workers": crop_workers,
                "prompts": {"q3": "SWAP + KEEP + PERSON_CLAUSE + HOLD (the lock)",
                            "m1q": "KEEP + PERSON_CLAUSE + HOLD (Q3 with SWAP deleted)",
                            "m1qb": "KEEP + BALD + PERSON_CLAUSE + HOLD",
