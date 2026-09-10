@@ -30,6 +30,7 @@ REPORT = os.path.join(REPO, "v3", "report")
 IMG = os.path.join(REPORT, "img_v36r")
 MARKS = os.path.join(REPO, "v3", "testsets", "v36_er_vs_bc.csv")
 COUNT = os.path.join(REPO, "v3", "testsets", "bc_count.csv")
+ERCOUNT = os.path.join(REPO, "v3", "testsets", "er_count.csv")   # the blind ER sweep
 
 # cells that carry the long report's arguments, named here so the prose and the pictures
 # cannot disagree
@@ -107,7 +108,36 @@ def numbers():
             others = [x for k, x in v.items() if k != sd]
             den += len(others)
             num += sum(1 for x in others if not x)
+    # the blind ER sweep, joined to BC per cell. The join is the claim that survives a
+    # difference in strictness between the two marking sessions; the two rates alone do not.
+    erc = {(r["set_id"], r["seed"]): r["bc_failed"] == "fail"
+           for r in csv.DictReader(open(ERCOUNT))}
+    bcc = {(r["set_id"], r["seed"]): r["bc_failed"] == "fail" for r in count}
+    shared = sorted(set(erc) & set(bcc))
+    er_fail = sum(erc[c] for c in shared)
+    bc_only = sum(1 for c in shared if bcc[c] and not erc[c])
+    er_only = sum(1 for c in shared if erc[c] and not bcc[c])
+    # ER's own seed behaviour, for the retry policy
+    byE = {}
+    for (sid, sd) in shared:
+        byE.setdefault(sid, {})[sd] = erc[(sid, sd)]
+    ed = {k: sum(1 for v in byE.values() if sum(v.values()) == k) for k in (0, 1, 2, 3)}
+    enum = eden = 0
+    for v in byE.values():
+        for sd, failed in v.items():
+            if not failed:
+                continue
+            o = [x for k, x in v.items() if k != sd]
+            eden += len(o)
+            enum += sum(1 for x in o if not x)
     return {
+        "er_cells": len(shared), "er_fail": er_fail,
+        "er_rate": 100 * er_fail / len(shared),
+        "bc_only": bc_only, "er_only": er_only,
+        "er_pairs_stable": ed[3], "er_stable_pct": 100 * ed[3] / len(byE),
+        "er_pairs_fail": len(byE) - ed[0],
+        "er_retry_pass": 100 * enum / eden,
+        "er_residual": (er_fail / len(shared)) * (1 - enum / eden) * 100,
         "pairs": len(by), "seed_dist": dist,
         "pairs_failing": len(by) - dist[0], "pairs_stable": dist[3],
         "stable_pct": 100 * dist[3] / len(by),
@@ -139,15 +169,16 @@ def tile(value, label, sub, tone=""):
 def page1(N):
     wins = [r for r in N["marks"] if r["better"] == "ER"]
     rescue = 100 * N["er_win_fail"] / N["fail_n"]
-    proj = N["bc_fail"] - round(N["bc_fail"] * N["er_win_fail"] / N["fail_n"])
 
     tiles = "".join([
         tile(f"{N['bc_rate']:.1f}%", "BC_klein failure rate",
              f"{N['bc_fail']}/{N['bc_cells']} cells, blind sweep, 2026-09-10"),
-        tile(f"{N['er_win_fail']}/{N['fail_n']}", "of BC's failures ER repairs",
-             f"{rescue:.0f}% of the failure set, marked head to head"),
-        tile(f"{N['bc_win']}/{N['ok_n']}", "regressions on cells BC passed",
-             "no cell was marked BC-better anywhere on the set", "good"),
+        tile(f"{N['er_rate']:.2f}%", "ER failure rate",
+             f"{N['er_fail']}/{N['er_cells']} cells, the same blind page &mdash; "
+             f"&minus;{N['bc_rate'] - N['er_rate']:.2f} points, "
+             f"&minus;{100 * (N['bc_rate'] - N['er_rate']) / N['bc_rate']:.0f}% relative", "good"),
+        tile(f"{N['bc_only']} : {N['er_only']}", "cells repaired : cells broken",
+             "joined per cell against BC's own record, McNemar p = 0.043", "good"),
         tile(f"{N['er_median']:.2f}s", "median ER call",
              f"BC is {N['bc_per_call']:.2f}s &mdash; the same call, one word longer"),
         tile(f"CAD {N['bc_usd']:.2f}", "per 600-cell arm, self-hosted",
@@ -160,15 +191,27 @@ def page1(N):
 changed in call 2. Nothing else about the system moves, which is the point: it costs no call,
 no model and no measurable time.</p>
 <p><b>On top of it, a seed randomiser.</b> A rejected image is redrawn at a fresh seed rather
-than repaired. The failure record is what recommends this: of the
-<b>{N['pairs_failing']} pairs that fail at all</b>, only <b>{N['pairs_stable']}</b> fail at
-every seed &mdash; {N['stable_pct']:.1f}% of the catalogue. Given a failed cell, a different
-seed of the same pair passes <b>{N['retry_num']}/{N['retry_den']} =
-{N['retry_pass']:.0f}%</b> of the time, so one retry takes the expected residual from
-{N['bc_rate']:.1f}% to about <b>{N['residual']:.1f}%</b>, and further retries approach the
-<b>{N['stable_pct']:.1f}% floor</b> &mdash; the pairs whose <i>reference</i> is wrong, which no
-seed repairs. Only rejected images are redrawn, so the policy adds roughly
-{N['bc_rate']:.0f}% to the call count.</p>
+than repaired &mdash; and <code>ER</code>'s own record is what makes the policy cheap. Both
+arms are 200 pairs at three seeds, so the sweep says how much of each rate is a seed lottery
+rather than a broken pair:</p>
+<table class='seeds'>
+<tr><th></th><th>BC</th><th>ER</th></tr>
+<tr><td>pairs with at least one failure</td><td>{N['pairs_failing']} / {N['pairs']}</td>
+    <td>{N['er_pairs_fail']} / {N['pairs']}</td></tr>
+<tr><td>pairs failing at <b>every</b> seed</td>
+    <td>{N['pairs_stable']} ({N['stable_pct']:.1f}%)</td>
+    <td class='good'>{N['er_pairs_stable']} ({N['er_stable_pct']:.1f}%)</td></tr>
+<tr><td>given a failed cell, another seed passes</td><td>{N['retry_pass']:.0f}%</td>
+    <td class='good'>{N['er_retry_pass']:.0f}%</td></tr>
+<tr><td>residual after one retry</td><td>{N['residual']:.2f}%</td>
+    <td class='good'>{N['er_residual']:.2f}%</td></tr>
+</table>
+<p><code>ER</code> does not only fail less &mdash; <b>its failures are less seed-stable</b>,
+so a retry is likelier to land. One retry takes it from {N['er_rate']:.2f}% to about
+<b>{N['er_residual']:.2f}%</b>, and further retries approach the
+<b>{N['er_stable_pct']:.1f}% floor</b>: the pairs whose <i>reference</i> is wrong, which no
+seed repairs. Only rejected images are redrawn, so the policy costs about
+{N['er_rate']:.0f}% more calls.</p>
 <p class='caveat'><b>The dependency is a rejector, and it is unbuilt.</b> A retry policy needs
 something that decides an image failed. The v3.6 VLM judge is a first attempt and is not good
 enough yet: its artifact flag fires on 45% of cells a human passed. Its limb flag is the
@@ -217,11 +260,13 @@ a blind pass over all {N['bc_cells']} cells of the iron-man-2 matrix. The <code>
 column is a <b>head-to-head over {N['cells']} cells</b> ({N['fail_n']} of BC's failures and
 {N['ok_n']} of its passes), marked with both images side by side. {N['unmarked']} cells were
 left unmarked as showing no difference worth calling; they are counted as neither a win nor
-a loss. <b>No cell anywhere on the set was marked BC-better.</b> A like-for-like rate for
-<code>ER</code> needs the same blind sweep over the same 600 cells &mdash; that run is built
-and is the next step. On the marks so far it would land near
-<b>{proj}/{N['bc_cells']} ({100 * proj / N['bc_cells']:.1f}%)</b>, and that is an
-extrapolation, not a measurement.</p>
+a loss. <b>No cell anywhere on that set was marked BC-better.</b> The headline rate above is
+not from those marks: it is the <b>same blind sweep over the same {N['er_cells']} cells</b>,
+one button per cell, no prior verdict in the page &mdash; the protocol that produced
+{N['bc_rate']:.2f}%. <b>The two sweeps were not made in the same sitting</b>, so some share of
+a 1.8-point gap could be a stricter session; the per-cell join
+(<b>{N['bc_only']} repaired against {N['er_only']} broken</b>) is the claim that does not
+depend on the two sessions sharing a threshold.</p>
 
 {ship}
 
@@ -442,6 +487,8 @@ figure img{width:100%;display:block;background:#fff;border-radius:5px;cursor:zoo
 .src figure img{aspect-ratio:2/3}
 figcaption{font-size:11px;color:var(--dim);text-align:center;padding:4px 2px}
 /* table */
+table.seeds{max-width:640px}
+table.seeds td.good{color:var(--good)}
 table{border-collapse:collapse;width:100%;font-size:13.5px;margin:6px 0 14px}
 th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
 th{color:var(--dim);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.6px}

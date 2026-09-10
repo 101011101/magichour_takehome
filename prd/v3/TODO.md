@@ -12,22 +12,21 @@ subtraction, klein edit. No extra call, no extra model, no measurable extra time
 marked worse than `BC`.
 
 **The product on top of it is a seed randomiser: on a rejected image, redraw at a fresh
-seed.** The failure record says why. Over `BC`'s 600 blind-marked cells (200 pairs x seeds
-46/47/48):
+seed.** Both arms are now blind-counted over the same 600 cells, and `ER`'s own record is
+what makes the policy cheap — its failures are not only fewer but **less seed-stable**:
 
-| | |
-|---|---|
-| failed cells | 29 of 600 (4.8%) |
-| pairs failing at 1 of 3 seeds | 11 |
-| pairs failing at 2 of 3 seeds | 6 |
-| **pairs failing at every seed** | **2 (1.0% of the catalogue)** |
+| | `BC` | `ER` |
+|---|---|---|
+| failure rate | 29/600 = 4.83% | **18/600 = 3.00%** |
+| pairs with a failure | 19 / 200 | 14 / 200 |
+| pairs failing at every seed | 2 (1.0%) | **1 (0.5%)** |
+| a failed cell passes at another seed | 34/58 = 59% | 26/36 = **72%** |
+| residual after one retry | 2.00% | **0.83%** |
 
-So **17 of the 19 pairs that fail at all (89%) have at least one seed that passes**, and
-given a failed cell, a different seed of the same pair passes **34/58 = 59%** of the time.
-One retry takes the expected residual from 4.8% to **~2.0%**, two retries approach the
-**1.0% floor** set by the pairs that fail at every seed — the ones whose reference is wrong,
-which no seed repairs. The cost is bounded by the failure rate itself: only rejected images
-are redrawn, so a one-retry policy adds ~5% to the call count.
+One retry takes `ER` from 3.00% to about **0.83%** for roughly 3% more calls, and further
+retries approach the **0.5% floor** — the one pair that fails at every seed, whose
+*reference* is wrong and which no seed repairs. Only rejected images are redrawn, so the
+cost is bounded by the failure rate itself.
 
 - [ ] **The dependency, and it is the real work: a rejector.** A seed randomiser needs
       something that decides an image failed. The v3.6 VLM judge is a first attempt and is
@@ -44,18 +43,20 @@ are redrawn, so a one-retry policy adds ~5% to the call count.
       Export to `v36_er_vs_bc.csv`.
 - [ ] **Decide `ER` on the marks**, split by `BC`'s own record: wins on the 29 it failed,
       and — the one that decides — losses on the 121 it passed.
-- [ ] **Run the iron man for the chosen prompt.** `v3/colab/v36_ironman_er.ipynb`, 600 cells,
+- [x] **Run the iron man for the chosen prompt.** `v3/colab/v36_ironman_er.ipynb`, 600 cells,
       `BC`'s own references, ~25 min, ~CAD 0.3. Already built and pushed.
-- [ ] **Count it blind.** `python3 v3/build/bc_count_page.py ER` → `v3/report/er_count.html`,
-      the identical page `BC`'s 4.8% came from. Export `er_count.csv`.
+- [x] **Count it blind.** &rarr; **ER 18/600 = 3.00%** against BC's 4.83%; joined per cell,
+      18 repaired against 7 broken, McNemar p = 0.043. `v3/testsets/er_count.csv`.
+
 - [ ] **Re-mark 100 random `BC` cells in the same sitting** as the `ER` count. `BC` was
       marked 2026-09-10 and `ER` will not be; without this the two rates are one reviewer-day
       apart and the gap is not attributable. v3.5 §4 raised exactly this problem for
       `VEi`/`BC` and it is not yet closed.
-- [ ] **Join the two counts per cell** — which cells changed verdict, not just the two
+- [x] **Join the two counts per cell** — which cells changed verdict, not just the two
       percentages. The join survives strictness drift; the headline rates do not.
-- [ ] **Write `prd/v3/v3.6/`** — EXPERIMENT, RESULTS, TEST per `SCHEMA.md`, then the
-      submission report.
+- [x] **`prd/v3/v3.6/RESULTS.md`** — the evidence layer, written from the joined counts.
+- [ ] **`prd/v3/v3.6/EXPERIMENT.md` and `TEST.md`**, then the submission report. RESULTS
+      deliberately carries no decision; EXPERIMENT is where it goes.
 
 ## Open questions v3.5 and v3.6 raised and did not close
 

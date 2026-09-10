@@ -62,6 +62,8 @@ figure img{width:100%;display:block;background:#fff;border-radius:5px;cursor:zoo
 .src figure img{aspect-ratio:2/3}
 figcaption{font-size:11px;color:var(--dim);text-align:center;padding:4px 2px}
 /* table */
+table.seeds{max-width:640px}
+table.seeds td.good{color:var(--good)}
 table{border-collapse:collapse;width:100%;font-size:13.5px;margin:6px 0 14px}
 th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
 th{color:var(--dim);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.6px}
@@ -106,32 +108,46 @@ ambitious than this survived.</p>
 </div>
 
 <h2>The numbers</h2>
-<div class='tiles'><div class='tile '><div class='v'>4.8%</div><div class='l'>BC_klein failure rate</div><div class='s'>29/600 cells, blind sweep, 2026-09-10</div></div><div class='tile '><div class='v'>6/29</div><div class='l'>of BC's failures ER repairs</div><div class='s'>21% of the failure set, marked head to head</div></div><div class='tile good'><div class='v'>0/121</div><div class='l'>regressions on cells BC passed</div><div class='s'>no cell was marked BC-better anywhere on the set</div></div><div class='tile '><div class='v'>2.28s</div><div class='l'>median ER call</div><div class='s'>BC is 2.40s &mdash; the same call, one word longer</div></div><div class='tile '><div class='v'>CAD 0.28</div><div class='l'>per 600-cell arm, self-hosted</div><div class='s'>$9.00 of fal calls; ER costs the same</div></div><div class='tile '><div class='v'>0</div><div class='l'>extra model calls ER adds</div><div class='s'>same pipeline, same reference, same canvas, same seed</div></div></div>
+<div class='tiles'><div class='tile '><div class='v'>4.8%</div><div class='l'>BC_klein failure rate</div><div class='s'>29/600 cells, blind sweep, 2026-09-10</div></div><div class='tile good'><div class='v'>3.00%</div><div class='l'>ER failure rate</div><div class='s'>18/600 cells, the same blind page &mdash; &minus;1.83 points, &minus;38% relative</div></div><div class='tile good'><div class='v'>18 : 7</div><div class='l'>cells repaired : cells broken</div><div class='s'>joined per cell against BC's own record, McNemar p = 0.043</div></div><div class='tile '><div class='v'>2.28s</div><div class='l'>median ER call</div><div class='s'>BC is 2.40s &mdash; the same call, one word longer</div></div><div class='tile '><div class='v'>CAD 0.28</div><div class='l'>per 600-cell arm, self-hosted</div><div class='s'>$9.00 of fal calls; ER costs the same</div></div><div class='tile '><div class='v'>0</div><div class='l'>extra model calls ER adds</div><div class='s'>same pipeline, same reference, same canvas, same seed</div></div></div>
 <p class='caveat'><b>Read these as they are.</b> The 4.8% is measured &mdash;
 a blind pass over all 600 cells of the iron-man-2 matrix. The <code>ER</code>
 column is a <b>head-to-head over 150 cells</b> (29 of BC's failures and
 121 of its passes), marked with both images side by side. 142 cells were
 left unmarked as showing no difference worth calling; they are counted as neither a win nor
-a loss. <b>No cell anywhere on the set was marked BC-better.</b> A like-for-like rate for
-<code>ER</code> needs the same blind sweep over the same 600 cells &mdash; that run is built
-and is the next step. On the marks so far it would land near
-<b>23/600 (3.8%)</b>, and that is an
-extrapolation, not a measurement.</p>
+a loss. <b>No cell anywhere on that set was marked BC-better.</b> The headline rate above is
+not from those marks: it is the <b>same blind sweep over the same 600 cells</b>,
+one button per cell, no prior verdict in the page &mdash; the protocol that produced
+4.83%. <b>The two sweeps were not made in the same sitting</b>, so some share of
+a 1.8-point gap could be a stricter session; the per-cell join
+(<b>18 repaired against 7 broken</b>) is the claim that does not
+depend on the two sessions sharing a threshold.</p>
 
 <h2>What ships</h2>
 <p><b><code>ER</code> is the arm to deploy</b> &mdash; the incumbent pipeline with one verb
 changed in call 2. Nothing else about the system moves, which is the point: it costs no call,
 no model and no measurable time.</p>
 <p><b>On top of it, a seed randomiser.</b> A rejected image is redrawn at a fresh seed rather
-than repaired. The failure record is what recommends this: of the
-<b>19 pairs that fail at all</b>, only <b>2</b> fail at
-every seed &mdash; 1.0% of the catalogue. Given a failed cell, a different
-seed of the same pair passes <b>34/58 =
-59%</b> of the time, so one retry takes the expected residual from
-4.8% to about <b>2.0%</b>, and further retries approach the
-<b>1.0% floor</b> &mdash; the pairs whose <i>reference</i> is wrong, which no
-seed repairs. Only rejected images are redrawn, so the policy adds roughly
-5% to the call count.</p>
+than repaired &mdash; and <code>ER</code>'s own record is what makes the policy cheap. Both
+arms are 200 pairs at three seeds, so the sweep says how much of each rate is a seed lottery
+rather than a broken pair:</p>
+<table class='seeds'>
+<tr><th></th><th>BC</th><th>ER</th></tr>
+<tr><td>pairs with at least one failure</td><td>19 / 200</td>
+    <td>14 / 200</td></tr>
+<tr><td>pairs failing at <b>every</b> seed</td>
+    <td>2 (1.0%)</td>
+    <td class='good'>1 (0.5%)</td></tr>
+<tr><td>given a failed cell, another seed passes</td><td>59%</td>
+    <td class='good'>72%</td></tr>
+<tr><td>residual after one retry</td><td>2.00%</td>
+    <td class='good'>0.83%</td></tr>
+</table>
+<p><code>ER</code> does not only fail less &mdash; <b>its failures are less seed-stable</b>,
+so a retry is likelier to land. One retry takes it from 3.00% to about
+<b>0.83%</b>, and further retries approach the
+<b>0.5% floor</b>: the pairs whose <i>reference</i> is wrong, which no
+seed repairs. Only rejected images are redrawn, so the policy costs about
+3% more calls.</p>
 <p class='caveat'><b>The dependency is a rejector, and it is unbuilt.</b> A retry policy needs
 something that decides an image failed. The v3.6 VLM judge is a first attempt and is not good
 enough yet: its artifact flag fires on 45% of cells a human passed. Its limb flag is the
