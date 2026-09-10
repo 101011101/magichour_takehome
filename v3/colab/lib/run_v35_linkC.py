@@ -6,11 +6,22 @@ the reviewer's own per-cell verdict (v3.4 RESULTS "Where the failure records liv
   VEi     the v3.4 lock, unchanged                                   reused, not recomputed
   BC      v3.1's incumbent, unchanged                                reused, not recomputed
   VEic    the lock's reference with the mannequin head CROPPED OFF   new
-  M1qc    Q3 minus the mannequin sentence, head cropped off          new
+  M1qbc   Q3 minus the mannequin sentence, PLUS bald, head cropped   new
   VEica   VEic with the ankle cut restored                           new, optional
-  M1qca   M1qc with the ankle cut restored                           new, optional
+  M1qbca  M1qbc with the ankle cut restored                          new, optional
 
-An arm name is read, not looked up: base (`VEi` | `M1q`) + `c` head crop + `a` ankle cut.
+An arm name is read, not looked up: base (`VEi` | `M1q` | `M1qb`) + `c` head crop +
+`a` ankle cut. Bases are matched longest-first, so `M1qb` is never mistaken for `M1q`
+with a stray `b`.
+
+**Why the re-pose arm is bald.** `BC` bald-passes the raw photograph before it crops,
+because hair on the shoulders and chest cannot be told from garment by any matte, and
+`VEi` gets that free — the mannequin sentence takes the head and its hair together. A
+re-pose arm that keeps the wearer's own head does neither, so cropping it leaves whatever
+hair spilled onto the garment. `M1q` without the bald clause is therefore not a shippable
+arm and is not run: the bald version covers it and is the only functional form. Measured on
+the five longest-haired garments of the fold, one klein call does both jobs
+(`v3/report/v35_bald.html`).
 
 `VEic` and `M1qc` differ from each other by exactly one deleted sentence in call 1, and
 from the lock by the crop. Nothing else moves: same A4 crop, same framing read, same `E3`,
@@ -66,7 +77,7 @@ import run_ironman as R                # noqa: E402  prompts, SR and re-crop of 
 from ironman_bc_crop import crop_bc    # noqa: E402  the V2 cropper's head subtraction
 
 OUT = "run"
-ARMS = ("VEic", "M1qc")                # the arms this runner computes; +("VEica","M1qca")
+ARMS = ("VEic", "M1qbc")               # +("VEica", "M1qbca") for the ankle-cut twins
 REUSED = ("VEi", "BC")                 # the arms it expects to find already made
 FAL_PER_CALL = 0.015
 
@@ -74,23 +85,41 @@ FAL_PER_CALL = 0.015
 # already carries the re-pose - "Change the pose: the person stands upright in a neutral
 # pose, facing forward..." - so no new wording is needed or wanted: one deleted sentence
 # is the whole difference between this arm and the lock.
+# Lifted from v3lib.BALD_PROMPT's own wording, so the bald instruction is the record's
+# rather than a new invention; its third sentence is dropped because KEEP and
+# PERSON_CLAUSE already say it.
+BALD = (" The person is completely bald: remove all hair from the head and any hair "
+        "falling over the shoulders, chest or back, and show the scalp.")
+
+
 def m1q_prompt(framing):
     return (R.KEEP.lstrip() + R.PERSON_CLAUSE[framing] + R.HOLD)
+
+
+def m1qb_prompt(framing):
+    return (R.KEEP.lstrip() + BALD + R.PERSON_CLAUSE[framing] + R.HOLD)
 
 
 def q3_prompt(framing):
     return R.SWAP + R.KEEP + R.PERSON_CLAUSE[framing] + R.HOLD
 
 
+BASES = ("M1qb", "M1q", "VEi")     # longest first: 'M1qb' must not match 'M1q' + 'b'
+PROMPT = {}                        # filled below, once the prompt functions exist
+
+
 def parse_arm(arm):
     """'VEica' -> ('VEi', head_crop=True, ankle_cut=True). The name IS the recipe."""
-    for base in ("VEi", "M1q"):
+    for base in BASES:
         if arm.startswith(base):
             tail = arm[len(base):]
             assert set(tail) <= {"c", "a"} and tail.count("c") <= 1 and tail.count("a") <= 1, \
                 f"unreadable arm {arm}"
             return base, "c" in tail, "a" in tail
     raise SystemExit(f"unknown arm {arm}")
+
+
+PROMPT.update({"VEi": q3_prompt, "M1q": m1q_prompt, "M1qb": m1qb_prompt})
 
 
 _T = []
@@ -159,27 +188,24 @@ def main(matrix="v35_failures.csv", testset="testset", seeds=(46, 47, 48),
     mp = d("meta", "prompts_v35.json")
     meta = json.load(open(mp)) if os.path.exists(mp) else {}
 
-    # 3 references
+    # 3 references, one small draw per base the arms need
+    bases = sorted({parse_arm(a)[0] for a in arms}, key=lambda b: BASES.index(b))
     for g in garments:
         crop = cv2.imread(d("inputs", f"{g}__A4.jpg"))
         fr = timed("framing", "-", g, 0, lambda c=crop: L.framing(c, paths)["framing"])
+        meta.setdefault(g, {})["framing"] = fr
 
-        # the lock's reference, pre-SR. Made here only if the zip did not supply it.
-        small = d("refs", f"{g}__VEi_small.jpg")
-        if not os.path.exists(small):
-            im = klein("ref", "VEi", g, seeds[0], [crop], q3_prompt(fr), "v33")
+        srcs = {}
+        for base in bases:
+            small = d("refs", f"{g}__{base}_small.jpg")
+            srcs[base] = small
+            meta[g][base] = PROMPT[base](fr)
+            if os.path.exists(small):           # supplied by a zip, or a previous session
+                continue
+            im = klein("ref", base, g, seeds[0], [crop], PROMPT[base](fr), "v33")
             cv2.imwrite(small, R.recrop(im), [cv2.IMWRITE_JPEG_QUALITY, 95])
 
-        # the same call with the mannequin sentence deleted
-        m1q = d("refs", f"{g}__M1q_small.jpg")
-        if not os.path.exists(m1q):
-            im = klein("ref", "M1q", g, seeds[0], [crop], m1q_prompt(fr), "v33")
-            cv2.imwrite(m1q, R.recrop(im), [cv2.IMWRITE_JPEG_QUALITY, 95])
-
-        meta[g] = {"framing": fr, "q3": q3_prompt(fr), "m1q": m1q_prompt(fr)}
-
-        # head crop, then the ankle cut, then SR — in that order (module docstring)
-        srcs = {"VEi": small, "M1q": m1q}
+        # head crop, then the ankle cut, then SR - in that order (module docstring)
         for arm in arms:
             base, head_crop, ankle = parse_arm(arm)
             out = d("refs", f"{g}__{arm}.jpg")
@@ -189,7 +215,7 @@ def main(matrix="v35_failures.csv", testset="testset", seeds=(46, 47, 48),
             if head_crop:
                 hc = d("refs", f"{g}__{base}_headcut.jpg")     # shared by the a/non-a twins
                 if os.path.exists(hc):
-                    im, cranium = cv2.imread(hc), meta.get(g, {}).get(f"{base}_cranium_used")
+                    im, cranium = cv2.imread(hc), meta[g].get(f"{base}_cranium_used")
                 else:
                     im, cranium = timed("headcrop", arm, g, 0,
                                         lambda i=im, b=base: crop_bc(i, f"v35_{b}_{g}"))
@@ -240,8 +266,9 @@ def main(matrix="v35_failures.csv", testset="testset", seeds=(46, 47, 48),
                "head_crop": "ironman_bc_crop.crop_bc, the V2 cropper's own subtraction",
                "prompts": {"q3": "SWAP + KEEP + PERSON_CLAUSE + HOLD (the lock)",
                            "m1q": "KEEP + PERSON_CLAUSE + HOLD (Q3 with SWAP deleted)",
-                           "edit": R.E3, "swap": R.SWAP, "keep": R.KEEP, "hold": R.HOLD,
-                           "person_clause": R.PERSON_CLAUSE},
+                           "m1qb": "KEEP + BALD + PERSON_CLAUSE + HOLD",
+                           "bald": BALD, "edit": R.E3, "swap": R.SWAP, "keep": R.KEEP,
+                           "hold": R.HOLD, "person_clause": R.PERSON_CLAUSE},
                "python": platform.python_version()},
               open(d("meta", "run_v35.json"), "w"), indent=1)
     print(f"done in {(time.time() - wall0) / 60:.1f} min")

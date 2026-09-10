@@ -31,12 +31,16 @@ OUTP = os.path.join(REPORT, "v35_linkC.html")
 
 # arm, label, the one line that says what it is, reference stem, default-on
 ARMS = [
-    ("VEi",   "VEi",   "the v3.4 lock, as shipped — head kept",        "VEi",    True),
-    ("BC",    "BC",    "v3.1's incumbent — bald pass, V2 crop",        "BC",     True),
-    ("VEic",  "VEic",  "the lock's reference, mannequin head cut off", "VEic",   True),
-    ("M1qc",  "M1qc",  "Q3 minus the mannequin sentence, head cut off", "M1qc",  True),
-    ("VEica", "VEica", "VEic + the ankle cut",                         "VEica",  True),
-    ("M1qca", "M1qca", "M1qc + the ankle cut",                         "M1qca",  True),
+    ("VEi",    "VEi",    "the v3.4 lock, as shipped - head kept",         "VEi",    True),
+    ("BC",     "BC",     "v3.1's incumbent - bald pass, V2 crop",         "BC",     True),
+    ("VEic",   "VEic",   "the lock's reference, mannequin head cut off",  "VEic",   True),
+    ("M1qbc",  "M1qbc",  "re-pose + bald, head cut off - the target",     "M1qbc",  True),
+    ("VEica",  "VEica",  "VEic + the ankle cut",                          "VEica",  True),
+    ("M1qbca", "M1qbca", "M1qbc + the ankle cut",                         "M1qbca", True),
+    # the pre-bald re-pose arm: dropped as an arm (hair survives on the garment), kept
+    # here so an earlier run's cells still render if its zip is extracted alongside
+    ("M1qc",   "M1qc",   "re-pose without bald - superseded",             "M1qc",   False),
+    ("M1qca",  "M1qca",  "M1qc + the ankle cut - superseded",             "M1qca",  False),
 ]
 VOTE = [a[0] for a in ARMS] + ["none"]
 
@@ -109,7 +113,7 @@ def main():
                     if arm.endswith("a") and f"{arm}_ankle_row" in gmeta and ank is None else
                     f"<span class='n'>ankle row {ank}</span>" if ank else "")
             arm_rows.append(
-                f"<div class='arm a-{arm}{' hero' if arm in ('VEic', 'M1qc') else ''}'>"
+                f"<div class='arm a-{arm}{' hero' if arm in ('VEic', 'M1qbc') else ''}'>"
                 f"<div class='ah'><b>{lab}</b><span>{html.escape(ch)}</span>{note}</div>"
                 + (f"<figure class='ref'><img src='{rt}' data-full='{rf}' "
                    f"alt='{html.escape(r['garment'])} {refstem}' loading='lazy'>"
@@ -239,14 +243,15 @@ LEDE = """<p class='lede'>Every pair here is marked hard by at least one of the 
 records, and <b>both records' per-seed verdicts sit on the card</b> &mdash; so a cell that
 works is a failure reached, not a fresh sample. <b>VEi</b> and <b>BC</b> are the iron-man 2
 originals at the same seeds, not redraws. The four new arms differ from them only in what
-happened to the reference between call 1 and call 2: <b>VEic</b> and <b>M1qc</b> have the
-head cut off (and differ from each other by exactly one deleted sentence in call 1), and the
+happened to the reference between call 1 and call 2: <b>VEic</b> and <b>M1qbc</b> have the
+head cut off &mdash; the first replaces the head with a mannequin, the second re-poses the
+wearer and balds them, which is what stops hair surviving on the garment &mdash; and the
 <b>a</b> arms add v3.3's ankle cut. Turn arms off to put any two side by side. Click any
 image for full size.</p>"""
 
 TOOLBAR = """<div id='bar'>
 <span class='grp'><span class='lbl'>arms</span>{{ARMS}}
-<button id='only-two'>VEic vs M1qc</button><button id='no-ankle'>hide ankle arms</button>
+<button id='only-two'>VEic vs M1qbc</button><button id='no-ankle'>hide ankle arms</button>
 <button id='all-arms'>all</button></span>
 <span class='grp'><span class='lbl'>from</span>
 <button class='f on' data-f='all'>all</button><button class='f' data-f='both'>both records</button>
@@ -274,7 +279,7 @@ function arms(){boxes.forEach(b=>document.querySelectorAll('.arm.a-'+b.dataset.a
   .forEach(a=>a.style.display=b.checked?'':'none'));}
 boxes.forEach(b=>b.onchange=arms);
 const set=f=>{boxes.forEach(b=>b.checked=f(b.dataset.arm));arms();};
-document.getElementById('only-two').onclick=()=>set(a=>a==='VEic'||a==='M1qc');
+document.getElementById('only-two').onclick=()=>set(a=>a==='VEic'||a==='M1qbc');
 document.getElementById('no-ankle').onclick=()=>set(a=>!a.endsWith('a')||a==='VEi');
 document.getElementById('all-arms').onclick=()=>set(()=>true);
 

@@ -1,0 +1,70 @@
+<title>v3.5 - re-pose and bald in one call?</title>
+<meta name='viewport' content='width=device-width,initial-scale=1'>
+<style>
+:root{--bg:#0d0d10;--fg:#e8e8ea;--dim:#8a8a94;--line:#26262c;--acc:#7c5cff;--mid:#d29922}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:15px/1.6 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1500px;margin:0 auto;padding:26px 22px 0}
+h1{margin:0 0 6px;font-size:25px}
+.lede{color:var(--dim);max-width:94ch;font-size:14px;margin:0 0 12px}
+.lede b{color:var(--fg)}
+.prompt{border:1px solid var(--line);border-radius:9px;background:#101014;margin:7px 0;overflow:hidden}
+.prompt summary{padding:7px 14px;background:#141419;font-size:13px;cursor:pointer}
+.prompt summary span{color:var(--dim);font-size:12.5px}
+.prompt pre{margin:0;padding:12px 16px;font:13px/1.7 ui-monospace,SFMono-Regular,monospace;
+ white-space:pre-wrap;color:#c3c3ce;background:#0b0b0e}
+.grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:16px}
+.card{border:1px solid var(--line);border-radius:9px;background:#101014;overflow:hidden}
+.ch{display:flex;gap:9px;align-items:center;padding:7px 12px;background:#141419;
+ border-bottom:1px solid var(--line);font-size:12px;flex-wrap:wrap}
+.ch b{font-size:12.5px;word-break:break-all}
+.t{font-size:10px;padding:1px 8px;border-radius:20px;background:#17171d;
+ border:1px solid var(--line);color:var(--dim);font-family:ui-monospace,monospace}
+.t.over{background:#2d1418;border-color:#8a2b34;color:#ff9aa2}
+.cols{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:6px}
+@media(max-width:760px){.cols{grid-template-columns:repeat(2,1fr)}}
+figure{margin:0}
+figure img{width:100%;display:block;background:#fff;border-radius:5px;cursor:zoom-in;
+ aspect-ratio:2/3;object-fit:contain}
+figure.c-M1qb img{outline:2px solid #2c5c33;outline-offset:-2px}
+figure.c-M1qb figcaption{color:#7ee787;font-weight:600}
+figure.c-crop figcaption{color:var(--dim)}
+figcaption{font-size:11px;color:var(--fg);text-align:center;padding:4px 2px}
+.miss{background:#17171d;border:1px dashed var(--line);border-radius:5px;aspect-ratio:2/3;
+ display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:11px}
+#lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:99;
+ align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:20px}
+#lb.on{display:flex}#lb img{max-width:95vw;max-height:90vh;object-fit:contain;background:#fff}
+#lbc{color:var(--dim);font-size:13px}
+footer{border-top:1px solid var(--line);margin-top:36px;padding:20px 0 30px;color:var(--dim);font-size:12.5px}
+code{background:#1b1b22;padding:1px 5px;border-radius:4px;font-size:12px}
+</style>
+<div class='wrap'><h1>Re-pose and bald in one call?</h1></div>
+
+<div class='wrap'>
+<p class='lede'><b>BC</b> bald-passes the raw photograph before it crops, because
+hair on the shoulders and chest cannot be told from garment by any matte. <b>VEi</b> gets
+that free &mdash; the mannequin sentence takes the head and its hair together. The re-pose
+arm <b>M1q</b> does neither: it keeps the wearer's own head, so cropping it leaves whatever
+hair spilled onto the garment. <b>M1qb</b> adds one sentence, lifted from
+<code>v3lib.BALD_PROMPT</code> so the wording is the record's. Five garments, ranked by the
+quantity V2 itself gates on &mdash; <b>garment lost to hair removal</b>, measured as
+<code>c32_no_face_keep_hair</code> minus <code>c3_no_face</code>; V2 routes to BC_klein
+above <b>0.14</b>, and four of these five are over it. One klein call each, seed 46, on
+fal. Click any image for full size.</p>
+<details class='prompt'><summary><b>M1q</b> <span>the approved re-pose arm</span></summary><pre>Keep the clothing, the body, the hands and the background exactly as they are. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.</pre></details>
+<details class='prompt' open><summary><b>M1qb</b> <span>the same, with the bald sentence</span></summary><pre>Keep the clothing, the body, the hands and the background exactly as they are. The person is completely bald: remove all hair from the head and any hair falling over the shoulders, chest or back, and show the scalp. Change the pose: the person stands upright in a neutral pose, facing forward, arms relaxed at the sides, feet together. The photograph shows them from head to feet; keep that framing. The clothing stays exactly the same through the change of pose - the same pieces, the same shape, the same length.</pre></details>
+<div class='grid'><div class='card'><div class='ch'><b>p021</b><span class='t over'>hair share 0.195 — over V2&rsquo;s 0.14</span></div><div class='cols'><figure class='c-crop'><img src='img_v35bald/p021__crop.jpg' data-full='img_v35bald/p021__crop@full.jpg' alt='p021 crop' loading='lazy'><figcaption>A4 crop</figcaption></figure><figure class='c-M0'><img src='img_v35bald/p021__M0.jpg' data-full='img_v35bald/p021__M0@full.jpg' alt='p021 M0' loading='lazy'><figcaption>M0 — mannequin</figcaption></figure><figure class='c-M1q'><img src='img_v35bald/p021__M1q.jpg' data-full='img_v35bald/p021__M1q@full.jpg' alt='p021 M1q' loading='lazy'><figcaption>M1q — re-pose</figcaption></figure><figure class='c-M1qb'><img src='img_v35bald/p021__M1qb.jpg' data-full='img_v35bald/p021__M1qb@full.jpg' alt='p021 M1qb' loading='lazy'><figcaption>M1qb — re-pose + bald</figcaption></figure></div></div><div class='card'><div class='ch'><b>dualuse_woman_top_denim_skirt_nonceleb</b><span class='t over'>hair share 0.170 — over V2&rsquo;s 0.14</span></div><div class='cols'><figure class='c-crop'><img src='img_v35bald/dualuse_woman_top_denim_skirt_nonceleb__crop.jpg' data-full='img_v35bald/dualuse_woman_top_denim_skirt_nonceleb__crop@full.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb crop' loading='lazy'><figcaption>A4 crop</figcaption></figure><figure class='c-M0'><img src='img_v35bald/dualuse_woman_top_denim_skirt_nonceleb__M0.jpg' data-full='img_v35bald/dualuse_woman_top_denim_skirt_nonceleb__M0@full.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb M0' loading='lazy'><figcaption>M0 — mannequin</figcaption></figure><figure class='c-M1q'><img src='img_v35bald/dualuse_woman_top_denim_skirt_nonceleb__M1q.jpg' data-full='img_v35bald/dualuse_woman_top_denim_skirt_nonceleb__M1q@full.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb M1q' loading='lazy'><figcaption>M1q — re-pose</figcaption></figure><figure class='c-M1qb'><img src='img_v35bald/dualuse_woman_top_denim_skirt_nonceleb__M1qb.jpg' data-full='img_v35bald/dualuse_woman_top_denim_skirt_nonceleb__M1qb@full.jpg' alt='dualuse_woman_top_denim_skirt_nonceleb M1qb' loading='lazy'><figcaption>M1qb — re-pose + bald</figcaption></figure></div></div><div class='card'><div class='ch'><b>p023</b><span class='t over'>hair share 0.169 — over V2&rsquo;s 0.14</span></div><div class='cols'><figure class='c-crop'><img src='img_v35bald/p023__crop.jpg' data-full='img_v35bald/p023__crop@full.jpg' alt='p023 crop' loading='lazy'><figcaption>A4 crop</figcaption></figure><figure class='c-M0'><img src='img_v35bald/p023__M0.jpg' data-full='img_v35bald/p023__M0@full.jpg' alt='p023 M0' loading='lazy'><figcaption>M0 — mannequin</figcaption></figure><figure class='c-M1q'><img src='img_v35bald/p023__M1q.jpg' data-full='img_v35bald/p023__M1q@full.jpg' alt='p023 M1q' loading='lazy'><figcaption>M1q — re-pose</figcaption></figure><figure class='c-M1qb'><img src='img_v35bald/p023__M1qb.jpg' data-full='img_v35bald/p023__M1qb@full.jpg' alt='p023 M1qb' loading='lazy'><figcaption>M1qb — re-pose + bald</figcaption></figure></div></div><div class='card'><div class='ch'><b>dualuse_zendaya_white_blazer_skirt</b><span class='t over'>hair share 0.144 — over V2&rsquo;s 0.14</span></div><div class='cols'><figure class='c-crop'><img src='img_v35bald/dualuse_zendaya_white_blazer_skirt__crop.jpg' data-full='img_v35bald/dualuse_zendaya_white_blazer_skirt__crop@full.jpg' alt='dualuse_zendaya_white_blazer_skirt crop' loading='lazy'><figcaption>A4 crop</figcaption></figure><figure class='c-M0'><img src='img_v35bald/dualuse_zendaya_white_blazer_skirt__M0.jpg' data-full='img_v35bald/dualuse_zendaya_white_blazer_skirt__M0@full.jpg' alt='dualuse_zendaya_white_blazer_skirt M0' loading='lazy'><figcaption>M0 — mannequin</figcaption></figure><figure class='c-M1q'><img src='img_v35bald/dualuse_zendaya_white_blazer_skirt__M1q.jpg' data-full='img_v35bald/dualuse_zendaya_white_blazer_skirt__M1q@full.jpg' alt='dualuse_zendaya_white_blazer_skirt M1q' loading='lazy'><figcaption>M1q — re-pose</figcaption></figure><figure class='c-M1qb'><img src='img_v35bald/dualuse_zendaya_white_blazer_skirt__M1qb.jpg' data-full='img_v35bald/dualuse_zendaya_white_blazer_skirt__M1qb@full.jpg' alt='dualuse_zendaya_white_blazer_skirt M1qb' loading='lazy'><figcaption>M1qb — re-pose + bald</figcaption></figure></div></div><div class='card'><div class='ch'><b>p012</b><span class='t'>hair share 0.140</span></div><div class='cols'><figure class='c-crop'><img src='img_v35bald/p012__crop.jpg' data-full='img_v35bald/p012__crop@full.jpg' alt='p012 crop' loading='lazy'><figcaption>A4 crop</figcaption></figure><figure class='c-M0'><img src='img_v35bald/p012__M0.jpg' data-full='img_v35bald/p012__M0@full.jpg' alt='p012 M0' loading='lazy'><figcaption>M0 — mannequin</figcaption></figure><figure class='c-M1q'><img src='img_v35bald/p012__M1q.jpg' data-full='img_v35bald/p012__M1q@full.jpg' alt='p012 M1q' loading='lazy'><figcaption>M1q — re-pose</figcaption></figure><figure class='c-M1qb'><img src='img_v35bald/p012__M1qb.jpg' data-full='img_v35bald/p012__M1qb@full.jpg' alt='p012 M1qb' loading='lazy'><figcaption>M1qb — re-pose + bald</figcaption></figure></div></div></div>
+<footer>5 garments &middot; 10 klein calls on <code>fal-ai/flux-2/klein/4b/distilled/edit</code>, seed 46, $0.15 &middot; <code>M0</code> reused from link A (same backend, same seed) &middot; hair metric: garment lost to hair removal: (c32_no_face_keep_hair - c3_no_face) alpha area, v2/runs/crop_screen; V2 gates BC_klein at hair_threshold=0.14 &middot; outputs <code>v3/runs/v35/bald_probe/refs/</code> &middot; rebuild: <code>python3 v3/build/v35_bald_page.py</code>.</footer></div>
+<div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div>
+<script>
+document.addEventListener('click',e=>{const im=e.target.closest('figure img');
+  if(!im)return;document.getElementById('lbi').src=im.dataset.full||im.getAttribute('src');
+  document.getElementById('lbc').textContent=im.getAttribute('alt');
+  document.getElementById('lb').classList.add('on');});
+document.getElementById('lb').addEventListener('click',()=>
+  document.getElementById('lb').classList.remove('on'));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')
+  document.getElementById('lb').classList.remove('on')});
+</script>
