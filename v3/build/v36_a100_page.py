@@ -24,11 +24,13 @@ RUN = os.path.join(REPO, "v3", "runs", "v36", "a100")
 REPORT = os.path.join(REPO, "v3", "report")
 IMG = os.path.join(REPORT, "img_v36a")
 
-ARMS = ("E0", "ER", "EFR", "EX")
+ARMS = ("E0", "ER", "EFR", "EX", "ERD", "ERS")   # rendered only where the files exist
 LABEL = {"E0": ("E0", "the shipped prompt &mdash; the archived BC cell itself"),
          "ER": ("ER", "the verb: replace the clothing, not dress the person"),
          "EFR": ("EFR", "ER + the no-blend paragraph"),
-         "EX": ("EX", "removal, layering, piece count, limb count, framing")}
+         "EX": ("EX", "removal, layering, piece count, limb count, framing"),
+         "ERD": ("ERD", "ER + the limb clause, dynamic &mdash; only parts in frame"),
+         "ERS": ("ERS", "ER + the limb clause, always")}
 
 
 def web(src, dst, width=440):
@@ -51,13 +53,17 @@ def main():
     meta = json.load(open(os.path.join(RUN, "meta", "cost_v36.json")))
     rows = list(csv.DictReader(open(os.path.join(RUN, "v36_editset.csv"))))
 
+    shown = [a for a in ARMS if os.path.exists(os.path.join(
+        RUN, "gen", f"{rows[0]['set_id']}__{a}__s{rows[0]['seed']}.jpg"))]
+    dyn = meta.get("dynamic_arms", {})
+
     cards, n = [], 0
     for r in rows:
         sid, p, g, s, bc = r["set_id"], r["person"], r["garment"], r["seed"], r["bc"]
         pt, pf = web(os.path.join(RUN, "inputs", f"{p}.jpg"), f"{p}__person.jpg", 280)
         rt, rf = web(os.path.join(RUN, "refs", f"{g}__BC.jpg"), f"{g}__ref.jpg", 280)
         cols = []
-        for arm in ARMS:
+        for arm in shown:
             t, f = web(os.path.join(RUN, "gen", f"{sid}__{arm}__s{s}.jpg"),
                        f"{sid}__{arm}__s{s}.jpg")
             if not t:
@@ -84,12 +90,12 @@ def main():
             f"</div><div class='outs'>{''.join(cols)}</div></div></div>")
 
     prompts = "".join(
-        f"<div class='pr'><b>{a}</b><code>{html.escape(meta['prompts'][a])}</code></div>"
-        for a in ARMS)
+        f"<div class='pr'><b>{a}</b><code>{html.escape(meta['prompts'][a] if a in meta['prompts'] else dyn[a]['base'] + ' [+ per cell: ' + dyn[a]['clause_if_all_in_frame'].strip() + ']')}</code></div>"
+        for a in shown if a in meta["prompts"] or a in dyn)
     k = meta["klein"]
     o = [HEAD, "<div class='wrap'>", LEDE, f"<div class='prompts'>{prompts}</div>", BAR,
          f"<div class='grid'>{''.join(cards)}</div>",
-         f"<footer>{len(rows)} cells &times; {len(ARMS)} arms = {n} images &middot; "
+         f"<footer>{len(rows)} cells &times; {len(shown)} arms = {n} images &middot; "
          f"{meta['calls']} klein calls self-hosted on {html.escape(k['gpu'])} "
          f"(<code>{html.escape(k['repo'])}</code>, {k['dtype']}), {meta['wall_minutes']} min, "
          f"CAD {meta['usd_gpu']:.2f} &mdash; ${meta['usd_fal_equivalent']:.2f} of fal calls "
@@ -100,7 +106,8 @@ def main():
          f"{html.escape(meta['set_definition'])} &middot; rebuild: "
          "<code>python3 v3/build/v36_a100_page.py</code>.</footer></div>", LB, SCRIPT]
     open(os.path.join(REPORT, "v36_a100.html"), "w").write("\n".join(o))
-    print(f"v3/report/v36_a100.html  ({len(rows)} cells x {len(ARMS)} arms, {n} images)")
+    print(f"v3/report/v36_a100.html  ({len(rows)} cells x {len(shown)} arms: "
+          f"{', '.join(shown)}; {n} images)")
 
 
 HEAD = """<title>v3.6 - call 2's prompt on 150 cells</title>
@@ -143,7 +150,7 @@ h1{margin:0 0 2px;font-size:24px}
 .body{display:grid;grid-template-columns:280px 1fr;gap:10px;padding:7px}
 @media(max-width:1100px){.body{grid-template-columns:1fr}}
 .src{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;align-content:start}
-.outs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.outs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:7px}
 @media(max-width:900px){.outs{grid-template-columns:repeat(2,1fr)}}
 figure{margin:0}
 figure img{width:100%;display:block;background:#fff;border-radius:5px;cursor:zoom-in;

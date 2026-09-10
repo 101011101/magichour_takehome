@@ -11,6 +11,10 @@ the V2 head-subtracting crop, not SR'd — on `BC`'s own call-2 canvas (`fal`, t
   ER   E0's verb rewritten: replace the clothing
   EFR  ER + v3.6's no-blend paragraph
   EX   the maximal prompt: removal, layering, piece count, limb count, framing
+  ERD  ER + a limb clause built from a pose read of image 1 - DYNAMIC, names only what is
+       in frame, which is v2's rule: never name a body part the crop excludes
+  ERS  ER + the same clause always, whether or not the parts are in frame - the control
+       that says whether the dynamic read is doing any work
 
 The set is `v36_editset.csv`: 29 cells the reviewer marked FAIL for `BC` and 121 it left
 unmarked (v3/build/make_v36_editset.py). Both sides on purpose - the failures say what a
@@ -64,7 +68,46 @@ EX = ("Replace the clothing in image 1 with the clothing in image 2."
       " together, and remove none."
       " Keep image 1's background and framing exactly: do not zoom out, and draw no part of"
       " the body that image 1 does not show.")
-PROMPT = {"E0": E0, "ER": ER, "EFR": EFR, "EX": EX}
+
+# ---- the dynamic limb clause -------------------------------------------------
+# v2's mechanism, applied to call 2 for the first time. MediaPipe Pose already returns a
+# visibility and a coordinate per landmark, so "is the foot in frame" is a read, not a
+# boundary hunt - and BiRefNet cannot answer it at all: a matte is a silhouette with no
+# part labels. Wrists and foot-index are not in v3lib.JOINTS, so they are read here rather
+# than by widening the module every other arm of record depends on.
+LIMB_LM = {"hands": (15, 16), "feet": (27, 28, 31, 32)}
+_ARMS_C = ("two arms and two hands", "arm or hand")
+_FEET_C = ("two legs and two feet", "leg, foot or shoe")
+
+
+def limbs(bgr, paths, vis=0.5, margin=0.02):
+    """Which of hands/feet are confident AND inside image 1's frame."""
+    res = L._poser(paths).detect(L._mp_image(bgr))
+    if not res.pose_landmarks:
+        return []
+    lm = res.pose_landmarks[0]
+    return [k for k, idx in LIMB_LM.items()
+            if any(lm[i].visibility >= vis and -margin <= lm[i].x <= 1 + margin
+                   and -margin <= lm[i].y <= 1 + margin for i in idx)]
+
+
+def limb_clause(present):
+    """One sentence naming exactly the parts the photograph shows, and nothing else. With
+    neither in frame there is no sentence: the arm falls back to plain ER, on purpose."""
+    parts = ([_ARMS_C] if "hands" in present else []) + ([_FEET_C] if "feet" in present else [])
+    if not parts:
+        return ""
+    have = ", and ".join(p[0] for p in parts)
+    none = ", ".join(p[1] for p in parts)
+    shoes = ", and wears one pair of shoes" if "feet" in present else ""
+    return (f" The person has exactly {have}, in the positions image 1 has them{shoes} -"
+            f" add no extra {none}, merge none together, and remove none.")
+
+
+ALL_LIMBS = limb_clause(["hands", "feet"])   # ERS: the same sentence on every cell
+
+PROMPT = {"E0": E0, "ER": ER, "EFR": EFR, "EX": EX, "ERS": ER + ALL_LIMBS}
+DYNAMIC = ("ERD",)                            # prompt depends on the cell, so it is built per call
 
 _T = []
 
@@ -79,14 +122,20 @@ def main(matrix="v36_editset.csv", limit=None, arms=ARMS, gpu_usd_per_hour=None)
     wall0 = time.time()
     rows = list(csv.DictReader(open(matrix)))[:limit]
     for arm in arms:
-        if arm not in PROMPT:
-            raise SystemExit(f"unknown arm {arm}; one of {sorted(PROMPT)}")
+        if arm not in PROMPT and arm not in DYNAMIC:
+            raise SystemExit(f"unknown arm {arm}; one of {sorted(set(PROMPT) | set(DYNAMIC))}")
+    paths = (L.fetch_models(persist=os.environ.get("V3_MODEL_DIR"))
+             if any(a in DYNAMIC for a in arms) else None)
     for r in rows:
         for p in (d("inputs", f"{r['person']}.jpg"), d("refs", f"{r['garment']}__BC.jpg")):
             if not os.path.exists(p):
                 raise SystemExit(f"missing input {p} - cell 4 unpacks these off Drive")
 
     K.load()
+    seen = {}       # per-cell record of what the dynamic read said, and what it sent
+    mp = d("meta", "prompts_v36.json")
+    if os.path.exists(mp):
+        seen = json.load(open(mp))
     todo = [(r, a) for r in rows for a in arms
             if not os.path.exists(d("gen", f"{r['set_id']}__{a}__s{r['seed']}.jpg"))]
     print(f"{len(rows)} cells x {len(arms)} arms = {len(rows) * len(arms)}; {len(todo)} to make")
@@ -98,7 +147,13 @@ def main(matrix="v36_editset.csv", limit=None, arms=ARMS, gpu_usd_per_hour=None)
         ref = cv2.imread(d("refs", f"{r['garment']}__BC.jpg"))
         # canvas 'fal': BC's own call-2 rule in iron man 2, so these cells sit on the same
         # canvas as the archive they are compared against
-        im, secs = K.edit([person, ref], PROMPT[arm], seed, canvas="fal")
+        if arm in DYNAMIC:
+            present = limbs(person, paths)
+            prompt = ER + limb_clause(present)
+            seen[f"{r['set_id']}|{arm}"] = {"in_frame": present, "prompt": prompt}
+        else:
+            prompt = PROMPT[arm]
+        im, secs = K.edit([person, ref], prompt, seed, canvas="fal")
         cv2.imwrite(d("gen", f"{r['set_id']}__{arm}__s{seed}.jpg"), im,
                     [cv2.IMWRITE_JPEG_QUALITY, 95])
         _T.append({"set_id": r["set_id"], "arm": arm, "seed": seed, "seconds": secs,
@@ -106,7 +161,9 @@ def main(matrix="v36_editset.csv", limit=None, arms=ARMS, gpu_usd_per_hour=None)
         n += 1
         if n % 25 == 0 or n == len(todo):
             print(f"    {n}/{len(todo)} edits", flush=True)
+            json.dump(seen, open(mp, "w"), indent=1)
             _write(rows, arms, wall0, gpu_usd_per_hour)
+    json.dump(seen, open(mp, "w"), indent=1)
     _write(rows, arms, wall0, gpu_usd_per_hour)
     print(f"done: {n} edits in {(time.time() - wall0) / 60:.1f} min")
 
@@ -122,7 +179,11 @@ def _write(rows, arms, wall0, rate):
                "set_definition": "29 cells the reviewer marked FAIL for BC in the blind "
                                  "bc_count sweep + 121 unmarked cells sampled with "
                                  "random.Random(46) - both sides of the record",
-               "prompts": {a: PROMPT[a] for a in ("E0",) + tuple(arms)},
+               "prompts": {a: PROMPT[a] for a in ("E0",) + tuple(arms) if a in PROMPT},
+               "dynamic_arms": {a: {"base": ER, "clause": "built per cell from a MediaPipe "
+                                    "Pose read of image 1 - see meta/prompts_v36.json",
+                                    "clause_if_all_in_frame": ALL_LIMBS}
+                                for a in arms if a in DYNAMIC},
                "reference": "refs/{garment}__BC.jpg as shipped - bald pass + V2 "
                             "head-subtracting crop, no SR",
                "canvas": "BC's own call-2 rule (fal canvas), as bc_canvas=fal",
