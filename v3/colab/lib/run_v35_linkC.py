@@ -243,6 +243,14 @@ def main(matrix="v35_failures.csv", testset="testset", seeds=(46, 47, 48),
             and not os.path.exists(d("refs", f"{g}__{base}_headcut.jpg"))]
     if jobs:
         n_w = max(1, int(crop_workers))
+        # threads exist to hide CPU latency. On the GPU they only multiply peak memory
+        # beside a 4B model already resident on the card - which is how a crop that fits
+        # alone fails to allocate 822 MB in company. The GPU serialises the work anyway.
+        import garment_crop as _GC
+        if "cuda" in str(_GC.ort_providers()[0]).lower() and n_w > 1:
+            print(f"   crops are on the GPU: using 1 thread, not {n_w} "
+                  f"(threads would only multiply peak memory)")
+            n_w = 1
         print(f"3b {len(jobs)} head crops on {n_w} thread{'s' if n_w > 1 else ''}", flush=True)
         t0 = time.time()
         if n_w == 1:

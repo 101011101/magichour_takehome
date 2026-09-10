@@ -205,10 +205,23 @@ def region_band(shape, region):
 # missing or mismatched CUDA runtime degrades instead of failing. Callers that care
 # whether it took can read `_STATE["biref_prov"]`.
 def ort_providers():
+    """CUDA when asked for and available, with a memory-polite arena.
+
+    BiRefNet at 1024 allocates ~800 MB intermediates in the deformable-ASPP decoder, and it
+    shares the card with a 4B generative model. onnxruntime's default arena grabs in large
+    doubling extents and does not give memory back, which is what turns "shares a card" into
+    "fails to allocate 822083584". kSameAsRequested plus a capped workspace keeps it to what
+    the graph actually needs; measured as no slower on this graph."""
     import onnxruntime as ort
     if os.environ.get("V2_ORT_GPU", "0") == "1" and \
             "CUDAExecutionProvider" in ort.get_available_providers():
-        return ["CUDAExecutionProvider", "CPUExecutionProvider"]
+        opts = {"arena_extend_strategy": "kSameAsRequested",
+                "cudnn_conv_use_max_workspace": "0",
+                "do_copy_in_default_stream": "1"}
+        lim = os.environ.get("V2_ORT_GPU_MEM_MB")
+        if lim:
+            opts["gpu_mem_limit"] = str(int(lim) * 1024 * 1024)
+        return [("CUDAExecutionProvider", opts), "CPUExecutionProvider"]
     return ["CPUExecutionProvider"]
 
 
