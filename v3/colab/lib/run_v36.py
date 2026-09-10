@@ -107,6 +107,12 @@ def limb_clause(present):
 ALL_LIMBS = limb_clause(["hands", "feet"])   # ERS: the same sentence on every cell
 
 PROMPT = {"E0": E0, "ER": ER, "EFR": EFR, "EX": EX, "ERS": ER + ALL_LIMBS}
+SETS = {"v36_editset.csv": "29 cells the reviewer marked FAIL for BC in the blind bc_count "
+                           "sweep + 121 unmarked cells sampled with random.Random(46) - "
+                           "both sides of the record",
+        "v36_ironman_er.csv": "the whole iron-man-2 matrix, 200 pairs x seeds 46/47/48 - "
+                              "the same 600 cells BC's blind count was made on"}
+_MATRIX = {"name": "v36_editset.csv"}
 DYNAMIC = ("ERD",)                            # prompt depends on the cell, so it is built per call
 
 _T = []
@@ -120,6 +126,7 @@ def d(*p):
 
 def main(matrix="v36_editset.csv", limit=None, arms=ARMS, gpu_usd_per_hour=None):
     wall0 = time.time()
+    _MATRIX["name"] = matrix
     rows = list(csv.DictReader(open(matrix)))[:limit]
     for arm in arms:
         if arm not in PROMPT and arm not in DYNAMIC:
@@ -176,9 +183,10 @@ def _write(rows, arms, wall0, rate):
     wall = time.time() - wall0
     json.dump({"cells": len(rows), "arms": list(arms), "calls": len(_T),
                "set": "v36_editset.csv",
-               "set_definition": "29 cells the reviewer marked FAIL for BC in the blind "
-                                 "bc_count sweep + 121 unmarked cells sampled with "
-                                 "random.Random(46) - both sides of the record",
+               # derived, not asserted: a stale description on a different matrix was
+               # exactly the kind of thing that makes a run's meta untrustworthy
+               "set_definition": SETS.get(os.path.basename(_MATRIX["name"]),
+                                          f"the cells of {_MATRIX['name']}"),
                "prompts": {a: PROMPT[a] for a in ("E0",) + tuple(arms) if a in PROMPT},
                "dynamic_arms": {a: {"base": ER, "clause": "built per cell from a MediaPipe "
                                     "Pose read of image 1 - see meta/prompts_v36.json",
