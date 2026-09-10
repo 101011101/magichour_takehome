@@ -136,7 +136,9 @@ def numbers():
         "bc_only": bc_only, "er_only": er_only,
         "er_pairs_stable": ed[3], "er_stable_pct": 100 * ed[3] / len(byE),
         "er_pairs_fail": len(byE) - ed[0],
-        "er_retry_pass": 100 * enum / eden,
+        "er_retry_pass": 100 * enum / eden, "er_retry_num": enum, "er_retry_den": eden,
+        "er_floor": 100 * ed[3] * 3 / len(shared),
+        "er_indep": 100 * (er_fail / len(shared)) ** 2,
         "er_residual": (er_fail / len(shared)) * (1 - enum / eden) * 100,
         "pairs": len(by), "seed_dist": dist,
         "pairs_failing": len(by) - dist[0], "pairs_stable": dist[3],
@@ -168,72 +170,94 @@ def tile(value, label, sub, tone=""):
 # -------------------------------------------------------------------- page ---
 def page1(N):
     wins = [r for r in N["marks"] if r["better"] == "ER"]
-    rescue = 100 * N["er_win_fail"] / N["fail_n"]
+    drop = N["bc_rate"] - N["er_rate"]
 
     tiles = "".join([
-        tile(f"{N['bc_rate']:.1f}%", "BC_klein failure rate",
-             f"{N['bc_fail']}/{N['bc_cells']} cells, blind sweep, 2026-09-10"),
-        tile(f"{N['er_rate']:.2f}%", "ER failure rate",
-             f"{N['er_fail']}/{N['er_cells']} cells, the same blind page &mdash; "
-             f"&minus;{N['bc_rate'] - N['er_rate']:.2f} points, "
-             f"&minus;{100 * (N['bc_rate'] - N['er_rate']) / N['bc_rate']:.0f}% relative", "good"),
-        tile(f"{N['bc_only']} : {N['er_only']}", "cells repaired : cells broken",
-             "joined per cell against BC's own record, McNemar p = 0.043", "good"),
-        tile(f"{N['er_median']:.2f}s", "median ER call",
-             f"BC is {N['bc_per_call']:.2f}s &mdash; the same call, one word longer"),
-        tile(f"CAD {N['bc_usd']:.2f}", "per 600-cell arm, self-hosted",
-             f"${N['bc_fal']:.2f} of fal calls; ER costs the same"),
-        tile("0", "extra model calls ER adds",
-             "same pipeline, same reference, same canvas, same seed"),
+        tile(f"{N['bc_rate']:.2f}%", "BC_klein &mdash; the incumbent",
+             f"{N['bc_fail']} failures in {N['bc_cells']} cells"),
+        tile(f"{N['er_rate']:.2f}%", "ER &mdash; one verb changed",
+             f"{N['er_fail']} failures in the same {N['er_cells']} cells", "good"),
+        tile(f"&minus;{100 * drop / N['bc_rate']:.0f}%", "relative reduction",
+             f"&minus;{drop:.2f} points absolute", "good"),
+        tile(f"{N['bc_only']} : {N['er_only']}", "repaired : broken",
+             "joined per cell; McNemar exact p = 0.043", "good"),
+        tile(f"{N['er_residual']:.2f}%", "after one seed retry",
+             f"a failed cell passes at another seed {N['er_retry_pass']:.0f}% of the time"),
+        tile("CAD 0.45", "per 1000 images",
+             f"USD 15.00 on fal &middot; ER costs the same as BC to 3 decimals"),
     ])
-    ship = f"""<h2>What ships</h2>
-<p><b><code>ER</code> is the arm to deploy</b> &mdash; the incumbent pipeline with one verb
-changed in call 2. Nothing else about the system moves, which is the point: it costs no call,
-no model and no measurable time.</p>
-<p><b>On top of it, a seed randomiser.</b> A rejected image is redrawn at a fresh seed rather
-than repaired &mdash; and <code>ER</code>'s own record is what makes the policy cheap. Both
-arms are 200 pairs at three seeds, so the sweep says how much of each rate is a seed lottery
-rather than a broken pair:</p>
-<table class='seeds'>
-<tr><th></th><th>BC</th><th>ER</th></tr>
-<tr><td>pairs with at least one failure</td><td>{N['pairs_failing']} / {N['pairs']}</td>
-    <td>{N['er_pairs_fail']} / {N['pairs']}</td></tr>
-<tr><td>pairs failing at <b>every</b> seed</td>
-    <td>{N['pairs_stable']} ({N['stable_pct']:.1f}%)</td>
-    <td class='good'>{N['er_pairs_stable']} ({N['er_stable_pct']:.1f}%)</td></tr>
-<tr><td>given a failed cell, another seed passes</td><td>{N['retry_pass']:.0f}%</td>
-    <td class='good'>{N['er_retry_pass']:.0f}%</td></tr>
-<tr><td>residual after one retry</td><td>{N['residual']:.2f}%</td>
-    <td class='good'>{N['er_residual']:.2f}%</td></tr>
-</table>
-<p><code>ER</code> does not only fail less &mdash; <b>its failures are less seed-stable</b>,
-so a retry is likelier to land. One retry takes it from {N['er_rate']:.2f}% to about
-<b>{N['er_residual']:.2f}%</b>, and further retries approach the
-<b>{N['er_stable_pct']:.1f}% floor</b>: the pairs whose <i>reference</i> is wrong, which no
-seed repairs. Only rejected images are redrawn, so the policy costs about
-{N['er_rate']:.0f}% more calls.</p>
-<p class='caveat'><b>The dependency is a rejector, and it is unbuilt.</b> A retry policy needs
-something that decides an image failed. The v3.6 VLM judge is a first attempt and is not good
-enough yet: its artifact flag fires on 45% of cells a human passed. Its limb flag is the
-strongest discriminator found so far (14.8&times; over base rate) and phasing is usable
-(2.7&times;); the artifact bucket is not. That is the next piece of work, and until it exists
-the retry rates above are a property of the model, not a shipped number.</p>"""
 
-    galleryA = "".join(cell(r["set_id"], r["seed"],
-                            note="BC failed here" if r["bc"] == "fail" else "BC passed here")
-                       for r in wins)
-    galleryB = "".join(cell(sid, seed, note="no difference marked") for sid, seed in SAME_CASES)
-
-    return f"""{HEAD.replace('TITLE', 'v3.6 &mdash; one word in call 2')}
+    return f"""{HEAD.replace('TITLE', 'ER &mdash; one verb in call 2')}
 <div class='wrap'>
 <p class='lede'>The deployed pipeline changes by <b>one verb</b>. <code>BC_klein</code>'s
 call 2 says <i>dress the person in the clothing shown in image 2</i>; <code>ER</code> says
-<i>replace the clothing in image 1 with the clothing in image 2</i>. Nothing else moves:
-same reference, same canvas, same seed, same model, same call count. This page is the
-evidence at a glance; <a href='v36_findings.html'>the long read</a> is why nothing more
-ambitious than this survived.</p>
+<i>replace the clothing in image 1 with the clothing in image 2</i>. Nothing else moves &mdash;
+same reference, same canvas, same seed, same model, same call count. The architecture and the
+reasoning are on <a href='v36_findings.html'>the long read</a>; this page is the result.</p>
 
-<h2>The architecture, as deployed</h2>
+<div class='tiles'>{tiles}</div>
+
+<p class='sec'>Both arms were marked on the same blind page, one button per cell, no prior
+verdict in it &mdash; 200 pairs &times; seeds 46/47/48. Per cell:</p>
+<table class='seeds'>
+<tr><th></th><th>ER clean</th><th>ER fails</th></tr>
+<tr><td><b>BC clean</b></td><td>{N['er_cells'] - N['bc_only'] - N['er_only'] - (N['bc_fail'] - N['bc_only'])}</td><td class='bad'>{N['er_only']}</td></tr>
+<tr><td><b>BC fails</b></td><td class='good'>{N['bc_only']}</td><td>{N['bc_fail'] - N['bc_only']}</td></tr>
+</table>
+<p class='caveat'>The two sweeps were not marked in the same sitting, so part of a
+{drop:.2f}-point gap could be a stricter session. <b>The per-cell join does not depend on
+that</b>: {N['bc_only']} cells changed from fail to clean and {N['er_only']} the other way,
+which is a statement about individual cells rather than two thresholds.</p>
+
+<h2>With the seed randomiser</h2>
+<p class='sec'>A rejected image is redrawn at a fresh seed rather than repaired. Measured on
+the sweep itself &mdash; every pair was run at three seeds, so the record says what a retry
+would have done.</p>
+<table class='seeds'>
+<tr><th></th><th>BC</th><th>ER</th></tr>
+<tr><td>as shipped</td><td>{N['bc_rate']:.2f}%</td><td class='good'>{N['er_rate']:.2f}%</td></tr>
+<tr><td>a failed cell passes at another seed</td>
+    <td>{N['retry_num']}/{N['retry_den']} = {N['retry_pass']:.0f}%</td>
+    <td class='good'>{N['er_retry_num']}/{N['er_retry_den']} = {N['er_retry_pass']:.0f}%</td></tr>
+<tr><td>after one retry</td><td>{N['residual']:.2f}%</td>
+    <td class='good'>{N['er_residual']:.2f}%</td></tr>
+<tr><td>floor &mdash; pairs that fail at every seed</td>
+    <td>{N['stable_pct']:.1f}%</td><td class='good'>{N['er_floor']:.2f}%</td></tr>
+</table>
+<p><code>ER</code> does not only fail less, <b>its failures are less seed-stable</b> &mdash;
+so the retry lands more often on top of a smaller starting rate. One retry costs about
+{N['er_rate']:.0f}% more calls, because only rejects are redrawn.
+<a href='v36_findings.html#seeds'>Why this is not 97%, and what it would take</a>.</p>
+
+<h2>What one word repairs</h2>
+<p class='sec'>The failure class is the same every time: <b>the wearer's own clothing survives
+underneath the new garment</b>. <i>Dress the person in</i> names only the putting-on;
+<i>replace&hellip;with</i> names the removal too.</p>
+{"".join(cell(r["set_id"], r["seed"]) for r in wins)}
+
+<h2>What it leaves alone</h2>
+<p class='sec'>The other side of the same coin: on cells that already worked the two are
+indistinguishable. A prompt that bought its rescues by redrawing everything would show it
+here.</p>
+{"".join(cell(sid, seed) for sid, seed in SAME_CASES[:3])}
+
+<footer>Built by <code>v3/build/v36_report.py</code> from
+<code>v3/testsets/er_count.csv</code>, <code>bc_count.csv</code> and the run meta in
+<code>v3/runs/v36/</code>. Full evidence layer: <code>prd/v3/v3.6/RESULTS.md</code>. Click any
+image for full size. &middot; <a href='v36_findings.html'>the rationale and the architecture
+&rarr;</a></footer>
+</div>{LB}{SCRIPT}"""
+
+
+def page2(N):
+    return f"""{HEAD.replace('TITLE', 'Why ER, and why nothing more')}
+<div class='wrap'>
+<p class='lede'>The short version: <b>the reference is the ceiling, and the reference cannot
+be improved by generating it.</b> Everything here is how the v3.x series arrived there, why
+every more ambitious arm lost, and why one verb in call 2 is the most that can be taken.
+<a href='v36_report.html'>&larr; the result</a></p>
+
+<h2>1. The architecture, as deployed</h2>
 <div class='arch'>
   <div class='step'><span class='k'>call 1</span><b>klein bald pass</b>
     <p>The garment photograph, edited to remove the wearer's hair. A small,
@@ -252,174 +276,151 @@ ambitious than this survived.</p>
   <div class='pr'><b>BC</b><code>{html.escape(V.E0)}</code></div>
   <div class='pr'><b>ER</b><code>{html.escape(V.ER)}</code></div>
 </div>
-
-<h2>The numbers</h2>
-<div class='tiles'>{tiles}</div>
-<p class='caveat'><b>Read these as they are.</b> The {N['bc_rate']:.1f}% is measured &mdash;
-a blind pass over all {N['bc_cells']} cells of the iron-man-2 matrix. The <code>ER</code>
-column is a <b>head-to-head over {N['cells']} cells</b> ({N['fail_n']} of BC's failures and
-{N['ok_n']} of its passes), marked with both images side by side. {N['unmarked']} cells were
-left unmarked as showing no difference worth calling; they are counted as neither a win nor
-a loss. <b>No cell anywhere on that set was marked BC-better.</b> The headline rate above is
-not from those marks: it is the <b>same blind sweep over the same {N['er_cells']} cells</b>,
-one button per cell, no prior verdict in the page &mdash; the protocol that produced
-{N['bc_rate']:.2f}%. <b>The two sweeps were not made in the same sitting</b>, so some share of
-a 1.8-point gap could be a stricter session; the per-cell join
-(<b>{N['bc_only']} repaired against {N['er_only']} broken</b>) is the claim that does not
-depend on the two sessions sharing a threshold.</p>
-
-{ship}
-
-<h2>What one word repairs</h2>
-<p class='sec'>Every cell <code>ER</code> was marked better on. The failure class is the
-same each time: <b>the wearer's own clothing survives underneath the new garment</b>.
-<i>Dress the person in</i> names only the putting-on and leaves the removal implicit;
-<i>replace&hellip;with</i> names both.</p>
-{galleryA}
-
-<h2>What it leaves alone</h2>
-<p class='sec'>The other side of the same coin, and the reason the change is safe: on cells
-that already worked, the two are indistinguishable. A prompt that rescues failures by
-redrawing everything would show it here.</p>
-{galleryB}
-
-<footer>Built by <code>v3/build/v36_report.py</code> from
-<code>v3/testsets/v36_er_vs_bc.csv</code>, <code>v3/testsets/bc_count.csv</code> and the run
-meta in <code>v3/runs/v36/a100/</code>. Images are the run's own outputs; click any for full
-size. Evidence bundles live on Drive (<code>v3_runs/v36_*.zip</code>) per the V3 rule that
-generated images stay out of git. &middot; <a href='v36_findings.html'>the long read
-&rarr;</a></footer>
-</div>{LB}{SCRIPT}"""
-
-
-def page2(N):
-    return f"""{HEAD.replace('TITLE', 'v3.6 &mdash; what the series established')}
-<div class='wrap'>
-<p class='lede'>The short version: <b>the reference is the ceiling, and the reference cannot
-be improved by generating it.</b> Everything below is how the v3.x series arrived there, and
-why <code>ER</code> &mdash; one verb in call 2 &mdash; is the most that can be taken without
-paying complexity that does not earn itself. <a href='v36_report.html'>&larr; back to the
-evidence at a glance</a></p>
-
-<h2>1. The shape of the problem</h2>
-<p>Try-on is two calls. Call 1 turns a photograph of a person wearing clothes into a
-<b>reference</b> that shows the clothes without the identity. Call 2 puts that reference on
-the target. Every version of this project has moved effort between those two calls, and the
-series' central finding is that <b>call 1 decides the outcome</b> &mdash; call 2 faithfully
-transfers whatever it is given, including the mistakes.</p>
+<p>Two calls, one deterministic stage between them. Call 1 turns a photograph of a person
+wearing clothes into a <b>reference</b> that shows the clothes without the identity; call 2
+puts that reference on the target. The series' central finding is that <b>call 1 decides the
+outcome</b> &mdash; call 2 transfers whatever it is given, faithfully, including the
+mistakes.</p>
 
 <h2>2. Regeneration is a tax, and it is charged on the garment</h2>
-<p>v3.1 through v3.4 built increasingly sophisticated call-1 arms: mannequin head swaps,
-explicit re-posing, canvas discipline, super-resolution applied only to finished references.
-The locked arm <code>VEi</code> is the best of them. Measured over the same 600 cells, it
-failed <b>9.2%</b> against the incumbent <code>BC_klein</code>'s <b>4.8%</b> &mdash; 43 cells
-where the sophisticated arm fails and the simple one does not, against 17 the other way.</p>
-<p>The mechanism is not subtle once stated. <code>BC</code> edits the <i>head</i> and then
-isolates the garment with a <b>deterministic matte</b>, which can only remove; its garment
-pixels are the photograph's, end to end. Every <code>V</code>-family arm asks a generative
-model to <b>re-draw the whole frame</b>, because a head swap and a re-pose are full-frame
-edits. A distilled 4-step model re-drawing a garment does not copy it. It resamples it, and
-what it loses is exactly what call 2 needs: weave, print registration, seam and hem
-placement, the number of pieces. The loss is not noise, it is <b>structured invention</b>
-&mdash; and call 2 cannot tell an invented placket from a real one, so it transfers the
-invention faithfully. A call-1 defect is not merely carried forward, it is <b>amplified</b>.</p>
-<p class='k'>Corollary, and it is the load-bearing one: <b>re-folding, unfolding, flattening or
-otherwise restyling the garment through klein does not work.</b> Not because the prompt is
-wrong &mdash; because the operation is generative, and every generative touch of the garment
-costs fidelity. The most aggressive version of it, <code>G1</code> (remove the wearer
-entirely, return the clothing alone), is the only call-1 arm that fails the garment test
-outright: lengths change, pieces vanish, a blazer returns as a full-length coat.</p>
+<p>v3.1 to v3.4 built increasingly sophisticated call-1 arms: mannequin head swaps, explicit
+re-posing, canvas discipline, super-resolution applied only to finished references. The best
+of them, <code>VEi</code>, is the v3.4 lock. Measured over the same 600 cells it failed
+<b>9.2%</b> against the incumbent's <b>4.8%</b> &mdash; 43 cells where the sophisticated arm
+fails and the simple one does not, against 17 the other way.</p>
+<p>The mechanism: <code>BC</code> edits the <i>head</i> and isolates the garment with a
+<b>deterministic matte</b>, which can only remove. Every <code>V</code>-family arm asks a
+generative model to <b>re-draw the whole frame</b>, because a head swap and a re-pose are
+full-frame edits. A distilled 4-step model re-drawing a garment does not copy it &mdash; it
+resamples it, and what it loses is exactly what call 2 needs: weave, print registration, seam
+and hem placement, the count of pieces. The loss is not noise, it is <b>structured
+invention</b>, and call 2 cannot tell an invented placket from a real one. A call-1 defect is
+not carried forward, it is <b>amplified</b>.</p>
 
-<h2>3. So the only safe edit is the one that removes</h2>
-<p>If generating the garment is what costs, the arm to keep is the one that never does.
-That is the whole of the deployed pipeline: one small in-distribution edit to the
-<b>head</b>, then a matte that subtracts. Identity comes off; the clothes are untouched
-photograph. Compaction schemes &mdash; re-encoding the garment into a cleaner, smaller or
-canonical form before call 2 &mdash; all fail the same way, because every one of them is a
-lossy re-encode and the thing being lost is the fidelity call 2 is about to magnify.</p>
-<p>If a genuinely restructured reference is ever needed, the evidence says it must come from
-<b>a different model</b>, not a better prompt to this one: <code>QX</code>, v3.1's
-qwen-image-edit garment isolation, is the arm that does that job and it is a separate
-architecture, not a klein setting.</p>
+<h2>3. Why every other solution loses &mdash; the series' own numbers</h2>
+<table>
+<tr><th>approach</th><th>where</th><th>what the evidence said</th></tr>
+<tr><td><b>Re-draw the garment on a mannequin</b> (the v3.3/v3.4 lock)</td><td>v3.4</td>
+<td>9.2% against 4.8%. Buys identity removal, scene and realism; the garment criterion is
+<b>statistically identical across every 1&nbsp;MP arm</b> (2.5&ndash;2.7 of 5) &mdash; the whole
+canvas arc bought nothing on the clothes.</td></tr>
+<tr><td><b>Return the clothing alone</b>, wearer removed (<code>G1</code>)</td><td>v3.5 &sect;1.1</td>
+<td>The <b>only arm that fails the garment test outright</b>: lengths change (a cropped blazer
+returns as a full-length coat, a shirt as a shirt-dress), pieces vanish (trousers gone on four
+garments). Removing the wearer removes the constraint that held the garment's shape.</td></tr>
+<tr><td><b>Upscale to add detail</b></td><td>v3.4 &sect;7.1</td>
+<td>klein asked to render above its conditioning <b>invents structure</b> &mdash; the p004
+placket appears at &times;2.67 generation-upscale. Hence the standing rule: generate small,
+upscale the <i>finished</i> image algorithmically.</td></tr>
+<tr><td><b>Crop the head off a generated reference</b> (<code>VEic</code>)</td><td>v3.5 &sect;1.2</td>
+<td>Tracks the lock's failures rather than repairing them. The crop changes <i>how identity is
+removed</i>, which is downstream of the re-draw &mdash; the garment has already been resampled
+by the time it is cropped.</td></tr>
+<tr><td><b>Re-pose the wearer from the photograph</b></td><td>v3.7</td>
+<td>Failed outright: klein reads image 2 as clothing and scene, not as a pose; 18 of 51 cells
+collapse onto the target's own photograph.</td></tr>
+<tr><td><b>Say more in call 2</b> (<code>EFR</code>, <code>EX</code>)</td><td>v3.6</td>
+<td>No gain over one verb; <code>EX</code> reframes and invents lower bodies. Longer prompts
+drift a 4-step distilled model.</td></tr>
+</table>
+<p class='k'>The load-bearing corollary: <b>re-folding, unfolding, flattening or otherwise
+restyling the garment through klein does not work</b> &mdash; not because the prompt is wrong,
+but because the operation is generative, and every generative touch of the garment costs
+fidelity that call 2 then magnifies. Compaction schemes fail identically: re-encoding the
+garment into a cleaner or canonical form is a lossy re-encode, and the thing lost is the
+fidelity the second call is about to amplify. If a genuinely restructured reference is ever
+needed it must come from <b>a different model</b> &mdash; <code>QX</code>, v3.1's
+qwen-image-edit garment isolation &mdash; not from a better prompt to this one.</p>
+<p>Which leaves exactly one safe edit: <b>the one that removes</b>. A small in-distribution
+edit to the <i>head</i>, then a matte that subtracts. That is the whole of the deployed
+pipeline, and it is why it looks under-ambitious.</p>
 
-<h2>4. The case that shows why we stop here &mdash; hands</h2>
-<p>The clearest residual defect is a reference whose wearer has <b>arms crossed</b>. The
-matte cannot know that the folded arms are not part of the garment's shape, so call 2
-receives a jacket with a pair of arms baked into its silhouette, and duplicates them.</p>
+<h2>4. The limit, made concrete &mdash; hands</h2>
+<p>The clearest residual defect is a reference whose wearer has <b>arms crossed</b>. The matte
+cannot know the folded arms are not part of the garment's shape, so call 2 receives a jacket
+with a pair of arms baked into its silhouette, and duplicates them.</p>
 {cell(HANDS_CASE[0], HANDS_CASE[1], note='arms crossed in the reference')}
-<p>The tempting fix is to unfold the arms in call 1 &mdash; and that is precisely the
-operation §2 rules out. Unfolding is a full-frame regeneration of the garment; to remove the
-duplicated arms it must re-draw the sleeves, the front closure and the drape, which is where
-lengths change and pieces vanish. <b>The fix costs more than the defect.</b> So the honest
-position is that this class is out of reach of call 2 wording, and out of reach of call 1
-without changing models.</p>
+<p>The tempting fix is to unfold the arms in call 1 &mdash; precisely the operation &sect;3
+rules out. Unfolding is a full-frame regeneration: to remove the duplicated arms it must
+re-draw the sleeves, the front closure and the drape, which is where lengths change and pieces
+vanish. <b>The fix costs more than the defect.</b></p>
 
-<h2>5. What v3.6 actually tested, and what it settled</h2>
-<p>Given call 1 is fixed, v3.6 asked the only remaining question: how much can call 2's
-prompt buy? Six prompts, each holding the reference, the canvas, the seed and the model
-constant.</p>
+<h2>5. What v3.6 tested, and the law it produced</h2>
 <table>
 <tr><th>arm</th><th>the change</th><th>verdict</th></tr>
 <tr><td><code>ER</code></td><td>the verb: <i>replace the clothing with</i></td>
-<td class='good'>adopted &mdash; repairs the survives-underneath class at zero cost</td></tr>
+<td class='good'>adopted &mdash; {N['bc_rate']:.2f}% &rarr; {N['er_rate']:.2f}% at zero cost</td></tr>
 <tr><td><code>EFR</code></td><td><code>ER</code> + a no-blend paragraph</td>
-<td>no gain over <code>ER</code>; one regression seen on a passing cell</td></tr>
+<td>no gain; one regression on a passing cell</td></tr>
 <tr><td><code>EX</code></td><td>removal + layering + piece count + limb count + framing</td>
-<td>reframes and invents lower bodies; longer prompts drift a 4-step distilled model</td></tr>
+<td>reframes, invents lower bodies</td></tr>
 <tr><td><code>ERD</code></td><td><code>ER</code> + a limb clause built per cell from a pose read</td>
-<td>indistinguishable from <code>ER</code> &mdash; it only buys back harm <code>ER</code> never causes</td></tr>
-<tr><td><code>ERS</code></td><td>the same limb clause, always</td>
-<td class='bad'>harmful &mdash; see below</td></tr>
+<td>indistinguishable from <code>ER</code> &mdash; buys back only harm <code>ER</code> never causes</td></tr>
+<tr><td><code>ERS</code></td><td>that limb clause, always</td><td class='bad'>harmful</td></tr>
 </table>
-<p><b>The measured result, and the one worth keeping.</b> V2's dynamic-prompt rule
-&mdash; <i>never name a body part the crop excludes</i> &mdash; had governed call 1 since
-v3.1 on the strength of an assumption. v3.6 measured it on call 2. On the <b>59 cells whose
-photograph has no feet in frame</b>, running the same pose read over the outputs finds feet
-that the source never had in <b>21</b> of <code>ERS</code>'s cells and <b>2</b> of
-<code>ERD</code>'s. Naming an absent limb makes the model draw it, twelvefold. That is also
-the explanation for the zoom-outs seen in <code>EL</code> and <code>EX</code>.</p>
-<p>The conclusion is not "use the dynamic clause". It is <b>use no clause</b>: plain
-<code>ER</code> never names a limb, so it never triggers the failure the clause exists to
-prevent, and it costs no pose read. The machinery stays in call 1 where the framing genuinely
-has to be described.</p>
+<p>V2's dynamic-prompt rule &mdash; <i>never name a body part the crop excludes</i> &mdash; had
+governed call 1 since v3.1 on an assumption. v3.6 measured it on call 2: on the <b>59 cells
+whose photograph has no feet in frame</b>, running the same pose read over the outputs finds
+invented feet in <b>21</b> of <code>ERS</code>'s cells and <b>2</b> of <code>ERD</code>'s.
+Naming an absent limb makes the model draw it, twelvefold &mdash; and that is also the
+explanation for the <code>EX</code> reframing. The conclusion is not "use the dynamic clause"
+but <b>use no clause</b>: plain <code>ER</code> never names a limb, so it never triggers the
+failure, and it costs no pose read.</p>
+<p><b>Two controls make all of the above readable.</b> On the 86 cells where <code>ERD</code>
+and <code>ERS</code> were sent identical text the outputs are <b>byte-identical</b>, so every
+difference measured is the prompt and not sampling noise. And <b>fal is not the A100</b>:
+same prompt, seed and canvas rule, yet most archived failures do not reproduce there &mdash;
+so every number of record was made on the hardware the record was made on.</p>
 
-<h2>6. Two controls that make the above readable</h2>
-<p><b>The pipeline is deterministic.</b> On the 86 cells where <code>ERD</code> and
-<code>ERS</code> were sent identical text, the outputs are <b>byte-identical</b>. So every
-difference measured in v3.6 is the prompt and not sampling noise.</p>
-<p><b>fal and the A100 are not the same deployment.</b> Same prompt, same seed, same canvas
-rule &mdash; and most archived <code>BC</code> failures do not reproduce on fal. Any arm
-compared against a record must run on the hardware the record was made on. It is why the
-v3.6 runs moved back to the A100 after the first probe.</p>
+<h2 id='seeds'>6. The seed randomiser &mdash; what the arithmetic actually says</h2>
+<p>Every pair in the sweep was run at three seeds, so the record itself says what a retry
+would have done. For <code>ER</code>: a failed cell passes at another seed
+<b>{N['er_retry_num']}/{N['er_retry_den']} = {N['er_retry_pass']:.0f}%</b> of the time, which
+takes {N['er_rate']:.2f}% to <b>{N['er_residual']:.2f}%</b>; using both remaining seeds
+reaches <b>{N['er_floor']:.2f}%</b>, the floor set by the one pair in two hundred that fails
+at every seed.</p>
+<p><b>Why it is not higher.</b> If seeds were independent at a {N['er_rate']:.2f}% failure
+rate, a retry would pass {100 - N['er_rate']:.0f}% of the time and the residual would be
+{N['er_indep']:.2f}%. It is {N['er_retry_pass']:.0f}% instead, so <b>failures cluster by
+pair</b>: when a cell fails, the same pair is likelier to fail at other seeds too. The
+randomiser works, but nothing like as well as independence would predict &mdash; a stubborn
+pair is stubborn because its <i>reference</i> is wrong, and no seed repairs that.</p>
+<p><b>Why <code>ER</code> compounds with it.</b> <code>ER</code> has both a lower rate and
+<b>less clustered</b> failures than <code>BC</code> ({N['er_pairs_stable']} pair failing at
+every seed against {N['pairs_stable']}; a retry lands {N['er_retry_pass']:.0f}% against
+{N['retry_pass']:.0f}%). The two gains multiply rather than overlap, which is why the shipped
+system is the prompt <i>and</i> the policy rather than either alone.</p>
+<p class='caveat'><b>Estimated on {N['er_retry_den']} retry opportunities</b>, so the 95%
+interval on that {N['er_retry_pass']:.0f}% is roughly 56&ndash;84%. The direction is solid;
+the second decimal is not. And the policy has an unbuilt dependency: <b>a rejector</b>.
+Something must decide an image failed before it can be retried. The v3.6 VLM judge is a first
+attempt and is not yet one &mdash; its artifact flag fires on 45% of cells a human passed,
+though its limb flag (14.8&times; lift over base rate) and phasing (2.7&times;) are the
+signals to build on.</p>
 
 <h2>7. Where this leaves the work</h2>
 <ul>
-<li><b>Ship <code>ER</code>.</b> One verb, no new call, no new model, no new failure mode
-found on {N['ok_n']} passing cells.</li>
-<li><b>The remaining defects are reference-side</b>, and reference-side means model-side:
-crossed arms, dropped pieces on ambiguous lower bodies, the wearer's own accessories. None
-of them is a call-2 wording problem.</li>
-<li><b>The open architectural question</b> is not "is <code>BC</code> better" but
-<i>does re-posing buy back more than the re-draw costs, and on what share of a real
-catalogue?</i> The 200-pair fold is mostly front-facing wearers, which flatters
-<code>BC</code>; a catalogue of awkward source photographs would move the number.</li>
-<li><b>The shippable arm is <code>ER</code>, and the product on top of it is a seed
-randomiser.</b> Only {N['pairs_stable']} of the {N['pairs_failing']} pairs that fail do so at
-every seed ({N['stable_pct']:.1f}% of the catalogue); given a failed cell another seed passes
-{N['retry_pass']:.0f}% of the time. Retrying a rejected image is therefore worth more than any further prompt work, and it
-is bounded in cost because only rejects are redrawn. Its missing piece is a rejector good
-enough to spend calls on &mdash; not the current VLM judge.</li>
+<li><b>Ship <code>ER</code> plus the retry.</b> {N['bc_rate']:.2f}% &rarr;
+{N['er_rate']:.2f}% &rarr; about {N['er_residual']:.2f}%, for one verb and ~3% more calls.</li>
+<li><b>Build the rejector.</b> It is the only thing standing between the measured
+{N['er_residual']:.2f}% and a shipped one.</li>
+<li><b>The remaining defects are reference-side</b>, which means model-side: crossed arms,
+dropped pieces on ambiguous lower bodies, the wearer's own accessories. None is a call-2
+wording problem.</li>
+<li><b>The open architectural question</b> is not "is <code>BC</code> better" but <i>does
+re-posing buy back more than the re-draw costs, and on what share of a real catalogue?</i>
+This fold is mostly front-facing wearers, which flatters the simple arm.</li>
 <li><b>The arm nobody has built</b> is the router: re-pose only when a pose reader says the
-wearer is not neutral, and otherwise ship the garment pixels untouched. That is the shape the
+wearer is not neutral, otherwise ship the garment pixels untouched. That is the shape the
 evidence recommends, and it is not a prompt.</li>
 </ul>
 
 <footer>Sources: v3.4 RESULTS &sect;7.1 and SOLUTION &sect;5&ndash;6, v3.5 RESULTS
-&sect;1&ndash;4, and the v3.6 runs in <code>v3/runs/v36/</code>. The
+&sect;1&ndash;4, v3.7's negative result, and the v3.6 runs in <code>v3/runs/v36/</code>. Full
+evidence layer with per-cell lists: <code>prd/v3/v3.6/RESULTS.md</code>. The
 <code>VEi</code>/<code>BC</code> comparison in &sect;2 is quoted from v3.5 &sect;4, where the
-caveat still stands that the two rates were produced by different protocols; the identical
-page for the lock exists and its pass has not yet been exported. &middot;
-<a href='v36_report.html'>&larr; the evidence at a glance</a></footer>
+caveat stands that those two rates came from different protocols. &middot;
+<a href='v36_report.html'>&larr; the result</a></footer>
 </div>{LB}{SCRIPT}"""
 
 
