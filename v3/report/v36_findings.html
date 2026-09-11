@@ -35,6 +35,21 @@ code{background:#1b1b22;padding:1px 5px;border-radius:4px;font-size:12.5px}
 .pr b{color:var(--acc);font:12.5px ui-monospace,monospace;padding-top:5px}
 .pr code{background:#15151b;border:1px solid var(--line);border-radius:6px;padding:6px 9px;
  color:#c3c3ce;font:12.5px/1.55 ui-monospace,monospace;display:block}
+/* the headline card */
+.headline{border:1px solid var(--line);border-radius:11px;background:var(--card);
+ padding:16px 18px;margin:16px 0 14px;display:grid;gap:18px;
+ grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:760px){.headline{grid-template-columns:1fr}}
+.hzone.wide{grid-column:1/-1;border-top:1px solid var(--line);padding-top:14px}
+.hv{font:600 44px/1.05 ui-sans-serif,-apple-system,sans-serif;letter-spacing:-1.2px}
+.hv.good{color:var(--good)}
+.hl{font-size:13.5px;margin-top:4px}
+.hs{font-size:12.5px;color:var(--dim);margin-top:5px;line-height:1.5;max-width:62ch}
+.hs b{color:var(--fg)}
+table.tight{margin:10px 0 8px;font-size:13px}
+table.tight td,table.tight th{padding:5px 9px}
+table.tight tr.sep td{border-top:1px solid var(--line)}
+.dim{color:var(--dim);font-size:11.5px}
 /* stat tiles */
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:9px;
  margin:14px 0 14px}
@@ -213,11 +228,21 @@ rate, a retry would pass 97% of the time and the residual would be
 pair</b>: when a cell fails, the same pair is likelier to fail at other seeds too. The
 randomiser works, but nothing like as well as independence would predict &mdash; a stubborn
 pair is stubborn because its <i>reference</i> is wrong, and no seed repairs that.</p>
-<p><b>Why <code>ER</code> compounds with it.</b> <code>ER</code> has both a lower rate and
-<b>less clustered</b> failures than <code>BC</code> (1 pair failing at
-every seed against 2; a retry lands 72% against
-59%). The two gains multiply rather than overlap, which is why the shipped
-system is the prompt <i>and</i> the policy rather than either alone.</p>
+<p><b>Why <code>ER</code> compounds with it: its failures are less clustered.</b> That is the
+property the randomiser actually runs on, and it is separate from the rate. When a pair fails
+at all, <code>BC</code> fails at <b>1.53</b> of its three seeds on
+average and <b>42%</b> of the time at two or more; <code>ER</code> fails at
+<b>1.29</b> and only <b>21%</b>. So a retry
+meets another failed seed 28% of the time on <code>ER</code>
+against 41% on <code>BC</code>. A lower rate and a looser cluster
+<b>multiply</b> rather than overlap, which is why the shipped system is the prompt <i>and</i>
+the policy rather than either alone.</p>
+<p><b>What the retry does and does not change.</b> A randomised seed does not move the
+3.00%: a first draw is a random cell, and 3.00% of cells fail.
+What the policy buys is the <i>second</i> draw &mdash;
+3.00% &times; 28% =
+<b>0.83%</b> of images still failing after one retry, at
+1.03 calls per delivered image.</p>
 <p class='caveat'><b>Estimated on 36 retry opportunities</b>, so the 95%
 interval on that 72% is roughly 56&ndash;84%. The direction is solid;
 the second decimal is not. And the policy has an unbuilt dependency: <b>a rejector</b>.

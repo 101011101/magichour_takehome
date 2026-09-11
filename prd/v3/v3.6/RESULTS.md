@@ -137,9 +137,27 @@ failure rate is a seed lottery rather than a broken pair.
 | given a failed cell, another seed of the same pair passes | 34/58 = 59% | 26/36 = **72%** |
 | expected residual after one retry at a fresh seed | 2.00% | **0.83%** |
 
-`ER` does not merely fail less; **its failures are less seed-stable**, which is what makes a
-retry policy cheaper on `ER` than on `BC`. The floor either arm approaches is the
-every-seed-failing pairs — the cells whose *reference* is wrong, which no seed repairs.
+**`ER`'s failures are less clustered**, and that is a property separate from the rate. Given a
+pair fails at all, `BC` fails at **1.53** of its three seeds on average and at two or more
+**42%** of the time; `ER` fails at **1.29** and at two or more only **21%**. So a retry meets
+another failed seed **10/36 = 28%** of the time on `ER` against **24/58 = 41%** on `BC`.
+
+| | `BC` | `ER` |
+|---|---|---|
+| failed seeds per set, given the set fails at all | 1.53 of 3 | **1.29 of 3** |
+| two or more of the three fail | 42% | **21%** |
+| all three fail | 11% | **7%** |
+| a retry hits another failed seed | 41% | **28%** |
+| failure rate after one retry | 4.83% × 41% = 2.00% | 3.00% × 28% = **0.83%** |
+
+**What a randomised seed does not change:** the headline rate itself. A first draw is a random
+cell and 3.00% of cells fail; the policy buys the *second* draw. The floor either arm
+approaches is the every-seed-failing pairs — whose *reference* is wrong, which no seed repairs.
+
+**The clustering is also why the gain is far short of independence.** If seeds were
+independent at 3.00%, a retry would meet a failure 3% of the time rather than 28%, and the
+residual would be 0.09% rather than 0.83%. Failures cluster by pair: a cell that failed is
+evidence its pair is hard.
 
 Cost of the policy is bounded by the failure rate itself: only rejected images are redrawn,
 so one retry adds ~3% to the call count on `ER`. At the measured CAD 0.45 per 1000 images

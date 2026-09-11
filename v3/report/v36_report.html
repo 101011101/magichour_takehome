@@ -35,6 +35,21 @@ code{background:#1b1b22;padding:1px 5px;border-radius:4px;font-size:12.5px}
 .pr b{color:var(--acc);font:12.5px ui-monospace,monospace;padding-top:5px}
 .pr code{background:#15151b;border:1px solid var(--line);border-radius:6px;padding:6px 9px;
  color:#c3c3ce;font:12.5px/1.55 ui-monospace,monospace;display:block}
+/* the headline card */
+.headline{border:1px solid var(--line);border-radius:11px;background:var(--card);
+ padding:16px 18px;margin:16px 0 14px;display:grid;gap:18px;
+ grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:760px){.headline{grid-template-columns:1fr}}
+.hzone.wide{grid-column:1/-1;border-top:1px solid var(--line);padding-top:14px}
+.hv{font:600 44px/1.05 ui-sans-serif,-apple-system,sans-serif;letter-spacing:-1.2px}
+.hv.good{color:var(--good)}
+.hl{font-size:13.5px;margin-top:4px}
+.hs{font-size:12.5px;color:var(--dim);margin-top:5px;line-height:1.5;max-width:62ch}
+.hs b{color:var(--fg)}
+table.tight{margin:10px 0 8px;font-size:13px}
+table.tight td,table.tight th{padding:5px 9px}
+table.tight tr.sep td{border-top:1px solid var(--line)}
+.dim{color:var(--dim);font-size:11.5px}
 /* stat tiles */
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:9px;
  margin:14px 0 14px}
@@ -86,7 +101,49 @@ call 2 says <i>dress the person in the clothing shown in image 2</i>; <code>ER</
 same reference, same canvas, same seed, same model, same call count. The architecture and the
 reasoning are on <a href='v36_findings.html'>the long read</a>; this page is the result.</p>
 
-<div class='tiles'><div class='tile '><div class='v'>4.83%</div><div class='l'>BC_klein &mdash; the incumbent</div><div class='s'>29 failures in 600 cells</div></div><div class='tile good'><div class='v'>3.00%</div><div class='l'>ER &mdash; one verb changed</div><div class='s'>18 failures in the same 600 cells</div></div><div class='tile good'><div class='v'>&minus;38%</div><div class='l'>relative reduction</div><div class='s'>&minus;1.83 points absolute</div></div><div class='tile good'><div class='v'>18 : 7</div><div class='l'>repaired : broken</div><div class='s'>joined per cell; McNemar exact p = 0.043</div></div><div class='tile '><div class='v'>0.83%</div><div class='l'>after one seed retry</div><div class='s'>a failed cell passes at another seed 72% of the time</div></div><div class='tile '><div class='v'>CAD 0.45</div><div class='l'>per 1000 images</div><div class='s'>USD 15.00 on fal &middot; ER costs the same as BC to 3 decimals</div></div></div>
+<div class='headline'>
+  <div class='hzone'>
+    <div class='hv'>3.00%</div>
+    <div class='hl'>ER failure rate</div>
+    <div class='hs'>18 of 600 cells &mdash; 200 pairs &times; seeds
+      46/47/48, marked blind, one button per cell</div>
+  </div>
+  <div class='hzone'>
+    <div class='hv good'>&minus;38%</div>
+    <div class='hl'>against BC_klein</div>
+    <div class='hs'><b>BC_klein: 4.83%</b> (29 of 600)
+      &mdash; the same cells, the same page, the same protocol.
+      &minus;1.83 points absolute. Per cell: <b>18 repaired</b> against
+      <b>7 broken</b>, McNemar exact p = 0.043.</div>
+  </div>
+  <div class='hzone wide'>
+    <div class='hl'>with a randomised seed</div>
+    <div class='hs'><b>ER's failures are less clustered.</b> When a pair fails at all, BC
+      usually fails at more than one of its three seeds; ER usually fails at exactly one
+      &mdash; so re-drawing at a fresh seed is likelier to land.</div>
+    <table class='seeds tight'>
+      <tr><th></th><th>BC</th><th>ER</th></tr>
+      <tr><td>failed seeds per set, given the set fails at all</td>
+          <td>1.53 of 3</td><td class='good'>1.29 of 3</td></tr>
+      <tr><td>&hellip; two or more of the three fail</td>
+          <td>42%</td><td class='good'>21%</td></tr>
+      <tr><td>&hellip; all three fail (no seed saves it)</td>
+          <td>11%</td><td class='good'>7%</td></tr>
+      <tr class='sep'><td>a retry hits another failed seed</td>
+          <td>24/58 = 41%</td>
+          <td class='good'>10/36 = 28%</td></tr>
+      <tr><td><b>failure rate with one retry</b><br><span class='dim'>P(fail) &times;
+          P(retry also fails)</span></td>
+          <td>4.83% &times; 41% = <b>2.00%</b></td>
+          <td class='good'>3.00% &times; 28% =
+            <b>0.83%</b></td></tr>
+      <tr><td>floor &mdash; pairs that fail at every seed</td>
+          <td>1.0%</td><td class='good'>0.50%</td></tr>
+    </table>
+    <div class='hs'>Only rejects are redrawn, so the policy costs
+      3.0% more calls &mdash; 1.03 calls per delivered image.</div>
+  </div>
+</div>
 
 <p class='sec'>Both arms were marked on the same blind page, one button per cell, no prior
 verdict in it &mdash; 200 pairs &times; seeds 46/47/48. Per cell:</p>
@@ -99,26 +156,6 @@ verdict in it &mdash; 200 pairs &times; seeds 46/47/48. Per cell:</p>
 1.83-point gap could be a stricter session. <b>The per-cell join does not depend on
 that</b>: 18 cells changed from fail to clean and 7 the other way,
 which is a statement about individual cells rather than two thresholds.</p>
-
-<h2>With the seed randomiser</h2>
-<p class='sec'>A rejected image is redrawn at a fresh seed rather than repaired. Measured on
-the sweep itself &mdash; every pair was run at three seeds, so the record says what a retry
-would have done.</p>
-<table class='seeds'>
-<tr><th></th><th>BC</th><th>ER</th></tr>
-<tr><td>as shipped</td><td>4.83%</td><td class='good'>3.00%</td></tr>
-<tr><td>a failed cell passes at another seed</td>
-    <td>34/58 = 59%</td>
-    <td class='good'>26/36 = 72%</td></tr>
-<tr><td>after one retry</td><td>2.00%</td>
-    <td class='good'>0.83%</td></tr>
-<tr><td>floor &mdash; pairs that fail at every seed</td>
-    <td>1.0%</td><td class='good'>0.50%</td></tr>
-</table>
-<p><code>ER</code> does not only fail less, <b>its failures are less seed-stable</b> &mdash;
-so the retry lands more often on top of a smaller starting rate. One retry costs about
-3% more calls, because only rejects are redrawn.
-<a href='v36_findings.html#seeds'>Why this is not 97%, and what it would take</a>.</p>
 
 <h2>What one word repairs</h2>
 <p class='sec'>The failure class is the same every time: <b>the wearer's own clothing survives

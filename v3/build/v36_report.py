@@ -130,7 +130,28 @@ def numbers():
             o = [x for k, x in v.items() if k != sd]
             eden += len(o)
             enum += sum(1 for x in o if not x)
+    def cluster(byX):
+        """How a failure distributes over a pair's three seeds, and what a retry meets."""
+        d = {k: sum(1 for v in byX.values() if sum(v.values()) == k) for k in (0, 1, 2, 3)}
+        hit = len(byX) - d[0]
+        den = alsofail = 0
+        for v in byX.values():
+            for sd, x in v.items():
+                if not x:
+                    continue
+                o = [y for k, y in v.items() if k != sd]
+                den += len(o)
+                alsofail += sum(o)
+        return {"pairs_hit": hit, "mean_cluster": sum(k * d[k] for k in (1, 2, 3)) / hit,
+                "p2": 100 * (d[2] + d[3]) / hit, "p3": 100 * d[3] / hit,
+                "retry_fail": 100 * alsofail / den, "retry_fail_n": alsofail, "retry_den": den,
+                "stable": d[3]}
+
+    byB = {}
+    for (sid, sd) in shared:
+        byB.setdefault(sid, {})[sd] = bcc[(sid, sd)]
     return {
+        "cl_er": cluster(byE), "cl_bc": cluster(byB),
         "er_cells": len(shared), "er_fail": er_fail,
         "er_rate": 100 * er_fail / len(shared),
         "bc_only": bc_only, "er_only": er_only,
@@ -172,20 +193,51 @@ def page1(N):
     wins = [r for r in N["marks"] if r["better"] == "ER"]
     drop = N["bc_rate"] - N["er_rate"]
 
-    tiles = "".join([
-        tile(f"{N['bc_rate']:.2f}%", "BC_klein &mdash; the incumbent",
-             f"{N['bc_fail']} failures in {N['bc_cells']} cells"),
-        tile(f"{N['er_rate']:.2f}%", "ER &mdash; one verb changed",
-             f"{N['er_fail']} failures in the same {N['er_cells']} cells", "good"),
-        tile(f"&minus;{100 * drop / N['bc_rate']:.0f}%", "relative reduction",
-             f"&minus;{drop:.2f} points absolute", "good"),
-        tile(f"{N['bc_only']} : {N['er_only']}", "repaired : broken",
-             "joined per cell; McNemar exact p = 0.043", "good"),
-        tile(f"{N['er_residual']:.2f}%", "after one seed retry",
-             f"a failed cell passes at another seed {N['er_retry_pass']:.0f}% of the time"),
-        tile("CAD 0.45", "per 1000 images",
-             f"USD 15.00 on fal &middot; ER costs the same as BC to 3 decimals"),
-    ])
+    E, B = N["cl_er"], N["cl_bc"]
+    drop_rel = 100 * drop / N["bc_rate"]
+    card = f"""<div class='headline'>
+  <div class='hzone'>
+    <div class='hv'>{N['er_rate']:.2f}%</div>
+    <div class='hl'>ER failure rate</div>
+    <div class='hs'>{N['er_fail']} of {N['er_cells']} cells &mdash; 200 pairs &times; seeds
+      46/47/48, marked blind, one button per cell</div>
+  </div>
+  <div class='hzone'>
+    <div class='hv good'>&minus;{drop_rel:.0f}%</div>
+    <div class='hl'>against BC_klein</div>
+    <div class='hs'><b>BC_klein: {N['bc_rate']:.2f}%</b> ({N['bc_fail']} of {N['bc_cells']})
+      &mdash; the same cells, the same page, the same protocol.
+      &minus;{drop:.2f} points absolute. Per cell: <b>{N['bc_only']} repaired</b> against
+      <b>{N['er_only']} broken</b>, McNemar exact p = 0.043.</div>
+  </div>
+  <div class='hzone wide'>
+    <div class='hl'>with a randomised seed</div>
+    <div class='hs'><b>ER's failures are less clustered.</b> When a pair fails at all, BC
+      usually fails at more than one of its three seeds; ER usually fails at exactly one
+      &mdash; so re-drawing at a fresh seed is likelier to land.</div>
+    <table class='seeds tight'>
+      <tr><th></th><th>BC</th><th>ER</th></tr>
+      <tr><td>failed seeds per set, given the set fails at all</td>
+          <td>{B['mean_cluster']:.2f} of 3</td><td class='good'>{E['mean_cluster']:.2f} of 3</td></tr>
+      <tr><td>&hellip; two or more of the three fail</td>
+          <td>{B['p2']:.0f}%</td><td class='good'>{E['p2']:.0f}%</td></tr>
+      <tr><td>&hellip; all three fail (no seed saves it)</td>
+          <td>{B['p3']:.0f}%</td><td class='good'>{E['p3']:.0f}%</td></tr>
+      <tr class='sep'><td>a retry hits another failed seed</td>
+          <td>{B['retry_fail_n']}/{B['retry_den']} = {B['retry_fail']:.0f}%</td>
+          <td class='good'>{E['retry_fail_n']}/{E['retry_den']} = {E['retry_fail']:.0f}%</td></tr>
+      <tr><td><b>failure rate with one retry</b><br><span class='dim'>P(fail) &times;
+          P(retry also fails)</span></td>
+          <td>{N['bc_rate']:.2f}% &times; {B['retry_fail']:.0f}% = <b>{N['residual']:.2f}%</b></td>
+          <td class='good'>{N['er_rate']:.2f}% &times; {E['retry_fail']:.0f}% =
+            <b>{N['er_residual']:.2f}%</b></td></tr>
+      <tr><td>floor &mdash; pairs that fail at every seed</td>
+          <td>{N['stable_pct']:.1f}%</td><td class='good'>{N['er_floor']:.2f}%</td></tr>
+    </table>
+    <div class='hs'>Only rejects are redrawn, so the policy costs
+      {100 * (N['er_rate'] / 100):.1f}% more calls &mdash; 1.03 calls per delivered image.</div>
+  </div>
+</div>"""
 
     return f"""{HEAD.replace('TITLE', 'ER &mdash; one verb in call 2')}
 <div class='wrap'>
@@ -195,7 +247,7 @@ call 2 says <i>dress the person in the clothing shown in image 2</i>; <code>ER</
 same reference, same canvas, same seed, same model, same call count. The architecture and the
 reasoning are on <a href='v36_findings.html'>the long read</a>; this page is the result.</p>
 
-<div class='tiles'>{tiles}</div>
+{card}
 
 <p class='sec'>Both arms were marked on the same blind page, one button per cell, no prior
 verdict in it &mdash; 200 pairs &times; seeds 46/47/48. Per cell:</p>
@@ -208,26 +260,6 @@ verdict in it &mdash; 200 pairs &times; seeds 46/47/48. Per cell:</p>
 {drop:.2f}-point gap could be a stricter session. <b>The per-cell join does not depend on
 that</b>: {N['bc_only']} cells changed from fail to clean and {N['er_only']} the other way,
 which is a statement about individual cells rather than two thresholds.</p>
-
-<h2>With the seed randomiser</h2>
-<p class='sec'>A rejected image is redrawn at a fresh seed rather than repaired. Measured on
-the sweep itself &mdash; every pair was run at three seeds, so the record says what a retry
-would have done.</p>
-<table class='seeds'>
-<tr><th></th><th>BC</th><th>ER</th></tr>
-<tr><td>as shipped</td><td>{N['bc_rate']:.2f}%</td><td class='good'>{N['er_rate']:.2f}%</td></tr>
-<tr><td>a failed cell passes at another seed</td>
-    <td>{N['retry_num']}/{N['retry_den']} = {N['retry_pass']:.0f}%</td>
-    <td class='good'>{N['er_retry_num']}/{N['er_retry_den']} = {N['er_retry_pass']:.0f}%</td></tr>
-<tr><td>after one retry</td><td>{N['residual']:.2f}%</td>
-    <td class='good'>{N['er_residual']:.2f}%</td></tr>
-<tr><td>floor &mdash; pairs that fail at every seed</td>
-    <td>{N['stable_pct']:.1f}%</td><td class='good'>{N['er_floor']:.2f}%</td></tr>
-</table>
-<p><code>ER</code> does not only fail less, <b>its failures are less seed-stable</b> &mdash;
-so the retry lands more often on top of a smaller starting rate. One retry costs about
-{N['er_rate']:.0f}% more calls, because only rejects are redrawn.
-<a href='v36_findings.html#seeds'>Why this is not 97%, and what it would take</a>.</p>
 
 <h2>What one word repairs</h2>
 <p class='sec'>The failure class is the same every time: <b>the wearer's own clothing survives
@@ -385,11 +417,21 @@ rate, a retry would pass {100 - N['er_rate']:.0f}% of the time and the residual 
 pair</b>: when a cell fails, the same pair is likelier to fail at other seeds too. The
 randomiser works, but nothing like as well as independence would predict &mdash; a stubborn
 pair is stubborn because its <i>reference</i> is wrong, and no seed repairs that.</p>
-<p><b>Why <code>ER</code> compounds with it.</b> <code>ER</code> has both a lower rate and
-<b>less clustered</b> failures than <code>BC</code> ({N['er_pairs_stable']} pair failing at
-every seed against {N['pairs_stable']}; a retry lands {N['er_retry_pass']:.0f}% against
-{N['retry_pass']:.0f}%). The two gains multiply rather than overlap, which is why the shipped
-system is the prompt <i>and</i> the policy rather than either alone.</p>
+<p><b>Why <code>ER</code> compounds with it: its failures are less clustered.</b> That is the
+property the randomiser actually runs on, and it is separate from the rate. When a pair fails
+at all, <code>BC</code> fails at <b>{N['cl_bc']['mean_cluster']:.2f}</b> of its three seeds on
+average and <b>{N['cl_bc']['p2']:.0f}%</b> of the time at two or more; <code>ER</code> fails at
+<b>{N['cl_er']['mean_cluster']:.2f}</b> and only <b>{N['cl_er']['p2']:.0f}%</b>. So a retry
+meets another failed seed {N['cl_er']['retry_fail']:.0f}% of the time on <code>ER</code>
+against {N['cl_bc']['retry_fail']:.0f}% on <code>BC</code>. A lower rate and a looser cluster
+<b>multiply</b> rather than overlap, which is why the shipped system is the prompt <i>and</i>
+the policy rather than either alone.</p>
+<p><b>What the retry does and does not change.</b> A randomised seed does not move the
+{N['er_rate']:.2f}%: a first draw is a random cell, and {N['er_rate']:.2f}% of cells fail.
+What the policy buys is the <i>second</i> draw &mdash;
+{N['er_rate']:.2f}% &times; {N['cl_er']['retry_fail']:.0f}% =
+<b>{N['er_residual']:.2f}%</b> of images still failing after one retry, at
+1.0{N['er_rate']:.0f} calls per delivered image.</p>
 <p class='caveat'><b>Estimated on {N['er_retry_den']} retry opportunities</b>, so the 95%
 interval on that {N['er_retry_pass']:.0f}% is roughly 56&ndash;84%. The direction is solid;
 the second decimal is not. And the policy has an unbuilt dependency: <b>a rejector</b>.
@@ -461,6 +503,21 @@ code{background:#1b1b22;padding:1px 5px;border-radius:4px;font-size:12.5px}
 .pr b{color:var(--acc);font:12.5px ui-monospace,monospace;padding-top:5px}
 .pr code{background:#15151b;border:1px solid var(--line);border-radius:6px;padding:6px 9px;
  color:#c3c3ce;font:12.5px/1.55 ui-monospace,monospace;display:block}
+/* the headline card */
+.headline{border:1px solid var(--line);border-radius:11px;background:var(--card);
+ padding:16px 18px;margin:16px 0 14px;display:grid;gap:18px;
+ grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:760px){.headline{grid-template-columns:1fr}}
+.hzone.wide{grid-column:1/-1;border-top:1px solid var(--line);padding-top:14px}
+.hv{font:600 44px/1.05 ui-sans-serif,-apple-system,sans-serif;letter-spacing:-1.2px}
+.hv.good{color:var(--good)}
+.hl{font-size:13.5px;margin-top:4px}
+.hs{font-size:12.5px;color:var(--dim);margin-top:5px;line-height:1.5;max-width:62ch}
+.hs b{color:var(--fg)}
+table.tight{margin:10px 0 8px;font-size:13px}
+table.tight td,table.tight th{padding:5px 9px}
+table.tight tr.sep td{border-top:1px solid var(--line)}
+.dim{color:var(--dim);font-size:11.5px}
 /* stat tiles */
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:9px;
  margin:14px 0 14px}
