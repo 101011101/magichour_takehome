@@ -15,6 +15,7 @@ the V2 head-subtracting crop, not SR'd — on `BC`'s own call-2 canvas (`fal`, t
        in frame, which is v2's rule: never name a body part the crop excludes
   ERS  ER + the same clause always, whether or not the parts are in frame - the control
        that says whether the dynamic read is doing any work
+  ER2  ER's first sentence ALONE - the hold clause dropped, to see what it was buying
 
 The set is `v36_editset.csv`: 29 cells the reviewer marked FAIL for `BC` and 121 it left
 unmarked (v3/build/make_v36_editset.py). Both sides on purpose - the failures say what a
@@ -106,8 +107,14 @@ def limb_clause(present):
 
 ALL_LIMBS = limb_clause(["hands", "feet"])   # ERS: the same sentence on every cell
 
-PROMPT = {"E0": E0, "ER": ER, "EFR": EFR, "EX": EX, "ERS": ER + ALL_LIMBS}
-SETS = {"v36_editset.csv": "29 cells the reviewer marked FAIL for BC in the blind bc_count "
+# ER2: the replace sentence with nothing after it. Every arm since V2 has carried a hold
+# clause ("keep the face, identity, body and background"); this is the first that does not,
+# so it prices that clause rather than assuming it.
+ER2 = "Replace the clothing in image 1 with the clothing in image 2."
+PROMPT = {"E0": E0, "ER": ER, "EFR": EFR, "EX": EX, "ERS": ER + ALL_LIMBS, "ER2": ER2}
+SETS = {"v36_er2_set.csv": "every cell failing under BC pass 2 or the ER sweep - the "
+                           "union of the two failure sets, 53 of the 600",
+        "v36_editset.csv": "29 cells the reviewer marked FAIL for BC in the blind bc_count "
                            "sweep + 121 unmarked cells sampled with random.Random(46) - "
                            "both sides of the record",
         "v36_ironman_er.csv": "the whole iron-man-2 matrix, 200 pairs x seeds 46/47/48 - "
