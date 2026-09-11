@@ -300,7 +300,6 @@ rationale &rarr;</a></p>
 {"".join(cell(sid, sd) for sid, sd in SAME_CASES)}
 <h3 class='sub bad'>ER worse</h3>
 {"".join(cell(sid, sd) for sid, sd in WORSE_CASES)}
-<p class='sec'><a href='v36_regressions.html'>Every cell ER breaks &rarr;</a></p>
 
 <footer>Evidence: <code>prd/v3/v3.6/RESULTS.md</code> &middot; counts in
 <code>v3/testsets/</code> &middot; built by <code>v3/build/v36_report.py</code> &middot;
