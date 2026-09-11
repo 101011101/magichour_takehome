@@ -250,12 +250,13 @@ rationale &rarr;</a></p>
 </div>
 
 <h2>Samples</h2>
-<h3 class='sub good'>ER better &mdash; {N['bc_only']} cells of 600</h3>
+<h3 class='sub good'>ER better</h3>
 {"".join(cell(sid, sd) for sid, sd in BETTER_CASES)}
-<h3 class='sub'>Unchanged &mdash; {N['er_cells'] - N['bc_fail'] - N['er_only']} cells clean under both</h3>
+<h3 class='sub'>Unchanged</h3>
 {"".join(cell(sid, sd) for sid, sd in SAME_CASES)}
-<h3 class='sub bad'>ER worse &mdash; {N['er_only']} cells</h3>
+<h3 class='sub bad'>ER worse</h3>
 {"".join(cell(sid, sd) for sid, sd in WORSE_CASES)}
+<p class='sec'><a href='v36_regressions.html'>All {N['er_only']} cells ER breaks &rarr;</a></p>
 
 <footer>Evidence: <code>prd/v3/v3.6/RESULTS.md</code> &middot; counts in
 <code>v3/testsets/</code> &middot; built by <code>v3/build/v36_report.py</code> &middot;
