@@ -41,9 +41,17 @@ ERCOUNT = os.path.join(REPO, "v3", "testsets", "er_count.csv")   # the blind ER 
 HANDS_CASE = ("p008+dualuse_emma_watson_black_blazer_armscrossed", "47")
 # samples, named here so the page and the joined counts cannot disagree: repairs and the
 # regression are cells whose verdict actually changed in the blind sweep
-BETTER_CASES = [("p022+dualuse_queen_latifah_gown_stage", "46"),
+# the cells marked ER-better in the head-to-head, kept rather than re-picked: they are the
+# reviewer's own judgements. Each is corroborated by every later instrument - BC pass 2 fails
+# it, the ER sweep passes it, the blind pass called it ER where it was judged, and the
+# side-by-side pass marked ER clean. g005+p002@48 was marked ER-better too and is left out:
+# the ER sweep and the side-by-side pass both say ER fails it.
+BETTER_CASES = [("dualuse_woman_top_denim_skirt_nonceleb+dualuse_zendaya_white_blazer_skirt", "48"),
+                ("g005+g009", "48"),
+                ("g005+p002", "47"),
+                ("p012+dualuse_queen_latifah_gown_stage", "47"),
                 ("p013+dualuse_scarlett_johansson_black_dress_backview_night", "46"),
-                ("g013+p006", "46")]
+                ("dualuse_woman_top_denim_skirt_nonceleb+dualuse_lp_plaid_overcoat_brown_suit", "48")]
 SAME_CASES = [("p022+p023", "47"), ("p026+dualuse_lp_beige_long_coat_menswear", "46")]
 WORSE_CASES = [("g005+g014", "47")]
 MATRIX = {r["set_id"]: r for r in csv.DictReader(
