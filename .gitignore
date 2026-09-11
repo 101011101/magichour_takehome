@@ -49,3 +49,7 @@ v3/colab/testset/
 v33_ironman_run_*.zip
 v34_a100_*.zip
 v3/report_v36/
+
+# model weights fetched at runtime by v3lib.fetch_models
+v3/colab/lib/models/
+models/

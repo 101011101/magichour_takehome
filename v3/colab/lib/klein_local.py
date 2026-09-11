@@ -16,13 +16,25 @@ GUIDANCE = 0.0
 _P = {}
 
 
-def load(repo=REPO, dtype="bfloat16"):
+def load(repo=REPO, dtype="bfloat16", transformer=None):
+    """transformer: optional (hf_repo, subfolder) to swap the transformer only. The text
+    encoder, VAE, scheduler and tokenizer still come from `repo` - a third-party re-host
+    carries the transformer alone, so the rest of the pipeline is unchanged by construction
+    and any difference is attributable to those weights."""
     import torch
     from diffusers import Flux2KleinPipeline
     if "pipe" in _P:
         return _P["pipe"]
     t0 = time.time()
-    pipe = Flux2KleinPipeline.from_pretrained(repo, torch_dtype=getattr(torch, dtype)).to("cuda")
+    kw = {}
+    if transformer:
+        from diffusers import Flux2Transformer2DModel
+        tr_repo, tr_sub = transformer
+        kw["transformer"] = Flux2Transformer2DModel.from_pretrained(
+            tr_repo, subfolder=tr_sub, torch_dtype=getattr(torch, dtype))
+        _P["transformer"] = f"{tr_repo}/{tr_sub}"
+    pipe = Flux2KleinPipeline.from_pretrained(repo, torch_dtype=getattr(torch, dtype),
+                                              **kw).to("cuda")
     _P["pipe"] = pipe
     _P["load_seconds"] = round(time.time() - t0, 1)
     _P["gpu"] = torch.cuda.get_device_name(0)
@@ -32,7 +44,8 @@ def load(repo=REPO, dtype="bfloat16"):
 
 
 def info():
-    return {k: _P[k] for k in ("load_seconds", "gpu", "repo", "dtype") if k in _P}
+    return {k: _P[k] for k in ("load_seconds", "gpu", "repo", "dtype", "transformer")
+            if k in _P}
 
 
 def _pil(bgr):
