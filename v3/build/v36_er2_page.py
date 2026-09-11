@@ -4,8 +4,15 @@
 has carried since V2. Two questions per row, and they are separate because a prompt can pass
 one and fail the other:
 
-  the garment   does ER2 fix the failure, match it, or make it worse?
+  the garment   is ER2 clean or does it fail? Asked about ER2 alone, not relative to ER -
+                "same as ER" meant opposite things on cells ER passed and cells it failed,
+                which is a question no reviewer should have to encode
   the hold      did the face, pose or background move without the clause telling them not to?
+
+Each row shows which arms already failed that cell, so the comparison is on the page rather
+than in the reviewer's head. Marks from the earlier labelling are carried over: `fixed` and a
+`same` on a cell ER passed both resolve to clean, `worse` and a `same` on a cell ER failed to
+fails.
 
 Selected on failure, so nothing here is a rate. Left to right: BC, ER, ER2, so the incumbent
 and the shipped candidate are both in view.
@@ -14,6 +21,7 @@ and the shipped candidate are both in view.
 """
 import csv
 import html
+import json
 import os
 import sys
 
@@ -25,9 +33,25 @@ RUN = os.path.join(REPO, "v3", "runs", "v36", "er2")
 REPORT = os.path.join(REPO, "v3", "report")
 
 
+def migrate():
+    """The first pass's marks, resolved into the unambiguous labels."""
+    p = os.path.join(REPO, "v3", "testsets", "v36_er2_marks.csv")
+    if not os.path.exists(p):
+        return {}
+    out = {}
+    for r in csv.DictReader(open(p)):
+        g = r.get("garment")
+        v = ("clean" if g == "fixed" else "fails" if g == "worse"
+             else ("fails" if r.get("er_failed") else "clean") if g == "same" else None)
+        if v or r.get("hold"):
+            out[f"{r['set_id']}|{r['seed']}"] = {"g": v, "h": r.get("hold") or None}
+    return out
+
+
 def main():
     os.makedirs(R.IMG, exist_ok=True)
     rows = list(csv.DictReader(open(os.path.join(RUN, "v36_er2_set.csv"))))
+    prior = migrate()
 
     cards = []
     for r in rows:
@@ -48,10 +72,9 @@ def main():
             f"<div class='cellcard' data-sid='{html.escape(sid)}' data-seed='{sd}'>"
             f"<div class='ch'><b>{html.escape(sid)}</b><span class='t'>seed {sd}</span>{tags}"
             "<span class='marks'>"
-            "<span class='grp'>garment"
-            "<button class='v' data-g='fixed'>ER2 fixes it</button>"
-            "<button class='v' data-g='same'>same as ER</button>"
-            "<button class='v' data-g='worse'>worse</button></span>"
+            "<span class='grp'>ER2"
+            "<button class='v' data-g='clean'>clean</button>"
+            "<button class='v' data-g='fails'>fails</button></span>"
             "<span class='grp'>hold"
             "<button class='h' data-h='held'>held</button>"
             "<button class='h' data-h='drift'>drifted</button></span>"
@@ -64,11 +87,13 @@ def main():
 <p class='lede'><code>ER2</code> is <code>ER</code>'s first sentence alone:
 <i>Replace the clothing in image 1 with the clothing in image 2.</i> The clause every call-2
 prompt has carried since V2 &mdash; <i>keep the person's face, identity, body and the
-background exactly as they are</i> &mdash; is gone. Two marks per row: whether the
-<b>garment</b> outcome changed, and whether the <b>hold</b> survived without being asked for.
+background exactly as they are</i> &mdash; is gone. Two marks per row: whether <code>ER2</code> itself is <b>clean or fails</b>, and whether the
+<b>hold</b> survived without being asked for. Each row shows which arms already failed it, so
+the comparison is on the page rather than in your head.
 The {len(rows)} cells are the ones that currently fail under either arm, so this is a
 diagnostic, not a rate. <a href='v36_report.html'>&larr; the result</a></p>
 {BAR}
+<script>window.PRIOR={json.dumps(prior)};</script>
 {''.join(cards)}
 <footer>{len(rows)} cells &middot; 53 klein calls, 2.2 min, CAD 0.03 on an A100 &middot; set
 <code>v3/colab/v36_er2_set.csv</code> &middot; rebuild:
@@ -96,28 +121,32 @@ SCRIPT = """<style>
 .marks button{background:#101014;color:var(--dim);border:1px solid var(--line);
  border-radius:20px;padding:2px 10px;cursor:pointer;font:11px ui-sans-serif,sans-serif;
  text-transform:none;letter-spacing:0}
-.marks button.on[data-g='fixed'],.marks button.on[data-h='held']{background:#12240f;
+.marks button.on[data-g='clean'],.marks button.on[data-h='held']{background:#12240f;
  border-color:#2c5c33;color:#7ee787}
-.marks button.on[data-g='worse'],.marks button.on[data-h='drift']{background:#2d1418;
+.marks button.on[data-g='fails'],.marks button.on[data-h='drift']{background:#2d1418;
  border-color:#8a2b34;color:#ff9aa2}
-.marks button.on[data-g='same']{background:#1b1b22;border-color:#4a4a55;color:var(--fg)}
 .outs.three{grid-template-columns:repeat(3,1fr)}
 textarea{display:none;width:100%;height:160px;margin-top:10px;background:#0b0b0e;
  color:#c3c3ce;border:1px solid var(--line);border-radius:6px;
  font:12px ui-monospace,monospace;padding:8px}
 </style>
 <script>
-const K='v36-er2-v1';let m={};try{m=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
+const K='v36-er2-v2';let m={};try{m=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
+// first-pass marks, resolved into the new labels - only used where nothing is stored yet
+if(!Object.keys(m).length&&window.PRIOR){m=JSON.parse(JSON.stringify(window.PRIOR));
+ Object.keys(m).forEach(k=>{if(!m[k].g&&!m[k].h)delete m[k];});
+ try{localStorage.setItem(K,JSON.stringify(m))}catch(x){}}
 const cards=[...document.querySelectorAll('.cellcard')];
 const key=c=>c.dataset.sid+'|'+c.dataset.seed;
 function paint(){
- const g={fixed:0,same:0,worse:0},h={held:0,drift:0};
+ const g={clean:0,fails:0},h={held:0,drift:0};
  cards.forEach(c=>{const v=m[key(c)]||{};
   c.querySelectorAll('.marks button').forEach(b=>b.classList.toggle('on',
    b.dataset.g?v.g===b.dataset.g:v.h===b.dataset.h));
   if(v.g)g[v.g]++; if(v.h)h[v.h]++;});
+ const done=g.clean+g.fails;
  document.getElementById('tally').innerHTML=
-  'garment: fixes <b>'+g.fixed+'</b> - same '+g.same+' - worse '+g.worse
+  'ER2: clean <b>'+g.clean+'</b> - fails '+g.fails+(done?' ('+(100*g.clean/done).toFixed(0)+'% of '+done+' judged)':'')
   +' &nbsp;|&nbsp; hold: held <b>'+h.held+'</b> - drifted '+h.drift;}
 document.addEventListener('click',e=>{const b=e.target.closest('.marks button');if(!b)return;
  const c=b.closest('.cellcard'),k=key(c);m[k]=m[k]||{};
@@ -130,7 +159,7 @@ document.getElementById('jump').onclick=()=>{
 document.getElementById('reset').onclick=()=>{if(!confirm('clear?'))return;m={};
  try{localStorage.removeItem(K)}catch(x){}paint();};
 document.getElementById('export').onclick=()=>{
- let csv='set_id,seed,bc_failed,er_failed,garment,hold\\n';
+ let csv='set_id,seed,bc_failed,er_failed,er2,hold\\n';
  cards.forEach(c=>{const v=m[key(c)]||{};
   const t=[...c.querySelectorAll('.b-fail')].map(x=>x.textContent.split(' ')[0]);
   csv+=c.dataset.sid+','+c.dataset.seed+','+(t.includes('BC')?'fail':'')+','
