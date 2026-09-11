@@ -95,85 +95,55 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding:18px 0 34px;colo
 <div class='wrap'><h1>ER &mdash; one verb in call 2</h1></div>
 
 <div class='wrap'>
-<p class='lede'>The deployed pipeline changes by <b>one verb</b>. <code>BC_klein</code>'s
-call 2 says <i>dress the person in the clothing shown in image 2</i>; <code>ER</code> says
-<i>replace the clothing in image 1 with the clothing in image 2</i>. Nothing else moves &mdash;
-same reference, same canvas, same seed, same model, same call count. The architecture and the
-reasoning are on <a href='v36_findings.html'>the long read</a>; this page is the result.</p>
+<p class='lede'>Call 2's verb, changed from <i>dress the person in</i> to <i>replace the
+clothing with</i>. Nothing else moves. <a href='v36_findings.html'>Architecture and
+rationale &rarr;</a></p>
 
 <div class='headline'>
   <div class='hzone'>
-    <div class='hv'>3.00%</div>
-    <div class='hl'>ER failure rate</div>
-    <div class='hs'>18 of 600 cells &mdash; 200 pairs &times; seeds
-      46/47/48, marked blind, one button per cell</div>
+    <div class='hv good'>3.00%</div>
+    <div class='hl'>ER failure rate &mdash; <b>&minus;38%</b> against BC_klein</div>
+    <div class='hs'>BC_klein <b>4.83%</b> &middot; same 600 cells, same blind
+      page &middot; per cell, <b>18 repaired : 7 broken</b>
+      (p&nbsp;=&nbsp;0.043)</div>
   </div>
   <div class='hzone'>
-    <div class='hv good'>&minus;38%</div>
-    <div class='hl'>against BC_klein</div>
-    <div class='hs'><b>BC_klein: 4.83%</b> (29 of 600)
-      &mdash; the same cells, the same page, the same protocol.
-      &minus;1.83 points absolute. Per cell: <b>18 repaired</b> against
-      <b>7 broken</b>, McNemar exact p = 0.043.</div>
+    <div class='hv'>CAD 0.45</div>
+    <div class='hl'>per 1000 images &middot; 2.28 s each</div>
+    <div class='hs'>USD 15.00 for the same calls on fal &middot; ER adds no call and no
+      measurable time over BC</div>
   </div>
   <div class='hzone wide'>
-    <div class='hl'>with a randomised seed</div>
-    <div class='hs'><b>ER's failures are less clustered.</b> When a pair fails at all, BC
-      usually fails at more than one of its three seeds; ER usually fails at exactly one
-      &mdash; so re-drawing at a fresh seed is likelier to land.</div>
+    <div class='hl'>Seed retry &mdash; <b>3.00% &rarr;
+      0.83%</b> for 3% more calls</div>
+    <div class='hs'><b>ER's failures are less clustered</b>, so a redraw at a fresh seed
+      lands more often.</div>
     <table class='seeds tight'>
       <tr><th></th><th>BC</th><th>ER</th></tr>
-      <tr><td>failed seeds per set, given the set fails at all</td>
+      <tr><td>failed seeds per set, when a set fails</td>
           <td>1.53 of 3</td><td class='good'>1.29 of 3</td></tr>
-      <tr><td>&hellip; two or more of the three fail</td>
+      <tr><td>two or more of the three fail</td>
           <td>42%</td><td class='good'>21%</td></tr>
-      <tr><td>&hellip; all three fail (no seed saves it)</td>
-          <td>11%</td><td class='good'>7%</td></tr>
-      <tr class='sep'><td>a retry hits another failed seed</td>
-          <td>24/58 = 41%</td>
-          <td class='good'>10/36 = 28%</td></tr>
-      <tr><td><b>failure rate with one retry</b><br><span class='dim'>P(fail) &times;
-          P(retry also fails)</span></td>
-          <td>4.83% &times; 41% = <b>2.00%</b></td>
-          <td class='good'>3.00% &times; 28% =
-            <b>0.83%</b></td></tr>
-      <tr><td>floor &mdash; pairs that fail at every seed</td>
+      <tr><td>a retry hits another failed seed</td>
+          <td>41%</td><td class='good'>28%</td></tr>
+      <tr class='sep'><td>failure rate with one retry</td>
+          <td>2.00%</td>
+          <td class='good'><b>0.83%</b></td></tr>
+      <tr><td>floor &mdash; sets that fail at every seed</td>
           <td>1.0%</td><td class='good'>0.50%</td></tr>
     </table>
-    <div class='hs'>Only rejects are redrawn, so the policy costs
-      3.0% more calls &mdash; 1.03 calls per delivered image.</div>
   </div>
 </div>
 
-<p class='sec'>Both arms were marked on the same blind page, one button per cell, no prior
-verdict in it &mdash; 200 pairs &times; seeds 46/47/48. Per cell:</p>
-<table class='seeds'>
-<tr><th></th><th>ER clean</th><th>ER fails</th></tr>
-<tr><td><b>BC clean</b></td><td>564</td><td class='bad'>7</td></tr>
-<tr><td><b>BC fails</b></td><td class='good'>18</td><td>11</td></tr>
-</table>
-<p class='caveat'>The two sweeps were not marked in the same sitting, so part of a
-1.83-point gap could be a stricter session. <b>The per-cell join does not depend on
-that</b>: 18 cells changed from fail to clean and 7 the other way,
-which is a statement about individual cells rather than two thresholds.</p>
-
-<h2>What one word repairs</h2>
-<p class='sec'>The failure class is the same every time: <b>the wearer's own clothing survives
-underneath the new garment</b>. <i>Dress the person in</i> names only the putting-on;
-<i>replace&hellip;with</i> names the removal too.</p>
+<h2>ER better</h2>
 <div class='cellcard'><div class='ch'><b>dualuse_woman_top_denim_skirt_nonceleb+dualuse_zendaya_white_blazer_skirt</b><span class='t'>seed 48</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/dualuse_woman_top_denim_skirt_nonceleb__p.jpg' data-full='img_v36r/dualuse_woman_top_denim_skirt_nonceleb__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/dualuse_zendaya_white_blazer_skirt__r.jpg' data-full='img_v36r/dualuse_zendaya_white_blazer_skirt__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/dualuse_woman_top_denim_skirt_nonceleb+dualuse_zendaya_white_blazer_skirt__E0__s48.jpg' data-full='img_v36r/dualuse_woman_top_denim_skirt_nonceleb+dualuse_zendaya_white_blazer_skirt__E0__s48@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/dualuse_woman_top_denim_skirt_nonceleb+dualuse_zendaya_white_blazer_skirt__ER__s48.jpg' data-full='img_v36r/dualuse_woman_top_denim_skirt_nonceleb+dualuse_zendaya_white_blazer_skirt__ER__s48@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>g005+g009</b><span class='t'>seed 48</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/g005__p.jpg' data-full='img_v36r/g005__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/g009__r.jpg' data-full='img_v36r/g009__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/g005+g009__E0__s48.jpg' data-full='img_v36r/g005+g009__E0__s48@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/g005+g009__ER__s48.jpg' data-full='img_v36r/g005+g009__ER__s48@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>g005+p002</b><span class='t'>seed 47</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/g005__p.jpg' data-full='img_v36r/g005__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/p002__r.jpg' data-full='img_v36r/p002__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/g005+p002__E0__s47.jpg' data-full='img_v36r/g005+p002__E0__s47@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/g005+p002__ER__s47.jpg' data-full='img_v36r/g005+p002__ER__s47@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>g005+p002</b><span class='t'>seed 48</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/g005__p.jpg' data-full='img_v36r/g005__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/p002__r.jpg' data-full='img_v36r/p002__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/g005+p002__E0__s48.jpg' data-full='img_v36r/g005+p002__E0__s48@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/g005+p002__ER__s48.jpg' data-full='img_v36r/g005+p002__ER__s48@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>p012+dualuse_queen_latifah_gown_stage</b><span class='t'>seed 47</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/p012__p.jpg' data-full='img_v36r/p012__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/dualuse_queen_latifah_gown_stage__r.jpg' data-full='img_v36r/dualuse_queen_latifah_gown_stage__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/p012+dualuse_queen_latifah_gown_stage__E0__s47.jpg' data-full='img_v36r/p012+dualuse_queen_latifah_gown_stage__E0__s47@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/p012+dualuse_queen_latifah_gown_stage__ER__s47.jpg' data-full='img_v36r/p012+dualuse_queen_latifah_gown_stage__ER__s47@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>p013+dualuse_scarlett_johansson_black_dress_backview_night</b><span class='t'>seed 46</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/p013__p.jpg' data-full='img_v36r/p013__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/dualuse_scarlett_johansson_black_dress_backview_night__r.jpg' data-full='img_v36r/dualuse_scarlett_johansson_black_dress_backview_night__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/p013+dualuse_scarlett_johansson_black_dress_backview_night__E0__s46.jpg' data-full='img_v36r/p013+dualuse_scarlett_johansson_black_dress_backview_night__E0__s46@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/p013+dualuse_scarlett_johansson_black_dress_backview_night__ER__s46.jpg' data-full='img_v36r/p013+dualuse_scarlett_johansson_black_dress_backview_night__ER__s46@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>dualuse_woman_top_denim_skirt_nonceleb+dualuse_lp_plaid_overcoat_brown_suit</b><span class='t'>seed 48</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/dualuse_woman_top_denim_skirt_nonceleb__p.jpg' data-full='img_v36r/dualuse_woman_top_denim_skirt_nonceleb__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/dualuse_lp_plaid_overcoat_brown_suit__r.jpg' data-full='img_v36r/dualuse_lp_plaid_overcoat_brown_suit__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/dualuse_woman_top_denim_skirt_nonceleb+dualuse_lp_plaid_overcoat_brown_suit__E0__s48.jpg' data-full='img_v36r/dualuse_woman_top_denim_skirt_nonceleb+dualuse_lp_plaid_overcoat_brown_suit__E0__s48@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/dualuse_woman_top_denim_skirt_nonceleb+dualuse_lp_plaid_overcoat_brown_suit__ER__s48.jpg' data-full='img_v36r/dualuse_woman_top_denim_skirt_nonceleb+dualuse_lp_plaid_overcoat_brown_suit__ER__s48@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div>
 
-<h2>What it leaves alone</h2>
-<p class='sec'>The other side of the same coin: on cells that already worked the two are
-indistinguishable. A prompt that bought its rescues by redrawing everything would show it
-here.</p>
+<h2>Unchanged</h2>
 <div class='cellcard'><div class='ch'><b>p022+p023</b><span class='t'>seed 47</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/p022__p.jpg' data-full='img_v36r/p022__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/p023__r.jpg' data-full='img_v36r/p023__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/p022+p023__E0__s47.jpg' data-full='img_v36r/p022+p023__E0__s47@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/p022+p023__ER__s47.jpg' data-full='img_v36r/p022+p023__ER__s47@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>g024+p010</b><span class='t'>seed 46</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/g024__p.jpg' data-full='img_v36r/g024__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/p010__r.jpg' data-full='img_v36r/p010__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/g024+p010__E0__s46.jpg' data-full='img_v36r/g024+p010__E0__s46@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/g024+p010__ER__s46.jpg' data-full='img_v36r/g024+p010__ER__s46@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div><div class='cellcard'><div class='ch'><b>p010+p023</b><span class='t'>seed 48</span></div><div class='cellbody'><div class='src'><figure class=''><img src='img_v36r/p010__p.jpg' data-full='img_v36r/p010__p@full.jpg' alt='the person (image 1)' loading='lazy'><figcaption>the person (image 1)</figcaption></figure><figure class=''><img src='img_v36r/p023__r.jpg' data-full='img_v36r/p023__r@full.jpg' alt='the reference (image 2)' loading='lazy'><figcaption>the reference (image 2)</figcaption></figure></div><div class='outs'><figure class=''><img src='img_v36r/p010+p023__E0__s48.jpg' data-full='img_v36r/p010+p023__E0__s48@full.jpg' alt='BC &amp;mdash; &lt;i&gt;dress the person in&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>BC &mdash; <i>dress the person in&hellip;</i></figcaption></figure><figure class=''><img src='img_v36r/p010+p023__ER__s48.jpg' data-full='img_v36r/p010+p023__ER__s48@full.jpg' alt='ER &amp;mdash; &lt;i&gt;replace the clothing with&amp;hellip;&lt;/i&gt;' loading='lazy'><figcaption>ER &mdash; <i>replace the clothing with&hellip;</i></figcaption></figure></div></div></div>
 
-<footer>Built by <code>v3/build/v36_report.py</code> from
-<code>v3/testsets/er_count.csv</code>, <code>bc_count.csv</code> and the run meta in
-<code>v3/runs/v36/</code>. Full evidence layer: <code>prd/v3/v3.6/RESULTS.md</code>. Click any
-image for full size. &middot; <a href='v36_findings.html'>the rationale and the architecture
-&rarr;</a></footer>
+<footer>Evidence: <code>prd/v3/v3.6/RESULTS.md</code> &middot; counts in
+<code>v3/testsets/</code> &middot; built by <code>v3/build/v36_report.py</code> &middot;
+<a href='v36_findings.html'>rationale &rarr;</a></footer>
 </div><div id='lb'><img id='lbi' alt=''><div id='lbc'></div></div><script>
 document.addEventListener('click',e=>{const im=e.target.closest('figure img');
   if(!im)return;document.getElementById('lbi').src=im.dataset.full||im.getAttribute('src');

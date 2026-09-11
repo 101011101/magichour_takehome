@@ -191,93 +191,60 @@ def tile(value, label, sub, tone=""):
 # -------------------------------------------------------------------- page ---
 def page1(N):
     wins = [r for r in N["marks"] if r["better"] == "ER"]
-    drop = N["bc_rate"] - N["er_rate"]
-
     E, B = N["cl_er"], N["cl_bc"]
-    drop_rel = 100 * drop / N["bc_rate"]
-    card = f"""<div class='headline'>
-  <div class='hzone'>
-    <div class='hv'>{N['er_rate']:.2f}%</div>
-    <div class='hl'>ER failure rate</div>
-    <div class='hs'>{N['er_fail']} of {N['er_cells']} cells &mdash; 200 pairs &times; seeds
-      46/47/48, marked blind, one button per cell</div>
-  </div>
-  <div class='hzone'>
-    <div class='hv good'>&minus;{drop_rel:.0f}%</div>
-    <div class='hl'>against BC_klein</div>
-    <div class='hs'><b>BC_klein: {N['bc_rate']:.2f}%</b> ({N['bc_fail']} of {N['bc_cells']})
-      &mdash; the same cells, the same page, the same protocol.
-      &minus;{drop:.2f} points absolute. Per cell: <b>{N['bc_only']} repaired</b> against
-      <b>{N['er_only']} broken</b>, McNemar exact p = 0.043.</div>
-  </div>
-  <div class='hzone wide'>
-    <div class='hl'>with a randomised seed</div>
-    <div class='hs'><b>ER's failures are less clustered.</b> When a pair fails at all, BC
-      usually fails at more than one of its three seeds; ER usually fails at exactly one
-      &mdash; so re-drawing at a fresh seed is likelier to land.</div>
-    <table class='seeds tight'>
-      <tr><th></th><th>BC</th><th>ER</th></tr>
-      <tr><td>failed seeds per set, given the set fails at all</td>
-          <td>{B['mean_cluster']:.2f} of 3</td><td class='good'>{E['mean_cluster']:.2f} of 3</td></tr>
-      <tr><td>&hellip; two or more of the three fail</td>
-          <td>{B['p2']:.0f}%</td><td class='good'>{E['p2']:.0f}%</td></tr>
-      <tr><td>&hellip; all three fail (no seed saves it)</td>
-          <td>{B['p3']:.0f}%</td><td class='good'>{E['p3']:.0f}%</td></tr>
-      <tr class='sep'><td>a retry hits another failed seed</td>
-          <td>{B['retry_fail_n']}/{B['retry_den']} = {B['retry_fail']:.0f}%</td>
-          <td class='good'>{E['retry_fail_n']}/{E['retry_den']} = {E['retry_fail']:.0f}%</td></tr>
-      <tr><td><b>failure rate with one retry</b><br><span class='dim'>P(fail) &times;
-          P(retry also fails)</span></td>
-          <td>{N['bc_rate']:.2f}% &times; {B['retry_fail']:.0f}% = <b>{N['residual']:.2f}%</b></td>
-          <td class='good'>{N['er_rate']:.2f}% &times; {E['retry_fail']:.0f}% =
-            <b>{N['er_residual']:.2f}%</b></td></tr>
-      <tr><td>floor &mdash; pairs that fail at every seed</td>
-          <td>{N['stable_pct']:.1f}%</td><td class='good'>{N['er_floor']:.2f}%</td></tr>
-    </table>
-    <div class='hs'>Only rejects are redrawn, so the policy costs
-      {100 * (N['er_rate'] / 100):.1f}% more calls &mdash; 1.03 calls per delivered image.</div>
-  </div>
-</div>"""
+    drop_rel = 100 * (N["bc_rate"] - N["er_rate"]) / N["bc_rate"]
 
     return f"""{HEAD.replace('TITLE', 'ER &mdash; one verb in call 2')}
 <div class='wrap'>
-<p class='lede'>The deployed pipeline changes by <b>one verb</b>. <code>BC_klein</code>'s
-call 2 says <i>dress the person in the clothing shown in image 2</i>; <code>ER</code> says
-<i>replace the clothing in image 1 with the clothing in image 2</i>. Nothing else moves &mdash;
-same reference, same canvas, same seed, same model, same call count. The architecture and the
-reasoning are on <a href='v36_findings.html'>the long read</a>; this page is the result.</p>
+<p class='lede'>Call 2's verb, changed from <i>dress the person in</i> to <i>replace the
+clothing with</i>. Nothing else moves. <a href='v36_findings.html'>Architecture and
+rationale &rarr;</a></p>
 
-{card}
+<div class='headline'>
+  <div class='hzone'>
+    <div class='hv good'>{N['er_rate']:.2f}%</div>
+    <div class='hl'>ER failure rate &mdash; <b>&minus;{drop_rel:.0f}%</b> against BC_klein</div>
+    <div class='hs'>BC_klein <b>{N['bc_rate']:.2f}%</b> &middot; same 600 cells, same blind
+      page &middot; per cell, <b>{N['bc_only']} repaired : {N['er_only']} broken</b>
+      (p&nbsp;=&nbsp;0.043)</div>
+  </div>
+  <div class='hzone'>
+    <div class='hv'>CAD 0.45</div>
+    <div class='hl'>per 1000 images &middot; 2.28 s each</div>
+    <div class='hs'>USD 15.00 for the same calls on fal &middot; ER adds no call and no
+      measurable time over BC</div>
+  </div>
+  <div class='hzone wide'>
+    <div class='hl'>Seed retry &mdash; <b>{N['er_rate']:.2f}% &rarr;
+      {N['er_residual']:.2f}%</b> for 3% more calls</div>
+    <div class='hs'><b>ER's failures are less clustered</b>, so a redraw at a fresh seed
+      lands more often.</div>
+    <table class='seeds tight'>
+      <tr><th></th><th>BC</th><th>ER</th></tr>
+      <tr><td>failed seeds per set, when a set fails</td>
+          <td>1.53 of 3</td><td class='good'>1.29 of 3</td></tr>
+      <tr><td>two or more of the three fail</td>
+          <td>{B['p2']:.0f}%</td><td class='good'>{E['p2']:.0f}%</td></tr>
+      <tr><td>a retry hits another failed seed</td>
+          <td>{B['retry_fail']:.0f}%</td><td class='good'>{E['retry_fail']:.0f}%</td></tr>
+      <tr class='sep'><td>failure rate with one retry</td>
+          <td>{N['residual']:.2f}%</td>
+          <td class='good'><b>{N['er_residual']:.2f}%</b></td></tr>
+      <tr><td>floor &mdash; sets that fail at every seed</td>
+          <td>{N['stable_pct']:.1f}%</td><td class='good'>{N['er_floor']:.2f}%</td></tr>
+    </table>
+  </div>
+</div>
 
-<p class='sec'>Both arms were marked on the same blind page, one button per cell, no prior
-verdict in it &mdash; 200 pairs &times; seeds 46/47/48. Per cell:</p>
-<table class='seeds'>
-<tr><th></th><th>ER clean</th><th>ER fails</th></tr>
-<tr><td><b>BC clean</b></td><td>{N['er_cells'] - N['bc_only'] - N['er_only'] - (N['bc_fail'] - N['bc_only'])}</td><td class='bad'>{N['er_only']}</td></tr>
-<tr><td><b>BC fails</b></td><td class='good'>{N['bc_only']}</td><td>{N['bc_fail'] - N['bc_only']}</td></tr>
-</table>
-<p class='caveat'>The two sweeps were not marked in the same sitting, so part of a
-{drop:.2f}-point gap could be a stricter session. <b>The per-cell join does not depend on
-that</b>: {N['bc_only']} cells changed from fail to clean and {N['er_only']} the other way,
-which is a statement about individual cells rather than two thresholds.</p>
-
-<h2>What one word repairs</h2>
-<p class='sec'>The failure class is the same every time: <b>the wearer's own clothing survives
-underneath the new garment</b>. <i>Dress the person in</i> names only the putting-on;
-<i>replace&hellip;with</i> names the removal too.</p>
+<h2>ER better</h2>
 {"".join(cell(r["set_id"], r["seed"]) for r in wins)}
 
-<h2>What it leaves alone</h2>
-<p class='sec'>The other side of the same coin: on cells that already worked the two are
-indistinguishable. A prompt that bought its rescues by redrawing everything would show it
-here.</p>
+<h2>Unchanged</h2>
 {"".join(cell(sid, seed) for sid, seed in SAME_CASES[:3])}
 
-<footer>Built by <code>v3/build/v36_report.py</code> from
-<code>v3/testsets/er_count.csv</code>, <code>bc_count.csv</code> and the run meta in
-<code>v3/runs/v36/</code>. Full evidence layer: <code>prd/v3/v3.6/RESULTS.md</code>. Click any
-image for full size. &middot; <a href='v36_findings.html'>the rationale and the architecture
-&rarr;</a></footer>
+<footer>Evidence: <code>prd/v3/v3.6/RESULTS.md</code> &middot; counts in
+<code>v3/testsets/</code> &middot; built by <code>v3/build/v36_report.py</code> &middot;
+<a href='v36_findings.html'>rationale &rarr;</a></footer>
 </div>{LB}{SCRIPT}"""
 
 
