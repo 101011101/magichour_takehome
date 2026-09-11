@@ -1,6 +1,11 @@
 # v3.5 — EXPERIMENT
 
-**Status: OPEN, opened 2026-09-08. Link A run (references, 56 garments × 4 arms, fal, seed 46); links B–C staged.** One question:
+**Status: OPEN, opened 2026-09-08.** Link A run (56 garments × 4 call-1 arms, fal); link B
+run as a probe (5 pairs); the bald interlude run (5 longest-haired garments, fal); link C
+run on the A100 2026-09-10 (51 pairs × 6 arms × 3 seeds, 918 cells). **The reviewer's pass
+over link C is open**, and so is the `VEi` counting pass that the `BC` count must be set
+against ([RESULTS §4](RESULTS.md#4-why-bc-may-simply-be-better--the-regeneration-tax)).
+One question:
 
 > **What does call 1 actually have to do to the reference — and can the head come off
 > instead of being replaced?**
@@ -58,7 +63,7 @@ wearer removes the constraint that held the garment's shape. First read only, on
 
 **Next.** Whichever arms hold the garment: the derived head crop, then call 2.
 
-### B — the head crop, and what call 2 does with it *(staged)*
+### B — the head crop, and what call 2 does with it *(probe run 2026-09-08)*
 
 **How.** The head-subtracted references through call 2, **on the 31 pairs the lock actually
 failed** — `v3/testsets/v35_failures.csv`, built from the reviewer's own per-cell verdict of
@@ -75,7 +80,25 @@ length, with an occasional shoulder artifact of its own. **No arm fixes the F1 c
 which is the person-side failure v3.4 named and no reference change can reach.
 → [RESULTS §2](RESULTS.md#2-link-b--the-head-cropped-reference-through-call-2-probe-2026-09-08).
 
-### C — VEi + head crop against re-pose + head crop, on the A100 *(staged, spec below)*
+### B2 — does one klein call re-pose *and* bald? *(run 2026-09-08)*
+
+**Why it was asked.** `BC` bald-passes the raw photograph before it crops, because hair on
+the shoulders and chest cannot be told from garment by any matte, and `VEi` gets that free —
+the mannequin sentence takes the head and its hair together. A re-pose arm that keeps the
+wearer's own head does neither, so cropping it leaves whatever hair spilled onto the
+garment. The re-pose arm is therefore not shippable unless one call can do both.
+
+**How.** The five garments with the most **garment lost to hair removal**, the quantity V2's
+own `hair_threshold = 0.14` gates `BC_klein` on, measured off V2's crop pair
+(`c32_no_face_keep_hair` minus `c3_no_face`, `v2/runs/crop_screen`); four of the five are
+over that threshold. `M1q` against `M1q + a bald clause`, one klein call each, seed 46, fal.
+Runner `v3/build/run_v35_bald_probe.py`; page `v3/report/v35_bald.html`.
+
+**Result.** Yes, on all five — and the garment survives the added sentence.
+→ [RESULTS §2.1](RESULTS.md#21-one-call-re-poses-and-balds-2026-09-08). `M1q` without the
+bald clause was dropped as an arm on this basis; link C runs `M1qb`.
+
+### C — VEi + head crop against re-pose + head crop, on the A100 *(run 2026-09-10)*
 
 **Decided out of the chain: `G1` is not a candidate.** The clothing-alone path is dropped
 on garment fidelity, not on cost or complexity — it returns a clean e-commerce flat and

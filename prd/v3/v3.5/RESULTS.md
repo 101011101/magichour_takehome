@@ -132,6 +132,45 @@ ran, not for their outcome; the other three are queued.
 control set — a failure-selected probe cannot say what any of this costs on the 163 pairs
 that already work. The full 31-pair × 3-seed run is link B proper; the fold is link C.
 
+### 2.1 One call re-poses *and* balds (2026-09-08)
+
+**Run.** `v3/build/run_v35_bald_probe.py`, **10 klein calls** on fal, seed 46, **$0.15**.
+Five garments × two arms; the `M0` mannequin column is link A's, same backend and seed, so
+it costs nothing and is paired. Outputs `v3/runs/v35/bald_probe/refs/`; page
+`v3/report/v35_bald.html`.
+
+**The set, and why these five.** Ranked by **garment lost to hair removal** — the alpha-area
+difference between V2's own two crops of the same photograph, `c32_no_face_keep_hair` minus
+`c3_no_face` (`v2/runs/crop_screen`). That is the quantity V2's `hair_threshold = 0.14`
+gates `BC_klein` on, so it is the fold's own definition of "long hair" rather than a new
+one. Four of the five are over the threshold:
+
+| garment | hair share | `M1q` (re-pose only) | `M1qb` (+ bald) |
+|---|---|---|---|
+| `p021` | 0.195 | braids down the chest, **on the sweater** | bald, sweater clean |
+| `dualuse_woman_top_denim_skirt_nonceleb` | 0.170 | hair over both shoulders and the top | bald, clean |
+| `p023` | 0.169 | large afro, mostly clear of the garment | bald |
+| `dualuse_zendaya_white_blazer_skirt` | 0.144 | curls across the **white blazer lapels** | bald, lapels clean |
+| `p012` | 0.140 | hair over the cardigan shoulders | bald, clean |
+
+**The clause**, lifted from `v3lib.BALD_PROMPT` so the wording is the record's rather than a
+new invention (its third sentence dropped, because `KEEP` and `PERSON_CLAUSE` already say
+it): *"The person is completely bald: remove all hair from the head and any hair falling
+over the shoulders, chest or back, and show the scalp."*
+
+**Result.** One call does both jobs on all five: still front-on, arms down, framing kept,
+garment unchanged, and the hair off the garment. It leaves the wearer's *face* — bald, not
+featureless — which does not matter, because the head is cropped afterwards.
+
+**What it settles.** `M1q` without the bald clause is not a shippable arm: on a long-haired
+wearer it bakes hair into the reference that no downstream stage removes. Link C therefore
+runs `M1qb` and does not run `M1q` — the bald version covers that case and is the only
+functional form.
+
+**Not claimed.** Five garments, one seed, references only. Whether the bald clause costs
+anything on the *garment* across the fold is a link C question, and the arm carries it
+there.
+
 ## 3. Link C — the run (2026-09-10)
 
 **Run.** `v3/colab/v35_a100.ipynb` on an A100, one session: **645 klein calls, 36.8 min,

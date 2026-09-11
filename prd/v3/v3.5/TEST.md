@@ -53,6 +53,24 @@ re-crop after call 1, and the call-1 canvas rule — all as the v3.4 lock. No SR
 the SR pass is identical across arms and belongs to call 2, so it would only add cost to a
 comparison it cannot change.
 
+## Link B's set — the pairs v3.4 actually failed
+
+`v3/testsets/v35_failures.csv` — **31 pairs**, every pair of the 200-pair iron-man 2 matrix
+on which the locked v3.4 arm `VEi` has a **real failure by the reviewer's own per-cell
+verdict** (`v34_im2_truth.json`: 600 cells, 100% human-judged, 79.2% clean / 11.7%
+shippable / **9.2% real failure** — [v3.4 RESULTS §10.5](../v3.4/RESULTS.md#105-the-complete-human-verdict--all-600-vei-cells-audited-2026-09-08)). Each row
+carries the three per-seed verdicts and whether the failure is seed-stable; **8 of the 31
+fail at every seed**, and those are the ones a reference change has to reach.
+
+This is not the v3.4 failure set (`v34_failures.csv`), which was selected on *v3.3's*
+failures and predates the lock. Selected on failure either way, so a rate measured on it
+does not transfer to the fold — its job is to show whether the head-crop reference reaches
+a failure the mannequin reference did not. The 200-pair matrix is link C's job.
+
+Call 2 is the lock's, unchanged: prompt `E3`, fal's own canvas (reproduced by not passing
+`image_size`), and the reference **SR'd to ~1 MP first, exactly as `VEi` does it**. The only
+variable on the page is which reference call 2 was given.
+
 ## Link C's set — every pair either record marks hard
 
 `v3/testsets/v35_linkC.csv` — **51 pairs**, the union of the two failure records that exist
@@ -83,6 +101,15 @@ different fold and are **not in this matrix at all**.
 Both halves are selected on failure, so neither transfers to the fold; the 200-pair run is
 link D's job.
 
+## The bald interlude's set — the fold's own longest hair
+
+Five garments, ranked by **garment lost to hair removal**: the alpha-area difference between
+V2's two crops of the same photograph, `c32_no_face_keep_hair` minus `c3_no_face`
+(`v2/runs/crop_screen`). That is the quantity V2's `hair_threshold = 0.14` gates `BC_klein`
+on, so the set is cut on the fold's own definition of long hair rather than a new one — four
+of the five are over the threshold. Outputs `v3/runs/v35/bald_probe/`, page
+`v3/report/v35_bald.html`, generator `v3/build/run_v35_bald_probe.py`.
+
 ## The ankle cut, reopened
 
 v3.4 removed the ankle cut at the lock — its link A found the cut neutral on every failure
@@ -94,23 +121,29 @@ on the reference, cut 3% of the height above the lower one, the A4 crop's own an
 as the fallback — and it is a **no-op by construction** on a reference with no ankles in
 frame, which cell 9 counts rather than assumes.
 
-## Link B's set — the pairs v3.4 actually failed
+## The code, and where each piece lives
 
-`v3/testsets/v35_failures.csv` — **31 pairs**, every pair of the 200-pair iron-man 2 matrix
-on which the locked v3.4 arm `VEi` has a **real failure by the reviewer's own per-cell
-verdict** (`v34_im2_truth.json`: 600 cells, 100% human-judged, 79.2% clean / 11.7%
-shippable / **9.2% real failure** — [v3.4 RESULTS §10.5](../v3.4/RESULTS.md#105-the-complete-human-verdict--all-600-vei-cells-audited-2026-09-08)). Each row
-carries the three per-seed verdicts and whether the failure is seed-stable; **8 of the 31
-fail at every seed**, and those are the ones a reference change has to reach.
+Every artefact this investigation produced, so a reader is never guessing which script made
+which file:
 
-This is not the v3.4 failure set (`v34_failures.csv`), which was selected on *v3.3's*
-failures and predates the lock. Selected on failure either way, so a rate measured on it
-does not transfer to the fold — its job is to show whether the head-crop reference reaches
-a failure the mannequin reference did not. The 200-pair matrix is link C's job.
+| stage | script | output |
+|---|---|---|
+| link A references (4 call-1 arms, fal) | `v3/build/run_v35_refs.py` | `v3/runs/v35/linkA/refs/` |
+| head crops, derived | `v3/build/run_v35_headcrop.py` | `…/refs/{g}__{M0c,M1c}.jpg` |
+| link A page | `v3/build/v35_linkA_page.py` | `v3/report/v35_linkA.html` |
+| link B edits (call 2, fal) | `v3/build/run_v35_edits.py` | `v3/runs/v35/linkB/` |
+| link B page | `v3/build/v35_linkB_page.py` | `v3/report/v35_linkB.html` |
+| the bald interlude | `v3/build/run_v35_bald_probe.py` | `v3/runs/v35/bald_probe/` |
+| its page | `v3/build/v35_bald_page.py` | `v3/report/v35_bald.html` |
+| link B's set, cut from the truth JSON | `v3/build/make_v35_failures.py` | `v3/testsets/v35_failures.csv` |
+| link C's set, the union of both records | `v3/build/make_v35_linkC_set.py` | `v3/testsets/v35_linkC.csv` |
+| link C, self-hosted, one A100 session | `v3/colab/v35_a100.ipynb` + `v3/colab/lib/run_v35_linkC.py` | `v3/runs/v35/linkC/` |
+| link C page | `v3/build/v35_linkC_page.py` | `v3/report/v35_linkC.html` |
+| the counting pages | `v3/build/bc_count_page.py [BC\|VEi]` | `v3/report/{bc,vei}_count.html` |
 
-Call 2 is the lock's, unchanged: prompt `E3`, fal's own canvas (reproduced by not passing
-`image_size`), and the reference **SR'd to ~1 MP first, exactly as `VEi` does it**. The only
-variable on the page is which reference call 2 was given.
+Both set generators reproduce their file byte for byte, so neither set is on disk without
+the code that cut it — the gap [v3.4 RESULTS](../v3.4/RESULTS.md#where-the-failure-records-live)
+records for `v34_failures.csv`.
 
 ## Backend
 
@@ -140,7 +173,25 @@ The page reads whatever is on disk: arms and seeds are discovered from the filen
 missing cell renders as a hole rather than failing the build, and where the ankle cut was a
 no-op (no ankles in frame) it says so on the arm rather than leaving it to be inferred.
 
-## Review
+## Review — counting `BC` against `VEi`
+
+Two pages, `v3/report/bc_count.html` and `v3/report/vei_count.html`, built from the same
+script (`python3 v3/build/bc_count_page.py [BC|VEi]`) and identical in every respect except
+the images. Each shows all **600 iron-man-2 cells** of one arm — 200 pairs × seeds 46/47/48 —
+with the person, the garment and the reference that arm was given beside its three draws,
+and one `fail` button per cell. Marks persist in the browser; export is
+`set_id,seed,{arm}_failed`.
+
+**Neither page carries any prior verdict**, checked rather than assumed: a rate is worth
+something only if the pass did not know the answer while it was being made. And the pages
+are identical *because* a rate is comparable to another only when one eye made both calls
+under one protocol — the `VEi` record already in the repo came from a judge-then-audit
+process and cannot be set beside a single fresh sweep without a caveat. `BC` is marked
+(`v3/testsets/bc_count.csv`, 29/600); the `VEi` pass is open, and
+[RESULTS §4](RESULTS.md#4-why-bc-may-simply-be-better--the-regeneration-tax) is held until
+it lands.
+
+## Review — links A and B
 
 Unblinded contact sheets, crop beside all four arms per garment, at
 `v3/report/v35_linkA.html`. The question at link A is not "which is prettier" but three
