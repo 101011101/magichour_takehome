@@ -156,7 +156,8 @@ def numbers():
     eronly = [r for r in bf if r["block"] == "eronly"]
     er_lo = len(block) - resc                       # ER's floor: BC failures it shares
     er_mid = er_lo + len(eronly)                    # plus the other side as marked
-    er_hi = er_lo + round(len(eronly) * 1.72)       # scaled to the strict bar
+    # no scaled upper end: the 1.72x leniency factor was measured on BC's two sittings, and
+    # applying it to ER would put a guess beside two counts. 37 is the count.
 
     def cluster(byX):
         """How a failure distributes over a pair's three seeds, and what a retry meets."""
@@ -184,11 +185,9 @@ def numbers():
     return {
         "bc2_fail": bc2_fail, "bc2_rate": 100 * bc2_fail / len(c2),
         "resc": resc, "resc_n": len(block), "resc_pct": 100 * resc / len(block),
-        "shared": er_lo, "er_lo": er_lo, "er_mid": er_mid, "er_hi": er_hi,
+        "shared": er_lo, "er_lo": er_lo, "er_mid": er_mid, "eronly": len(eronly),
         "er_lo_rate": 100 * er_lo / len(c2), "er_mid_rate": 100 * er_mid / len(c2),
-        "er_hi_rate": 100 * er_hi / len(c2),
-        "rel_lo": 100 * (bc2_fail - er_hi) / bc2_fail,
-        "rel_hi": 100 * (bc2_fail - er_mid) / bc2_fail,
+        "rel": 100 * (bc2_fail - er_mid) / bc2_fail,
         "cl_bc2": cluster(byB2),
         "cl_er": cluster(byE), "cl_bc": cluster(byB),
         "er_cells": len(shared), "er_fail": er_fail,
@@ -246,12 +245,11 @@ rationale &rarr;</a></p>
       reference-side: <b>ER has the same defect</b>, and no call-2 wording reaches them.</div>
   </div>
   <div class='hzone'>
-    <div class='hv'>{N['bc2_rate']:.2f}% &rarr; {N['er_mid_rate']:.1f}&ndash;{N['er_hi_rate']:.1f}%</div>
-    <div class='hl'>failure rate, BC &rarr; ER &mdash; <b>&minus;{N['rel_lo']:.0f} to
-      &minus;{N['rel_hi']:.0f}%</b></div>
-    <div class='hs'>BC <b>{N['bc2_fail']}/600</b>; ER <b>{N['er_mid']}&ndash;{N['er_hi']}</b>.
-      A range because only ER's shared failures are counted under this bar &mdash; its own
-      are extrapolated. Floor {N['er_lo']} if ER had none of its own, which it does.</div>
+    <div class='hv'>{N['bc2_rate']:.2f}% &rarr; {N['er_mid_rate']:.2f}%</div>
+    <div class='hl'>failure rate, BC &rarr; ER &mdash; <b>&minus;{N['rel']:.0f}%</b></div>
+    <div class='hs'>BC <b>{N['bc2_fail']}/600</b>; ER <b>{N['er_mid']}</b> &mdash;
+      {N['er_lo']} of BC's failures it shares, plus the {N['eronly']} of its own. A floor, not
+      a ceiling: cells BC passes were never re-examined for ER failures under this bar.</div>
   </div>
   <div class='hzone'>
     <div class='hv'>CAD 0.45</div>
@@ -508,7 +506,7 @@ signals to build on.</p>
 <h2>8. Where this leaves the work</h2>
 <ul>
 <li><b>Ship <code>ER</code> plus the retry.</b> {N['bc2_rate']:.2f}% &rarr;
-{N['er_mid_rate']:.1f}&ndash;{N['er_hi_rate']:.1f}% &rarr; roughly
+{N['er_mid_rate']:.2f}% &rarr; roughly
 {N['er_mid_rate'] * N['cl_er']['retry_fail'] / 100:.1f}% with one retry, for one verb and
 about {N['er_mid_rate']:.0f}% more calls.</li>
 <li><b>Mark <code>ER</code>'s own 600 against the strict bar.</b> It is what turns the rate

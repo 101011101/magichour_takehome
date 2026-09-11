@@ -157,25 +157,29 @@ verb — the reference, the crop, the pair — and no wording of call 2 reaches 
 all-seeds-failing pairs are the same claim from the seed side; this is it counted directly on
 a per-cell basis.
 
-**What that implies for the rate, and why it is a range.**
+**What that implies for the rate, and why it is a floor.**
 
 | | failures / 600 | rate |
 |---|---|---|
 | `BC`, pass 2 | 50 | 8.33% |
 | `ER`, `bcfail` block | 34 | 5.67% |
 | `ER`, + the 3 `eronly` cells as marked | **37** | **6.17%** |
-| `ER`, + those 3 scaled to the strict bar (×1.72 ≈ 5) | **~39** | **~6.50%** |
 
-**`ER` lands at roughly 37–39 of 600, a 22–26% relative reduction against `BC`'s 50** — real,
-and about two thirds the size of §2's −37.9%.
+**`ER` lands at 37 of 600 = 6.17%, a 26% relative reduction against `BC`'s 50** — real, and
+about two thirds the size of §2's −37.9%. 37 is a count: 34 shared failures judged under this
+bar, plus the 3 cells the sweep found failing under `ER` and passing under `BC`.
 
-It is a range because only one side of it is measured under one bar. The `bcfail` block is
-complete: every cell `BC` pass 2 failed was looked at, and 34 is exact. The `eronly` side is
-not: it is seeded from the **`ER` sweep, which was marked on the lenient footing** — the same
-footing that found 29 `BC` failures where the strict sitting found 50. A strict `ER` sweep
-would surface cells where `BC` passes and `ER` fails that the lenient sweep let through, and
-the 1.72× ratio is the only estimate available for how many. 34 is the hard floor and assumes
-`ER` has no failures of its own, which it does; the upper end is an extrapolation, not a count.
+**37 is a floor, not a point estimate, and the asymmetry is one-directional.** The `bcfail`
+block is complete: every cell `BC` pass 2 failed was looked at, and 34 is exact. The other
+side is not complete: the 3 `eronly` cells come from the **`ER` sweep, marked on the lenient
+footing** — the footing that found 29 `BC` failures where the strict sitting found 50 — and
+the 550 cells `BC` pass 2 passed were never re-examined for `ER` failures at all. A strict
+sweep of `ER` can only add to 37, never subtract, so 6.17% is the best case for `ER` and the
+true figure is somewhere above it.
+
+An earlier draft scaled those 3 by the 1.72× leniency ratio to put an upper end at ~39. That
+ratio was measured on `BC`'s two sittings and has not been measured on `ER`; a scaled guess
+does not belong beside two counts, and it is dropped.
 
 **What would close it.** Mark `ER`'s own 600 cells in a fresh sitting **against the bar pass 2
 used** — ideally interleaved with a `BC` re-mark on the same page so one threshold covers both
