@@ -31,13 +31,18 @@ MATRIX = os.path.join(REPO, "v3", "colab", "matrix.csv")
 SEEDS = (46, 47, 48)
 
 ARM = sys.argv[1] if len(sys.argv) > 1 else "BC"
-SLUG = ARM.lower()
-TITLE = {"BC": "BC_klein &mdash; bald pass, V2 crop, klein edit",
+# A second pass over an arm needs its own storage key and its own file, or the first pass's
+# marks pre-fill the page and the re-mark is not independent of the mark it is checking.
+PASS = sys.argv[2] if len(sys.argv) > 2 else ""
+SLUG = ARM.lower() + PASS
+TITLE = {"BC": ("BC_klein &mdash; bald pass, V2 crop, klein edit"
+                + (f" &mdash; pass {PASS}" if PASS else "")),
          "VEi": "VEi &mdash; the v3.4 lock: mannequin reference, SR, klein edit",
          "ER": "ER &mdash; BC's pipeline, one word changed in call 2"}.get(ARM, ARM)
 # An arm made in a later run keeps its cells in its own directory; its references and
 # inputs are still BC's, because that is what makes the two rates comparable.
 GEN = {"ER": os.path.join(REPO, "v3", "runs", "v36", "ironman_er", "gen")}.get(ARM, os.path.join(RUN, "gen"))
+KEY = SLUG + "-count-v1"    # unique per arm AND per pass
 REF_ARM = {"ER": "BC"}.get(ARM, ARM)
 IMG = os.path.join(REPORT, "img_" + SLUG + "count")
 
@@ -99,7 +104,7 @@ def main():
          f"<footer>{n} cells &middot; {len(cards)} pairs &times; {len(SEEDS)} seeds &middot; "
          f"arm <code>{ARM}</code>, seeds 46/47/48 on an A100 &middot; "
          f"<code>{os.path.relpath(GEN, REPO)}/&#123;set_id&#125;__{ARM}__s&#123;seed&#125;.jpg</code>"
-         f" &middot; rebuild: <code>python3 v3/build/bc_count_page.py {ARM}</code>"
+         f" &middot; rebuild: <code>python3 v3/build/bc_count_page.py {ARM}{' ' + PASS if PASS else ''}</code>"
          "</footer></div>", LB, script]
     open(os.path.join(REPORT, SLUG + "_count.html"), "w").write("\n".join(o))
     print(f"v3/report/{SLUG}_count.html  ({n} cells, {len(cards)} pairs)")
