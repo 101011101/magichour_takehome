@@ -594,9 +594,13 @@ garment-5 cell in 600, zero 5/5/5 fidelity cells in either arm's record — the
 mediocre garment transfer is the system's ceiling on this matrix, not a VEi property.
 Worst-10 classes: F3×5, F1×3, F2×2.
 
-**New failure mode flagged:** on a few s46 cells (`g013+p006`, `g029+p012`) the
-output shows the **garment reference's model instead of the person** — a person-swap,
-worse than any F-class; to be eyeballed and counted before conclusions.
+**New failure mode flagged — and resolved in §10.4–10.5.** The judge reported that on
+some s46 cells (`g013+p006`, `g029+p012`) the output shows the garment reference's
+model instead of the person. The reviewer's audit adjudicated both pairs at all three
+seeds: **`g013+p006` is fine on every cell** (3/3 "wrongly flagged" — the judge
+invented the swap), while **`g029+p012` genuinely fails 3/3**. So the class is real but
+rarer than reported, and confined to one pair on this fold; it is inside the 55 real
+failures counted in §10.5, not an additional mode on top of them.
 
 **Reading.** VEi on the full matrix is modestly *worse* than the lock's record, at
 the edge of calibration noise, on identity/scene — the failure-set gains did not
@@ -674,7 +678,9 @@ is modestly worse than the lock" and the ~27%-garment-correct ceiling — rests 
 judge whose failure calls are wrong 42% of the time. The judged comparisons between
 arms may still hold *relatively* (the same bias applies to every arm), but the
 absolute rates do not: **the honest headline is 93% of cells acceptable, 82.7% clean
-of any flaw**, pending the false-negative check.
+of any flaw**, pending the false-negative check — which §10.5 then ran, settling the
+figure at **90.8% usable / 9.2% real failures** once the 13 wrongly-passed cells are
+counted in.
 
 **Still open:** this audit covers only cells the judge *failed*. Cells it passed have
 not been checked — `ironman2_passed.html` (§10.5) is that pass, and until it lands the
@@ -733,6 +739,10 @@ Votes: `v34_im2_fourway_votes.csv`.
 | another arm did better | **1** — `scarlett_backview + woman_top_denim_skirt` s48, to **BC** |
 | every arm failed | 2 — `woman_top_denim_skirt + zendaya_white_blazer_skirt` s46, s48 |
 
+**This discharges [SOLUTION §7](SOLUTION.md)** — the validation the v3.4 lock was
+explicitly held against. The SOLUTION is not amended (house rule); this section is its
+result of record.
+
 **On the head-to-head that iron man 2 was built to settle: the incumbent beats the
 v3.4 version on one cell in six hundred.** Not one of the 55 VEi failures was rescued
 by `V` or `BCA4` either — where VEi fails, the other arms overwhelmingly fail too, which
@@ -772,3 +782,44 @@ mixed, so the report shows where the version wins *and* where it is honestly bea
 
 Whoever builds the report renders these four-up — VEi · BC · V · BCA4, with the A4
 crop and each arm's reference above them, as the four-way page lays them out.
+
+## 12. What is carried open out of v3.4 (2026-09-10)
+
+Recorded so the next version starts from the evidence rather than the last impression.
+(Failure classes F1–F5 and select-from-N are already in
+[SOLUTION §4](SOLUTION.md); these are the items that surfaced after the lock.)
+
+**1. The garment ceiling is the real target.** The canvas arc (links D–H) moved
+identity, scene and realism; the garment criterion never moved — 2.5–3.1 of 5 on every
+arm, every recipe, including the incumbent. The 55 real failures are overwhelmingly
+garment-side (F1 the wearer's clothing survives, F2 skirt→trousers, F3 the reference
+drifts under re-pose). **Nothing in the scaling family will fix them**; the person-side
+agnostic (EXPERIMENT §3) and the conditional re-pose (§2) are where the value is.
+
+**2. Is fal better than our A100? Unresolved, and the evidence leans "no".** Measured
+three ways — link B (fal fails clean controls at the fold's own ~5%), link C (the A100
+at new seeds does what fal did), §4.4 (blind judge: +0.09 fidelity, inside one seed's
+noise) — plus the deep dive, which reproduced fal's canvas rule 20/20 and found the
+paths identical on attention, dtype, steps, guidance and the schedule branch. What
+stays unverifiable: what fal actually runs (its floor-32 rounding matches neither
+diffusers nor BFL), whether it upsamples sub-1 MP references, its seed→noise mapping
+(so **cross-backend seed pairing is meaningless**), and its VAE dtype. **The test that
+would settle it** now that the judge is known to over-flag: run VEi's exact recipe on
+fal over the same pairs and seeds, and audit fal's cells *by eye* on the same three-way
+marks used in §10.4–10.5 — distribution against distribution, one human standard. ~$20
+for the full matrix. Until that exists, "fal is a different draw" is the supported
+reading, and single fal draws shown beside A100 draws are selection bias, not evidence.
+
+**3. Calibrate the judge before trusting it again.** §10.5 gives 600 human-labelled
+cells against the judge's six scores — enough to fit a threshold that reproduces the
+reviewer's bar (precision is 23.6% at the current one, recall 76.4%). Doing that fit
+first would let every arm be rescored consistently and cheaply; **every cross-arm VLM
+number in §9.1 and §10.2 remains provisional until it is done**, because the 3.2×
+over-flagging was calibrated on VEi alone.
+
+**4. Two pairs no arm can do.** `woman_top_denim_skirt + zendaya_white_blazer_skirt`
+(s46, s48) failed on all four arms (§11); the eight seed-stable failures in §10.5 are
+the standing hard set. The backview-source diagnosis (§7.2 reading, `p013`-class pairs)
+says some of these are **source-image problems** — a garment photographed from behind
+cannot be re-posed to frontal from information that is not there — and belong at
+ingestion (detect and ask for a front view), not in the renderer.

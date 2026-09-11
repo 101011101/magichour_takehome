@@ -1,6 +1,6 @@
 # v3.4 — EXPERIMENT
 
-**Status: CLOSED as a chain — SOLUTION.md locked 2026-09-06 on `VEi`; iron man 2 pending (§H result, SOLUTION §7). Historical record below. Links A–G run, H run. F (2026-09-05, negative): Lanczos inputs lose the g027 framing 3/3 and the placket appears at every scale — call-1 regeneration, not scaling, is the drift channel. G = arm `VS` (SR inputs; fal priors: s50 "very good", first-ever `p019+gal_gadot` success) run — fal priors did not transfer (g027 lost again; VE still the only recipe to hold it) but the p004 reference is the cleanest yet; sr cost measured 4.1%. H staged = arm `VEi` (the reviewer's design: small-canvas ref, SR after call 1) awaits its A100 run; then the canvas call. Select-from-N deferred to v4 (What is decided). Opened 2026-08-31.** One question:
+**Status: CLOSED. The chain ran A–H; `VEi` is locked as the v3.4 version ([SOLUTION.md](SOLUTION.md), 2026-09-06); iron man 2 ran both arms on the 200-pair matrix and the reviewer's four-way review returned **VEi stands on 597/600** against the correctly-built incumbent ([RESULTS §11](RESULTS.md#11-the-four-way-verdict-and-the-reports-examples-2026-09-08)). The human audit of all 600 VEi cells puts the version at **90.8% usable, 9.2% real failures** ([RESULTS §10.5](RESULTS.md#105-the-complete-human-verdict--all-600-vei-cells-audited-2026-09-08)). Select-from-N and everything beyond two klein calls: v4 (What is decided). Everything below is the historical record of how the chain got there. Opened 2026-08-31.** One question:
 
 > **What is left on the table after v3.3, and which side of the edit is it on?**
 
@@ -186,8 +186,9 @@ Run 2026-09-05. The sr stage measured **4.1%** of klein time (median 0.31 s/call
 The fal priors did **not** transfer: `g027+p003` loses the framing again (VE stays the
 only A100 recipe that held it), the `p019+gal_gadot` s50 success does not reproduce on
 the A100 draw. One clear win: the `p004` reference is the cleanest of any recipe — the
-phantom placket nearly gone. Fold-wide verdict awaits the reviewer's five-way vote on
-`v3/report/v34_a100_VS.html`. → link H.
+phantom placket nearly gone. The standalone five-way vote was overtaken by events — the
+fold-wide verdict came from iron man 2 instead ([RESULTS §11](RESULTS.md#11-the-four-way-verdict-and-the-reports-examples-2026-09-08)).
+→ link H.
 
 ### H — The upscale after call 1 (arm `VEi`) **← the reviewer's design, 2026-09-05; wired, awaiting its A100 run**
 
@@ -216,8 +217,9 @@ headline pair: `g027+p003` holds the waist-up framing at all three seeds** — t
 second A100 recipe ever to do it (VE the other), and it did it with V34's exact
 reference content, SR-sharpened. So the dwarfism fix was the reference's ~1 MP token
 footprint in call 2, not klein-drawn content. Costs: ref 1.05 s (small canvas — the
-cheapest of the 1 MP arms), sr 0.19 s, edit 3.18 s. Fold-wide verdict awaits the
-reviewer's five-way vote on `v3/report/v34_a100_VEi.html`.
+cheapest of the 1 MP arms), sr 0.19 s, edit 3.18 s. **VEi was locked on this result**
+([SOLUTION.md](SOLUTION.md)) and then validated fold-wide by iron man 2
+([RESULTS §11](RESULTS.md#11-the-four-way-verdict-and-the-reports-examples-2026-09-08)).
 
 ### 0 — Select-from-N **← DEFERRED TO v4 (reviewer, 2026-09-05); the brief below stands**
 
@@ -278,8 +280,10 @@ verified visually 2026-09-06).
 **No ankle cut in v3.4 — decided by the reviewer 2026-09-04, independent of the canvas
 outcome.** This reverses the lock's product choice on footwear (link A: cut = wearer
 keeps their shoes; no cut = the reference's shoes come along — v3.4 chooses the
-latter). The cut stays in arm `V` for baseline comparability only. **The canvas rule is
-NOT decided**: `V34` (call 2 at 1 MP) vs `VE` (both calls at 1 MP) awaits link E.
+latter). The cut stays in arm `V` for baseline comparability only. **The canvas rule was decided
+2026-09-06**, after links E–H: `VEi` — call 1 at evidence scale (≤1 MP), the one upscale
+algorithmic and applied to the finished reference, call 2 on the fal canvas. See
+[SOLUTION.md](SOLUTION.md).
 
 **No third call in v3 — decided by the reviewer 2026-09-05.** Select-from-N,
 gate-and-retry, batched draws — any reliability mechanism beyond the two klein calls —
