@@ -168,7 +168,8 @@ cost v3.1 was rejected for.</p>
 <p>v3.1 to v3.4 built increasingly sophisticated call-1 arms: mannequin head swaps, explicit
 re-posing, canvas discipline, super-resolution applied only to finished references. The best
 of them, <code>VEi</code>, is the v3.4 lock. Measured over the same 600 cells it failed
-<b>9.2%</b> against the incumbent's <b>4.8%</b> &mdash; 43 cells where the sophisticated arm
+<b>9.2%</b> against the incumbent's <b>4.8%</b> &mdash; both marked on the looser bar that a
+later re-mark showed finds 1.7&times; fewer failures, so read the gap rather than the levels &mdash; 43 cells where the sophisticated arm
 fails and the simple one does not, against 17 the other way.</p>
 <p>The mechanism: <code>BC</code> edits the <i>head</i> and isolates the garment with a
 <b>deterministic matte</b>, which can only remove. Every <code>V</code>-family arm asks a
@@ -231,7 +232,11 @@ vanish. <b>The fix costs more than the defect.</b></p>
 <table>
 <tr><th>arm</th><th>the change</th><th>verdict</th></tr>
 <tr><td><code>ER</code></td><td>the verb: <i>replace the clothing with</i></td>
-<td class='good'>adopted &mdash; 4.83% &rarr; 3.00% at zero cost</td></tr>
+<td class='good'>adopted &mdash; repairs 32% of BC's failures at zero cost</td></tr>
+<tr><td><code>ER2</code></td><td><code>ER</code> with the hold clause dropped &mdash; the
+replace sentence alone</td>
+<td>no detectable gain (40% against 32% on BC's failures, intervals overlapping) and 15 cells
+clean under <code>ER</code> that it fails, against 2 the other way. Not adopted.</td></tr>
 <tr><td><code>EFR</code></td><td><code>ER</code> + a no-blend paragraph</td>
 <td>no gain; one regression on a passing cell</td></tr>
 <tr><td><code>EX</code></td><td>removal + layering + piece count + limb count + framing</td>
@@ -258,13 +263,14 @@ so every number of record was made on the hardware the record was made on.</p>
 <p>Every pair in the sweep was run at three seeds, so the record itself says what a retry
 would have done. For <code>ER</code>: a failed cell passes at another seed
 <b>26/36 = 72%</b> of the time, which
-takes 3.00% to <b>0.83%</b>; using both remaining seeds
-reaches <b>0.50%</b>, the floor set by the one pair in two hundred that fails
-at every seed.</p>
-<p><b>Why it is not higher.</b> If seeds were independent at a 3.00% failure
-rate, a retry would pass 97% of the time and the residual would be
-0.09%. It is 72% instead, so <b>failures cluster by
-pair</b>: when a cell fails, the same pair is likelier to fail at other seeds too. The
+takes its rate down by roughly a factor of four; on the strict <code>BC</code> pass the same
+read is 48/100 =
+48%, so a retry helps <code>BC</code> materially less. The floor
+either arm approaches is its pairs that fail at every seed.</p>
+<p><b>Why it is not higher.</b> If seeds were independent at a 6.17%
+failure rate, a retry would pass 94% of the time and the residual
+would be under a tenth of a percent. It is 72% instead, so <b>failures
+cluster by pair</b>: when a cell fails, the same pair is likelier to fail at other seeds too. The
 randomiser works, but nothing like as well as independence would predict &mdash; a stubborn
 pair is stubborn because its <i>reference</i> is wrong, and no seed repairs that.</p>
 <p><b>Why <code>ER</code> compounds with it: its failures are less clustered.</b> That is the
@@ -277,13 +283,14 @@ against 41% on <code>BC</code>. A lower rate and a looser cluster
 <b>multiply</b> rather than overlap, which is why the shipped system is the prompt <i>and</i>
 the policy rather than either alone.</p>
 <p><b>What the retry does and does not change.</b> A randomised seed does not move the
-3.00%: a first draw is a random cell, and 3.00% of cells fail.
-What the policy buys is the <i>second</i> draw &mdash;
-3.00% &times; 28% =
-<b>0.83%</b> of images still failing after one retry, at
-1.03 calls per delivered image.</p>
+headline rate: a first draw is a random cell, and that share of cells fail. What the policy
+buys is the <i>second</i> draw &mdash; the rate multiplied by
+28%, so roughly 6.2% becomes
+<b>1.71%</b>, at about
+1.06 calls per delivered image.</p>
 <p class='caveat'><b>Estimated on 36 retry opportunities</b>, so the 95%
-interval on that 72% is roughly 56&ndash;84%. The direction is solid;
+interval on that 72% is roughly 56&ndash;84% &mdash; and it is read off
+the <code>ER</code> sweep, which was marked on the looser bar. The direction is solid;
 the second decimal is not. And the policy has an unbuilt dependency: <b>a rejector</b>.
 Something must decide an image failed before it can be retried. The v3.6 VLM judge is a first
 attempt and is not yet one &mdash; its artifact flag fires on 45% of cells a human passed,
@@ -292,10 +299,13 @@ signals to build on.</p>
 
 <h2>8. Where this leaves the work</h2>
 <ul>
-<li><b>Ship <code>ER</code> plus the retry.</b> 4.83% &rarr;
-3.00% &rarr; about 0.83%, for one verb and ~3% more calls.</li>
-<li><b>Build the rejector.</b> It is the only thing standing between the measured
-0.83% and a shipped one.</li>
+<li><b>Ship <code>ER</code> plus the retry.</b> 8.33% &rarr;
+6.2&ndash;6.5% &rarr; roughly
+1.7% with one retry, for one verb and
+about 6% more calls.</li>
+<li><b>Mark <code>ER</code>'s own 600 against the strict bar.</b> It is what turns the rate
+range into a number, and it is the last measurement the claim is missing.</li>
+<li><b>Build the rejector.</b> Nothing retries without one.</li>
 <li><b>The remaining defects are reference-side</b>, which means model-side: crossed arms,
 dropped pieces on ambiguous lower bodies, the wearer's own accessories. None is a call-2
 wording problem.</li>

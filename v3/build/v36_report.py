@@ -31,7 +31,9 @@ BCRUN = os.path.join(REPO, "v3", "runs", "v34", "ironman2_bc")
 REPORT = os.path.join(REPO, "v3", "report")
 IMG = os.path.join(REPORT, "img_v36r")
 MARKS = os.path.join(REPO, "v3", "testsets", "v36_er_vs_bc.csv")
-COUNT = os.path.join(REPO, "v3", "testsets", "bc_count.csv")
+COUNT = os.path.join(REPO, "v3", "testsets", "bc_count.csv")        # BC, first sitting
+COUNT2 = os.path.join(REPO, "v3", "testsets", "bc2_count.csv")      # BC, the strict re-mark
+BCFAIL = os.path.join(REPO, "v3", "testsets", "v36_bcfail.csv")     # ER judged against it
 ERCOUNT = os.path.join(REPO, "v3", "testsets", "er_count.csv")   # the blind ER sweep
 
 # cells that carry the long report's arguments, named here so the prose and the pictures
@@ -143,6 +145,19 @@ def numbers():
             o = [x for k, x in v.items() if k != sd]
             eden += len(o)
             enum += sum(1 for x in o if not x)
+    # BC of record is the strict re-mark; ER is judged against it side by side, in one
+    # sitting, because two rates marked on different days cannot resolve a gap this size.
+    c2 = list(csv.DictReader(open(COUNT2)))
+    bc2 = {(r["set_id"], r["seed"]): r["bc_failed"] == "fail" for r in c2}
+    bc2_fail = sum(bc2.values())
+    bf = list(csv.DictReader(open(BCFAIL)))
+    block = [r for r in bf if r["block"] == "bcfail"]
+    resc = sum(1 for r in block if r["er_verdict"] == "clean")
+    eronly = [r for r in bf if r["block"] == "eronly"]
+    er_lo = len(block) - resc                       # ER's floor: BC failures it shares
+    er_mid = er_lo + len(eronly)                    # plus the other side as marked
+    er_hi = er_lo + round(len(eronly) * 1.72)       # scaled to the strict bar
+
     def cluster(byX):
         """How a failure distributes over a pair's three seeds, and what a retry meets."""
         d = {k: sum(1 for v in byX.values() if sum(v.values()) == k) for k in (0, 1, 2, 3)}
@@ -163,7 +178,18 @@ def numbers():
     byB = {}
     for (sid, sd) in shared:
         byB.setdefault(sid, {})[sd] = bcc[(sid, sd)]
+    byB2 = {}
+    for (sid, sd), v in bc2.items():
+        byB2.setdefault(sid, {})[sd] = v
     return {
+        "bc2_fail": bc2_fail, "bc2_rate": 100 * bc2_fail / len(c2),
+        "resc": resc, "resc_n": len(block), "resc_pct": 100 * resc / len(block),
+        "shared": er_lo, "er_lo": er_lo, "er_mid": er_mid, "er_hi": er_hi,
+        "er_lo_rate": 100 * er_lo / len(c2), "er_mid_rate": 100 * er_mid / len(c2),
+        "er_hi_rate": 100 * er_hi / len(c2),
+        "rel_lo": 100 * (bc2_fail - er_hi) / bc2_fail,
+        "rel_hi": 100 * (bc2_fail - er_mid) / bc2_fail,
+        "cl_bc2": cluster(byB2),
         "cl_er": cluster(byE), "cl_bc": cluster(byB),
         "er_cells": len(shared), "er_fail": er_fail,
         "er_rate": 100 * er_fail / len(shared),
@@ -203,9 +229,7 @@ def tile(value, label, sub, tone=""):
 
 # -------------------------------------------------------------------- page ---
 def page1(N):
-    wins = [r for r in N["marks"] if r["better"] == "ER"]
-    E, B = N["cl_er"], N["cl_bc"]
-    drop_rel = 100 * (N["bc_rate"] - N["er_rate"]) / N["bc_rate"]
+    E, B = N["cl_er"], N["cl_bc2"]
 
     return f"""{HEAD.replace('TITLE', 'ER &mdash; one verb in call 2')}
 <div class='wrap'>
@@ -215,11 +239,19 @@ rationale &rarr;</a></p>
 
 <div class='headline'>
   <div class='hzone'>
-    <div class='hv good'>{N['er_rate']:.2f}%</div>
-    <div class='hl'>ER failure rate &mdash; <b>&minus;{drop_rel:.0f}%</b> against BC_klein</div>
-    <div class='hs'>BC_klein <b>{N['bc_rate']:.2f}%</b> &middot; same 600 cells, same blind
-      page &middot; per cell, <b>{N['bc_only']} repaired : {N['er_only']} broken</b>
-      (p&nbsp;=&nbsp;0.043)</div>
+    <div class='hv good'>{N['resc_pct']:.0f}%</div>
+    <div class='hl'>of BC_klein's failures repaired</div>
+    <div class='hs'>{N['resc']} of {N['resc_n']} (95% CI 21&ndash;46%) &mdash; both outputs
+      side by side, one sitting, one bar. The other {100 - N['resc_pct']:.0f}% are
+      reference-side: <b>ER has the same defect</b>, and no call-2 wording reaches them.</div>
+  </div>
+  <div class='hzone'>
+    <div class='hv'>{N['bc2_rate']:.2f}% &rarr; {N['er_mid_rate']:.1f}&ndash;{N['er_hi_rate']:.1f}%</div>
+    <div class='hl'>failure rate, BC &rarr; ER &mdash; <b>&minus;{N['rel_lo']:.0f} to
+      &minus;{N['rel_hi']:.0f}%</b></div>
+    <div class='hs'>BC <b>{N['bc2_fail']}/600</b>; ER <b>{N['er_mid']}&ndash;{N['er_hi']}</b>.
+      A range because only ER's shared failures are counted under this bar &mdash; its own
+      are extrapolated. Floor {N['er_lo']} if ER had none of its own, which it does.</div>
   </div>
   <div class='hzone'>
     <div class='hv'>CAD 0.45</div>
@@ -227,25 +259,31 @@ rationale &rarr;</a></p>
     <div class='hs'>USD 15.00 for the same calls on fal &middot; ER adds no call and no
       measurable time over BC</div>
   </div>
+  <div class='hzone'>
+    <div class='hv'>&times;1.7</div>
+    <div class='hl'>marking noise</div>
+    <div class='hs'>The same 600 cells re-marked by the same eye went from
+      {N['bc_fail']} failures to {N['bc2_fail']}. Every number here is therefore from a
+      <b>paired</b> pass, never two rates compared across sittings.</div>
+  </div>
   <div class='hzone wide'>
-    <div class='hl'>Seed retry &mdash; <b>{N['er_rate']:.2f}% &rarr;
-      {N['er_residual']:.2f}%</b> for 3% more calls</div>
-    <div class='hs'><b>ER's failures are less clustered</b>, so a redraw at a fresh seed
-      lands more often.</div>
+    <div class='hl'>Seed retry &mdash; a rejected image redrawn at a fresh seed</div>
+    <div class='hs'><b>ER's failures are less clustered</b>, so a redraw lands more often.</div>
     <table class='seeds tight'>
       <tr><th></th><th>BC</th><th>ER</th></tr>
       <tr><td>failed seeds per set, when a set fails</td>
-          <td>1.53 of 3</td><td class='good'>1.29 of 3</td></tr>
+          <td>{B['mean_cluster']:.2f} of 3</td><td class='good'>{E['mean_cluster']:.2f} of 3</td></tr>
       <tr><td>two or more of the three fail</td>
           <td>{B['p2']:.0f}%</td><td class='good'>{E['p2']:.0f}%</td></tr>
       <tr><td>a retry hits another failed seed</td>
           <td>{B['retry_fail']:.0f}%</td><td class='good'>{E['retry_fail']:.0f}%</td></tr>
       <tr class='sep'><td>failure rate with one retry</td>
-          <td>{N['residual']:.2f}%</td>
-          <td class='good'><b>{N['er_residual']:.2f}%</b></td></tr>
-      <tr><td>floor &mdash; sets that fail at every seed</td>
-          <td>{N['stable_pct']:.1f}%</td><td class='good'>{N['er_floor']:.2f}%</td></tr>
+          <td>{N['bc2_rate'] * B['retry_fail'] / 100:.2f}%</td>
+          <td class='good'><b>{N['er_mid_rate'] * E['retry_fail'] / 100:.2f}%</b></td></tr>
     </table>
+    <div class='hs'>Only rejects are redrawn, so the policy costs about
+      {N['er_mid_rate']:.0f}% more calls. ER's clustering is measured on its own sweep, which
+      was marked on the looser bar &mdash; the direction is solid, the decimals are not.</div>
   </div>
 </div>
 
@@ -256,7 +294,7 @@ rationale &rarr;</a></p>
 {"".join(cell(sid, sd) for sid, sd in SAME_CASES)}
 <h3 class='sub bad'>ER worse</h3>
 {"".join(cell(sid, sd) for sid, sd in WORSE_CASES)}
-<p class='sec'><a href='v36_regressions.html'>All {N['er_only']} cells ER breaks &rarr;</a></p>
+<p class='sec'><a href='v36_regressions.html'>Every cell ER breaks &rarr;</a></p>
 
 <footer>Evidence: <code>prd/v3/v3.6/RESULTS.md</code> &middot; counts in
 <code>v3/testsets/</code> &middot; built by <code>v3/build/v36_report.py</code> &middot;
@@ -338,7 +376,8 @@ cost v3.1 was rejected for.</p>
 <p>v3.1 to v3.4 built increasingly sophisticated call-1 arms: mannequin head swaps, explicit
 re-posing, canvas discipline, super-resolution applied only to finished references. The best
 of them, <code>VEi</code>, is the v3.4 lock. Measured over the same 600 cells it failed
-<b>9.2%</b> against the incumbent's <b>4.8%</b> &mdash; 43 cells where the sophisticated arm
+<b>9.2%</b> against the incumbent's <b>4.8%</b> &mdash; both marked on the looser bar that a
+later re-mark showed finds 1.7&times; fewer failures, so read the gap rather than the levels &mdash; 43 cells where the sophisticated arm
 fails and the simple one does not, against 17 the other way.</p>
 <p>The mechanism: <code>BC</code> edits the <i>head</i> and isolates the garment with a
 <b>deterministic matte</b>, which can only remove. Every <code>V</code>-family arm asks a
@@ -401,7 +440,11 @@ vanish. <b>The fix costs more than the defect.</b></p>
 <table>
 <tr><th>arm</th><th>the change</th><th>verdict</th></tr>
 <tr><td><code>ER</code></td><td>the verb: <i>replace the clothing with</i></td>
-<td class='good'>adopted &mdash; {N['bc_rate']:.2f}% &rarr; {N['er_rate']:.2f}% at zero cost</td></tr>
+<td class='good'>adopted &mdash; repairs {N['resc_pct']:.0f}% of BC's failures at zero cost</td></tr>
+<tr><td><code>ER2</code></td><td><code>ER</code> with the hold clause dropped &mdash; the
+replace sentence alone</td>
+<td>no detectable gain (40% against 32% on BC's failures, intervals overlapping) and 15 cells
+clean under <code>ER</code> that it fails, against 2 the other way. Not adopted.</td></tr>
 <tr><td><code>EFR</code></td><td><code>ER</code> + a no-blend paragraph</td>
 <td>no gain; one regression on a passing cell</td></tr>
 <tr><td><code>EX</code></td><td>removal + layering + piece count + limb count + framing</td>
@@ -428,13 +471,14 @@ so every number of record was made on the hardware the record was made on.</p>
 <p>Every pair in the sweep was run at three seeds, so the record itself says what a retry
 would have done. For <code>ER</code>: a failed cell passes at another seed
 <b>{N['er_retry_num']}/{N['er_retry_den']} = {N['er_retry_pass']:.0f}%</b> of the time, which
-takes {N['er_rate']:.2f}% to <b>{N['er_residual']:.2f}%</b>; using both remaining seeds
-reaches <b>{N['er_floor']:.2f}%</b>, the floor set by the one pair in two hundred that fails
-at every seed.</p>
-<p><b>Why it is not higher.</b> If seeds were independent at a {N['er_rate']:.2f}% failure
-rate, a retry would pass {100 - N['er_rate']:.0f}% of the time and the residual would be
-{N['er_indep']:.2f}%. It is {N['er_retry_pass']:.0f}% instead, so <b>failures cluster by
-pair</b>: when a cell fails, the same pair is likelier to fail at other seeds too. The
+takes its rate down by roughly a factor of four; on the strict <code>BC</code> pass the same
+read is {N['cl_bc2']['retry_fail_n']}/{N['cl_bc2']['retry_den']} =
+{N['cl_bc2']['retry_fail']:.0f}%, so a retry helps <code>BC</code> materially less. The floor
+either arm approaches is its pairs that fail at every seed.</p>
+<p><b>Why it is not higher.</b> If seeds were independent at a {N['er_mid_rate']:.2f}%
+failure rate, a retry would pass {100 - N['er_mid_rate']:.0f}% of the time and the residual
+would be under a tenth of a percent. It is {N['er_retry_pass']:.0f}% instead, so <b>failures
+cluster by pair</b>: when a cell fails, the same pair is likelier to fail at other seeds too. The
 randomiser works, but nothing like as well as independence would predict &mdash; a stubborn
 pair is stubborn because its <i>reference</i> is wrong, and no seed repairs that.</p>
 <p><b>Why <code>ER</code> compounds with it: its failures are less clustered.</b> That is the
@@ -447,13 +491,14 @@ against {N['cl_bc']['retry_fail']:.0f}% on <code>BC</code>. A lower rate and a l
 <b>multiply</b> rather than overlap, which is why the shipped system is the prompt <i>and</i>
 the policy rather than either alone.</p>
 <p><b>What the retry does and does not change.</b> A randomised seed does not move the
-{N['er_rate']:.2f}%: a first draw is a random cell, and {N['er_rate']:.2f}% of cells fail.
-What the policy buys is the <i>second</i> draw &mdash;
-{N['er_rate']:.2f}% &times; {N['cl_er']['retry_fail']:.0f}% =
-<b>{N['er_residual']:.2f}%</b> of images still failing after one retry, at
-1.0{N['er_rate']:.0f} calls per delivered image.</p>
+headline rate: a first draw is a random cell, and that share of cells fail. What the policy
+buys is the <i>second</i> draw &mdash; the rate multiplied by
+{N['cl_er']['retry_fail']:.0f}%, so roughly {N['er_mid_rate']:.1f}% becomes
+<b>{N['er_mid_rate'] * N['cl_er']['retry_fail'] / 100:.2f}%</b>, at about
+1.0{N['er_mid_rate']:.0f} calls per delivered image.</p>
 <p class='caveat'><b>Estimated on {N['er_retry_den']} retry opportunities</b>, so the 95%
-interval on that {N['er_retry_pass']:.0f}% is roughly 56&ndash;84%. The direction is solid;
+interval on that {N['er_retry_pass']:.0f}% is roughly 56&ndash;84% &mdash; and it is read off
+the <code>ER</code> sweep, which was marked on the looser bar. The direction is solid;
 the second decimal is not. And the policy has an unbuilt dependency: <b>a rejector</b>.
 Something must decide an image failed before it can be retried. The v3.6 VLM judge is a first
 attempt and is not yet one &mdash; its artifact flag fires on 45% of cells a human passed,
@@ -462,10 +507,13 @@ signals to build on.</p>
 
 <h2>8. Where this leaves the work</h2>
 <ul>
-<li><b>Ship <code>ER</code> plus the retry.</b> {N['bc_rate']:.2f}% &rarr;
-{N['er_rate']:.2f}% &rarr; about {N['er_residual']:.2f}%, for one verb and ~3% more calls.</li>
-<li><b>Build the rejector.</b> It is the only thing standing between the measured
-{N['er_residual']:.2f}% and a shipped one.</li>
+<li><b>Ship <code>ER</code> plus the retry.</b> {N['bc2_rate']:.2f}% &rarr;
+{N['er_mid_rate']:.1f}&ndash;{N['er_hi_rate']:.1f}% &rarr; roughly
+{N['er_mid_rate'] * N['cl_er']['retry_fail'] / 100:.1f}% with one retry, for one verb and
+about {N['er_mid_rate']:.0f}% more calls.</li>
+<li><b>Mark <code>ER</code>'s own 600 against the strict bar.</b> It is what turns the rate
+range into a number, and it is the last measurement the claim is missing.</li>
+<li><b>Build the rejector.</b> Nothing retries without one.</li>
 <li><b>The remaining defects are reference-side</b>, which means model-side: crossed arms,
 dropped pieces on ambiguous lower bodies, the wearer's own accessories. None is a call-2
 wording problem.</li>
