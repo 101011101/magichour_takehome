@@ -25,6 +25,8 @@ sys.path.insert(0, os.path.join(REPO, "v3", "colab", "lib"))
 import run_v36 as V                   # noqa: E402  the prompts, as the runner defines them
 
 RUN = os.path.join(REPO, "v3", "runs", "v36", "a100")
+IRON = os.path.join(REPO, "v3", "runs", "v34", "ironman2")          # the person photographs
+ERRUN = os.path.join(REPO, "v3", "runs", "v36", "ironman_er")       # the ER sweep
 BCRUN = os.path.join(REPO, "v3", "runs", "v34", "ironman2_bc")
 REPORT = os.path.join(REPO, "v3", "report")
 IMG = os.path.join(REPORT, "img_v36r")
@@ -35,9 +37,15 @@ ERCOUNT = os.path.join(REPO, "v3", "testsets", "er_count.csv")   # the blind ER 
 # cells that carry the long report's arguments, named here so the prose and the pictures
 # cannot disagree
 HANDS_CASE = ("p008+dualuse_emma_watson_black_blazer_armscrossed", "47")
-SAME_CASES = [("p022+p023", "47"), ("g024+p010", "46"), ("p010+p023", "48"),
-              ("dualuse_man_black_suit_studio_nonceleb+dualuse_lp_beige_long_coat_menswear", "47"),
-              ("p026+dualuse_lp_beige_long_coat_menswear", "46"), ("g013+g014", "47")]
+# samples, named here so the page and the joined counts cannot disagree: repairs and the
+# regression are cells whose verdict actually changed in the blind sweep
+BETTER_CASES = [("p022+dualuse_queen_latifah_gown_stage", "46"),
+                ("p013+dualuse_scarlett_johansson_black_dress_backview_night", "46"),
+                ("g013+p006", "46")]
+SAME_CASES = [("p022+p023", "47"), ("p026+dualuse_lp_beige_long_coat_menswear", "46")]
+WORSE_CASES = [("g005+g014", "47")]
+MATRIX = {r["set_id"]: r for r in csv.DictReader(
+    open(os.path.join(REPO, "v3", "colab", "matrix.csv")))}
 
 
 # ------------------------------------------------------------------ images ---
@@ -64,22 +72,27 @@ def fig(src, dst, cap, width=460, cls=""):
             f"loading='lazy'><figcaption>{cap}</figcaption></figure>")
 
 
-def cell(sid, seed, arms=("E0", "ER"), person=None, garment=None, note=""):
-    """One comparison strip: person, reference, then one column per arm."""
-    row = list(csv.DictReader(open(os.path.join(RUN, "v36_editset.csv"))))
-    r = next(x for x in row if x["set_id"] == sid and x["seed"] == str(seed))
-    lab = {"E0": "BC &mdash; <i>dress the person in&hellip;</i>",
+def cell(sid, seed, note=""):
+    """One comparison strip from the 600-cell sweep: person, reference, BC, ER.
+
+    Resolved against the iron-man runs rather than the 150-cell set, so any cell of the
+    sweep can be shown - including the regressions, which are not in that set.
+    """
+    r = MATRIX[sid]
+    lab = {"BC": "BC &mdash; <i>dress the person in&hellip;</i>",
            "ER": "ER &mdash; <i>replace the clothing with&hellip;</i>"}
-    parts = [fig(os.path.join(RUN, "inputs", f"{r['person']}.jpg"), f"{r['person']}__p.jpg",
-                 "the person (image 1)", 300),
-             fig(os.path.join(RUN, "refs", f"{r['garment']}__BC.jpg"), f"{r['garment']}__r.jpg",
-                 "the reference (image 2)", 300)]
-    outs = [fig(os.path.join(RUN, "gen", f"{sid}__{a}__s{seed}.jpg"), f"{sid}__{a}__s{seed}.jpg",
-                lab.get(a, a)) for a in arms]
+    src = [fig(os.path.join(IRON, "inputs", f"{r['person']}.jpg"), f"{r['person']}__p.jpg",
+               "the person (image 1)", 300),
+           fig(os.path.join(BCRUN, "refs", f"{r['garment']}__BC.jpg"), f"{r['garment']}__r.jpg",
+               "the reference (image 2)", 300)]
+    outs = [fig(os.path.join(BCRUN, "gen", f"{sid}__BC__s{seed}.jpg"),
+                f"{sid}__BC__s{seed}.jpg", lab["BC"]),
+            fig(os.path.join(ERRUN, "gen", f"{sid}__ER__s{seed}.jpg"),
+                f"{sid}__ER__s{seed}.jpg", lab["ER"])]
     return (f"<div class='cellcard'><div class='ch'><b>{html.escape(sid)}</b>"
             f"<span class='t'>seed {seed}</span>"
             + (f"<span class='note'>{note}</span>" if note else "") + "</div>"
-            f"<div class='cellbody'><div class='src'>{''.join(parts)}</div>"
+            f"<div class='cellbody'><div class='src'>{''.join(src)}</div>"
             f"<div class='outs'>{''.join(outs)}</div></div></div>")
 
 
@@ -236,11 +249,13 @@ rationale &rarr;</a></p>
   </div>
 </div>
 
-<h2>ER better</h2>
-{"".join(cell(r["set_id"], r["seed"]) for r in wins)}
-
-<h2>Unchanged</h2>
-{"".join(cell(sid, seed) for sid, seed in SAME_CASES[:3])}
+<h2>Samples</h2>
+<h3 class='sub good'>ER better &mdash; {N['bc_only']} cells of 600</h3>
+{"".join(cell(sid, sd) for sid, sd in BETTER_CASES)}
+<h3 class='sub'>Unchanged &mdash; {N['er_cells'] - N['bc_fail'] - N['er_only']} cells clean under both</h3>
+{"".join(cell(sid, sd) for sid, sd in SAME_CASES)}
+<h3 class='sub bad'>ER worse &mdash; {N['er_only']} cells</h3>
+{"".join(cell(sid, sd) for sid, sd in WORSE_CASES)}
 
 <footer>Evidence: <code>prd/v3/v3.6/RESULTS.md</code> &middot; counts in
 <code>v3/testsets/</code> &middot; built by <code>v3/build/v36_report.py</code> &middot;
@@ -480,6 +495,8 @@ body{margin:0;background:var(--bg);color:var(--fg);
  font:15.5px/1.65 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif}
 .wrap{max-width:1180px;margin:0 auto;padding:30px 22px 0}
 h1{margin:0 0 4px;font-size:27px;letter-spacing:-.2px}
+h3.sub{margin:22px 0 6px;font-size:14px;font-weight:600}
+h3.sub.good{color:var(--good)}h3.sub.bad{color:var(--bad)}
 h2{margin:38px 0 10px;font-size:19px;letter-spacing:-.1px;
  padding-bottom:7px;border-bottom:1px solid var(--line)}
 p{margin:0 0 12px}
