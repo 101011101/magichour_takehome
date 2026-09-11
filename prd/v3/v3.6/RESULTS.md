@@ -21,7 +21,15 @@ document is the text of call 2.
 | `ERD` | `ER` + a limb clause **built per cell** from a MediaPipe Pose read of image 1; names only parts in frame, says nothing when none are |
 | `ERS` | `ER` + that clause **always** |
 
-## 2. The 600-cell head-to-head — the result of record (2026-09-10)
+## 2. The 600-cell head-to-head — the run, and the rates as first marked (2026-09-10)
+
+> **Superseded in part by [§3](#3-the-marking-instrument-and-what-it-did-to-2s-numbers).** The
+> run facts, costs, timings and per-cell lists below stand. The two **rates** — 4.83% vs 3.00%
+> — and the **18 : 7** join do not: they were marked in two different sittings, and a re-mark of
+> `BC` on the same page by the same reviewer turned 29 failures into 50. The marking noise is
+> the size of the effect. §3 carries the blind passes that measure the arms against one bar and
+> the rate range that replaces these numbers. Kept here because it is the record of what was run
+> and what was marked.
 
 **Run.** `v3/colab/v36_ironman_er.ipynb` on an A100: **600 klein calls, 23.8 min, CAD 0.273**
 at 0.689 CAD/h, median call 2.28 s. The whole iron-man-2 matrix, 200 pairs × seeds 46/47/48
@@ -64,7 +72,7 @@ cells.
 `g005+g009`@46 · `g005+g014`@47 · `g024+p010`@47 · `g027+p011`@48 ·
 `p008+dualuse_emma_watson_black_blazer_armscrossed`@48
 
-`g005+g009` appears on both lists at different seeds, which is the seed lottery of §5 rather
+`g005+g009` appears on both lists at different seeds, which is the seed lottery of §6 rather
 than a contradiction.
 
 **Measurement failure mode, stated rather than hidden.** The two marking passes were made on
@@ -75,7 +83,111 @@ a statement about individual cells changing verdict and does not depend on the t
 sharing a threshold. A 100-cell `BC` re-mark in the `ER` sitting was specified to close this
 and has not been done.
 
-## 3. The 150-cell prompt comparison (2026-09-10)
+## 3. The marking instrument, and what it did to §2's numbers (2026-09-10)
+
+§2's comparison is two rates marked in two sittings. This section is the re-mark that tests
+whether that protocol can carry the claim, and two blind passes built to answer the same
+question without it. The short of it: **the marking noise is the same size as the effect**,
+and the arm difference that survives an instrument which does not need two sweeps to agree is
+smaller than §2's and still in `ER`'s favour.
+
+**The re-mark.** The same reviewer, the same page (`v3/build/bc_count_page.py`), the same 600
+`BC` cells, a later sitting, no prior verdict visible. Pass 1 is
+`v3/testsets/bc_count.csv`; pass 2 is `v3/testsets/bc2_count.csv`.
+
+| | pass 1 | pass 2 |
+|---|---|---|
+| `BC` failures / 600 | 29 | **50** |
+| rate | 4.83% | **8.33%** |
+
+| | |
+|---|---|
+| cells agreeing | 569 / 600 = **94.8%** |
+| failed in both | 24 |
+| pass 1 only | 5 |
+| pass 2 only | 26 |
+| Jaccard on failures | **0.44** |
+| strict : lenient | **1.72×** |
+
+Cell agreement of 94.8% sounds like a well-behaved instrument and is not one: nearly every
+cell is an easy pass, so agreement is dominated by the 550 neither pass calls. On the thing
+being counted — failures — the two passes overlap on **24 of 55 distinct failed cells**. A
+3.5-point swing in the marked rate of one unchanged arm is larger than the 1.83-point gap §2
+reports between two arms. Nothing in §2 is arithmetically wrong; the protocol underneath it
+simply cannot resolve a difference of that size.
+
+**Blind pass A — the discordant cells.** `v3/build/v36_discordant_page.py`: the **25 cells
+where the pass-1 `BC` sweep and the `ER` sweep disagree** (the off-diagonal of §2's join),
+both outputs in front of one eye in one sitting, **arm labels hidden and left/right randomised
+per cell** at a fixed seed. One question — which would you ship. Marks
+`v3/testsets/v36_discordant.csv`, unblinding key exported beside each answer.
+
+| verdict | cells |
+|---|---|
+| `ER` better | 5 |
+| `BC` better | 3 |
+| both fine | 6 |
+| both bad | 11 |
+
+**17 of 25 = 68% of the disagreements were threshold, not arm** — cells where one sitting drew
+the line differently over two outputs a single sitting calls the same. Of the 8 that were a
+real difference, 5–3 favours `ER`, which is not a result: two-sided exact **p ≈ 0.73**. This
+pass is the direct measurement of the objection §2 raises against itself, and it lands
+against §2.
+
+**Blind pass B — does `ER` fail where `BC` fails.** `v3/build/v36_bcfail_page.py`, built from
+**pass 2** (the strict sitting). For each of the 50 cells `BC` pass 2 failed, `BC` and `ER`
+were shown side by side in **one** sitting and marked `same` (`ER` has the same problem) or
+`clean` (`ER` is fine). A second block carries the other direction: the cells `BC` passes and
+the `ER` sweep failed, marked the same way, so the pass yields a cost beside the rescue rather
+than a rescue alone. Marks `v3/testsets/v36_bcfail.csv`, page `v3/report/v36_bcfail.html`.
+
+| block | cells | `ER` same | `ER` clean |
+|---|---|---|---|
+| `bcfail` — `BC` pass-2 failures | 50 | **34 (68%)** | **16 (32%)** |
+| `eronly` — `BC` passes, `ER` sweep failed | 3 | 3 | 0 |
+
+This is the instrument that does not require two sweeps to share a threshold: every judgement
+is a comparison of two images under one bar, so a drifting bar moves both sides together.
+**`ER` repairs 32% of `BC`'s failures** (16/50; Wilson 95% CI **21–46%**).
+
+**The other 68% is the reference-side floor, measured rather than argued.** On 34 of `BC`'s 50
+failures `ER` has the same defect. Those are cells where the fault is upstream of call 2's
+verb — the reference, the crop, the pair — and no wording of call 2 reaches them. §6's
+all-seeds-failing pairs are the same claim from the seed side; this is it counted directly on
+a per-cell basis.
+
+**What that implies for the rate, and why it is a range.**
+
+| | failures / 600 | rate |
+|---|---|---|
+| `BC`, pass 2 | 50 | 8.33% |
+| `ER`, `bcfail` block | 34 | 5.67% |
+| `ER`, + the 3 `eronly` cells as marked | **37** | **6.17%** |
+| `ER`, + those 3 scaled to the strict bar (×1.72 ≈ 5) | **~39** | **~6.50%** |
+
+**`ER` lands at roughly 37–39 of 600, a 22–26% relative reduction against `BC`'s 50** — real,
+and about two thirds the size of §2's −37.9%.
+
+It is a range because only one side of it is measured under one bar. The `bcfail` block is
+complete: every cell `BC` pass 2 failed was looked at, and 34 is exact. The `eronly` side is
+not: it is seeded from the **`ER` sweep, which was marked on the lenient footing** — the same
+footing that found 29 `BC` failures where the strict sitting found 50. A strict `ER` sweep
+would surface cells where `BC` passes and `ER` fails that the lenient sweep let through, and
+the 1.72× ratio is the only estimate available for how many. 34 is the hard floor and assumes
+`ER` has no failures of its own, which it does; the upper end is an extrapolation, not a count.
+
+**What would close it.** Mark `ER`'s own 600 cells in a fresh sitting **against the bar pass 2
+used** — ideally interleaved with a `BC` re-mark on the same page so one threshold covers both
+arms — and the `eronly` side stops being scaled. Until then the honest form of v3.6's headline
+is a range with a measured floor, not a point.
+
+**Two caveats on these passes themselves.** The discordant pass is blind to the arm; the
+`bcfail` pass is **not** — left is always `BC`, right is always `ER`, and the reviewer knew it.
+It is protected against threshold drift, not against expectation. And both passes are the same
+single reviewer whose two `BC` sweeps differ by 1.72×; nothing here is a second pair of eyes.
+
+## 4. The 150-cell prompt comparison (2026-09-10)
 
 **Run.** 450 calls on an A100, 17.9 min, CAD 0.205, plus 300 more for the limb arms
 (12.2 min, CAD 0.14). Set: `v36_editset.csv` — the 29 cells `BC` failed and 121 it passed,
@@ -92,7 +204,7 @@ invents lower bodies, and one `EFR` regression was seen on a passing cell
 (`dualuse_queen_latifah_gown_stage`@47, the wearer's gold coat sleeve surviving). Longer
 prompts drift a 4-step distilled model; that is the pattern across `EL`, `EX` and `ERS`.
 
-## 4. The limb clause, measured (2026-09-10)
+## 5. The limb clause, measured (2026-09-10)
 
 V2's dynamic-prompt rule — *never name a body part the crop excludes* — has governed call 1
 since v3.1 as an assumption. v3.6 measured it on call 2.
@@ -125,7 +237,7 @@ explanation for the reframing seen in `EL` and `EX`. `v3/runs/v36/a100/meta/spaw
    against a record must run on the hardware the record was made on. This is why every
    number in §2–§4 is A100.
 
-## 5. Seed behaviour of the failures
+## 6. Seed behaviour of the failures
 
 Both arms' 600 cells are 200 pairs at three seeds, so the record says how much of each
 failure rate is a seed lottery rather than a broken pair.
@@ -163,7 +275,7 @@ Cost of the policy is bounded by the failure rate itself: only rejected images a
 so one retry adds ~3% to the call count on `ER`. At the measured CAD 0.45 per 1000 images
 (call 2 only, references already built) that is not a material cost.
 
-## 6. The VLM defect judge (2026-09-10)
+## 7. The VLM defect judge (2026-09-10)
 
 **Instrument.** `v3/build/v36_vlm_defects.py`, gpt-5-mini, three images per call (person,
 reference, result), three booleans and nothing else — limb over-count, clothing phasing,
@@ -199,7 +311,7 @@ The judge's paired direction agrees with the human record on the two categories 
 usably, which is corroboration, not confirmation: the same 600 cells were judged by both, so
 the two results are not independent.
 
-## 7. Cost, measured
+## 8. Cost, measured
 
 | | |
 |---|---|
@@ -213,14 +325,16 @@ the two results are not independent.
 
 `ER` adds no call, no model and no measurable time: the difference against `BC` is one verb.
 
-## 8. Evidence paths
+## 9. Evidence paths
 
 | what | where |
 |---|---|
 | `ER` iron-man run | `v3/runs/v36/ironman_er/`, Drive `v3_runs/v36_ironman_er_20260910_2259.zip` |
 | the 150-cell prompt run | `v3/runs/v36/a100/`, Drive `v3_runs/v36_editprompts_*.zip`, `v36_limbclause_*.zip` |
-| blind counts | `v3/testsets/bc_count.csv`, `v3/testsets/er_count.csv` |
+| blind counts | `v3/testsets/bc_count.csv` (`BC` pass 1), `v3/testsets/bc2_count.csv` (`BC` pass 2), `v3/testsets/er_count.csv` |
+| blind discordant pass | `v3/testsets/v36_discordant.csv`, page `v3/report/v36_discordant.html`, built by `v3/build/v36_discordant_page.py` |
+| `BC`-failure side-by-side pass | `v3/testsets/v36_bcfail.csv`, page `v3/report/v36_bcfail.html`, built by `v3/build/v36_bcfail_page.py` |
 | head-to-head marks | `v3/testsets/v36_er_vs_bc.csv` |
 | invented-limb measurement | `v3/runs/v36/a100/meta/spawned_feet.csv` |
 | VLM defect judge | `v3/runs/v36/ironman_er/meta/vlm_defects.csv` |
-| pages | `v3/report/er_count.html`, `v36_a100.html`, `v36_er_vs_bc.html`, `v36_report.html`, `v36_findings.html` |
+| pages | `v3/report/er_count.html`, `v36_a100.html`, `v36_er_vs_bc.html`, `v36_discordant.html`, `v36_bcfail.html`, `v36_report.html`, `v36_findings.html` |
