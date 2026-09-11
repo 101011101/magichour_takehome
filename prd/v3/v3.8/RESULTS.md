@@ -1,10 +1,16 @@
-# v3.6 — RESULTS
+# v3.8 — RESULTS
 
 Per-case detail, numbers and methodology for the call-2 prompt investigation, per
 [SCHEMA.md](../SCHEMA.md). The decision this evidence supports is not here; it belongs in
 `EXPERIMENT.md`.
 
-Call 1 is frozen throughout v3.6. Every arm below was handed the two images the shipped
+**A note on names.** This investigation's code, runs and pages are named `v36`
+(`v3/runs/v36/`, `v3/build/v36_*.py`, `v3/report/v36_*.html`) because they were written
+before v3.7 concluded and the numbering was settled. The paths are left as they are rather
+than renamed, so every command in this document runs as written; the document is v3.8
+because that is where it falls chronologically.
+
+Call 1 is frozen throughout v3.8. Every arm below was handed the two images the shipped
 `BC_klein` cell was handed — `ironman2/inputs/{person}.jpg` and
 `ironman2_bc/refs/{garment}__BC.jpg` (klein bald pass, then the V2 cropper with the head
 subtracted, not SR'd) — on `BC`'s own call-2 canvas. The only variable anywhere in this
@@ -183,7 +189,7 @@ does not belong beside two counts, and it is dropped.
 
 **What would close it.** Mark `ER`'s own 600 cells in a fresh sitting **against the bar pass 2
 used** — ideally interleaved with a `BC` re-mark on the same page so one threshold covers both
-arms — and the `eronly` side stops being scaled. Until then the honest form of v3.6's headline
+arms — and the `eronly` side stops being scaled. Until then the honest form of v3.8's headline
 is a range with a measured floor, not a point.
 
 **Two caveats on these passes themselves.** The discordant pass is blind to the arm; the
@@ -211,7 +217,7 @@ prompts drift a 4-step distilled model; that is the pattern across `EL`, `EX` an
 ## 5. The limb clause, measured (2026-09-10)
 
 V2's dynamic-prompt rule — *never name a body part the crop excludes* — has governed call 1
-since v3.1 as an assumption. v3.6 measured it on call 2.
+since v3.1 as an assumption. v3.8 measured it on call 2.
 
 **Instrument.** `v3/build/v36_spawn_check.py`. The pose read that **built** the prompt
 (`run_v36.limbs`: MediaPipe Pose landmark visibility plus an in-frame coordinate, wrists
@@ -234,10 +240,10 @@ explanation for the reframing seen in `EL` and `EX`. `v3/runs/v36/a100/meta/spaw
 **Two controls that make the above readable.**
 
 1. **Determinism.** On the 86 cells where `ERD` and `ERS` were sent *identical text*, the
-   outputs are **byte-identical**. Every difference measured in v3.6 is the prompt, not
+   outputs are **byte-identical**. Every difference measured in v3.8 is the prompt, not
    sampling noise.
 2. **fal is not the A100.** Same prompt, same seed, same canvas rule — and most archived
-   `BC` failures do not reproduce on fal (v3.6 fal probe, 87 calls, $1.30). Any arm compared
+   `BC` failures do not reproduce on fal (the fal probe, 87 calls, $1.30). Any arm compared
    against a record must run on the hardware the record was made on. This is why every
    number in §2–§4 is A100.
 
