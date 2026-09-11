@@ -281,7 +281,44 @@ puts that reference on the target. The series' central finding is that <b>call 1
 outcome</b> &mdash; call 2 transfers whatever it is given, faithfully, including the
 mistakes.</p>
 
-<h2>2. Regeneration is a tax, and it is charged on the garment</h2>
+<h2>2. The route here &mdash; v3.1, v3.2, v3.3</h2>
+<p>The pipeline that ships is not the best one ever built. It is the best one that fits the
+deploy budget, and the three investigations that establish that are worth stating in order.</p>
+
+<p><b>v3.1 &mdash; technically the strongest, and undeployable.</b> Locked 2026-08-28:
+<code>A4 crop &rarr; Qwen-Image-Edit-2511 (mannequin reference) &rarr; klein (try-on)</code>.
+Qwen returns a ghost-mannequin that keeps the garment's drape, and everything downstream of it
+is better for it. What rules it out is not quality: <b>it is two models in the deploy path.</b>
+The target hosts klein on its own GPU; Qwen-Image-Edit-2511 is a second 20B-class model that
+would have to sit beside it, warm, for one call per pair. The constraint is the architecture's,
+not the model's &mdash; and it is exactly what made v3.3 worth trying.</p>
+
+<p><b>v3.2 &mdash; a clean negative.</b> If the bald pass is sometimes net-negative, spend the
+second call on the edit again instead. It does not work: a defect in the reference is
+<b>persisted by a second pass, not repaired</b>. Concluded 2026-08-27 with no solution, and it
+closes "iterate the edit" permanently &mdash; the second call has to change the <i>reference</i>,
+not re-run the transfer. Everything after v3.2 is therefore about the reference.</p>
+
+<p><b>v3.3 &mdash; the clever trick, and the limit it exposed.</b> The question was whether
+klein could take Qwen's extraction call and collapse the stack to one model. The direct answer
+is <b>no</b>: klein cannot regenerate a mannequin or an isolated garment to Qwen's standard.
+The earlier measurement says why &mdash; asked to extract a garment, klein distilled kept
+&times;0.80 of the edge detail against Qwen's &times;0.51, but drifted <b>lightness 27 against
+Qwen's 12</b>. It holds edges and loses the garment's tone.</p>
+<p>The trick was to stop asking it to regenerate the garment at all: ask instead for
+<b>the edit it is built for</b> &mdash; replace the head, re-pose, hold the clothing &mdash; on
+the A4 crop. That produced a reference the try-on call could not tell from Qwen's, and locked
+the stack to one model on 2026-08-30. It is genuinely clever, and it is still a generative pass
+over the garment. <b>Unfolding a garment into a more usable frame is a re-draw</b>, and a
+re-draw is where the artifacts enter: the very operation that makes the reference easier for
+call 2 to read is the one that resamples the weave, the hems and the piece count.</p>
+<p class='k'><b>So klein is the limit, not the prompt.</b> It is a capable editor and a poor
+regenerator of clothing at high fidelity &mdash; v3.4 and v3.5 then priced that exactly
+(&sect;3), and v3.6 confirmed no wording recovers it (&sect;6). The only route to a genuinely
+restructured reference remains <b>a second model</b>, which is v3.1's <code>QX</code>, at the
+cost v3.1 was rejected for.</p>
+
+<h2>3. Regeneration is a tax, and it is charged on the garment</h2>
 <p>v3.1 to v3.4 built increasingly sophisticated call-1 arms: mannequin head swaps, explicit
 re-posing, canvas discipline, super-resolution applied only to finished references. The best
 of them, <code>VEi</code>, is the v3.4 lock. Measured over the same 600 cells it failed
@@ -296,7 +333,7 @@ and hem placement, the count of pieces. The loss is not noise, it is <b>structur
 invention</b>, and call 2 cannot tell an invented placket from a real one. A call-1 defect is
 not carried forward, it is <b>amplified</b>.</p>
 
-<h2>3. Why every other solution loses &mdash; the series' own numbers</h2>
+<h2>4. Why every other solution loses &mdash; the series' own numbers</h2>
 <table>
 <tr><th>approach</th><th>where</th><th>what the evidence said</th></tr>
 <tr><td><b>Re-draw the garment on a mannequin</b> (the v3.3/v3.4 lock)</td><td>v3.4</td>
@@ -334,17 +371,17 @@ qwen-image-edit garment isolation &mdash; not from a better prompt to this one.<
 edit to the <i>head</i>, then a matte that subtracts. That is the whole of the deployed
 pipeline, and it is why it looks under-ambitious.</p>
 
-<h2>4. The limit, made concrete &mdash; hands</h2>
+<h2>5. The limit, made concrete &mdash; hands</h2>
 <p>The clearest residual defect is a reference whose wearer has <b>arms crossed</b>. The matte
 cannot know the folded arms are not part of the garment's shape, so call 2 receives a jacket
 with a pair of arms baked into its silhouette, and duplicates them.</p>
 {cell(HANDS_CASE[0], HANDS_CASE[1], note='arms crossed in the reference')}
-<p>The tempting fix is to unfold the arms in call 1 &mdash; precisely the operation &sect;3
+<p>The tempting fix is to unfold the arms in call 1 &mdash; precisely the operation &sect;4
 rules out. Unfolding is a full-frame regeneration: to remove the duplicated arms it must
 re-draw the sleeves, the front closure and the drape, which is where lengths change and pieces
 vanish. <b>The fix costs more than the defect.</b></p>
 
-<h2>5. What v3.6 tested, and the law it produced</h2>
+<h2>6. What v3.6 tested, and the law it produced</h2>
 <table>
 <tr><th>arm</th><th>the change</th><th>verdict</th></tr>
 <tr><td><code>ER</code></td><td>the verb: <i>replace the clothing with</i></td>
@@ -371,7 +408,7 @@ difference measured is the prompt and not sampling noise. And <b>fal is not the 
 same prompt, seed and canvas rule, yet most archived failures do not reproduce there &mdash;
 so every number of record was made on the hardware the record was made on.</p>
 
-<h2 id='seeds'>6. The seed randomiser &mdash; what the arithmetic actually says</h2>
+<h2 id='seeds'>7. The seed randomiser &mdash; what the arithmetic actually says</h2>
 <p>Every pair in the sweep was run at three seeds, so the record itself says what a retry
 would have done. For <code>ER</code>: a failed cell passes at another seed
 <b>{N['er_retry_num']}/{N['er_retry_den']} = {N['er_retry_pass']:.0f}%</b> of the time, which
@@ -407,7 +444,7 @@ attempt and is not yet one &mdash; its artifact flag fires on 45% of cells a hum
 though its limb flag (14.8&times; lift over base rate) and phasing (2.7&times;) are the
 signals to build on.</p>
 
-<h2>7. Where this leaves the work</h2>
+<h2>8. Where this leaves the work</h2>
 <ul>
 <li><b>Ship <code>ER</code> plus the retry.</b> {N['bc_rate']:.2f}% &rarr;
 {N['er_rate']:.2f}% &rarr; about {N['er_residual']:.2f}%, for one verb and ~3% more calls.</li>
@@ -427,7 +464,7 @@ evidence recommends, and it is not a prompt.</li>
 <footer>Sources: v3.4 RESULTS &sect;7.1 and SOLUTION &sect;5&ndash;6, v3.5 RESULTS
 &sect;1&ndash;4, v3.7's negative result, and the v3.6 runs in <code>v3/runs/v36/</code>. Full
 evidence layer with per-cell lists: <code>prd/v3/v3.6/RESULTS.md</code>. The
-<code>VEi</code>/<code>BC</code> comparison in &sect;2 is quoted from v3.5 &sect;4, where the
+<code>VEi</code>/<code>BC</code> comparison in &sect;3 is quoted from v3.5 &sect;4, where the
 caveat stands that those two rates came from different protocols. &middot;
 <a href='v36_report.html'>&larr; the result</a></footer>
 </div>{LB}{SCRIPT}"""
