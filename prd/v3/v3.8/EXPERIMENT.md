@@ -148,7 +148,10 @@ retry would have done. → [RESULTS §6](RESULTS.md#6-seed-behaviour-of-the-fail
 **Result. Most of it, and `ER`'s failures are less clustered than `BC`'s.** Given a set fails
 at all, `BC` fails at 1.61 of its three seeds and `ER` at 1.29; a retry meets another failure
 48% of the time on `BC` and **28% on `ER`**. One retry takes `ER` to roughly **1.7%** for about
-6% more calls. The floor either arm approaches is its pairs that fail at every seed — whose
+6% more calls. (Basis, as the deployed report uses it: `BC` on its strict sitting, `ER`'s
+clustering from its one sweep applied to its strict-bar floor of 6.17% —
+[RESULTS §6](RESULTS.md#6-seed-behaviour-of-the-failures), which also carries the
+lenient-footing figures.) The floor either arm approaches is its pairs that fail at every seed — whose
 *reference* is wrong, which no seed repairs.
 
 **Not independent, and the gap is the point.** If seeds were independent a retry would meet a
@@ -175,7 +178,7 @@ any-defect figures are meaningless as quality rates and are not quoted anywhere.
 **How.** The deploy path may pull klein from a third-party re-host. 74 cells with a known `ER`
 verdict, identical prompt, reference, canvas and seed, **only the transformer swapped** for
 `Photoroom/FLUX.2-klein-4b-fp8-diffusers/transformer_bf16`. →
-[RESULTS §8](RESULTS.md#8-the-transformer-swap-2026-09-10)
+[RESULTS §10](RESULTS.md#10-the-transformer-swap-2026-09-10)
 
 **Result. Different weights, same behaviour.** The files share an architecture config and a
 tensor layout but **16 of 18 large matrices differ**, with the low-mantissa signature of an

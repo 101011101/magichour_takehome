@@ -88,7 +88,16 @@ These are load-bearing. Each has a measurement behind it, not a preference.
 `Photoroom/FLUX.2-klein-4b-fp8-diffusers/transformer_bf16` is an acceptable substitute for the
 transformer specifically — measured, no outcome changes on 74 cells — but its repo carries a
 transformer and nothing else, so the text encoder, VAE, scheduler and tokenizer must still come
-from BFL. See [RESULTS §8](RESULTS.md).
+from BFL. See [RESULTS §10](RESULTS.md#10-the-transformer-swap-2026-09-10).
+
+> **Post-lock note — 2026-09-11 (Ray).** Added after the lock; nothing above it is changed.
+> **Production uses the Photoroom `transformer_bf16`**
+> (`Photoroom/FLUX.2-klein-4b-fp8-diffusers` @ `408c457f3589e17a1be1dae5bf0dcaf09cd4985f`),
+> with the text encoder, VAE, scheduler and tokenizer from
+> `black-forest-labs/FLUX.2-klein-4B` @ `e7b7dc27f91deacad38e78976d1f2b499d76a294`. BFL's own
+> transformer is kept for one purpose only: parity against the archive, which was made on it
+> ([BUILD §3.3, §7.3 T2](BUILD.md)). The production rate on the Photoroom transformer comes
+> from the package's 600-cell sweep (BUILD T4).
 
 ## 5. What it costs
 

@@ -252,38 +252,59 @@ explanation for the reframing seen in `EL` and `EX`. `v3/runs/v36/a100/meta/spaw
 Both arms' 600 cells are 200 pairs at three seeds, so the record says how much of each
 failure rate is a seed lottery rather than a broken pair.
 
-| | `BC` | `ER` |
-|---|---|---|
-| pairs with at least one failure | 19 / 200 | 14 / 200 |
-| pairs failing at **every** seed | 2 (1.0%) | **1 (0.5%)** |
-| given a failed cell, another seed of the same pair passes | 34/58 = 59% | 26/36 = **72%** |
-| expected residual after one retry at a fresh seed | 2.00% | **0.83%** |
+**Basis — stated, because two exist.** The figures of record are the ones the deployed
+report shows (`v3/report_v36/v36_report.html`, page one, "Seed retry"; staged by
+`v3/build/v36_deploy.py`, commit `15d4243`): **`BC` on its strict sitting** (pass 2,
+`v3/testsets/bc2_count.csv`), and **`ER`'s clustering from its only sweep**
+(`v3/testsets/er_count.csv`) applied to **`ER`'s strict-bar floor** of §3. Every figure below
+was recomputed from those CSVs on 2026-09-11 and matches the deployed page. A retry "hits"
+when another seed of the same pair also failed, counted over the two other seeds of every
+failed cell.
 
-**`ER`'s failures are less clustered**, and that is a property separate from the rate. Given a
-pair fails at all, `BC` fails at **1.53** of its three seeds on average and at two or more
-**42%** of the time; `ER` fails at **1.29** and at two or more only **21%**. So a retry meets
-another failed seed **10/36 = 28%** of the time on `ER` against **24/58 = 41%** on `BC`.
-
-| | `BC` | `ER` |
+| | `BC` (pass 2, strict) | `ER` |
 |---|---|---|
-| failed seeds per set, given the set fails at all | 1.53 of 3 | **1.29 of 3** |
-| two or more of the three fail | 42% | **21%** |
-| all three fail | 11% | **7%** |
-| a retry hits another failed seed | 41% | **28%** |
-| failure rate after one retry | 4.83% × 41% = 2.00% | 3.00% × 28% = **0.83%** |
+| failure rate | 50/600 = 8.33% | 37/600 = **6.17%** (§3 floor) |
+| pairs with at least one failure | 31 / 200 | 14 / 200 |
+| pairs failing at **every** seed | 5 (2.5%) | **1 (0.5%)** |
+| failed seeds per set, given the set fails at all | 1.61 of 3 | **1.29 of 3** |
+| two or more of the three fail | 14/31 = 45% | **3/14 = 21%** |
+| all three fail | 5/31 = 16% | **1/14 = 7%** |
+| a retry hits another failed seed | 48/100 = 48% | **10/36 = 28%** |
+| given a failed cell, another seed of the same pair passes | 52/100 = 52% | **26/36 = 72%** |
+| **failure rate after one retry** | 8.33% × 48% = **4.00%** | 6.17% × 28% = **1.71%** |
+
+**The caveat the deployed page carries, carried here.** `ER`'s clustering comes from its one
+sweep, which was marked on the looser bar (§3); the strict bar was never applied to all of
+`ER`'s 600 cells. The direction is solid; the decimals are not.
+
+**The same read on the lenient footing** (pass 1 for `BC`, the `ER` sweep for `ER`) — kept
+as the record of what the first sittings said, not as the figures of record:
+
+| | `BC` (pass 1) | `ER` (sweep) |
+|---|---|---|
+| failure rate | 29/600 = 4.83% | 18/600 = 3.00% |
+| pairs with a failure · failing at every seed | 19 · 2 (1.0%) | 14 · 1 (0.5%) |
+| failed seeds per set · two or more · all three | 1.53 · 42% · 11% | 1.29 · 21% · 7% |
+| a retry hits another failed seed | 24/58 = 41% | 10/36 = 28% |
+| failure rate after one retry | 2.00% | 0.83% |
+
+**`ER`'s failures are less clustered** on either footing, and that is a property separate
+from the rate: a retry meets another failed seed 28% of the time on `ER` against 48% (strict)
+or 41% (lenient) on `BC`.
 
 **What a randomised seed does not change:** the headline rate itself. A first draw is a random
-cell and 3.00% of cells fail; the policy buys the *second* draw. The floor either arm
-approaches is the every-seed-failing pairs — whose *reference* is wrong, which no seed repairs.
+cell; the policy buys the *second* draw. The floor either arm approaches is the
+every-seed-failing pairs — whose *reference* is wrong, which no seed repairs.
 
 **The clustering is also why the gain is far short of independence.** If seeds were
-independent at 3.00%, a retry would meet a failure 3% of the time rather than 28%, and the
-residual would be 0.09% rather than 0.83%. Failures cluster by pair: a cell that failed is
+independent at 6.17%, a retry would meet a failure ~6% of the time rather than 28%, and the
+residual would be ~0.4% rather than 1.71%. Failures cluster by pair: a cell that failed is
 evidence its pair is hard.
 
 Cost of the policy is bounded by the failure rate itself: only rejected images are redrawn,
-so one retry adds ~3% to the call count on `ER`. At the measured CAD 0.45 per 1000 images
-(call 2 only, references already built) that is not a material cost.
+so one retry adds **~6%** to the call count on `ER` on the strict footing (~3% on the lenient
+one). At the measured CAD 0.45 per 1000 images (call 2 only, references already built) that
+is not a material cost.
 
 ## 7. The VLM defect judge (2026-09-10)
 
@@ -347,4 +368,72 @@ the two results are not independent.
 | head-to-head marks | `v3/testsets/v36_er_vs_bc.csv` |
 | invented-limb measurement | `v3/runs/v36/a100/meta/spawned_feet.csv` |
 | VLM defect judge | `v3/runs/v36/ironman_er/meta/vlm_defects.csv` |
+| transformer swap (§10) | `v3/runs/v36/fp8/` (`gen/`, `meta/`), set `v3/colab/v36_fp8_set.csv`, notebook `v3/colab/v36_fp8.ipynb`, page `v3/report/v36_fp8.html` |
+| the deployed report (the §6 figures of record) | `v3/report_v36/v36_report.html`, staged by `v3/build/v36_deploy.py` (Vercel project `report_v36`) |
 | pages | `v3/report/er_count.html`, `v36_a100.html`, `v36_er_vs_bc.html`, `v36_discordant.html`, `v36_bcfail.html`, `v36_report.html`, `v36_findings.html` |
+
+## 10. The transformer swap (2026-09-10)
+
+**Question.** Is `Photoroom/FLUX.2-klein-4b-fp8-diffusers` → `transformer_bf16` the same model
+as BFL's transformer, for `ER`'s purposes? Photoroom's repo carries a transformer and nothing
+else, so the text encoder, VAE, scheduler and tokenizer stay BFL's, and any difference is
+attributable to the transformer weights alone.
+
+**The weights.** Recorded in `v3/colab/v36_fp8.ipynb` cell 0 (generated by
+`v3/build/make_v36_fp8_notebook.py`) and commit `9fb08f6`: identical architecture config,
+class, tensor shapes and offsets, and file length (7,751,109,744 bytes each). **16 of 18 large
+weight matrices differ**; on those, 15–16% of Photoroom's weights have their low four mantissa
+bits zeroed against 6% in BFL's — the signature of an fp8 → bf16 upcast — and the median
+relative error is ≈2.2% per weight. Embeddings and norms are untouched. Photoroom's card
+describes `transformer_bf16` as a lossless dequantisation of BFL's own FP8 checkpoint.
+*Measurement failure mode:* **no script in the tree reproduces this comparison** — the figures
+are recorded prose, not a re-runnable measurement.
+
+**Run.** Arm `ERq`: `ER`'s prompt, `BC`'s references (`refs/{garment}__BC.jpg`, no SR), `BC`'s
+call-2 canvas (fal rule), the cell's seed — the transformer is the only change. A100-SXM4-40GB,
+**74 calls, 3.01 min wall, 0.035 at the A100 rate** (`v3/runs/v36/fp8/meta/cost_v36.json`;
+the field is named `usd_gpu`, the rate is the CAD 0.689/h used throughout). Call time **2.31 s
+median** (mean 2.42; `meta/timings_v36.csv`) against `ER`'s 2.28 s median on the 600-cell run
+(§8). The notebook loaded Photoroom's repo **without a pinned revision**
+(`make_v36_fp8_notebook.py:50`); its `main` has been `408c457f3589e17a1be1dae5bf0dcaf09cd4985f`
+since 2026-02-18, so that is the revision the run received **[inferred from the repo's commit
+history]**.
+
+**The set.** `v3/colab/v36_fp8_set.csv` (built by `v3/build/make_v36_fp8_set.py`) — **74
+cells, 58 pairs, seeds 46/47/48**, drawn from the classification, not sampled:
+
+| group | cells | a change here means |
+|---|---|---|
+| `er_fail` — every cell `ER` failed | 18 | could go either way |
+| `er_repaired` — every cell `ER` repaired over `BC` | 16 | a win lost |
+| `both_clean` — a fixed-seed sample of cells both arms pass | 40 | **a regression — the group that decides** |
+
+**Pixels.** Mean absolute difference over 8-bit BGR, `ER` against `ERq`, recomputed
+2026-09-11 from `v3/runs/v36/fp8/gen/`:
+
+| group | median | mean | max |
+|---|---|---|---|
+| `er_fail` | 1.88 | 2.08 | 4.40 |
+| `er_repaired` | 1.88 | 2.29 | 7.49 |
+| `both_clean` | 1.88 | 2.19 | **9.08** |
+| all 74 | **1.88** | 2.18 | 9.08 (min 0.78) |
+
+**0 of 74 outputs are byte-identical** — a ~2% weight perturbation moves the sampling
+trajectory from the first step — and the difference is **flat across the three groups**:
+uniform noise, not a shift concentrated where `ER`'s verdict was fragile.
+
+**Outcomes.** Marked on `v3/report/v36_fp8.html` (`v3/build/v36_fp8_page.py`), one question per
+cell — *same outcome* or *outcome differs* — grouped as above. The reviewer's verdict: **no
+outcome changed in any group** ([EXPERIMENT link 11](EXPERIMENT.md)).
+*Measurement failure mode:* **the marks were not exported.** The page writes `v36_fp8.csv`;
+no such file is in the tree, so the verdict is recorded in prose only, unblinded (left is
+always BFL), by the single reviewer of §3.
+
+**What 74 cells can and cannot carry.** Zero regressions on the 40 both-clean cells bounds
+the regression rate below ~7.5% at 95% (rule of three, 3/40); an effect under ~2% is invisible
+at this size. The production rate on this transformer therefore comes from the package's own
+600-cell sweep (`BUILD.md` §7.3, T4).
+
+**Decision, recorded here because it rests on this section** (Ray, 2026-09-11): the Photoroom
+`transformer_bf16` is the **production transformer** (SOLUTION §4, post-lock note; BUILD
+§3.3). BFL's transformer remains only for byte-parity against the archive (BUILD T2).
