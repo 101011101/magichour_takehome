@@ -49,20 +49,45 @@ input pre-bound in `v3lib.normalise`; no klein canvas exceeds 2²⁰ px.
 **So:** no finding says the rule is wrong. The "down" half is load-bearing; the "up" half
 has never been isolated, and never on `ER`.
 
-**What would close it.** `ER` on the old canvas (cap 2²⁰, never upscale, floor 16) over the
-600 iron-man cells, marked paired against the archive — only the cells whose canvas
-actually differs, which is most of the fold, since the person photos are 0.58–1.10 MP.
-~25 min, ~CAD 0.3, plus marking.
+**MEASURED 2026-09-12 — v3.9, and it did not close the question.**
+`SCALE` against `NOSCALE` (own size, never upscaled), everything bounded to 1 MP, 68 cells,
+blind and paired. **`NOSCALE` won 22 : 8 on 30 discordant cells, two-sided exact p = 0.016** —
+the shipped rule lost. But the result lives almost entirely in the failure group: `fail`
+**20 : 3** (p = 0.0005), `clean` **2 : 5** the other way. v3.8's adoption rule requires a win
+on `fail` *without* a loss on `clean`, and the clean side is unresolved rather than won. The
+effect is also not ordered by how much upscaling a cell had — weakest where the upscale is
+largest, the opposite of the mechanism it needs.
+→ `prd/v3/v3.9/RESULTS.md` §3, `prd/v3/v3.9/EXPERIMENT.md` link 1
+
+**Free finding:** not upscaling is **~17% faster per try-on** (1.92 s against 2.31 s), being
+the arithmetic of a 0.70× canvas.
+
+**Still open, and what would close it.** The set is **57% failures by construction** against
+the fold's ~6%, judged by one reviewer, on a page that equalises display width — which removes
+pixel count as a cue but not softness as an appearance. The same paired comparison
+**fold-wide over all 200 pairs**, ideally with a second reviewer on the discordant cells, is
+what would license changing the shipped rule. Until then the rule of record stands.
+
+**Why 1.15 MP, and not 1 MP** — see the paragraph above; that half is settled.
 
 **Interacts with Q3.**
 
 ---
 
-## Q2. One crop or two?
+## Q2. One crop or two? — **(a) CLOSED 2026-09-12, (b) still open**
 
-**Raised by Ray, 2026-09-11.** Two readings; neither has data. **[CONFIRM which is meant.]**
+**Raised by Ray, 2026-09-11**, and clarified by him on 2026-09-12: *"when I say double crop I
+mean crop the person + clothes then run through the bald pipeline"* — reading (a).
 
-**(a) Crop before call 1 as well** — BiRefNet crop → bald pass → head-subtracting crop.
+**(a) ANSWERED: no difference. The second crop is not adopted.** `CROP2` (A4 crop → bald pass
+on the crop → the same head-subtracting crop) against the single-crop baseline, 93 cells,
+blind and paired: **84 same, 3 : 6 discordant, p = 0.51**, and **not one of the 40 clean cells
+moved**. Reference sizes bear out the prior — 0.392 MP mean for one crop against 0.391 MP for
+two. The one thing it buys is a **1.9× faster bald pass** (0.85 s against 1.61 s), a cost
+saving on the cached per-garment half, available later on its own merits.
+→ `prd/v3/v3.9/RESULTS.md` §4, `prd/v3/v3.9/EXPERIMENT.md` link 2
+
+**The original (a) framing, for the record** — BiRefNet crop → bald pass → head-subtracting crop.
 The record never did this: the bald pass always runs on the uncropped, normalised photo
 (`run_ironman.py:249`), and the one crop comes after it. The nearest arm, `BCA4`
 (bald → A4 crop, head kept), answers a different question (`prd/v3/v3.3/RESULTS.md` §13–14).
@@ -108,13 +133,25 @@ output upscaling is wanted.
 
 ---
 
-## Q4. BiRefNet and the parser on the GPU — do the crops match?
+## Q4. BiRefNet and the parser on the GPU — **still open; the one attempt saved no evidence**
 
 Every reference of record was made with **CPU** ONNX. The GPU path works and is ~6×
 faster, but GPU crops have never been compared with the references `ER` was measured on.
 **Closes with** BUILD §7.3 **T1** (per-reference MAD ≤ 4.0). If it fails, crops stay on CPU:
 they run once per garment and are cached.
 → `prd/v3/v3.8/BUILD.md` §5; `prd/v3/v3.5/RESULTS.md` §3; `prd/v3/v3.4/RESULTS.md` §10
+
+**Attempted 2026-09-12 and lost.** `vp/inquiry_confirmation.ipynb` §5–§6 probe the provider,
+assert both sessions report `CUDAExecutionProvider`, time GPU against CPU and run the T1
+parity check — but **the output printed to the notebook only and the session was released**.
+The bundle carries no provider record, no timing, no parity number.
+
+**And the surviving trace points the wrong way:** `headcrop` ran at a **median 16.8 s** per
+reference, against v3.5's measured **15.8 s on CPU** and a GPU path ~6× faster. On that
+evidence the crops in that run were **on CPU**. Record this as unresolved, not as a pass.
+→ `prd/v3/v3.9/RESULTS.md` §6
+
+**The re-run must write its verdict to a file.** It is cheap — a few crops, no generation.
 
 ## Q5. Peak VRAM, and which GPUs
 
@@ -135,11 +172,30 @@ backend, the work adds a container (CUDA 12 base, pinned wheels, a matched
 logging and a warm-up. **[CONFIRM with Runbo.]**
 → `prd/v3/v3.8/BUILD.md` §6, §7.2
 
-## Q7. Which garment photos does the product accept?
+## Q7. Which garment photos does the product accept? — **ANSWERED 2026-09-12**
 
 All 56 garments the system was measured on are photographs of the garment **being worn**
-(`v3/colab/matrix.csv`). Flat-lay, product and mannequin photos are untested on this path —
+(`v3/colab/matrix.csv`). Flat-lay, product and mannequin photos were untested on this path —
 the cropper has a product route, but `ER`'s head-subtracting path does not use it.
+
+**Product shots work.** 10 product-only garments (flat-lay and ghost-mannequin) × 3 people ×
+2 seeds, production path against the v3.0 no-bald product route: **59 of 60 cards marked
+same**, the single discordant card favouring production. The pipeline does not break on a
+garment photograph with no person in it.
+→ `prd/v3/v3.9/RESULTS.md` §5, `prd/v3/v3.9/EXPERIMENT.md` link 3
+
+**With a caveat that is a cost question, not a quality one.** The head-finder fired on **10 of
+10** photographs containing no person, the bald pass changed **2.7–7.7%** of pixels (mean
+5.4%) on garments with no hair, and the references came out taller on 8 of 10 and whiter on
+10 of 10 than the no-bald route. `ER` has no branch on garment kind; v3.0 did, and skipped
+balding product shots because "there is no head". So every product garment currently pays a
+generative call it does not need, and takes an invention risk a reviewer could not see on
+this sample.
+
+**Open decision, for the product:** restore v3.0's branch — route a garment photograph with
+no person around the bald pass — trading a saved call per product garment against a
+classifier that must be right. The marks force nothing; the metrics make it free money if the
+classifier is reliable. Sample is 10 garments, all clean studio imagery, one reviewer.
 
 ## Q8. The existing klein script — reuse it?
 
