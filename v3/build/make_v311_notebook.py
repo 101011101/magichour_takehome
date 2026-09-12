@@ -46,7 +46,8 @@ attributable to the selector rather than to a pair that was already broken.
 survive untouched**. The second question decides whether a selector is a crop change or a much
 larger piece of work.
 
-Needs on Drive under `v3_runs/`: `v34_ironman2_*.zip`. Runtime → **A100**, then **Run all**.
+Nothing is needed on Drive: the photos come from the repo and the weights from Hugging Face.
+Runtime → **A100**, then **Run all**.
 ≈78 calls, ≈8 min, ≈CAD 0.09.
 """
 
@@ -61,20 +62,28 @@ BFL_REPO, BFL_REV = "black-forest-labs/FLUX.2-klein-4B", "e7b7dc27f91deacad38e78
 PR_REPO, PR_REV = "Photoroom/FLUX.2-klein-4b-fp8-diffusers", "408c457f3589e17a1be1dae5bf0dcaf09cd4985f"
 PR_SUB = "transformer_bf16"
 '''),
-    ("code", '''# 2 · Drive and the klein cache
+    ("code", '''# 2 · the klein cache: Drive if a cache is already there, otherwise this runtime
 import os
-from google.colab import drive
-drive.mount('/content/drive')
-MYDRIVE = '/content/drive/MyDrive'; BASE = os.path.join(MYDRIVE, DRIVE_PROJECT_DIR)
-assert os.path.isdir(BASE), f'Drive project dir not found: {BASE}'
 KLEIN = 'models--black-forest-labs--FLUX.2-klein-4B'
-cands = [os.path.join(MYDRIVE, 'hf_cache'), os.path.join(BASE, 'tryon_models', 'hf_cache'),
-         os.path.join(BASE, 'hf_cache')]
+BASE = None
+try:
+    from google.colab import drive
+    drive.mount('/content/drive')
+    MYDRIVE = '/content/drive/MyDrive'
+    cand = os.path.join(MYDRIVE, DRIVE_PROJECT_DIR)
+    BASE = cand if os.path.isdir(cand) else None
+    cands = [os.path.join(MYDRIVE, 'hf_cache')] + (
+        [os.path.join(BASE, 'tryon_models', 'hf_cache'), os.path.join(BASE, 'hf_cache')] if BASE else [])
+except Exception as e:
+    print(f'Drive unavailable ({e}); everything stays on this runtime')
+    cands = []
+# only reuse a Drive cache that already holds klein - never write 16 GB of weights to Drive
 found = [c for c in cands if os.path.isdir(os.path.join(c, 'hub', KLEIN))]
-os.environ['HF_HOME'] = found[0] if found else cands[0]
-os.environ['V3_MODEL_DIR'] = os.path.join(BASE, 'v3_models')
+os.environ['HF_HOME'] = found[0] if found else '/content/hf_cache'
+os.environ['V3_MODEL_DIR'] = os.path.join(BASE, 'v3_models') if BASE else '/content/v3_models'
 for d in (os.environ['HF_HOME'], os.environ['V3_MODEL_DIR']): os.makedirs(d, exist_ok=True)
-print('HF_HOME', os.environ['HF_HOME'], '(klein cached)' if found else '(klein downloads)')
+print('HF_HOME', os.environ['HF_HOME'], '(klein cached)' if found else '(klein downloads ~16 GB once)')
+print('Drive  ', BASE or 'not used')
 '''),
     ("code", f'''# 3 · install, with the onnxruntime-gpu whose CUDA provider actually loads, then the bundle
 !pip -q install -U diffusers transformers accelerate sentencepiece protobuf mediapipe opencv-contrib-python-headless
@@ -100,19 +109,38 @@ assert hasattr(cv2, 'ximgproc'), 'plain opencv shadowed opencv-contrib - Runtime
 assert 'A100' in torch.cuda.get_device_name(0), 'Runtime > Change runtime type > A100'
 print(torch.cuda.get_device_name(0), '| onnxruntime', ort.__version__, ort.get_available_providers())
 '''),
-    ("code", '''# 4 · the photos off Drive - every pair here is one the v3.10 count marked clean
-import csv, zipfile
+    ("code", '''# 4 · the photos, straight from the repo - every pair here is one the v3.10 count marked clean
+import csv, urllib.request
+import cv2
+RAW = 'https://raw.githubusercontent.com/101011101/magichour_takehome/v3.3-lock'
 rows = list(csv.DictReader(open(MATRIX)))
 stems = sorted({r['person'] for r in rows} | {r['garment'] for r in rows})
-zs = [z for z in sorted(glob.glob(os.path.join(BASE, 'v3_runs', 'v34_ironman2_*.zip')))
-      if '_bc_' not in os.path.basename(z)]
-assert zs, 'no v34_ironman2_*.zip on Drive under v3_runs/'
-want = {f'inputs/{s}.jpg' for s in stems}
-with zipfile.ZipFile(zs[-1]) as z:
-    missing = want - set(z.namelist())
-    assert not missing, f'{os.path.basename(zs[-1])} is missing {sorted(missing)[:3]}'
-    z.extractall('run', members=sorted(want))
-print(f'{os.path.basename(zs[-1])}: {len(want)} photos')
+if not os.path.exists('matrix.csv'):
+    urllib.request.urlretrieve(f'{RAW}/v3/colab/matrix.csv', 'matrix.csv')
+mx = list(csv.DictReader(open('matrix.csv')))
+files = {r['person']: r['person_file'] for r in mx}
+files.update({r['garment']: r['garment_file'] for r in mx})
+# the originals, not the 340px report copies: canonical test-set directories only
+DIRS = ('test_set1/people', 'test_set1/garments', 'test_set2/people', 'test_set2/clothes',
+        'test_set3/people', 'test_set2/garments')
+os.makedirs('run/inputs', exist_ok=True)
+got = 0
+for s in stems:
+    dst = f'run/inputs/{s}.jpg'
+    if os.path.exists(dst):
+        got += 1; continue
+    for d in DIRS:
+        try:
+            urllib.request.urlretrieve(f'{RAW}/{d}/{files[s]}', '/content/_dl')
+        except Exception:
+            continue
+        im = cv2.imread('/content/_dl', cv2.IMREAD_COLOR)
+        if im is None:
+            continue
+        cv2.imwrite(dst, im, [cv2.IMWRITE_JPEG_QUALITY, 95]); got += 1; break
+    else:
+        raise RuntimeError(f'{s} ({files[s]}) not found under any of {DIRS}')
+print(f'{got} photos from the repo')
 print(f'{len(rows)} cells · {len({r["garment"] for r in rows})} garments · '
       f'{len({r["person"] for r in rows})} people · {len(rows) * len(PLAN)} try-ons')
 '''),
