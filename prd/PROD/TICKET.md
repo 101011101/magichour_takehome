@@ -1,7 +1,7 @@
 [web / aie]: build klein virtual try-on (ER) script
 
 Colab:
-[ADD LINK — notebook is built at vp/tryon_er.ipynb, not yet uploaded]
+https://colab.research.google.com/github/101011101/magichour_takehome/blob/v3.3-lock/vp/tryon_er.ipynb
 
 GPU:
 A100 40GB, everything resident, no offload. Weights are ~16.5GB before activations; peak VRAM [ADD — not yet measured], so plan on 40GB. A 24GB card previously needed CPU offload, which changes the timings below.
