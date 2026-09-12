@@ -255,7 +255,7 @@ def call2(region, ptag):
     if ptag == "S":
         return V36.ER
     if region not in ER_REGION:
-        raise SystemExit(f"no region-named call 2 for {region!r}: full is the whole outfit, "
+        raise ValueError(f"no region-named call 2 for {region!r}: full is the whole outfit, "
                          "which ER already names")
     return ER_REGION[region]
 
@@ -265,9 +265,9 @@ def main(matrix="v311_set.csv", plan=PLAN, gpu_usd_per_hour=None, limit=None):
     plan = norm_plan(plan)
     for entry in plan:
         if entry not in PLAN:
-            raise SystemExit(f"unknown arm/region/prompt {entry}; one of {PLAN}")
+            raise ValueError(f"unknown arm/region/prompt {entry}; one of {PLAN}")
     if not K.info().get("transformer"):
-        raise SystemExit("load the production transformer first: K.load(repo=..., "
+        raise ValueError("load the production transformer first: K.load(repo=..., "
                          "transformer=(...)) - this runner never falls back to BFL's")
     rows = list(csv.DictReader(open(matrix)))
     if limit:
@@ -281,7 +281,7 @@ def main(matrix="v311_set.csv", plan=PLAN, gpu_usd_per_hour=None, limit=None):
     for s in stems:
         src, out = d("inputs", f"{s}.jpg"), d("in1mp", f"{s}.jpg")
         if not os.path.exists(src):
-            raise SystemExit(f"missing {src} - cell 4 unpacks the inputs")
+            raise ValueError(f"missing {src} - cell 4 unpacks the inputs")
         if os.path.exists(out):
             continue
         cv2.imwrite(out, normalise(cv2.imread(src)), JPG)
