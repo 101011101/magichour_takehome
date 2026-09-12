@@ -133,25 +133,39 @@ output upscaling is wanted.
 
 ---
 
-## Q4. BiRefNet and the parser on the GPU — **still open; the one attempt saved no evidence**
+## Q4. BiRefNet and the parser on the GPU — **partly answered; parity still open**
 
-Every reference of record was made with **CPU** ONNX. The GPU path works and is ~6×
-faster, but GPU crops have never been compared with the references `ER` was measured on.
-**Closes with** BUILD §7.3 **T1** (per-reference MAD ≤ 4.0). If it fails, crops stay on CPU:
-they run once per garment and are cached.
-→ `prd/v3/v3.8/BUILD.md` §5; `prd/v3/v3.5/RESULTS.md` §3; `prd/v3/v3.4/RESULTS.md` §10
+**Settled 2026-09-12 (Ray, Colab A100).** BiRefNet_lite does run on the GPU, and the wheel
+is the whole trick: the newest `onnxruntime-gpu` failed the probe at the `dlopen` step, and
+**`onnxruntime-gpu==1.22.0`** was the first whose CUDA provider actually loaded. With it,
+`providers` reported `['CUDAExecutionProvider', 'CPUExecutionProvider']` and a
+1×3×1024×1024 input ran in **0.139 s against 7.798 s on CPU — 56×** (warm; GPU averaged
+over three runs, CPU over one). Both production notebooks now try `==1.22.0` first and keep
+the descending walk as a fallback.
+→ `prd/v3/v3.8/BUILD.md` §5; `vp/tryon_er.ipynb` §1; `vp/gpu_check.ipynb` §3
 
-**Attempted 2026-09-12 and lost.** `vp/inquiry_confirmation.ipynb` §5–§6 probe the provider,
-assert both sessions report `CUDAExecutionProvider`, time GPU against CPU and run the T1
-parity check — but **the output printed to the notebook only and the session was released**.
-The bundle carries no provider record, no timing, no parity number.
-
-**And the surviving trace points the wrong way:** `headcrop` ran at a **median 16.8 s** per
-reference, against v3.5's measured **15.8 s on CPU** and a GPU path ~6× faster. On that
-evidence the crops in that run were **on CPU**. Record this as unresolved, not as a pass.
+**It also settles what the v3.9 crops were.** That run's `headcrop` median of 16.8 s sits
+next to v3.5's 15.8 s CPU figure while BiRefNet on GPU is 0.139 s — so the v3.9 inquiry
+crops ran **on CPU**, as suspected.
 → `prd/v3/v3.9/RESULTS.md` §6
 
-**The re-run must write its verdict to a file.** It is cheap — a few crops, no generation.
+**What is still open, and it is the part that gates production:**
+
+1. **The SCHP parser is untimed on GPU.** Only BiRefNet was measured.
+2. **The end-to-end crop on GPU is unmeasured.** `head_subtract` is not one ONNX call —
+   MediaPipe Selfie and Pose stay on CPU by design, and `refine_band`'s guided filter is
+   OpenCV on CPU. None of the 56× carries over to the crop as a whole, so the ticket's crop
+   time stays a placeholder.
+3. **Crop parity is unproven.** Every reference of record was built with **CPU** ONNX, and
+   GPU crops have still never been compared with them. **Closes with** BUILD §7.3 **T1**
+   (per-reference MAD ≤ 4.0, shapes within 8 px). If it fails, crops stay on CPU: they run
+   once per garment and are cached, so they are off the try-on's latency path.
+→ `prd/v3/v3.8/BUILD.md` §5, §7.3; `prd/v3/v3.5/RESULTS.md` §3; `prd/v3/v3.4/RESULTS.md` §10
+
+**The re-run must write its verdict to a file.** The 2026-09-12 attempt inside
+`vp/inquiry_confirmation.ipynb` printed to the notebook and the session was released, so
+the bundle carries no provider record, no timing and no parity number. It is cheap — a few
+crops, no generation.
 
 ## Q5. Peak VRAM, and which GPUs
 

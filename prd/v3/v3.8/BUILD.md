@@ -216,11 +216,20 @@ arm, and no number in v3.8 describes it.
 
 ## 5. BiRefNet and the parser on the GPU
 
-**Yes, both ONNX graphs can and should run on the GPU in production** — the cropper is ~6×
-faster there ([v3.5 RESULTS §3](../v3.5/RESULTS.md); CPU head crop 15.8 s per garment on a
-Colab host, threaded; 200–1,000 s per frame on the local laptop,
-[v3.4 RESULTS §10.1](../v3.4/RESULTS.md)). MediaPipe (Selfie 256², Pose) stays on CPU; its
-cost is milliseconds.
+**Yes, and BiRefNet on the GPU is now measured rather than inherited.** On a Colab A100
+(Ray, 2026-09-12) with `onnxruntime-gpu==1.22.0`, BiRefNet_lite runs a 1×3×1024×1024 input
+in **0.139 s on CUDA against 7.798 s on CPU — 56×** (warmed up, GPU averaged over three
+runs, CPU over one). The `~6×` figure this document used to carry came from
+[v3.5 RESULTS §3](../v3.5/RESULTS.md) and is superseded for BiRefNet.
+
+**What that measurement does not cover, and it is most of the crop.** It is BiRefNet alone
+on a synthetic tensor. The SCHP parser is not timed, and neither is the rest of
+`head_subtract` — MediaPipe Selfie and Pose stay on CPU by design, and `refine_band`'s
+guided filter is OpenCV on CPU. So the **end-to-end crop time on GPU is still unmeasured**,
+and no share of the 56× transfers to it. The CPU figures of record stand until a GPU crop
+is timed: 15.8 s per garment on a Colab host (v3.5 RESULTS §3), 16.3 s in the v3.9 inquiry
+run, 200–1,000 s per frame on the local laptop
+([v3.4 RESULTS §10.1](../v3.4/RESULTS.md)).
 
 Three things make "on the GPU" true rather than assumed:
 
@@ -229,14 +238,18 @@ Three things make "on the GPU" true rather than assumed:
    memory-polite arena (`kSameAsRequested`, capped cuDNN workspace) because BiRefNet
    allocates ~800 MB of intermediates while sharing the card with klein;
    `V2_ORT_GPU_MEM_MB` caps it further.
-2. **`onnxruntime-gpu` fails silently.** The newest wheel is built for CUDA 13; with a
-   CUDA 12 torch it *registers* `CUDAExecutionProvider`, fails to `dlopen` it when a
-   session is created, and falls back to CPU with no error. `get_available_providers()`
-   cannot detect this. The v3.3 iron man's A4 crops ran 6.8–7.4 s each on an A100 for
-   exactly this reason ([v3.3 RESULTS](../v3.3/RESULTS.md), cost table). Install the
-   `onnxruntime-gpu` build that matches torch's CUDA major (the probe that finds one is
-   `v3/colab/v35_a100.ipynb` cell 3), and **never** install the CPU `onnxruntime` wheel
-   alongside it — they cannot coexist.
+2. **`onnxruntime-gpu` fails silently, and the pin is `==1.22.0`.** The newest wheel is
+   built for CUDA 13; with a CUDA 12 torch it *registers* `CUDAExecutionProvider`, fails to
+   `dlopen` it when a session is created, and falls back to CPU with no error.
+   `get_available_providers()` cannot detect this — only loading the provider library can.
+   Confirmed again on 2026-09-12: the newest wheel's probe died at the `dlopen` step and
+   **`onnxruntime-gpu==1.22.0` was the first that loaded**, which is the known-good pin on
+   Colab's current CUDA and what `vp/tryon_er.ipynb` and `vp/gpu_check.ipynb` now try
+   first (each keeps the descending walk as a fallback, since the pin is a fact about a
+   runtime and not about the model). The v3.3 iron man's A4 crops ran 6.8–7.4 s each on an
+   A100 for exactly this reason ([v3.3 RESULTS](../v3.3/RESULTS.md), cost table), and the
+   v3.9 inquiry run's 16.3 s head crop is the same failure: it was a CPU crop on an A100.
+   **Never** install the CPU `onnxruntime` wheel alongside it — they cannot coexist.
 3. **Assert at startup and fail closed.** After the first session is created:
 
    ```python
@@ -250,7 +263,8 @@ Three things make "on the GPU" true rather than assumed:
 **CPU** ONNX. The iron-man-2 `BC` references — the ones every `ER` number stands on — were
 cropped on the Colab host's CPU and checked against the 33 the local run made: **median
 MAD 0.00, max 2.34** ([v3.4 RESULTS §10](../v3.4/RESULTS.md)). **GPU crops have never
-been compared to them.** Acceptance test T1 does that. If GPU crops fail it, keep the
+been compared to them** — the v3.9 inquiry run did not close this either, because its crops
+ran on CPU. Acceptance test T1 does that. If GPU crops fail it, keep the
 cropper on CPU: it runs once per garment and is cached, so it is off the try-on's
 latency path.
 

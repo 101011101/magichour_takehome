@@ -210,6 +210,11 @@ paint();</script>"""
 
 
 if __name__ == "__main__":
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    n = next((sys.argv[i + 1] for i, a in enumerate(sys.argv) if a == "--clean"), None)
+    argv, args, n = sys.argv[1:], [], None
+    while argv:
+        a = argv.pop(0)
+        if a == "--clean":
+            n = argv.pop(0) if argv else None
+        elif not a.startswith("--"):
+            args.append(a)
     main(*(args + [RUN, OUT][len(args):]), clean_n=n)

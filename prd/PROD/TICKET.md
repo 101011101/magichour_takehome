@@ -41,7 +41,9 @@ Generation time (A100), per request:
 
 Garment preparation (once per garment, cached, off the request path):
 - Bald pass: 1.48s median
-- Crop, BiRefNet and the parser on GPU: [ADD — GPU crop time not yet measured]
+- Crop, BiRefNet and the parser on GPU: [ADD — end-to-end crop time on GPU not yet measured]
+- What is measured of that crop: BiRefNet alone takes 0.139s on an A100 against 7.798s on CPU. The rest of the crop — the human parser, MediaPipe and an OpenCV filter — is not yet timed, and parts of it run on CPU by design, so do not read the whole crop as 56x faster. On CPU end to end it is ~16s per garment, which is the only end-to-end figure available today
+- The GPU path needs onnxruntime-gpu==1.22.0 on a CUDA 12 runtime. Newer builds advertise CUDA, fail to load it, and fall back to CPU silently
 - A garment is prepared once and reused by every user who tries it on, so this does not appear in per-request latency
 
 Resolution:
