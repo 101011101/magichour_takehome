@@ -38,7 +38,8 @@ Generation time (A100), per request:
 
 Garment preparation (once per garment, cached, off the request path):
 - Bald pass: 1.48s median
-- Crop: [ADD — end-to-end crop time on GPU not yet measured]. Of that crop, BiRefNet alone is measured at 0.139s on an A100 against 7.798s on CPU; the human parser, MediaPipe and an OpenCV filter are not yet timed and parts of them run on CPU by design, so the whole crop is not 56x faster. End to end on CPU it is ~16s per garment, the only end-to-end figure available today
+- Crop: 0.58s median on an A100, with BiRefNet and the human parser on CUDA and MediaPipe and an OpenCV filter on CPU, where they stay by design. The same crop on the same machine with the ONNX models on CPU takes 8.14s, so the GPU is worth 14x here
+- So a new garment costs ~2.1s to prepare. End to end, the first try-on of a garment nobody has used yet is ~4.0s (2.1s preparation + 1.9s try-on); every try-on of that garment afterwards is ~1.9s
 - The GPU path needs onnxruntime-gpu==1.22.0 on a CUDA 12 runtime. Newer builds advertise CUDA, fail to load it, and fall back to CPU silently
 - A garment is prepared once and reused by everyone who tries it on, so this never appears in per-request latency
 
@@ -57,7 +58,7 @@ So any large photo lands at ~1MP whatever its shape, and a small one comes back 
 Cost:
 A100 at ~USD 0.50/hour (CAD 0.689 at 1 CAD = 0.7214 USD, 12 Sep 2026).
 - ~USD 0.26 per 1,000 try-ons, garments already prepared
-- ~USD 0.32 per 1,000 with garment preparation amortised in, at the test set's ratio of 93 new garments per 1,000 try-ons
+- ~USD 0.29 per 1,000 with garment preparation amortised in, at the test set's ratio of 93 new garments per 1,000 try-ons
 - [ADD CREDITS]
 
 Notes:

@@ -34,15 +34,15 @@ the corrections live here.
    photograph**, uncropped (`run_ironman.py:249`): canvas = that photo's size, capped at
    2²⁰ px, never upscaled, sides floored to 16 (`klein_local._size`, `canvas="v33"`).
 3. **"Reproduced by not passing `image_size`" is a fal statement.** Self-hosted, the call-2
-   canvas **must be passed explicitly** as `height`/`width` from `klein_local._size_fal`.
-   The diffusers default is a *different* rule: `Flux2KleinPipeline` takes image 1's size
-   capped at 1024² (down only) and floored to 16 (`pipeline_flux2_klein.py` v0.40.0, lines
-   770–784). It would not scale small photos up and floors to 16, not 32 — a different
-   canvas from every number of record.
-4. **"Never upscale inside a klein call" is a call-1 rule.** The p004 placket is a call-1
-   finding. Call 2's canvas rule scales image 1 **up or down** to 2²⁰ px by design (v3.4
-   link D). On this fold, person photos are 0.58–1.10 MP (2²⁰), so call 2 upscales by at
-   most ×1.32 linear; below that range it is unmeasured — see the input guard in §6.
+   canvas **must be passed explicitly** as `height`/`width` — from the no-upscale rule
+   since 2026-09-12 (rule 3), from `klein_local._size_fal` for everything in the archive.
+   The diffusers default is a *different* rule again: `Flux2KleinPipeline` takes image 1's
+   size capped at 1024² (down only) and floored to 16 (`pipeline_flux2_klein.py` v0.40.0,
+   lines 770–784) — floor 16, not 32, so it is not the production rule either.
+4. **"Never upscale inside a klein call" was a call-1 rule; since 2026-09-12 it holds
+   everywhere.** The p004 placket is a call-1 finding, and call 2's canvas *used* to scale
+   image 1 up or down to 2²⁰ px by design (v3.4 link D). v3.10 replaced that with the
+   no-upscale rule, so **no klein call in the pipeline now renders above its input**.
 
 ---
 
@@ -64,16 +64,20 @@ GARMENT PHOTO                                                  once per garment,
 PERSON PHOTO ─ S0 normalise → JPEG q95 ─┐                      once per try-on
                                         ▼
   S3 CALL 2 — ER        klein, ER prompt, images [person, reference], seed per request
-                        canvas: person's aspect at area 2²⁰, up or down, /32   klein_local._size_fal
+                        canvas: the person's own size under 2²⁰, /32, never up   canvas_tryon
                         4 steps · guidance 0.0 · bf16 · torch.Generator("cpu")
                         ▼
-                        TRY-ON (~1 MP)
+                        TRY-ON (the person's own size, ≤1 MP)
 ```
 
-**S0 — normalise.** `v3lib.normalise`: if `h·w > 1,150,000`, resize by area to that
-bound with `INTER_AREA`; otherwise untouched. This is a pre-bound only; no klein canvas
-exceeds 2²⁰ regardless. The record writes and re-reads every normalised image as **JPEG
-quality 95** (`run_ironman.py:200`); keep that round trip for parity.
+**S0 — normalise.** Resize by area with `INTER_AREA` when the photo is larger than the
+bound, otherwise leave it. **The bound differs by path, and the difference is deliberate:**
+the garment keeps the archive's 1,150,000 px (`v3lib.normalise`, so references are built
+exactly as every reference of record was), while the **person photo is bounded to 2²⁰ px**
+— under rule 3's no-upscale canvas the person's own size *is* the canvas, so it must sit
+under the 4,300-token branch (rule 1). That is the bound v3.10 measured on. The record
+writes and re-reads every normalised image as **JPEG quality 95**
+(`run_ironman.py:200`); keep that round trip for parity.
 
 **S1 — call 1, the bald pass.** `klein_local.edit([garment], BALD_PROMPT, seed=46,
 canvas="v33")`, then `cv2.resize` back to the normalised photo's size with `INTER_AREA`
@@ -99,9 +103,11 @@ matte (SOLUTION §2).
    side (`garment_crop.bbox_of`) → `flatten(crop, noface, 255)` → JPEG q95
    (`garment_crop.write_rgb`).
 
-**S3 — call 2, `ER`.** `klein_local.edit([person, reference], ER, seed, canvas="fal")`.
-Image order is `[person, reference]` — image 1 is the person, and image 1 defines the
-canvas. `Flux2KleinPipeline` feeds each conditioning image at its native size unless it
+**S3 — call 2, `ER`.** The `ER` prompt with `images=[person, reference]`, `height`/`width`
+from the no-upscale rule: the person's own size under 2²⁰ px, each side floored to 32,
+never upscaled (rule 3; `canvas_tryon` in `vp/tryon_er.ipynb`, matching
+`run_v310.size_noscale`). Image order is `[person, reference]` — image 1 is the person,
+and image 1 defines the canvas. `Flux2KleinPipeline` feeds each conditioning image at its native size unless it
 exceeds 1024² area (then it is scaled down to it), floored to 16 (`pipeline_flux2_klein.py`
 v0.40.0 lines 770–779). So the reference enters at **0.40 MP mean (2²⁰; 0.42 decimal),
 median 0.37, min 0.08, max 0.84** — measured on the 56 references of
@@ -197,9 +203,9 @@ arm, and no number in v3.8 describes it.
 
 | # | rule | code | why |
 |---|---|---|---|
-| 1 | every klein canvas ≤ 2²⁰ px (4,096 tokens) | `_size`, `_size_fal` | `compute_empirical_mu` branches at 4,300 tokens (`pipeline_flux2_klein.py:67`); above it the model runs a schedule it was not distilled for. 1.15 MP admits ~4,492 — why v3.4 capped it ([v3.4 SOLUTION §2](../v3.4/SOLUTION.md)) |
+| 1 | every klein canvas ≤ 2²⁰ px (4,096 tokens) | `canvas_reference`, `canvas_tryon` (archive: `_size`, `_size_fal`) | `compute_empirical_mu` branches at 4,300 tokens (`pipeline_flux2_klein.py:67`); above it the model runs a schedule it was not distilled for. 1.15 MP admits ~4,492 — why v3.4 capped it ([v3.4 SOLUTION §2](../v3.4/SOLUTION.md)) |
 | 2 | call 1: the normalised photo's own size, ≤ 2²⁰, never upscaled, sides floored to 16 | `klein_local._size` | inflated call-1 inputs lose framing; rendering above evidence invents structure (v3.4 links E–G; p004 placket at ×2.67) |
-| 3 | call 2: image 1 scaled to area 2²⁰, aspect kept, up **or** down, sides floored to 32 — **passed explicitly** | `klein_local._size_fal` | the canvas every `ER` number was made on; measured off fal 20/20 ([v3.4 SOLUTION §2](../v3.4/SOLUTION.md)); the diffusers default differs (§0.3) |
+| 3 | call 2: **the person's own size under 2²⁰ px, sides floored to 32, never upscaled** — passed explicitly | `canvas_tryon`; `run_v310.size_noscale` | **changed 2026-09-12 (Ray), on v3.10.** Over all 456 fold cells whose canvas differs under the two rules, counted per image in one sitting: **no-upscale 12/456 = 2.63% against the old rule's 18/456 = 3.95%**, paired 17 rescued : 11 broken, McNemar exact **p = 0.34** — the point estimate favours it, the test does not resolve it — plus **~20% less latency** (1.90 s against 2.38 s). The old rule (area 2²⁰, up **or** down, `klein_local._size_fal`, measured off fal 20/20, v3.4 link D) is what **the whole archive was generated on**, and stays documented for that reason. Evidence: `v3/testsets/v310_count.csv`, `v3/runs/v310/a100/`, `v3/report/v310_count.html` |
 | 4 | no generative upscale of the reference | — | a finished image may be scaled algorithmically; klein may not render above its conditioning |
 | 5 | 4 steps, `guidance_scale=0.0`, `torch.bfloat16` | `klein_local.STEPS/GUIDANCE`, `load()` | the distilled operating point. Guidance is inert either way (`is_distilled: true`, no guidance embed; CFG only runs for `>1` on non-distilled) — keep 0.0 so the call is byte-identical to the record's |
 | 6 | seed through `torch.Generator("cpu").manual_seed(seed)` | `klein_local.edit` | a CUDA generator's stream differs; seeds would not reproduce |
@@ -222,14 +228,32 @@ in **0.139 s on CUDA against 7.798 s on CPU — 56×** (warmed up, GPU averaged 
 runs, CPU over one). The `~6×` figure this document used to carry came from
 [v3.5 RESULTS §3](../v3.5/RESULTS.md) and is superseded for BiRefNet.
 
-**What that measurement does not cover, and it is most of the crop.** It is BiRefNet alone
-on a synthetic tensor. The SCHP parser is not timed, and neither is the rest of
-`head_subtract` — MediaPipe Selfie and Pose stay on CPU by design, and `refine_band`'s
-guided filter is OpenCV on CPU. So the **end-to-end crop time on GPU is still unmeasured**,
-and no share of the 56× transfers to it. The CPU figures of record stand until a GPU crop
-is timed: 15.8 s per garment on a Colab host (v3.5 RESULTS §3), 16.3 s in the v3.9 inquiry
-run, 200–1,000 s per frame on the local laptop
-([v3.4 RESULTS §10.1](../v3.4/RESULTS.md)).
+**The 56× is a component figure**: BiRefNet alone, on a synthetic tensor. It says nothing
+about the stage, because the stage is four things and only two of them move — MediaPipe
+Selfie and Pose stay on CPU by design, and `refine_band`'s guided filter is OpenCV on CPU.
+
+**The stage itself, measured end to end** (Ray, 2026-09-12, `vp/gpu_crop_time.py`): the
+whole `crop_bc` — matte, parser, MediaPipe, guided filter, bbox, flatten — over four
+garment photos from `test_set1/garments`, warmed up, the filename-keyed matte cache cleared
+between devices.
+
+| | provider, BiRefNet · parser | per garment | median |
+|---|---|---|---|
+| GPU | `CUDAExecutionProvider` · `CUDAExecutionProvider` | 0.65 · 0.55 · 0.61 · 0.55 s | **0.58 s** |
+| CPU | `CPUExecutionProvider` · `CPUExecutionProvider` | 8.7 · 8.2 · 8.06 · 8.08 s | **8.14 s** |
+
+**14× on the stage**, against 56× on the model, which is what two CPU-bound stages inside it
+cost. The script asserts and prints the provider per model, so the GPU row is a GPU run and
+not a silent fallback. **A garment therefore costs ≈2.1 s to prepare on GPU** — 1.48 s bald
+pass plus 0.58 s crop — against ≈9.6 s with the ONNX models on CPU.
+
+**This does not overwrite the older CPU figures; it is a different measurement.** 8.14 s
+here, against 15.8 s per garment on a Colab host (v3.5 RESULTS §3) and 16.3 s in the v3.9
+inquiry run — different images, different runtimes, and `garment_crop` caps its intra-op
+threads, so host cores move the number. Use **8.14 s** as the CPU cost of this stage on the
+machine the 0.58 s was measured on, and the v3.5/v3.9 figures as what those runs actually
+paid. The laptop's 200–1,000 s per frame ([v3.4 RESULTS §10.1](../v3.4/RESULTS.md)) stands
+as its own environment.
 
 Three things make "on the GPU" true rather than assumed:
 
@@ -283,6 +307,29 @@ which head route fired (parser / pose / band), sizes, per-stage seconds.
 **`try_on(person_image, reference, seed=None) → (image, seed)`** — per request.
 S0 on the person → S3. Returns the seed it used.
 
+### 6.1b What size the output is
+
+Since 2026-09-12 the output is **the person photo's own size**, bounded to 2²⁰ px and each
+side floored to 32 (rule 3). Large photos still land near 1 MP because the bound catches
+them first; **the change bites below 1 MP, where the output is now smaller than it used to
+be** rather than inflated to 1 MP.
+
+| person photo in | after the 1 MP bound | output | MP |
+|---|---|---|---|
+| 1536×2048 (3:4 phone) | 886×1182 | **864×1152** | 0.95 |
+| 2000×3000 (2:3 DSLR) | 836×1254 | **832×1248** | 0.99 |
+| 1200×1200 (1:1) | 1024×1024 | **1024×1024** | 1.00 |
+| 1920×1080 (16:9) | 1365×768 | **1344×768** | 0.98 |
+| 1080×1920 (9:16) | 768×1365 | **768×1344** | 0.98 |
+| 600×800 (small 3:4) | 600×800 | **576×800** | 0.44 |
+| 512×640 (small 4:5) | 512×640 | **512×640** | 0.31 |
+
+`MAX_RES` lowers it further on the same grid and can never raise it — on the 3:4 phone
+photo above: 864×1152 unset, 768×1024 at 1024, 576×768 at 768, 384×512 at 512.
+
+Verified against the code over a 2,695-size grid: zero mismatches with
+`run_v310.size_noscale`, zero upscales, nothing over 2²⁰, every side a multiple of 32.
+
 ### 6.2 The seed policy
 
 - **Call 1 is fixed at seed 46.** The reference is a garment asset, not a draw: it is
@@ -321,9 +368,12 @@ is what they end up with after pressing the button.
   layer decodes with PIL instead, apply `ImageOps.exif_transpose` first.
 - **PNG with alpha:** flatten onto white before S0. `IMREAD_COLOR` drops alpha and keeps
   whatever colour sits under it — often black. Product decision; not measured.
-- **Minimum person size.** The fold's normalised person photos are 0.58–1.10 MP (2²⁰);
-  call 2 upscales at most ×1.32 on it. Photos far below that are rendered at 1 MP from
-  thin evidence — unmeasured. Flag or reject below ~0.5 MP until a run says otherwise
+- **Minimum person size — and what it now means.** Under rule 3 a small photo is no
+  longer inflated to 1 MP; it renders at its own size, so the old failure mode (1 MP
+  invented from thin evidence) is gone and **the output simply gets smaller with the
+  input**. The fold's normalised person photos are 0.58–1.10 MP (2²⁰), so anything far
+  below that is still outside what has been measured, and the product now also has a
+  *deliverable-size* reason to care. Keep flagging or rejecting below ~0.5 MP
   **[inferred]** from the fold's range, not measured.
 - **Garment photos with no findable head** (back views, crops, flat lays): the parser and
   Pose fall through to the cranium band or to nothing. `cranium_used` records it; log it,
@@ -346,11 +396,26 @@ is what they end up with after pressing the button.
 
 ### 6.5 Cost and latency
 
-Per try-on (reference cached): call 2, **2.28 s median** on the A100 ([RESULTS §8](RESULTS.md)),
-**CAD 0.45 per 1,000 images**. Per new garment: bald pass **1.48 s median**
-(`v3/runs/v34/ironman2/meta/timings.csv`) + head crop (15.8 s CPU; ~6× less on GPU).
-Including reference builds at this fold's ratio: CAD 0.54 (GPU crops) / 0.78 (CPU crops)
-per 1,000.
+Per try-on (reference cached): call 2 at **1.903 s mean** under rule 3's no-upscale canvas
+(`v3/runs/v310/a100/meta/cost_v310.json`; the old up-or-down canvas was 2.377 s, and
+[RESULTS §8](RESULTS.md)'s 2.28 s median is that rule on the v3.8 fold).
+
+Per new garment, both stages on the GPU: bald pass **1.48 s median**
+(`v3/runs/v34/ironman2/meta/timings.csv`) + crop **0.58 s** (§5) = **≈2.1 s**, amortised
+over every user who tries that garment on. With the ONNX models on CPU the crop is 8.14 s
+and a garment costs ≈9.6 s.
+
+At CAD 0.689/h, and this fold's ratio of 93 new garments per 1,000 try-ons
+([RESULTS §8](RESULTS.md)):
+
+| per 1,000 try-ons | seconds | CAD | USD |
+|---|---|---|---|
+| call 2 only, references already built | 1,903 | **0.36** | **0.26** |
+| including reference builds, GPU crops | 2,095 | **0.40** | **0.29** |
+| including reference builds, CPU crops | 2,798 | 0.54 | 0.39 |
+
+USD at 1 CAD = 0.721443 (12 Sep 2026). These replace the CAD 0.54 / 0.78 pair, which
+assumed a ~16 s crop and the old canvas.
 
 ---
 
@@ -427,7 +492,7 @@ Cheap because the pipeline is deterministic. Inputs are the archive:
 |---|---|---|---|
 | **T0** environment | sha256 of every weight; revisions; both ONNX providers are CUDA; `cv2.ximgproc` present; `pip freeze` and GPU name written to the image | all true | seconds |
 | **T1** reference parity | rebuild the 56 `BC` references from the archived bald frames; compare with `ironman2_bc/refs/*__BC.jpg`. Once with crops on CPU, once on GPU. Then rebuild the bald frames from the inputs at seed 46 and compare with the archive | shapes within 8 px, per-reference MAD ≤ 4.0 — the gate `v3/colab/v34_bc.ipynb` cell 6 used; the CPU run should land near the 0.00 / 2.34 of record | minutes |
-| **T2** call-2 parity | the archived inputs + references, seeds 46/47/48, `ER`, BFL transformer, on an A100 → compare with `v3/runs/v36/ironman_er/gen/` | **byte-identical**. If not, the library set differs from the record's: note which, and T4 becomes mandatory | ~25 min, ~CAD 0.3 for all 600; 30 cells for a first read |
+| **T2** call-2 parity | the archived inputs + references, seeds 46/47/48, `ER`, BFL transformer, on an A100 → compare with `v3/runs/v36/ironman_er/gen/` | **Run it against the OLD canvas rule (`klein_local._size_fal`), which is what the archive was generated on — then byte-identical.** Under production's rule 3 canvas the outputs differ **by design**: that is the no-upscale change, not a regression, and **reverting the canvas to make this test pass would undo a shipped decision.** If it fails with the old canvas, the library set differs from the record's: note which, and T4 becomes mandatory | ~25 min, ~CAD 0.3 for all 600; 30 cells for a first read |
 | **T3** resources | peak VRAM (`torch.cuda.max_memory_allocated` + `nvidia-smi` for the ONNX arena), per-stage latency, cold load | numbers recorded; chooses the GPU class | minutes |
 | **T4** end to end | raw photos → package → all 600 cells; mark only the cells whose output differs perceptibly from the archive, blind to which is which, on the counting page | no outcome worse than the archive beyond the seed noise of RESULTS §6. **Required** for the Photoroom transformer, for a new GPU class, or when T2 is not byte-identical | ~25 min, ~CAD 0.3, plus marking |
 | **T5** edge inputs | tiny, huge, extreme aspect, PNG with alpha, grayscale, EXIF-rotated, back view, garment with no head in frame | no crash; guards fire; `cranium_used` and the head route logged | minutes |

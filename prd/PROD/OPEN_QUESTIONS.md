@@ -169,7 +169,7 @@ output upscaling is wanted.
 
 ---
 
-## Q4. BiRefNet and the parser on the GPU — **partly answered; parity still open**
+## Q4. BiRefNet and the parser on the GPU — **answered; only parity still open**
 
 **Settled 2026-09-12 (Ray, Colab A100).** BiRefNet_lite does run on the GPU, and the wheel
 is the whole trick: the newest `onnxruntime-gpu` failed the probe at the `dlopen` step, and
@@ -185,23 +185,41 @@ next to v3.5's 15.8 s CPU figure while BiRefNet on GPU is 0.139 s — so the v3.
 crops ran **on CPU**, as suspected.
 → `prd/v3/v3.9/RESULTS.md` §6
 
-**What is still open, and it is the part that gates production:**
+**The stage itself is now measured too** (Ray, 2026-09-12, `vp/gpu_crop_time.py`, four
+garments from `test_set1/garments`, matte cache cleared between devices). Both ONNX models
+reported `CUDAExecutionProvider` on the GPU pass, so it is a GPU run and not a fallback:
 
-1. **The SCHP parser is untimed on GPU.** Only BiRefNet was measured.
-2. **The end-to-end crop on GPU is unmeasured.** `head_subtract` is not one ONNX call —
-   MediaPipe Selfie and Pose stay on CPU by design, and `refine_band`'s guided filter is
-   OpenCV on CPU. None of the 56× carries over to the crop as a whole, so the ticket's crop
-   time stays a placeholder.
-3. **Crop parity is unproven.** Every reference of record was built with **CPU** ONNX, and
-   GPU crops have still never been compared with them. **Closes with** BUILD §7.3 **T1**
+| | per garment | median |
+|---|---|---|
+| GPU | 0.65 · 0.55 · 0.61 · 0.55 s | **0.58 s** |
+| CPU | 8.7 · 8.2 · 8.06 · 8.08 s | **8.14 s** |
+
+**14× on the stage** against 56× on BiRefNet alone — the gap is MediaPipe and the OpenCV
+guided filter, which stay on CPU by design. Preparing a garment is therefore **≈2.1 s** on
+GPU (1.48 s bald + 0.58 s crop) against ≈9.6 s with the ONNX models on CPU. This closes
+items 1 and 2 as they stood: the parser is exercised inside the stage figure, and the
+ticket's crop-time placeholder is filled.
+→ `prd/v3/v3.8/BUILD.md` §5, §6.5
+
+**What is still open:**
+
+1. **Crop parity is unproven.** Every reference of record was built with **CPU** ONNX, and
+   GPU crops have still never been compared with them — and the 14× gives a real reason to
+   care, since production wants the GPU path. **Closes with** BUILD §7.3 **T1**
    (per-reference MAD ≤ 4.0, shapes within 8 px). If it fails, crops stay on CPU: they run
    once per garment and are cached, so they are off the try-on's latency path.
+2. **The parser has no GPU figure of its own.** Not needed for the ticket — the stage
+   number is what production pays — but nothing here says how the 8.14 s divides.
 → `prd/v3/v3.8/BUILD.md` §5, §7.3; `prd/v3/v3.5/RESULTS.md` §3; `prd/v3/v3.4/RESULTS.md` §10
 
-**The re-run must write its verdict to a file.** The 2026-09-12 attempt inside
+**The CPU figures do not agree across runs, and that is expected.** 8.14 s here against
+v3.5's 15.8 s and v3.9's 16.8 s: different images, different runtimes, and capped intra-op
+threads. Quote 8.14 s only for the machine the 0.58 s came from.
+
+**A T1 re-run must write its verdict to a file.** The 2026-09-12 attempt inside
 `vp/inquiry_confirmation.ipynb` printed to the notebook and the session was released, so
-the bundle carries no provider record, no timing and no parity number. It is cheap — a few
-crops, no generation.
+the bundle carries no provider record and no parity number. It is cheap — a few crops, no
+generation.
 
 ## Q5. Peak VRAM, and which GPUs
 
