@@ -1,0 +1,13 @@
+set_id,person,garment,seed,person_framing,hip_frac_archive
+g004+g013,g004,g013,46,full_body,0.433
+g012+g013,g012,g013,46,full_body,0.433
+g013+p006,g013,p006,46,full_body,0.594
+p001+p006,p001,p006,46,full_body,0.594
+p002+p025,p002,p025,46,full_body,0.609
+p012+p025,p012,p025,46,full_body,0.609
+p003+p026,p003,p026,46,full_body,0.529
+p021+p026,p021,p026,46,full_body,0.529
+p016+dualuse_lp_beige_long_coat_menswear,p016,dualuse_lp_beige_long_coat_menswear,46,full_body,0.466
+p026+dualuse_lp_beige_long_coat_menswear,p026,dualuse_lp_beige_long_coat_menswear,46,full_body,0.466
+p012+dualuse_queen_latifah_gown_stage,p012,dualuse_queen_latifah_gown_stage,46,full_body,0.675
+p022+dualuse_queen_latifah_gown_stage,p022,dualuse_queen_latifah_gown_stage,46,full_body,0.675
