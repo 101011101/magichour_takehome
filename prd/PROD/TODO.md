@@ -40,7 +40,7 @@
 | 1 | Is production "BiRefNet crop → klein → BiRefNet → seed + klein"? | done | No. The bald pass runs on the uncropped photo; there is one crop, after it, and it uses four non-generative models, not BiRefNet alone | `prd/v3/v3.8/BUILD.md` §0, §1 |
 | 2 | Is there a v3 document with the final solution and architecture? | done | Architecture and rationale: v3.8 SOLUTION (commit `a4fe9c1`). Build and deploy: v3.8 BUILD | `prd/v3/v3.8/SOLUTION.md`, `prd/v3/v3.8/BUILD.md` |
 | 3 | Is MP size controlled? | done | Every klein canvas ≤ 2²⁰ px; the reference enters call 2 at its own size (0.40 MP mean) | BUILD §1, §4; `v3/colab/lib/klein_local.py` |
-| 4 | Why does call 2 scale up **or** down to 1 MP — is that right, and where is it from? | **measured — still open** | Down is required (schedule cliff); 1.15 MP was a V3.0 constant with no rationale, retired in v3.4. v3.9 measured the up half: `NOSCALE` won **22 : 8** (p = 0.016) but that is `fail` 20 : 3 against `clean` 2 : 5, on a set 57% failures. Not enough to change the shipped rule; a fold-wide paired run would settle it. Not upscaling is ~17% faster | `prd/v3/v3.9/RESULTS.md`, `prd/v3/v3.9/EXPERIMENT.md`, `v3/testsets/inquiry_marks.csv` §3; [OPEN Q1](OPEN_QUESTIONS.md) |
+| 4 | Why does call 2 scale up **or** down to 1 MP — is that right, and where is it from? | **decided — Ray, 2026-09-12: production stops upscaling** | Down is required (schedule cliff); 1.15 MP was a V3.0 constant with no rationale, retired in v3.4. The up half was then measured twice: v3.9 on an enriched set (22 : 8, p = 0.016), then **v3.10 fold-wide** — `SCALE` 18/456 = 3.95% against `NOSCALE` 12/456 = 2.63%, paired 17 : 11, **p = 0.345**. No fold-wide harm, lower count, **~20% faster** (1.903 s vs 2.377 s), and no `NOSCALE` pair fails at every seed against `SCALE`'s two. Adopted on that, not on significance; the subgroup split is confounded and must not be quoted | `prd/v3/v3.10/RESULTS.md`, `prd/v3/v3.10/EXPERIMENT.md`, `v3/testsets/v310_count.csv`; [Q1](OPEN_QUESTIONS.md) |
 | 5 | Is the seed per request, in call 2, random? | done | Yes. Call 1 fixed at 46 and cached per garment; call 2 draws `secrets.randbelow(2**31)` and returns it | BUILD §6.2 |
 | 6 | What is the redraw mechanism? | decided — Ray, 2026-09-11 | The user presses fail → call 2 again at a new seed. No VLM, no automatic rejector. A failed cell passes at another seed 72% of the time | BUILD §6.2; `prd/v3/v3.8/RESULTS.md` §6 |
 | 7 | Should there be one crop or two? | **done — closed 2026-09-12** | Two is no better. 84 of 93 cells same, 3 : 6 discordant (p = 0.51), **zero movement on all 40 clean cells**. Not adopted. It does make the bald pass 1.9× faster, which is a cost lever, not a quality one | `prd/v3/v3.9/RESULTS.md`, `prd/v3/v3.9/EXPERIMENT.md`, `v3/testsets/inquiry_marks.csv` §4; [OPEN Q2](OPEN_QUESTIONS.md) |
@@ -99,14 +99,18 @@
       product shots; `ER` balds everything, repainting 2.7–7.7% of pixels per product garment
       for no visible gain. Restoring the branch saves a call per product garment and removes
       an invention surface, at the cost of a classifier that must be right. (Q7, ledger 19)
-- [ ] **Optional: the fold-wide canvas run.** `SCALE` against `NOSCALE` over all 200 pairs,
-      unenriched, ideally with a second reviewer on the discordant cells — the only thing
-      that would license changing the shipped canvas rule, and worth ~17% per-try-on latency.
-      (Q1, ledger 4)
-- [ ] **The Linear ticket** — `TICKET.md`, updated 2026-09-11: 1 MP stated as the general
-      ceiling, GPU numbers only, and the per-request figures assume the garment is prepared.
-      Still to fill: Colab link, GPU crop time, cold-load time from local disk, credits,
-      which product it ships in, whether the existing klein script is reused.
+- [x] **The fold-wide canvas run.** Run 2026-09-12 as v3.10: all 600 cells, both arms, the
+      reference held constant; 1,056 calls, 38.3 min, CAD 0.44. `SCALE` 3.95% against
+      `NOSCALE` 2.63%, paired 17 : 11, p = 0.345. **Ray decided the same day: production stops
+      upscaling.** (Q1, ledger 4) → `prd/v3/v3.10/`
+- [ ] **A second eye on the canvas decision.** It was taken on a directional result plus ~20%
+      latency, by one reviewer whose bar has moved 1.72× between sittings. A second reviewer
+      over the same 912 cards, or a fresh sample marked with no prior labels in play, would
+      settle what p = 0.345 could not. A sitting each, no GPU time. (Q1)
+- [ ] **The Linear ticket** — `TICKET.md`, updated 2026-09-12 for the no-upscale canvas: output
+      is now the person photo's own size capped at 1 MP, per-request latency ~1.9 s, cost
+      ~CAD 0.36 per 1,000. Still to fill: Colab link, GPU crop time, cold-load time from local
+      disk, credits, which product it ships in, whether the existing klein script is reused.
 
 **Measurements that fill the ticket** (BUILD §7.3)
 

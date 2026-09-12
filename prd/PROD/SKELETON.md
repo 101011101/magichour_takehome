@@ -43,7 +43,9 @@ prepare_garment(garment_image)            -> reference, meta{cranium_used, head_
 try_on(person_image, reference, seed=None) -> image, seed
 ```
 
-- `person_image` is image 1: it sets the output's aspect ratio and size.
+- `person_image` is image 1: it sets the output's aspect ratio **and its size** — since
+  2026-09-12 the output *is* the person photo's own size, bounded to 1 MP, floored to 32,
+  never upscaled ([BUILD §6.1b](../v3/v3.8/BUILD.md)).
 - `garment_image` is a photograph of the garment **being worn** — every garment the system
   was measured on is one (`v3/colab/matrix.csv`, 56 garments).
 - `seed` omitted → drawn at random and returned. Same inputs + same seed → the same image,
@@ -58,7 +60,7 @@ try_on(person_image, reference, seed=None) -> image, seed
 | person image | both prompts ([BUILD §2](../v3/v3.8/BUILD.md)) |
 | garment image | 4 steps · guidance 0.0 · bfloat16 · CPU generator |
 | seed (optional) | call-1 seed 46 |
-| max resolution — **pending**, [OPEN Q3](OPEN_QUESTIONS.md) | canvas rule: ≤1 MP, never above ([BUILD §4](../v3/v3.8/BUILD.md)) |
+| | canvas rule: the person's own size, ≤1 MP, floor 32, **never upscaled** ([BUILD §4 rule 3](../v3/v3.8/BUILD.md)) |
 | | no LoRAs, pinned revisions |
 
 ## 5. The production Colab
@@ -69,7 +71,7 @@ Runbo's layout: like with like, no test code, no comments. One section per kind 
 |---|---|---|
 | 1 | Install | one pip cell: pinned `diffusers`, `transformers`, `accelerate`, `mediapipe`, `onnxruntime-gpu` (matched to torch's CUDA), `opencv-contrib-python-headless` last |
 | 2 | Downloads | every weight in one place, at pinned revisions: BFL klein parts, Photoroom transformer, BiRefNet, SCHP, the two MediaPipe files |
-| 3 | Inputs | `PERSON_IMAGE`, `GARMENT_IMAGE`, `SEED`, `MAX_RES` — every user setting, nothing else |
+| 3 | Inputs | `PERSON_IMAGE`, `GARMENT_IMAGE`, `SEED` — every user setting, nothing else |
 | 4 | Load | klein on the GPU; the ONNX sessions on CUDA, asserted |
 | 5 | Pipeline | normalise, the canvas rule, the bald pass, the crop, the try-on — functions only |
 | 6 | Run | `prepare_garment`, then `try_on`; times each |

@@ -19,7 +19,7 @@ Seven sections, one kind of code each, per [`prd/PROD/SKELETON.md`](../prd/PROD/
 |---|---|---|
 | 1 | Install | pinned `diffusers`, `transformers`, `accelerate`, `mediapipe`; the first `onnxruntime-gpu` build whose CUDA provider actually loads on the runtime; `opencv-contrib-python-headless` last |
 | 2 | Downloads | every weight into `MODEL_ROOT`, in Magic Hour's layout, at pinned revisions — only files that are missing are fetched; the four crop models are sha256-checked every run |
-| 3 | Inputs | `PERSON_IMAGE`, `GARMENT_IMAGE`, `OUTPUT_IMAGE`, `SEED`, `MAX_RES` |
+| 3 | Inputs | `PERSON_IMAGE`, `GARMENT_IMAGE`, `OUTPUT_IMAGE`, `SEED` |
 | 4 | Load | klein (Photoroom transformer + BFL text encoder, VAE, tokenizer, scheduler) on the GPU; BiRefNet and the SCHP parser on CUDA — **stops with an error if either falls back to CPU**; MediaPipe Selfie and Pose on CPU |
 | 5 | Pipeline | the functions: normalise, the two canvas rules, klein, the head-subtracting crop, `prepare_garment`, `try_on` |
 | 6 | Run | prepares the garment, runs the try-on, writes `OUTPUT_IMAGE` |
@@ -35,22 +35,25 @@ the filename-keyed disk cache removed, model paths injected, and the parser fixe
 2. In §2 set `MODEL_ROOT` to the folder that holds `FLUX.2-klein-4B/` and
    `FLUX.2-klein-4b-fp8-diffusers/` (Magic Hour's `models/`). Leave it as is to download
    everything (~16.5 GB, once).
-3. In §3 set the two image paths. `SEED = None` draws a random seed and prints it;
-   `MAX_RES = None` keeps the 1 MP canvas.
+3. In §3 set the two image paths. `SEED = None` draws a random seed and prints it.
 4. Run all.
 
 **Redraw:** set `SEED = None` (or any unused seed) and run §6–§7 again; the garment is
 re-prepared in the Colab, where a product would reuse its cached reference.
 
-## `MAX_RES`
+## Output size
 
-`None` → the canvas of record: the person photo's aspect at area 2²⁰ px (~1 MP), sides
-multiples of 32. A value caps the **longer side** of that canvas, scaling it down to fit
-(multiples of 32). It never raises resolution: values at or above the canvas's own longer
-side (at most 1344, for 9:16) change nothing. A 3:4 photo gives 864×1152 at `None`,
-768×1024 at `MAX_RES = 1024`. Semantics are a proposal pending sign-off
-([`prd/PROD/OPEN_QUESTIONS.md`](../prd/PROD/OPEN_QUESTIONS.md) Q3); below 1 MP is
-untested on `ER`.
+**The person photo's own size**, bounded to 2²⁰ px (~1 MP) and floored to multiples of 32.
+The pipeline never upscales: a 1536×2048 photo gives 864×1152, and a 768×704 photo gives
+768×704 rather than being inflated to 1 MP. **The output tracks the input**, so a small
+photo in means a small image out; below ~0.5 MP the script refuses the photo.
+
+There is no resolution setting. 1 MP is where klein is optimised — above it the model runs
+a sampling schedule it was not distilled for. To deliver a larger image, upscale the
+finished one.
+
+The no-upscale rule was adopted 2026-09-12 on v3.10 ([BUILD §4 rule 3](../prd/v3/v3.8/BUILD.md)):
+12/456 failures against the old rule's 18/456, and ~20% faster.
 
 ## Fixed on purpose
 

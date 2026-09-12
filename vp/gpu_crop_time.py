@@ -52,13 +52,14 @@ def fetch():
     imgs = []
     for g in GARMENTS:
         dst = f"/content/imgs/{g}.jpg"
-        for sub in ("test_set1/clothes", "test_set2/clothes"):
+        for sub in ("test_set1/garments", "test_set2/garments"):
             r = sh("wget", "-q", "-O", dst, f"{RAW}/{sub}/{g}.jpg", check=False)
             if r.returncode == 0 and os.path.exists(dst) and os.path.getsize(dst) > 10000:
                 imgs.append(dst)
                 break
     if not imgs:
-        raise RuntimeError("no garment images fetched")
+        raise RuntimeError(f"no garment images fetched from {RAW}/test_set1/garments/ - "
+                           "check the branch is reachable")
     os.environ["HF_HOME"] = f"{MODELS}/hf"
     from huggingface_hub import hf_hub_download
     shutil.copy(hf_hub_download("onnx-community/BiRefNet_lite-ONNX", "onnx/model.onnx"),

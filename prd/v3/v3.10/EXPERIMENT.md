@@ -1,8 +1,9 @@
 # v3.10 — EXPERIMENT
 
-**Status: OPEN.** Built 2026-09-12, not yet run. One question: **does call 2 have to scale the
-person photo up to 1 MP?** The matrix is [TEST.md](TEST.md); results, when the run lands, go to
-`RESULTS.md`.
+**Status: CONCLUDED 2026-09-12. It yielded a change to the shipped pipeline: production stops
+upscaling.** One question: **does call 2 have to scale the person photo up to 1 MP?** The
+matrix is [TEST.md](TEST.md); the cases, numbers and methodology are
+[RESULTS.md](RESULTS.md).
 
 Post-synthesis conclusions only, per [SCHEMA.md](../SCHEMA.md).
 
@@ -44,22 +45,85 @@ archived `__BC.jpg` untouched. Same cells, different inputs, independent draw.
 
 ## The chain
 
-### 1 — Is the shipped canvas rule's upscale paying for itself on cells that already work? **← built, not yet run**
+### 1 — Is the shipped canvas rule's upscale paying for itself on cells that already work? **← run 2026-09-12; the pre-registered test could not be evaluated as written**
 
 **How.** All 600 cells of the iron-man-2 matrix, two arms differing only in call 2's canvas —
 `SCALE` (area 2²⁰, up or down, floor 32) against `NOSCALE` (the photo's own size under a 1 MP
 bound, floor 32, never upscaled) — one reference per garment, shared by both arms and taken
-from the archive unchanged. 1,056 generations, ≈43 min, ≈CAD 0.50. Marked blind in one
-shuffled stream with the prior verdict hidden, so a single bar covers both groups and the
-split is applied afterwards. → [TEST.md](TEST.md)
+from the archive unchanged. 1,056 generations, 38.3 min, CAD 0.44. Counted, not compared: 912
+cards in one shuffled stream, one image each, arm and prior verdict hidden, all marked in one
+sitting. → [RESULTS §1–§3](RESULTS.md)
 
-**What would count.** `NOSCALE` ships if it does **not** cost on the 420 passing cells — the
-bar v3.8 set for `ER` — and keeps its advantage on the 36 failing ones. If v3.9's clean-cell
-reversal holds up at this size, the shipped rule stays and v3.9's headline is filed as a
-failure-set artefact. A third outcome is live: both arms indistinguishable on passing cells and
-`NOSCALE` ahead on failing ones, which would make the upscale dead weight and its removal worth
-**~17% of call-2 latency** (1.92 s against 2.31 s, measured in v3.9).
+**Result, fold-wide.** `SCALE` **18 / 456 = 3.95%**, `NOSCALE` **12 / 456 = 2.63%**. Paired,
+**17 rescues against 11 breaks**, McNemar exact **p = 0.345**. The 456 cells are the whole fold
+minus the no-ops, so this carries no selection: the point estimate favours `NOSCALE` and the
+sample cannot resolve a gap that size. Six net cells decide it.
+
+**The pre-registered criterion turned out to be unanswerable.** This document said `NOSCALE`
+ships if it does not cost on the 420 passing cells. It reads 3 : 10 against `NOSCALE` there
+(p = 0.092) — but **that split is confounded and cannot be read as a cost**: the groups were
+defined by blind sweeps made on archive outputs produced under `SCALE`, so each arm regresses
+toward its own record, flattering `SCALE` on the cells it passed and punishing it on the cells
+it failed. The bar was written assuming the subgroup would be readable. It is not.
+→ [RESULTS §4](RESULTS.md)
+
+**An earlier reading of this run made exactly that mistake**, treating the clean-cell column as
+a measured cost and recommending the shipped rule stand. It was corrected the same day. The
+correction is recorded rather than quietly fixed, because the failure mode — conditioning on a
+prior measurement produced by one of the arms — is the kind that recurs.
+
+### 2 — Is anything about the two arms clean of that confound? **← yes, and it favours `NOSCALE`**
+
+**How.** Failure clustering by pair, computed from the marks alone, which never touch the prior
+labels. → [RESULTS §5](RESULTS.md)
+
+**Result.** `NOSCALE` has **no pair failing at every seed**; `SCALE` has **two**
+(`g004+g005`, `g013+p006`). `SCALE`'s 18 failures sit on 11 pairs at 1, 2 and 3 seeds apiece;
+`NOSCALE`'s 12 sit on 11 pairs, ten of them once. Under the shipped retry policy a failure with
+no seed-stable pair behind it is one a fresh seed can reach, so `NOSCALE`'s residue after a
+retry is smaller than its rate suggests, and `SCALE`'s is floored by two pairs no seed repairs.
+
+### 3 — What does the canvas cost in time? **← measured, and it is the firmest number here**
+
+**Result.** Call 2 means **2.377 s** under `SCALE` against **1.903 s** under `NOSCALE` —
+**19.9% faster**, from the run's own `meta/cost_v310.json`. It is a property of rendering
+fewer tokens and owes nothing to the marking.
 
 ---
 
-*No conclusion yet: the run has not been made.*
+## Conclusion
+
+*Reached; concluded 2026-09-12.* **Production stops upscaling** (Ray's decision, on this
+evidence).
+
+What the decision rests on, stated exactly:
+
+- **No fold-wide evidence of harm.** Over the whole fold minus no-ops, `NOSCALE` has the lower
+  count — 12 against 18 — and the paired split is 17 : 11.
+- **A ~20% latency saving** on the only per-request call, measured rather than marked.
+- **Less seed-stable failure**, which is the one comparison the prior-label confound cannot
+  reach, and which makes the shipped retry policy work better.
+
+What it does **not** rest on, and should never be quoted as though it does:
+
+- **Statistical significance.** p = 0.345. This is a directional result plus a speed benefit,
+  not a demonstrated quality win.
+- **The subgroup split.** Both columns are confounded ([RESULTS §4](RESULTS.md)). The
+  0.71% against 2.38% on passing cells is not a measured cost, and neither is the 41.67%
+  against 5.56% on failing ones a measured gain.
+- **A second opinion.** One reviewer throughout, whose bar has moved 1.72× between sittings on
+  these cells.
+
+**What would strengthen it:** a second eye over the same 912 cards, or a fresh sample marked
+with no prior labels in play. Either would cost a sitting and no GPU time; neither has been
+done, and until one is, the honest form of this conclusion is *no harm found, a real speed
+saving, adopted on that basis*.
+
+**What it changes.** Call 2's canvas in the deployed path: the person photo's own size under a
+hard ≤2²⁰ px bound, each side floored to 32, never upscaled; `MAX_RES` lowers it further. The
+1 MP ceiling is untouched and still load-bearing — the schedule branch at 4,300 tokens is why
+the bound exists ([v3.8 BUILD §4](../v3.8/BUILD.md)). The archive was made under the old rule,
+so the byte-parity acceptance test compares against outputs that will now differ by design.
+
+**What it does not change.** Everything else: both prompts, the reference build, 4 steps,
+guidance 0.0, bfloat16, the CPU generator, call 1's seed and canvas, the retry policy.

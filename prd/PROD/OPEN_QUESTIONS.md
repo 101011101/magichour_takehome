@@ -5,9 +5,14 @@ close it. A closed question moves to the ledger in [`TODO.md`](TODO.md) with its
 
 ---
 
-## Q1. Call 2 scales image 1 up or down to 1 MP — is that the right play?
+## Q1. Call 2 scales image 1 up or down to 1 MP — is that the right play? — **CLOSED 2026-09-12: no. Production stops upscaling.**
 
-**Raised by Ray, 2026-09-11.**
+**Raised by Ray, 2026-09-11. Closed by the v3.10 fold-wide run, decided by Ray the same day.**
+
+**The decision.** Call 2's canvas is now the person photo's own size under a hard ≤2²⁰ px
+bound, each side floored to 32, **never upscaled**; `MAX_RES` lowers it further. The 1 MP
+ceiling is untouched and still load-bearing. What it rests on — and what it does not — is in
+the closing section below; the history that led there follows first.
 
 **What the record says.** The rule is fal's canvas: scale the person photo to area 2²⁰ px,
 aspect kept, up or down, sides floored to 32 (`klein_local._size_fal`). It was adopted in
@@ -62,15 +67,46 @@ largest, the opposite of the mechanism it needs.
 **Free finding:** not upscaling is **~17% faster per try-on** (1.92 s against 2.31 s), being
 the arithmetic of a 0.70× canvas.
 
-**Still open, and what would close it.** The set is **57% failures by construction** against
-the fold's ~6%, judged by one reviewer, on a page that equalises display width — which removes
-pixel count as a cue but not softness as an appearance. The same paired comparison
-**fold-wide over all 200 pairs**, ideally with a second reviewer on the discordant cells, is
-what would license changing the shipped rule. Until then the rule of record stands.
+v3.9's set is **57% failures by construction** against the fold's ~6%, judged by one reviewer.
+So the same comparison was run fold-wide.
 
-**Why 1.15 MP, and not 1 MP** — see the paragraph above; that half is settled.
+**CLOSED 2026-09-12 — v3.10, over the whole fold.** All 600 cells, both arms, the reference
+held constant and taken from the archive, counted rather than compared: 912 cards in one
+shuffled stream, one image each, the reviewer clicking every image they would not ship.
+→ `prd/v3/v3.10/RESULTS.md`
 
-**Interacts with Q3.**
+| | failures | rate |
+|---|---|---|
+| `SCALE` — the shipped rule | 18 / 456 | **3.95%** |
+| `NOSCALE` — never upscale | 12 / 456 | **2.63%** |
+
+Paired: **17 rescues against 11 breaks**, McNemar exact **p = 0.345**. The 456 cells are the
+whole fold minus the no-ops, so nothing was selected and the comparison carries no bias of its
+own.
+
+**The subgroup split is confounded and was misread once.** Clean cells read 3 : 10 against
+`NOSCALE` and failing cells 14 : 1 for it — but those groups were defined by blind sweeps made
+on archive outputs produced **under `SCALE`**, so each arm regresses toward its own record:
+`SCALE` is flattered on the cells it passed and punished on the cells it failed. Neither column
+is evidence of cost or benefit. An earlier reading of this run treated the clean column as a
+measured cost and recommended against the change; that was wrong, and it is recorded in
+`prd/v3/v3.10/RESULTS.md` §4 rather than quietly fixed.
+
+**What the decision rests on:** no fold-wide evidence of harm, a lower failure count, **~20%
+lower per-request latency** (1.903 s against 2.377 s, measured), and the one comparison the
+confound cannot reach — **`NOSCALE` has no pair failing at every seed, `SCALE` has two**, which
+makes the shipped retry policy work better.
+
+**What it does not rest on:** significance (p = 0.345), the subgroup split, or a second
+opinion. This is a directional result plus a speed benefit, adopted on that basis by one
+reviewer. **What would strengthen it:** a second eye over the same 912 cards, or a fresh sample
+marked with no prior labels in play — a sitting each, no GPU time.
+
+**Why 1.15 MP, and not 1 MP** — see the paragraph above; that half is settled. The input bound
+is now 2²⁰ px, since under the no-upscale rule the bound *is* the canvas.
+
+**Interacts with Q3:** `MAX_RES` still only lowers, and now lowers from a canvas that is the
+photo's own size rather than always ~1 MP.
 
 ---
 
