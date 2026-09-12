@@ -42,6 +42,7 @@ Garment preparation (once per garment, cached, off the request path):
 - So a new garment costs ~2.1s to prepare. End to end, the first try-on of a garment nobody has used yet is ~4.0s (2.1s preparation + 1.9s try-on); every try-on of that garment afterwards is ~1.9s
 - The GPU path needs onnxruntime-gpu==1.22.0 on a CUDA 12 runtime. Newer builds advertise CUDA, fail to load it, and fall back to CPU silently
 - A garment is prepared once and reused by everyone who tries it on, so this never appears in per-request latency
+- Every figure above is warm. The first call after the model loads pays CUDA warm-up: measured once on a fresh A100 runtime it was 3.5s for the bald pass, 2.9s for the crop and 2.9s for the try-on, settling to the numbers above afterwards. Send a throwaway request after startup if first-user latency matters
 
 Resolution:
 The output is the person photo's own size, capped at 1MP (1,048,576 px), each side rounded down to a multiple of 32. The script never enlarges a photo; it only bounds one larger than 1MP. Worked examples:
