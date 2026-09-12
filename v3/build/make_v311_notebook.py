@@ -54,6 +54,7 @@ Runtime → **A100**, then **Run all**.
 CELLS = [
     ("markdown", MD),
     ("code", '''# 1 · settings
+import csv, glob, json, os, shutil, time, zipfile
 A100_CAD_PER_HOUR = 0.689
 MATRIX = "v311_set.csv"
 PLAN = (("A", "full"), ("A", "upper"), ("A", "lower"), ("B", "upper"), ("B", "lower"))
