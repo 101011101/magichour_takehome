@@ -1,10 +1,16 @@
 """The v3.11 page - the garment-type selector, and the two ways of building it, side by side.
 
-Per garment: the bald frames each arm produced (with the hip row drawn on them), then one row per
-region - `upper`, `full`, `lower` - carrying each arm's reference and the try-ons it produced.
+Per garment: the inputs, the bald frames each arm produced (with the hip row drawn on them), then
+one row per region - `upper`, `full`, `lower` - carrying each arm's reference and, beside it, the
+try-ons under BOTH call-2 texts.
 
   A  crop only: call 1 is BALD_PROMPT byte for byte, the band is cut on the mask.
   B  call 1 also neutralises the half the user did not select, with a plain white garment.
+  S  call 2 is ER byte for byte - the control, and what the first run made.
+  R  call 2 names the half being replaced and says the other half is the person's own.
+
+S and R sit side by side per reference: same reference, same seed, different instruction. If R
+holds the unselected half where S does not, the prompt was what the first run was missing.
 
 NOT blind, and not a marking instrument. v3.11 asks whether a selector is buildable and which
 mechanism delivers it - a question answered by looking, not by counting. Arms are labelled, the
@@ -33,8 +39,12 @@ OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(REPO, "v3", "report", "
 SET = os.path.join(REPO, "v3", "colab", "v311_set.csv")
 IMG = os.path.join(os.path.dirname(OUT), "img_v311")
 ROWS = ("upper", "full", "lower")      # reads down the body
+SAID = {"upper": "UPPER HALF", "full": "FULL BODY", "lower": "LOWER HALF"}
 PLAN = {"upper": ("A", "B"), "full": ("A",), "lower": ("A", "B")}
-REF_W, GEN_W, BALD_W = 260, 260, 220
+# the call-2 texts, side by side: same reference, same seed, different instruction
+PROMPTS = (("S", "call 2 · ER as shipped", "ER"),
+           ("R", "call 2 · names the region", "REGION"))
+REF_W, GEN_W, BALD_W = 240, 200, 220
 
 
 def web(src, name, width, hip=None):
@@ -79,13 +89,22 @@ def main():
         info = meta.get("garments", {}).get(g, {})
         hip = next((i.get("hip_y") for i in info.values() if i.get("hip_y") is not None), None)
         balds = []
+        for c in dict.fromkeys(x["person"] for x in cells):
+            u, wh = web(os.path.join(RUN, "in1mp", f"{c}.jpg"), f"in_{c}.jpg", BALD_W)
+            if u:
+                balds.append(f'<figure class=inp><img loading=lazy src="{u}" onclick="z(this)">'
+                             f'<figcaption>INPUT person · {html.escape(c[:28])} · {wh}</figcaption></figure>')
+        u, wh = web(os.path.join(RUN, "in1mp", f"{g}.jpg"), f"in_{g}.jpg", BALD_W)
+        if u:
+            balds.append(f'<figure class=inp><img loading=lazy src="{u}" onclick="z(this)">'
+                         f'<figcaption>INPUT garment · {wh}</figcaption></figure>')
         for key, label in (("A", "call 1 of record"), ("B_upper", "B · lower neutralised"),
                            ("B_lower", "B · upper neutralised")):
             u, wh = web(os.path.join(RUN, "refs", f"{g}__bald_{key}.jpg"),
                         f"{g}__bald_{key}.jpg", BALD_W, hip=hip)
             if u:
                 balds.append(f'<figure><img loading=lazy src="{u}" onclick="z(this)">'
-                             f'<figcaption>{html.escape(label)} · {wh}</figcaption></figure>')
+                             f'<figcaption>INTERMEDIATE bald frame · {html.escape(label)} · {wh}</figcaption></figure>')
 
         region_rows = []
         for region in ROWS:
@@ -100,14 +119,26 @@ def main():
                 fell = i.get("fallback", "")
                 ref = figure(os.path.join(RUN, "refs", f"{g}__{arm}_{region}.jpg"),
                              f"{g}__{arm}_{region}.jpg", REF_W,
-                             f"reference{' · fell back' if fell else ''}", cls="ref")
-                gens = []
-                for c in cells:
-                    src = os.path.join(RUN, "gen",
-                                       f"{c['set_id']}__{arm}_{region}__s{c['seed']}.jpg")
-                    if os.path.exists(src):
-                        gens.append(figure(src, os.path.basename(src), GEN_W, c["person"]))
-                        n_gen += 1
+                             f"INTERMEDIATE reference{' · fell back' if fell else ''}", cls="ref")
+                groups = []
+                for ptag, head, short in PROMPTS:
+                    if ptag == "R" and region == "full":
+                        continue            # nothing to name: full is the whole outfit
+                    tag = f"{arm}_{region}" if ptag == "S" else f"{arm}_{region}_R"
+                    shots = []
+                    for c in cells:
+                        src = os.path.join(RUN, "gen",
+                                           f"{c['set_id']}__{tag}__s{c['seed']}.jpg")
+                        if os.path.exists(src):
+                            shots.append(f'<div class=gen><div class="badge {region}">'
+                                         f'OUTPUT · {SAID[region]} · {short}</div>'
+                                         + figure(src, os.path.basename(src), GEN_W, c["person"])
+                                         + '</div>')
+                            n_gen += 1
+                    if shots:               # an arm that has not been generated simply is not drawn
+                        groups.append(f'<div class="pgroup {ptag}"><div class=phead>{head}</div>'
+                                      f'<div class=shots>{"".join(shots)}</div></div>')
+                gens = groups
                 kept = i.get("kept_fraction")
                 cols.append(f"""<div class="col{' fell' if fell else ''}">
   <h4>{arm} · {'crop only' if arm == 'A' else 'call 1 neutralises the other half'}</h4>
@@ -116,7 +147,8 @@ def main():
   {f'<div class=why>fell back to full: {html.escape(fell)}</div>' if fell else ''}
   <div class=gens>{''.join(gens)}</div>
 </div>""")
-            region_rows.append(f'<div class=region><div class=rlabel>{region}</div>'
+            region_rows.append(f'<div class=region><div class="rlabel {region}">'
+                               f'{SAID[region]}</div>'
                                f'<div class=cols>{"".join(cols)}</div></div>')
 
         blocks.append(f"""<section>
@@ -141,9 +173,22 @@ h2{{font-size:15px;margin:0 0 10px;font-weight:600}}
 .sub{{color:#889;font-weight:400;font-size:12px;margin-left:8px}}
 .balds{{display:flex;gap:10px;margin-bottom:14px}}
 .region{{display:flex;gap:12px;align-items:flex-start;border-top:1px solid #222;padding:10px 0}}
-.rlabel{{flex:0 0 58px;color:#cde;font-weight:600;font-size:13px;padding-top:4px}}
+.rlabel{{flex:0 0 104px;font-weight:800;font-size:15px;padding-top:4px;letter-spacing:.02em}}
+.rlabel.upper{{color:#7fd1ff}} .rlabel.lower{{color:#ffc46b}} .rlabel.full{{color:#b6f5a8}}
+.gen{{position:relative}}
+.ref figcaption{{color:#8a8f98}}
+.inp{{outline:2px solid #4a7; border-radius:4px}}
+.inp figcaption{{color:#8fe3b0;font-weight:700}}
+.badge{{font-weight:800;font-size:11px;letter-spacing:.04em;padding:2px 7px;border-radius:4px;
+display:inline-block;margin:0 0 3px;color:#06121a}}
+.badge.upper{{background:#7fd1ff}} .badge.lower{{background:#ffc46b}} .badge.full{{background:#b6f5a8}}
 .cols{{display:flex;gap:18px;flex-wrap:wrap}}
-.col{{flex:0 0 {REF_W + GEN_W * 2 + 24}px;display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}}
+.col{{flex:0 0 {REF_W + GEN_W * 4 + 60}px;display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}}
+.pgroup{{border:1px solid #2a2f36;border-radius:6px;padding:6px 8px 8px}}
+.pgroup.R{{border-color:#5a4b2a;background:#1a170f}}
+.phead{{font-size:11px;font-weight:700;color:#9bd;margin-bottom:4px;white-space:nowrap}}
+.pgroup.R .phead{{color:#e8c07d}}
+.shots{{display:flex;gap:8px}}
 .col h4{{flex:0 0 100%;font-size:12px;margin:0 0 4px;color:#9bd;font-weight:600}}
 .col.fell h4{{color:#e8a33d}}
 .col.none .note{{color:#778;font-size:11px;max-width:220px}}
@@ -152,7 +197,7 @@ img{{display:block;border-radius:5px;cursor:zoom-in;background:#000;max-width:{G
 figcaption{{color:#889;font-size:10px;margin-top:3px;max-width:{GEN_W}px;overflow:hidden;
 text-overflow:ellipsis;white-space:nowrap}}
 .meta,.why{{flex:0 0 100%;font-size:11px}} .meta{{color:#889}} .why{{color:#e8a33d}}
-.gens{{display:flex;gap:8px}}
+.gens{{display:flex;gap:10px;flex-wrap:wrap}}
 .miss{{color:#a55;font-size:12px;padding:16px 0}}
 #lb{{position:fixed;inset:0;background:#000e;display:none;align-items:center;justify-content:center;z-index:9;cursor:zoom-out}}
 #lb img{{max-width:96vw;max-height:96vh;width:auto;max-height:96vh;border-radius:0}}
@@ -167,6 +212,10 @@ garment, so the crop has something uniform to cut against.</p>
 &nbsp;&nbsp;<b class=q>2.</b> Did the unselected half survive untouched — are the person's own
 trousers still their own trousers when they asked for a top? The second question is the one that
 decides whether a selector is a crop change or a much larger piece of work.</p>
+<p class=lede>Each reference carries <b>two</b> sets of try-ons, side by side: <b class=q>call 2 ·
+ER as shipped</b> (the control, what the first run made) and <b class=q>call 2 · names the
+region</b> — same reference, same seed, different instruction. <i>full</i> has no half to name, so
+it is shown under ER only.</p>
 <p class=lede>The red line on each bald frame is the hip row the band was cut at. <b>B departs
 from the call-1 prompt of record</b>, so no earlier number transfers to it.</p>
 {''.join(blocks)}

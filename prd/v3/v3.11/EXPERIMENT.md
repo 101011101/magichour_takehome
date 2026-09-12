@@ -1,10 +1,11 @@
 # v3.11 — EXPERIMENT
 
-**Status: OPEN.** Built 2026-09-12, not yet run. One question: **can a user choose the garment
-type — upper, lower, or the whole outfit — and get it?**
+**Status: OPEN.** Built and first run 2026-09-12; amended the same day and the amendment is not
+yet run. One question: **can a user choose the garment type — upper, lower, or the whole outfit —
+and get it?**
 
-Post-synthesis conclusions only, per [SCHEMA.md](../SCHEMA.md). The matrix, both call-1 prompts
-and the budget are in [TEST.md](TEST.md); `RESULTS.md` will exist when the run does.
+Post-synthesis conclusions only, per [SCHEMA.md](../SCHEMA.md). The matrix, every prompt and the
+budget are in [TEST.md](TEST.md); `RESULTS.md` will exist when the run is marked.
 
 ---
 
@@ -38,8 +39,12 @@ the crop to be easier"* — and the reasoning is that a uniform, unpatterned reg
 thing for a matte and a parser to cut against than a patterned garment.
 
 **B departs from the call-1 prompt of record**, so no v3.8 or v3.10 number transfers to it. A is
-the control precisely because its call 1 is untouched. Call 2 is `ER` byte for byte in both, so
-the only variable is how the reference was built.
+the control precisely because its call 1 is untouched.
+
+**Call 2 is the third dimension**, added after the first run came back poor (link 4): each
+(arm, region) runs under `S` — `ER` byte for byte — and `R`, which names the half being replaced
+([TEST §3](TEST.md#3-the-call-2-prompts-verbatim)). `full` is `S` only. The reference is shared
+between them, so a `S`/`R` pair differs by one sentence and nothing else.
 
 `full` has nothing unselected to neutralise: B's call 1 there would be A's, so it is generated
 once, under A.
@@ -84,7 +89,7 @@ mid-body, matching the hand calculation. A hip at row 345 leaves `lower` 1.8% of
 a hip at row 55 leaves `upper` 0.9%: both fall back to `full` with the reason recorded, as does a
 frame with no pose at all.
 
-### 3 — Which mechanism delivers the person-side outcome? **← the run, not yet made**
+### 3 — Which mechanism delivers the person-side outcome? **← run 2026-09-12; the band works, the outputs do not**
 
 Six garments, two full-body people each, five (arm, region) pairs, one seed, every pair drawn from
 cells the v3.10 count marked **clean** — so a failure here is attributable to the selector and
@@ -97,13 +102,40 @@ alone?** Nothing in the record answers it. Every reference this project has ever
 whole outfit, and `ER`'s own sentence — *replace the clothing in image 1* — does not say *some of
 the clothing*.
 
+**Result (2026-09-12): the run completed and the outputs are poor.** 78 calls, 2.2 min, CAD 0.025;
+the band found a hip on all 30 references and **nothing fell back**, so the cut itself worked. The
+reviewer's read by eye is that the try-ons are not usable under either reference arm — which is
+[TEST §9](TEST.md#9-what-would-count-as-working)'s third bullet, the outcome named in advance, and
+it is what makes link 4 necessary rather than optional.
+
+### 4 — Is the call-2 sentence what was missing? **← the amendment, 2026-09-12, not yet run**
+
+Link 3 varied only the reference. But the instruction never changed: `ER` says *replace the
+clothing in image 1*, and a half-garment reference cannot say *only this half* on the reference's
+behalf. So call 2's text becomes a third dimension over the same references, the same seed and the
+same cells — `S` is `ER` byte for byte, the control and what link 3 already made; `R` names the
+half being replaced and says the other half is the person's own and stays
+([TEST §3](TEST.md#3-the-call-2-prompts-verbatim)).
+
+48 new edits on a resumed run, ≈1.5 min, ≈CAD 0.02 — the references are untouched and nothing
+already on disk is regenerated. The page puts `S` and `R` beside each other per reference, so the
+comparison is one sentence against another with everything else held.
+
+**What it separates.** If `R` holds the unselected half where `S` loses it, the selector is a crop
+plus a dynamic sentence, and the remaining question is which reference arm to pair it with. If `R`
+leaks too, then no wording reaches this and the half has to be protected structurally — a mask
+into call 2, or compositing the untouched half back — which is a different and larger piece of
+work than a selector.
+
 ---
 
 ## What is deliberately not being asked
 
-- **No call-2 prompt change.** `ER` goes in byte for byte in both arms. If half a reference needs
-  different words in call 2, that is the next experiment, and mixing it in here would leave no way
-  to tell which change did the work.
+- ~~**No call-2 prompt change.**~~ **Struck 2026-09-12.** It was the right boundary for link 3 —
+  one variable at a time, and the reference arms had to be readable on their own. Link 3 answered
+  its question (the band cuts, nothing falls back) and the outputs still failed, so the call-2
+  sentence became the next experiment rather than a confound. `S` is retained unchanged as the
+  control precisely so the two changes stay separable.
 - **No rate.** Six garments cannot produce a failure rate and this run will not quote one.
 - **No product-shot path.** Flat-lays have no person to split; link 1 measured what happens and
   the set is person photographs only.

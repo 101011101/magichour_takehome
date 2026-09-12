@@ -8,8 +8,11 @@ change to the set is a new test. The set of record is `v3/colab/v311_set.csv`, g
 
 ## 1. The arms
 
-Five (arm, region) pairs per cell. The region is the garment type the user chose; the arm is how
-the reference was built.
+**Nine (arm, region, call-2 text) combinations per cell.** The region is the garment type the user
+chose; the arm is how the reference was built; the call-2 text is what the model is told to do
+with it ([§3](#3-the-call-2-prompts-verbatim), added after the first run). The five rows below are
+the reference side — each runs under both call-2 texts, except `full`, which has no half to name
+and so runs under `S` only.
 
 | arm · region | call 1 | reference |
 |---|---|---|
@@ -57,7 +60,46 @@ arm B: it contradicts the sentence before it.
 **These prompts are new.** No number from v3.8 or v3.10 describes arm B, and none should be
 quoted for it.
 
-## 3. The set
+## 3. The call-2 prompts, verbatim
+
+**Added 2026-09-12, after the first run.** The first run varied only the reference and the outputs
+came back poor — the outcome [§9](#9-what-would-count-as-working) named in advance. `ER` says
+*replace the clothing in image 1*, not *some of it*, and a half-garment reference cannot carry an
+instruction the call does not make. So call 2's text becomes the third dimension: every
+(arm, region) is run under both.
+
+`S` — `ER`, byte for byte (`run_v36.ER`), the control and what the first run made:
+
+> Replace the clothing in image 1 with the clothing in image 2. Keep the person's face, identity,
+> body and the background exactly as they are.
+
+`R`, `REGION=upper` (`run_v311.ER_REGION["upper"]`):
+
+> Replace only the upper half of the outfit in image 1 with the clothing in image 2. Everything
+> below the waist is the person's own and stays, along with their face, identity, body and the
+> background.
+
+`R`, `REGION=lower` (`ER_REGION["lower"]`):
+
+> Replace only the lower half of the outfit in image 1 with the clothing in image 2. Everything
+> above the waist is the person's own and stays, along with their face, identity, body and the
+> background.
+
+Both keep ER's register — two sentences, no list, no stacked negations, because a 4-step distilled
+model drifts as a prompt grows ([v3.8 EXPERIMENT](../v3.8/EXPERIMENT.md) links 3–4). The first
+sentence names the half to replace; the second says the other half is the person's own and stays,
+and carries ER's hold clause, which [v3.8 link 8](../v3.8/EXPERIMENT.md) measured as earning its
+place.
+
+**`full` is `S` only.** It is the whole outfit, which ER already names, so there is no half to
+name and no `R` form was invented for it. The runner refuses `("full", "R")` rather than
+substituting one.
+
+**The reference is untouched by this.** `S` and `R` share one crop, one mask and one seed for a
+given (arm, region) — the only difference between the pair is the sentence. That is what makes
+them readable side by side.
+
+## 4. The set
 
 `v3/colab/v311_set.csv` — **12 cells**: 6 garments, two people each, seed 46 — giving **60 try-ons**
 across the five (arm, region) pairs.
@@ -90,9 +132,12 @@ few garments — so the people are chosen per garment from that garment's own cl
 [EXPERIMENT link 1](EXPERIMENT.md) already measured the flat-lay behaviour: Pose reports a hip on
 6 of 10 garments that contain no person.
 
-## 4. Held fixed
+## 5. Held fixed
 
-- **Call 2**: `ER`, byte for byte (`run_v36.ER`), in every arm.
+- ~~**Call 2**: `ER`, byte for byte (`run_v36.ER`), in every arm.~~ **Struck 2026-09-12**: call 2
+  is now a variable, not a constant — `S` is still ER byte for byte, and `R` names the region
+  ([§3](#3-the-call-2-prompts-verbatim)). Everything else below is unchanged, and `S` remains a
+  faithful control.
 - **Canvas**: the person's own size under the 1 MP bound, floor 32, never upscaled — the shipped
   rule since v3.10.
 - **Sampler**: 4 steps, guidance 0.0, bfloat16, `torch.Generator("cpu")`; call 1 at seed 46.
@@ -101,7 +146,7 @@ few garments — so the people are chosen per garment from that garment's own cl
 - **Crops on CUDA**, asserted at startup: `onnxruntime-gpu==1.22.0`, both ONNX sessions checked.
 - **One seed.** This is a feasibility look; seed variance is already priced elsewhere.
 
-## 5. The fallback rule
+## 6. The fallback rule
 
 A band needs a hip line. The reference falls back to `full` — and records why, per reference, in
 `meta/v311_meta.json` — when any of these holds:
@@ -117,7 +162,9 @@ Never a guessed fraction of the frame. A fallback is a correct outcome, not an e
 this photograph cannot be split, and the page marks those references so they are not read as
 band failures.
 
-## 6. Budget
+## 7. Budget
+
+**As first run** (call 2 = `S` only), and what it actually cost:
 
 | | |
 |---|---|
@@ -125,24 +172,46 @@ band failures.
 | crops | **18** (one mask per bald frame; within A, one mask serves three regions) |
 | call 2 | 12 cells × 5 (arm, region) = **60** |
 | **klein calls** | **78** |
-| wall | ≈8 min including model load, on an A100 |
-| cost | ≈**CAD 0.09** at 0.689/h |
+| measured | **2.2 min**, **CAD 0.025**, 1.76 s per call (`meta/cost_v311.json`) |
 
-## 7. Review protocol
+**With `R` added.** The references do not change, so the cost depends on whether the first run's
+files are present:
 
-`v3/build/v311_page.py` → `v3/report/v311.html`. Per garment: the three bald frames with the hip
-row drawn on them, then one row per region carrying each arm's reference and its two try-ons.
+| | klein calls | GPU time |
+|---|---|---|
+| **resuming** a run on disk — the 48 new `R` edits only | **48** | ≈1.5 min, ≈CAD 0.02 |
+| **cold** — 18 call-1 passes, 18 crops, 108 edits | **126** | ≈4 min, ≈CAD 0.05 |
+
+Verified against the run on disk: of the 108 outputs the new plan wants, **60 are already there and
+0 are regenerated** — `S` keeps the first run's filenames, and `R` takes an `_R` suffix. A fresh
+runtime also downloads ~16 GB of weights and loads the model before either figure applies.
+
+## 8. Review protocol
+
+`v3/build/v311_page.py` → `v3/report/v311.html`. Per garment: the inputs, then the three bald
+frames with the hip row drawn on them, then one row per region carrying each arm's reference and,
+beside it, the try-ons under **both** call-2 texts.
+
+Every image says what it is: the inputs are outlined and captioned `INPUT`, the bald frames and
+references `INTERMEDIATE`, and each try-on carries a coloured badge —
+`OUTPUT · UPPER HALF · ER` or `· REGION`. Nothing on the page can be mistaken for a result that
+is not one.
+
+**`S` and `R` sit side by side** for each reference: same reference, same seed, different
+sentence. That pairing is the whole point of the amendment.
 
 **Not blind, and no marks are exported.** This is a feasibility look, not a rate: six garments
 cannot support one, and hiding which arm is which would only make the page harder to read.
 
-Two questions per try-on, in order:
+Three questions per try-on, in order:
 
 1. **Did the selected half get swapped?**
 2. **Did the unselected half survive untouched** — are the person's own trousers still their own
    trousers when the user asked for a top?
+3. **Does `R` hold what `S` lost?** If the region-named sentence is what keeps the other half,
+   the selector is a prompt change on top of a crop, not a mask.
 
-## 8. What would count as working
+## 9. What would count as working
 
 - **Arm A is enough** if the band cuts at the hip, the reference still holds the whole half it
   claims, and the person's unselected half comes back untouched. Then a selector is a crop change.
@@ -152,3 +221,16 @@ Two questions per try-on, in order:
   looks like. That is the outcome worth knowing early, because it would mean the selector needs
   something the reference cannot carry — a call-2 prompt that names the region, or a mask handed
   to call 2 — and that is a larger piece of work than a crop.
+
+**This is where the first run landed** (2026-09-12, reviewer by eye): the outputs were poor under
+every reference arm, which is the third bullet. The amendment tests the first of the two remedies
+it names. So the criteria extend:
+
+- **The prompt was what was missing** if `R` holds the unselected half where `S` does not, under
+  either reference arm. Then the selector ships as a crop plus a dynamic call-2 sentence, and the
+  next question is which reference arm to pair it with.
+- **The reference still matters** if `R` works under one arm and not the other — that ranks A
+  against B on a question the first run could not answer, because both were losing the half.
+- **A crop and a sentence are not enough** if `R` leaks too. Then the unselected half has to be
+  protected by something structural — a mask handed to call 2, or compositing the untouched half
+  back afterwards — and that is v4 scope, not a selector.

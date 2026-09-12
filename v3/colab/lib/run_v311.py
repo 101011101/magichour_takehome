@@ -21,7 +21,17 @@ exactly as written; arm B sends a different call-1 prompt (BALD_NEUTRAL below, v
 TEST.md), so no number transfers to it. A is the control precisely because its call 1 is
 untouched.
 
-Call 2 is `ER`, byte for byte, in both arms. The only variable is how the reference was built.
+CALL 2 IS THE THIRD DIMENSION, added 2026-09-12 after the first run came back poor. Both arms
+crop the reference, but `ER` says "replace the clothing in image 1" - not "some of it" - so
+nothing in the call tells the model to leave the unselected half alone, and the reference cannot
+carry that instruction by itself. So every (arm, region) is now run under two call-2 texts:
+
+  S - `ER`, byte for byte, exactly as v3.8 shipped it. The control, and what the first run made.
+  R - ER_REGION below: names the half being replaced, and says the other half is the person's own
+      and stays. REGION=full has nothing to name, so it is S only.
+
+Filenames keep S's first-run spelling, so a resumed run finds its own outputs and regenerates
+nothing.
 
 REGION=full has nothing unselected to neutralise, so B's call 1 would be BALD_PROMPT and its
 reference would be A's: `full` is generated once, under A, and the page says so.
@@ -63,7 +73,10 @@ import run_v36 as V36                  # noqa: E402  ER's prompt, byte for byte 
 OUT = "run"
 MAXPIX = 2 ** 20                       # the production bound since v3.10
 REGIONS = ("full", "upper", "lower")
-PLAN = (("A", "full"), ("A", "upper"), ("A", "lower"), ("B", "upper"), ("B", "lower"))
+PLAN = (("A", "full", "S"), ("A", "upper", "S"), ("A", "lower", "S"),
+        ("B", "upper", "S"), ("B", "lower", "S"),
+        ("A", "upper", "R"), ("A", "lower", "R"),
+        ("B", "upper", "R"), ("B", "lower", "R"))
 CALL1_SEED = 46
 L_HIP, R_HIP = 23, 24                  # MediaPipe Pose; phase3_variants names only the head ones
 VIS = 0.5                              # v3lib.framing's confidence bar, unchanged
@@ -87,6 +100,20 @@ BALD_NEUTRAL = {
               "they are wearing above the waist with a plain white t-shirt, with no pattern, "
               "print or logo. Keep what they are wearing below the waist, the body, the pose and "
               "the background exactly as they are."),
+}
+
+# Call 2, arm R. ER's register: two sentences, no list, no stacked negations - a 4-step distilled
+# model drifts as a prompt grows (v3.8 EXPERIMENT links 3-4), so short beats thorough. The first
+# sentence names the half to replace; the second says the other half is the person's own and
+# stays, and carries ER's hold clause, which v3.8 link 8 measured as earning its place.
+# `full` has no region to name: it is the whole outfit, and ER already says so.
+ER_REGION = {
+    "upper": ("Replace only the upper half of the outfit in image 1 with the clothing in "
+              "image 2. Everything below the waist is the person's own and stays, along with "
+              "their face, identity, body and the background."),
+    "lower": ("Replace only the lower half of the outfit in image 1 with the clothing in "
+              "image 2. Everything above the waist is the person's own and stays, along with "
+              "their face, identity, body and the background."),
 }
 _T = []
 
@@ -213,11 +240,32 @@ def bald_key(arm, region):
     return "A" if arm == "A" else f"B_{region}"
 
 
+def norm_plan(plan):
+    """Accept the first run's (arm, region) pairs as (arm, region, 'S') - S is what it made."""
+    return tuple(tuple(e) if len(e) == 3 else (e[0], e[1], "S") for e in plan)
+
+
+def gen_tag(arm, region, ptag):
+    """S keeps the first run's spelling, so a resume finds its own outputs and remakes nothing."""
+    return f"{arm}_{region}" if ptag == "S" else f"{arm}_{region}_R"
+
+
+def call2(region, ptag):
+    """The text call 2 is sent. The reference is unchanged by it - only the instruction is."""
+    if ptag == "S":
+        return V36.ER
+    if region not in ER_REGION:
+        raise SystemExit(f"no region-named call 2 for {region!r}: full is the whole outfit, "
+                         "which ER already names")
+    return ER_REGION[region]
+
+
 def main(matrix="v311_set.csv", plan=PLAN, gpu_usd_per_hour=None, limit=None):
     wall0 = time.time()
-    for arm, region in plan:
-        if (arm, region) not in PLAN:
-            raise SystemExit(f"unknown arm/region {arm}/{region}; one of {PLAN}")
+    plan = norm_plan(plan)
+    for entry in plan:
+        if entry not in PLAN:
+            raise SystemExit(f"unknown arm/region/prompt {entry}; one of {PLAN}")
     if not K.info().get("transformer"):
         raise SystemExit("load the production transformer first: K.load(repo=..., "
                          "transformer=(...)) - this runner never falls back to BFL's")
@@ -226,7 +274,7 @@ def main(matrix="v311_set.csv", plan=PLAN, gpu_usd_per_hour=None, limit=None):
         rows = rows[:int(limit)]
     garments = sorted({r["garment"] for r in rows})
     stems = sorted({r["person"] for r in rows} | set(garments))
-    balds = sorted({bald_key(a, r) for a, r in plan})
+    balds = sorted({bald_key(a, r) for a, r, _ in plan})
 
     # 0 the production bound
     n = 0
@@ -260,9 +308,13 @@ def main(matrix="v311_set.csv", plan=PLAN, gpu_usd_per_hour=None, limit=None):
     print(f"1 call 1: {n} bald passes made ({len(balds)} per garment: {balds})")
 
     # 2 the crops - one mask per bald frame, every region that frame serves cut off it
+    # the reference depends on (arm, region) only - the call-2 text does not touch it, so the
+    # two prompt arms share one crop and one mask
     want = {}
-    for arm, region in plan:
-        want.setdefault(bald_key(arm, region), []).append((arm, region))
+    for arm, region, _ in plan:
+        pairs = want.setdefault(bald_key(arm, region), [])
+        if (arm, region) not in pairs:
+            pairs.append((arm, region))
     for g in garments:
         for key, pairs in sorted(want.items()):
             todo = [(a, r) for a, r in pairs if not os.path.exists(d("refs", f"{g}__{a}_{r}.jpg"))]
@@ -291,13 +343,14 @@ def main(matrix="v311_set.csv", plan=PLAN, gpu_usd_per_hour=None, limit=None):
         sid, seed = r["set_id"], int(r["seed"])
         person = cv2.imread(d("in1mp", f"{r['person']}.jpg"))
         meta["cells"].setdefault(f"{sid}|{seed}", {})["canvas"] = list(size_noscale(person))[::-1]
-        for arm, region in plan:
-            out = d("gen", f"{sid}__{arm}_{region}__s{seed}.jpg")
+        for arm, region, ptag in plan:
+            tag = gen_tag(arm, region, ptag)
+            out = d("gen", f"{sid}__{tag}__s{seed}.jpg")
             if os.path.exists(out):
                 continue
             ref = cv2.imread(d("refs", f"{r['garment']}__{arm}_{region}.jpg"))
             assert ref is not None, f"missing refs/{r['garment']}__{arm}_{region}.jpg"
-            im = klein("edit", f"{arm}_{region}", sid, seed, [person, ref], V36.ER, size_noscale)
+            im = klein("edit", tag, sid, seed, [person, ref], call2(region, ptag), size_noscale)
             cv2.imwrite(out, im, JPG)
             n += 1
             if n % 15 == 0:
@@ -332,7 +385,15 @@ def _write(rows, plan, wall0, rate):
                "usd_fal_equivalent": round(len(calls) * FAL_PER_CALL, 2),
                "per_stage_mean_seconds": {f"{s}/{a}": round(sum(v) / len(v), 3)
                                           for (s, a), v in by.items()},
-               "prompts": {"call1_A": L.BALD_PROMPT, "call1_B": BALD_NEUTRAL, "edit": V36.ER},
+               "prompts": {"call1_A": L.BALD_PROMPT, "call1_B": BALD_NEUTRAL,
+                           "call2_S": V36.ER, "call2_R": ER_REGION,
+                           "edit": V36.ER},
+               "call2_arms": {
+                   "S": "ER byte for byte - the control, and what the 2026-09-12 run made",
+                   "R": "names the half being replaced and says the other half is the person's "
+                        "own and stays; full is S only, having no half to name"},
+               "gen_filenames": "{set_id}__{arm}_{region}[_R]__s{seed}.jpg - no suffix is S, so "
+                                "the first run's files are found unchanged by a resume",
                "arms": {"A": "crop only - call 1 is BALD_PROMPT byte for byte, the band is cut "
                              "on the mask",
                         "B": "call 1 also neutralises the unselected half with a plain white "

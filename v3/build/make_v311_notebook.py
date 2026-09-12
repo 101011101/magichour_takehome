@@ -27,11 +27,26 @@ puts them side by side.
 B's idea is that a uniform, unpatterned region is an easier thing for the matte and the parser to
 cut against, so the reference comes out cleaner. **B departs from the call-1 prompt of record**,
 so no v3.8/v3.10 number transfers to it; A is the control precisely because its call 1 is
-untouched. Call 2 is `ER`, byte for byte, in both arms — the only variable is how the reference
-was built.
+untouched.
 
 `full` has nothing unselected to neutralise, so B's call 1 would be A's: it is generated once,
 under A.
+
+## Call 2 is the third dimension
+
+The first run cropped the reference and left call 2 alone, and the outputs were poor. That is the
+outcome [TEST §9](../../prd/v3/v3.11/TEST.md) named in advance: `ER` says *replace the clothing in
+image 1* — not *some of it* — so nothing in the call tells the model to leave the unselected half
+alone, and a half-garment reference cannot say it either. So each (arm, region) now runs under two
+call-2 texts:
+
+| | call 2 |
+|---|---|
+| **S** | `ER`, byte for byte, as v3.8 shipped it — the control, and what the first run made |
+| **R** | names the half being replaced, and says the other half is the person's own and stays |
+
+`full` has no half to name, so it is **S** only. Filenames keep S's first-run spelling, so a
+resumed run finds its own outputs and regenerates nothing.
 
 **The band.** The hip line is the mean of Pose landmarks 23/24, counting only hips that are
 confident *and* inside the frame. No pose, no in-frame hip, or a band keeping under 2% of the
@@ -44,11 +59,18 @@ attributable to the selector rather than to a pair that was already broken.
 
 **What to look for**, per try-on: did the selected half get swapped, and **did the unselected half
 survive untouched**. The second question decides whether a selector is a crop change or a much
-larger piece of work.
+larger piece of work — and the S/R pair beside each other says whether naming the region in call 2
+is what was missing.
 
 Nothing is needed on Drive: the photos come from the repo and the weights from Hugging Face.
 Runtime → **A100**, then **Run all**.
-≈78 calls, ≈8 min, ≈CAD 0.09.
+
+| | klein calls | GPU time |
+|---|---|---|
+| **resuming** a run already on disk — the 48 new R edits only | **48** | ≈1.5 min, ≈CAD 0.02 |
+| **cold** — 18 call-1 passes, 18 crops, 108 edits | **126** | ≈4 min, ≈CAD 0.05 |
+
+A fresh runtime also downloads ~16 GB of weights and loads the model before either.
 """
 
 CELLS = [
@@ -57,7 +79,12 @@ CELLS = [
 import csv, glob, json, os, shutil, time, zipfile
 A100_CAD_PER_HOUR = 0.689
 MATRIX = "v311_set.csv"
-PLAN = (("A", "full"), ("A", "upper"), ("A", "lower"), ("B", "upper"), ("B", "lower"))
+# (arm, region, call-2 text). S = ER byte for byte, R = the region-named prompt.
+# full has no half to name, so it is S only. Dropping the R entries reproduces the first run.
+PLAN = (("A", "full", "S"), ("A", "upper", "S"), ("A", "lower", "S"),
+        ("B", "upper", "S"), ("B", "lower", "S"),
+        ("A", "upper", "R"), ("A", "lower", "R"),
+        ("B", "upper", "R"), ("B", "lower", "R"))
 DRIVE_PROJECT_DIR = "Side projects and shi"
 BFL_REPO, BFL_REV = "black-forest-labs/FLUX.2-klein-4B", "e7b7dc27f91deacad38e78976d1f2b499d76a294"
 PR_REPO, PR_REV = "Photoroom/FLUX.2-klein-4b-fp8-diffusers", "408c457f3589e17a1be1dae5bf0dcaf09cd4985f"
@@ -166,6 +193,9 @@ import v3lib as L
 print('\\ncall 1, arm A (the prompt of record):\\n ', L.BALD_PROMPT)
 for region, p in V.BALD_NEUTRAL.items():
     print(f'\\ncall 1, arm B, REGION={region} (neutralises the other half):\\n  {p}')
+print('\\ncall 2, S (ER, byte for byte - the control):\\n ', V.call2('upper', 'S'))
+for region, p in V.ER_REGION.items():
+    print(f'\\ncall 2, R, REGION={region} (names the half):\\n  {p}')
 print()
 for g in sorted({r['garment'] for r in rows}):
     im = V.normalise(cv2.imread(f'run/inputs/{g}.jpg'))
