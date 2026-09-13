@@ -62,3 +62,6 @@ v3/report_v36/
 # model weights fetched at runtime by v3lib.fetch_models
 v3/colab/lib/models/
 models/
+
+# duplicate browser downloads, e.g. "run_zip (1).zip"
+* (*).zip
