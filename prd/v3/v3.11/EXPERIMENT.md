@@ -1,11 +1,12 @@
 # v3.11 — EXPERIMENT
 
-**Status: OPEN.** Built and first run 2026-09-12; amended the same day and the amendment is not
-yet run. One question: **can a user choose the garment type — upper, lower, or the whole outfit —
-and get it?**
+**Status: CONCLUDED 2026-09-12 — it yielded a solution.** One question: **can a user choose the
+garment type — upper, lower, or the whole outfit — and get it?** Yes: the band cut at the hip
+**and** a call 2 that names the half. The band alone was not enough.
 
 Post-synthesis conclusions only, per [SCHEMA.md](../SCHEMA.md). The matrix, every prompt and the
-budget are in [TEST.md](TEST.md); `RESULTS.md` will exist when the run is marked.
+budget are in [TEST.md](TEST.md); the cases, numbers and the limits of the verdict are in
+[RESULTS.md](RESULTS.md).
 
 ---
 
@@ -127,7 +128,48 @@ leaks too, then no wording reaches this and the half has to be protected structu
 into call 2, or compositing the untouched half back — which is a different and larger piece of
 work than a selector.
 
+**Result (2026-09-12): the sentence was what was missing.** 126 calls in total, 3.36 min,
+CAD 0.039. Judged on `v3/report/v311_selector.html` — the candidate alone, band cut plus a call 2
+naming the half, with the input photographs beside the outputs — **the reviewer's verdict is that
+it works.** The unselected half survives under `R` where it did not under `S`, on the same
+references, the same crop and the same seed, so the difference is one sentence. It costs nothing:
+**1.651 s under `R` against 1.659 s under `S`**. →
+[RESULTS §4](RESULTS.md#4--link-4--the-call-2-sentence-is-what-was-missing)
+
+**And it does not choose an arm.** Both A/`R` and B/`R` were on the page and the verdict names
+neither, so this investigation does not claim one. A is the cheaper default by construction —
+one bald pass and one mask per garment serve all three regions (**3.27 s**) against B's roughly
+6.56 s — and A's call 1 is `BALD_PROMPT` byte for byte, which is what every other number in v3
+rests on. → [RESULTS §5](RESULTS.md#5--arm-a-against-arm-b--not-settled-and-a-is-the-cheaper-default)
+
 ---
+
+## Conclusion
+
+*Reached; concluded 2026-09-12.* v3.11 asked whether a user can choose the garment type and get
+it. **They can, and it takes two changes, not one:** the reference cut to the selected band at
+the hip line, **and** a call 2 that names the half being replaced. Link 3 established that the
+crop alone is not enough — the band cut perfectly, nothing fell back, and the outputs were still
+unusable — and link 4 established that the sentence closes it, at no cost in time, calls or
+models.
+
+**The negative half is worth as much as the positive.** A region-shaped reference does not
+instruct the model; `ER`'s *replace the clothing in image 1* means all of it, and it behaves that
+way. That generalises past this feature: **what the reference contains is not an instruction**,
+and any future work that expects a cropped input to constrain an edit should expect the same
+result.
+
+**What ships**, subject to the arm question above: a `REGION` selector of `upper | lower | full`,
+defaulting to `full`, which cuts the reference at the hip and swaps call 2's sentence. `full` is
+the shipped path untouched, byte for byte.
+
+**What this is not.** A feasibility result on 12 clean cells at one seed, by one reviewer, by
+eye — not a rate, and the v3.10 figure describes a whole-outfit request, not a region request.
+The honest next step is a counted sweep of a region set, marked the way v3.10 was marked
+([RESULTS §6](RESULTS.md#6--what-this-does-not-establish)). Before that, two things are known to
+be unhandled: a **waist-up photograph asked for `lower`**, which must fall back rather than
+return a sliver, and a **product shot asked for a region at all**, where Pose reports a hip on 6
+of 10 person-free photographs and the band would cut at an invented row.
 
 ## What is deliberately not being asked
 

@@ -1,0 +1,272 @@
+<!doctype html><meta charset=utf-8><title>v3.11 — the garment-type selector</title>
+<style>
+body{background:#111;color:#eee;font:14px/1.55 system-ui,sans-serif;margin:0;padding:0 18px 80px;max-width:1600px}
+h1{font-size:19px;margin:20px 0 6px} p.lede{color:#9aa;max-width:66em;margin:0 0 8px}
+b.q{color:#cde;font-weight:600}
+section{border-top:1px solid #333;margin-top:28px;padding-top:12px}
+h2{font-size:15px;margin:0 0 10px;font-weight:600}
+.sub{color:#889;font-weight:400;font-size:12px;margin-left:8px}
+.balds{display:flex;gap:10px;margin-bottom:14px}
+.region{display:flex;gap:12px;align-items:flex-start;border-top:1px solid #222;padding:10px 0}
+.rlabel{flex:0 0 104px;font-weight:800;font-size:15px;padding-top:4px;letter-spacing:.02em}
+.rlabel.upper{color:#7fd1ff} .rlabel.lower{color:#ffc46b} .rlabel.full{color:#b6f5a8}
+.gen{position:relative}
+.ref figcaption{color:#8a8f98}
+.inp{outline:2px solid #4a7; border-radius:4px}
+.inp figcaption{color:#8fe3b0;font-weight:700}
+.badge{font-weight:800;font-size:11px;letter-spacing:.04em;padding:2px 7px;border-radius:4px;
+display:inline-block;margin:0 0 3px;color:#06121a}
+.badge.upper{background:#7fd1ff} .badge.lower{background:#ffc46b} .badge.full{background:#b6f5a8}
+.cols{display:flex;gap:18px;flex-wrap:wrap}
+.col{flex:0 0 1100px;display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}
+.pgroup{border:1px solid #2a2f36;border-radius:6px;padding:6px 8px 8px}
+.pgroup.R{border-color:#5a4b2a;background:#1a170f}
+.phead{font-size:11px;font-weight:700;color:#9bd;margin-bottom:4px;white-space:nowrap}
+.pgroup.R .phead{color:#e8c07d}
+.shots{display:flex;gap:8px}
+.col h4{flex:0 0 100%;font-size:12px;margin:0 0 4px;color:#9bd;font-weight:600}
+.col.fell h4{color:#e8a33d}
+.col.none .note{color:#778;font-size:11px;max-width:220px}
+figure{margin:0} figure.ref img{border:1px solid #345}
+img{display:block;border-radius:5px;cursor:zoom-in;background:#000;max-width:200px}
+figcaption{color:#889;font-size:10px;margin-top:3px;max-width:200px;overflow:hidden;
+text-overflow:ellipsis;white-space:nowrap}
+.meta,.why{flex:0 0 100%;font-size:11px} .meta{color:#889} .why{color:#e8a33d}
+.gens{display:flex;gap:10px;flex-wrap:wrap}
+.miss{color:#a55;font-size:12px;padding:16px 0}
+#lb{position:fixed;inset:0;background:#000e;display:none;align-items:center;justify-content:center;z-index:9;cursor:zoom-out}
+#lb img{max-width:96vw;max-height:96vh;width:auto;max-height:96vh;border-radius:0}
+footer{color:#778;margin-top:34px;font-size:12px}
+</style>
+<h1>v3.11 — choosing the garment type: upper, lower, or the whole outfit</h1>
+<p class=lede>A full-body photograph goes in and the user asks for <i>the top</i>. Two ways to
+build the reference that delivers it: <b>A</b> cuts the garment reference at the hip and leaves
+call 1 alone; <b>B</b> also has call 1 replace the half you did not select with a plain white
+garment, so the crop has something uniform to cut against.</p>
+<p class=lede><b class=q>1.</b> Did the selected half get swapped?
+&nbsp;&nbsp;<b class=q>2.</b> Did the unselected half survive untouched — are the person's own
+trousers still their own trousers when they asked for a top? The second question is the one that
+decides whether a selector is a crop change or a much larger piece of work.</p>
+<p class=lede>Each reference carries <b>two</b> sets of try-ons, side by side: <b class=q>call 2 ·
+ER as shipped</b> (the control, what the first run made) and <b class=q>call 2 · names the
+region</b> — same reference, same seed, different instruction. <i>full</i> has no half to name, so
+it is shown under ER only.</p>
+<p class=lede>The red line on each bald frame is the hip row the band was cut at. <b>B departs
+from the call-1 prompt of record</b>, so no earlier number transfers to it.</p>
+<section>
+  <h2>g013 <span class=sub>hip row 444
+    · g004, g012</span></h2>
+  <div class=balds><figure class=inp><img loading=lazy src="img_v311/in_g004.jpg" onclick="z(this)"><figcaption>INPUT person · g004 · 787x1024</figcaption></figure><figure class=inp><img loading=lazy src="img_v311/in_g012.jpg" onclick="z(this)"><figcaption>INPUT person · g012 · 837x1024</figcaption></figure><figure class=inp><img loading=lazy src="img_v311/in_g013.jpg" onclick="z(this)"><figcaption>INPUT garment · 837x1024</figcaption></figure><figure><img loading=lazy src="img_v311/g013__bald_A.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · call 1 of record · 837x1024</figcaption></figure><figure><img loading=lazy src="img_v311/g013__bald_B_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · B · lower neutralised · 837x1024</figcaption></figure><figure><img loading=lazy src="img_v311/g013__bald_B_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · B · upper neutralised · 837x1024</figcaption></figure></div>
+  <div class=region><div class="rlabel upper">UPPER HALF</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/g013__A_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 317x389</figcaption></figure>
+  <div class=meta>kept 41.1% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/g004+g013__A_upper__s46.jpg" onclick="z(this)"><figcaption>g004 · 768x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/g012+g013__A_upper__s46.jpg" onclick="z(this)"><figcaption>g012 · 832x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/g004+g013__A_upper_R__s46.jpg" onclick="z(this)"><figcaption>g004 · 768x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/g012+g013__A_upper_R__s46.jpg" onclick="z(this)"><figcaption>g012 · 832x1024</figcaption></figure></div></div></div></div>
+</div><div class="col">
+  <h4>B · call 1 neutralises the other half</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/g013__B_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 317x390</figcaption></figure>
+  <div class=meta>kept 46.9% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/g004+g013__B_upper__s46.jpg" onclick="z(this)"><figcaption>g004 · 768x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/g012+g013__B_upper__s46.jpg" onclick="z(this)"><figcaption>g012 · 832x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/g004+g013__B_upper_R__s46.jpg" onclick="z(this)"><figcaption>g004 · 768x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/g012+g013__B_upper_R__s46.jpg" onclick="z(this)"><figcaption>g012 · 832x1024</figcaption></figure></div></div></div></div>
+</div></div></div><div class=region><div class="rlabel full">FULL BODY</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/g013__A_full.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 385x1024</figcaption></figure>
+  <div class=meta>&nbsp;</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge full">OUTPUT · FULL BODY · ER</div><figure class=""><img loading=lazy src="img_v311/g004+g013__A_full__s46.jpg" onclick="z(this)"><figcaption>g004 · 768x1024</figcaption></figure></div><div class=gen><div class="badge full">OUTPUT · FULL BODY · ER</div><figure class=""><img loading=lazy src="img_v311/g012+g013__A_full__s46.jpg" onclick="z(this)"><figcaption>g012 · 832x1024</figcaption></figure></div></div></div></div>
+</div><div class="col none"><h4>B</h4><div class=note>nothing unselected to neutralise —<br>B’s call 1 would be A’s, so <i>full</i> is generated once</div></div></div></div><div class=region><div class="rlabel lower">LOWER HALF</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/g013__A_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 359x595</figcaption></figure>
+  <div class=meta>kept 58.9% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/g004+g013__A_lower__s46.jpg" onclick="z(this)"><figcaption>g004 · 768x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/g012+g013__A_lower__s46.jpg" onclick="z(this)"><figcaption>g012 · 832x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/g004+g013__A_lower_R__s46.jpg" onclick="z(this)"><figcaption>g004 · 768x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/g012+g013__A_lower_R__s46.jpg" onclick="z(this)"><figcaption>g012 · 832x1024</figcaption></figure></div></div></div></div>
+</div><div class="col">
+  <h4>B · call 1 neutralises the other half</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/g013__B_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 357x577</figcaption></figure>
+  <div class=meta>kept 55.4% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/g004+g013__B_lower__s46.jpg" onclick="z(this)"><figcaption>g004 · 768x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/g012+g013__B_lower__s46.jpg" onclick="z(this)"><figcaption>g012 · 832x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/g004+g013__B_lower_R__s46.jpg" onclick="z(this)"><figcaption>g004 · 768x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/g012+g013__B_lower_R__s46.jpg" onclick="z(this)"><figcaption>g012 · 832x1024</figcaption></figure></div></div></div></div>
+</div></div></div>
+</section><section>
+  <h2>p006 <span class=sub>hip row 609
+    · g013, p001</span></h2>
+  <div class=balds><figure class=inp><img loading=lazy src="img_v311/in_g013.jpg" onclick="z(this)"><figcaption>INPUT person · g013 · 837x1024</figcaption></figure><figure class=inp><img loading=lazy src="img_v311/in_p001.jpg" onclick="z(this)"><figcaption>INPUT person · p001 · 682x1024</figcaption></figure><figure class=inp><img loading=lazy src="img_v311/in_p006.jpg" onclick="z(this)"><figcaption>INPUT garment · 682x1024</figcaption></figure><figure><img loading=lazy src="img_v311/p006__bald_A.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · call 1 of record · 682x1024</figcaption></figure><figure><img loading=lazy src="img_v311/p006__bald_B_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · B · lower neutralised · 682x1024</figcaption></figure><figure><img loading=lazy src="img_v311/p006__bald_B_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · B · upper neutralised · 682x1024</figcaption></figure></div>
+  <div class=region><div class="rlabel upper">UPPER HALF</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/p006__A_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 196x213</figcaption></figure>
+  <div class=meta>kept 52.0% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/g013+p006__A_upper__s46.jpg" onclick="z(this)"><figcaption>g013 · 832x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p001+p006__A_upper__s46.jpg" onclick="z(this)"><figcaption>p001 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/g013+p006__A_upper_R__s46.jpg" onclick="z(this)"><figcaption>g013 · 832x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p001+p006__A_upper_R__s46.jpg" onclick="z(this)"><figcaption>p001 · 672x1024</figcaption></figure></div></div></div></div>
+</div><div class="col">
+  <h4>B · call 1 neutralises the other half</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/p006__B_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 196x215</figcaption></figure>
+  <div class=meta>kept 51.1% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/g013+p006__B_upper__s46.jpg" onclick="z(this)"><figcaption>g013 · 832x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p001+p006__B_upper__s46.jpg" onclick="z(this)"><figcaption>p001 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/g013+p006__B_upper_R__s46.jpg" onclick="z(this)"><figcaption>g013 · 832x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p001+p006__B_upper_R__s46.jpg" onclick="z(this)"><figcaption>p001 · 672x1024</figcaption></figure></div></div></div></div>
+</div></div></div><div class=region><div class="rlabel full">FULL BODY</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/p006__A_full.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 244x658</figcaption></figure>
+  <div class=meta>&nbsp;</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge full">OUTPUT · FULL BODY · ER</div><figure class=""><img loading=lazy src="img_v311/g013+p006__A_full__s46.jpg" onclick="z(this)"><figcaption>g013 · 832x1024</figcaption></figure></div><div class=gen><div class="badge full">OUTPUT · FULL BODY · ER</div><figure class=""><img loading=lazy src="img_v311/p001+p006__A_full__s46.jpg" onclick="z(this)"><figcaption>p001 · 672x1024</figcaption></figure></div></div></div></div>
+</div><div class="col none"><h4>B</h4><div class=note>nothing unselected to neutralise —<br>B’s call 1 would be A’s, so <i>full</i> is generated once</div></div></div></div><div class=region><div class="rlabel lower">LOWER HALF</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/p006__A_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 226x353</figcaption></figure>
+  <div class=meta>kept 48.0% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/g013+p006__A_lower__s46.jpg" onclick="z(this)"><figcaption>g013 · 832x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p001+p006__A_lower__s46.jpg" onclick="z(this)"><figcaption>p001 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/g013+p006__A_lower_R__s46.jpg" onclick="z(this)"><figcaption>g013 · 832x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p001+p006__A_lower_R__s46.jpg" onclick="z(this)"><figcaption>p001 · 672x1024</figcaption></figure></div></div></div></div>
+</div><div class="col">
+  <h4>B · call 1 neutralises the other half</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/p006__B_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 226x348</figcaption></figure>
+  <div class=meta>kept 46.2% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/g013+p006__B_lower__s46.jpg" onclick="z(this)"><figcaption>g013 · 832x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p001+p006__B_lower__s46.jpg" onclick="z(this)"><figcaption>p001 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/g013+p006__B_lower_R__s46.jpg" onclick="z(this)"><figcaption>g013 · 832x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p001+p006__B_lower_R__s46.jpg" onclick="z(this)"><figcaption>p001 · 672x1024</figcaption></figure></div></div></div></div>
+</div></div></div>
+</section><section>
+  <h2>p025 <span class=sub>hip row 624
+    · p002, p012</span></h2>
+  <div class=balds><figure class=inp><img loading=lazy src="img_v311/in_p002.jpg" onclick="z(this)"><figcaption>INPUT person · p002 · 682x1024</figcaption></figure><figure class=inp><img loading=lazy src="img_v311/in_p012.jpg" onclick="z(this)"><figcaption>INPUT person · p012 · 682x1024</figcaption></figure><figure class=inp><img loading=lazy src="img_v311/in_p025.jpg" onclick="z(this)"><figcaption>INPUT garment · 731x1024</figcaption></figure><figure><img loading=lazy src="img_v311/p025__bald_A.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · call 1 of record · 731x1024</figcaption></figure><figure><img loading=lazy src="img_v311/p025__bald_B_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · B · lower neutralised · 731x1024</figcaption></figure><figure><img loading=lazy src="img_v311/p025__bald_B_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · B · upper neutralised · 731x1024</figcaption></figure></div>
+  <div class=region><div class="rlabel upper">UPPER HALF</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/p025__A_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 169x259</figcaption></figure>
+  <div class=meta>kept 36.0% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p002+p025__A_upper__s46.jpg" onclick="z(this)"><figcaption>p002 · 672x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p012+p025__A_upper__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p002+p025__A_upper_R__s46.jpg" onclick="z(this)"><figcaption>p002 · 672x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p012+p025__A_upper_R__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div></div></div></div>
+</div><div class="col">
+  <h4>B · call 1 neutralises the other half</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/p025__B_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 160x256</figcaption></figure>
+  <div class=meta>kept 34.5% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p002+p025__B_upper__s46.jpg" onclick="z(this)"><figcaption>p002 · 672x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p012+p025__B_upper__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p002+p025__B_upper_R__s46.jpg" onclick="z(this)"><figcaption>p002 · 672x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p012+p025__B_upper_R__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div></div></div></div>
+</div></div></div><div class=region><div class="rlabel full">FULL BODY</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/p025__A_full.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 349x731</figcaption></figure>
+  <div class=meta>&nbsp;</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge full">OUTPUT · FULL BODY · ER</div><figure class=""><img loading=lazy src="img_v311/p002+p025__A_full__s46.jpg" onclick="z(this)"><figcaption>p002 · 672x1024</figcaption></figure></div><div class=gen><div class="badge full">OUTPUT · FULL BODY · ER</div><figure class=""><img loading=lazy src="img_v311/p012+p025__A_full__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div></div></div></div>
+</div><div class="col none"><h4>B</h4><div class=note>nothing unselected to neutralise —<br>B’s call 1 would be A’s, so <i>full</i> is generated once</div></div></div></div><div class=region><div class="rlabel lower">LOWER HALF</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/p025__A_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 329x390</figcaption></figure>
+  <div class=meta>kept 64.0% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p002+p025__A_lower__s46.jpg" onclick="z(this)"><figcaption>p002 · 672x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p012+p025__A_lower__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p002+p025__A_lower_R__s46.jpg" onclick="z(this)"><figcaption>p002 · 672x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p012+p025__A_lower_R__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div></div></div></div>
+</div><div class="col">
+  <h4>B · call 1 neutralises the other half</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/p025__B_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 329x389</figcaption></figure>
+  <div class=meta>kept 64.7% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p002+p025__B_lower__s46.jpg" onclick="z(this)"><figcaption>p002 · 672x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p012+p025__B_lower__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p002+p025__B_lower_R__s46.jpg" onclick="z(this)"><figcaption>p002 · 672x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p012+p025__B_lower_R__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div></div></div></div>
+</div></div></div>
+</section><section>
+  <h2>p026 <span class=sub>hip row 540
+    · p003, p021</span></h2>
+  <div class=balds><figure class=inp><img loading=lazy src="img_v311/in_p003.jpg" onclick="z(this)"><figcaption>INPUT person · p003 · 706x1024</figcaption></figure><figure class=inp><img loading=lazy src="img_v311/in_p021.jpg" onclick="z(this)"><figcaption>INPUT person · p021 · 684x1024</figcaption></figure><figure class=inp><img loading=lazy src="img_v311/in_p026.jpg" onclick="z(this)"><figcaption>INPUT garment · 682x1024</figcaption></figure><figure><img loading=lazy src="img_v311/p026__bald_A.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · call 1 of record · 682x1024</figcaption></figure><figure><img loading=lazy src="img_v311/p026__bald_B_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · B · lower neutralised · 682x1024</figcaption></figure><figure><img loading=lazy src="img_v311/p026__bald_B_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · B · upper neutralised · 682x1024</figcaption></figure></div>
+  <div class=region><div class="rlabel upper">UPPER HALF</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/p026__A_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 402x307</figcaption></figure>
+  <div class=meta>kept 40.0% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p003+p026__A_upper__s46.jpg" onclick="z(this)"><figcaption>p003 · 704x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p021+p026__A_upper__s46.jpg" onclick="z(this)"><figcaption>p021 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p003+p026__A_upper_R__s46.jpg" onclick="z(this)"><figcaption>p003 · 704x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p021+p026__A_upper_R__s46.jpg" onclick="z(this)"><figcaption>p021 · 672x1024</figcaption></figure></div></div></div></div>
+</div><div class="col">
+  <h4>B · call 1 neutralises the other half</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/p026__B_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 402x298</figcaption></figure>
+  <div class=meta>kept 35.5% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p003+p026__B_upper__s46.jpg" onclick="z(this)"><figcaption>p003 · 704x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p021+p026__B_upper__s46.jpg" onclick="z(this)"><figcaption>p021 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p003+p026__B_upper_R__s46.jpg" onclick="z(this)"><figcaption>p003 · 704x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p021+p026__B_upper_R__s46.jpg" onclick="z(this)"><figcaption>p021 · 672x1024</figcaption></figure></div></div></div></div>
+</div></div></div><div class=region><div class="rlabel full">FULL BODY</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/p026__A_full.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 543x845</figcaption></figure>
+  <div class=meta>&nbsp;</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge full">OUTPUT · FULL BODY · ER</div><figure class=""><img loading=lazy src="img_v311/p003+p026__A_full__s46.jpg" onclick="z(this)"><figcaption>p003 · 704x1024</figcaption></figure></div><div class=gen><div class="badge full">OUTPUT · FULL BODY · ER</div><figure class=""><img loading=lazy src="img_v311/p021+p026__A_full__s46.jpg" onclick="z(this)"><figcaption>p021 · 672x1024</figcaption></figure></div></div></div></div>
+</div><div class="col none"><h4>B</h4><div class=note>nothing unselected to neutralise —<br>B’s call 1 would be A’s, so <i>full</i> is generated once</div></div></div></div><div class=region><div class="rlabel lower">LOWER HALF</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/p026__A_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 525x453</figcaption></figure>
+  <div class=meta>kept 60.0% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p003+p026__A_lower__s46.jpg" onclick="z(this)"><figcaption>p003 · 704x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p021+p026__A_lower__s46.jpg" onclick="z(this)"><figcaption>p021 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p003+p026__A_lower_R__s46.jpg" onclick="z(this)"><figcaption>p003 · 704x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p021+p026__A_lower_R__s46.jpg" onclick="z(this)"><figcaption>p021 · 672x1024</figcaption></figure></div></div></div></div>
+</div><div class="col">
+  <h4>B · call 1 neutralises the other half</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/p026__B_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 525x453</figcaption></figure>
+  <div class=meta>kept 58.8% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p003+p026__B_lower__s46.jpg" onclick="z(this)"><figcaption>p003 · 704x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p021+p026__B_lower__s46.jpg" onclick="z(this)"><figcaption>p021 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p003+p026__B_lower_R__s46.jpg" onclick="z(this)"><figcaption>p003 · 704x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p021+p026__B_lower_R__s46.jpg" onclick="z(this)"><figcaption>p021 · 672x1024</figcaption></figure></div></div></div></div>
+</div></div></div>
+</section><section>
+  <h2>dualuse_lp_beige_long_coat_menswear <span class=sub>hip row 584
+    · p016, p026</span></h2>
+  <div class=balds><figure class=inp><img loading=lazy src="img_v311/in_p016.jpg" onclick="z(this)"><figcaption>INPUT person · p016 · 682x1024</figcaption></figure><figure class=inp><img loading=lazy src="img_v311/in_p026.jpg" onclick="z(this)"><figcaption>INPUT person · p026 · 682x1024</figcaption></figure><figure class=inp><img loading=lazy src="img_v311/in_dualuse_lp_beige_long_coat_menswear.jpg" onclick="z(this)"><figcaption>INPUT garment · 836x1254</figcaption></figure><figure><img loading=lazy src="img_v311/dualuse_lp_beige_long_coat_menswear__bald_A.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · call 1 of record · 836x1254</figcaption></figure><figure><img loading=lazy src="img_v311/dualuse_lp_beige_long_coat_menswear__bald_B_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · B · lower neutralised · 836x1254</figcaption></figure><figure><img loading=lazy src="img_v311/dualuse_lp_beige_long_coat_menswear__bald_B_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · B · upper neutralised · 836x1254</figcaption></figure></div>
+  <div class=region><div class="rlabel upper">UPPER HALF</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/dualuse_lp_beige_long_coat_menswear__A_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 312x456</figcaption></figure>
+  <div class=meta>kept 37.7% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p016+dualuse_lp_beige_long_coat_menswear__A_upper__s46.jpg" onclick="z(this)"><figcaption>p016 · 672x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p026+dualuse_lp_beige_long_coat_menswear__A_upper__s46.jpg" onclick="z(this)"><figcaption>p026 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p016+dualuse_lp_beige_long_coat_menswear__A_upper_R__s46.jpg" onclick="z(this)"><figcaption>p016 · 672x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p026+dualuse_lp_beige_long_coat_menswear__A_upper_R__s46.jpg" onclick="z(this)"><figcaption>p026 · 672x1024</figcaption></figure></div></div></div></div>
+</div><div class="col">
+  <h4>B · call 1 neutralises the other half</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/dualuse_lp_beige_long_coat_menswear__B_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 314x467</figcaption></figure>
+  <div class=meta>kept 37.9% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p016+dualuse_lp_beige_long_coat_menswear__B_upper__s46.jpg" onclick="z(this)"><figcaption>p016 · 672x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p026+dualuse_lp_beige_long_coat_menswear__B_upper__s46.jpg" onclick="z(this)"><figcaption>p026 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p016+dualuse_lp_beige_long_coat_menswear__B_upper_R__s46.jpg" onclick="z(this)"><figcaption>p016 · 672x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p026+dualuse_lp_beige_long_coat_menswear__B_upper_R__s46.jpg" onclick="z(this)"><figcaption>p026 · 672x1024</figcaption></figure></div></div></div></div>
+</div></div></div><div class=region><div class="rlabel full">FULL BODY</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/dualuse_lp_beige_long_coat_menswear__A_full.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 472x1252</figcaption></figure>
+  <div class=meta>&nbsp;</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge full">OUTPUT · FULL BODY · ER</div><figure class=""><img loading=lazy src="img_v311/p016+dualuse_lp_beige_long_coat_menswear__A_full__s46.jpg" onclick="z(this)"><figcaption>p016 · 672x1024</figcaption></figure></div><div class=gen><div class="badge full">OUTPUT · FULL BODY · ER</div><figure class=""><img loading=lazy src="img_v311/p026+dualuse_lp_beige_long_coat_menswear__A_full__s46.jpg" onclick="z(this)"><figcaption>p026 · 672x1024</figcaption></figure></div></div></div></div>
+</div><div class="col none"><h4>B</h4><div class=note>nothing unselected to neutralise —<br>B’s call 1 would be A’s, so <i>full</i> is generated once</div></div></div></div><div class=region><div class="rlabel lower">LOWER HALF</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/dualuse_lp_beige_long_coat_menswear__A_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 438x678</figcaption></figure>
+  <div class=meta>kept 62.3% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p016+dualuse_lp_beige_long_coat_menswear__A_lower__s46.jpg" onclick="z(this)"><figcaption>p016 · 672x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p026+dualuse_lp_beige_long_coat_menswear__A_lower__s46.jpg" onclick="z(this)"><figcaption>p026 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p016+dualuse_lp_beige_long_coat_menswear__A_lower_R__s46.jpg" onclick="z(this)"><figcaption>p016 · 672x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p026+dualuse_lp_beige_long_coat_menswear__A_lower_R__s46.jpg" onclick="z(this)"><figcaption>p026 · 672x1024</figcaption></figure></div></div></div></div>
+</div><div class="col">
+  <h4>B · call 1 neutralises the other half</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/dualuse_lp_beige_long_coat_menswear__B_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 393x679</figcaption></figure>
+  <div class=meta>kept 57.7% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p016+dualuse_lp_beige_long_coat_menswear__B_lower__s46.jpg" onclick="z(this)"><figcaption>p016 · 672x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p026+dualuse_lp_beige_long_coat_menswear__B_lower__s46.jpg" onclick="z(this)"><figcaption>p026 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p016+dualuse_lp_beige_long_coat_menswear__B_lower_R__s46.jpg" onclick="z(this)"><figcaption>p016 · 672x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p026+dualuse_lp_beige_long_coat_menswear__B_lower_R__s46.jpg" onclick="z(this)"><figcaption>p026 · 672x1024</figcaption></figure></div></div></div></div>
+</div></div></div>
+</section><section>
+  <h2>dualuse_queen_latifah_gown_stage <span class=sub>hip row 841
+    · p012, p022</span></h2>
+  <div class=balds><figure class=inp><img loading=lazy src="img_v311/in_p012.jpg" onclick="z(this)"><figcaption>INPUT person · p012 · 682x1024</figcaption></figure><figure class=inp><img loading=lazy src="img_v311/in_p022.jpg" onclick="z(this)"><figcaption>INPUT person · p022 · 682x1024</figcaption></figure><figure class=inp><img loading=lazy src="img_v311/in_dualuse_queen_latifah_gown_stage.jpg" onclick="z(this)"><figcaption>INPUT garment · 836x1254</figcaption></figure><figure><img loading=lazy src="img_v311/dualuse_queen_latifah_gown_stage__bald_A.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · call 1 of record · 836x1254</figcaption></figure><figure><img loading=lazy src="img_v311/dualuse_queen_latifah_gown_stage__bald_B_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · B · lower neutralised · 836x1254</figcaption></figure><figure><img loading=lazy src="img_v311/dualuse_queen_latifah_gown_stage__bald_B_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE bald frame · B · upper neutralised · 836x1254</figcaption></figure></div>
+  <div class=region><div class="rlabel upper">UPPER HALF</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/dualuse_queen_latifah_gown_stage__A_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 569x553</figcaption></figure>
+  <div class=meta>kept 58.7% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p012+dualuse_queen_latifah_gown_stage__A_upper__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p022+dualuse_queen_latifah_gown_stage__A_upper__s46.jpg" onclick="z(this)"><figcaption>p022 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p012+dualuse_queen_latifah_gown_stage__A_upper_R__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p022+dualuse_queen_latifah_gown_stage__A_upper_R__s46.jpg" onclick="z(this)"><figcaption>p022 · 672x1024</figcaption></figure></div></div></div></div>
+</div><div class="col">
+  <h4>B · call 1 neutralises the other half</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/dualuse_queen_latifah_gown_stage__B_upper.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 569x542</figcaption></figure>
+  <div class=meta>kept 57.7% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p012+dualuse_queen_latifah_gown_stage__B_upper__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p022+dualuse_queen_latifah_gown_stage__B_upper__s46.jpg" onclick="z(this)"><figcaption>p022 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p012+dualuse_queen_latifah_gown_stage__B_upper_R__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div><div class=gen><div class="badge upper">OUTPUT · UPPER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p022+dualuse_queen_latifah_gown_stage__B_upper_R__s46.jpg" onclick="z(this)"><figcaption>p022 · 672x1024</figcaption></figure></div></div></div></div>
+</div></div></div><div class=region><div class="rlabel full">FULL BODY</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/dualuse_queen_latifah_gown_stage__A_full.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 650x1118</figcaption></figure>
+  <div class=meta>&nbsp;</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge full">OUTPUT · FULL BODY · ER</div><figure class=""><img loading=lazy src="img_v311/p012+dualuse_queen_latifah_gown_stage__A_full__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div><div class=gen><div class="badge full">OUTPUT · FULL BODY · ER</div><figure class=""><img loading=lazy src="img_v311/p022+dualuse_queen_latifah_gown_stage__A_full__s46.jpg" onclick="z(this)"><figcaption>p022 · 672x1024</figcaption></figure></div></div></div></div>
+</div><div class="col none"><h4>B</h4><div class=note>nothing unselected to neutralise —<br>B’s call 1 would be A’s, so <i>full</i> is generated once</div></div></div></div><div class=region><div class="rlabel lower">LOWER HALF</div><div class=cols><div class="col">
+  <h4>A · crop only</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/dualuse_queen_latifah_gown_stage__A_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 522x428</figcaption></figure>
+  <div class=meta>kept 41.3% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p012+dualuse_queen_latifah_gown_stage__A_lower__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p022+dualuse_queen_latifah_gown_stage__A_lower__s46.jpg" onclick="z(this)"><figcaption>p022 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p012+dualuse_queen_latifah_gown_stage__A_lower_R__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p022+dualuse_queen_latifah_gown_stage__A_lower_R__s46.jpg" onclick="z(this)"><figcaption>p022 · 672x1024</figcaption></figure></div></div></div></div>
+</div><div class="col">
+  <h4>B · call 1 neutralises the other half</h4>
+  <figure class="ref"><img loading=lazy src="img_v311/dualuse_queen_latifah_gown_stage__B_lower.jpg" onclick="z(this)"><figcaption>INTERMEDIATE reference · 523x444</figcaption></figure>
+  <div class=meta>kept 43.4% of the subject</div>
+  
+  <div class=gens><div class="pgroup S"><div class=phead>call 2 · ER as shipped</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p012+dualuse_queen_latifah_gown_stage__B_lower__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · ER</div><figure class=""><img loading=lazy src="img_v311/p022+dualuse_queen_latifah_gown_stage__B_lower__s46.jpg" onclick="z(this)"><figcaption>p022 · 672x1024</figcaption></figure></div></div></div><div class="pgroup R"><div class=phead>call 2 · names the region</div><div class=shots><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p012+dualuse_queen_latifah_gown_stage__B_lower_R__s46.jpg" onclick="z(this)"><figcaption>p012 · 672x1024</figcaption></figure></div><div class=gen><div class="badge lower">OUTPUT · LOWER HALF · REGION</div><figure class=""><img loading=lazy src="img_v311/p022+dualuse_queen_latifah_gown_stage__B_lower_R__s46.jpg" onclick="z(this)"><figcaption>p022 · 672x1024</figcaption></figure></div></div></div></div>
+</div></div></div>
+</section>
+<footer>126 klein calls · 3.36 min · CAD 0.039 · 108 try-ons · run v3/runs/v311/a100</footer>
+<div id=lb onclick="this.style.display='none'"><img></div>
+<script>
+function z(el){const b=document.getElementById('lb');b.querySelector('img').src=el.src;b.style.display='flex';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lb').style.display='none';});
+</script>

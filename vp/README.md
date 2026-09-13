@@ -19,11 +19,11 @@ Seven sections, one kind of code each, per [`prd/PROD/SKELETON.md`](../prd/PROD/
 |---|---|---|
 | 1 | Install | pinned `diffusers`, `transformers`, `accelerate`, `mediapipe`; the first `onnxruntime-gpu` build whose CUDA provider actually loads on the runtime; `opencv-contrib-python-headless` last |
 | 2 | Downloads | every weight into `MODEL_ROOT`, in Magic Hour's layout, at pinned revisions — only files that are missing are fetched; the four crop models are sha256-checked every run |
-| 3 | Inputs | `PERSON_IMAGE`, `GARMENT_IMAGE`, `OUTPUT_IMAGE`, `SEED` |
+| 3 | Inputs | `PERSON_IMAGE`, `GARMENT_IMAGE`, `REGION`, `OUTPUT_IMAGE`, `SEED` |
 | 4 | Load | klein (Photoroom transformer + BFL text encoder, VAE, tokenizer, scheduler) on the GPU; BiRefNet and the SCHP parser on CUDA — **stops with an error if either falls back to CPU**; MediaPipe Selfie and Pose on CPU |
 | 5 | Pipeline | the functions: normalise, the two canvas rules, klein, the head-subtracting crop, `prepare_garment`, `try_on` |
 | 6 | Run | prepares the garment, runs the try-on, writes `OUTPUT_IMAGE` |
-| 7 | Output | the image, the seed, the head route, per-stage seconds |
+| 7 | Output | the image, the seed, the region (and whether it fell back), the head route, per-stage seconds |
 
 Everything is inline. The crop is the code of record (`v2/build/garment_crop.py`,
 `v2/build/phase3_variants.py`, `v3/build/ironman_bc_crop.py`) with the comments removed,
@@ -36,6 +36,13 @@ the filename-keyed disk cache removed, model paths injected, and the parser fixe
    `FLUX.2-klein-4b-fp8-diffusers/` (Magic Hour's `models/`). Leave it as is to download
    everything (~16.5 GB, once).
 3. In §3 set the two image paths. `SEED = None` draws a random seed and prints it.
+   `REGION` chooses the garment type: `full` swaps the whole outfit, `upper` only the top,
+   `lower` only the bottom. A region cuts the reference at the hip line **and** sends a
+   call-2 prompt that names the half, so the rest stays the person's own. If no hip is found
+   — a flat-lay, a cropped photo — it falls back to `full` and says so rather than guessing.
+   A region costs one extra cached reference per garment and nothing per request; the
+   selector was judged on 12 cells at one seed, so treat it as feasible rather than rated
+   (`prd/v3/v3.8/BUILD.md` §6.1c).
 4. Run all.
 
 **Redraw:** set `SEED = None` (or any unused seed) and run §6–§7 again; the garment is

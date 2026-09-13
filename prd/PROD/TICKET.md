@@ -1,3 +1,7 @@
+<!-- SNAPSHOT, 2026-09-12. The live ticket is Ray's Google Doc; this file is the copy it was
+     written from and is not edited in place any more. Changes since are in
+     TICKET_AMENDMENTS.md, pastable section by section. -->
+
 [web / aie]: build klein virtual try-on (ER) script
 
 Colab:

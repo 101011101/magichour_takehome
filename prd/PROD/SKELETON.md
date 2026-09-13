@@ -29,7 +29,8 @@ tries that garment on; the second is the only per-request cost.
 | normalise | — (OpenCV, ≤1.15 MP) | CPU | image | none |
 | bald pass — call 1 | FLUX.2 klein 4B | GPU | garment | none |
 | head-subtracting crop | BiRefNet_lite · SCHP parser · MediaPipe Selfie · MediaPipe Pose | GPU (ONNX) · CPU (MediaPipe) | garment | none |
-| reference cache | — | storage | garment | **yes** — the one piece of state |
+| band cut (a region) | MediaPipe Pose (hips) | CPU | garment × region | none |
+| reference cache | — | storage | garment **× region** | **yes** — the one piece of state |
 | try-on — call 2 | FLUX.2 klein 4B | GPU | request | none |
 | redraw | — | — | failed request | the seeds already used for the pair |
 
@@ -39,8 +40,9 @@ klein = Photoroom `transformer_bf16` + BFL text encoder, VAE, tokenizer, schedul
 ## 3. The contract
 
 ```
-prepare_garment(garment_image)            -> reference, meta{cranium_used, head_route, seconds}
-try_on(person_image, reference, seed=None) -> image, seed
+prepare_garment(garment_image, region)              -> reference, info{requested, region,
+                                                        fallback, head_route, seconds}
+try_on(person_image, reference, seed=None, region)  -> image, seed
 ```
 
 - `person_image` is image 1: it sets the output's aspect ratio **and its size** — since
@@ -48,6 +50,13 @@ try_on(person_image, reference, seed=None) -> image, seed
   never upscaled ([BUILD §6.1b](../v3/v3.8/BUILD.md)).
 - `garment_image` is a photograph of the garment **being worn** — every garment the system
   was measured on is one (`v3/colab/matrix.csv`, 56 garments).
+- `region` is `full`, `upper` or `lower` — the garment type the user asked to swap. It
+  changes **both** the reference (the mask is cut at the hip line) and call 2's prompt, which
+  names the half. A full-body photo with `upper` should come back with the person's own
+  trousers.
+- **Pass `info["region"]` to `try_on`, not the region you asked for.** The band falls back to
+  `full` when no hip is found or the band is a sliver, and the prompt has to follow the
+  reference.
 - `seed` omitted → drawn at random and returned. Same inputs + same seed → the same image,
   on the same GPU class and library versions.
 - Redraw = `try_on` again with a seed not yet used for that pair. The reference is not
@@ -57,9 +66,10 @@ try_on(person_image, reference, seed=None) -> image, seed
 
 | exposed to the product | fixed inside the script |
 |---|---|
-| person image | both prompts ([BUILD §2](../v3/v3.8/BUILD.md)) |
+| person image | all three prompts ([BUILD §2](../v3/v3.8/BUILD.md)) |
 | garment image | 4 steps · guidance 0.0 · bfloat16 · CPU generator |
-| seed (optional) | call-1 seed 46 |
+| **region** — `full`, `upper`, `lower` | call-1 seed 46 |
+| seed (optional) | the hip line, and the fallback to `full` |
 | | canvas rule: the person's own size, ≤1 MP, floor 32, **never upscaled** ([BUILD §4 rule 3](../v3/v3.8/BUILD.md)) |
 | | no LoRAs, pinned revisions |
 

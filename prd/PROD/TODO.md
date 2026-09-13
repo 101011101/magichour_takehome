@@ -56,6 +56,7 @@
 | 17 | Why was 1.15 MP the limit, and not 1 MP? | done | Chosen in V3.0 with no recorded rationale, as a "~1 MP" normalisation to match fal's ~832×1248 output; retired as a canvas limit in v3.4 because it admits ~4,492 tokens, over the 4,300-token schedule branch. Survives only as the input pre-bound | [OPEN Q1](OPEN_QUESTIONS.md) — "Why 1.15 MP"; commit `7c1e520`; `prd/v3/README.md` §6; `prd/v3/v3.4/RESULTS.md` §4.2; `prd/v3/v3.4/SOLUTION.md` §2, §5 |
 | 18 | Which retry-clustering figures are of record? | done | The deployed report's: `BC` strict (1.61 seeds, 48% of retries meet another failure, 4.00% after one retry); `ER` 1.29 seeds, 28%, **1.71%** after one retry; 72% of `ER`'s failed cells pass at another seed. Recomputed from the CSVs | `prd/v3/v3.8/RESULTS.md` §6; `v3/report_v36/v36_report.html`; `v3/testsets/{bc2_count,er_count}.csv` |
 | 19 | Has a garment photo with **no person** in it ever been tried — clothing alone, flat-lay or product shot? | **done 2026-09-12** | Yes, and it works: 10 product garments × 3 people × 2 seeds, **59 of 60 marked same** against the v3.0 no-bald route. Caveat, and it is a cost question: the head-finder fired on 10 of 10 person-free photos and the bald pass repainted 2.7–7.7% of pixels for no visible gain. `ER` has no branch on garment kind; v3.0 did | `prd/v3/v3.9/RESULTS.md`, `prd/v3/v3.9/EXPERIMENT.md`, `v3/testsets/inquiry_marks.csv` §5; [OPEN Q7](OPEN_QUESTIONS.md) |
+| 20 | Can a user choose the garment type — swap only the top of a full-body photo? (Runbo, 2026-09-12) | **decided — Ray, 2026-09-12: the selector ships** | Yes, and it takes **two** changes: the reference cut at the hip line **and** a call 2 naming the half. The crop alone does not work — the band cut perfectly on 30 of 30 references, nothing fell back, and the outputs were still unusable, because `ER`'s *replace the clothing* means all of it. The sentence closes it at no cost (**1.651 s vs 1.659 s**). Judged by eye on 12 clean full-body cells at one seed, one reviewer — a feasibility result, **not a rate**. Arm A vs B not ranked; A is the cheaper default (3.27 s vs ≈6.56 s per garment for three regions) and keeps the call-1 prompt of record | `prd/v3/v3.11/RESULTS.md`, `prd/v3/v3.11/EXPERIMENT.md`; `v3/report/v311_selector.html`; `v3/runs/v311/a100/`; amendments in [TICKET_AMENDMENTS.md](TICKET_AMENDMENTS.md) |
 
 ## Ticket sources
 
@@ -113,10 +114,34 @@
       latency, by one reviewer whose bar has moved 1.72× between sittings. A second reviewer
       over the same 912 cards, or a fresh sample marked with no prior labels in play, would
       settle what p = 0.345 could not. A sitting each, no GPU time. (Q1)
-- [ ] **The Linear ticket** — `TICKET.md`, updated 2026-09-12 for the no-upscale canvas: output
+- [ ] **The Linear ticket — now a Google Doc, and that is the live copy.** `TICKET.md` is a
+      snapshot as of 2026-09-12 and is no longer edited in place; changes go to
+      [`TICKET_AMENDMENTS.md`](TICKET_AMENDMENTS.md), written section by section to be pasted.
+      The selector amendments are there and unpasted. Previously updated for the no-upscale canvas: output
       is now the person photo's own size capped at 1 MP, per-request latency ~1.9 s, cost
       ~CAD 0.36 per 1,000. Still to fill: Colab link, GPU crop time, cold-load time from local
       disk, credits, which product it ships in, whether the existing klein script is reused.
+
+**The garment-type selector (v3.11), decided 2026-09-12**
+
+- [x] **Trial it.** Built and run 2026-09-12: 12 clean full-body cells, 6 garments, two
+      reference arms × three regions × two call-2 texts, 126 calls, 3.36 min, CAD 0.039.
+      The crop alone failed; the crop **plus** a call 2 naming the half works.
+      → `prd/v3/v3.11/{RESULTS,EXPERIMENT,TEST}.md`, `v3/report/v311_selector.html`
+- [ ] **Put `REGION` in the production Colab.** `vp/tryon_er.ipynb` has no selector — the
+      feature is proven in the trial notebook only. Until it lands there, the ticket must not
+      imply an engineer can use it from the linked Colab. (ledger 20)
+- [ ] **Choose the reference arm.** A (cut the band) and B (call 1 dresses the other half in
+      plain white first) both work under the region sentence and were never ranked. A is the
+      cheaper default — 3.27 s against ≈6.56 s per garment for three regions — and keeps the
+      call-1 prompt of record. One paired look at A/`R` vs B/`R` settles it, no new GPU time.
+- [ ] **Guard the two cases the trial could not exercise.** A waist-up photograph asked for
+      `lower` (the <2% fallback exists but was never hit), and a product shot asked for a
+      region at all — Pose reports a hip on 6 of 10 person-free photographs, so the band would
+      cut at an invented row. Both need refusing or falling back in product code.
+- [ ] **A counted region rate.** No rate exists for a region request, and the fold-wide 2.6%
+      describes whole outfits. A sweep at `upper` and `lower` over the fold, marked one image
+      per card as v3.10 was, would produce one. ~25 min of GPU.
 
 **Measurements that fill the ticket** (BUILD §7.3)
 

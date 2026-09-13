@@ -298,3 +298,36 @@ call-2 outputs mean the pinned set is the set of record.
 - **`ER` has not been swept against the strict bar** — its rate is a range with a floor
   (`prd/v3/v3.8/RESULTS.md` §3).
 - **The fold is mostly front-facing** (`prd/v3/v3.8/SOLUTION.md` §6).
+
+## Q11. The garment-type selector — **ANSWERED 2026-09-12; four things it leaves open**
+
+**Runbo asked for it** (2026-09-12): *"a feature that allows users to choose the garment type…
+like if the user uploads a full body image but just wants to swap like the top."*
+
+**Answered, and it ships.** A `REGION` selector of `upper | lower | full`. It takes **two**
+changes, not one: the garment reference is cut at the hip line, **and** call 2 is sent a
+sentence naming the half. The crop alone does not work — the band cut correctly on 30 of 30
+references and the outputs were still unusable, because `ER`'s *replace the clothing in image 1*
+means all of it. The sentence costs nothing: 1.651 s against 1.659 s.
+→ `prd/v3/v3.11/RESULTS.md`, page `v3/report/v311_selector.html`
+
+**What it does not settle:**
+
+1. **Which reference arm.** Arm A cuts the band; arm B has call 1 dress the unselected half in
+   plain white first. Both work under the region sentence; the trial ranked neither. **A is the
+   cheaper default** — one bald pass and one mask per garment serve all three regions, 3.27 s
+   against ≈6.56 s — and A's call 1 is the prompt of record, so v3's numbers still apply to it.
+   B's only measured advantage is a crop that is ~2× faster *per region*, which A beats anyway
+   by cutting three bands off one mask. **Closes with** one paired look, no new GPU time.
+2. **No rate.** 12 clean full-body cells, one seed, one reviewer, by eye. The 3–6% and 2.6%
+   figures are whole-outfit rates and do not describe a region request. **Closes with** a
+   counted sweep at `upper` and `lower` over the fold, marked as v3.10 was — ~25 min.
+3. **Two input cases the set could not exercise.** A **waist-up photograph asked for `lower`**
+   has nothing below the hip to keep; the <2% fallback exists for it and never fired, because
+   every person in the set is full body. And a **product shot asked for a region**: Pose reports
+   a hip on **6 of 10** flat-lay and ghost-mannequin garments that contain no person, so the
+   band would cut at an invented row. Product code must refuse or fall back, not trust the
+   landmark.
+4. **The half reference's token footprint.** An `upper` reference averages **0.126 MP** against
+   the 0.40 MP the shipped path sends. v3.4 link H found the reference's footprint in call 2 is
+   what fixes proportion collapse — nothing here measured whether a third of it is enough.

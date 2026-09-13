@@ -58,12 +58,13 @@ GARMENT PHOTO                                                  once per garment,
   │                     → resized back to S0 size, INTER_AREA  → JPEG q95
   ▼
   S2 head subtraction   BiRefNet matte × Selfie labels × SCHP head   ironman_bc_crop.crop_bc
-  │                     → head removed → subject bbox (+3%) → flattened on white 255
+  │                     → head removed → **band cut at the hip line if REGION is
+  │                       upper/lower** (§6.1c) → subject bbox (+3%) → white 255
   │                     → JPEG q95                           = THE REFERENCE
   ▼
 PERSON PHOTO ─ S0 normalise → JPEG q95 ─┐                      once per try-on
                                         ▼
-  S3 CALL 2 — ER        klein, ER prompt, images [person, reference], seed per request
+  S3 CALL 2 — ER        klein, the call-2 prompt FOR THAT REGION (§2), [person, reference]
                         canvas: the person's own size under 2²⁰, /32, never up   canvas_tryon
                         4 steps · guidance 0.0 · bf16 · torch.Generator("cpu")
                         ▼
@@ -125,11 +126,31 @@ BALD_PROMPT = ("Make this person completely bald. Remove all hair from the head 
 
 ER = ("Replace the clothing in image 1 with the clothing in image 2. Keep the person's "
       "face, identity, body and the background exactly as they are.")
+
+# REGION=upper and REGION=lower, added 2026-09-12 (v3.11). full uses ER above: it IS the
+# whole outfit, and ER already says so.
+ER_REGION = {
+    "upper": ("Replace only the upper half of the outfit in image 1 with the clothing in "
+              "image 2. Everything below the waist is the person's own and stays, along with "
+              "their face, identity, body and the background."),
+    "lower": ("Replace only the lower half of the outfit in image 1 with the clothing in "
+              "image 2. Everything above the waist is the person's own and stays, along with "
+              "their face, identity, body and the background."),
+}
 ```
 
-Import them from `v3lib.BALD_PROMPT` and `run_v36.ER`, or copy with a test asserting
-equality. A 4-step distilled model drifts as a prompt grows (EXPERIMENT links 3, 4); a
-changed character is an untested arm.
+Import them from `v3lib.BALD_PROMPT`, `run_v36.ER` and `run_v311.ER_REGION`, or copy with a
+test asserting equality. A 4-step distilled model drifts as a prompt grows (EXPERIMENT
+links 3, 4); a changed character is an untested arm.
+
+**The region prompt is load-bearing, not decoration.** v3.11's first run cut the reference
+to a half and left call 2 saying *replace the clothing* — which names no half — and the
+outputs were poor: nothing told the model to leave the rest alone. Naming the half is what
+made the selector work.
+
+**Which prompt goes with which reference must be decided AFTER the band, not before.** If
+the band falls back to `full` (§6.1c), call 2 must use `ER`. Sending a region prompt with a
+whole-outfit reference asks the model to preserve a half the reference does not have.
 
 ---
 
@@ -212,7 +233,7 @@ arm, and no number in v3.8 describes it.
 | 7 | no LoRAs, no adapters, no attention processors swapped | — | any of them changes outputs materially; no number here transfers |
 | 8 | revisions pinned: BFL `e7b7dc27…`, Photoroom `408c457f…`, SCHP `4fd18f98…` | `from_pretrained(..., revision=)` | unpinned `main` can change outputs silently |
 | 9 | self-hosted; never compare with fal | — | same prompt, seed and canvas rule gave different failures on fal ([EXPERIMENT link 1](EXPERIMENT.md)) |
-| 10 | prompts byte-identical (§2); images in the order `[person, reference]` | `run_v36.ER` | the prompt was the only variable in v3.8; image 1 defines the canvas |
+| 10 | all three prompts byte-identical (§2); images in the order `[person, reference]`; the call-2 prompt matches the region the reference **actually is** | `run_v36.ER`, `run_v311.ER_REGION` | the prompt was the only variable in v3.8; image 1 defines the canvas; a region prompt over a fallen-back reference asks for a half that is not there |
 | 11 | JPEG q95 round trip on the normalised inputs, the bald frame and the reference | `run_ironman.py:200, 251`, `garment_crop.write_rgb` | part of the measured path; skipping it changes inputs by a few levels per pixel and breaks byte parity (T2) |
 | 12 | call 1 at seed **46** | `run_ironman.py:249` (`seeds[0]`) | every reference of record was built at the run's first seed; the seed lottery was measured on call 2 only |
 | 13 | batch size 1, one pipeline per GPU | — | batching changes kernels; never measured |
@@ -298,14 +319,28 @@ latency path.
 
 ### 6.1 Two operations
 
-**`build_reference(garment_image) → reference`** — once per garment, cached.
-S0 → S1 → S2. Cache key: sha256 of the normalised garment bytes **plus** a pipeline
-version string (revisions + prompt hash + library pins), so a pipeline change invalidates
-the cache rather than silently mixing references. Store alongside it: `cranium_used`,
-which head route fired (parser / pose / band), sizes, per-stage seconds.
+**`build_reference(garment_image, region) → reference, info`** — once per garment **and
+region**, cached. S0 → S1 → S2, with the band cut when `region` is `upper` or `lower`
+(§6.1c). Cache key: sha256 of the normalised garment bytes **plus the region** **plus** a
+pipeline version string (revisions + prompt hash + library pins), so a pipeline change
+invalidates the cache rather than silently mixing references. Store alongside it: the
+requested region, the region actually produced, any fallback reason, `cranium_used`, which
+head route fired (parser / pose / band), sizes, per-stage seconds.
 
-**`try_on(person_image, reference, seed=None) → (image, seed)`** — per request.
-S0 on the person → S3. Returns the seed it used.
+> **The region belongs in the cache key.** Leave it out and the first `full` request
+> poisons every later `upper` request for that garment with a whole-outfit reference — and
+> it fails silently, because a whole-outfit reference is a perfectly valid image.
+
+**`try_on(person_image, reference, seed=None, region) → (image, seed)`** — per request.
+S0 on the person → S3, sending the call-2 prompt for that region (§2). Pass the region the
+reference **actually is** (`info["region"]`), not the one that was asked for. Returns the
+seed it used.
+
+**What the selector costs: one extra reference per region, and nothing per request.** The
+bald pass does not depend on the region, so a garment offered in all three regions needs 1
+call 1 and 3 crops, not 3 of each — but only if the implementation shares that bald frame.
+The notebook does not: it prepares each region independently, which is simpler and costs a
+bald pass (~1.5 s) per region on first use. Both are cached and off the request path.
 
 ### 6.1b What size the output is
 
@@ -329,6 +364,34 @@ photo above: 864×1152 unset, 768×1024 at 1024, 576×768 at 768, 384×512 at 51
 
 Verified against the code over a 2,695-size grid: zero mismatches with
 `run_v310.size_noscale`, zero upscales, nothing over 2²⁰, every side a multiple of 32.
+
+### 6.1c The band: how a region is cut, and when it refuses
+
+The cut is on the **mask**, before the bounding box. Cropping the finished reference would
+leave its white ground and framing describing a body that is not there.
+
+| | |
+|---|---|
+| the line | the mean *y* of MediaPipe Pose landmarks 23/24 (the hips), counting only hips that are **both** confident (≥0.5) and inside the frame — the pair of tests `v3lib.framing` applies to its joints |
+| `upper` | keep the mask above that row |
+| `lower` | keep the mask below it |
+| `full` | the mask untouched — the reference of record |
+| the bbox | taken from the **kept band** for a region, from the whole subject for `full` |
+
+**The fallback is named, never guessed.** No pose, no in-frame hip, or a band keeping under
+**2%** of the subject falls back to `full`, records why, and the caller must then send `ER`
+rather than a region prompt. A guessed fraction of the frame would cut at an invented row.
+
+**A landmark is not evidence of a body.** Measured before the selector was built: Pose finds
+a hip on 53 of 56 worn bald frames in the archive — and on **6 of 10 flat-lays, which contain
+no person at all**. For a product shot the fallback is doing real work, and the `kept_fraction`
+guard is the thing that catches a band drawn across a garment lying on a table.
+
+**Evidence level, stated plainly.** The selector was judged on **12 cells at one seed**, by
+eye, on `v3/report/v311_selector.html` — a feasibility verdict, not a rate. **No v3.10
+failure rate transfers to a region request**: 2.6% was counted on whole-outfit try-ons under
+`ER`, and a region request changes both the reference and the prompt. It fills the
+`garment_crop.SELECT_REGION` / `region_band` stub, unimplemented since V2.
 
 ### 6.2 The seed policy
 
