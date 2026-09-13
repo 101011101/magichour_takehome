@@ -94,3 +94,10 @@ make a note in reuslts or epxirmenmts: reduction of attneiotn on unneeded thigns
   output because it decendes to bascialyl the same thign, the lack of focus is what causes it
   to not go all the way to perfection. thus the reduction of attention from the isoaltion of
   attention is the best way to maixmize results
+
+
+
+
+  V3.6
+
+  Keep ankle cut (v3.5 maybe icnlude head crop)
