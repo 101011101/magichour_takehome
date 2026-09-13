@@ -423,28 +423,40 @@ work done against nothing — and worse than nothing, since call 1 invents one (
 
 | | |
 |---|---|
-| the test | **the crop's own face check, lifted from `v3lib.tone`**: the Selfie Multiclass FACE channel above 0.6, at least **500 px**. If that is short, a confident in-frame **nose** landmark (Pose 0) decides it. Both models are already loaded by the crop, so the gate adds no model and no download |
+| the test | **the crop's own head check**: Selfie Multiclass **FACE + HAIR** confidence above 0.6, at least **500 px**. One model, already loaded by the crop, so the gate adds no model and no download |
 | when it says *person* | nothing changes: bald pass, head-subtracting crop, the band if a region was asked for |
 | when it says *nobody* | **skip S1 and S2.** The reference is the BiRefNet subject matte, bounding-boxed and flattened on white. The region is forced to `full` |
 | where it runs | on the **normalised upload**, before the cache is consulted, so the key and the reference can never disagree |
 | what is recorded | the route, and the reason the gate gave |
 
-**Measured before it was wired in** (`v3/build/person_gate_check.py`, run 2026-09-12):
+**Measured before it was wired in** (`v3/build/person_gate_check.py`, re-run 2026-09-12 after
+the rule changed):
 
-| set | images | gate says *person* |
-|---|---|---|
-| the fold's garment photographs (all worn) | 56 | **56** |
-| `test_set1` on-model garments | 13 | **13** |
-| `test_set1` flat-lay and ghost mannequin | 17 | **1** |
-| the inquiry run's product shots (a subset of the 17 above) | 10 | **1** |
+| set | images | gate says *person* | should be |
+|---|---|---|---|
+| the fold's garment photographs (all worn) | 56 | **56** | 56 |
+| `test_set1` on-model garments (a subset of the 56) | 13 | **13** | 13 |
+| `test_set1` flat-lay and ghost mannequin | 17 | **0** | 0 |
+| the inquiry run's product shots (a subset of the 17) | 10 | **0** | 0 |
 
-**Zero false negatives on 69 worn photographs**, which is the direction that matters: a wrong
-*nobody* would send a real garment-on-a-person down the no-bald route and change a result
-nobody asked to change. The single false positive is `g010`, a ghost-mannequin tee whose
-hollow shoulders read as a nose at 0.96 visibility; it keeps today's behaviour, which is the
-safe failure. Either signal alone is weaker — the nose alone false-positives the same `g010`
-and misses one fold photograph; the face region alone is clean on all 27 product shots but
-misses a fold photograph. Their OR is what gives 69/69.
+**No error in either direction**, on either denominator that counts: 56 worn photographs and
+17 person-free ones. The direction that matters most is a wrong *nobody*, which would send a
+real garment-on-a-person down the no-bald route and change a result nobody asked to change.
+
+**The margin, not the score, is why this rule was chosen.** The lowest worn photograph
+measures **1,849** head pixels; the highest person-free one measures **202**. The 500
+threshold sits in a 9.2× gap, so it is not balanced on the edge of anything. (An earlier note
+gave that upper figure as 0 — that was the ten inquiry shots, all of which measure 0; over all
+17 person-free photographs the maximum is 202.)
+
+**Why the head and not the face** (the rule this replaced, 2026-09-12). Face-only misses
+`p016`, a worn garment whose face measures **469 px**, 31 under the threshold — a face is a
+small thing in a full-body photograph, and that is exactly this system's input. Adding the
+Pose nose as a tie-break fixed that but false-positived `g010`, a ghost-mannequin tee whose
+hollow shoulders read as a nose at **0.96**. Counting hair as well as face fixes both at once:
+`p016` measures 1,622 head px, `g010` measures 0. It also drops the Pose call, so the gate is
+simpler and cheaper than the rule it replaced. Full comparison of six candidates:
+[v3.13](../v3.13/EXPERIMENT.md), page `v3/report/v313.html`.
 
 **Why this is allowed to skip a generative stage.** The inquiry run already compared the two
 routes on product shots: the production path against `NOBALD`, which skips the bald pass —
@@ -453,15 +465,9 @@ The person-side work buys nothing on a flat-lay, and it costs: 2.7–7.7% of the
 pixels repainted (`v3/runs/inquiry/a100/inquiry/meta/garment_only.json`) and one klein call
 per garment.
 
-**Why two signals and not just the face.** The face test alone is what Ray asked for and it is
-nearly right: 55 of 56 fold garments, 0 of 17 product shots. The miss is `p016`, a worn
-garment whose face measures **464 px** — 36 under the threshold — while its nose fires at
-**0.999**. A face is a small thing in a full-body photograph, and that is exactly the input
-this system is for, so the nose is kept as the tie-break. Nose alone is worse in the other
-direction: it is what false-positives `g010`.
-
 **What it costs.** One more inference of a model the crop already loads and already runs, on
-an image the pipeline has already normalised. The whole crop stage is **0.58 s on an A100**
+an image the pipeline has already normalised. Per **request** it costs nothing at all — the
+gate runs once per garment, at preparation time. The whole crop stage is **0.58 s on an A100**
 with both ONNX models on CUDA (§5), and this is a fraction of that — but it has **not been
 timed on a GPU on its own**, and no CPU figure is quoted here because production does not run
 it on a CPU. Measure it on the next A100 run if a precise number is wanted.

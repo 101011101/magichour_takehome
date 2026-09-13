@@ -53,8 +53,10 @@ try_on(person_image, reference, seed=None, region)  -> image, seed
   input — every garment the system was measured on is one (`v3/colab/matrix.csv`, 56
   garments). A product shot with nobody in it is detected and takes a shorter route: the
   **person gate** skips the bald pass and the head-subtracting crop, and forces `full`
-  ([BUILD §6.1d](../v3/v3.8/BUILD.md)). Measured 69/69 on worn photographs, and 1 of 17 distinct product
-  shots misread as worn — the safe direction, since that only keeps today's behaviour.
+  ([BUILD §6.1d](../v3/v3.8/BUILD.md)). The gate is a **head** check — Selfie Multiclass
+  FACE + HAIR, at least 500 px — and it makes no error either way: 56 of 56 worn
+  photographs, 0 of 17 person-free ones. The threshold sits in a 9.2× gap (worn floor 1,849
+  px, person-free ceiling 202).
 - `region` is `full`, `upper` or `lower` — the garment type the user asked to swap. It
   changes **both** the reference (the mask is cut at the hip line) and call 2's prompt, which
   names the half. A full-body photo with `upper` should come back with the person's own

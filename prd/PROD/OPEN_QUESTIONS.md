@@ -269,16 +269,24 @@ this sample.
 **Decided 2026-09-12 (Ray): the branch is restored.** A **person gate** runs on the uploaded
 garment photograph, before anything is generated. No person → no bald pass, no head crop: the
 reference is the subject matte cropped out of its background, and the region is forced to
-`full`. The gate is a confident in-frame nose landmark **or** a Selfie Multiclass FACE region
-of ≥500 px — both already loaded, no new dependency.
+`full`. The gate is a **head** check — Selfie Multiclass **FACE + HAIR** above 0.6, at least
+500 px — one model the crop already loads, no new dependency and no pose call.
 
-Measured before it was wired in (`v3/build/person_gate_check.py`): **69 of 69** worn garment
-photographs pass the gate — 56 fold garments and 13 `test_set1` on-model — and **1 of 17** distinct
-product shots is misread as worn — `g010`, a ghost-mannequin tee whose hollow shoulders read
-as a nose at 0.96 visibility. (The inquiry run's ten product shots are a subset of those 17,
-so it appears in both rows of the table.) **Zero false negatives** is the property that
-matters: a wrong *nobody* would change a result on a real garment, where a wrong *person*
-merely keeps today's behaviour. → [BUILD §6.1d](../v3/v3.8/BUILD.md)
+Measured before it was wired in, and re-measured after the rule changed
+(`v3/build/person_gate_check.py`): **56 of 56** worn garment photographs pass and **0 of 17**
+person-free ones do — **no error in either direction**. The threshold is not balanced on an
+edge: the lowest worn photograph measures **1,849** head pixels and the highest person-free
+one **202**, a 9.2× gap. → [BUILD §6.1d](../v3/v3.8/BUILD.md)
+
+**The rule changed on 2026-09-12**, after six candidates were compared on the same two sets
+([v3.13](../v3/v3.13/EXPERIMENT.md), page `v3/report/v313.html`). The first version — FACE
+alone, with the Pose nose as a tie-break — made one error in each direction: it needed the
+nose because `p016`'s face measures 469 px, 31 under the threshold, and the nose then
+false-positived `g010`, a ghost-mannequin tee whose hollow shoulders read as a nose at 0.96.
+Counting hair as well as face fixes both (`p016` 1,622 px, `g010` 0) and drops the pose call.
+Two earlier figures here were wrong and are corrected: "69 of 69" double-counted, since the
+13 `test_set1` on-model garments are a subset of the fold's 56; and the head-pixel ceiling on
+person-free photographs is 202, not 0 — 0 is the ten inquiry shots alone.
 
 **And the 10-of-10 figure above was misattributed.** Re-measured 2026-09-12 on the same ten
 photographs (`v3/report/flatlay_hips.html`): the pose read finds a hip on **1 of 10 product

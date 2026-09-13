@@ -6,15 +6,21 @@ get a wearer out of the way. A flat-lay has no wearer, and on one the bald pass 
 which photographs have people in them, and that is what this script measures rather than
 assumes.
 
-The check is the crop's own, not a new model: the FACE test from v3lib.tone, with the pose
-nose as a tie-break. Both already run inside the crop, so the gate adds nothing to download.
+The check is the crop's own models, not a new one: Selfie Multiclass, which the crop already
+segments with. So the gate adds nothing to download.
 
-  face    Selfie Multiclass FACE channel > 0.6, at least MIN_FACE_PX pixels - the same
-          test v3lib.tone already applies before it reads a skin tone. Decides on its own
-          when it fires
-  nose    MediaPipe Pose landmark 0, visibility >= VIS and inside the frame. Only consulted
-          when the face is short, because a face is small in a full-body photograph: p016 of
-          the fold measures 464 px, 36 under the threshold, and its nose reads 0.999
+  head    THE GATE. Selfie Multiclass FACE + HAIR confidence > 0.6, at least MIN_HEAD_PX
+          pixels. Chosen 2026-09-12 over the alternatives below: it is the only candidate
+          that makes no error on either class, and it needs no pose call
+  face    the FACE channel alone - v3lib.tone's test. Misses p016 of the fold, a worn
+          photograph whose face measures 469 px, 31 under the threshold. A face is small in
+          a full-body photograph, which is this system's input; a head is not
+  nose     MediaPipe Pose landmark 0. Fooled by g010, a ghost-mannequin tee whose hollow
+          shoulders read as a nose at 0.96
+
+The margin is what decides it: on the fold the lowest worn photograph measures 1,849 head
+pixels and the highest person-free one measures 0, so the 500 threshold sits in a very wide
+gap. FACE alone has no such gap.
 
 This script measures ACCURACY, which is a property of the model and not of the device, so it
 is fine to run here. Timing is not measured here and must not be: production runs these on a
@@ -35,7 +41,8 @@ MODELS = os.path.join(REPO, "models")
 VIS = 0.5
 MARGIN = 0.02
 FACE_T = 0.6
-MIN_FACE_PX = 500
+MIN_HEAD_PX = 500
+MIN_FACE_PX = 500   # the face-only candidate, kept for comparison
 BG, HAIR, BODY, FACE, CLOTHES, OTHER = range(6)
 _S = {}
 
@@ -89,10 +96,19 @@ def face_pixels(bgr):
     return int((m > FACE_T).sum())
 
 
+def head_pixels(bgr):
+    """FACE + HAIR area. A head survives the framing a face does not."""
+    res = _segmenter().segment(_mp_image(bgr))
+    h, w = bgr.shape[:2]
+    ch = res.confidence_masks
+    m = (cv2.resize(ch[FACE].numpy_view(), (w, h), interpolation=cv2.INTER_LINEAR)
+         + cv2.resize(ch[HAIR].numpy_view(), (w, h), interpolation=cv2.INTER_LINEAR))
+    return int((m > FACE_T).sum())
+
+
 def person_present(bgr):
-    """The gate: a nose OR a face region. Either alone is evidence of a wearer."""
-    nose, _ = nose_present(bgr)
-    return nose or face_pixels(bgr) >= MIN_FACE_PX
+    """The gate, as production runs it: is there a head."""
+    return head_pixels(bgr) >= MIN_HEAD_PX
 
 
 def main():
@@ -122,18 +138,23 @@ def main():
                 continue
             nose, v = nose_present(bgr)
             px = face_pixels(bgr)
-            gate = nose or px >= MIN_FACE_PX
-            rowsout.append((os.path.basename(f), nose, v, px, gate))
+            hpx = head_pixels(bgr)
+            gate = hpx >= MIN_HEAD_PX
+            rowsout.append((os.path.basename(f), nose, v, px, gate, hpx))
         n = len(rowsout)
         agree = sum(1 for r in rowsout if r[4] == expect_person)
         print(f"\n{name}  (expect {'person' if expect_person else 'NO person'}) - {n} images")
         print(f"  gate agrees on {agree}/{n}")
-        for k, label in ((1, "nose"), (4, "gate")):
-            hits = sum(1 for r in rowsout if r[k])
-            print(f"    {label:5s} says person on {hits}/{n}")
+        for label, hits in (("head (the gate)", sum(1 for r in rowsout if r[5] >= MIN_HEAD_PX)),
+                            ("face only", sum(1 for r in rowsout if r[3] >= MIN_FACE_PX)),
+                            ("nose only", sum(1 for r in rowsout if r[1]))):
+            print(f"    {label:16s} says person on {hits}/{n}")
+        if rowsout:
+            hs = sorted(r[5] for r in rowsout)
+            print(f"    head px: min {hs[0]}  max {hs[-1]}")
         wrong = [r for r in rowsout if r[4] != expect_person]
         for r in wrong:
-            print(f"    DISAGREES  {r[0]:52s} nose={r[1]} vis={r[2]} face_px={r[3]}")
+            print(f"    DISAGREES  {r[0]:52s} head_px={r[5]} face_px={r[3]} nose={r[1]} vis={r[2]}")
         out.append((name, expect_person, rowsout))
     return out
 
