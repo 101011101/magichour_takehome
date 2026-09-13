@@ -57,6 +57,8 @@ v36_*_2*.zip
 inquiry_*.zip
 v310_a100_*.zip
 v311_a100_*.zip
+v314_a100_*.zip
+v315_prod_smoke_*.zip
 v3/report_v36/
 
 # model weights fetched at runtime by v3lib.fetch_models
