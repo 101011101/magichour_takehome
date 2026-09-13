@@ -19,7 +19,7 @@ Seven sections, one kind of code each, per [`prd/PROD/SKELETON.md`](../prd/PROD/
 |---|---|---|
 | 1 | Install | pinned `diffusers`, `transformers`, `accelerate`, `mediapipe`; the first `onnxruntime-gpu` build whose CUDA provider actually loads on the runtime; `opencv-contrib-python-headless` last |
 | 2 | Downloads | every weight into `MODEL_ROOT`, in Magic Hour's layout, at pinned revisions — only files that are missing are fetched; the four crop models are sha256-checked every run |
-| 3 | Inputs | `PERSON_IMAGE`, `GARMENT_IMAGE`, `REGION`, `OUTPUT_IMAGE`, `SEED` |
+| 3 | Inputs | `PERSON_IMAGE`, `GARMENT_IMAGE`, `REGION`, `MAX_RES`, `OUTPUT_IMAGE`, `SEED` |
 | 4 | Load | klein (Photoroom transformer + BFL text encoder, VAE, tokenizer, scheduler) on the GPU; BiRefNet and the SCHP parser on CUDA — **stops with an error if either falls back to CPU**; MediaPipe Selfie and Pose on CPU |
 | 5 | Pipeline | the functions: normalise, the two canvas rules, klein, the head-subtracting crop, `prepare_garment`, `try_on` |
 | 6 | Run | prepares the garment, runs the try-on, writes `OUTPUT_IMAGE` |
@@ -43,6 +43,9 @@ the filename-keyed disk cache removed, model paths injected, and the parser fixe
    A region costs one extra cached reference per garment and nothing per request; the
    selector was judged on 12 cells at one seed, so treat it as feasible rather than rated
    (`prd/v3/v3.8/BUILD.md` §6.1c).
+   `MAX_RES` caps the longer side of the output, aspect preserved; it only lowers, never
+   raises. The default 1536 leaves every ordinary photograph alone and catches only very
+   long or tall ones.
 4. Run all.
 
 **Redraw:** set `SEED = None` (or any unused seed) and run §6–§7 again; the garment is
@@ -55,9 +58,16 @@ The pipeline never upscales: a 1536×2048 photo gives 864×1152, and a 768×704 
 768×704 rather than being inflated to 1 MP. **The output tracks the input**, so a small
 photo in means a small image out; below ~0.5 MP the script refuses the photo.
 
-There is no resolution setting. 1 MP is where klein is optimised — above it the model runs
-a sampling schedule it was not distilled for. To deliver a larger image, upscale the
-finished one.
+`MAX_RES` (§3, default 1536) caps the **longer dimension**, always preserving the person
+photo's aspect ratio. It only lowers the canvas and cannot raise it: 1 MP is where klein is
+optimised, and above it the model runs a sampling schedule it was not distilled for. To
+deliver a larger image, upscale the finished one.
+
+The default binds on almost nothing — the 1 MP rule's longer side is 1024 at 1:1, 1344 at
+16:9, 1440 at 2:1, and only reaches 1536+ on panoramas (1760 at 3:1, 2048 at 4:1). Across the
+56 photographs of record the longest is 1408, so 1536 changes none of them and every measured
+number holds at the default. Lower it for smaller or faster output — a 3:4 photo is 864×1152
+at the default, 768×1024 at 1024, 576×768 at 768 — but that regime is untested for quality.
 
 The no-upscale rule was adopted 2026-09-12 on v3.10 ([BUILD §4 rule 3](../prd/v3/v3.8/BUILD.md)):
 12/456 failures against the old rule's 18/456, and ~20% faster.

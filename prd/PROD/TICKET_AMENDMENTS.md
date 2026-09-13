@@ -13,13 +13,15 @@ section, says **REPLACE / ADD / DELETE**, and gives the exact text to paste. Wri
 
 ## Modes
 
-**REPLACE** the section with:
+**DELETE** the whole section. Runbo: *"You don't need this modes section then because this
+whole thing just has one mode."* There is one mode — virtual try-on — and the region is an
+input, not a mode.
+
+One line from it still needs saying. **ADD** it as the last line of **Inputs**, after the
+bullets:
 
 ```
-Modes:
-- Virtual try-on, whole outfit: a photo of a person and a photo of a garment in, the person wearing that garment out
-- Virtual try-on, one half: the same, with only the upper or only the lower half of the outfit swapped and the rest of what the person is wearing left alone
-Not text-to-image, and not general image editing. The prompts are fixed and not exposed.
+This does one thing: virtual try-on. Not text-to-image, not general image editing. The prompts are fixed and not exposed.
 ```
 
 ---
@@ -30,6 +32,12 @@ Not text-to-image, and not general image editing. The prompts are fixed and not 
 
 ```
 - Region — optional, one of: full (default), upper, lower. full swaps the whole outfit. upper swaps what the person is wearing above the waist and leaves everything below it alone; lower is the mirror of that. It changes two things inside the script: the garment reference is cut at the person's hip line, and call 2 is sent a sentence naming the half. Nothing else about the request changes.
+```
+
+**ADD** after the Region bullet:
+
+```
+- Max resolution — optional integer, default 1536. Constrains the longer dimension of the output. The aspect ratio of the person photo is always preserved; this only ever lowers the result, never raises it, and it cannot lift the 1MP ceiling. Sides stay on a multiple of 32
 ```
 
 **ADD** at the end of the "Handling the product should do before calling" paragraph:
@@ -77,11 +85,15 @@ request.
 
 ## Resolution
 
-**No change** — the region does not affect the output's size or aspect. **ADD** one line at the
-end of the section, because the question will be asked:
+The region does not affect size or aspect, but **max resolution** now does. **ADD** both of
+these at the end of the section:
 
 ```
 The region does not change any of this. The output is the person photo's own size whichever region was requested; the region changes what is swapped inside the frame, not the frame.
+```
+
+```
+Max resolution caps the longer dimension, preserving the aspect ratio of the person photo. The default is 1536, which is above anything the 1MP rule produces for ordinary photographs — everything up to about 2:1 is untouched by it — and it bites only on unusually long or tall images, where the 1MP rule would otherwise return a very long thin canvas. A 3:1 panorama is 1760x576 without it and 1536x480 with it; a 4:1 is 2048x512 without it and 1536x384 with it. Lower it whenever the product wants smaller or faster output: a 3:4 photo is 864x1152 at the default, 768x1024 at 1024, and 576x768 at 768. Below the default is untested for quality — every measured number in this ticket was produced with no effective cap, and the default was chosen so that stays true.
 ```
 
 ---

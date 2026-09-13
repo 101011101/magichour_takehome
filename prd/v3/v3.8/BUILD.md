@@ -359,11 +359,27 @@ be** rather than inflated to 1 MP.
 | 600×800 (small 3:4) | 600×800 | **576×800** | 0.44 |
 | 512×640 (small 4:5) | 512×640 | **512×640** | 0.31 |
 
-`MAX_RES` lowers it further on the same grid and can never raise it — on the 3:4 phone
-photo above: 864×1152 unset, 768×1024 at 1024, 576×768 at 768, 384×512 at 512.
+**`MAX_RES`, restored 2026-09-12** at Runbo's request (it had been dropped on 2026-09-11):
+an integer field capping the **longer dimension**, aspect always preserved, on the same 32
+grid. It can only lower the canvas and cannot lift the 1 MP ceiling. On the 3:4 phone photo
+above: 864×1152 at the default, 768×1024 at 1024, 576×768 at 768, 384×512 at 512.
+
+**The default is 1536, and the number was chosen rather than guessed.** The 1 MP rule's
+longer side depends on aspect — 1024 at 1:1, 1248 at 2:3, 1344 at 16:9, 1440 at 2:1, 1760 at
+3:1, 2048 at 4:1 — so a cap only binds on unusually long or tall images. Measured over the
+**56 person and garment photographs of record** (`v3/runs/v31*/a100/in1mp/`), the longest side
+the rule produces is **1408** (`dualuse_gal_gadot_blue_dress_redcarpet`), so **1536 changes
+none of them** and every measured number in v3.8–v3.11 stands at the default. A cap of 1344
+was considered and rejected for exactly this reason: it would have altered that one cell
+(736×1408 → 672×1344) and quietly put the fold's outputs on a different footing from the
+runs they are compared against.
 
 Verified against the code over a 2,695-size grid: zero mismatches with
-`run_v310.size_noscale`, zero upscales, nothing over 2²⁰, every side a multiple of 32.
+`run_v310.size_noscale`, zero upscales, nothing over 2²⁰, every side a multiple of 32. The
+`MAX_RES` clamp was re-verified 2026-09-12 over **32,100 cases** (a size grid × `None`, 1536,
+1024, 768) against the semantics recovered from commit `371517d`: zero mismatches, and in
+every case the canvas stays on the 32 grid, never upscales, never exceeds 2²⁰, and never
+exceeds the cap.
 
 ### 6.1c The band: how a region is cut, and when it refuses
 

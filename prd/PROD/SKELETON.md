@@ -70,6 +70,7 @@ try_on(person_image, reference, seed=None, region)  -> image, seed
 | garment image | 4 steps · guidance 0.0 · bfloat16 · CPU generator |
 | **region** — `full`, `upper`, `lower` | call-1 seed 46 |
 | seed (optional) | the hip line, and the fallback to `full` |
+| **max resolution** — caps the longer side, default 1536 | |
 | | canvas rule: the person's own size, ≤1 MP, floor 32, **never upscaled** ([BUILD §4 rule 3](../v3/v3.8/BUILD.md)) |
 | | no LoRAs, pinned revisions |
 

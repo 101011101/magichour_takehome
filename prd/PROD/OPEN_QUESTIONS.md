@@ -142,30 +142,36 @@ becomes a second-level redraw.
 
 ---
 
-## Q3. Runbo's max-resolution setting against the 1 MP rule
+## Q3. Max resolution — **answered 2026-09-12; only the 1080p route still open**
 
-**Raised by Runbo's brief, 2026-09-11** ([`TODO.md`](TODO.md)). He asks for a setting that
-caps the larger of height and width. The company's existing klein ticket uses `MAX_RES` the
-same way, with 1080p or 2K as the maximum ([`TICKET_TEMPLATE.md`](TICKET_TEMPLATE.md)).
+**Raised by Runbo's brief, 2026-09-11.** He asked for a setting capping the larger of height
+and width. It was dropped on 2026-09-11 at Ray's instruction, then **restored on 2026-09-12**
+when Runbo repeated the request: *"We do need resolution setting. We need a field called max
+resolution. And that field should constrain the maximum resolution of the longer dimension,
+and we should always just preserve the aspect ratio of the user's base image."*
 
-**The constraint.** `ER`'s canvas is an *area* rule, and it cannot exceed 2²⁰ px without
-crossing the schedule branch (Q1). So a max-resolution setting can only **lower** the
-output:
+**Settled.** `MAX_RES` is an integer field in `vp/tryon_er.ipynb` §3, default **1536**. It
+caps the longer dimension with the aspect preserved, on the 32 grid; it only ever lowers, and
+it cannot lift the 1 MP ceiling, which stands for the reason in Q1.
 
-- canvas = the 1 MP rule; then, if its longer side exceeds `MAX_RES`, scale down to it
-  (floor 32). `MAX_RES = None` → the rule of record.
-- Example: a 3:4 photo renders at 864×1152; `MAX_RES = 1024` gives 768×1024 (0.75 MP) —
-  below the measured canvas, in the regime the old rule ran in. Quality there is untested
-  on `ER`.
-- Values above the rule's own longer side — at most 1344, for 9:16 — have no effect.
+**Why 1536.** The 1 MP rule's longer side depends on aspect (1024 at 1:1, 1344 at 16:9, 1440
+at 2:1, 2048 at 4:1), so a cap binds only on unusually long or tall images. Over the 56
+photographs of record the longest side produced is **1408**, so 1536 changes none of them and
+every measured number stands at the default. **1344 was rejected**: it would have changed
+`dualuse_gal_gadot_blue_dress_redcarpet` (736×1408 → 672×1344), altering a cell the fold's
+results were measured on.
 
-**The ticket must say the maximum is ~1 MP, not 1080p.** If 1080p output is a product
-requirement, the path consistent with the record is to generate at 1 MP and upscale the
-finished image algorithmically (realesr-general-x4v3 is in the repo) — untested for
-try-on.
+**A correction to this question's earlier text**, which said values above 1344 have no effect
+because 1344 is the rule's maximum. That is only true up to 16:9. A 3:1 panorama is 1760×576
+and a 4:1 is 2048×512 — which is precisely what the default now catches.
 
-**Decision needed:** Ray and Runbo — the setting's semantics, its default, and whether
-output upscaling is wanted.
+**Still open: 1080p or 2K output.** Generation cannot exceed 1 MP. If the product needs a
+larger deliverable the path consistent with the record is to upscale the finished image
+(realesr-general-x4v3 is in the repo) — untested for try-on, and a product decision.
+
+**Lowering it is untested for quality.** Every measured number was produced with no effective
+cap; a 3:4 photo at `MAX_RES=768` renders 576×768 (0.42 MP), a regime `ER` has not been
+marked in.
 
 ---
 

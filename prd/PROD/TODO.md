@@ -70,7 +70,7 @@
 | Outputs | SKELETON §3; BUILD §6.1 |
 | Generation time | v3.8 RESULTS §8 (call 2, 2.28 s median); `v3/runs/v34/ironman2/meta/timings.csv` (bald 1.48 s median); GPU crop time: unmeasured, filled by the inquiry Colab / T3 — the ticket carries GPU numbers only; cold load v3.8 RESULTS §8, `ironman2_bc/meta/run.json` |
 | Resolution | `klein_local._size_fal` applied to each aspect; the 1 MP cliff, BUILD §4 rule 1; max-res setting: OPEN Q3 |
-| MAX_RES | `vp/README.md` and `vp/tryon_er.ipynb` §3 (as built); [OPEN Q3](OPEN_QUESTIONS.md); default decided by Ray 2026-09-11 — blank = the full ~1 MP canvas, and 1 MP is the ceiling in general |
+| MAX_RES | `vp/README.md` and `vp/tryon_er.ipynb` §3 (as built); [OPEN Q3](OPEN_QUESTIONS.md) — **restored 2026-09-12** at Runbo's request as an integer field, default 1536, capping the longer dimension with the aspect preserved. 1 MP remains the ceiling |
 | Cost | v3.8 RESULTS §8 |
 | Notes — redraw | ledger 6 |
 | Notes — failure rate | ledger 9 |
@@ -80,7 +80,7 @@
 **Deliverables (Runbo's brief)**
 
 - [x] **Make the cleaned production Colab** — built 2026-09-11 as `vp/tryon_er.ipynb`:
-      seven sections per SKELETON §5, `MAX_RES` as decided (blank = the full ~1 MP canvas),
+      seven sections per SKELETON §5, `MAX_RES` restored 2026-09-12 (integer, default 1536),
       no comments, no test code, no LoRAs, the crop vendored inline. Verified on CPU only —
       prompts byte-identical, canvas rules matched over 5,160 sizes, the inline crop
       bit-identical to `crop_bc`. **Not yet run on a GPU**, and not yet uploaded to Colab.
