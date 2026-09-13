@@ -78,9 +78,7 @@ for _m in ('run_v314', 'v3lib', 'klein_local', 'garment_crop', 'phase3_variants'
 assert hasattr(cv2, 'ximgproc'), 'plain opencv shadowed opencv-contrib - Restart, run from cell 1'
 gpu = torch.cuda.get_device_name(0)
 if 'A100' not in gpu:
-    print(f'{gpu} - not the A100 the record was made on. Both arms still run on this one\n'
-          '  machine, so the comparison holds; only absolute numbers are not comparable\n'
-          '  to the archive.')
+    print(gpu, '- not the A100 the record was made on; both arms run on this same machine, so the comparison holds, but absolute numbers are not comparable to the archive')
 print(torch.cuda.get_device_name(0), '| onnxruntime', ort.__version__)"""),
 
     ("code", """# 3 · the photos, straight from the repo
