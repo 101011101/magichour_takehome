@@ -87,3 +87,8 @@ anything.
 
 **The bar for adopting either candidate:** no reference moves for the worse, and the branch
 count goes down. Failing either, the recorded outcome is *keep what we have*.
+
+**Both candidates were measured locally before this run and both failed that bar** — candidate B
+on dresses and on product shots, candidate A on `p019`'s collar. The GPU run's remaining value
+is confirmation at the production stack's own numeric footing (the local run used CPU ONNX), and
+the branch/route tables, which are what the recommendation rests on.

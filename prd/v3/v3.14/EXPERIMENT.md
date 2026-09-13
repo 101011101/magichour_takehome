@@ -116,7 +116,31 @@ redundant** — it is being unioned into a head mask the parser has already draw
 union adds essentially nothing. That is a stronger result for candidate A than expected, and
 it inverts the prior this investigation opened with.
 
-**It is not yet a pass.** Two things this sample does not touch:
+### 6 — Does parser-only survive the cases the collar guard was built for? **← measured locally, and it does not**
+
+The 14 above are garments where nothing depended on the guard. Run on the seven the guard
+exists for, parser-only against today:
+
+| garment | MAD | pixels changed | garment area lost | head mask growth |
+|---|---|---|---|---|
+| **`p019`** | **3.79** | **4.28%** | **−8.61%** | **+39.55%** |
+| `p028` | 0.38 | 0.46% | −0.40% | −2.73% |
+| `p030` | 0.07 | 0.18% | +0.11% | −0.51% |
+| `p003` | 0.01 | 0.07% | 0.00% | −0.74% |
+| `p016`, `p012`, `p021` | 0.00 | ≤0.01% | 0.00% | −0.13% to −2.01% |
+
+**`p019` reproduces the documented failure exactly.** Without the guard the head mask grows by
+**two fifths**, and it grows into the collar: the reference loses **8.61% of its garment area**,
+and MAD 3.79 is at the edge of the project's own MAD ≤ 4 parity gate. This is not a new
+discovery — `phase3_variants` records that SCHP labels 99.1% of this collar `face`, and that
+the pose bound does not reach above the neck line to catch it. The guard is the only thing
+standing between the parser and that collar, and candidate A deletes the guard.
+
+**Under the criterion, that is a rejection.** Quality is a veto, not a trade: a candidate that
+is free on 20 garments and eats a collar on the twenty-first does not ship, and the twenty-first
+is a case the project has already met once.
+
+**It is not a pass.** Two things the 14-garment sample does not touch:
 
 1. **The collar guard's own case.** The guard exists because SCHP labels 99.1% of `p019`'s
    raised collar as `face`. None of the 14 garments above is `p019`, `p021`, `p012`, `p028`
@@ -134,9 +158,24 @@ it inverts the prior this investigation opened with.
 **Candidate B is answered and the answer is no**: worse on product shots, unreliable on
 dresses, and it removes no model, because `parser_classes` calls Pose regardless.
 
-**Candidate A is open and looking better than expected.** On 14 garments the references do not
-move — median MAD 0.00, nothing near the parity gate. What the GPU run adds is the cases the
-collar guard was built for, and the branch argument of §2: a candidate that removes a model
-*and* deletes two near-dead fallbacks is exactly what Runbo asked for, but only if a garment
-the parser cannot read still gets a head removed. If it does not, the honest recommendation is
-to keep the fallbacks and drop only the guard, which removes no model at all.
+**Candidate A is also rejected**, and by its own target case. On 14 ordinary garments the
+references do not move at all — median MAD 0.00 — but on `p019`, the garment the collar guard
+was written for, parser-only grows the head mask by 39.55% and takes 8.61% of the garment area
+with it. One veto case is enough; this one was already documented before the run.
+
+## Recommendation: keep the models, cut the branches
+
+Neither candidate ships. But Runbo's actual question — *how many ways can this behave* — has an
+answer that does not require removing a model at all.
+
+The head route is a four-way chain: parser, pose ellipse, face-anchored cranium band, none. The
+parser fired on **112 of 112** and **33 of 33** garments on the record. **Deleting the two
+fallback routes removes two branches and two failure modes while leaving every model, the
+collar guard and every reference byte-identical on the evidence we have** — because those
+routes essentially never execute. The cost is honest and should be stated: a garment the parser
+cannot read would fail loudly instead of degrading quietly, which is a defensible trade for a
+path that has fired approximately never, and a bad one if the backview-dress case of v3.5 link
+A turns out to be commoner than the record suggests.
+
+That is the change worth putting in front of him. It is a branch reduction, not a model
+reduction, and it is the shape of simplification the criterion actually rewards.
