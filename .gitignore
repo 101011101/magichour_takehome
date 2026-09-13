@@ -48,6 +48,15 @@ v3/colab/testset/
 # iron-man run zips: 200+ MB, evidence lives on Drive
 v33_ironman_run_*.zip
 v34_a100_*.zip
+# the same rule for every later run's zip - transport off Colab, 17-210 MB each,
+# unpacked into v3/runs/ (itself ignored) and archived on Drive. The *_bundle.zip
+# files are NOT these: notebooks fetch them from the branch, so they stay tracked.
+v34_ironman2_*.zip
+v35_linkC_2*.zip
+v36_*_2*.zip
+inquiry_*.zip
+v310_a100_*.zip
+v311_a100_*.zip
 v3/report_v36/
 
 # model weights fetched at runtime by v3lib.fetch_models
