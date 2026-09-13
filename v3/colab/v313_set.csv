@@ -1,0 +1,74 @@
+stem,path,truth,why
+dualuse_emma_watson_black_blazer_armscrossed,test_set2/people/dualuse_emma_watson_black_blazer_armscrossed.jpg,person,"worn, fold garment"
+dualuse_gal_gadot_blue_dress_redcarpet,test_set2/people/dualuse_gal_gadot_blue_dress_redcarpet.jpg,person,"worn, fold garment"
+dualuse_hugh_jackman_grey_suit_outdoor,test_set2/people/dualuse_hugh_jackman_grey_suit_outdoor.jpg,person,"worn, fold garment"
+dualuse_lp_beige_long_coat_menswear,test_set2/clothes/dualuse_lp_beige_long_coat_menswear.webp,person,"worn, fold garment"
+dualuse_lp_floral_kimono_set,test_set2/clothes/dualuse_lp_floral_kimono_set.webp,person,"worn, fold garment"
+dualuse_lp_navy_quarterzip_knit_LOWRES,test_set2/clothes/dualuse_lp_navy_quarterzip_knit_LOWRES.avif,person,"worn, fold garment"
+dualuse_lp_plaid_overcoat_brown_suit,test_set2/clothes/dualuse_lp_plaid_overcoat_brown_suit.jpg,person,"worn, fold garment"
+dualuse_man_black_suit_studio_nonceleb,test_set2/people/dualuse_man_black_suit_studio_nonceleb.jpg,person,"worn, fold garment"
+dualuse_navy_peacoat_onmodel,test_set2/clothes/dualuse_navy_peacoat_onmodel.webp,person,"worn, fold garment"
+dualuse_queen_latifah_gown_stage,test_set2/people/dualuse_queen_latifah_gown_stage.jpg,person,"worn, fold garment"
+dualuse_scarlett_johansson_black_dress_backview_night,test_set2/people/dualuse_scarlett_johansson_black_dress_backview_night.avif,person,"worn, fold garment"
+dualuse_woman_top_denim_skirt_nonceleb,test_set2/people/dualuse_woman_top_denim_skirt_nonceleb.jpg,person,"worn, fold garment"
+dualuse_zendaya_white_blazer_skirt,test_set2/people/dualuse_zendaya_white_blazer_skirt.jpeg,person,"worn, fold garment"
+g004,test_set1/garments/g004.jpg,person,on_model
+g005,test_set1/garments/g005.jpg,person,on_model
+g009,test_set1/garments/g009.jpg,person,on_model
+g011,test_set1/garments/g011.jpg,person,on_model
+g012,test_set1/garments/g012.jpg,person,on_model
+g013,test_set1/garments/g013.jpg,person,on_model
+g014,test_set1/garments/g014.jpg,person,on_model
+g015,test_set1/garments/g015.jpg,person,on_model
+g018,test_set1/garments/g018.jpg,person,on_model
+g024,test_set1/garments/g024.jpg,person,on_model
+g027,test_set1/garments/g027.jpg,person,on_model
+g029,test_set1/garments/g029.jpg,person,on_model
+g030,test_set1/garments/g030.jpg,person,on_model
+p001,test_set1/people/p001.jpg,person,"worn, fold garment"
+p002,test_set1/people/p002.jpg,person,"worn, fold garment"
+p003,test_set1/people/p003.jpg,person,"worn, fold garment"
+p004,test_set1/people/p004.jpg,person,"worn, fold garment"
+p005,test_set1/people/p005.jpg,person,"worn, fold garment"
+p006,test_set1/people/p006.jpg,person,"worn, fold garment"
+p007,test_set1/people/p007.jpg,person,"worn, fold garment"
+p008,test_set1/people/p008.jpg,person,"worn, fold garment"
+p009,test_set1/people/p009.jpg,person,"worn, fold garment"
+p010,test_set1/people/p010.jpg,person,"worn, fold garment"
+p011,test_set1/people/p011.jpg,person,"worn, fold garment"
+p012,test_set1/people/p012.jpg,person,"worn, fold garment"
+p013,test_set1/people/p013.jpg,person,"worn, fold garment"
+p014,test_set1/people/p014.jpg,person,"worn, fold garment"
+p015,test_set1/people/p015.jpg,person,"worn, fold garment"
+p016,test_set1/people/p016.jpg,person,"worn, fold garment"
+p017,test_set1/people/p017.jpg,person,"worn, fold garment"
+p018,test_set1/people/p018.jpg,person,"worn, fold garment"
+p019,test_set1/people/p019.jpg,person,"worn, fold garment"
+p020,test_set1/people/p020.jpg,person,warm ambient market light
+p021,test_set1/people/p021.jpg,person,"worn, fold garment"
+p022,test_set1/people/p022.jpg,person,"worn, fold garment"
+p023,test_set1/people/p023.jpg,person,"worn, fold garment"
+p024,test_set1/people/p024.jpg,person,"worn, fold garment"
+p025,test_set1/people/p025.jpg,person,"worn, fold garment"
+p026,test_set1/people/p026.jpg,person,"worn, fold garment"
+p027,test_set1/people/p027.jpg,person,"worn, fold garment"
+p028,test_set1/people/p028.jpg,person,"worn, fold garment"
+p029,test_set1/people/p029.jpg,person,"worn, fold garment"
+p030,test_set1/people/p030.jpg,person,"worn, fold garment"
+g001,test_set1/garments/g001.jpg,no_person,flat_lay
+g002,test_set1/garments/g002.jpg,no_person,flat_lay
+g003,test_set1/garments/g003.jpg,no_person,flat_lay
+g006,test_set1/garments/g006.jpg,no_person,flat_lay
+g007,test_set1/garments/g007.jpg,no_person,flat_lay
+g008,test_set1/garments/g008.jpg,no_person,flat_lay
+g010,test_set1/garments/g010.jpg,no_person,ghost_mannequin
+g016,test_set1/garments/g016.jpg,no_person,flat_lay
+g017,test_set1/garments/g017.jpg,no_person,ghost_mannequin
+g019,test_set1/garments/g019.jpg,no_person,flat_lay
+g020,test_set1/garments/g020.jpg,no_person,flat_lay
+g021,test_set1/garments/g021.jpg,no_person,flat_lay
+g022,test_set1/garments/g022.jpg,no_person,flat_lay
+g023,test_set1/garments/g023.jpg,no_person,flat_lay
+g025,test_set1/garments/g025.jpg,no_person,flat_lay
+g026,test_set1/garments/g026.jpg,no_person,flat_lay
+g028,test_set1/garments/g028.jpg,no_person,ghost_mannequin
