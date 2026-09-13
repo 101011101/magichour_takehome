@@ -76,7 +76,11 @@ sys.path.insert(0, 'lib')
 for _m in ('run_v314', 'v3lib', 'klein_local', 'garment_crop', 'phase3_variants', 'ironman_bc_crop'):
     sys.modules.pop(_m, None)
 assert hasattr(cv2, 'ximgproc'), 'plain opencv shadowed opencv-contrib - Restart, run from cell 1'
-assert 'A100' in torch.cuda.get_device_name(0), 'Runtime > Change runtime type > A100'
+gpu = torch.cuda.get_device_name(0)
+if 'A100' not in gpu:
+    print(f'{gpu} - not the A100 the record was made on. Both arms still run on this one\n'
+          '  machine, so the comparison holds; only absolute numbers are not comparable\n'
+          '  to the archive.')
 print(torch.cuda.get_device_name(0), '| onnxruntime', ort.__version__)"""),
 
     ("code", """# 3 · the photos, straight from the repo
