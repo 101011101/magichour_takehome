@@ -1,0 +1,543 @@
+<!doctype html><meta charset=utf-8><title>v3.15 — production smoke test</title>
+<style>
+body{background:#0f1114;color:#e8eaed;font:14px/1.5 system-ui,sans-serif;margin:0;padding:0 18px 60px}
+h1{font-size:20px;margin:20px 0 4px} .lede{color:#9aa4b2;max-width:70em}
+.total{font-size:17px;font-weight:700;margin:10px 0 16px}
+section{border-top:1px solid #262a30;padding:14px 0} section.ko{background:#1c1214}
+h2{font-size:15px;margin:0 0 8px} .sub{color:#8a93a0;font-weight:400;font-size:12px}
+.badge{font-size:12px;font-weight:800;padding:2px 8px;border-radius:4px;margin-right:6px}
+.badge.pass{background:#2f9e5b;color:#fff} .badge.fail{background:#e5484d;color:#fff}
+.imgs{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start} .imgs b{display:block;font-size:11px;color:#9aa4b2}
+figure{margin:0} img{display:block;border-radius:3px;max-width:220px} figcaption{font-size:11px;color:#6b7280}
+table{border-collapse:collapse;font-size:12px} td,th{border:1px solid #2a2e35;padding:2px 8px;text-align:left}
+tr.bad td{background:#4a1d20} .fails{color:#ff8a8f} .notes{color:#c9b36b} .times{color:#6b7280;font-size:11px}
+pre{white-space:pre-wrap;font-size:11px;color:#ff8a8f} .miss{color:#6b7280;padding:30px 10px}
+</style>
+<h1>v3.15 — the production notebook, run end to end with regions set</h1>
+<p class=lede>Every case ran through <code>vp/tryon_er.ipynb</code>'s own cells at
+62b837f20659117a7f6cfd4a3434be5e30e6d817 (sha256 37f5236ae6aa01c2)
+on NVIDIA A100-SXM4-40GB. Product shots must skip the bald pass and be forced to full; worn garments
+must be cut at the hip or record why not, and call 2 must be sent the sentence for the region actually applied.
+Failures first.</p>
+<div class=total>42/44 pass — product: 34/34 pass · worn: 8/10 pass · 50 klein calls</div>
+<section class="ko">
+  <h2><span class="badge fail">FAIL</span> g030__lower <span class=sub>worn · no in-frame hip on the archived bald frame - expected to fall back</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g030.jpg" loading=lazy><figcaption>1024x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p006.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><div class=miss>none</div></div>
+    <div><b>output</b><div class=miss>none</div></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class="bad"><td>gate says person</td><td>True</td><td>None</td></tr><tr class=""><td>head pixels</td><td>None</td><td>None</td></tr><tr class="bad"><td>route</td><td>worn</td><td>None</td></tr><tr class="bad"><td>bald pass ran</td><td>True</td><td>None</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class="bad"><td>applied region</td><td>lower (or full with a recorded fallback)</td><td>None</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class="bad"><td>call 2 sentence</td><td>region (or full with a recorded fallback)</td><td>None</td></tr><tr class=""><td>reference / output</td><td>None</td><td>None / None</td></tr></table>
+  </div>
+  <ul class=fails><li>raised ValueError: Image too small: 617×35. Both dimensions must be at least 64px</li></ul>
+  <div class=times> · wall 3.05s</div><pre>Traceback (most recent call last):
+  File &quot;/tmp/ipykernel_10169/1178593934.py&quot;, line 68, in run_case
+    result, tryon_times = try_on(person, reference, TEST_SEED, info[&quot;region&quot;], MAX_RES)
+                          ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;tryon_er.ipynb · 5 · Pipeline&quot;, line 406, in try_on
+  File &quot;/tmp/ipykernel_10169/1178593934.py&quot;, line 7, in klein
+    out = _klein_shipped(images, prompt, seed, size)
+  File &quot;tryon_er.ipynb · 5 · Pipeline&quot;, line 61, in klein
+  File &quot;/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py&quot;, line 124, in decorate_context
+    return func(*args, **kwargs)
+  File &quot;/usr/local/lib/python3.13/dist-packages/diffusers/pipelines/flux2/pipeline_flux2_klein.py&quot;, line 767, in __call__
+    self.image_processor.check_image_input(img)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File &quot;/usr/local/lib/python3.13/dist-packages/diffusers/pipelines/flux2/image_processor.py&quot;, line 93, in check_image_input
+    raise ValueError(
+        f&quot;Image too small: {width}×{height}. Both dimensions must be at least {min_side_length}px&quot;
+    )
+ValueError: Image too small: 617×35. Both dimensions must be at least 64px
+</pre>
+</section><section class="ko">
+  <h2><span class="badge fail">FAIL</span> p019__lower <span class=sub>worn · waist-up wearer - the lower band is likely too small, a second fallback path</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_p019.jpg" loading=lazy><figcaption>1024x683</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p006.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><div class=miss>none</div></div>
+    <div><b>output</b><div class=miss>none</div></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class="bad"><td>gate says person</td><td>True</td><td>None</td></tr><tr class=""><td>head pixels</td><td>None</td><td>None</td></tr><tr class="bad"><td>route</td><td>worn</td><td>None</td></tr><tr class="bad"><td>bald pass ran</td><td>True</td><td>None</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class="bad"><td>applied region</td><td>lower (or full with a recorded fallback)</td><td>None</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class="bad"><td>call 2 sentence</td><td>region (or full with a recorded fallback)</td><td>None</td></tr><tr class=""><td>reference / output</td><td>None</td><td>None / None</td></tr></table>
+  </div>
+  <ul class=fails><li>raised ValueError: Image too small: 366×60. Both dimensions must be at least 64px</li></ul>
+  <div class=times> · wall 2.13s</div><pre>Traceback (most recent call last):
+  File &quot;/tmp/ipykernel_10169/1178593934.py&quot;, line 68, in run_case
+    result, tryon_times = try_on(person, reference, TEST_SEED, info[&quot;region&quot;], MAX_RES)
+                          ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;tryon_er.ipynb · 5 · Pipeline&quot;, line 406, in try_on
+  File &quot;/tmp/ipykernel_10169/1178593934.py&quot;, line 7, in klein
+    out = _klein_shipped(images, prompt, seed, size)
+  File &quot;tryon_er.ipynb · 5 · Pipeline&quot;, line 61, in klein
+  File &quot;/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py&quot;, line 124, in decorate_context
+    return func(*args, **kwargs)
+  File &quot;/usr/local/lib/python3.13/dist-packages/diffusers/pipelines/flux2/pipeline_flux2_klein.py&quot;, line 767, in __call__
+    self.image_processor.check_image_input(img)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File &quot;/usr/local/lib/python3.13/dist-packages/diffusers/pipelines/flux2/image_processor.py&quot;, line 93, in check_image_input
+    raise ValueError(
+        f&quot;Image too small: {width}×{height}. Both dimensions must be at least {min_side_length}px&quot;
+    )
+ValueError: Image too small: 366×60. Both dimensions must be at least 64px
+</pre>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g001__lower <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g001.jpg" loading=lazy><figcaption>768x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g001__lower.jpg" loading=lazy><figcaption>718x615</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g001__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>718x615 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 1.85s · wall 2.01s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g001__upper <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g001.jpg" loading=lazy><figcaption>768x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g001__upper.jpg" loading=lazy><figcaption>718x615</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g001__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>718x615 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 1.90s · person normalise 0.01s · person try-on 2.82s · wall 4.90s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g002__lower <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g002.jpg" loading=lazy><figcaption>768x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g002__lower.jpg" loading=lazy><figcaption>442x463</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g002__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>442x463 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 1.59s · wall 1.77s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g002__upper <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g002.jpg" loading=lazy><figcaption>768x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g002__upper.jpg" loading=lazy><figcaption>442x463</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g002__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>442x463 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 0.23s · person normalise 0.01s · person try-on 1.61s · wall 2.01s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g003__lower <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g003.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g003__lower.jpg" loading=lazy><figcaption>474x745</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g003__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>474x745 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 1.75s · wall 1.91s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g003__upper <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g003.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g003__upper.jpg" loading=lazy><figcaption>474x745</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g003__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>474x745 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 0.14s · person normalise 0.01s · person try-on 1.75s · wall 2.06s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g006__lower <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g006.jpg" loading=lazy><figcaption>768x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g006__lower.jpg" loading=lazy><figcaption>571x756</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g006__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>233</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>571x756 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 1.85s · wall 2.02s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g006__upper <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g006.jpg" loading=lazy><figcaption>768x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g006__upper.jpg" loading=lazy><figcaption>571x756</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g006__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>233</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>571x756 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 0.15s · person normalise 0.01s · person try-on 1.85s · wall 2.17s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g007__lower <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g007.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g007__lower.jpg" loading=lazy><figcaption>677x670</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g007__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>677x670 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 1.86s · wall 2.02s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g007__upper <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g007.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g007__upper.jpg" loading=lazy><figcaption>677x670</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g007__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>677x670 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 0.15s · person normalise 0.01s · person try-on 1.86s · wall 2.17s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g008__lower <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g008.jpg" loading=lazy><figcaption>768x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g008__lower.jpg" loading=lazy><figcaption>581x568</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g008__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>581x568 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 1.73s · wall 1.90s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g008__upper <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g008.jpg" loading=lazy><figcaption>768x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g008__upper.jpg" loading=lazy><figcaption>581x568</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g008__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>581x568 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 0.14s · person normalise 0.01s · person try-on 1.74s · wall 2.05s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g010__lower <span class=sub>product · ghost_mannequin - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g010.jpg" loading=lazy><figcaption>853x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g010__lower.jpg" loading=lazy><figcaption>843x1024</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g010__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>843x1024 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 2.27s · wall 2.43s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g010__upper <span class=sub>product · ghost_mannequin - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g010.jpg" loading=lazy><figcaption>853x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g010__upper.jpg" loading=lazy><figcaption>843x1024</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g010__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>843x1024 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 0.16s · person normalise 0.01s · person try-on 2.26s · wall 2.59s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g016__lower <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g016.jpg" loading=lazy><figcaption>866x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g016__lower.jpg" loading=lazy><figcaption>633x645</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g016__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>633x645 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 1.84s · wall 2.00s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g016__upper <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g016.jpg" loading=lazy><figcaption>866x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g016__upper.jpg" loading=lazy><figcaption>633x645</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g016__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>633x645 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 0.15s · person normalise 0.01s · person try-on 1.84s · wall 2.16s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g017__lower <span class=sub>product · ghost_mannequin - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g017.jpg" loading=lazy><figcaption>819x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g017__lower.jpg" loading=lazy><figcaption>613x774</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g017__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>613x774 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 1.90s · wall 2.06s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g017__upper <span class=sub>product · ghost_mannequin - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g017.jpg" loading=lazy><figcaption>819x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g017__upper.jpg" loading=lazy><figcaption>613x774</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g017__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>613x774 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 0.15s · person normalise 0.01s · person try-on 1.90s · wall 2.22s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g019__lower <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g019.jpg" loading=lazy><figcaption>1024x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g019__lower.jpg" loading=lazy><figcaption>768x950</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g019__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>141</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>768x950 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 2.19s · wall 2.37s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g019__upper <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g019.jpg" loading=lazy><figcaption>1024x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g019__upper.jpg" loading=lazy><figcaption>768x950</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g019__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>141</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>768x950 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 0.16s · person normalise 0.01s · person try-on 2.19s · wall 2.53s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g020__lower <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g020.jpg" loading=lazy><figcaption>837x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g020__lower.jpg" loading=lazy><figcaption>586x888</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g020__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>586x888 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 1.92s · wall 2.08s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g020__upper <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g020.jpg" loading=lazy><figcaption>837x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g020__upper.jpg" loading=lazy><figcaption>586x888</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g020__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>586x888 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 0.15s · person normalise 0.01s · person try-on 1.92s · wall 2.24s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g021__lower <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g021.jpg" loading=lazy><figcaption>768x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g021__lower.jpg" loading=lazy><figcaption>319x680</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g021__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>319x680 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 1.62s · wall 1.78s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g021__upper <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g021.jpg" loading=lazy><figcaption>768x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g021__upper.jpg" loading=lazy><figcaption>319x680</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g021__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>319x680 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 0.14s · person normalise 0.01s · person try-on 1.63s · wall 1.94s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g022__lower <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g022.jpg" loading=lazy><figcaption>768x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g022__lower.jpg" loading=lazy><figcaption>364x713</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g022__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>364x713 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 1.65s · wall 1.81s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g022__upper <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g022.jpg" loading=lazy><figcaption>768x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g022__upper.jpg" loading=lazy><figcaption>364x713</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g022__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>364x713 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 0.14s · person normalise 0.01s · person try-on 1.66s · wall 1.96s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g023__lower <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g023.jpg" loading=lazy><figcaption>768x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g023__lower.jpg" loading=lazy><figcaption>574x481</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g023__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>574x481 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 1.71s · wall 1.87s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g023__upper <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g023.jpg" loading=lazy><figcaption>768x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g023__upper.jpg" loading=lazy><figcaption>574x481</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g023__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>574x481 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 0.14s · person normalise 0.01s · person try-on 1.72s · wall 2.03s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g025__lower <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g025.jpg" loading=lazy><figcaption>768x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g025__lower.jpg" loading=lazy><figcaption>593x494</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g025__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>593x494 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 1.72s · wall 1.88s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g025__upper <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g025.jpg" loading=lazy><figcaption>768x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g025__upper.jpg" loading=lazy><figcaption>593x494</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g025__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>593x494 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 0.14s · person normalise 0.01s · person try-on 1.73s · wall 2.03s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g026__lower <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g026.jpg" loading=lazy><figcaption>1009x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g026__lower.jpg" loading=lazy><figcaption>1009x1024</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g026__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>1009x1024 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 2.54s · wall 2.72s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g026__upper <span class=sub>product · flat_lay - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g026.jpg" loading=lazy><figcaption>1009x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g026__upper.jpg" loading=lazy><figcaption>1009x1024</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g026__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>1009x1024 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 0.16s · person normalise 0.01s · person try-on 2.53s · wall 2.88s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g028__lower <span class=sub>product · ghost_mannequin - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g028.jpg" loading=lazy><figcaption>819x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g028__lower.jpg" loading=lazy><figcaption>534x762</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g028__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>534x762 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;lower&#x27;: the forcing is visible through route=product, not through requested</li><li>the reference came from the cache (same garment, same applied region, same route)</li></ul>
+  <div class=times>person normalise 0.01s · person try-on 1.84s · wall 2.00s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g028__upper <span class=sub>product · ghost_mannequin - no person, must skip the bald pass and force full</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g028.jpg" loading=lazy><figcaption>819x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p001.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g028__upper.jpg" loading=lazy><figcaption>534x762</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g028__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>False</td><td>False</td></tr><tr class=""><td>head pixels</td><td>None</td><td>0</td></tr><tr class=""><td>route</td><td>product</td><td>product</td></tr><tr class=""><td>bald pass ran</td><td>False</td><td>False</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>full</td><td>full</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>full</td><td>full</td></tr><tr class=""><td>reference / output</td><td>None</td><td>534x762 / 672x1024</td></tr></table>
+  </div>
+  <ul class=notes><li>the garment record reads requested=&#x27;full&#x27;, not &#x27;upper&#x27;: the forcing is visible through route=product, not through requested</li></ul>
+  <div class=times>garment background crop 0.15s · person normalise 0.01s · person try-on 1.84s · wall 2.15s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g004__lower <span class=sub>worn · tight top, an ordinary band cut</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g004.jpg" loading=lazy><figcaption>787x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p006.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g004__lower.jpg" loading=lazy><figcaption>373x553</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g004__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>True</td><td>True</td></tr><tr class=""><td>head pixels</td><td>None</td><td>9251</td></tr><tr class=""><td>route</td><td>worn</td><td>worn</td></tr><tr class=""><td>bald pass ran</td><td>True</td><td>True</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>lower (or full with a recorded fallback)</td><td>lower</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>region (or full with a recorded fallback)</td><td>region</td></tr><tr class=""><td>reference / output</td><td>None</td><td>373x553 / 672x1024</td></tr></table>
+  </div>
+  
+  <div class=times>garment bald pass 1.65s · garment head crop 0.51s · person normalise 0.01s · person try-on 1.63s · wall 3.97s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g004__upper <span class=sub>worn · tight top, an ordinary band cut</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g004.jpg" loading=lazy><figcaption>787x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p006.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g004__upper.jpg" loading=lazy><figcaption>321x338</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g004__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>True</td><td>True</td></tr><tr class=""><td>head pixels</td><td>None</td><td>9251</td></tr><tr class=""><td>route</td><td>worn</td><td>worn</td></tr><tr class=""><td>bald pass ran</td><td>True</td><td>True</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>upper (or full with a recorded fallback)</td><td>upper</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>region (or full with a recorded fallback)</td><td>region</td></tr><tr class=""><td>reference / output</td><td>None</td><td>321x338 / 672x1024</td></tr></table>
+  </div>
+  
+  <div class=times>garment bald pass 1.65s · garment head crop 1.37s · person normalise 0.01s · person try-on 1.58s · wall 4.77s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g015__lower <span class=sub>worn · a dress - ATR labels it one class over the whole body</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g015.jpg" loading=lazy><figcaption>837x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p006.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g015__lower.jpg" loading=lazy><figcaption>296x595</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g015__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>True</td><td>True</td></tr><tr class=""><td>head pixels</td><td>None</td><td>2102</td></tr><tr class=""><td>route</td><td>worn</td><td>worn</td></tr><tr class=""><td>bald pass ran</td><td>True</td><td>True</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>lower (or full with a recorded fallback)</td><td>lower</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>region (or full with a recorded fallback)</td><td>region</td></tr><tr class=""><td>reference / output</td><td>None</td><td>296x595 / 672x1024</td></tr></table>
+  </div>
+  
+  <div class=times>garment bald pass 1.76s · garment head crop 0.51s · person normalise 0.01s · person try-on 1.61s · wall 4.05s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g015__upper <span class=sub>worn · a dress - ATR labels it one class over the whole body</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g015.jpg" loading=lazy><figcaption>837x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p006.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g015__upper.jpg" loading=lazy><figcaption>277x380</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g015__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>True</td><td>True</td></tr><tr class=""><td>head pixels</td><td>None</td><td>2102</td></tr><tr class=""><td>route</td><td>worn</td><td>worn</td></tr><tr class=""><td>bald pass ran</td><td>True</td><td>True</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>upper (or full with a recorded fallback)</td><td>upper</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>region (or full with a recorded fallback)</td><td>region</td></tr><tr class=""><td>reference / output</td><td>None</td><td>277x380 / 672x1024</td></tr></table>
+  </div>
+  
+  <div class=times>garment bald pass 1.76s · garment head crop 0.51s · person normalise 0.01s · person try-on 1.56s · wall 4.00s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g024__lower <span class=sub>worn · lower-body garment, where lower is the meaningful half</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g024.jpg" loading=lazy><figcaption>1024x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p006.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g024__lower.jpg" loading=lazy><figcaption>326x550</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g024__lower.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>True</td><td>True</td></tr><tr class=""><td>head pixels</td><td>None</td><td>15126</td></tr><tr class=""><td>route</td><td>worn</td><td>worn</td></tr><tr class=""><td>bald pass ran</td><td>True</td><td>True</td></tr><tr class=""><td>requested region</td><td>None</td><td>lower</td></tr><tr class=""><td>applied region</td><td>lower (or full with a recorded fallback)</td><td>lower</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>region (or full with a recorded fallback)</td><td>region</td></tr><tr class=""><td>reference / output</td><td>None</td><td>326x550 / 672x1024</td></tr></table>
+  </div>
+  
+  <div class=times>garment bald pass 2.20s · garment head crop 0.58s · person normalise 0.01s · person try-on 1.62s · wall 4.58s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g024__upper <span class=sub>worn · lower-body garment, where lower is the meaningful half</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g024.jpg" loading=lazy><figcaption>1024x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p006.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g024__upper.jpg" loading=lazy><figcaption>239x354</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g024__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>True</td><td>True</td></tr><tr class=""><td>head pixels</td><td>None</td><td>15126</td></tr><tr class=""><td>route</td><td>worn</td><td>worn</td></tr><tr class=""><td>bald pass ran</td><td>True</td><td>True</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>upper (or full with a recorded fallback)</td><td>upper</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>region (or full with a recorded fallback)</td><td>region</td></tr><tr class=""><td>reference / output</td><td>None</td><td>239x354 / 672x1024</td></tr></table>
+  </div>
+  
+  <div class=times>garment bald pass 2.21s · garment head crop 0.56s · person normalise 0.01s · person try-on 1.53s · wall 4.48s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> g030__upper <span class=sub>worn · no in-frame hip on the archived bald frame - expected to fall back</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_g030.jpg" loading=lazy><figcaption>1024x1024</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p006.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_g030__upper.jpg" loading=lazy><figcaption>826x872</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_g030__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>True</td><td>True</td></tr><tr class=""><td>head pixels</td><td>None</td><td>105444</td></tr><tr class=""><td>route</td><td>worn</td><td>worn</td></tr><tr class=""><td>bald pass ran</td><td>True</td><td>True</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>upper (or full with a recorded fallback)</td><td>upper</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>region (or full with a recorded fallback)</td><td>region</td></tr><tr class=""><td>reference / output</td><td>None</td><td>826x872 / 672x1024</td></tr></table>
+  </div>
+  
+  <div class=times>garment bald pass 2.22s · garment head crop 0.60s · person normalise 0.01s · person try-on 2.17s · wall 5.19s</div>
+</section><section class="ok">
+  <h2><span class="badge pass">PASS</span> p019__upper <span class=sub>worn · waist-up wearer - the lower band is likely too small, a second fallback path</span></h2>
+  <div class=imgs>
+    <div><b>garment</b><figure><img src="img_v315/in_p019.jpg" loading=lazy><figcaption>1024x683</figcaption></figure></div>
+    <div><b>person</b><figure><img src="img_v315/in_p006.jpg" loading=lazy><figcaption>682x1024</figcaption></figure></div>
+    <div><b>reference</b><figure><img src="img_v315/ref_p019__upper.jpg" loading=lazy><figcaption>467x474</figcaption></figure></div>
+    <div><b>output</b><figure><img src="img_v315/out_p019__upper.jpg" loading=lazy><figcaption>672x1024</figcaption></figure></div>
+    <table><tr><th></th><th>expected</th><th>actual</th></tr><tr class=""><td>gate says person</td><td>True</td><td>True</td></tr><tr class=""><td>head pixels</td><td>None</td><td>38395</td></tr><tr class=""><td>route</td><td>worn</td><td>worn</td></tr><tr class=""><td>bald pass ran</td><td>True</td><td>True</td></tr><tr class=""><td>requested region</td><td>None</td><td>upper</td></tr><tr class=""><td>applied region</td><td>upper (or full with a recorded fallback)</td><td>upper</td></tr><tr class=""><td>fallback</td><td>None</td><td>-</td></tr><tr class=""><td>call 2 sentence</td><td>region (or full with a recorded fallback)</td><td>region</td></tr><tr class=""><td>reference / output</td><td>None</td><td>467x474 / 672x1024</td></tr></table>
+  </div>
+  
+  <div class=times>garment bald pass 1.43s · garment head crop 0.48s · person normalise 0.01s · person try-on 1.64s · wall 3.71s</div>
+</section>

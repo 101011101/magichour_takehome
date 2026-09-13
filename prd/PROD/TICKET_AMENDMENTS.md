@@ -11,6 +11,26 @@ section, says **REPLACE / ADD / DELETE**, and gives the exact text to paste. Wri
 
 ---
 
+## Correction, 2026-09-13 — if you already pasted the fallback bullet
+
+The v3.15 smoke test ran the production notebook end to end and found that the band fallback
+was too weak: two `lower` requests crashed instead of falling back
+(`prd/v3/v3.15/RESULTS.md`). The notebook is fixed. If the Google Doc already carries the
+bullet beginning *"If the hip line cannot be found, or the requested half would keep less
+than 2% of the garment"*, **REPLACE** it with:
+
+```
+- If the hip line cannot be found, if the requested half would keep less than 15% of the garment, or if the reference it would produce has a side under 64px (the image model's own minimum input), the request falls back to full and records which of those fired. It never guesses a cut at a fraction of the frame height. A waist-up photograph asked for lower is the case this protects: before this rule, two such requests crashed inside the image model instead of falling back
+```
+
+And **ADD** to Notes, if it is not there yet:
+
+```
+- For a product shot the region is always forced to full, since there is no waist to find. The record keeps the region the user asked for alongside the one applied, so a log explains why an upper request came back as a whole-outfit swap
+```
+
+---
+
 ## Modes
 
 **DELETE** the whole section. Runbo: *"You don't need this modes section then because this
@@ -115,7 +135,7 @@ Max resolution caps the longer dimension, preserving the aspect ratio of the per
 
 ```
 - What the region actually does: the garment reference is cut at the hip line, which comes from the pose detector's hip landmarks on the prepared garment frame, and call 2 is sent a sentence naming the half being replaced. Both are needed. Cutting the reference alone was tried and does not work — the model replaces the whole outfit anyway, because the instruction says to. The reference is not an instruction
-- If the hip line cannot be found, or the requested half would keep less than 2% of the garment, the request falls back to full and records why. It never guesses a cut at a fraction of the frame height. A waist-up photograph asked for lower is the case this protects
+- If the hip line cannot be found, if the requested half would keep less than 15% of the garment, or if the reference it would produce has a side under 64px (the image model's own minimum input), the request falls back to full and records which of those fired. It never guesses a cut at a fraction of the frame height. A waist-up photograph asked for lower is the case this protects: before this rule, two such requests crashed inside the image model instead of falling back
 - Evidence level, and it is lower than the rest of this ticket: the selector was judged by eye on 12 cells at one seed by one reviewer, on pairs that already worked. It is a feasibility result, not a rate
 - The failure rates quoted in this ticket (3-6%, and 2.6% fold-wide) describe whole-outfit requests. No rate has been measured for a region request, and those figures should not be quoted for one
 ```

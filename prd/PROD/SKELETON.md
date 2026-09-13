@@ -62,8 +62,11 @@ try_on(person_image, reference, seed=None, region)  -> image, seed
   names the half. A full-body photo with `upper` should come back with the person's own
   trousers.
 - **Pass `info["region"]` to `try_on`, not the region you asked for.** The band falls back to
-  `full` when no hip is found or the band is a sliver, and the prompt has to follow the
-  reference.
+  `full` — recording which rule fired — when no pose or no in-frame hip is found, when the band
+  keeps under **15%** of the garment, or when the reference it would send has a side under
+  **64 px** (klein's own input floor). A product shot is forced to `full` by the person gate.
+  The prompt has to follow the reference. `info["requested"]` always keeps what the user asked
+  for, on both routes ([BUILD §6.1c](../v3/v3.8/BUILD.md)).
 - `seed` omitted → drawn at random and returned. Same inputs + same seed → the same image,
   on the same GPU class and library versions.
 - Redraw = `try_on` again with a seed not yet used for that pair. The reference is not

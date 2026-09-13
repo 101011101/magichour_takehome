@@ -396,9 +396,30 @@ leave its white ground and framing describing a body that is not there.
 | `full` | the mask untouched — the reference of record |
 | the bbox | taken from the **kept band** for a region, from the whole subject for `full` |
 
-**The fallback is named, never guessed.** No pose, no in-frame hip, or a band keeping under
-**2%** of the subject falls back to `full`, records why, and the caller must then send `ER`
-rather than a region prompt. A guessed fraction of the frame would cut at an invented row.
+**The fallback is named, never guessed.** The band falls back to `full`, records why, and the
+caller must then send `ER` rather than a region prompt, in four cases — each with its own
+recorded reason, so a log says which one fired:
+
+| fires when | recorded reason |
+|---|---|
+| no pose is detected | `no pose detected` |
+| no confident hip is inside the frame | `no hip in frame` |
+| the band keeps under **15%** of the garment's mask area | `band keeps N% of the subject, under 15%` |
+| the reference the band would send has a side under **64 px** | `band reference is WxH px, a side under 64 px` |
+
+The size guard is evaluated on the band's own bounding box — the same `bbox_of`, with its pad,
+that produces the reference call 2 receives — not on the raw mask. **64 px is klein's input
+floor**: `Flux2KleinPipeline`'s `check_image_input` raises `Image too small` below it. A guessed
+fraction of the frame would cut at an invented row.
+
+**Why 15% and not the 2% it replaced — found by the v3.15 smoke test (2026-09-13).** The 2%
+guard measured area, not whether the result is a usable image, and two `lower` requests cleared
+it and then **crashed inside call 2** instead of falling back: `g030` kept **2.3%** of the
+garment and produced a **617×35** reference, `p019` kept **10.8%** and produced **366×60**
+(`prd/v3/v3.15/RESULTS.md`). Every band that worked kept **38–98%** — lowers 58–62%, uppers
+38–98% — so 15% sits in a wide gap and fires on both crashes. The 64 px floor is the backstop
+for a band that keeps enough area but is thin, and it can fire at either end: an `upper` band
+under a high hip line is a sliver in the same way.
 
 **A landmark is not evidence of a body — and the phantom is ours.** Pose finds a hip on 53 of
 56 worn bald frames in the archive, and on **6 of 10 flat-lay bald frames, which contain no

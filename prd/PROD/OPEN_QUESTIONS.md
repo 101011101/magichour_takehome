@@ -352,8 +352,12 @@ means all of it. The sentence costs nothing: 1.651 s against 1.659 s.
    figures are whole-outfit rates and do not describe a region request. **Closes with** a
    counted sweep at `upper` and `lower` over the fold, marked as v3.10 was — ~25 min.
 3. **One input case the set could not exercise.** A **waist-up photograph asked for `lower`**
-   has nothing below the hip to keep; the <2% fallback exists for it and never fired, because
-   every person in the set is full body. The other case — **a product shot asked for a
+   has nothing below the hip to keep. **Exercised 2026-09-13 by the v3.15 smoke test, and the
+   old guard failed:** it fell back only under 2% of the area, `g030` (2.3%, a 617×35 reference)
+   and `p019` (10.8%, 366×60) cleared it, and both crashed inside call 2 on klein's 64 px input
+   floor. **Fixed in `vp/tryon_er.ipynb`:** the band now falls back under **15%** of the garment
+   or when the reference would have a side under **64 px**, each with its own recorded reason.
+   The GPU re-run against the fixed commit is what closes it (`prd/v3/v3.15/RESULTS.md`). The other case — **a product shot asked for a
    region** — is now handled upstream: the person gate (Q7) forces `full` on a garment
    photograph with nobody in it, so the band is never cut on a phantom. Note the 6-of-10 hip
    figure belongs to the **bald frame**, not the upload; on the uploads it is 1 of 10.

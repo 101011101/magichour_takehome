@@ -58,6 +58,7 @@
 | 19 | Has a garment photo with **no person** in it ever been tried — clothing alone, flat-lay or product shot? | **done 2026-09-12** | Yes, and it works: 10 product garments × 3 people × 2 seeds, **59 of 60 marked same** against the v3.0 no-bald route. Caveat, and it is a cost question: the head-finder fired on 10 of 10 person-free photos and the bald pass repainted 2.7–7.7% of pixels for no visible gain. `ER` has no branch on garment kind; v3.0 did | `prd/v3/v3.9/RESULTS.md`, `prd/v3/v3.9/EXPERIMENT.md`, `v3/testsets/inquiry_marks.csv` §5; [OPEN Q7](OPEN_QUESTIONS.md) |
 | 20 | Can a user choose the garment type — swap only the top of a full-body photo? (Runbo, 2026-09-12) | **decided — Ray, 2026-09-12: the selector ships** | Yes, and it takes **two** changes: the reference cut at the hip line **and** a call 2 naming the half. The crop alone does not work — the band cut perfectly on 30 of 30 references, nothing fell back, and the outputs were still unusable, because `ER`'s *replace the clothing* means all of it. The sentence closes it at no cost (**1.651 s vs 1.659 s**). Judged by eye on 12 clean full-body cells at one seed, one reviewer — a feasibility result, **not a rate**. Arm A vs B not ranked; A is the cheaper default (3.27 s vs ≈6.56 s per garment for three regions) and keeps the call-1 prompt of record | `prd/v3/v3.11/RESULTS.md`, `prd/v3/v3.11/EXPERIMENT.md`; `v3/report/v311_selector.html`; `v3/runs/v311/a100/`; amendments in [TICKET_AMENDMENTS.md](TICKET_AMENDMENTS.md) |
 | 21 | Should a garment photo with no person in it skip the person-side stages? (Ray, 2026-09-12) | **decided — the person gate ships** | Yes. A **head** check on the **upload** decides it — Selfie Multiclass FACE + HAIR, ≥500 px — and no person → no bald pass, no head crop, region forced to `full`, route recorded and in the cache key. Measured **56/56** worn photographs pass and **0/17** person-free ones do: no error either way, with the 500 threshold in a 9.2× gap (worn floor 1,849 px, person-free ceiling 202). It replaced a FACE-plus-nose rule on 2026-09-12 that erred once in each direction ([v3.13](../v3/v3.13/EXPERIMENT.md)). It also removes the phantom behind the region caveat: the hip read fires on **1 of 10 uploads** but **6 of 10 bald frames**, because call 1 invents a wearer on a flat-lay | `v3/build/person_gate_check.py`; `v3/report/v313.html`; `v3/report/flatlay_hips.html`; [BUILD §6.1d](../v3/v3.8/BUILD.md); [OPEN Q7](OPEN_QUESTIONS.md) |
+| 22 | Does the production notebook itself work end to end on a GPU with a region set? (Ray, 2026-09-13) | **answered — one defect found and fixed; re-run pending** | v3.15 ran the shipped `vp/tryon_er.ipynb` (commit `62b837f`, sha256 recorded) unmodified over 44 cases on an A100: **42/44**. The gate is confirmed: **34/34** product shots found no person, skipped the bald pass and were forced to `full`; all 5 worn `upper` and 3 of 5 worn `lower` passed. The 2 failures were one bug: `g030` and `p019` at `lower` kept 2.3% and 10.8% of the garment, cleared the old 2% guard, and crashed in call 2 on klein's 64 px input floor (617×35, 366×60). Fixed: fall back under **15%** or under **64 px** a side, each with its own reason; the requested region is now kept on product shots too | `prd/v3/v3.15/RESULTS.md`; `v3/report/v315.html`; `v3/runs/v315/a100/records.json`; `prd/v3/v3.8/BUILD.md` §6.1c |
 
 ## Ticket sources
 
@@ -129,17 +130,20 @@
       reference arms × three regions × two call-2 texts, 126 calls, 3.36 min, CAD 0.039.
       The crop alone failed; the crop **plus** a call 2 naming the half works.
       → `prd/v3/v3.11/{RESULTS,EXPERIMENT,TEST}.md`, `v3/report/v311_selector.html`
-- [ ] **Put `REGION` in the production Colab.** `vp/tryon_er.ipynb` has no selector — the
-      feature is proven in the trial notebook only. Until it lands there, the ticket must not
-      imply an engineer can use it from the linked Colab. (ledger 20)
+- [x] **Put `REGION` in the production Colab.** Landed in `vp/tryon_er.ipynb` (commits
+      `21cde8f`, `62b837f`) and exercised end to end on a GPU by v3.15. (ledger 20, 22)
 - [ ] **Choose the reference arm.** A (cut the band) and B (call 1 dresses the other half in
       plain white first) both work under the region sentence and were never ranked. A is the
       cheaper default — 3.27 s against ≈6.56 s per garment for three regions — and keeps the
       call-1 prompt of record. One paired look at A/`R` vs B/`R` settles it, no new GPU time.
-- [ ] **Guard the two cases the trial could not exercise.** A waist-up photograph asked for
-      `lower` (the <2% fallback exists but was never hit), and a product shot asked for a
-      region at all — Pose reports a hip on 6 of 10 person-free photographs, so the band would
-      cut at an invented row. Both need refusing or falling back in product code.
+- [x] **Guard the two cases the trial could not exercise.** A product shot asked for a region
+      is forced to `full` by the person gate (ledger 21; 34/34 in v3.15). A waist-up photograph
+      asked for `lower` was exercised by v3.15 and **crashed** — the 2% guard let two slivers
+      through to klein's 64 px floor. Fixed 2026-09-13: fall back under 15% of the garment or
+      under 64 px a side. (ledger 22)
+- [ ] **Re-run v3.15 against the fixed commit.** `v3/colab/v315_prod_smoke.ipynb` resolves the
+      commit where `vp/tryon_er.ipynb` last changed, so a plain Run all tests the fix. Expected
+      44/44, with `g030` and `p019` at `lower` falling back to `full` on the 15% rule.
 - [ ] **A counted region rate.** No rate exists for a region request, and the fold-wide 2.6%
       describes whole outfits. A sweep at `upper` and `lower` over the fold, marked one image
       per card as v3.10 was, would produce one. ~25 min of GPU.

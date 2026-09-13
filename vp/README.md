@@ -38,8 +38,11 @@ the filename-keyed disk cache removed, model paths injected, and the parser fixe
 3. In §3 set the two image paths. `SEED = None` draws a random seed and prints it.
    `REGION` chooses the garment type: `full` swaps the whole outfit, `upper` only the top,
    `lower` only the bottom. A region cuts the reference at the hip line **and** sends a
-   call-2 prompt that names the half, so the rest stays the person's own. If no hip is found
-   — a flat-lay, a cropped photo — it falls back to `full` and says so rather than guessing.
+   call-2 prompt that names the half, so the rest stays the person's own. It falls back to
+   `full` and says which rule fired, rather than guessing, when no hip is found, when the half
+   would keep under 15% of the garment (a waist-up photo asked for `lower`), or when the
+   reference it would send has a side under 64 px, which klein refuses. The region the user
+   asked for is kept in the record either way.
    A region costs one extra cached reference per garment and nothing per request; the
    selector was judged on 12 cells at one seed, so treat it as feasible rather than rated
    (`prd/v3/v3.8/BUILD.md` §6.1c).

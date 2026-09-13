@@ -1,7 +1,7 @@
 # v3.15 — EXPERIMENT
 
-**Status: open.** Built 2026-09-13; the GPU run is pending. Matrix and pass rules in
-[TEST.md](TEST.md).
+**Status: run 2026-09-13 — 42 of 44; one defect found and fixed; re-run pending.** Matrix and
+pass rules in [TEST.md](TEST.md); cases, numbers and the fix in [RESULTS.md](RESULTS.md).
 
 ## The question
 
