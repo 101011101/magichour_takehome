@@ -30,7 +30,7 @@ tries that garment on; the second is the only per-request cost.
 | bald pass — call 1 | FLUX.2 klein 4B | GPU | garment | none |
 | head-subtracting crop | BiRefNet_lite · SCHP parser · MediaPipe Selfie · MediaPipe Pose | GPU (ONNX) · CPU (MediaPipe) | garment | none |
 | band cut (a region) | MediaPipe Pose (hips) | CPU | garment × region | none |
-| reference cache | — | storage | garment **× region** | **yes** — the one piece of state |
+| reference cache | — | storage | garment **× region × route** | **yes** — the one piece of state |
 | try-on — call 2 | FLUX.2 klein 4B | GPU | request | none |
 | redraw | — | — | failed request | the seeds already used for the pair |
 
@@ -41,15 +41,20 @@ klein = Photoroom `transformer_bf16` + BFL text encoder, VAE, tokenizer, schedul
 
 ```
 prepare_garment(garment_image, region)              -> reference, info{requested, region,
-                                                        fallback, head_route, seconds}
+                                                        fallback, head_route, route,
+                                                        route_why, seconds}
 try_on(person_image, reference, seed=None, region)  -> image, seed
 ```
 
 - `person_image` is image 1: it sets the output's aspect ratio **and its size** — since
   2026-09-12 the output *is* the person photo's own size, bounded to 1 MP, floored to 32,
   never upscaled ([BUILD §6.1b](../v3/v3.8/BUILD.md)).
-- `garment_image` is a photograph of the garment **being worn** — every garment the system
-  was measured on is one (`v3/colab/matrix.csv`, 56 garments).
+- `garment_image` is a photograph of the garment. Worn by a person is the best-supported
+  input — every garment the system was measured on is one (`v3/colab/matrix.csv`, 56
+  garments). A product shot with nobody in it is detected and takes a shorter route: the
+  **person gate** skips the bald pass and the head-subtracting crop, and forces `full`
+  ([BUILD §6.1d](../v3/v3.8/BUILD.md)). Measured 69/69 on worn photographs, and 1 of 17 distinct product
+  shots misread as worn — the safe direction, since that only keeps today's behaviour.
 - `region` is `full`, `upper` or `lower` — the garment type the user asked to swap. It
   changes **both** the reference (the mask is cut at the hip line) and call 2's prompt, which
   names the half. A full-body photo with `upper` should come back with the person's own

@@ -43,6 +43,10 @@ the filename-keyed disk cache removed, model paths injected, and the parser fixe
    A region costs one extra cached reference per garment and nothing per request; the
    selector was judged on 12 cells at one seed, so treat it as feasible rather than rated
    (`prd/v3/v3.8/BUILD.md` §6.1c).
+   If the garment photo has **nobody in it** — a flat-lay, a ghost mannequin — the notebook
+   says so and takes a shorter route: no bald pass, no head crop, just the subject cropped
+   out of its background, and the region forced to `full`. There is no wearer to remove, and
+   on a flat-lay the bald pass invents one (`prd/v3/v3.8/BUILD.md` §6.1d).
    `MAX_RES` caps the longer side of the output, aspect preserved; it only lowers, never
    raises. The default 1536 leaves every ordinary photograph alone and catches only very
    long or tall ones.

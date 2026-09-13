@@ -266,10 +266,25 @@ balding product shots because "there is no head". So every product garment curre
 generative call it does not need, and takes an invention risk a reviewer could not see on
 this sample.
 
-**Open decision, for the product:** restore v3.0's branch — route a garment photograph with
-no person around the bald pass — trading a saved call per product garment against a
-classifier that must be right. The marks force nothing; the metrics make it free money if the
-classifier is reliable. Sample is 10 garments, all clean studio imagery, one reviewer.
+**Decided 2026-09-12 (Ray): the branch is restored.** A **person gate** runs on the uploaded
+garment photograph, before anything is generated. No person → no bald pass, no head crop: the
+reference is the subject matte cropped out of its background, and the region is forced to
+`full`. The gate is a confident in-frame nose landmark **or** a Selfie Multiclass FACE region
+of ≥500 px — both already loaded, no new dependency.
+
+Measured before it was wired in (`v3/build/person_gate_check.py`): **69 of 69** worn garment
+photographs pass the gate — 56 fold garments and 13 `test_set1` on-model — and **1 of 17** distinct
+product shots is misread as worn — `g010`, a ghost-mannequin tee whose hollow shoulders read
+as a nose at 0.96 visibility. (The inquiry run's ten product shots are a subset of those 17,
+so it appears in both rows of the table.) **Zero false negatives** is the property that
+matters: a wrong *nobody* would change a result on a real garment, where a wrong *person*
+merely keeps today's behaviour. → [BUILD §6.1d](../v3/v3.8/BUILD.md)
+
+**And the 10-of-10 figure above was misattributed.** Re-measured 2026-09-12 on the same ten
+photographs (`v3/report/flatlay_hips.html`): the pose read finds a hip on **1 of 10 product
+shots as uploaded** and on **6 of 10 after the bald pass**. The detector is not fooled by
+clothing; **call 1 invents a wearer**, and the head-finder then finds the invention. The gate
+removes the phantom at its source rather than guarding downstream of it.
 
 ## Q8. The existing klein script — reuse it?
 
@@ -328,12 +343,12 @@ means all of it. The sentence costs nothing: 1.651 s against 1.659 s.
 2. **No rate.** 12 clean full-body cells, one seed, one reviewer, by eye. The 3–6% and 2.6%
    figures are whole-outfit rates and do not describe a region request. **Closes with** a
    counted sweep at `upper` and `lower` over the fold, marked as v3.10 was — ~25 min.
-3. **Two input cases the set could not exercise.** A **waist-up photograph asked for `lower`**
+3. **One input case the set could not exercise.** A **waist-up photograph asked for `lower`**
    has nothing below the hip to keep; the <2% fallback exists for it and never fired, because
-   every person in the set is full body. And a **product shot asked for a region**: Pose reports
-   a hip on **6 of 10** flat-lay and ghost-mannequin garments that contain no person, so the
-   band would cut at an invented row. Product code must refuse or fall back, not trust the
-   landmark.
+   every person in the set is full body. The other case — **a product shot asked for a
+   region** — is now handled upstream: the person gate (Q7) forces `full` on a garment
+   photograph with nobody in it, so the band is never cut on a phantom. Note the 6-of-10 hip
+   figure belongs to the **bald frame**, not the upload; on the uploads it is 1 of 10.
 4. **The half reference's token footprint.** An `upper` reference averages **0.126 MP** against
    the 0.40 MP the shipped path sends. v3.4 link H found the reference's footprint in call 2 is
    what fixes proportion collapse — nothing here measured whether a third of it is enough.

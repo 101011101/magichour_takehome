@@ -43,7 +43,7 @@ This does one thing: virtual try-on. Not text-to-image, not general image editin
 **ADD** at the end of the "Handling the product should do before calling" paragraph:
 
 ```
-Offer upper and lower only for garment photos with a person in them. On a flat-lay or ghost-mannequin photo the pose detector reports a hip on 6 of 10 person-free images, so a region cut there would slice at an invented row — send those as full.
+Region applies to garment photos that have a person in them. The script checks the uploaded garment photo for a person and, finding none, prepares it the short way and treats the request as full — so a flat-lay sent as upper comes back as a whole-outfit swap rather than a bad cut. The UI can make the same check at upload time if it would rather grey the options out than silently ignore them.
 ```
 
 ---
@@ -131,6 +131,8 @@ the same rule:
 
 ```
 - Garment photos work both ways. Most of the measurement is on garments worn by a person, and that is the best-supported input. Product shots — flat-lay and ghost-mannequin — were tested separately on 10 garments and came out indistinguishable from a route that skips the person-side step, so they are usable for whole-outfit requests. They are not suitable for upper or lower: there is no person in them to find a waist on
+- The script tells worn photos from product shots itself, on the upload, before it generates anything. A garment with nobody in it skips the two person-side stages — it needs no wearer removed — which saves one model call per product garment, so it prepares in the crop alone (0.58s) rather than a model call plus the crop (~2.1s). The check is the face detector the crop already runs, with a nose landmark as a tie-break: no extra model, and one more pass of something already loaded. Measured, it passes 69 of 69 worn garment photos and misreads 1 of 17 product shots as worn, which costs only the old behaviour
+- A product garment is always prepared as a whole outfit, whatever region was requested, and the response says so. This is also why a product shot cannot be cut at the waist: there is no wearer, and asking the model to bald one makes it invent a body, which is what an earlier draft of this ticket mistook for the detector misfiring
 ```
 
 ---
