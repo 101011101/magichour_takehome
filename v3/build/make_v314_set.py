@@ -49,9 +49,14 @@ def main():
             continue
         rows.append({"stem": r["id"], "kind": kind, "path": path,
                      "photo_style": r["photo_style"], "category": r["category"]})
-    # a handful of fold garments the manifest does not carry, so the worn side is not all
-    # of one test set; they are the dress-heavy ones candidate B is expected to struggle on
-    for stem in ("p003", "p021", "dualuse_queen_latifah_gown_stage"):
+    # Fold garments the manifest does not carry as `garment` rows. Two groups, both chosen
+    # rather than sampled: the dress-heavy ones candidate B is expected to struggle on, and
+    # THE COLLAR-GUARD CASES - p019 is the garment the guard exists for (SCHP labels 99.1%
+    # of its raised collar `face`), and p021/p012/p028/p030 are the ones the guard's tuning
+    # was traded against. Candidate A deletes that guard, so a matrix without them could
+    # only flatter it.
+    for stem in ("p003", "p021", "dualuse_queen_latifah_gown_stage",
+                 "p019", "p012", "p028", "p030", "p016"):
         if any(x["stem"] == stem for x in rows):
             continue
         fname = name.get(stem)

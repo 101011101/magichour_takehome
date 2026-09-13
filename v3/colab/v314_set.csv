@@ -31,4 +31,9 @@ g027,worn,test_set1/garments/g027.jpg,on_model,hard_case
 g029,worn,test_set1/garments/g029.jpg,on_model,hard_case
 g030,worn,test_set1/garments/g030.jpg,on_model,hard_case
 p003,worn,test_set1/people/p003.jpg,on_model,fold
+p012,worn,test_set1/people/p012.jpg,on_model,fold
+p016,worn,test_set1/people/p016.jpg,on_model,fold
+p019,worn,test_set1/people/p019.jpg,on_model,fold
 p021,worn,test_set1/people/p021.jpg,on_model,fold
+p028,worn,test_set1/people/p028.jpg,on_model,fold
+p030,worn,test_set1/people/p030.jpg,on_model,fold

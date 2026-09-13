@@ -23,12 +23,17 @@ same canvas — so this is a reproduction, not a new draw.
 
 | kind | n | source |
 |---|---|---|
-| worn | 16 | `test_set1` entries whose `photo_style` is `on_model` (13), plus three fold garments the manifest does not carry |
+| worn | 21 | `test_set1` entries whose `photo_style` is `on_model` (13), plus eight fold garments the manifest does not carry as garment rows |
 | product | 17 | every `flat_lay` (14) and `ghost_mannequin` (3) entry in `test_set1` |
 
-**Ground truth is the manifest's own `photo_style` field**, not a reading of the picture. The
-three added fold garments are dress-heavy on purpose: they are where candidate B is expected
-to struggle, and a matrix that excluded them would flatter it.
+**Ground truth is the manifest's own `photo_style` field**, not a reading of the picture.
+
+The eight added garments are chosen, not sampled, and for two reasons. Three are dress-heavy
+(`p003`, `dualuse_queen_latifah_gown_stage`, `p021`) because that is where candidate B is
+expected to struggle. Five are **the collar-guard cases**: `p019` is the garment the guard
+exists for — SCHP labels 99.1% of its raised collar `face` — and `p012`, `p028`, `p030` and
+`p016` are the ones the guard's tuning was traded against. Candidate A deletes that guard, so
+a matrix without them could only flatter it.
 
 ## The candidates
 
@@ -64,7 +69,7 @@ it loads.
 
 | | |
 |---|---|
-| klein calls | 16 — one bald pass per worn garment |
+| klein calls | 21 — one bald pass per worn garment |
 | everything else | detector passes over 33 photographs, no generation |
 | wall | ≈2 min |
 | cost | ≈CAD 0.02 at 0.689/h |

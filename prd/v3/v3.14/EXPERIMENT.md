@@ -98,11 +98,45 @@ Measured on the archived bald frames and the product shots, before any GPU run:
 find the nose component. So Pose is loaded and called inside the parser path regardless of
 where the waist comes from. **Candidate B removes zero models**, even if its waist were good.
 
+### 5 — Does dropping the segmenter move the reference? **← measured locally on 14 garments, and it does not**
+
+Both references built on the archived bald frames, today's way and parser-only, over the
+first 14 fold garments where the parser fires:
+
+| | |
+|---|---|
+| median MAD | **0.00** |
+| worst MAD | **0.02** (`dualuse_navy_peacoat_onmodel`) |
+| pixels changed by more than 8 levels | **≤0.07%** on every garment |
+| head mask area movement | **≤2.8%**, median ~1% |
+| garments over the project's MAD ≤ 4 parity gate | **0 of 14** |
+
+So on garments where the parser fires, the selfie map's contribution is **almost entirely
+redundant** — it is being unioned into a head mask the parser has already drawn, and the
+union adds essentially nothing. That is a stronger result for candidate A than expected, and
+it inverts the prior this investigation opened with.
+
+**It is not yet a pass.** Two things this sample does not touch:
+
+1. **The collar guard's own case.** The guard exists because SCHP labels 99.1% of `p019`'s
+   raised collar as `face`. None of the 14 garments above is `p019`, `p021`, `p012`, `p028`
+   or `p030` — the cases the guard was built for. Measuring parser-only on exactly those is
+   the test that decides candidate A, and a garment losing collar area there is the veto.
+2. **The stranded fallbacks.** Even if the references never move, candidate A leaves a
+   garment the parser cannot read with no head removal at all, where today it degrades to a
+   pose ellipse. That is a branch question, not a pixel question, and §2 is where it is
+   argued.
+
 ---
 
 ## Where this stands
 
-Candidate B is answered and the answer is no: worse on product shots, unreliable on dresses,
-and it removes no model. Candidate A is the one the GPU run is for — the question is whether
-parser-only references move, and by how much, over garments whose bald frames must be
-regenerated because the archive lived on a Drive that has since been cleared.
+**Candidate B is answered and the answer is no**: worse on product shots, unreliable on
+dresses, and it removes no model, because `parser_classes` calls Pose regardless.
+
+**Candidate A is open and looking better than expected.** On 14 garments the references do not
+move — median MAD 0.00, nothing near the parity gate. What the GPU run adds is the cases the
+collar guard was built for, and the branch argument of §2: a candidate that removes a model
+*and* deletes two near-dead fallbacks is exactly what Runbo asked for, but only if a garment
+the parser cannot read still gets a head removed. If it does not, the honest recommendation is
+to keep the fallbacks and drop only the guard, which removes no model at all.
