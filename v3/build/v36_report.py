@@ -187,10 +187,30 @@ def numbers():
     byB = {}
     for (sid, sd) in shared:
         byB.setdefault(sid, {})[sd] = bcc[(sid, sd)]
+    # the transformer-swap probe, derived so the page cannot drift from the run
+    fp8 = os.path.join(REPO, "v3", "runs", "v36", "fp8")
+    fp8n = {}
+    if os.path.exists(os.path.join(fp8, "v36_fp8_set.csv")):
+        import statistics as _st
+        fr = list(csv.DictReader(open(os.path.join(fp8, "v36_fp8_set.csv"))))
+        ds = []
+        for r in fr:
+            a = os.path.join(fp8, "gen", f"{r['set_id']}__ER__s{r['seed']}.jpg")
+            b = os.path.join(fp8, "gen", f"{r['set_id']}__ERq__s{r['seed']}.jpg")
+            if os.path.exists(a) and os.path.exists(b):
+                import cv2 as _cv, numpy as _np
+                A, B = _cv.imread(a), _cv.imread(b)
+                ds.append(float(_np.abs(A.astype(_np.float32) - B.astype(_np.float32)).mean()))
+        fp8n = {"n": len(fr), "median": _st.median(ds), "max": max(ds),
+                "clean": sum(1 for r in fr if r["er_status"] == "both_clean"),
+                "rep": sum(1 for r in fr if r["er_status"] == "er_repaired"),
+                "fail": sum(1 for r in fr if r["er_status"] == "er_fail")}
+
     byB2 = {}
     for (sid, sd), v in bc2.items():
         byB2.setdefault(sid, {})[sd] = v
     return {
+        "fp8": fp8n,
         "bc2_fail": bc2_fail, "bc2_rate": 100 * bc2_fail / len(c2),
         "resc": resc, "resc_n": len(block), "resc_pct": 100 * resc / len(block),
         "shared": er_lo, "er_lo": er_lo, "er_mid": er_mid, "eronly": len(eronly),
@@ -510,12 +530,48 @@ attempt and is not yet one &mdash; its artifact flag fires on 45% of cells a hum
 though its limb flag (14.8&times; lift over base rate) and phasing (2.7&times;) are the
 signals to build on.</p>
 
-<h2>8. Where this leaves the work</h2>
+<h2>8. The weights &mdash; is a quantised transformer the same model?</h2>
+<p>The deploy path may not pull klein from the same place this project measured it. A
+third-party re-host (<code>Photoroom/FLUX.2-klein-4b-fp8-diffusers</code>,
+<code>transformer_bf16</code>) is a plausible source, so the question is whether it is the
+same model in the sense that matters.</p>
+<p><b>Same architecture, different weights.</b> Identical config field for field, identical
+class, identical tensor shapes, offsets and file length &mdash; but <b>16 of 18 large weight
+matrices differ</b>. On those, 15&ndash;16% of the re-host's weights have their low four
+mantissa bits zeroed against 6% in BFL's, which is precision that only goes missing in an
+fp8 &rarr; bf16 upcast; median relative error is about 2.2% per weight. Embeddings and norms
+are untouched, the usual fp8 pattern. So it is a quantisation round trip of the same
+checkpoint, not a copy of it.</p>
+<p><b>Measured rather than assumed.</b> {N['fp8']['n']} cells with a known <code>ER</code>
+verdict &mdash; {N['fp8']['clean']} both arms pass, {N['fp8']['rep']} <code>ER</code>
+repaired, {N['fp8']['fail']} <code>ER</code> failed &mdash; run through the identical prompt,
+reference, canvas and seed, with <b>only the transformer swapped</b>. The re-host ships a
+transformer and nothing else, so the text encoder, VAE, scheduler and tokenizer stay BFL's by
+construction and the difference is attributable to those weights alone.</p>
+<p>No output is byte-identical, which is expected: a 2% weight perturbation moves the
+sampling trajectory from the first step. The magnitude is the finding &mdash; median mean
+absolute pixel difference <b>{N['fp8']['median']:.2f} of 255</b> (under 1%), worst cell
+{N['fp8']['max']:.2f}, and <b>flat across all three groups</b>. The error is uniform
+low-level noise, not a systematic shift, and on the largest divergences the outcome is
+unchanged: same garment, same pose, same background, same defects where there were defects.</p>
+<p class='caveat'><b>What this does and does not license.</b> On this evidence the quantised
+transformer is behaviourally equivalent for this task and the figures above would transfer to
+it. But {N['fp8']['n']} cells cannot detect a rare effect &mdash; a swap that broke 2% of
+cells would likely show nothing here &mdash; so a production switch deserves the full
+600-cell sweep on the new weights (~25 min, ~CAD 0.3) rather than this probe. And the
+<code>bf16</code> file is the same size on disk as BFL's, so the VRAM saving people adopt fp8
+for only arrives with the genuinely fp8 variant, which is a third file and has not been
+tested here.</p>
+
+<h2>9. Where this leaves the work</h2>
 <ul>
 <li><b>Ship <code>ER</code> plus the retry.</b> {N['bc2_rate']:.2f}% &rarr;
 {N['er_mid_rate']:.2f}% &rarr; roughly
 {N['er_mid_rate'] * N['cl_er']['retry_fail'] / 100:.1f}% with one retry, for one verb and
 about {N['er_mid_rate']:.0f}% more calls.</li>
+<li><b>Pin the weights.</b> Every number here is BFL's <code>FLUX.2-klein-4B</code> at
+revision <code>e7b7dc27</code>, no LoRAs. An unpinned <code>from_pretrained</code> lets a
+future revision change the outputs silently.</li>
 <li><b>Mark <code>ER</code>'s own 600 against the strict bar.</b> It is what turns the rate
 range into a number, and it is the last measurement the claim is missing.</li>
 <li><b>Build the rejector.</b> Nothing retries without one.</li>
