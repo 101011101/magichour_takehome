@@ -16,23 +16,21 @@ No LoRAs. The prod Flux 2 Klein setup loads three (RebelReal4B, RealSkin4B, Cons
 Inputs:
 - Person image — required. Sets the output's aspect ratio and its resolution
 - Garment image — required. A photo of the garment, worn by someone or shot on its own
-- Region — optional, one of: full (default), upper, lower. full swaps the whole outfit. upper swaps what the person is wearing above the waist and leaves everything below it alone; lower is the mirror of that. It changes two things inside the script: the garment reference is cut at the person's hip line, and call 2 is sent a sentence naming the half. Nothing else about the request changes.
 - Max resolution — optional integer, default 1536. Constrains the longer dimension of the output. The aspect ratio of the person photo is always preserved; this only ever lowers the result, never raises it, and it cannot lift the 1MP ceiling. Sides stay on a multiple of 32
-- Seed — optional integer. Random when blank, and always returned; the redraw below depends on it
 - Each image may be supplied as a local path or an http(s) URL
-Handling the product should do before calling: decode with EXIF orientation applied, and flatten PNG transparency onto white. The script refuses person photos below ~0.5MP, and a small photo yields a small output rather than being stretched, so set whatever minimum the product wants above that floor.
-Region only applies to garment photos with a person in them, and the script enforces that itself: it checks the garment photo for a person, and if there is none it treats the request as full and says so. A flat-lay sent as upper comes back as a whole-outfit swap rather than a bad cut. The UI can make the same check at upload time if it would rather grey the options out.
+- Region — optional, one of: full (default), upper, lower. full swaps the whole outfit. upper swaps what the person is wearing above the waist and leaves everything below it alone; lower is the mirror of that. It changes two things inside the script: the garment reference is cut at the person's hip line, and call 2 is sent a sentence naming the half. Nothing else about the request changes.
+- Seed — optional integer. Random when blank, and always returned; the redraw below depends on it
+Handling the product should do before calling: decode with EXIF orientation applied, and flatten PNG transparency onto white. The script refuses person photos below ~0.5MP, and a small photo yields a small output rather than being stretched, so set whatever minimum the product wants above that floor. Region only applies to garment photos with a person in them, and the script enforces that itself: it checks the garment photo for a person, and if there is none it treats the request as full and says so. A flat-lay sent as upper comes back as a whole-outfit swap rather than a bad cut. The UI can make the same check at upload time if it would rather grey the options out.
 
 Outputs:
 - Try-on image, at the person photo's own resolution capped at 1MP, in its aspect ratio — see Resolution
 - The seed used, needed to reproduce the image or to redraw it
 - The region requested and the region applied, with the reason whenever they differ
-
 Generation time (A100):
 - Try-on: ~1.9s, for any garment that has been used before
 - The first try-on of a garment nobody has used yet: ~4.0s end to end (2.1s preparation + 1.9s try-on)
-- A region request costs the same as a whole-outfit one
 - Model load at process start: 6s from local disk with a warm cache, up to ~9 minutes from a network-backed cache. Load once and keep the process warm
+- A region request costs the same as a whole-outfit one
 
 Resolution:
 The output is the person photo's own size, capped at 1MP (1,048,576 px), each side rounded down to a multiple of 32. The script never enlarges a photo; it only bounds one larger than 1MP. Worked examples:
@@ -44,13 +42,15 @@ The output is the person photo's own size, capped at 1MP (1,048,576 px), each si
 - 700x900 -> 672x896
 - 768x704 -> 768x704
 So any large photo lands at ~1MP whatever its shape, and a small one comes back at its own size rather than inflated.
-1MP is the ceiling because klein is optimised for ~1MP: above it the model crosses an internal threshold and runs on a sampling schedule it was not distilled for, and quality falls off. It cannot render 1080p or 2K at generation time — if the product needs a consistent deliverable size, upscale the finished image after generation. Max resolution can only lower the output below this. The region does not change any of this: the output is the person photo's own size whichever region was requested; the region changes what is swapped inside the frame, not the frame.
+1MP is the ceiling because klein is optimised for ~1MP: above it the model crosses an internal threshold and runs on a sampling schedule it was not distilled for, and quality falls off. It cannot render 1080p or 2K at generation time — if the product needs a consistent deliverable size, upscale the finished image after generation. Max resolution can only lower the output below this. The region does not change any of this. The output is the person photo's own size whichever region was requested; the region changes what is swapped inside the frame, not the frame.
 
 Additional info for context - not needed to implement
 
 Garment preparation process
-- The script first checks whether the garment photo has a person in it, and that decides the route
-- Worn photo: bald pass 1.48s median, then the crop 0.58s median on an A100, with BiRefNet and the human parser on CUDA and MediaPipe and an OpenCV filter on CPU, where they stay by design. The same crop with the ONNX models on CPU takes 8.14s, so the GPU is worth 14x here. ~2.1s in total
+- The script first checks whether the garment photo has a person in it, and that decides the route. A worn photo goes through the bald pass and the crop below
+- Bald pass: 1.48s median
+- Crop: 0.58s median on an A100, with BiRefNet and the human parser on CUDA and MediaPipe and an OpenCV filter on CPU, where they stay by design. The same crop on the same machine with the ONNX models on CPU takes 8.14s, so the GPU is worth 14x here
+- So a new garment costs ~2.1s to prepare. End to end, the first try-on of a garment nobody has used yet is ~4.0s (2.1s preparation + 1.9s try-on); every try-on of that garment afterwards is ~1.9s
 - Product shot (nobody in it): no bald pass and no head crop, only the background matte — one image-model call fewer
 - If a garment is offered in more than one region, prepare them together: the bald pass does not depend on the region and one mask serves all three cuts, so all three references cost ~3.3s per garment against ~2.1s for full alone. Cutting them one at a time recomputes that mask each time and costs far more
 - Cache the prepared reference under the garment, the region and the route. A garment prepared for full is not a reference for upper
@@ -66,15 +66,18 @@ Redraw contract: when a user marks a result as failed, run the try-on again with
 There is no automatic quality check. The user pressing "fail" is the only signal that a result was bad, so the redraw has to be user-triggered.
 Expected first-draw failure rate is roughly 3-6%, a failure being a human calling the image unusable — most often the person's original clothing showing through the new garment, or a limb or hand defect. A separate count over the whole fold put the shipped configuration at 2.6%. Both are one reviewer; they come from different instruments and should not be averaged.
 Determinism: the same person image, garment reference, seed, weights, library versions and GPU type give a byte-identical image. Log the seed with every request so any customer result can be reproduced for support.
-Garment photos work both ways. Most of the measurement is on garments worn by a person, and that is the best-supported input. Product shots — flat-lay and ghost-mannequin — were tested separately on 10 garments and came out indistinguishable from a route that skips the person-side step, so they are usable for whole-outfit requests. They are not suitable for upper or lower: there is no person in them to find a waist on.
+Garment photos work both ways. Most of the measurement is on garments worn by a person, and that is the best-supported input. Product shots — flat-lay and ghost-mannequin — were tested separately on 10 garments and came out indistinguishable from a route that skips the person-side step, so they are usable for whole-outfit requests. They are not suitable for upper or lower: there is no person in them to find a waist on
 Log which route the garment took, which head-finder fired, and any region fallback with its reason. They are recorded per garment and are the signal for reviewing odd inputs.
-Already set correctly in the script, and not tunable when porting it to the backend: all four prompts (the bald pass, the whole-outfit call 2, and the upper and lower region variants of call 2), 4 sampling steps, guidance 0.0, bfloat16, a CPU random generator for the seed, the fixed seed 46 used when preparing a garment, batch size 1, the pinned model revisions, no LoRAs, and the 1MP ceiling. Each was measured; changing any of them invalidates the numbers in this ticket.
+Already set correctly in the script, and not tunable when porting it to the backend: all four prompts (the bald pass, the whole-outfit call 2, and the upper and lower region variants of call 2), 4 sampling steps, guidance 0.0, bfloat16, a CPU random generator for the seed, the fixed seed 46 used when preparing a garment, batch size 1, the pinned model revisions, no LoRAs, and the 1MP ceiling. Each was measured; changing any of them invalidates the numbers in this ticket
 The two ONNX models in garment preparation must be verified to be on CUDA at startup. The GPU provider can fail to load and fall back silently, which runs several times slower; the script raises instead of continuing.
 Ships in: a standalone try-on product.
-What the region actually does: the garment reference is cut at the hip line, which comes from the pose detector's hip landmarks on the prepared garment frame, and call 2 is sent a sentence naming the half being replaced. Both are needed. Cutting the reference alone was tried and does not work — the model replaces the whole outfit anyway, because the instruction says to. The reference is not an instruction.
-If the hip line cannot be found, if the requested half would keep less than 15% of the garment, or if the reference it would produce has a side under 64px (the image model's own minimum input), the request falls back to full and records which of those fired. It never guesses a cut at a fraction of the frame height. A waist-up photograph asked for lower is the case this protects: before this rule, two such requests crashed inside the image model instead of falling back.
-Evidence level, and it is lower than the rest of this ticket: the selector was judged by eye on 12 cells at one seed by one reviewer, on pairs that already worked. It is a feasibility result, not a rate.
-The failure rates quoted in this ticket (3-6%, and 2.6% fold-wide) describe whole-outfit requests. No rate has been measured for a region request, and those figures should not be quoted for one.
+What the region actually does: the garment reference is cut at the hip line, which comes from the pose detector's hip landmarks on the prepared garment frame, and call 2 is sent a sentence naming the half being replaced. Both are needed. Cutting the reference alone was tried and does not work — the model replaces the whole outfit anyway, because the instruction says to. The reference is not an instruction
+If the hip line cannot be found, if the requested half would keep less than 15% of the garment, or if the reference it would produce has a side under 64px (the image model's own minimum input), the request falls back to full and records which of those fired. It never guesses a cut at a fraction of the frame height. A waist-up photograph asked for lower is the case this protects: before this rule, two such requests crashed inside the image model instead of falling back
+Evidence level, and it is lower than the rest of this ticket: the selector was judged by eye on 12 cells at one seed by one reviewer, on pairs that already worked. It is a feasibility result, not a rate
+The failure rates quoted in this ticket (3-6%, and 2.6% fold-wide) describe whole-outfit requests. No rate has been measured for a region request, and those figures should not be quoted for one
+
+
+
 
 Examples of Input and Output:
 https://drive.google.com/drive/folders/14cS44V7-vjrXM704R2o8jB_TEMK9bRfm?usp=sharing
